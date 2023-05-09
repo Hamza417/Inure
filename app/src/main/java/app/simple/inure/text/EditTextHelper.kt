@@ -289,28 +289,26 @@ object EditTextHelper {
         cursorPosition = selectionStart
 
         /**
-         * Find the first space on the left side of the cursor
+         * Select the current word and check for the existence of a space, period and any special characters
+         * including newline characters. If any of these characters exist then the selection stops before
+         * the character.
          */
         leftSpace = selectionStart
 
-        if (if (leftSpace > 0) text[leftSpace - 1] != ' ' else false) {
-            while (leftSpace > 0 && text[leftSpace - 1] != ' ') {
+        if (leftSpace > 0) {
+            while (text[leftSpace - 1].isLetterOrDigit()) {
                 leftSpace--
             }
         }
 
-        /**
-         * Find the first space on the right side of the cursor
-         */
         rightSpace = selectionEnd
 
-        if (if (rightSpace < text.length) text[rightSpace] != ' ' else false) {
-            while (rightSpace < text.length && text[rightSpace] != ' ') {
+        if (rightSpace < text.length) {
+            while (text[rightSpace].isLetterOrDigit()) {
                 rightSpace++
             }
         }
 
-        // Select the word
         setSelection(leftSpace, rightSpace)
     }
 
