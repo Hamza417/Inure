@@ -1,0 +1,5 @@
+- Fixed trackers issues
+- Fixed APKS and XAPK installation issue
+- Fixed various issues with Notes
+
+For full details, please see the changelog.
