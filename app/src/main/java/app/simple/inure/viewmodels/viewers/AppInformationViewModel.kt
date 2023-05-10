@@ -24,6 +24,7 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileUtils.toFile
@@ -58,7 +59,6 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun loadInformation() {
         kotlin.runCatching {
             if (packageInfo.applicationInfo.sourceDir.endsWithAny(".zip", ".xapk", ".apks", ".apkm")) {
-
                 val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
                 val file = applicationContext().getInstallerDir("temp")
 
@@ -305,9 +305,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getMethodCount(): Pair<Int, Spannable> {
+        var count = 0
         val method = kotlin.runCatching {
-            val dexClasses = packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
-            var count = 0
+            val dexClasses = try {
+                packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
+            } catch (e: DexClassesNotFoundException) {
+                packageInfo.applicationInfo.publicSourceDir.toFile().getDexData()!!
+            }
 
             for (clazz in dexClasses) {
                 count += clazz.javaClass.methods.size

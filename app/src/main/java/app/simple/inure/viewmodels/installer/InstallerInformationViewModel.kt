@@ -26,6 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
+import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.text.NumberFormat
 
@@ -174,14 +175,14 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getMethodCount(): Pair<Int, Spannable> {
         val method = kotlin.runCatching {
-            val p0 = apkFile!!.dexClasses
             var count = 0
+            val dexClasses: Array<DexClass> = apkFile!!.dexClasses
 
-            for (i in p0) {
-                count = i.javaClass.methods.size
+            for (i in dexClasses) {
+                count += i.javaClass.methods.size
             }
 
-            if (p0.size > 1) {
+            if (dexClasses.size > 1) {
                 String.format(getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(count))
             } else {
                 String.format(getString(R.string.single_dex), NumberFormat.getNumberInstance().format(count))

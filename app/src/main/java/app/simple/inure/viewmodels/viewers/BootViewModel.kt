@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import com.topjohnwu.superuser.Shell
@@ -66,9 +67,15 @@ class BootViewModel(application: Application, private val packageInfo: PackageIn
             val arrayList = arrayListOf<ResolveInfo>()
 
             for (resolveInfo in list!!) {
-                if (resolveInfo.activityInfo.name.lowercase().contains(keyword.lowercase()) || resolveInfo.activityInfo.packageName.lowercase().contains(keyword.lowercase())) {
+                if (resolveInfo.activityInfo.name.lowercase().contains(keyword.lowercase()) ||
+                    resolveInfo.activityInfo.packageName.lowercase().contains(keyword.lowercase())) {
                     arrayList.add(resolveInfo)
                 }
+            }
+
+            if (arrayList.isEmpty()) {
+                postWarning(getString(R.string.no_boot_components_found))
+                return@launch
             }
 
             bootDataList.postValue(arrayList)

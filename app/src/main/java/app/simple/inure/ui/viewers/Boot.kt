@@ -78,6 +78,12 @@ class Boot : SearchBarScopedFragment() {
             }
         }
 
+        bootViewModel?.getWarning()?.observe(viewLifecycleOwner) {
+            if (it.isNotNull()) {
+                showWarning(it)
+            }
+        }
+
         search.setOnClickListener {
             if (searchBox.text.isNullOrEmpty()) {
                 BootPreferences.setSearchVisible(!BootPreferences.isSearchVisible())
