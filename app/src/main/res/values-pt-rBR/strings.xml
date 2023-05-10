@@ -670,4 +670,7 @@
     <string name="boot">Inicialização</string>
     <string name="components">Componentes</string>
     <string name="component_manager_desc">Ativar/desativar vários componentes do aplicativo.</string>
+    <string name="state">Estado</string>
+    <string name="installed">Instalado</string>
+    <string name="no_boot_components_found">Nenhum componente de inicialização foi encontrado</string>
 </resources>

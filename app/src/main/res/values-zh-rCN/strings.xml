@@ -668,4 +668,9 @@
     <string name="no_new_additions">无新增内容</string>
     <string name="no_new_removals">无移除内容</string>
     <string name="boot">Boot</string>
+    <string name="components">组件</string>
+    <string name="component_manager_desc">启用/禁用应用的各种组件</string>
+    <string name="state">状态</string>
+    <string name="installed">已安装</string>
+    <string name="no_boot_components_found">未找到引导组件</string>
 </resources>
