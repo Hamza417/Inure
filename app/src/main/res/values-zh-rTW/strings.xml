@@ -672,4 +672,5 @@
     <string name="component_manager_desc">啟用/停用應用程式的各種元件。</string>
     <string name="state">狀態</string>
     <string name="installed">已安裝</string>
+    <string name="no_boot_components_found">找不到開機元件</string>
 </resources>
