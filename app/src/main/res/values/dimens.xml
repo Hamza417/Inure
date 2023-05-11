@@ -86,4 +86,5 @@
     <dimen name="seekbar_max_height">10dp</dimen>
     <dimen name="cursor_width">2dp</dimen>
     <dimen name="info_text_medium">16sp</dimen>
+    <dimen name="info_text_tiny">11sp</dimen>
 </resources>
