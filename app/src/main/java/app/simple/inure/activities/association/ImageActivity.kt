@@ -50,90 +50,92 @@ class ImageActivity : BaseActivity() {
         name = findViewById(R.id.image_name)
         header = findViewById(R.id.header)
 
-        Log.d("ImageActivity", "SVG: ${intent.data}, ${intent.data!!.getMimeType(applicationContext)}")
-
         ProcessUtils.ensureOnMainThread {
-            if (intent.data!!.getMimeType(applicationContext)?.endsWith("gif") == true) {
-                Glide.with(applicationContext)
-                    .asGif()
-                    .dontTransform()
-                    .load(intent.data)
-                    .addListener(object : RequestListener<GifDrawable> {
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
-                            Log.e("ImageActivity", "GIF: ${e?.message}")
-                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "GIF"))
-                            return true
-                        }
-
-                        override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            Log.d("ImageActivity", "GIF: ${resource?.intrinsicWidth}x${resource?.intrinsicHeight}")
-                            // gif.setImageDrawable(resource) // This is not working
-                            image.gone()
-                            if (savedInstanceState.isNotNull()) {
-                                gif.currentZoom = savedInstanceState!!.getFloat("zoom")
+            kotlin.runCatching {
+                if (intent.data!!.getMimeType(applicationContext)?.endsWith("gif") == true) {
+                    Glide.with(applicationContext)
+                        .asGif()
+                        .dontTransform()
+                        .load(intent.data)
+                        .addListener(object : RequestListener<GifDrawable> {
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
+                                Log.e("ImageActivity", "GIF: ${e?.message}")
+                                showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "GIF"))
+                                return true
                             }
-                            return false
-                        }
 
-                    })
-                    .into(gif)
-            } else if (intent.data!!.isSVG(applicationContext)) {
-                Log.d("ImageActivity", "SVG: ${intent.data}")
-                Glide.with(applicationContext)
-                    .asBitmap()
-                    .dontAnimate()
-                    .dontTransform()
-                    .load(SVG(applicationContext, intent.data!!))
-                    .addListener(object : RequestListener<Bitmap> {
-                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            image.setImage(ImageSource.bitmap(resource!!))
-                            gif.gone()
-                            if (savedInstanceState.isNotNull()) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
-                                } else {
-                                    @Suppress("DEPRECATION")
-                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                            override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                Log.d("ImageActivity", "GIF: ${resource?.intrinsicWidth}x${resource?.intrinsicHeight}")
+                                // gif.setImageDrawable(resource) // This is not working
+                                image.gone()
+                                if (savedInstanceState.isNotNull()) {
+                                    gif.currentZoom = savedInstanceState!!.getFloat("zoom")
                                 }
+                                return false
                             }
-                            return true
-                        }
 
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                            Log.e("ImageActivity", "SVG: ${e?.message}")
-                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "SVG"))
-                            return true
-                        }
-                    })
-                    .preload()
-            } else {
-                Glide.with(applicationContext)
-                    .asBitmap()
-                    .dontAnimate()
-                    .dontTransform()
-                    .load(intent.data)
-                    .addListener(object : RequestListener<Bitmap> {
-                        override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                            image.setImage(ImageSource.bitmap(resource!!))
-                            gif.gone()
-                            if (savedInstanceState.isNotNull()) {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
-                                } else {
-                                    @Suppress("DEPRECATION")
-                                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                        })
+                        .into(gif)
+                } else if (intent.data!!.isSVG(applicationContext)) {
+                    Log.d("ImageActivity", "SVG: ${intent.data}")
+                    Glide.with(applicationContext)
+                        .asBitmap()
+                        .dontAnimate()
+                        .dontTransform()
+                        .load(SVG(applicationContext, intent.data!!))
+                        .addListener(object : RequestListener<Bitmap> {
+                            override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                image.setImage(ImageSource.bitmap(resource!!))
+                                gif.gone()
+                                if (savedInstanceState.isNotNull()) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                        image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
+                                    } else {
+                                        @Suppress("DEPRECATION")
+                                        image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                                    }
                                 }
+                                return true
                             }
-                            return true
-                        }
 
-                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                            Log.e("ImageActivity", "Bitmap: ${e?.message}")
-                            showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "Bitmap"))
-                            return true
-                        }
-                    })
-                    .preload()
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                Log.e("ImageActivity", "SVG: ${e?.message}")
+                                showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "SVG"))
+                                return true
+                            }
+                        })
+                        .preload()
+                } else {
+                    Glide.with(applicationContext)
+                        .asBitmap()
+                        .dontAnimate()
+                        .dontTransform()
+                        .load(intent.data)
+                        .addListener(object : RequestListener<Bitmap> {
+                            override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                image.setImage(ImageSource.bitmap(resource!!))
+                                gif.gone()
+                                if (savedInstanceState.isNotNull()) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                        image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
+                                    } else {
+                                        @Suppress("DEPRECATION")
+                                        image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                                    }
+                                }
+                                return true
+                            }
+
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                Log.e("ImageActivity", "Bitmap: ${e?.message}")
+                                showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "Bitmap"))
+                                return true
+                            }
+                        })
+                        .preload()
+                }
+            }.onFailure {
+                showWarning(it.message ?: it.cause.toString())
             }
         }
 

@@ -68,11 +68,18 @@ class AppDetailsActivity : BaseActivity() {
                                 .commit()
                         }
                     }.getOrElse {
-                        withContext(Dispatchers.Main) {
-                            hideLoader()
-                            showWarning(it.localizedMessage ?: it.message ?: ("cannot parse file :" +
-                                    " " + DocumentFile.fromSingleUri(applicationContext,
-                                                                     intent.data ?: intent?.parcelable(Intent.EXTRA_STREAM)!!)!!.name))
+                        kotlin.runCatching {
+                            withContext(Dispatchers.Main) {
+                                hideLoader()
+                                showWarning(it.localizedMessage ?: it.message ?: ("cannot parse file :" +
+                                        " " + DocumentFile.fromSingleUri(applicationContext,
+                                                                         intent.data ?: intent?.parcelable(Intent.EXTRA_STREAM)!!)!!.name))
+                            }
+                        }.getOrElse {
+                            withContext(Dispatchers.Main) {
+                                hideLoader()
+                                showWarning(it.localizedMessage ?: it.message ?: "Unknown error occurred")
+                            }
                         }
                     }
                 }
