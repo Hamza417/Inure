@@ -70,6 +70,19 @@
                     app:drawableTintStyle="warning"
                     app:textColorStyle="tertiary" />
 
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/valid_till"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/popup_padding"
+                    android:drawablePadding="5dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_power_off_tiny"
+                    app:drawableTintStyle="warning"
+                    app:textColorStyle="tertiary" />
+
                 <app.simple.inure.decorations.theme.ThemeDivider
                     android:layout_width="match_parent"
                     android:layout_height="1px"

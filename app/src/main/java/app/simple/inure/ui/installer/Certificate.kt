@@ -12,6 +12,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.CertificateViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.io.File
@@ -45,8 +46,10 @@ class Certificate : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         viewModel.getCertificateData().observe(viewLifecycleOwner) {
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {

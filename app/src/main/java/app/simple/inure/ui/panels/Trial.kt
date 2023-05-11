@@ -11,12 +11,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.Purchase.Companion.showPurchaseDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.util.DateUtils.toDate
 
 class Trial : ScopedFragment() {
 
     private lateinit var title: TypeFaceTextView
     private lateinit var purchase: DynamicRippleTextView
     private lateinit var daysLeft: TypeFaceTextView
+    private lateinit var validTill: TypeFaceTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_trial_screen, container, false)
@@ -24,6 +26,7 @@ class Trial : ScopedFragment() {
         title = view.findViewById(R.id.trial_title)
         purchase = view.findViewById(R.id.purchase)
         daysLeft = view.findViewById(R.id.days_left)
+        validTill = view.findViewById(R.id.valid_till)
 
         return view
     }
@@ -31,6 +34,7 @@ class Trial : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        validTill.text = getValidTill()
 
         if (TrialPreferences.getDaysLeft() == -1) {
             title.text = Warnings.getAppIntegrityFailedWarning()
@@ -41,6 +45,10 @@ class Trial : ScopedFragment() {
         purchase.setOnClickListener {
             childFragmentManager.showPurchaseDialog()
         }
+    }
+
+    private fun getValidTill(): String {
+        return TrialPreferences.getFirstLaunchDate().plus(86_400_000L * 15L).toDate()
     }
 
     companion object {

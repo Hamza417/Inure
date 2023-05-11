@@ -11,6 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerInformationViewModel
@@ -22,7 +23,7 @@ class Information : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.installer_fragment_information, container, false)
+        val view = inflater.inflate(R.layout.installer_fragment_information, container, true)
 
         recyclerView = view.findViewById(R.id.information_recycler_view)
 
@@ -37,8 +38,10 @@ class Information : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerInformationViewModel.getInformation().observe(viewLifecycleOwner) {
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {

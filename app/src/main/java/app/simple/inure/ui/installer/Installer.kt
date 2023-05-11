@@ -32,6 +32,7 @@ import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
@@ -41,7 +42,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
 
-class Installer : ScopedFragment() {
+class Installer : ScopedFragment(), InstallerCallbacks {
 
     private lateinit var installerViewModel: InstallerViewModel
 
@@ -317,5 +318,13 @@ class Installer : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+    }
+
+    override fun onLoadingStarted() {
+        loader.visible(true)
+    }
+
+    override fun onLoadingFinished() {
+        loader.gone()
     }
 }

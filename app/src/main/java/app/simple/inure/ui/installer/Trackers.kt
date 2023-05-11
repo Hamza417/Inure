@@ -11,6 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.Tracker
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerTrackersViewModel
@@ -36,8 +37,10 @@ class Trackers : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerTrackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             val adapterTrackers = AdapterTrackers(trackers, "")
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {

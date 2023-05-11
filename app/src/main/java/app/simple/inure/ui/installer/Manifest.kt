@@ -11,6 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.views.LineNumberEditText
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.viewmodels.installer.InstallerManifestViewModel
 import java.io.File
 
@@ -41,8 +42,10 @@ class Manifest : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         manifestViewModel.getSpanned().observe(viewLifecycleOwner) {
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             text.setText(it)
         }
     }

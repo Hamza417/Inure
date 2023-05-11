@@ -15,6 +15,7 @@ import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.action.PermissionStatus.Companion.showPermissionStatus
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.viewmodels.installer.InstallerPermissionViewModel
 import java.io.File
@@ -47,8 +48,10 @@ class Permissions : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerPermissionViewModel.getPermissionsFile().observe(viewLifecycleOwner) { permissions ->
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             recyclerView.adapter = AdapterInstallerPermissions(permissions)
         }
 

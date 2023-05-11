@@ -159,7 +159,7 @@ object AppearancePreferences {
 
     @Synchronized
     fun getIconSize(): Int {
-        return getSharedPreferences().getInt(iconSize, maxIconSize - 25)
+        return getSharedPreferences().getInt(iconSize, 20)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

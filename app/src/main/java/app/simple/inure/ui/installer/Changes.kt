@@ -11,6 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerChangesViewModel
 import java.io.File
@@ -36,8 +37,10 @@ class Changes : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerChangesViewModel.getChangesData().observe(viewLifecycleOwner) {
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             recyclerView.adapter = AdapterInstallerChanges(it)
         }
     }
