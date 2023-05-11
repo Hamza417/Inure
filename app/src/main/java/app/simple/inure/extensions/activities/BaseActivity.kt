@@ -518,8 +518,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 enableNotchArea()
             }
             DevelopmentPreferences.enableCustomColorPickerInAccent -> {
-                AppearancePreferences.setCustomColor(false)
-                AppearancePreferences.setAccentColor(ContextCompat.getColor(this, R.color.inure))
+                if (AppearancePreferences.isCustomColor()) {
+                    AppearancePreferences.setCustomColor(false)
+                    AppearancePreferences.setAccentColor(ContextCompat.getColor(this, R.color.inure))
+                }
             }
         }
     }

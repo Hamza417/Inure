@@ -87,6 +87,10 @@ class ColorPicker : ScopedBottomSheetFragment() {
                     } else {
                         AppearancePreferences.setAccentColor(colorPickerView.currentColor)
                     }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        AppearancePreferences.setMaterialYouAccent(false)
+                    }
                 }.getOrElse {
                     showWarning(hex.text.toString() + " - invalid color code")
                 }
