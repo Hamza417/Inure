@@ -325,6 +325,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     }
 
     override fun onLoadingFinished() {
-        loader.gone()
+        loader.gone(animate = true)
     }
 }

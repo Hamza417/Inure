@@ -46,7 +46,7 @@ class Information : ScopedFragment() {
         startPostponedEnterTransition()
 
         viewModel.getInformation().observe(viewLifecycleOwner) {
-            progress.gone()
+            progress.gone(animate = true)
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {

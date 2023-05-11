@@ -24,6 +24,7 @@
             android:layout_height="@dimen/button_size"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
+            android:layout_gravity="center_vertical"
             android:transitionName="main_app_icon"
             app:buttonTintType="accent"
             app:srcCompat="@drawable/ic_main_app_icon_big" />

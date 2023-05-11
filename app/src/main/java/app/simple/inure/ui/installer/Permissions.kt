@@ -56,6 +56,7 @@ class Permissions : ScopedFragment() {
         }
 
         installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) {
+            (parentFragment as InstallerCallbacks).onLoadingFinished()
             val adapterPermissions = AdapterPermissions(it.first, "")
             packageInfo = it.second
 

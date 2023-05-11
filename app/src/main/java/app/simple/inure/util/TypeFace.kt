@@ -51,6 +51,9 @@ object TypeFace {
     private const val MALI = "mali"
     private const val RAJDHANI = "rajdhani"
     private const val JETBRAINS_MONO = "jetbrains_mono"
+    private const val TEKO = "teko"
+    private const val SPACE_GROTESK = "space_grotesk"
+    private const val TITILLIUM = "titillium"
 
     fun getTypeFace(appFont: String, style: Int, context: Context): Typeface? {
         var typeface: Typeface? = null
@@ -529,6 +532,54 @@ object TypeFace {
                     }
                 }
             }
+            TEKO -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.teko_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.teko_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.teko_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.teko_bold)
+                    }
+                }
+            }
+            SPACE_GROTESK -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.space_grotesk_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.space_grotesk_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.space_grotesk_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.space_grotesk_bold)
+                    }
+                }
+            }
+            TITILLIUM -> {
+                when (style) {
+                    0 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.titillium_light)
+                    }
+                    1 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.titillium_regular)
+                    }
+                    2 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.titillium_medium)
+                    }
+                    3 -> {
+                        typeface = ResourcesCompat.getFont(context, R.font.titillium_bold)
+                    }
+                }
+            }
             else -> {
                 when (style) {
                     0, 1 -> {
@@ -593,7 +644,10 @@ object TypeFace {
             TypeFaceModel("Heebo", R.font.heebo_bold, HEEBO),
             TypeFaceModel("Mali", R.font.mali_bold, MALI),
             TypeFaceModel("Rajdhani", R.font.rajdhani_bold, RAJDHANI),
-            TypeFaceModel("JetBrains Mono", R.font.jetbrains_mono_bold, JETBRAINS_MONO)
+            TypeFaceModel("JetBrains Mono", R.font.jetbrains_mono_bold, JETBRAINS_MONO),
+            TypeFaceModel("Teko", R.font.teko_bold, TEKO),
+            TypeFaceModel("Space Grotesk", R.font.space_grotesk_bold, SPACE_GROTESK),
+            TypeFaceModel("Titillium", R.font.titillium_bold, TITILLIUM),
     )
 
     class TypeFaceModel(
