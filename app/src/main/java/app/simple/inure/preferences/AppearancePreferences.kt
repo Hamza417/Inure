@@ -17,6 +17,7 @@ object AppearancePreferences {
     private const val coloredIconShadows = "icon_shadows_colored"
     private const val isMaterialYouAccent = "is_material_you_accent"
 
+    const val isCustomColor = "is_custom_color"
     const val theme = "current_app_theme"
     const val accentColor = "app_accent_color"
     const val accentColorLight = "app_accent_color_light"
@@ -36,6 +37,16 @@ object AppearancePreferences {
     @ColorInt
     fun getAccentColor(): Int {
         return getSharedPreferences().getInt(accentColor, 0)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setCustomColor(boolean: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(isCustomColor, boolean).commit()
+    }
+
+    fun isCustomColor(): Boolean {
+        return getSharedPreferences().getBoolean(isCustomColor, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

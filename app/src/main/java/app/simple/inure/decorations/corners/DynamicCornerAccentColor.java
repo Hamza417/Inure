@@ -20,7 +20,9 @@ public class DynamicCornerAccentColor extends FrameLayout {
     }
     
     private void init(AttributeSet attributeSet) {
-        LayoutBackground.setBackground(getContext(), this, attributeSet, 1.4F);
-        ViewUtils.INSTANCE.addShadow(this);
+        if (!isInEditMode()) {
+            LayoutBackground.setBackground(getContext(), this, attributeSet, 1.4F);
+            ViewUtils.INSTANCE.addShadow(this);
+        }
     }
 }

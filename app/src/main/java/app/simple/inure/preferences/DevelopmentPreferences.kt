@@ -21,6 +21,7 @@ object DevelopmentPreferences {
     const val transparentStatus = "is_transparent_status_disabled_removed"
     const val loadAllInstallerPages = "is_all_installer_pages_loaded"
     const val isNotchAreaEnabled = "is_notch_area_enabled"
+    const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -111,6 +112,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Enable Notch Area",
                                             "Enable notch area in the app. This will make the app render in the notch cutout area (Android Version >= P 9.0).",
                                             isNotchAreaEnabled,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Enable Custom Color Picker In Accent Colors",
+                                            "Enable custom color picker in accent colors.",
+                                            enableCustomColorPickerInAccent,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

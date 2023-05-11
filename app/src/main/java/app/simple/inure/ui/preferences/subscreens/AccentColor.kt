@@ -1,5 +1,7 @@
 package app.simple.inure.ui.preferences.subscreens
 
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +13,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.appearance.ColorPicker.Companion.showColorPicker
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 
 class AccentColor : ScopedFragment() {
@@ -62,6 +67,10 @@ class AccentColor : ScopedFragment() {
                      Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
         }
 
+        if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent)) { // Add color picker
+            list.add(1, Pair(Color.DKGRAY /* Bogus Value */, "Color Picker"))
+        }
+
         adapterAccentColor = AdapterAccentColor(list)
 
         startPostponedEnterTransition()
@@ -72,8 +81,24 @@ class AccentColor : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
+
+        adapterAccentColor.setAccentColorCallbacks(object : AdapterAccentColor.Companion.AccentColorCallbacks {
+            override fun onAccentColorPicker() {
+                childFragmentManager.showColorPicker()
+            }
+        })
+
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         recyclerView.adapter = adapterAccentColor
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            AppearancePreferences.accentColor, AppearancePreferences.isCustomColor -> {
+                adapterAccentColor.updateAccentColor()
+            }
+        }
     }
 
     companion object {

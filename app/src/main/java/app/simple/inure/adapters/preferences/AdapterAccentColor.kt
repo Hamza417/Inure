@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.preferences
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -29,6 +30,7 @@ import java.util.*
 class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var lastSelectedItem = 0
+    private var accentColorCallbacks: AccentColorCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -57,13 +59,18 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             }
 
             holder.container.setOnClickListener {
-                if (AppearancePreferences.setAccentColor(list[position].first)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        AppearancePreferences.setMaterialYouAccent(position == MaterialYou.materialYouAdapterIndex)
+                if (list[position].first == Color.DKGRAY) {
+                    accentColorCallbacks?.onAccentColorPicker()
+                } else {
+                    if (AppearancePreferences.setAccentColor(list[position].first)) {
+                        AppearancePreferences.setCustomColor(false)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                            AppearancePreferences.setMaterialYouAccent(position == MaterialYou.materialYouAdapterIndex)
+                        }
+                        notifyItemChanged(lastSelectedItem)
+                        notifyItemChanged(holder.absoluteAdapterPosition)
+                        lastSelectedItem = holder.absoluteAdapterPosition
                     }
-                    notifyItemChanged(lastSelectedItem)
-                    notifyItemChanged(holder.absoluteAdapterPosition)
-                    lastSelectedItem = holder.absoluteAdapterPosition
                 }
             }
 
@@ -73,11 +80,20 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             holder.container.background = null
             holder.container.background = getRippleDrawable(holder.container.background, list[position].first)
 
-            holder.tick.visibility = if (list[position].first == AppearancePreferences.getAccentColor()) {
-                lastSelectedItem = holder.absoluteAdapterPosition
-                View.VISIBLE
+            if (AppearancePreferences.isCustomColor()) {
+                holder.tick.visibility = if (list[position].first == Color.DKGRAY) {
+                    lastSelectedItem = holder.absoluteAdapterPosition
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
             } else {
-                View.INVISIBLE
+                holder.tick.visibility = if (list[position].first == AppearancePreferences.getAccentColor()) {
+                    lastSelectedItem = holder.absoluteAdapterPosition
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
             }
         } else if (holder is Header) {
             holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
@@ -117,5 +133,25 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         val rippleDrawable = RippleDrawable(stateList, backgroundDrawable, mask)
         rippleDrawable.alpha = Utils.alpha
         return rippleDrawable
+    }
+
+    fun setAccentColorCallbacks(accentColorCallbacks: AccentColorCallbacks?) {
+        this.accentColorCallbacks = accentColorCallbacks
+    }
+
+    fun updateAccentColor() {
+        if (AppearancePreferences.isCustomColor()) {
+            notifyItemChanged(lastSelectedItem)
+            notifyItemChanged(list.find { it.first == Color.DKGRAY }?.let { list.indexOf(it) } ?: 0)
+        } else {
+            notifyItemChanged(lastSelectedItem)
+            notifyItemChanged(list.find { it.first == AppearancePreferences.getAccentColor() }?.let { list.indexOf(it) } ?: 0)
+        }
+    }
+
+    companion object {
+        interface AccentColorCallbacks {
+            fun onAccentColorPicker()
+        }
     }
 }

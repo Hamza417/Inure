@@ -44,6 +44,7 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.themes.manager.ThemeUtils.setTheme
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleHelper
 import com.google.android.material.transition.platform.*
@@ -69,6 +70,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent).invert()) {
+            AppearancePreferences.setCustomColor(false)
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AppearancePreferences.migrateMaterialYouTheme()
             presetMaterialYouDynamicColors()
@@ -389,6 +394,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     private val orientationListener by lazy {
         object : OrientationEventListener(applicationContext, SensorManager.SENSOR_DELAY_NORMAL) {
             override fun onOrientationChanged(orientation: Int) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled).invert()) {
+                    return
+                }
+
                 if (orientation == ORIENTATION_UNKNOWN) {
                     return
                 }
@@ -507,6 +516,10 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
             }
             DevelopmentPreferences.isNotchAreaEnabled -> {
                 enableNotchArea()
+            }
+            DevelopmentPreferences.enableCustomColorPickerInAccent -> {
+                AppearancePreferences.setCustomColor(false)
+                AppearancePreferences.setAccentColor(ContextCompat.getColor(this, R.color.inure))
             }
         }
     }

@@ -344,8 +344,12 @@ object ThemeUtils {
                 setTheme(R.style.MaterialYou)
             }
             else -> {
-                setTheme(R.style.Inure)
-                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
+                if (AppearancePreferences.isCustomColor()) {
+                    // Ignore
+                } else {
+                    setTheme(R.style.Inure)
+                    AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
+                }
             }
         }
     }
