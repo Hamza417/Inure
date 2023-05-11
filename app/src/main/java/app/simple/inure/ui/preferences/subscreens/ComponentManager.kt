@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.activities.alias.TerminalAlias
 import app.simple.inure.activities.association.*
 import app.simple.inure.adapters.preferences.AdapterComponentManager
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -35,7 +34,7 @@ class ComponentManager : ScopedFragment() {
             val list = arrayListOf(
                     Triple(R.mipmap.ic_launcher, R.string.image_viewer, ImageActivity::class.java),
                     Triple(R.mipmap.ic_audio_player, R.string.audio_player, AudioPlayerActivity::class.java),
-                    Triple(R.mipmap.ic_terminal, R.string.terminal, TerminalAlias::class.java),
+                    // Triple(R.mipmap.ic_terminal, R.string.terminal, TerminalAlias::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.information, AppDetailsActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.installer, ApkInstallerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.manifest, ManifestAssociationActivity::class.java),
