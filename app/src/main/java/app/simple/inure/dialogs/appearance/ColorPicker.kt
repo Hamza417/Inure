@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.decorations.colorpicker.ColorPickerView
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.ColorPickerView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor

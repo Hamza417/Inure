@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.views
+package app.simple.inure.decorations.colorpicker
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,9 +8,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import app.simple.inure.decorations.colorpicker.ColorListener
-import app.simple.inure.decorations.colorpicker.ColorPalette
-import app.simple.inure.decorations.colorpicker.ColorPointer
 import app.simple.inure.util.ColorUtils.toHexColor
 import kotlin.math.atan2
 import kotlin.math.cos

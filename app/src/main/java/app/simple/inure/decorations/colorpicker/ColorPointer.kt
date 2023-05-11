@@ -7,7 +7,6 @@ import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import app.simple.inure.decorations.views.ColorPickerView
 
 class ColorPointer @JvmOverloads constructor(
         context: Context,
