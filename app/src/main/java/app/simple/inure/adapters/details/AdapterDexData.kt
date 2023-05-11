@@ -22,21 +22,21 @@ class AdapterDexData(private val dexs: MutableList<DexClass>) : RecyclerView.Ada
 
         var status = ""
 
-        if (dexs[position].isPublic) {
-            status = StringBuilder()
-                    .append(status)
-                    .append(holder.itemView.context.getString(R.string.public_identifier))
-                    .toString()
+        status = if (dexs[position].isPublic) {
+            StringBuilder()
+                .append(status)
+                .append(holder.itemView.context.getString(R.string.public_identifier))
+                .toString()
         } else {
-            status = StringBuilder()
-                    .append(status)
-                    .append(holder.itemView.context.getString(R.string.private_identifier))
-                    .toString()
+            StringBuilder()
+                .append(status)
+                .append(holder.itemView.context.getString(R.string.private_identifier))
+                .toString()
         }
 
         if (dexs[position].isProtected) {
             status = StringBuilder()
-                    .append(status)
+                .append(status)
                     .append(" | ")
                     .append(holder.itemView.context.getString(R.string.protected_identifier))
                     .toString()

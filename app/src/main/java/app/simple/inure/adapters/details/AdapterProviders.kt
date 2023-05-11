@@ -45,7 +45,6 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
             })
 
         holder.status.append(providers[position].status)
-        holder.authority.text = providers[position].authority
         holder.name.setTrackingIcon(providers[position].trackingId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
@@ -79,7 +78,6 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_status)
-        val authority: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_authority)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_providers_container)
     }
 

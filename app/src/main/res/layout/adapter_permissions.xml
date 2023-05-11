@@ -13,10 +13,10 @@
         android:id="@+id/adapter_permissions_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
-        android:textSize="@dimen/resource_name_text_size"
+        android:textSize="@dimen/info_text_medium"
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
@@ -24,8 +24,8 @@
         android:id="@+id/adapter_permissions_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textSize="@dimen/info_text_small"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:textColorStyle="accent" />
 
@@ -33,7 +33,7 @@
         android:id="@+id/adapter_permissions_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/info_text_small"
+        android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:textColorStyle="tertiary" />
 

@@ -14,15 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textColorStyle="primary"
-        android:textSize="@dimen/info_text_large"
+        android:textSize="@dimen/info_text_medium"
         app:appFontStyle="bold" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/information_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/info_text_small"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

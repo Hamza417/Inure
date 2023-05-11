@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="10dp"
+        android:layout_margin="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -27,8 +27,7 @@
             android:id="@+id/adapter_receiver_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="16sp"
+            android:textSize="@dimen/info_text_medium"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -36,8 +35,8 @@
             android:id="@+id/adapter_receiver_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="14sp"
+            android:layout_marginVertical="@dimen/popup_item_gap_length"
+            android:textSize="@dimen/desc_text_size"
             app:appFontStyle="regular"
             app:textColorStyle="accent" />
 
@@ -45,7 +44,7 @@
             android:id="@+id/adapter_receiver_process"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/desc_text_size"
             app:appFontStyle="regular"
             app:textColorStyle="tertiary" />
 
