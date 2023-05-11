@@ -87,7 +87,7 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
         }
 
         holder.container.setOnClickListener {
-            preferencesCallbacks?.onPrefsSearchItemClicked(list[position])
+            preferencesCallbacks?.onPrefsSearchItemClicked(list[position], it)
         }
 
         if (!keyword.isNullOrEmpty()) {

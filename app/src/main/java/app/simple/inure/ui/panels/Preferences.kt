@@ -21,6 +21,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
+import app.simple.inure.dialogs.configuration.AppPath
 import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.dialogs.terminal.TerminalCommandLine
 import app.simple.inure.dialogs.terminal.TerminalHomePath
@@ -28,6 +29,10 @@ import app.simple.inure.dialogs.terminal.TerminalInitialCommand
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.models.PreferenceModel
+import app.simple.inure.popups.behavior.PopupArcType
+import app.simple.inure.popups.behavior.PopupDampingRatio
+import app.simple.inure.popups.behavior.PopupStiffness
+import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
@@ -131,7 +136,7 @@ class Preferences : SearchBarScopedFragment() {
             adapterPreferenceSearch.keyword = searchBox.text.toString()
 
             adapterPreferenceSearch.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
-                override fun onPrefsSearchItemClicked(preferenceModel: PreferenceModel) {
+                override fun onPrefsSearchItemClicked(preferenceModel: PreferenceModel, view: View) {
                     when (preferenceModel.panel) {
                         R.string.appearance -> {
                             when (preferenceModel.title) {
@@ -156,12 +161,38 @@ class Preferences : SearchBarScopedFragment() {
                             }
                         }
                         R.string.behaviour -> {
-                            openFragmentSlide(BehaviourScreen.newInstance(), "behaviour_prefs")
+                            when (preferenceModel.title) {
+                                R.string.transition_type -> {
+                                    PopupTransitionType(view)
+                                }
+                                R.string.arc_type -> {
+                                    PopupArcType(view)
+                                }
+                                R.string.damping_ratio -> {
+                                    PopupDampingRatio(view)
+                                }
+                                R.string.stiffness -> {
+                                    PopupStiffness(view)
+                                }
+                                else -> {
+                                    openFragmentSlide(BehaviourScreen.newInstance(), "behaviour_prefs")
+                                }
+                            }
                         }
                         R.string.configuration -> {
                             when (preferenceModel.title) {
                                 R.string.shortcuts -> {
                                     openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
+                                }
+                                R.string.components -> {
+                                    openFragmentSlide(ComponentManager.newInstance(), "components")
+                                }
+                                R.string.language -> {
+                                    openFragmentSlide(Language.newInstance(), "language")
+                                }
+                                R.string.path -> {
+                                    AppPath.newInstance()
+                                        .show(childFragmentManager, "app_path")
                                 }
                                 else -> {
                                     openFragmentSlide(ConfigurationScreen.newInstance(), "config_prefs")

@@ -27,6 +27,7 @@ object PreferencesSearchConstants {
     private const val loading = R.string.loading
     private const val application = R.string.application
     private const val root = R.string.root
+    private const val shizuku = R.string.shizuku
     private const val information = R.string.information
     private const val lists = R.string.lists
     private const val text = R.string.text
@@ -37,6 +38,8 @@ object PreferencesSearchConstants {
     private const val contribute = R.string.contribute
     private const val dexClasses = R.string.dex_classes
     private const val preferences = R.string.preferences
+    private const val installer = R.string.installer
+    private const val home = R.string.home
 
     // Panel
     private const val appearance = R.string.appearance
@@ -64,19 +67,26 @@ object PreferencesSearchConstants {
 
     private val behaviourData = arrayListOf(
             PreferenceModel(R.drawable.ic_light, R.string.dim_windows, R.string.dim_windows_desc, toggleable, popups, behaviour),
+            PreferenceModel(R.drawable.ic_blur_on, R.string.blur_windows, R.string.blur_windows_desc, toggleable, popups, behaviour),
             PreferenceModel(R.drawable.ic_lightbulb, R.string.colored_shadows, R.string.colored_shadows_desc, toggleable, popups, behaviour),
             PreferenceModel(R.drawable.ic_animation, R.string.transitions, R.string.transition_desc, toggleable, animations, behaviour),
+            PreferenceModel(R.drawable.ic_animation, R.string.transition_type, R.string.transition_type_desc, popup, animations, behaviour),
             PreferenceModel(R.drawable.switch_thumb, R.string.damping_ratio, R.string.damping_ratio_desc, options, scrolling, behaviour),
-            PreferenceModel(R.drawable.ic_stiffness, R.string.stiffness, R.string.stiffness_desc, options, scrolling, behaviour),
+            PreferenceModel(R.drawable.ic_stiffness, R.string.stiffness, R.string.stiffness_desc, popup, scrolling, behaviour),
             PreferenceModel(R.drawable.ic_arc_animations, R.string.arc_animations, R.string.desc_arc_animations, toggleable, animations, behaviour),
+            PreferenceModel(R.drawable.ic_arc_animations, R.string.arc_type, R.string.arc_type_desc, popup, animations, behaviour),
             PreferenceModel(R.drawable.ic_marquee, R.string.marquee_effect, R.string.desc_marquee, toggleable, animations, behaviour),
             PreferenceModel(R.drawable.ic_downloading, R.string.skip_loading_on_app_start, R.string.desc_skip_loading, toggleable, loading, behaviour),
     )
 
     private val configurationData = arrayListOf(
             PreferenceModel(R.drawable.ic_phone, R.string.keep_screen_on, R.string.keep_screen_on_desc, toggleable, application, configuration),
+            PreferenceModel(R.drawable.ic_extension, R.string.components, R.string.component_manager_desc, options, application, configuration),
+            PreferenceModel(R.drawable.ic_translate, R.string.language, R.string.language_desc, options, application, configuration),
+            PreferenceModel(R.drawable.ic_route, R.string.path, R.string.desc_app_path, popup, application, configuration),
             PreferenceModel(R.drawable.ic_shortcut, R.string.shortcuts, R.string.shortcuts_desc, multi_toggleable, application, configuration),
             PreferenceModel(R.drawable.ic_su, R.string.use_root_methods, R.string.root_desc, toggleable, root, configuration),
+            PreferenceModel(R.drawable.ic_su, R.string.use_shizuku, R.string.shizuku_desc, toggleable, shizuku, configuration),
     )
 
     private val formattingData = arrayListOf(
@@ -119,11 +129,10 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_home, R.string.title_home_path_preference, R.string.summary_home_path_preference, popup, editor, shell),
     )
 
-    private val developmentData = arrayListOf(
-            PreferenceModel(R.drawable.ic_main_app_icon_regular, R.string.setup, R.string.desc_not_available, none, none, development),
-            PreferenceModel(R.drawable.ic_app_icon_preferences, R.string.preferences, R.string.desc_not_available, none, none, development),
-            PreferenceModel(R.drawable.ic_code, R.string.use_webview_xml_viewer, R.string.desc_not_available, toggleable, none, development),
-            PreferenceModel(R.drawable.ic_preference_indicators, R.string.hide_preferences_indicators, R.string.desc_not_available, none, none, development),
+    private val layoutData = arrayListOf(
+            PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.installer_visibility_customization_desc, options, installer, layouts),
+            PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.home_visibility_customization_desc, options, home, layouts),
+            PreferenceModel(R.drawable.ic_grid_4, R.string.menu_layout, R.string.menu_layout_desc, options, home, layouts),
     )
 
     private val aboutData = arrayListOf(
@@ -148,6 +157,7 @@ object PreferencesSearchConstants {
                 accessibilityData +
                 terminalData +
                 shellData +
+                layoutData +
                 // developmentData +
                 aboutData
 
