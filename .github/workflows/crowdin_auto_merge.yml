@@ -20,7 +20,7 @@ jobs:
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "New Crowdin Updates"
+          MERGE_LABELS: "New Crowdin updates"
           MERGE_METHOD: "merge"  # merge method to use (merge, squash, rebase)
           MERGE_FORKS: "false"  # allow merging PRs from forks
           MERGE_RETRIES: "1"  # number of times to retry merging
