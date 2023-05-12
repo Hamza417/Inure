@@ -7,6 +7,9 @@ import android.graphics.Matrix.ScaleToFit
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
 import androidx.core.content.ContextCompat
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 object BitmapHelper {
     private const val shadowColor = -4671304
@@ -21,6 +24,13 @@ object BitmapHelper {
         drawable?.setBounds(0, 0, canvas.width, canvas.height)
         drawable?.draw(canvas)
         return bitmap
+    }
+
+    fun Bitmap.toInputStream(): InputStream {
+        ByteArrayOutputStream().use {
+            this.compress(Bitmap.CompressFormat.PNG, 100, it)
+            return ByteArrayInputStream(it.toByteArray())
+        }
     }
 
     /**

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
-import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
+import app.simple.inure.glide.uricover.UriCoverModel
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import com.bumptech.glide.load.DataSource
@@ -32,7 +32,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
         if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
             holder.albumArt.loadFromFileDescriptor(list[position].fileUri.toUri())
         } else {
-            holder.albumArt.loadFromUri(list[position].fileUri.toUri())
+            holder.albumArt.loadFromUri(list[position].artUri.toUri())
         }
     }
 
@@ -60,6 +60,27 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                     this@loadFromFileDescriptor.setImageResource(R.drawable.ani_ic_app_icon).also {
                         (this@loadFromFileDescriptor.drawable as AnimatedVectorDrawable).start()
+                    }
+                    return true
+                }
+
+                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            })
+            .into(this)
+    }
+
+    fun ImageView.loadFromUri(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .dontAnimate()
+            .transform(CenterCrop())
+            .load(UriCoverModel(this.context, uri))
+            .addListener(object : RequestListener<Bitmap> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    this@loadFromUri.setImageResource(R.drawable.ani_ic_app_icon).also {
+                        (this@loadFromUri.drawable as AnimatedVectorDrawable).start()
                     }
                     return true
                 }

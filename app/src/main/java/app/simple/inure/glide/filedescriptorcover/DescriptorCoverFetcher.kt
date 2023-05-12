@@ -3,6 +3,9 @@ package app.simple.inure.glide.filedescriptorcover
 import android.content.res.AssetFileDescriptor
 import android.media.MediaMetadataRetriever
 import android.webkit.URLUtil
+import app.simple.inure.R
+import app.simple.inure.util.BitmapHelper.toBitmap
+import app.simple.inure.util.BitmapHelper.toInputStream
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
@@ -28,14 +31,13 @@ class DescriptorCoverFetcher(private val descriptorCoverModel: DescriptorCoverMo
             }
 
             callback.onDataReady(ByteArrayInputStream(mediaMetadataRetriever.embeddedPicture))
-        } catch (e: IOException) {
-            callback.onLoadFailed(e)
-        } catch (e: FileNotFoundException) {
-            callback.onLoadFailed(e)
-        } catch (e: IllegalArgumentException) {
-            callback.onLoadFailed(e)
-        } catch (e: NullPointerException) {
-            callback.onLoadFailed(e)
+        } catch (_: IOException) {
+        } catch (_: FileNotFoundException) {
+        } catch (_: IllegalArgumentException) {
+        } catch (_: NullPointerException) {
+            R.drawable.ic_app_icon.toBitmap(descriptorCoverModel.context).toInputStream().use {
+                callback.onDataReady(it)
+            }
         } finally {
             mediaMetadataRetriever.release()
             mediaMetadataRetriever.close()
