@@ -119,6 +119,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         //            }
         //        }
 
+        AppearancePreferences.maxIconSize = resources.getDimensionPixelSize(R.dimen.app_icon_dimension) / 4
+        Log.d("BaseActivity", "Max icon size: ${AppearancePreferences.maxIconSize}")
+
         setTheme()
         setContentView(R.layout.activity_main)
 

@@ -61,12 +61,12 @@ class IconSize : ScopedBottomSheetFragment() {
         packageId.text = BuildConfig.APPLICATION_ID
         version.text = BuildConfig.VERSION_NAME
 
+        seekbar.max = AppearancePreferences.maxIconSize
         seekbar.progress = AppearancePreferences.maxIconSize - AppearancePreferences.getIconSize()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             seekbar.min = AppearancePreferences.minIconSize
         }
-        seekbar.max = AppearancePreferences.maxIconSize
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

@@ -69,8 +69,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
             for (listener in listeners) {
                 listener.onSelectionChanged(selStart, selEnd)
             }
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
+        } catch (_: NullPointerException) {
         }
     }
 
