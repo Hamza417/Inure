@@ -167,8 +167,14 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
 
     override fun onResume() {
         super.onResume()
-        if (orientationListener.canDetectOrientation()) {
-            orientationListener.enable()
+        if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+            if (orientationListener.canDetectOrientation()) {
+                orientationListener.enable()
+            }
+        }
+
+        if (ThemeUtils.isDayNight()) {
+            ThemeUtils.setAppTheme(resources)
         }
     }
 

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
@@ -257,6 +258,12 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
             val fragment = Uninstaller()
             fragment.arguments = args
             return fragment
+        }
+
+        fun FragmentManager.uninstallPackage(packageInfo: PackageInfo, listener: (() -> Unit)? = null) {
+            val fragment = newInstance(packageInfo)
+            fragment.show(this, "uninstaller")
+            fragment.listener = listener
         }
     }
 }

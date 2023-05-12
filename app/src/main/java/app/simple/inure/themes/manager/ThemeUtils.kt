@@ -12,7 +12,7 @@ import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
-import java.util.*
+import app.simple.inure.util.CalendarUtils
 
 object ThemeUtils {
     fun setAppTheme(resources: Resources) {
@@ -88,8 +88,22 @@ object ThemeUtils {
                 }
             }
             ThemeConstants.DAY_NIGHT -> {
-                val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                if (calendar < 7 || calendar > 18) {
+                if (CalendarUtils.isDayOrNight()) {
+                    when (AppearancePreferences.getLastLightTheme()) {
+                        ThemeConstants.LIGHT_THEME -> {
+                            ThemeManager.theme = Theme.LIGHT
+                        }
+                        ThemeConstants.SOAPSTONE -> {
+                            ThemeManager.theme = Theme.SOAPSTONE
+                        }
+                        ThemeConstants.HIGH_CONTRAST_LIGHT -> {
+                            ThemeManager.theme = Theme.HIGH_CONTRAST_LIGHT
+                        }
+                        ThemeConstants.MATERIAL_YOU_LIGHT -> {
+                            ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
+                        }
+                    }
+                } else {
                     when (AppearancePreferences.getLastDarkTheme()) {
                         ThemeConstants.DARK_THEME -> {
                             ThemeManager.theme = Theme.DARK
@@ -108,21 +122,6 @@ object ThemeUtils {
                         }
                         ThemeConstants.OIL -> {
                             ThemeManager.theme = Theme.OIL
-                        }
-                    }
-                } else if (calendar < 18 || calendar > 6) {
-                    when (AppearancePreferences.getLastLightTheme()) {
-                        ThemeConstants.LIGHT_THEME -> {
-                            ThemeManager.theme = Theme.LIGHT
-                        }
-                        ThemeConstants.SOAPSTONE -> {
-                            ThemeManager.theme = Theme.SOAPSTONE
-                        }
-                        ThemeConstants.HIGH_CONTRAST_LIGHT -> {
-                            ThemeManager.theme = Theme.HIGH_CONTRAST_LIGHT
-                        }
-                        ThemeConstants.MATERIAL_YOU_LIGHT -> {
-                            ThemeManager.theme = Theme.MATERIAL_YOU_LIGHT
                         }
                     }
                 }
@@ -166,11 +165,10 @@ object ThemeUtils {
                 }
             }
             ThemeConstants.DAY_NIGHT -> {
-                val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                if (calendar < 7 || calendar > 18) {
-                    darkBars(window)
-                } else if (calendar < 18 || calendar > 6) {
+                if (CalendarUtils.isDayOrNight()) {
                     lightBars(window)
+                } else {
+                    darkBars(window)
                 }
             }
         }
@@ -230,12 +228,7 @@ object ThemeUtils {
                 }
             }
             ThemeConstants.DAY_NIGHT -> {
-                val calendar = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-                if (calendar < 7 || calendar > 18) {
-                    return true
-                } else if (calendar < 18 || calendar > 6) {
-                    return false
-                }
+                return !CalendarUtils.isDayOrNight()
             }
         }
 
@@ -244,6 +237,10 @@ object ThemeUtils {
 
     fun isFollowSystem(): Boolean {
         return AppearancePreferences.getTheme() == ThemeConstants.FOLLOW_SYSTEM
+    }
+
+    fun isDayNight(): Boolean {
+        return AppearancePreferences.getTheme() == ThemeConstants.DAY_NIGHT
     }
 
     fun updateNavAndStatusColors(resources: Resources, window: Window) {

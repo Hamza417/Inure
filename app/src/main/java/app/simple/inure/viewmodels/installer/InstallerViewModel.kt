@@ -20,6 +20,7 @@ import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.getLength
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 import com.anggrayudi.storage.file.baseName
 import com.topjohnwu.superuser.Shell
@@ -107,6 +108,8 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
         if (files!!.size > 1) {
             @Suppress("UNCHECKED_CAST")
             splitApkFiles = files!!.clone() as ArrayList<File>
+        } else {
+            splitApkFiles = arrayListOf()
         }
 
         var packageInfo: PackageInfo? = null
@@ -161,6 +164,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         substringAfter("[").substringBefore("]").toInt()
                     }
                 }
+
                 Log.d("Installer", "Session id: $sessionId")
                 for (file in files!!) {
                     if (file.exists() && file.name.endsWith(".apk")) {
@@ -179,6 +183,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         }
                     }
                 }
+
                 Shell.cmd("pm install-commit $sessionId").exec().let {
                     if (it.isSuccess) {
                         Log.d("Installer", "Output: ${it.out}")
@@ -189,6 +194,12 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         Log.d("Installer", "Error: ${it.err}")
                         postWarning(it.out.joinToString())
                     }
+                }
+            } catch (e: java.lang.NullPointerException) {
+                if (e.message.isNotNull()) {
+                    postWarning(e.message!!)
+                } else {
+                    postError(e)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -415,6 +415,18 @@ public class CalendarUtils {
     }
     
     /**
+     * Check if it is day or night
+     *
+     * @return true if it is day, false if it is night
+     */
+    public static boolean isDayOrNight() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        return hour >= 6 && hour < 18;
+    }
+    
+    /**
      * The maximum date possible.
      */
     public static Date MAX_DATE = new Date(Long.MAX_VALUE);

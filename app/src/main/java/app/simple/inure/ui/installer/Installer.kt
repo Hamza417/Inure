@@ -27,7 +27,7 @@ import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.action.Uninstaller
+import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
@@ -194,9 +194,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     val sure = Sure.newInstance()
                     sure.setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
-                            val uninstaller = Uninstaller.newInstance(packageInfo)
-
-                            uninstaller.listener = {
+                            childFragmentManager.uninstallPackage(packageInfo) {
                                 if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
                                     uninstall.gone(animate = false)
                                     update.gone(animate = false)
@@ -205,8 +203,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
                                 checkLaunchStatus()
                             }
-
-                            uninstaller.show(childFragmentManager, "uninstaller")
                         }
                     })
 
