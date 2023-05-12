@@ -403,26 +403,28 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    when (display?.rotation) {
-                        Surface.ROTATION_0 -> {
-                            // Bottom - reset the padding in portrait
-                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, 0, 0)
-                        }
-                        Surface.ROTATION_90 -> {
-                            // Left
-                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(cutoutDepth, 0, 0, 0)
-                        }
-                        Surface.ROTATION_180 -> {
-                            // Top - reset the padding if upside down
-                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, 0, 0)
-                        }
-                        Surface.ROTATION_270 -> {
-                            // Right
-                            findViewById<CoordinatorLayout>(R.id.app_container).setPadding(0, 0, cutoutDepth, 0)
+                    with(findViewById<ViewGroup>(R.id.app_container)) {
+                        when (display?.rotation) {
+                            Surface.ROTATION_0 -> {
+                                // Bottom - reset the padding in portrait
+                                setPadding(0, 0, 0, 0)
+                            }
+                            Surface.ROTATION_90 -> {
+                                // Left
+                                setPadding(cutoutDepth, 0, 0, 0)
+                            }
+                            Surface.ROTATION_180 -> {
+                                // Top - reset the padding if upside down
+                                setPadding(0, 0, 0, 0)
+                            }
+                            Surface.ROTATION_270 -> {
+                                // Right
+                                setPadding(0, 0, cutoutDepth, 0)
+                            }
                         }
                     }
                 } else {
-                    with(findViewById<CoordinatorLayout>(R.id.app_container)) {
+                    with(findViewById<ViewGroup>(R.id.app_container)) {
                         @Suppress("DEPRECATION")
                         when ((getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
                             Surface.ROTATION_0 -> {
