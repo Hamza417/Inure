@@ -1,0 +1,3 @@
+- Various fixes and improvements
+
+For full details, please see the changelog.
