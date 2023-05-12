@@ -74,6 +74,7 @@ object BottomMenuConstants {
 
     private val batchUnselectedMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_select_all, R.string.select_all),
+            divider,
             Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
             Pair(R.drawable.ic_settings, R.string.preferences),

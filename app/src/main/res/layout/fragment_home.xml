@@ -22,9 +22,9 @@
             android:id="@+id/header_icon"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
-            android:layout_gravity="center_vertical"
             android:transitionName="main_app_icon"
             app:buttonTintType="accent"
             app:srcCompat="@drawable/ic_main_app_icon_big" />
@@ -36,8 +36,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="@string/app_name"
-            android:textSize="@dimen/header_font_size"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:text="@string/app_name_full"
+            android:textSize="24sp"
             app:appFontStyle="medium"
             app:textColorStyle="heading" />
 
