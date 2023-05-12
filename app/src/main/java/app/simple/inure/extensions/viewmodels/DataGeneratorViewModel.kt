@@ -275,6 +275,8 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         stringBuilder.append("\t\t\tfont-family: arial, sans-serif;\r\n")
         stringBuilder.append("\t\t\ttable-layout: fixed;\r\n")
         stringBuilder.append("\t\t\tborder-collapse: collapse;\r\n")
+        // Corner radius
+        stringBuilder.append("\t\t\tborder-radius: 10px;\r\n")
         // Border color
         stringBuilder.append("\t\t\tborder: 1px solid ${AppearancePreferences.getAccentColor().toHexColor()};\r\n")
         stringBuilder.append("\t\t\twidth: 100%;\r\n")
