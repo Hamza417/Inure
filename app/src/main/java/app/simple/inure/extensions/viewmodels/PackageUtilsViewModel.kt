@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.DeadObjectException
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
@@ -54,34 +55,44 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         }
     }
 
-    protected fun loadInstalledApps(): MutableList<PackageInfo> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-        } else {
-            @Suppress("DEPRECATION")
-            packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+    private fun loadInstalledApps(): MutableList<PackageInfo> {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+            }
+        } catch (e: DeadObjectException) {
+            Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+            loadInstalledApps()
         }
     }
 
     protected fun loadUninstalledApps() {
-        if (uninstalledApps.isEmpty()) {
-            uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                        .of((PackageManager.GET_META_DATA
-                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+        try {
+            if (uninstalledApps.isEmpty()) {
+                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                            .of((PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
                 } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
-                }
-            }.toArrayList()
-        }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
+                    }
+                }.toArrayList()
+            }
 
-        @Suppress("UNCHECKED_CAST")
-        onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
+            @Suppress("UNCHECKED_CAST")
+            onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
+        } catch (e: DeadObjectException) {
+            Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadObjectException")
+            loadUninstalledApps()
+        }
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
