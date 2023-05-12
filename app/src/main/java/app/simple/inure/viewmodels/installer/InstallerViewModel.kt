@@ -152,7 +152,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
 
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
+            try {
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
@@ -179,16 +179,20 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                         }
                     }
                 }
-                Shell.cmd("pm install-commit $sessionId").exec()
-            }.onSuccess { it ->
-                success.postValue((1..50).random())
-                it.out.forEach { Log.d("Installer", it) }
-            }.onFailure {
-                it.printStackTrace()
-                postWarning(it.message.toString())
-            }.getOrElse {
-                it.printStackTrace()
-                postWarning(it.message.toString())
+                Shell.cmd("pm install-commit $sessionId").exec().let {
+                    if (it.isSuccess) {
+                        Log.d("Installer", "Output: ${it.out}")
+                        Log.d("Installer", "Error: ${it.err}")
+                        success.postValue((0..50).random())
+                    } else {
+                        Log.d("Installer", "Output: ${it.out}")
+                        Log.d("Installer", "Error: ${it.err}")
+                        postWarning(it.out.joinToString())
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                postError(e)
             }
         }
     }
@@ -197,7 +201,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
         viewModelScope.launch(Dispatchers.IO) {
             Log.d("Installer", "Shizuku install")
 
-            kotlin.runCatching {
+            try {
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(ShizukuUtils.execInternal(Command("pm install-create -S $totalSizeOfAllApks"), null)) {
@@ -259,16 +263,20 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                     }
                 }
 
-                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null)
-            }.onSuccess { it ->
-                success.postValue((1..50).random())
-                Log.d("Installer", "Output: ${it.out}")
-            }.onFailure {
-                it.printStackTrace()
-                postWarning(it.message.toString())
-            }.getOrElse {
-                it.printStackTrace()
-                postWarning(it.message.toString())
+                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null).let {
+                    if (it.isSuccessful) {
+                        Log.d("Installer", "Output: ${it.out}")
+                        Log.d("Installer", "Error: ${it.err}")
+                        success.postValue((0..50).random())
+                    } else {
+                        Log.d("Installer", "Output: ${it.out}")
+                        Log.d("Installer", "Error: ${it.err}")
+                        postWarning(it.out)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                postError(e)
             }
         }
     }
