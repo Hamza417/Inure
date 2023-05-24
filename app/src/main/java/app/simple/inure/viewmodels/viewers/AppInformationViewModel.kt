@@ -188,7 +188,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getVersionCode(): Pair<Int, Spannable> {
         return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
             Pair(R.string.version_code,
-                 PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
+                 PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
         } else {
             val versionCode = ApkFile(packageInfo.applicationInfo.sourceDir).use {
                 it.apkMeta.versionCode
