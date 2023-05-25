@@ -64,7 +64,7 @@
     <string name="twitter" translatable="false">Twitter</string>
     <string name="github_profile_link" translatable="false">https://github.com/Hamza417</string>
     <string name="instagram_profile_link" translatable="false">https://instagram.com/_hamza417</string>
-    <string name="twitter_profile_link">https://twitter.com/_hamza417/</string>
-    <string name="hamza_rizwan">Hamza Rizwan</string>
-    <string name="developer_desc">Follow me on various social platforms to stay updated with my development progress.</string>
+    <string name="twitter_profile_link" translatable="false">https://twitter.com/_hamza417/</string>
+    <string name="hamza_rizwan" translatable="false">Hamza Rizwan</string>
+    <string name="developer_desc" translatable="false">Stay connected with me on various social platforms to keep up with my development progress. I\'ll be sharing updates, insights, and interesting projects. Let\'s stay in touch and share the coding journey!</string>
 </resources>

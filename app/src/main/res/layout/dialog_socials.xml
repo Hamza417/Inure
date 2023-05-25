@@ -24,7 +24,7 @@
                 android:layout_height="@dimen/app_icon_dimension"
                 app:bigBlurRadius="25"
                 app:icon="@drawable/avatar"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,17 +33,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:layout_toEndOf="@id/avatar"
+                android:gravity="center"
                 android:text="@string/hamza_rizwan"
                 android:textSize="@dimen/info_text_medium"
                 app:appFontStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView3"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/avatar"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/typeFaceTextView3"
@@ -52,15 +52,16 @@
                 android:layout_below="@+id/name"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_toEndOf="@id/avatar"
+                android:gravity="center"
                 android:text="@string/developer_desc"
                 android:textSize="@dimen/info_text_tiny"
                 app:appFontStyle="regular"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/avatar"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name"
                 app:textColorStyle="tertiary" />
 
