@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dialog_padding">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/app_icon_dimension"
+                android:layout_height="@dimen/app_icon_dimension"
+                app:bigBlurRadius="25"
+                app:icon="@drawable/avatar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_toEndOf="@id/avatar"
+                android:text="@string/hamza_rizwan"
+                android:textSize="@dimen/info_text_medium"
+                app:appFontStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/avatar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/typeFaceTextView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_toEndOf="@id/avatar"
+                android:text="@string/developer_desc"
+                android:textSize="@dimen/info_text_tiny"
+                app:appFontStyle="regular"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/avatar"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                app:textColorStyle="tertiary" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/twitter"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/instagram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/instagram"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/github"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/github"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/close"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="secondary" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

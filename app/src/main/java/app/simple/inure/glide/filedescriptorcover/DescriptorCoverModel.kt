@@ -5,5 +5,5 @@ import android.net.Uri
 
 class DescriptorCoverModel(
         val context: Context,
-        val fileUri: Uri,
+        val fileUri: Uri
 )

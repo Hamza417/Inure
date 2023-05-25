@@ -672,4 +672,6 @@
     <string name="state">State</string>
     <string name="installed">Installed</string>
     <string name="no_boot_components_found">No Boot Components Found</string>
+    <string name="follow_developer_on_Socials">Follow Developer on Socials</string>
+    <string name="developer">Developer</string>
 </resources>

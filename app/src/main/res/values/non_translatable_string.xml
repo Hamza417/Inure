@@ -59,5 +59,12 @@
     <string name="json" translatable="false">.JSON</string>
     <string name="csv" translatable="false">.CSV</string>
     <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
-    <string name="shizuku">Shizuku</string>
+    <string name="shizuku" translatable="false">Shizuku</string>
+    <string name="instagram" translatable="false">Instagram</string>
+    <string name="twitter" translatable="false">Twitter</string>
+    <string name="github_profile_link" translatable="false">https://github.com/Hamza417</string>
+    <string name="instagram_profile_link" translatable="false">https://instagram.com/_hamza417</string>
+    <string name="twitter_profile_link">https://twitter.com/_hamza417/</string>
+    <string name="hamza_rizwan">Hamza Rizwan</string>
+    <string name="developer_desc">Follow me on various social platforms to stay updated with my development progress.</string>
 </resources>

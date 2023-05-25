@@ -494,6 +494,40 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
+                <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+                    android:id="@+id/follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/follow_developer_on_Socials"
+                        android:src="@drawable/ic_face"
+                        app:tintType="secondary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:layout_toEndOf="@id/license_icon"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/follow_developer_on_Socials"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableTintStyle="accent"
+                        app:textColorStyle="primary" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/about_share"
                     android:layout_width="match_parent"
@@ -544,7 +578,6 @@
                         app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
-
             </LinearLayout>
         </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -128,7 +128,7 @@ object AppearancePreferences {
     }
 
     fun getCornerRadius(): Float {
-        return getSharedPreferences().getFloat(appCornerRadius, 60F)
+        return getSharedPreferences().getFloat(appCornerRadius, 60F).coerceAtLeast(1F)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

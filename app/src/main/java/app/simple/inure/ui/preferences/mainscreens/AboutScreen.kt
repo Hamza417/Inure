@@ -13,6 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.dialogs.app.Socials.Companion.showSocialsDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.preferences.subscreens.Share
@@ -29,6 +30,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var licenses: DynamicRippleRelativeLayout
     private lateinit var privacyPolicy: DynamicRippleLinearLayout
     private lateinit var telegram: DynamicRippleRelativeLayout
+    private lateinit var follow: DynamicRippleLinearLayout
     private lateinit var share: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,6 +45,7 @@ class AboutScreen : ScopedFragment() {
         licenses = view.findViewById(R.id.licenses)
         privacyPolicy = view.findViewById(R.id.toc)
         telegram = view.findViewById(R.id.about_telegram)
+        follow = view.findViewById(R.id.follow)
         share = view.findViewById(R.id.about_share)
 
         return view
@@ -85,6 +88,10 @@ class AboutScreen : ScopedFragment() {
         telegram.setOnClickListener {
             val uri: Uri = Uri.parse("https://t.me/inure_app_manager")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+
+        follow.setOnClickListener {
+            childFragmentManager.showSocialsDialog()
         }
 
         share.setOnClickListener {

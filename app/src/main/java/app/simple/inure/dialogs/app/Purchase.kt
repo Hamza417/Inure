@@ -21,7 +21,7 @@ class Purchase : ScopedBottomSheetFragment() {
     private lateinit var github: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_full_version_reminder, container, false)
+        val view = inflater.inflate(R.layout.dialog_purchase, container, false)
 
         playStore = view.findViewById(R.id.play_store)
         gumroad = view.findViewById(R.id.gumroad)

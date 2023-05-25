@@ -5,14 +5,20 @@ import android.content.pm.ProviderInfo
 import android.content.pm.ServiceInfo
 import android.net.Uri
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import app.simple.inure.glide.activities.ActivityIconModel
 import app.simple.inure.glide.apkIcon.ApkIcon
+import app.simple.inure.glide.drawable.DrawableModel
 import app.simple.inure.glide.graphics.AppGraphicsModel
 import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.providers.ProviderIconModel
 import app.simple.inure.glide.services.ServiceIconModel
 import app.simple.inure.glide.svg.SVG
+import app.simple.inure.glide.transformation.BlurShadow
+import app.simple.inure.glide.transformation.Padding
+import app.simple.inure.preferences.AppearancePreferences
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.io.File
 
 object ImageLoader {
@@ -92,6 +98,21 @@ object ImageLoader {
         GlideApp.with(this)
             .asBitmap()
             .load(SVG(context, uri))
+            .into(this)
+    }
+
+    /**
+     * Loads drawable asynchronously
+     */
+    fun ImageView.loadDrawable(@DrawableRes res: Int) {
+        GlideApp.with(this)
+            .asBitmap()
+            .transform(RoundedCorners(AppearancePreferences.getCornerRadius().toInt().coerceAtLeast(1)),
+                       Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
+                       BlurShadow(context)
+                           .setElevation(25F)
+                           .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
+            .load(DrawableModel(res, this.context))
             .into(this)
     }
 }
