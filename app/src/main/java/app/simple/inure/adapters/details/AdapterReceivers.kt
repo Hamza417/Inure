@@ -77,6 +77,11 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_status)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_receiver_container)
+
+        init {
+            name.enableSelection()
+            packageId.enableSelection()
+        }
     }
 
     fun setOnReceiversCallbackListener(receiversCallbacks: ReceiversCallbacks) {

@@ -92,6 +92,11 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_status)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_services_container)
+
+        init {
+            name.enableSelection()
+            packageId.enableSelection()
+        }
     }
 
     fun setOnServiceCallbackListener(servicesCallbacks: ServicesCallbacks) {

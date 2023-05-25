@@ -86,6 +86,12 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         val trackerId: TypeFaceTextView = itemView.findViewById(R.id.tracker_id)
         val switch: SwitchView = itemView.findViewById(R.id.switch_view)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+
+        init {
+            name.enableSelection()
+            packageId.enableSelection()
+            trackerId.enableSelection()
+        }
     }
 
     interface TrackersCallbacks {

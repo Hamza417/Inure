@@ -79,10 +79,12 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES)
                     } else {
                         @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES)
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES)
                     }
                 }.toArrayList()
             }

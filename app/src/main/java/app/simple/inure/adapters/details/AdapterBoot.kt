@@ -95,6 +95,11 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
         val status: TypeFaceTextView = itemView.findViewById(R.id.status)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val switch: SwitchView = itemView.findViewById(R.id.switch_view)
+
+        init {
+            name.enableSelection()
+            packageId.enableSelection()
+        }
     }
 
     fun setBootCallbacks(bootCallbacks: BootCallbacks) {

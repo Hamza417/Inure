@@ -44,6 +44,10 @@ class AdapterResources(private val list: MutableList<String>, private val keywor
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val xml: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
+
+        init {
+            xml.enableSelection()
+        }
     }
 
     interface ResourceCallbacks {

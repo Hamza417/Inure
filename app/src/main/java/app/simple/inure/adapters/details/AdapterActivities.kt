@@ -105,6 +105,11 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         val divider: View = itemView.findViewById(R.id.divider)
         val launch: View = itemView.findViewById(R.id.adapter_activity_launch_button)
         val container: ConstraintLayout = itemView.findViewById(R.id.adapter_activity_container)
+
+        init {
+            name.enableSelection()
+            activityPackageID.enableSelection()
+        }
     }
 
     fun setOnActivitiesCallbacks(activitiesCallbacks: ActivitiesCallbacks) {

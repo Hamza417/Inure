@@ -57,6 +57,11 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_information_container)
         val heading: TypeFaceTextView = itemView.findViewById(R.id.information_heading)
         val data: TypeFaceTextView = itemView.findViewById(R.id.information_data)
+
+        init {
+            heading.enableSelection()
+            data.enableSelection()
+        }
     }
 
     inner class Divider(itemView: View) : VerticalListViewHolder(itemView)

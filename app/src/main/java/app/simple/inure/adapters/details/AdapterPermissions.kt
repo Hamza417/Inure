@@ -142,6 +142,12 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
+
+        init {
+            name.enableSelection()
+            status.enableSelection()
+            desc.enableSelection()
+        }
     }
 
     companion object {

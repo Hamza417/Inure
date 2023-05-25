@@ -85,6 +85,10 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val extra: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
+
+        init {
+            extra.enableSelection()
+        }
     }
 
     interface ExtrasCallbacks {

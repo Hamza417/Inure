@@ -98,6 +98,10 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_graphics_container)
         val image: ImageView = itemView.findViewById(R.id.adapter_graphics_iv)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_graphics_name)
+
+        init {
+            name.enableSelection()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

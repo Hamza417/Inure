@@ -79,6 +79,11 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_status)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_providers_container)
+
+        init {
+            name.enableSelection()
+            packageId.enableSelection()
+        }
     }
 
     fun setOnProvidersCallbackListener(providersCallbacks: ProvidersCallbacks) {
