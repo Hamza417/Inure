@@ -93,7 +93,10 @@ class Batch : ScopedFragment() {
     }
 
     private fun setupBottomMenu() {
-        if (bottomRightCornerMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) return
+        if (bottomRightCornerMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) {
+            return
+        }
+
         bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->
             when (id) {
                 R.drawable.ic_select_all -> {
@@ -194,6 +197,10 @@ class Batch : ScopedFragment() {
                 }
                 R.drawable.ic_checklist -> {
                     openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
+                }
+                R.drawable.ic_refresh -> {
+                    showLoader(manualOverride = true)
+                    batchViewModel.refreshPackageData()
                 }
             }
         }

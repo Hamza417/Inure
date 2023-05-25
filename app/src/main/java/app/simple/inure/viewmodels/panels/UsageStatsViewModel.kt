@@ -253,4 +253,9 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             usageData.postValue(list)
         }
     }
+
+    override fun onAppsLoaded(apps: java.util.ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        loadAppStats()
+    }
 }

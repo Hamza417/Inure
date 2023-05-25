@@ -22,6 +22,7 @@ import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.PermissionPreferences
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StringUtils.optimizeToColoredString
@@ -60,6 +61,16 @@ class PermissionStatus : ScopedBottomSheetFragment() {
         state = view.findViewById(R.id.permission_state)
         divider = view.findViewById(R.id.divider)
         btnContainer = view.findViewById(R.id.btn_container)
+
+        name.setTextIsSelectable(true)
+        description.setTextIsSelectable(true)
+        status.setTextIsSelectable(true)
+
+        with(ColorUtils.lightenColor(AppearancePreferences.getAccentColor(), 0.2F)) {
+            name.highlightColor = this
+            description.highlightColor = this
+            status.highlightColor = this
+        }
 
         permissionInfo = requireArguments().parcelable(BundleConstants.permissionInfo)!!
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!

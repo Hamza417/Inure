@@ -134,6 +134,10 @@ class Apps : ScopedFragment() {
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), "search")
                     }
+                    R.drawable.ic_refresh -> {
+                        showLoader(manualOverride = true)
+                        appsViewModel.refreshPackageData()
+                    }
                 }
             }
         }

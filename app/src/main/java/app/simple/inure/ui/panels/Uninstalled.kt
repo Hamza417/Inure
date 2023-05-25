@@ -71,6 +71,10 @@ class Uninstalled : ScopedFragment() {
                         UninstallInfo.newInstance()
                             .show(childFragmentManager, "uninstall_info")
                     }
+                    R.drawable.ic_delete -> {
+                        showLoader(manualOverride = true)
+                        homeViewModel.refreshPackageData()
+                    }
                 }
             }
         }

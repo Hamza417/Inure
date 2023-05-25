@@ -71,6 +71,10 @@ class RecentlyUpdated : ScopedFragment() {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")
                     }
+                    R.drawable.ic_refresh -> {
+                        showLoader(manualOverride = true)
+                        homeViewModel.refreshPackageData()
+                    }
                 }
             }
         }

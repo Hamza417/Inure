@@ -6,14 +6,19 @@ import app.simple.inure.preferences.ConfigurationPreferences
 object BottomMenuConstants {
 
     private val divider = Pair(-1, -1)
+    private val refresh = Pair(R.drawable.ic_refresh, R.string.refresh)
 
     private val genericBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
+            refresh,
+            divider,
             Pair(R.drawable.ic_settings, R.string.preferences),
             divider,
             Pair(R.drawable.ic_search, R.string.search),
     )
 
     private val allAppsBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
+            refresh,
+            divider,
             Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
             Pair(R.drawable.ic_settings, R.string.preferences),
@@ -63,7 +68,7 @@ object BottomMenuConstants {
     )
 
     private val musicBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
-            Pair(R.drawable.ic_refresh, R.string.refresh),
+            refresh,
             Pair(R.drawable.ic_sort, R.string.sort),
             divider,
             Pair(R.drawable.shuffle, R.string.shuffle),
@@ -75,6 +80,7 @@ object BottomMenuConstants {
     private val batchUnselectedMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_select_all, R.string.select_all),
             divider,
+            refresh,
             Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
             Pair(R.drawable.ic_settings, R.string.preferences),
@@ -92,6 +98,7 @@ object BottomMenuConstants {
                 Pair(R.drawable.ic_checklist, R.string.checklist),
                 Pair(R.drawable.ic_select_all, R.string.select_all),
                 divider,
+                refresh,
                 Pair(R.drawable.ic_sort, R.string.sort),
                 Pair(R.drawable.ic_filter, R.string.filter),
                 Pair(R.drawable.ic_settings, R.string.preferences),
@@ -112,6 +119,7 @@ object BottomMenuConstants {
                 Pair(R.drawable.ic_checklist, R.string.checklist),
                 Pair(R.drawable.ic_select_all, R.string.select_all),
                 divider,
+                refresh,
                 Pair(R.drawable.ic_sort, R.string.sort),
                 Pair(R.drawable.ic_filter, R.string.filter),
                 Pair(R.drawable.ic_settings, R.string.preferences),

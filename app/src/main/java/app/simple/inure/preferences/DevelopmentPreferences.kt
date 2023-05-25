@@ -22,6 +22,7 @@ object DevelopmentPreferences {
     const val loadAllInstallerPages = "is_all_installer_pages_loaded"
     const val isNotchAreaEnabled = "is_notch_area_enabled"
     const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
+    const val isTextSelectable = "is_text_selectable"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -117,6 +118,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Enable Custom Color Picker In Accent Colors",
                                             "Enable custom color picker in accent colors.",
                                             enableCustomColorPickerInAccent,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Enable Text Selection",
+                                            "Enable selection on texts in Details panels\n\nCaution: causes various issues with the app.",
+                                            isTextSelectable,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

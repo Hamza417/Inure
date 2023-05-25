@@ -20,7 +20,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ColorUtils.animateDrawableColorChange
@@ -266,16 +265,14 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     }
 
     fun enableSelection() {
-        setTextIsSelectable(true)
-        setHighlightColor()
+        if (DevelopmentPreferences.get(DevelopmentPreferences.isTextSelectable)) {
+            setTextIsSelectable(true)
+            setHighlightColor()
+        }
     }
 
     private fun setHighlightColor() {
-        highlightColor = if (ThemeUtils.isNightMode(resources)) {
-            ColorUtils.lightenColor(AppearancePreferences.getAccentColor(), 0.2F)
-        } else {
-            ColorUtils.lightenColor(AppearancePreferences.getAccentColor(), 0.2F)
-        }
+        highlightColor = ColorUtils.lightenColor(AppearancePreferences.getAccentColor(), 0.2F)
     }
 
     companion object {

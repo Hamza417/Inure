@@ -39,6 +39,7 @@ class Disabled : ScopedFragment() {
 
         homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            hideLoader()
 
             adapterDisabled?.apps = it
             recyclerView.adapter = adapterDisabled
@@ -65,6 +66,10 @@ class Disabled : ScopedFragment() {
                     }
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                    R.drawable.ic_refresh -> {
+                        showLoader(manualOverride = true)
+                        homeViewModel.refreshPackageData()
                     }
                 }
             }

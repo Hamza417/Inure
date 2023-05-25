@@ -5,8 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="10dp"
-    android:layout_marginVertical="5dp">
+    android:layout_margin="10dp">
 
     <app.simple.inure.decorations.views.AppIconImageView
         android:id="@+id/app_icon"

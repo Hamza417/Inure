@@ -55,6 +55,13 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         }
     }
 
+    fun refreshPackageData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            apps = loadInstalledApps().clone()
+            onAppsLoaded(apps.toArrayList())
+        }
+    }
+
     private fun loadInstalledApps(): MutableList<PackageInfo> {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
