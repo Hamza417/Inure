@@ -317,7 +317,21 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                 count += clazz.javaClass.methods.size
             }
 
-            if (dexClasses.size > 1) {
+            val dexClassesCount = java.util.zip.ZipFile(packageInfo.applicationInfo.sourceDir).use {
+                var dexCount = 0
+
+                with(it.entries()) {
+                    while (hasMoreElements()) {
+                        if (nextElement().name.endsWith(".dex")) {
+                            dexCount += 1
+                        }
+                    }
+                }
+
+                dexCount
+            }
+
+            if (dexClassesCount > 1) {
                 String.format(getString(R.string.multi_dex), NumberFormat.getNumberInstance().format(count))
             } else {
                 String.format(getString(R.string.single_dex), NumberFormat.getNumberInstance().format(count))
