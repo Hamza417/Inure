@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: automerge
-        name: automerge
+        name: New Crowdin updates
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
