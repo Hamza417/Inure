@@ -673,4 +673,5 @@
     <string name="state">狀態</string>
     <string name="installed">已安裝</string>
     <string name="no_boot_components_found">找不到開機元件</string>
+    <string name="follow_developer_on_Socials">在社群中跟隨開發人員</string>
 </resources>
