@@ -21,4 +21,6 @@ object Misc {
 
     // Misc
     const val SHIZUKU_CODE = 654
+
+    const val splitApkFormat = ".apks"
 }

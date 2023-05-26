@@ -313,7 +313,10 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     }
 
     override fun onShizukuDenied() {
-        super.onShizukuDenied()
+        /**
+         * We don't want to show warning here.
+         */
+        // super.onShizukuDenied()
         packageManagerInstall()
     }
 

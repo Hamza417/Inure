@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.content.Context
 import android.content.pm.PackageInfo
 import app.simple.inure.apk.utils.PackageData
+import app.simple.inure.constants.Misc
 
 object BatchUtils {
 
@@ -12,7 +13,7 @@ object BatchUtils {
         stringBuilder.append("/")
         stringBuilder.append(packageInfo.applicationInfo.name)
         stringBuilder.append("_(${packageInfo.versionName})")
-        stringBuilder.append(".apkm")
+        stringBuilder.append(Misc.splitApkFormat)
         return stringBuilder.toString()
     }
 
