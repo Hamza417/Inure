@@ -305,8 +305,8 @@ class AudioService : Service(),
     }
 
     private fun setupMetadata() {
-        kotlin.runCatching {
-            CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO).launch {
+            kotlin.runCatching {
                 metaData = MetadataHelper.getAudioMetadata(applicationContext, audioUri!!)
 
                 mediaMetadataCompat = MediaMetadataCompat.Builder()
@@ -326,9 +326,9 @@ class AudioService : Service(),
                     setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
                 }
+            }.getOrElse {
+                IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
             }
-        }.getOrElse {
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
         }
     }
 

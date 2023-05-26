@@ -307,16 +307,30 @@ object EditTextHelper {
         leftSpace = selectionStart
 
         if (leftSpace > 0) {
-            while (text[leftSpace - 1].isLetterOrDigit()) {
-                leftSpace--
+            try {
+                while (text[leftSpace - 1].isLetterOrDigit()) {
+                    leftSpace--
+                }
+            } catch (_: IndexOutOfBoundsException) {
+                /**
+                 * We probably hit the beginning of the text
+                 * so just ignore the exception.
+                 */
             }
         }
 
         rightSpace = selectionEnd
 
         if (rightSpace < text.length) {
-            while (text[rightSpace].isLetterOrDigit()) {
-                rightSpace++
+            try {
+                while (text[rightSpace].isLetterOrDigit()) {
+                    rightSpace++
+                }
+            } catch (_: IndexOutOfBoundsException) {
+                /**
+                 * We probably hit the end of the text
+                 * so just ignore the exception.
+                 */
             }
         }
 

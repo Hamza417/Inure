@@ -180,9 +180,11 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
             .commit()
     }
 
-    open fun showWarning(warning: String) {
+    open fun showWarning(warning: String, dismiss: Boolean = true) {
         childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-            dismiss()
+            if (dismiss) {
+                dismiss()
+            }
         }
     }
 

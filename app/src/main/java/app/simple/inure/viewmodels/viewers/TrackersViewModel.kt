@@ -91,7 +91,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getActivityTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val activities = packageManager.getPackageInfo(packageInfo.packageName)!!.activities
+        val activities = packageManager.getPackageInfo(packageInfo.packageName)!!.activities ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (activities != null) {
@@ -123,7 +123,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getServicesTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val services = packageManager.getPackageInfo(packageInfo.packageName)!!.services
+        val services = packageManager.getPackageInfo(packageInfo.packageName)!!.services ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (services != null) {
@@ -155,7 +155,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getReceiversTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val receivers = packageManager.getPackageInfo(packageInfo.packageName)!!.receivers
+        val receivers = packageManager.getPackageInfo(packageInfo.packageName)!!.receivers ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (receivers != null) {

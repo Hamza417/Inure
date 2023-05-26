@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.annotation.SuppressLint
 import android.app.Application
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
@@ -50,9 +51,13 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadData() {
         viewModelScope.launch(Dispatchers.Default) {
-            globalList = getAllAudioFiles(externalContentUri).getSortedList()
-            songs.postValue(globalList)
-            loadSearched(MusicPreferences.getSearchKeyword())
+            try {
+                globalList = getAllAudioFiles(externalContentUri).getSortedList()
+                songs.postValue(globalList)
+                loadSearched(MusicPreferences.getSearchKeyword())
+            } catch (e: SQLiteException) {
+                postWarning(e.message ?: "Unknown error occurred")
+            }
         }
     }
 
@@ -61,6 +66,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
      */
     @Suppress("SameParameterValue")
     @SuppressLint("Range", "InlinedApi")
+    @Throws(SQLiteException::class)
     private fun getAllAudioFiles(contentLocation: Uri): ArrayList<AudioModel> {
         val allAudioModel = ArrayList<AudioModel>()
 

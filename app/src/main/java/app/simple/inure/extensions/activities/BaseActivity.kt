@@ -496,6 +496,17 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         }
     }
 
+    open fun fullVersionCheck(function: () -> Unit): Boolean {
+        return if (TrialPreferences.isAppFullVersionEnabled()) {
+            true
+        } else {
+            supportFragmentManager.showFullVersion().setFullVersionCallbacks {
+                function()
+            }
+            false
+        }
+    }
+
     open fun showLoader() {
         loader = Loader.newInstance()
         loader?.show(supportFragmentManager, "loader")

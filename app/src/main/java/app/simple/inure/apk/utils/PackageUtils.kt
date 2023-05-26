@@ -9,6 +9,7 @@ import android.content.pm.*
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
+import android.os.DeadObjectException
 import android.os.RemoteException
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
@@ -256,6 +257,7 @@ object PackageUtils {
             .getLaunchIntentForPackage(packageName) != null
     }
 
+    @Throws(NameNotFoundException::class, NullPointerException::class)
     fun PackageInfo.launchThisPackage(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(this.packageName)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -293,6 +295,8 @@ object PackageUtils {
             true
         } catch (e: NameNotFoundException) {
             false
+        } catch (e: DeadObjectException) {
+            return isPackageInstalled(packageName) // recreate the process??
         }
     }
 

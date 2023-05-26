@@ -75,6 +75,7 @@ its [Telegram Group](https://t.me/inure_app_manager) for development related upd
 - [x] Add battery optimisation manager for all apps.
 - [x] Boot manager for all apps.
 - [x] Add option to disable trackers.
+- [ ] Add multiple apk installer.
 - [ ] Manage system wide default apps.
 
 ### Low priority features

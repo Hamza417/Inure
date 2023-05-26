@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
@@ -86,7 +88,15 @@ class APKs : ScopedFragment() {
                     intent.setDataAndType(uri, "application/vnd.android.package-archive")
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    startActivity(intent)
+
+                    icon.transitionName = uri.toString()
+
+                    if (BehaviourPreferences.isArcAnimationOn()) {
+                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                        startActivity(intent, options.toBundle())
+                    } else {
+                        startActivity(intent)
+                    }
                 }
 
                 override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
@@ -101,7 +111,13 @@ class APKs : ScopedFragment() {
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(intent)
+
+                            if (BehaviourPreferences.isArcAnimationOn()) {
+                                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                                startActivity(intent, options.toBundle())
+                            } else {
+                                startActivity(intent)
+                            }
                         }
 
                         override fun onDeleteClicked() {

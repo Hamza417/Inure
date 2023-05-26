@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
@@ -38,6 +39,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
@@ -78,6 +80,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         tabLayout = view.findViewById(R.id.tabLayout)
         loader = view.findViewById(R.id.loader)
 
+        kotlin.runCatching {
+            icon.transitionName = requireArguments().parcelable<Uri>(BundleConstants.uri).toString()
+        }
+
         val factory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri, Uri::class.java)!!)
         } else {
@@ -104,6 +110,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
 
         fullVersionCheck()
         loader.visible(animate = true)
@@ -217,6 +224,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             kotlin.runCatching {
                 icon.loadAppIcon(file)
 
+                (view.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
+
                 val titles = arrayListOf<String>()
 
                 if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isInfoVisible)) {
@@ -317,10 +328,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     }
 
     override fun onLoadingStarted() {
-        loader.visible(true)
+        // loader.visible(true)
     }
 
     override fun onLoadingFinished() {
-        loader.gone(animate = true)
+        // loader.gone(animate = true)
     }
 }

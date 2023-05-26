@@ -349,7 +349,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         } else {
             parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
                 if (goBack) {
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    try {
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    } catch (e: IllegalStateException) {
+                        // do nothing
+                    }
                 }
             }
         }

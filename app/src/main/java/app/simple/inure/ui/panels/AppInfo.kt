@@ -3,6 +3,7 @@ package app.simple.inure.ui.panels
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -229,7 +230,13 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.launch -> {
-                            packageInfo.launchThisPackage(requireActivity())
+                            try {
+                                packageInfo.launchThisPackage(requireActivity())
+                            } catch (e: NullPointerException) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            } catch (e: NameNotFoundException) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            }
                         }
                         R.string.uninstall -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
@@ -322,9 +329,13 @@ class AppInfo : ScopedFragment() {
                             })
                         }
                         R.string.open_in_settings -> {
-                            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                data = Uri.fromParts("package", packageInfo.packageName, null)
-                            })
+                            try {
+                                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                    data = Uri.fromParts("package", packageInfo.packageName, null)
+                                })
+                            } catch (e: SecurityException) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            }
                         }
                         R.string.change_logs -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "change_logs")

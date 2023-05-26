@@ -18,34 +18,31 @@ import java.io.InputStream
 
 object MetadataHelper {
 
+    @Throws(IOException::class)
     fun getAudioMetadata(context: Context, songUri: Uri): AudioMetaData {
-        kotlin.runCatching {
-            val audioMetadata = AudioMetaData()
-            val mediaMetadataRetriever = MediaMetadataRetriever()
+        val audioMetadata = AudioMetaData()
+        val mediaMetadataRetriever = MediaMetadataRetriever()
 
-            if (URLUtil.isValidUrl(songUri.toString()) &&
-                (songUri.toString().startsWith("http")
-                        || songUri.toString().startsWith("https")
-                        || songUri.toString().startsWith("ftp"))) {
-                mediaMetadataRetriever.setDataSource(songUri.toString(), hashMapOf())
-            } else {
-                mediaMetadataRetriever.setDataSource(context, songUri)
-            }
-
-            audioMetadata.title = getSongTitleMeta(context, songUri, mediaMetadataRetriever)
-            audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
-            audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)
-            audioMetadata.format = getFileExtension(context, songUri)
-            audioMetadata.bitrate = getBitrate(mediaMetadataRetriever)
-            audioMetadata.sampling = AudioUtils.getSampling(context, songUri)
-            audioMetadata.art = getOriginalAlbumArt(mediaMetadataRetriever)
-
-            mediaMetadataRetriever.close()
-
-            return audioMetadata
-        }.getOrElse {
-            throw IOException("Failed to get audio metadata")
+        if (URLUtil.isValidUrl(songUri.toString()) &&
+            (songUri.toString().startsWith("http")
+                    || songUri.toString().startsWith("https")
+                    || songUri.toString().startsWith("ftp"))) {
+            mediaMetadataRetriever.setDataSource(songUri.toString(), hashMapOf())
+        } else {
+            mediaMetadataRetriever.setDataSource(context, songUri)
         }
+
+        audioMetadata.title = getSongTitleMeta(context, songUri, mediaMetadataRetriever)
+        audioMetadata.artists = getSongArtistMeta(context, mediaMetadataRetriever)
+        audioMetadata.album = getSongAlbumMeta(context, mediaMetadataRetriever)
+        audioMetadata.format = getFileExtension(context, songUri)
+        audioMetadata.bitrate = getBitrate(mediaMetadataRetriever)
+        audioMetadata.sampling = AudioUtils.getSampling(context, songUri)
+        audioMetadata.art = getOriginalAlbumArt(mediaMetadataRetriever)
+
+        mediaMetadataRetriever.close()
+
+        return audioMetadata
     }
 
     /**

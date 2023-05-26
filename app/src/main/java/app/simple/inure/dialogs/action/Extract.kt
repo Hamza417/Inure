@@ -65,20 +65,6 @@ class Extract : ScopedBottomSheetFragment() {
 
         extractViewModel.getSuccess().observe(viewLifecycleOwner) {
             if (it) {
-                status.text = getString(R.string.saved_to, extractViewModel.getFile().value?.absolutePath)
-                status.makeLinks(Pair(extractViewModel.getFile().value?.absolutePath!!, View.OnClickListener {
-                    val selectedUri: Uri = Uri.parse(extractViewModel.getFile().value?.absolutePath)
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(selectedUri, "resource/folder")
-
-                    if (intent.resolveActivityInfo(requireContext().packageManager, 0) != null) {
-                        startActivity(intent)
-                    } else {
-                        showWarning(Warnings.getNoFileExplorerWarning())
-                        Log.d("Extract", "No file explorer app installed on your device")
-                    }
-                }))
-
                 progress.text = getString(R.string.done)
                 loader.loaded()
                 share.visible(true)
@@ -86,11 +72,25 @@ class Extract : ScopedBottomSheetFragment() {
         }
 
         extractViewModel.getFile().observe(viewLifecycleOwner) { file ->
+            status.text = getString(R.string.saved_to, file?.absolutePath)
+            status.makeLinks(Pair(file?.absolutePath!!, View.OnClickListener {
+                val selectedUri: Uri = Uri.parse(extractViewModel.getFile().value?.absolutePath)
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setDataAndType(selectedUri, "resource/folder")
+
+                if (intent.resolveActivityInfo(requireContext().packageManager, 0) != null) {
+                    startActivity(intent)
+                } else {
+                    showWarning(Warnings.getNoFileExplorerWarning(), dismiss = false)
+                    Log.d("Extract", "No file explorer app installed on your device")
+                }
+            }))
+
             share.setOnClickListener {
                 kotlin.runCatching {
                     if (it.isNotNull()) {
                         ShareCompat.IntentBuilder(requireActivity())
-                            .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", file!!))
+                            .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", file))
                             .setType("*/*")
                             .startChooser()
 
