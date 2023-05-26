@@ -7,9 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.database.instances.NotesDatabase
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.NotesModel
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.text.SpannableSerializer
@@ -20,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 
-class NotesViewModel(application: Application) : WrappedViewModel(application) {
+class NotesViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var notesDatabase: NotesDatabase? = null
 
@@ -47,7 +46,7 @@ class NotesViewModel(application: Application) : WrappedViewModel(application) {
 
     private fun loadNotesData() {
         viewModelScope.launch(Dispatchers.Default) {
-            notesData.postValue(getNotesData(packageManager.getInstalledPackages()))
+            notesData.postValue(getNotesData(getInstalledApps()))
         }
     }
 

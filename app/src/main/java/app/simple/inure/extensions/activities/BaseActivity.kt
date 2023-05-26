@@ -403,57 +403,61 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
     private val orientationListener by lazy {
         object : OrientationEventListener(applicationContext, SensorManager.SENSOR_DELAY_NORMAL) {
             override fun onOrientationChanged(orientation: Int) {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled).invert()) {
-                    return
-                }
+                try {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled).invert()) {
+                        return
+                    }
 
-                if (orientation == ORIENTATION_UNKNOWN) {
-                    return
-                }
+                    if (orientation == ORIENTATION_UNKNOWN) {
+                        return
+                    }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    with(findViewById<ViewGroup>(R.id.app_container)) {
-                        when (display?.rotation) {
-                            Surface.ROTATION_0 -> {
-                                // Bottom - reset the padding in portrait
-                                setPadding(0, 0, 0, 0)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        with(findViewById<ViewGroup>(R.id.app_container)) {
+                            when (display?.rotation) {
+                                Surface.ROTATION_0 -> {
+                                    // Bottom - reset the padding in portrait
+                                    setPadding(0, 0, 0, 0)
+                                }
+                                Surface.ROTATION_90 -> {
+                                    // Left
+                                    setPadding(cutoutDepth, 0, 0, 0)
+                                }
+                                Surface.ROTATION_180 -> {
+                                    // Top - reset the padding if upside down
+                                    setPadding(0, 0, 0, 0)
+                                }
+                                Surface.ROTATION_270 -> {
+                                    // Right
+                                    setPadding(0, 0, cutoutDepth, 0)
+                                }
                             }
-                            Surface.ROTATION_90 -> {
-                                // Left
-                                setPadding(cutoutDepth, 0, 0, 0)
-                            }
-                            Surface.ROTATION_180 -> {
-                                // Top - reset the padding if upside down
-                                setPadding(0, 0, 0, 0)
-                            }
-                            Surface.ROTATION_270 -> {
-                                // Right
-                                setPadding(0, 0, cutoutDepth, 0)
+                        }
+                    } else {
+                        with(findViewById<ViewGroup>(R.id.app_container)) {
+                            @Suppress("DEPRECATION")
+                            when ((getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
+                                Surface.ROTATION_0 -> {
+                                    // Bottom - reset the padding in portrait
+                                    setPadding(0, 0, 0, 0)
+                                }
+                                Surface.ROTATION_90 -> {
+                                    // Left
+                                    setPadding(cutoutDepth, 0, 0, 0)
+                                }
+                                Surface.ROTATION_180 -> {
+                                    // Top - reset the padding if upside down
+                                    setPadding(0, 0, 0, 0)
+                                }
+                                Surface.ROTATION_270 -> {
+                                    // Right
+                                    setPadding(0, 0, cutoutDepth, 0)
+                                }
                             }
                         }
                     }
-                } else {
-                    with(findViewById<ViewGroup>(R.id.app_container)) {
-                        @Suppress("DEPRECATION")
-                        when ((getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
-                            Surface.ROTATION_0 -> {
-                                // Bottom - reset the padding in portrait
-                                setPadding(0, 0, 0, 0)
-                            }
-                            Surface.ROTATION_90 -> {
-                                // Left
-                                setPadding(cutoutDepth, 0, 0, 0)
-                            }
-                            Surface.ROTATION_180 -> {
-                                // Top - reset the padding if upside down
-                                setPadding(0, 0, 0, 0)
-                            }
-                            Surface.ROTATION_270 -> {
-                                // Right
-                                setPadding(0, 0, cutoutDepth, 0)
-                            }
-                        }
-                    }
+                } catch (_: NullPointerException) {
+                    /* no-op */
                 }
             }
         }

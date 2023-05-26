@@ -115,6 +115,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             true
         } catch (e: PackageManager.NameNotFoundException) {
             false
+        } catch (e: DeadObjectException) {
+            Log.e("PackageUtilsViewModel", "isPackageInstalled: DeadObjectException")
+            isPackageInstalled(packageName)
         }
     }
 
