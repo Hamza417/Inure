@@ -3,21 +3,36 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.DeadObjectException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
+import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.ArrayUtils.clone
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
+class SearchViewModel(application: Application) : WrappedViewModel(application) {
+
+    private var apps: ArrayList<PackageInfo> = arrayListOf()
+
+    private var flags = PackageManager.GET_META_DATA or
+            PackageManager.GET_PERMISSIONS or
+            PackageManager.GET_ACTIVITIES or
+            PackageManager.GET_SERVICES or
+            PackageManager.GET_RECEIVERS or
+            PackageManager.GET_PROVIDERS
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -148,7 +163,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         kotlin.runCatching {
             if (app.requestedPermissions != null) {
-                Log.d("Deep Search", "Permissions: ${app.applicationInfo.name} : ${app.requestedPermissions.size}")
                 for (permission in app.requestedPermissions) {
                     if (permission.lowercase().contains(keyword.lowercase())) {
                         // Log.d("Deep Search", "$keyword : $permission")
@@ -168,7 +182,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         kotlin.runCatching {
             if (app.activities != null) {
-                Log.d("Deep Search", "Activities: ${app.applicationInfo.name} : ${app.activities.size}")
                 for (i in app.activities) {
                     if (i.name.lowercase().contains(keywords.lowercase())) {
                         count = count.inc()
@@ -185,7 +198,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         kotlin.runCatching {
             if (app.services != null) {
-                Log.d("Deep Search", "Services: ${app.applicationInfo.name} : ${app.services.size}")
                 for (i in app.services) {
                     if (i.name.lowercase().contains(keywords.lowercase())) {
                         count = count.inc()
@@ -202,7 +214,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         kotlin.runCatching {
             if (app.receivers != null) {
-                Log.d("Deep Search", "Receivers: ${app.applicationInfo.name} : ${app.receivers.size}")
                 for (i in app.receivers) {
                     if (i.name.lowercase().contains(keywords.lowercase())) {
                         count = count.inc()
@@ -219,7 +230,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         kotlin.runCatching {
             if (app.providers != null) {
-                Log.d("Deep Search", "Providers: ${app.applicationInfo.name} : ${app.providers.size}")
                 for (i in app.providers) {
                     if (i.name.lowercase().contains(keywords.lowercase())) {
                         count = count.inc()
@@ -243,8 +253,57 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         return count
     }
 
-    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
-        initiateSearch(SearchPreferences.getLastSearchKeyword())
+    fun getInstalledApps(): ArrayList<PackageInfo> {
+        if (apps.isNotNull() && apps.isNotEmpty()) {
+            @Suppress("UNCHECKED_CAST")
+            return apps.clone() as ArrayList<PackageInfo>
+        } else {
+            Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
+            apps = loadInstalledApps() as ArrayList<PackageInfo>
+            return getInstalledApps()
+        }
+    }
+
+    private fun loadInstalledApps(): MutableList<PackageInfo> {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                try {
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong())).loadPackageNames()
+                } catch (e: DeadObjectException) {
+                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+                    loadInstalledApps()
+                }
+            } else {
+                try {
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(flags).loadPackageNames()
+                } catch (e: DeadObjectException) {
+                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+                    loadInstalledApps()
+                }
+            }
+        } catch (e: DeadObjectException) {
+            Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+            loadInstalledApps()
+        }
+    }
+
+    private fun loadPackageData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (apps.isEmpty()) {
+                apps = loadInstalledApps().clone()
+            }
+
+            initiateSearch(SearchPreferences.getLastSearchKeyword())
+        }
+    }
+
+    private fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
+        forEach {
+            it.applicationInfo.name = PackageUtils.getApplicationName(application.applicationContext, it.applicationInfo)
+        }
+
+        return this
     }
 
     override fun onAppUninstalled(packageName: String?) {

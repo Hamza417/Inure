@@ -11,7 +11,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.models.VisibilityCustomizationModel
@@ -125,11 +124,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 .filter { it.firstInstallTime > System.currentTimeMillis() - oneMonth }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(
-                        application.applicationContext, apps[i].applicationInfo)
-            }
-
             apps.sortByDescending {
                 it.firstInstallTime
             }
@@ -143,11 +137,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             val apps = getInstalledApps().stream()
                 .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth && it.firstInstallTime < it.lastUpdateTime }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
-            }
 
             apps.sortByDescending {
                 it.lastUpdateTime
@@ -176,10 +165,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
                     packageStats.packageInfo = app
 
-                    packageStats.packageInfo!!.applicationInfo.apply {
-                        name = application.packageManager.getApplicationLabel(this).toString()
-                    }
-
                     packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
 
                     list.add(packageStats)
@@ -204,11 +189,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
-            }
-
             apps.sortBy {
                 it.applicationInfo.name
             }
@@ -223,11 +203,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 .filter { it.applicationInfo.enabled.invert() }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
-            }
-
             apps.sortBy {
                 it.applicationInfo.name
             }
@@ -241,11 +216,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             val apps = getInstalledApps().stream()
                 .filter { it.applicationInfo.flags and PRIVATE_FLAG_HIDDEN == 0 }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name =
-                    PackageUtils.getApplicationName(application.applicationContext, apps[i].applicationInfo)
-            }
 
             apps.sortBy {
                 it.applicationInfo.name

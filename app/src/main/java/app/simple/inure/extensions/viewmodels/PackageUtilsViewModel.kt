@@ -74,7 +74,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageUtils.flags)).loadPackageNames()
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                     loadInstalledApps()
@@ -82,7 +82,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             } else {
                 try {
                     @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageUtils.flags.toInt()).loadPackageNames()
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                     loadInstalledApps()

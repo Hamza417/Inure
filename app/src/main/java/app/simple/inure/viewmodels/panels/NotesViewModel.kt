@@ -6,7 +6,6 @@ import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.NotesModel
@@ -68,11 +67,6 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
                     break
                 }
             }
-        }
-
-        for (app in list) {
-            app.packageInfo.applicationInfo.name =
-                PackageUtils.getApplicationName(application.applicationContext, app.packageInfo.applicationInfo)
         }
 
         return list

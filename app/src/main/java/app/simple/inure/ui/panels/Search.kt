@@ -118,10 +118,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                 if (keywords.isNotEmpty()) {
                     postDelayed(1000) {
-                        searchViewModel.initiateSearch(keywords)
+                        searchViewModel.setSearchKeywords(keywords)
                     }
                 } else {
-                    searchViewModel.initiateSearch(keywords)
+                    searchViewModel.setSearchKeywords(keywords)
                 }
             }
         })

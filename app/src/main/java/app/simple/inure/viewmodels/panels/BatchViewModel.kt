@@ -64,11 +64,6 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
             }
 
-            for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils.getApplicationName(
-                        application.applicationContext, apps[i].applicationInfo)
-            }
-
             apps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
 
             batchData.postValue(getBatchStateData(apps))
