@@ -114,7 +114,15 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
-                searchViewModel.setSearchKeywords(keywords)
+                removeCallbacks()
+
+                if (keywords.isNotEmpty()) {
+                    postDelayed(1000) {
+                        searchViewModel.initiateSearch(keywords)
+                    }
+                } else {
+                    searchViewModel.initiateSearch(keywords)
+                }
             }
         })
     }

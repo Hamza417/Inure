@@ -629,4 +629,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected fun popBackStack() {
         requireActivity().supportFragmentManager.popBackStack()
     }
+
+    protected fun postDelayed(delay: Long, action: () -> Unit) {
+        handler.postDelayed({ action() }, delay)
+    }
+
+    protected fun removeCallbacks() {
+        handler.removeCallbacksAndMessages(null)
+    }
 }
