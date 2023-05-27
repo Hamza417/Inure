@@ -27,10 +27,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import app.simple.inure.BuildConfig;
+import app.simple.inure.preferences.ConfigurationPreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.shizuku.ShizukuUtils;
 import app.simple.inure.terminal.compat.FileCompat;
 import app.simple.inure.terminal.util.TermSettings;
+import rikka.shizuku.Shizuku;
 
 /**
  * A terminal session, controlling the process attached to the session (usually
@@ -141,7 +145,19 @@ public class ShellTermSession extends GenericTermSession {
          * for now it works.
          */
         if (ShellPreferences.INSTANCE.isUsingRISH()) {
-            write(ShizukuUtils.getRishCommand() + '\r');
+            if (ConfigurationPreferences.INSTANCE.isUsingShizuku()) {
+                if (Shizuku.pingBinder()) {
+                    write(ShizukuUtils.getRishCommand() + '\r');
+                } else {
+                    write("clear && echo Cannot start RISH, Shizuku is not running!" + '\r');
+                }
+            } else {
+                write("clear && echo Shizuku is not enabled!" + '\r');
+            }
+        }
+    
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.showGreetingInTerminal)) {
+            write("clear && echo \"Welcome to Inure Terminal v_" + BuildConfig.VERSION_NAME + " !\"" + '\r');
         }
     
         if (initialCommand.length() > 0) {

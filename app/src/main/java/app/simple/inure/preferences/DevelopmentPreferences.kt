@@ -23,6 +23,7 @@ object DevelopmentPreferences {
     const val isNotchAreaEnabled = "is_notch_area_enabled"
     const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
     const val isTextSelectable = "is_text_selectable"
+    const val showGreetingInTerminal = "is_greeting_shown_in_terminal"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -124,6 +125,11 @@ object DevelopmentPreferences {
                                             "Enable selection on texts in Details panels\n\nCaution: causes various issues with the app.",
                                             isTextSelectable,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Show Greeting In Terminal",
+                                            "Show greeting in terminal STDOUT when terminal is opened.",
+                                            showGreetingInTerminal,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
         }
