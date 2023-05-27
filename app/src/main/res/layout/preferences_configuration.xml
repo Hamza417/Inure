@@ -438,11 +438,12 @@
                     android:clipToPadding="false"
                     android:padding="15dp">
 
-                    <ImageView
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/shizuku_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_centerVertical="true"
+                        android:src="@drawable/ic_shizuku"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

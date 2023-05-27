@@ -123,21 +123,22 @@ public class TermSession {
     
         receiverBuffer = new byte[4 * 1024];
         byteQueue = new ByteQueue(4 * 1024);
+    
         readerThread = new Thread() {
-            private final byte[] mBuffer = new byte[4096];
+            private final byte[] buffer = new byte[4096];
         
             @Override
             public void run() {
                 try {
                     while (true) {
-                        int read = termIn.read(mBuffer);
+                        int read = termIn.read(buffer);
                         if (read == -1) {
                             // EOF -- process exited
                             break;
                         }
                         int offset = 0;
                         while (read > 0) {
-                            int written = byteQueue.write(mBuffer,
+                            int written = byteQueue.write(buffer,
                                     offset, read);
                             offset += written;
                             read -= written;

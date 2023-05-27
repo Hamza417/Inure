@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
@@ -21,7 +19,6 @@ import app.simple.inure.dialogs.configuration.AppPath.Companion.showAppPathDialo
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
@@ -43,7 +40,6 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var path: DynamicRippleConstraintLayout
     private lateinit var rootSwitchView: SwitchView
     private lateinit var shizukuSwitchView: SwitchView
-    private lateinit var shizukuIcon: ImageView
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -56,7 +52,6 @@ class ConfigurationScreen : ScopedFragment() {
         language = view.findViewById(R.id.configuration_language)
         path = view.findViewById(R.id.configuration_path)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
-        shizukuIcon = view.findViewById(R.id.shizuku_icon)
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
 
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -85,8 +80,6 @@ class ConfigurationScreen : ScopedFragment() {
         keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
         shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
-
-        shizukuIcon.loadAppIcon(ShizukuProvider.MANAGER_APPLICATION_ID, requirePackageManager().isPackageInstalledAndEnabled(ShizukuProvider.MANAGER_APPLICATION_ID))
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
