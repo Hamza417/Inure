@@ -88,6 +88,8 @@
     <string name="alt_sends_esc">Alt 按鍵傳送 ESC</string>
     <string name="title_mouse_tracking_preference">傳送滑鼠活動</string>
     <string name="summary_mouse_tracking_preference">輕觸和捲動活動是否應該被作為逸出序列傳送至終端機</string>
+    <string name="title_use_rish">使用 RISH</string>
+    <string name="summary_use_rish">是否使用 Shizuku RISH (遠端互動式殼層主機)，\n\n需要 Shizuku 存取。</string>
     <string name="title_use_keyboard_shortcuts">使用鍵盤快速鍵</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab：循環顯示視窗\nCtrl-Shift-N：新視窗\nCtrl-Shift-V：貼上</string>
     <string name="help">說明</string>
