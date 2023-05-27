@@ -68,15 +68,15 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
         val stringBuilder = StringBuilder()
 
         stringBuilder.append("${searchModel.permissions} ${context.getString(R.string.permissions)}")
-        stringBuilder.append(" • ")
+        stringBuilder.append(" | ")
         stringBuilder.append("${searchModel.activities} ${context.getString(R.string.activities)}")
-        stringBuilder.append(" • ")
+        stringBuilder.append(" | ")
         stringBuilder.append("${searchModel.services} ${context.getString(R.string.services)}")
-        stringBuilder.append(" • ")
+        stringBuilder.append(" | ")
         stringBuilder.append("${searchModel.receivers} ${context.getString(R.string.receivers)}")
-        stringBuilder.append(" • ")
+        stringBuilder.append(" | ")
         stringBuilder.append("${searchModel.providers} ${context.getString(R.string.providers)}")
-        stringBuilder.append(" • ")
+        stringBuilder.append(" | ")
         stringBuilder.append("${searchModel.resources} ${context.getString(R.string.resources)}")
 
         text = stringBuilder

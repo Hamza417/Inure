@@ -62,11 +62,19 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         }
     }
 
+    fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
+        forEach {
+            it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
+        }
+
+        return this
+    }
+
     private fun loadInstalledApps(): MutableList<PackageInfo> {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageUtils.flags)).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                     loadInstalledApps()
@@ -74,7 +82,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             } else {
                 try {
                     @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                    packageManager.getInstalledPackages(PackageUtils.flags.toInt()).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                     loadInstalledApps()
@@ -204,6 +212,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             context.packageManager.getApplicationLabel(applicationInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
+        } catch (e: DeadObjectException) {
+            Log.e("PackageUtilsViewModel", "getApplicationName: DeadObjectException")
+            getApplicationName(context, applicationInfo)
         }
     }
 

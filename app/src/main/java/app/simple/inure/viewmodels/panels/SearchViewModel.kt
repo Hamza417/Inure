@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,9 +14,7 @@ import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
 import java.util.stream.Collectors
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
@@ -58,61 +57,72 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     fun initiateSearch(keywords: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            loadSearchData(keywords)
-            this.coroutineContext.job.join()
+            if (SearchPreferences.isDeepSearchEnabled()) {
+                loadDeepSearchData(keywords)
+            } else {
+                loadSearchData(keywords)
+            }
         }
     }
 
-    private suspend fun loadSearchData(keywords: String) {
-        val apps = getInstalledApps()
+    private fun loadSearchData(keywords: String) {
+        var apps = getInstalledApps()
 
         if (keywords.isEmpty()) {
-            if (SearchPreferences.isDeepSearchEnabled()) {
-                deepSearchData.postValue(arrayListOf())
-                return
-            } else {
-                searchData.postValue(arrayListOf())
-                return
-            }
+            searchData.postValue(arrayListOf())
+            return
         }
 
-        for (i in apps.indices) {
-            apps[i].applicationInfo.name = getApplicationName(application.applicationContext, apps[i].applicationInfo)
-        }
-
-        var filtered: ArrayList<PackageInfo> =
-            apps.stream().filter { p ->
-                p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
-                        || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
-            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+        apps = apps.stream().filter { p ->
+            p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
+                    || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
+        }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
         when (SearchPreferences.getAppsCategory()) {
             PopupAppsCategory.SYSTEM -> {
-                filtered = filtered.stream().filter { p ->
+                apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
             PopupAppsCategory.USER -> {
-                filtered = filtered.stream().filter { p ->
+                apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
         }
 
-        filtered.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+        apps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        if (SearchPreferences.isDeepSearchEnabled()) {
-            loadDeepSearchData(keywords, filtered)
-        } else {
-            searchData.postValue(filtered)
-        }
+        searchData.postValue(apps)
     }
 
-    private suspend fun loadDeepSearchData(keywords: String, apps: ArrayList<PackageInfo>) {
-        val list = arrayListOf<SearchModel>()
+    private fun loadDeepSearchData(keywords: String) {
+        var list = arrayListOf<SearchModel>()
+        var apps = getInstalledApps()
+
+        if (keywords.isEmpty()) {
+            deepSearchData.postValue(arrayListOf())
+            return
+        }
+
+        when (SearchPreferences.getAppsCategory()) {
+            PopupAppsCategory.SYSTEM -> {
+                apps = apps.stream().filter { p ->
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            PopupAppsCategory.USER -> {
+                apps = apps.stream().filter { p ->
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+        }
+
+        apps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
         for (app in apps) {
             val searchModel = SearchModel()
+
             searchModel.packageInfo = app
             searchModel.permissions = getPermissionCount(keywords, app)
             searchModel.activities = getActivitiesCount(keywords, app)
@@ -124,7 +134,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             list.add(searchModel)
         }
 
-        yield()
+        list = list.filter {
+            it.permissions > 0 || it.activities > 0 || it.services > 0 || it.receivers > 0 || it.providers > 0 || it.resources > 0 ||
+                    it.packageInfo.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
+                    it.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
+        } as ArrayList<SearchModel>
+
         deepSearchData.postValue(list)
     }
 
@@ -132,10 +147,16 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var count = 0
 
         kotlin.runCatching {
-            for (index in app.requestedPermissions.indices) {
-                if (app.requestedPermissions[index].lowercase().contains(keyword.lowercase())) {
-                    count += 1
+            if (app.requestedPermissions != null) {
+                Log.d("Deep Search", "Permissions: ${app.applicationInfo.name} : ${app.requestedPermissions.size}")
+                for (permission in app.requestedPermissions) {
+                    if (permission.lowercase().contains(keyword.lowercase())) {
+                        // Log.d("Deep Search", "$keyword : $permission")
+                        count = count.inc()
+                    }
                 }
+            } else {
+                Log.d("Deep Search", "Permissions: ${app.applicationInfo.name} : 0")
             }
         }
 
@@ -146,9 +167,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var count = 0
 
         kotlin.runCatching {
-            for (i in app.activities) {
-                if (i.name.lowercase().contains(keywords.lowercase())) {
-                    count += 1
+            if (app.activities != null) {
+                Log.d("Deep Search", "Activities: ${app.applicationInfo.name} : ${app.activities.size}")
+                for (i in app.activities) {
+                    if (i.name.lowercase().contains(keywords.lowercase())) {
+                        count = count.inc()
+                    }
                 }
             }
         }
@@ -160,9 +184,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var count = 0
 
         kotlin.runCatching {
-            for (i in app.services) {
-                if (i.name.lowercase().contains(keywords.lowercase())) {
-                    count += 1
+            if (app.services != null) {
+                Log.d("Deep Search", "Services: ${app.applicationInfo.name} : ${app.services.size}")
+                for (i in app.services) {
+                    if (i.name.lowercase().contains(keywords.lowercase())) {
+                        count = count.inc()
+                    }
                 }
             }
         }
@@ -174,9 +201,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var count = 0
 
         kotlin.runCatching {
-            for (i in app.receivers) {
-                if (i.name.lowercase().contains(keywords.lowercase())) {
-                    count += 1
+            if (app.receivers != null) {
+                Log.d("Deep Search", "Receivers: ${app.applicationInfo.name} : ${app.receivers.size}")
+                for (i in app.receivers) {
+                    if (i.name.lowercase().contains(keywords.lowercase())) {
+                        count = count.inc()
+                    }
                 }
             }
         }
@@ -188,9 +218,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var count = 0
 
         kotlin.runCatching {
-            for (i in app.providers) {
-                if (i.name.lowercase().contains(keywords.lowercase())) {
-                    count += 1
+            if (app.providers != null) {
+                Log.d("Deep Search", "Providers: ${app.applicationInfo.name} : ${app.providers.size}")
+                for (i in app.providers) {
+                    if (i.name.lowercase().contains(keywords.lowercase())) {
+                        count = count.inc()
+                    }
                 }
             }
         }
