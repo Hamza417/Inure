@@ -10,6 +10,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,11 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
 
     private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            getReceiversData("")
+            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+                getReceiversData(SearchPreferences.getLastSearchKeyword())
+            } else {
+                getReceiversData("")
+            }
         }
     }
 

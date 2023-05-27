@@ -10,6 +10,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ProviderInfoModel
+import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,11 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
 
     private val providers: MutableLiveData<MutableList<ProviderInfoModel>> by lazy {
         MutableLiveData<MutableList<ProviderInfoModel>>().also {
-            getProvidersData("")
+            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+                getProvidersData(SearchPreferences.getLastSearchKeyword())
+            } else {
+                getProvidersData("")
+            }
         }
     }
 

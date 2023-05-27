@@ -106,9 +106,10 @@ class Permissions : SearchBarScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): Permissions {
+        fun newInstance(packageInfo: PackageInfo, keywords: String? = null): Permissions {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.keywords, keywords)
             val fragment = Permissions()
             fragment.arguments = args
             return fragment

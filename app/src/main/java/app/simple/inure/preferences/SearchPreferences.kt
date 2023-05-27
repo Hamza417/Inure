@@ -1,10 +1,8 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.NonNull
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
-import org.jetbrains.annotations.NotNull
 
 object SearchPreferences {
 
@@ -14,6 +12,7 @@ object SearchPreferences {
     const val listAppsCategory = "search_list_apps_category"
     const val ignoreCasing = "search_ignore_case"
     const val deepSearch = "deep_search"
+    const val deepSearchKeywordMode = "deep_search_keyword_mode"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -27,7 +26,7 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortStyle(@NonNull style: String) {
+    fun setSortStyle(style: String) {
         getSharedPreferences().edit().putString(sortStyle, style).apply()
     }
 
@@ -37,7 +36,7 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(@NotNull value: Boolean) {
+    fun setReverseSorting(value: Boolean) {
         getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
     }
 
@@ -47,7 +46,7 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsCategory(@NonNull category: String) {
+    fun setAppsCategory(category: String) {
         getSharedPreferences().edit().putString(listAppsCategory, category).apply()
     }
 
@@ -57,7 +56,7 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setIgnoreCasing(@NotNull value: Boolean) {
+    fun setIgnoreCasing(value: Boolean) {
         getSharedPreferences().edit().putBoolean(ignoreCasing, value).apply()
     }
 
@@ -67,11 +66,21 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setDeepSearch(@NotNull value: Boolean) {
+    fun setDeepSearch(value: Boolean) {
         getSharedPreferences().edit().putBoolean(deepSearch, value).apply()
     }
 
     fun isDeepSearchEnabled(): Boolean {
         return getSharedPreferences().getBoolean(deepSearch, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setDeepSearchKeywordMode(value: Boolean) {
+        getSharedPreferences().edit().putBoolean(deepSearchKeywordMode, value).apply()
+    }
+
+    fun isDeepSearchKeywordModeEnabled(): Boolean {
+        return getSharedPreferences().getBoolean(deepSearchKeywordMode, false)
     }
 }

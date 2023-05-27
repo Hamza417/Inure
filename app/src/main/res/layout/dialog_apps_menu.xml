@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.corners.DynamicCornerCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:maxHeight="@dimen/dialog_height">
@@ -199,6 +200,40 @@
                     app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/resources"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/menu_text_button_padding"
+                    android:text="@string/resources"
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/menu_text_button_padding"
+                    android:text=" "
+                    android:textSize="@dimen/popup_text_size"
+                    app:appFontStyle="bold"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 

@@ -11,6 +11,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +22,11 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
 
     private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
         MutableLiveData<MutableList<PermissionInfo>>().also {
-            loadPermissionData("")
+            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+                loadPermissionData(SearchPreferences.getLastSearchKeyword())
+            } else {
+                loadPermissionData("")
+            }
         }
     }
 

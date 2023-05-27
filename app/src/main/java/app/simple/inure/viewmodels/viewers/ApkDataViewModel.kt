@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,7 +23,11 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private val resources: MutableLiveData<MutableList<String>> by lazy {
         MutableLiveData<MutableList<String>>().also {
-            getResourceData("")
+            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+                getResourceData(SearchPreferences.getLastSearchKeyword())
+            } else {
+                getResourceData("")
+            }
         }
     }
 

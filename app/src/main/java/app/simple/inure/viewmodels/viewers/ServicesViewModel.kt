@@ -11,6 +11,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ServiceInfoModel
+import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,11 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
 
     private val services: MutableLiveData<MutableList<ServiceInfoModel>> by lazy {
         MutableLiveData<MutableList<ServiceInfoModel>>().also {
-            getServicesData("")
+            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+                getServicesData(SearchPreferences.getLastSearchKeyword())
+            } else {
+                getServicesData("")
+            }
         }
     }
 

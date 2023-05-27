@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val keywords: String = "keywords"
     const val selectedTrackers = "selected_trackers"
     const val entry = "entry"
     const val maxProgress = "max_progress"

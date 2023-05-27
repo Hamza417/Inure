@@ -24,8 +24,10 @@ import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
@@ -49,6 +51,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var receivers: DynamicRippleTextView
     private lateinit var providers: DynamicRippleTextView
     private lateinit var trackers: DynamicRippleTextView
+    private lateinit var resources: DynamicRippleTextView
     private lateinit var manifest: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
     private lateinit var toQuickApp: DynamicRippleTextView
@@ -75,6 +78,7 @@ class AppsMenu : ScopedDialogFragment() {
         receivers = view.findViewById(R.id.receivers)
         providers = view.findViewById(R.id.providers)
         trackers = view.findViewById(R.id.trackers)
+        resources = view.findViewById(R.id.resources)
         manifest = view.findViewById(R.id.manifest)
         notes = view.findViewById(R.id.notes)
         toQuickApp = view.findViewById(R.id.to_quick_app)
@@ -109,6 +113,7 @@ class AppsMenu : ScopedDialogFragment() {
             window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
         }
 
+        SearchPreferences.setDeepSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
         name.text = packageInfo.applicationInfo.name
@@ -145,27 +150,31 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         permissions.setOnClickListener {
-            openFragmentSlide(Permissions.newInstance(packageInfo), "permissions")
+            openFragmentSlide(Permissions.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "permissions")
         }
 
         activities.setOnClickListener {
-            openFragmentSlide(Activities.newInstance(packageInfo), "activities")
+            openFragmentSlide(Activities.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "activities")
         }
 
         services.setOnClickListener {
-            openFragmentSlide(Services.newInstance(packageInfo), "services")
+            openFragmentSlide(Services.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "services")
         }
 
         receivers.setOnClickListener {
-            openFragmentSlide(Receivers.newInstance(packageInfo), "receivers")
+            openFragmentSlide(Receivers.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "receivers")
         }
 
         providers.setOnClickListener {
-            openFragmentSlide(Providers.newInstance(packageInfo), "providers")
+            openFragmentSlide(Providers.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "providers")
         }
 
         trackers.setOnClickListener {
             openFragmentSlide(Trackers.newInstance(packageInfo), "trackers")
+        }
+
+        resources.setOnClickListener {
+            openFragmentSlide(Resources.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "resources")
         }
 
         manifest.setOnClickListener {
@@ -214,10 +223,16 @@ class AppsMenu : ScopedDialogFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        SearchPreferences.setDeepSearchKeywordMode(false)
+    }
+
     companion object {
-        fun newInstance(packageInfo: PackageInfo): AppsMenu {
+        fun newInstance(packageInfo: PackageInfo, keywords: String? = null): AppsMenu {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.keywords, keywords)
             val fragment = AppsMenu()
             fragment.arguments = args
             return fragment
