@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import app.simple.inure.preferences.ShellPreferences;
+import app.simple.inure.shizuku.ShizukuUtils;
 import app.simple.inure.terminal.compat.FileCompat;
 import app.simple.inure.terminal.util.TermSettings;
 
@@ -37,13 +38,9 @@ import app.simple.inure.terminal.util.TermSettings;
  * upon stopping.
  */
 public class ShellTermSession extends GenericTermSession {
-    private int mProcId;
-    private final Thread mWatcherThread;
-    
-    private final String mInitialCommand;
-    
-    private static final int PROCESS_EXITED = 1;
-    private final Handler mMsgHandler = new Handler(Looper.getMainLooper()) {
+    private final Thread watcherThread;
+    private final String initialCommand;
+    private final Handler msgHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             if (!isRunning()) {
@@ -55,33 +52,38 @@ public class ShellTermSession extends GenericTermSession {
         }
     };
     
+    private static final int PROCESS_EXITED = 1;
+    private int processId;
+    
     public ShellTermSession(TermSettings settings, String initialCommand) throws IOException {
         super(ParcelFileDescriptor.open(new File("/dev/ptmx"), ParcelFileDescriptor.MODE_READ_WRITE),
                 settings, false);
-    
+        
         initializeSession();
-    
+        
         setTermOut(new ParcelFileDescriptor.AutoCloseOutputStream(termParcelFileDescriptor));
         setTermIn(new ParcelFileDescriptor.AutoCloseInputStream(termParcelFileDescriptor));
-    
-        mInitialCommand = initialCommand;
-    
-        mWatcherThread = new Thread() {
+        
+        this.initialCommand = initialCommand;
+        
+        watcherThread = new Thread() {
             @Override
             public void run() {
-                Log.i(TermDebug.LOG_TAG, "waiting for: " + mProcId);
-                int result = TermExec.waitFor(mProcId);
+                Log.i(TermDebug.LOG_TAG, "waiting for: " + processId);
+                int result = TermExec.waitFor(processId);
                 Log.i(TermDebug.LOG_TAG, "Subprocess exited: " + result);
-                mMsgHandler.sendMessage(mMsgHandler.obtainMessage(PROCESS_EXITED, result));
+                msgHandler.sendMessage(msgHandler.obtainMessage(PROCESS_EXITED, result));
             }
         };
-        mWatcherThread.setName("Process watcher");
+        
+        watcherThread.setName("Process watcher");
     }
     
     private void initializeSession() throws IOException {
         TermSettings settings = termSettings;
         
         String path = System.getenv("PATH");
+    
         if (ShellPreferences.INSTANCE.getAllowPathExtensionsState()) {
             String appendPath = settings.getAppendPath();
             if (appendPath != null && appendPath.length() > 0) {
@@ -95,15 +97,17 @@ public class ShellTermSession extends GenericTermSession {
                 }
             }
         }
+    
         if (ShellPreferences.INSTANCE.getVerifyPathEntriesState()) {
             path = checkPath(path);
         }
+    
         String[] env = new String[3];
         env[0] = "TERM=" + ShellPreferences.INSTANCE.getTerminalType();
         env[1] = "PATH=" + path;
         env[2] = "HOME=" + ShellPreferences.INSTANCE.getHomePath();
     
-        mProcId = createSubprocess(ShellPreferences.INSTANCE.getCommandLine(), env);
+        processId = createSubprocess(ShellPreferences.INSTANCE.getCommandLine(), env);
     }
     
     private String checkPath(String path) {
@@ -122,12 +126,24 @@ public class ShellTermSession extends GenericTermSession {
     @Override
     public void initializeEmulator(int columns, int rows) {
         super.initializeEmulator(columns, rows);
-        
-        mWatcherThread.start();
-        sendInitialCommand(mInitialCommand);
+        watcherThread.start();
+        sendInitialCommand(initialCommand);
     }
     
     private void sendInitialCommand(String initialCommand) {
+        /*
+         * If the user has enabled RISH, we will send the command to start RISH
+         * before sending the initial command. This is because RISH will start
+         * a new shell, and we want to make sure that the initial command is sent
+         * to the new shell.
+         *
+         * This maybe the best solution or I may be missing something obvious but
+         * for now it works.
+         */
+        if (ShellPreferences.INSTANCE.isUsingRISH()) {
+            write(ShizukuUtils.getRishCommand() + '\r');
+        }
+    
         if (initialCommand.length() > 0) {
             write(initialCommand + '\r');
         }
@@ -158,6 +174,31 @@ public class ShellTermSession extends GenericTermSession {
         return TermExec.createSubprocess(termParcelFileDescriptor, arg0, args, env);
     }
     
+    private int createShizukuRishSubprocess(String shell, String[] env) throws IOException {
+        ArrayList <String> argList = parse(shell);
+        String arg0;
+        String[] args;
+        
+        try {
+            arg0 = argList.get(0);
+            File file = new File(arg0);
+            if (!file.exists()) {
+                Log.e(TermDebug.LOG_TAG, "Shell " + arg0 + " not found!");
+                throw new FileNotFoundException(arg0);
+            } else if (!FileCompat.canExecute(file)) {
+                Log.e(TermDebug.LOG_TAG, "Shell " + arg0 + " not executable!");
+                throw new FileNotFoundException(arg0);
+            }
+            args = argList.toArray(new String[1]);
+        } catch (Exception e) {
+            argList = parse(termSettings.getFailsafeShell());
+            arg0 = argList.get(0);
+            args = argList.toArray(new String[1]);
+        }
+        
+        return TermExec.createSubprocess(termParcelFileDescriptor, arg0, args, env);
+    }
+    
     private ArrayList <String> parse(String cmd) {
         final int PLAIN = 0;
         final int WHITESPACE = 1;
@@ -166,7 +207,7 @@ public class ShellTermSession extends GenericTermSession {
         ArrayList <String> result = new ArrayList <>();
         int cmdLen = cmd.length();
         StringBuilder builder = new StringBuilder();
-    
+        
         for (int i = 0; i < cmdLen; i++) {
             char c = cmd.charAt(i);
             if (state == PLAIN) {
@@ -202,11 +243,11 @@ public class ShellTermSession extends GenericTermSession {
                 }
             }
         }
-    
+        
         if (builder.length() > 0) {
             result.add(builder.toString());
         }
-    
+        
         return result;
     }
     
@@ -226,6 +267,6 @@ public class ShellTermSession extends GenericTermSession {
      * from the terminal (for example, by the "nohup" utility).
      */
     void hangupProcessGroup() {
-        TermExec.sendSignal(-mProcId, 1);
+        TermExec.sendSignal(-processId, 1);
     }
 }

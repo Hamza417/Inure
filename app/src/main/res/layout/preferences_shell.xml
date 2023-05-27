@@ -218,6 +218,77 @@
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/rish_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_shizuku"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/rish_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="@string/title_use_rish"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/rish_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/rish_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/rish_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/rish_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/summary_use_rish"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/rish_switch"
+                        app:layout_constraintStart_toEndOf="@+id/rish_icon"
+                        app:layout_constraintTop_toBottomOf="@id/rish_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/rish_switch"
+                        android:layout_width="@dimen/switch_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginEnd="10dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
                         android:id="@+id/mouse_event_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"

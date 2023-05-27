@@ -127,5 +127,4 @@ object TerminalPreferences {
     fun setTermux(value: Boolean): Boolean {
         return getSharedPreferences().edit().putBoolean(useTermux, value).commit()
     }
-
 }

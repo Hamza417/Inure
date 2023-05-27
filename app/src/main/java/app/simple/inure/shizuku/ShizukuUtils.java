@@ -2,13 +2,18 @@ package app.simple.inure.shizuku;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.pm.IPackageDataObserver;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.system.Os;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +22,7 @@ import java.util.Set;
 
 import androidx.annotation.Nullable;
 import app.simple.inure.BuildConfig;
+import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.util.IOUtils;
 import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuBinderWrapper;
@@ -26,6 +32,7 @@ import rikka.shizuku.SystemServiceHelper;
 public class ShizukuUtils {
     
     private static final String TAG = "ShizukuUtils";
+    private static final String rishPath = "/data/local/tmp/rish";
     
     @SuppressLint ("PrivateApi")
     public static void setAppDisabled(boolean disabled, Set <String> pkgNames)
@@ -180,13 +187,63 @@ public class ShizukuUtils {
             process.waitFor();
             stdOutD.join();
             stdErrD.join();
-            
+    
             return new Shell.Result(command, process.exitValue(), stdOutSb.toString().trim(), stdErrSb.toString().trim());
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
             Log.w(TAG, e);
             return new Shell.Result(command, -1, stdOutSb.toString().trim(), stdErrSb
                     + "\n\n<!>ShizukuShell Java exception: " + Utils.throwableToString(e));
+        }
+    }
+    
+    public static void copyRishFiles(Context context) {
+        AssetManager assetManager = context.getAssets();
+        String[] files = {"rish/rish", "rish/rish_shizuku.dex"};
+        
+        for (String filename : files) {
+            Log.d("Shizuku", "copyRishFiles: " + filename);
+            
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+                
+                File outFile = new File(ShellPreferences.INSTANCE.getHomePath(), filename.substring(filename.lastIndexOf('/') + 1));
+                
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+            } catch (IOException e) {
+                Log.e("Shizuku", "Failed to copy asset file: " + filename, e);
+            } finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        // NOOP
+                    }
+                }
+            }
+        }
+    }
+    
+    public static String getRishCommand() {
+        String echo = "echo Starting rish...";
+        return echo + " && clear && cd $HOME && clear && sh rish && clear";
+    }
+    
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
         }
     }
 }

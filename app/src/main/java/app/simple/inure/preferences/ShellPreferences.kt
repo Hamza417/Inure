@@ -13,6 +13,7 @@ object ShellPreferences {
     private const val allowPathExtensions = "shell_allow_path_extensions"
     private const val allowPathPrepend = "shell_allow_path_prepend"
     private const val homePath = "home_path"
+    private const val useRish = "use_rish"
 
     /* ---------------------------------------------------------------------------------------------- */
 
@@ -107,5 +108,15 @@ object ShellPreferences {
     // The home_path default is set dynamically in TermService.onCreate()
     fun setHomePath(value: String): Boolean {
         return getSharedPreferences().edit().putString(homePath, value).commit()
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
+    fun isUsingRISH(): Boolean {
+        return getSharedPreferences().getBoolean(useRish, false)
+    }
+
+    fun setUseRISH(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(useRish, value).commit()
     }
 }

@@ -19,6 +19,7 @@ class ShellScreen : ScopedFragment() {
     private lateinit var commandLine: DynamicRippleRelativeLayout
     private lateinit var initialCommand: DynamicRippleRelativeLayout
     private lateinit var terminalType: DynamicRippleRelativeLayout
+    private lateinit var useRISH: SwitchView
     private lateinit var sendMouseEvent: SwitchView
     private lateinit var closeWindow: SwitchView
     private lateinit var verifyPathEntries: SwitchView
@@ -32,6 +33,7 @@ class ShellScreen : ScopedFragment() {
         commandLine = view.findViewById(R.id.command_line)
         initialCommand = view.findViewById(R.id.initial_command)
         terminalType = view.findViewById(R.id.terminal_type)
+        useRISH = view.findViewById(R.id.rish_switch)
         sendMouseEvent = view.findViewById(R.id.mouse_event_switch)
         closeWindow = view.findViewById(R.id.close_window_switch)
         verifyPathEntries = view.findViewById(R.id.verify_path_entries_switch)
@@ -47,6 +49,7 @@ class ShellScreen : ScopedFragment() {
         startPostponedEnterTransition()
         fullVersionCheck()
 
+        useRISH.setChecked(ShellPreferences.isUsingRISH())
         sendMouseEvent.setChecked(ShellPreferences.getMouseEventState())
         closeWindow.setChecked(ShellPreferences.getCloseWindowOnExitState())
         verifyPathEntries.setChecked(ShellPreferences.getVerifyPathEntriesState())
@@ -65,6 +68,10 @@ class ShellScreen : ScopedFragment() {
 
         terminalType.setOnClickListener {
             openFragmentSlide(ShellTerminalType.newInstance(), "terminal_type")
+        }
+
+        useRISH.setOnSwitchCheckedChangeListener {
+            ShellPreferences.setUseRISH(it)
         }
 
         sendMouseEvent.setOnSwitchCheckedChangeListener {

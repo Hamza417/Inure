@@ -169,4 +169,8 @@ object FileUtils {
     fun String.isImageFile(): Boolean {
         return Extensions.imageExtensions.contains(this.substring(this.lastIndexOf(".") + 1))
     }
+
+    fun String.makePathBashCompatible(): String {
+        return this.replace(" ", "\\ ")
+    }
 }

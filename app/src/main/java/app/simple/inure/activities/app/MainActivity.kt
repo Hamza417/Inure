@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
@@ -20,6 +21,7 @@ import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.*
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -34,6 +36,8 @@ import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNull
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -47,6 +51,10 @@ class MainActivity : BaseActivity() {
 
         // AndroidBug5497Workaround.assistActivity(this)
         ThemeManager.addListener(this)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            ShizukuUtils.copyRishFiles(applicationContext)
+        }
 
         container = findViewById(R.id.app_container)
         content = findViewById(android.R.id.content)

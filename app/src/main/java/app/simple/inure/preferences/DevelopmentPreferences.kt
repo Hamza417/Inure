@@ -123,7 +123,7 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Enable Text Selection",
                                             "Enable selection on texts in Details panels\n\nCaution: causes various issues with the app.",
                                             isTextSelectable,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
         ).sortedBy {
             it.title
         }

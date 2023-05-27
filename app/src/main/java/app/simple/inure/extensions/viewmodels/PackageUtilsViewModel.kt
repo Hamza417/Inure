@@ -65,10 +65,20 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     private fun loadInstalledApps(): MutableList<PackageInfo> {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                try {
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                } catch (e: DeadObjectException) {
+                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+                    loadInstalledApps()
+                }
             } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                try {
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                } catch (e: DeadObjectException) {
+                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
+                    loadInstalledApps()
+                }
             }
         } catch (e: DeadObjectException) {
             Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
