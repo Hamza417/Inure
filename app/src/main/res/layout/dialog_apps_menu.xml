@@ -102,8 +102,9 @@
                 android:text="@string/sample"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_arrow_right_tiny"
-                app:textColorStyle="accent" />
+                app:drawableStartCompat="@drawable/ic_filter_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="tertiary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
