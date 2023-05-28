@@ -19,7 +19,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
 
     private val services: MutableLiveData<MutableList<ServiceInfoModel>> by lazy {
         MutableLiveData<MutableList<ServiceInfoModel>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 getServicesData(SearchPreferences.getLastSearchKeyword())
             } else {
                 getServicesData("")

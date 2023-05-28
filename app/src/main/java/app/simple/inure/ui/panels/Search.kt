@@ -69,7 +69,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        AppsMenu.newInstance(packageInfo)
+                        AppsMenu.newInstance(packageInfo, keywords = searchViewModel.getSearchKeywords().value)
                             .show(childFragmentManager, "apps_menu")
                     }
                 })
@@ -96,7 +96,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        AppsMenu.newInstance(packageInfo, keywords = searchViewModel.getSearchKeywords().value ?: "")
+                        AppsMenu.newInstance(packageInfo, keywords = searchViewModel.getSearchKeywords().value)
                             .show(childFragmentManager, "apps_menu")
                     }
                 })

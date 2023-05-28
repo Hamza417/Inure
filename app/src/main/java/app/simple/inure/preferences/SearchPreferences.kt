@@ -76,11 +76,11 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setDeepSearchKeywordMode(value: Boolean) {
+    fun setSearchKeywordMode(value: Boolean) {
         getSharedPreferences().edit().putBoolean(deepSearchKeywordMode, value).apply()
     }
 
-    fun isDeepSearchKeywordModeEnabled(): Boolean {
+    fun isSearchKeywordModeEnabled(): Boolean {
         return getSharedPreferences().getBoolean(deepSearchKeywordMode, false)
     }
 }

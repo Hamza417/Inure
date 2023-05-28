@@ -100,16 +100,16 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
                                                             .of((PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()))
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         @Suppress("DEPRECATION")
                         packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
                     } else {
                         @Suppress("DEPRECATION")
                         packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES)
+                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
                     }
                 }.toArrayList()
             }

@@ -23,7 +23,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private val resources: MutableLiveData<MutableList<String>> by lazy {
         MutableLiveData<MutableList<String>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 getResourceData(SearchPreferences.getLastSearchKeyword())
             } else {
                 getResourceData("")

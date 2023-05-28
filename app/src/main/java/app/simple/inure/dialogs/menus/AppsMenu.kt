@@ -31,6 +31,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 
 class AppsMenu : ScopedDialogFragment() {
@@ -45,6 +46,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var send: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
+    private lateinit var deepSearchKeyword: TypeFaceTextView
     private lateinit var permissions: DynamicRippleTextView
     private lateinit var activities: DynamicRippleTextView
     private lateinit var services: DynamicRippleTextView
@@ -72,6 +74,7 @@ class AppsMenu : ScopedDialogFragment() {
         appInformation = view.findViewById(R.id.app_information)
         send = view.findViewById(R.id.send)
         usageStatistics = view.findViewById(R.id.usage_stats)
+        deepSearchKeyword = view.findViewById(R.id.deep_search_keyword)
         permissions = view.findViewById(R.id.permissions)
         activities = view.findViewById(R.id.activities)
         services = view.findViewById(R.id.services)
@@ -113,7 +116,16 @@ class AppsMenu : ScopedDialogFragment() {
             window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
         }
 
-        SearchPreferences.setDeepSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
+        with(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert()) {
+            SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
+            if (this) {
+                deepSearchKeyword.text = requireArguments().getString(BundleConstants.keywords)
+            } else {
+                deepSearchKeyword.gone()
+            }
+        }
+
+        SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
         name.text = packageInfo.applicationInfo.name
@@ -225,7 +237,7 @@ class AppsMenu : ScopedDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        SearchPreferences.setDeepSearchKeywordMode(false)
+        SearchPreferences.setSearchKeywordMode(false)
     }
 
     companion object {

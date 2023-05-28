@@ -1,0 +1,5 @@
+- Added native Shizuku RISH support
+- Deep search improvements
+- Various bug fixes and performance improvements
+
+For full details, please see the app's change logs.

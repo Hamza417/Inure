@@ -19,7 +19,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
 
     private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 getActivitiesData(SearchPreferences.getLastSearchKeyword())
             } else {
                 getActivitiesData("")

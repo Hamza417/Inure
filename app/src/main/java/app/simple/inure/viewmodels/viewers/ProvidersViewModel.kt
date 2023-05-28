@@ -18,7 +18,7 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
 
     private val providers: MutableLiveData<MutableList<ProviderInfoModel>> by lazy {
         MutableLiveData<MutableList<ProviderInfoModel>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 getProvidersData(SearchPreferences.getLastSearchKeyword())
             } else {
                 getProvidersData("")

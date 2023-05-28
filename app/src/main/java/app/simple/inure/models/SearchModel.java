@@ -14,7 +14,9 @@ public class SearchModel implements Parcelable {
     private int receivers = 0;
     private int providers = 0;
     
-    public SearchModel(PackageInfo packageInfo, int permissions, int activities, int services, int resources, int receivers, int providers) {
+    private int trackers = 0;
+    
+    public SearchModel(PackageInfo packageInfo, int permissions, int activities, int services, int resources, int receivers, int providers, int trackers) {
         this.packageInfo = packageInfo;
         this.permissions = permissions;
         this.activities = activities;
@@ -22,6 +24,7 @@ public class SearchModel implements Parcelable {
         this.resources = resources;
         this.receivers = receivers;
         this.providers = providers;
+        this.trackers = trackers;
     }
     
     public SearchModel() {
@@ -35,6 +38,7 @@ public class SearchModel implements Parcelable {
         resources = in.readInt();
         receivers = in.readInt();
         providers = in.readInt();
+        trackers = in.readInt();
     }
     
     @Override
@@ -46,6 +50,7 @@ public class SearchModel implements Parcelable {
         dest.writeInt(resources);
         dest.writeInt(receivers);
         dest.writeInt(providers);
+        dest.writeInt(trackers);
     }
     
     @Override
@@ -121,4 +126,11 @@ public class SearchModel implements Parcelable {
         this.providers = providers;
     }
     
+    public int getTrackers() {
+        return trackers;
+    }
+    
+    public void setTrackers(int trackers) {
+        this.trackers = trackers;
+    }
 }

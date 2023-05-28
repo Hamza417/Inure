@@ -22,7 +22,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
 
     private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
         MutableLiveData<MutableList<PermissionInfo>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 loadPermissionData(SearchPreferences.getLastSearchKeyword())
             } else {
                 loadPermissionData("")

@@ -18,7 +18,7 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
 
     private val receivers: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            if (SearchPreferences.isDeepSearchKeywordModeEnabled()) {
+            if (SearchPreferences.isSearchKeywordModeEnabled()) {
                 getReceiversData(SearchPreferences.getLastSearchKeyword())
             } else {
                 getReceiversData("")
