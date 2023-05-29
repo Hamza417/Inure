@@ -34,12 +34,20 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
         val command = StringBuilder()
 
         if (isOptimized) {
-            for (app in apps) {
-                command.append("dumpsys deviceidle whitelist +${app.packageInfo.packageName} && ")
+            if (apps.size == 1) {
+                command.append("dumpsys deviceidle whitelist -${apps[0].packageInfo.packageName}")
+            } else {
+                for (app in apps) {
+                    command.append("dumpsys deviceidle whitelist -${app.packageInfo.packageName} && ")
+                }
             }
         } else {
-            for (app in apps) {
-                command.append("dumpsys deviceidle whitelist -${app.packageInfo.packageName} && ")
+            if (apps.size == 1) {
+                command.append("dumpsys deviceidle whitelist +${apps[0].packageInfo.packageName}")
+            } else {
+                for (app in apps) {
+                    command.append("dumpsys deviceidle whitelist +${app.packageInfo.packageName} && ")
+                }
             }
         }
 

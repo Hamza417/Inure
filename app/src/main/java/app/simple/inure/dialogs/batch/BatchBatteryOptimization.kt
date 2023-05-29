@@ -17,6 +17,7 @@ import app.simple.inure.factories.actions.BatchBatteryOptimizationFactory
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import app.simple.inure.viewmodels.dialogs.BatchBatteryOptimizationViewModel
+import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
 
 class BatchBatteryOptimization : ScopedBottomSheetFragment() {
 
@@ -28,6 +29,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
 
     private var batchBatteryOptimizationViewModel: BatchBatteryOptimizationViewModel? = null
     private var batchBatteryOptimizationFactory: BatchBatteryOptimizationFactory? = null
+    private var batteryOptimizationViewModel: BatteryOptimizationViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_battery_optimization_batch, container, false)
@@ -40,6 +42,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
 
         batchBatteryOptimizationFactory = BatchBatteryOptimizationFactory(requireArguments().parcelableArrayList(BundleConstants.batchBatteryOptimization)!!)
         batchBatteryOptimizationViewModel = ViewModelProvider(this, batchBatteryOptimizationFactory!!)[BatchBatteryOptimizationViewModel::class.java]
+        batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
 
         return view
     }
@@ -74,6 +77,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
 
         batchBatteryOptimizationViewModel?.getResult()?.observe(viewLifecycleOwner) {
             parentFragmentManager.showResult(it)
+            batteryOptimizationViewModel?.refresh()
             dismiss()
         }
 
