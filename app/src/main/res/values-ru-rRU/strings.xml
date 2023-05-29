@@ -676,4 +676,5 @@
     <string name="state">Состояние</string>
     <string name="installed">Установлено</string>
     <string name="no_boot_components_found">Нет загрузочных компонентов</string>
+    <string name="follow_developer_on_Socials">Подписаться на разработчика в соцсетях</string>
 </resources>
