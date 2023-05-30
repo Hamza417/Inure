@@ -24,12 +24,12 @@ import java.util.Locale;
 public class APKCertificateUtils {
     
     private final Context context;
-    private final File mAPKFile;
+    private final File apkFile;
     private final String packageName;
     
     // Either apkFile or packageName should be provided
     public APKCertificateUtils(File apkFile, String packageName, Context context) {
-        mAPKFile = apkFile;
+        this.apkFile = apkFile;
         this.packageName = packageName;
         this.context = context;
     }
@@ -90,8 +90,8 @@ public class APKCertificateUtils {
             PackageInfo packageInfo = null;
             if (packageName != null && PackageUtils.INSTANCE.isPackageInstalled(context.getPackageManager(), packageName)) {
                 packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
-            } else if (mAPKFile != null && mAPKFile.exists()) {
-                packageInfo = context.getPackageManager().getPackageArchiveInfo(mAPKFile.getAbsolutePath(), PackageManager.GET_SIGNATURES);
+            } else if (apkFile != null && apkFile.exists()) {
+                packageInfo = context.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), PackageManager.GET_SIGNATURES);
             }
             if (packageInfo != null) {
                 certs = new X509Certificate[packageInfo.signatures.length];

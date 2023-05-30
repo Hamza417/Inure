@@ -37,4 +37,9 @@ object Warnings {
      * No file explorer app installed on your device
      */
     fun getNoFileExplorerWarning(): String = "0x007: No file explorer app installed on your device"
+
+    /**
+     * Unable to verify the integrity of the unlocker package
+     */
+    fun getUnableToVerifyUnlockerWarning(): String = "0x008: Unable to verify the integrity of the unlocker package"
 }

@@ -8,13 +8,12 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.cert.X509Certificate
@@ -44,35 +43,14 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
             kotlin.runCatching {
                 val packageInfo = packageManager.getPackageInfo(AppUtils.unlockerPackageName)
                 val file = packageInfo?.applicationInfo?.sourceDir?.toFile()
-
-                val certificates: Array<X509Certificate> = if (packageInfo.isNotNull()) {
-                    APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
-                } else {
-                    ApkFile(file).use {
-                        APKCertificateUtils(file, it.apkMeta.packageName, applicationContext()).x509Certificates
-                    }
-                }
-
+                val certificates: Array<X509Certificate> = APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
                 val fingerPrint = computeFingerPrint(certificates[0].encoded)
 
                 Log.d("LauncherViewModel", "FingerPrint SHA1: $fingerPrint")
 
-                /**
-                 * This will verify the unlocker package integrity.
-                 * If you're a developer and you're trying to
-                 * debug the app, you can add your own SHA1
-                 * fingerprint to the list above and it will
-                 * work just fine.
-                 *
-                 * If you're someone trying to reverse engineer the app
-                 * to get the full version without paying despite my thousands
-                 * of hours of efforts, then you're a piece of shit and just
-                 * set the parameter to true and app will work with any
-                 * unlocker package.
-                 */
                 hasValidCertificate.postValue(SHA1.contains(fingerPrint))
             }.getOrElse {
-                postError(it)
+                postWarning(Warnings.getUnableToVerifyUnlockerWarning())
             }
         }
     }
