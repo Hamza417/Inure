@@ -88,6 +88,8 @@
     <string name="alt_sends_esc">A tecla Alt envia ESC</string>
     <string name="title_mouse_tracking_preference">Enviar eventos do mouse</string>
     <string name="summary_mouse_tracking_preference">Se eventos de toque e rolagem devem ser enviados como sequências de escape para o terminal.</string>
+    <string name="title_use_rish">Usar RISH</string>
+    <string name="summary_use_rish">Você deve usar o RISH Shizuku (Host interativo remoto).\n\nO acesso ao Shizuku é obrigatório.</string>
     <string name="title_use_keyboard_shortcuts">Usar atalhos do teclado</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Ciclo através de janelas\nCtrl-Shift-N: Nova janela\nCtrl-Shift-V: Colar.</string>
     <string name="help">Ajuda</string>
