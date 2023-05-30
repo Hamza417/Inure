@@ -1,8 +1,7 @@
 name: Auto Merge Crowdin PRs
 on:
   pull_request:
-    types:
-      - synchronize
+    types: [opened, reopened, synchronize]
 
 jobs:
   merge_pull_request:
