@@ -473,6 +473,11 @@ class AudioPlayerPager : ScopedFragment() {
             seekBar.updateProgress(currentSeekPosition, audioServicePager?.getDuration()!!)
             lrcView.updateTime(currentSeekPosition.toLong())
             progress.text = NumberUtils.getFormattedTime(currentSeekPosition.toLong())
+
+            if (lrcView.isPaused) {
+                lrcView.resume()
+            }
+
             handler.postDelayed(this, 1000L)
         }
     }

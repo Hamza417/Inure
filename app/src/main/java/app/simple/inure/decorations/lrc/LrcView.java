@@ -42,40 +42,40 @@ public class LrcView extends View {
     private TextPaint mTextPaint;
     private String mDefaultContent;
     private int mCurrentLine;
-    private float mOffset;
-    private float mLastMotionX;
-    private float mLastMotionY;
-    private int mScaledTouchSlop;
-    private OverScroller mOverScroller;
-    private VelocityTracker mVelocityTracker;
-    private int mMaximumFlingVelocity;
-    private int mMinimumFlingVelocity;
-    private float mLrcTextSize;
-    private float mLrcLineSpaceHeight;
-    private int mTouchDelay;
-    private int mNormalColor;
-    private int mCurrentPlayLineColor;
-    private float mNoLrcTextSize;
-    private int mNoLrcTextColor;
-    private boolean isDragging;
-    private boolean isUserScroll;
-    private final Runnable mScrollRunnable = new Runnable() {
-        @Override
-        public void run() {
-            isUserScroll = false;
-            scrollToPosition(mCurrentLine);
-        }
-    };
-    private boolean isAutoAdjustPosition = true;
-    private Drawable mPlayDrawable;
-    private boolean isShowTimeIndicator;
-    private final Runnable mHideIndicatorRunnable = new Runnable() {
+    private final Runnable hideIndicatorRunnable = new Runnable() {
         @Override
         public void run() {
             isShowTimeIndicator = false;
             invalidateView();
         }
     };
+    private float mLastMotionX;
+    private float offset;
+    private int mScaledTouchSlop;
+    private final Runnable scrollRunnable = new Runnable() {
+        @Override
+        public void run() {
+            isUserScroll = false;
+            scrollToPosition(mCurrentLine);
+        }
+    };
+    private VelocityTracker mVelocityTracker;
+    private int mMaximumFlingVelocity;
+    private int mMinimumFlingVelocity;
+    private float mLrcTextSize;
+    private float mLrcLineSpaceHeight;
+    private float lastMotionY;
+    private int mNormalColor;
+    private int mCurrentPlayLineColor;
+    private float mNoLrcTextSize;
+    private int mNoLrcTextColor;
+    private boolean isDragging;
+    private boolean isUserScroll;
+    private OverScroller overScroller;
+    private boolean isAutoAdjustPosition = true;
+    private Drawable mPlayDrawable;
+    private boolean isShowTimeIndicator;
+    private int touchDelay;
     private Rect mPlayRect;
     private Paint mIndicatorPaint;
     private float mIndicatorLineWidth;
@@ -111,7 +111,7 @@ public class LrcView extends View {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LrcView);
         mLrcTextSize = typedArray.getDimension(R.styleable.LrcView_lrcTextSize, sp2px(context, 15));
         mLrcLineSpaceHeight = typedArray.getDimension(R.styleable.LrcView_lrcLineSpaceSize, dp2px(context, 20));
-        mTouchDelay = typedArray.getInt(R.styleable.LrcView_lrcTouchDelay, 3500);
+        touchDelay = typedArray.getInt(R.styleable.LrcView_lrcTouchDelay, 3500);
         mIndicatorTouchDelay = typedArray.getInt(R.styleable.LrcView_indicatorTouchDelay, 2500);
         mNormalColor = typedArray.getColor(R.styleable.LrcView_lrcNormalTextColor, Color.LTGRAY);
         mCurrentPlayLineColor = typedArray.getColor(R.styleable.LrcView_lrcCurrentTextColor, Color.WHITE);
@@ -141,10 +141,10 @@ public class LrcView extends View {
         mScaledTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mMaximumFlingVelocity = ViewConfiguration.get(context).getScaledMaximumFlingVelocity();
         mMinimumFlingVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity();
-        mOverScroller = new OverScroller(context, new DecelerateInterpolator());
-        mOverScroller.setFriction(0.1f);
+        overScroller = new OverScroller(context, new DecelerateInterpolator());
+        overScroller.setFriction(0.1f);
         //        ViewConfiguration.getScrollFriction();  默认摩擦力 0.015f
-        
+    
         mTextPaint = new TextPaint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -254,7 +254,7 @@ public class LrcView extends View {
             mLrcMap.put(text, staticLayout);
         }
         canvas.save();
-        canvas.translate(x, y - staticLayout.getHeight() / 2f - mOffset);
+        canvas.translate(x, y - staticLayout.getHeight() / 2f - offset);
         staticLayout.draw(canvas);
         canvas.restore();
     }
@@ -282,7 +282,7 @@ public class LrcView extends View {
                 invalidateView();
                 return;
             }
-            ViewCompat.postOnAnimation(LrcView.this, mScrollRunnable);
+            ViewCompat.postOnAnimation(LrcView.this, scrollRunnable);
         }
     }
     
@@ -304,12 +304,12 @@ public class LrcView extends View {
     
     private void scrollToPosition(int linePosition) {
         float scrollY = getItemOffsetY(linePosition);
-        final ValueAnimator animator = ValueAnimator.ofFloat(mOffset, scrollY);
+        final ValueAnimator animator = ValueAnimator.ofFloat(offset, scrollY);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mOffset = (float) animation.getAnimatedValue();
+                offset = (float) animation.getAnimatedValue();
                 invalidateView();
             }
         });
@@ -323,7 +323,7 @@ public class LrcView extends View {
         //itemOffset 和 mOffset 最小即当前位置
         for (int i = 0; i < mLrcData.size(); i++) {
             float offsetY = getItemOffsetY(i);
-            float abs = Math.abs(offsetY - mOffset);
+            float abs = Math.abs(offsetY - offset);
             if (abs < min) {
                 min = abs;
                 pos = i;
@@ -353,7 +353,7 @@ public class LrcView extends View {
     }
     
     private boolean overScrolled() {
-        return mOffset > getItemOffsetY(getLrcCount() - 1) || mOffset < 0;
+        return offset > getItemOffsetY(getLrcCount() - 1) || offset < 0;
     }
     
     @Override
@@ -367,25 +367,25 @@ public class LrcView extends View {
         mVelocityTracker.addMovement(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                removeCallbacks(mScrollRunnable);
-                removeCallbacks(mHideIndicatorRunnable);
-                if (!mOverScroller.isFinished()) {
-                    mOverScroller.abortAnimation();
+                removeCallbacks(scrollRunnable);
+                removeCallbacks(hideIndicatorRunnable);
+                if (!overScroller.isFinished()) {
+                    overScroller.abortAnimation();
                 }
                 mLastMotionX = event.getX();
-                mLastMotionY = event.getY();
+                lastMotionY = event.getY();
                 isUserScroll = true;
                 isDragging = false;
                 break;
-            
+    
             case MotionEvent.ACTION_MOVE:
-                float moveY = event.getY() - mLastMotionY;
+                float moveY = event.getY() - lastMotionY;
                 if (Math.abs(moveY) > mScaledTouchSlop) {
                     isDragging = true;
                     isShowTimeIndicator = isEnableShowIndicator;
                 }
                 if (isDragging) {
-                    
+    
                     //                    if (mOffset < 0) {
                     //                        mOffset = Math.max(mOffset, -getTextHeight(0) - mLrcLineSpaceHeight);
                     //                    }
@@ -393,11 +393,11 @@ public class LrcView extends View {
                     //                    if (mOffset > maxHeight) {
                     //                        mOffset = Math.min(mOffset, maxHeight + getTextHeight(getLrcCount() - 1) + mLrcLineSpaceHeight);
                     //                    }
-                    if (mOffset < 0 || mOffset > maxHeight) {
+                    if (offset < 0 || offset > maxHeight) {
                         moveY /= 3.5f;
                     }
-                    mOffset -= moveY;
-                    mLastMotionY = event.getY();
+                    offset -= moveY;
+                    lastMotionY = event.getY();
                     invalidateView();
                 }
                 break;
@@ -417,7 +417,7 @@ public class LrcView extends View {
     
     private void handleActionUp(MotionEvent event) {
         if (isEnableShowIndicator) {
-            ViewCompat.postOnAnimationDelayed(LrcView.this, mHideIndicatorRunnable, mIndicatorTouchDelay);
+            ViewCompat.postOnAnimationDelayed(LrcView.this, hideIndicatorRunnable, mIndicatorTouchDelay);
         }
         if (isShowTimeIndicator && mPlayRect != null && onClickPlayButton(event)) {
             isShowTimeIndicator = false;
@@ -427,18 +427,18 @@ public class LrcView extends View {
                         mLrcData.get(getIndicatePosition()).getText());
             }
         }
-        if (overScrolled() && mOffset < 0) {
+        if (overScrolled() && offset < 0) {
             scrollToPosition(0);
             if (isAutoAdjustPosition) {
-                ViewCompat.postOnAnimationDelayed(LrcView.this, mScrollRunnable, mTouchDelay);
+                ViewCompat.postOnAnimationDelayed(LrcView.this, scrollRunnable, touchDelay);
             }
             return;
         }
-        
-        if (overScrolled() && mOffset > getItemOffsetY(getLrcCount() - 1)) {
+    
+        if (overScrolled() && offset > getItemOffsetY(getLrcCount() - 1)) {
             scrollToPosition(getLrcCount() - 1);
             if (isAutoAdjustPosition) {
-                ViewCompat.postOnAnimationDelayed(LrcView.this, mScrollRunnable, mTouchDelay);
+                ViewCompat.postOnAnimationDelayed(LrcView.this, scrollRunnable, touchDelay);
             }
             return;
         }
@@ -447,14 +447,14 @@ public class LrcView extends View {
         float yVelocity = mVelocityTracker.getYVelocity();
         float absYVelocity = Math.abs(yVelocity);
         if (absYVelocity > mMinimumFlingVelocity) {
-            mOverScroller.fling(0, (int) mOffset, 0, (int) (-yVelocity), 0,
+            overScroller.fling(0, (int) offset, 0, (int) (-yVelocity), 0,
                     0, 0, (int) getItemOffsetY(getLrcCount() - 1),
                     0, (int) getTextHeight(0));
             invalidateView();
         }
         releaseVelocityTracker();
         if (isAutoAdjustPosition) {
-            ViewCompat.postOnAnimationDelayed(LrcView.this, mScrollRunnable, mTouchDelay);
+            ViewCompat.postOnAnimationDelayed(LrcView.this, scrollRunnable, touchDelay);
         }
     }
     
@@ -465,15 +465,15 @@ public class LrcView extends View {
         float bottom = mPlayRect.bottom;
         float x = event.getX();
         float y = event.getY();
-        return mLastMotionX > left && mLastMotionX < right && mLastMotionY > top
-                && mLastMotionY < bottom && x > left && x < right && y > top && y < bottom;
+        return mLastMotionX > left && mLastMotionX < right && lastMotionY > top
+                && lastMotionY < bottom && x > left && x < right && y > top && y < bottom;
     }
     
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if (mOverScroller.computeScrollOffset()) {
-            mOffset = mOverScroller.getCurrY();
+        if (overScroller.computeScrollOffset()) {
+            offset = overScroller.getCurrY();
             invalidateView();
         }
     }
@@ -493,11 +493,11 @@ public class LrcView extends View {
         mLrcMap.clear();
         mStaticLayoutHashMap.clear();
         mCurrentLine = 0;
-        mOffset = 0;
+        offset = 0;
         isUserScroll = false;
         isDragging = false;
         mDefaultContent = defaultContent;
-        removeCallbacks(mScrollRunnable);
+        removeCallbacks(scrollRunnable);
         invalidate();
     }
     
@@ -521,9 +521,13 @@ public class LrcView extends View {
         invalidateView();
     }
     
+    public boolean isPaused() {
+        return !isAutoAdjustPosition;
+    }
+    
     public void resume() {
         isAutoAdjustPosition = true;
-        ViewCompat.postOnAnimationDelayed(LrcView.this, mScrollRunnable, mTouchDelay);
+        ViewCompat.postOnAnimationDelayed(LrcView.this, scrollRunnable, touchDelay);
         invalidateView();
     }
     
@@ -558,7 +562,7 @@ public class LrcView extends View {
     }
     
     public void setTouchDelay(int touchDelay) {
-        mTouchDelay = touchDelay;
+        this.touchDelay = touchDelay;
         invalidateView();
     }
     
