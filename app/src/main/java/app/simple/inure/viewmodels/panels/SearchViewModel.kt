@@ -79,6 +79,14 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
     }
 
+    fun reload() {
+        viewModelScope.launch(Dispatchers.IO) {
+            apps.clear()
+            loadPackageData()
+            initiateSearch(searchKeywords.value!!)
+        }
+    }
+
     private fun loadSearchData(keywords: String) {
         var apps = getInstalledApps()
 

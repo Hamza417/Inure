@@ -56,6 +56,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         searchView.showInput()
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
+            hideLoader()
             if (!SearchPreferences.isDeepSearchEnabled()) {
                 postponeEnterTransition()
                 searchView.hideLoader()
@@ -85,6 +86,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         }
 
         searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+            hideLoader()
             if (SearchPreferences.isDeepSearchEnabled()) {
                 postponeEnterTransition()
 
@@ -130,6 +132,11 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 } else {
                     searchViewModel.setSearchKeywords(keywords)
                 }
+            }
+
+            override fun onSearchRefreshPressed(button: View?) {
+                showLoader(manualOverride = true)
+                searchViewModel.reload()
             }
         })
     }

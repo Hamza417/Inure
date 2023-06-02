@@ -31,6 +31,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     private TypeFaceTextView number;
     private DynamicRippleImageButton menu;
     private DynamicRippleImageButton clear;
+    private DynamicRippleImageButton refresh;
     private CustomProgressBar loader;
     private SearchViewEventListener searchViewEventListener;
     
@@ -59,11 +60,20 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         number = view.findViewById(R.id.search_number);
         menu = view.findViewById(R.id.search_view_menu_button);
         clear = view.findViewById(R.id.search_view_clear_button);
+        refresh = view.findViewById(R.id.search_view_refresh_button);
         loader = view.findViewById(R.id.loader);
     
         if (!isInEditMode()) {
-            editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+            if (SearchPreferences.INSTANCE.getLastSearchKeyword().length() > 0) {
+                ViewUtils.INSTANCE.visible(clear, true);
+                ViewUtils.INSTANCE.visible(refresh, true);
+                editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+            } else {
+                ViewUtils.INSTANCE.gone(clear, true);
+                ViewUtils.INSTANCE.gone(refresh, true);
+            }
         }
+    
         updateDeepSearchData();
         editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
     
@@ -76,15 +86,18 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             
                 if (count > 0 || !s.toString().isBlank()) {
                     ViewUtils.INSTANCE.visible(clear, true);
+                    ViewUtils.INSTANCE.visible(refresh, true);
                 } else {
                     ViewUtils.INSTANCE.gone(clear, true);
+                    ViewUtils.INSTANCE.gone(refresh, true);
                 }
             }
+    
             return Unit.INSTANCE;
         });
     
         menu.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
-    
+        refresh.setOnClickListener(button -> searchViewEventListener.onSearchRefreshPressed(button));
         clear.setOnClickListener(button -> editText.setText(""));
     }
     

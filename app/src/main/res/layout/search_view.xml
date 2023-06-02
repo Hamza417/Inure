@@ -56,8 +56,18 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
+        android:layout_marginEnd="5dp"
         android:contentDescription="@string/clear_data"
         android:src="@drawable/ic_close"
+        app:buttonTintType="secondary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/search_view_refresh_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/clear_data"
+        android:src="@drawable/ic_refresh"
         app:buttonTintType="secondary" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
