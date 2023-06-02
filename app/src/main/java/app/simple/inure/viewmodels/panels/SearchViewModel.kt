@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.DeadObjectException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -267,16 +266,16 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
         while (true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                try {
+                kotlin.runCatching {
                     return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong())).loadPackageNames()
-                } catch (e: DeadObjectException) {
+                }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                 }
             } else {
-                try {
+                kotlin.runCatching {
                     @Suppress("DEPRECATION")
                     return packageManager.getInstalledPackages(flags).loadPackageNames()
-                } catch (e: DeadObjectException) {
+                }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                 }
             }
