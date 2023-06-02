@@ -25,6 +25,8 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
     private val success: MutableLiveData<Boolean> = MutableLiveData(false)
     private val file: MutableLiveData<File?> = MutableLiveData<File?>()
 
+    private var zipFile: ZipFile? = null
+
     init {
         extractAppFile()
     }
@@ -73,11 +75,11 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
         kotlin.runCatching {
             if (!File(applicationContext().getBundlePathAndFileName(packageInfo)).exists()) {
                 status.postValue(getString(R.string.creating_split_package))
-                val zipFile = ZipFile(applicationContext().getBundlePathAndFileName(packageInfo))
-                val progressMonitor = zipFile.progressMonitor
+                zipFile = ZipFile(applicationContext().getBundlePathAndFileName(packageInfo))
+                val progressMonitor = zipFile!!.progressMonitor
 
-                zipFile.isRunInThread = true
-                zipFile.addFiles(createSplitApkFiles())
+                zipFile!!.isRunInThread = true
+                zipFile!!.addFiles(createSplitApkFiles())
 
                 while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
                     progress.postValue(progressMonitor.percentDone.toLong())
@@ -90,6 +92,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
                 }
             }
         }.onFailure {
+            it.printStackTrace()
             postError(it)
         }.onSuccess {
             file.postValue(File(applicationContext().getBundlePathAndFileName(packageInfo)))

@@ -675,6 +675,11 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name=".services.DataLoaderService"
+            android:enabled="true"
+            android:exported="false" />
+
         <receiver
             android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"
             android:exported="true">

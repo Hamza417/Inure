@@ -265,26 +265,21 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return try {
+        while (true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 try {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong())).loadPackageNames()
+                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong())).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                    loadInstalledApps()
                 }
             } else {
                 try {
                     @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(flags).loadPackageNames()
+                    return packageManager.getInstalledPackages(flags).loadPackageNames()
                 } catch (e: DeadObjectException) {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                    loadInstalledApps()
                 }
             }
-        } catch (e: DeadObjectException) {
-            Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-            loadInstalledApps()
         }
     }
 
