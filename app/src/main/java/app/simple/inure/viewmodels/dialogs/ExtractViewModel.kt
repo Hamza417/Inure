@@ -10,6 +10,7 @@ import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.BatchUtils.getApkPathAndFileName
 import app.simple.inure.util.BatchUtils.getBundlePathAndFileName
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import kotlinx.coroutines.Dispatchers
@@ -101,22 +102,26 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
 
     @Throws(IOException::class)
     private fun extractApk() {
-        if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)).exists()) {
-            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
+        if (packageInfo.applicationInfo.sourceDir.toFile().exists()) {
+            if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)).exists()) {
+                file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
+            } else {
+                val source = File(packageInfo.applicationInfo.sourceDir)
+                val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo))
+                val length = source.length()
+
+                val inputStream = FileInputStream(source)
+                val outputStream = FileOutputStream(dest)
+
+                copyStream(inputStream, outputStream, length)
+
+                inputStream.close()
+                outputStream.close()
+
+                file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
+            }
         } else {
-            val source = File(packageInfo.applicationInfo.sourceDir)
-            val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo))
-            val length = source.length()
-
-            val inputStream = FileInputStream(source)
-            val outputStream = FileOutputStream(dest)
-
-            copyStream(inputStream, outputStream, length)
-
-            inputStream.close()
-            outputStream.close()
-
-            file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
+            warning.postValue(packageInfo.applicationInfo.sourceDir + " : " + "not found")
         }
     }
 
