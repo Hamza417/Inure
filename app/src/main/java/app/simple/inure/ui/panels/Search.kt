@@ -16,7 +16,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
-import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
 import app.simple.inure.dialogs.menus.SearchMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -49,8 +49,13 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // super.onViewCreated(view, savedInstanceState)
 
+        kotlin.runCatching {
+            bottomRightCornerMenu = requireActivity().findViewById(R.id.bottom_menu)
+        }
+
+        recyclerView.addHeightKeyboardCallbacks()
         searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
 
@@ -69,8 +74,11 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        AppsMenu.newInstance(packageInfo, keywords = searchViewModel.getSearchKeywords().value)
-                            .show(childFragmentManager, "apps_menu")
+                        childFragmentManager.showAppsMenu(packageInfo, searchViewModel.getSearchKeywords().value ?: "").onDismissListener = {
+                            postDelayed(250) {
+                                // searchView.showInput()
+                            }
+                        }
                     }
                 })
 
@@ -96,8 +104,11 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        AppsMenu.newInstance(packageInfo, keywords = searchViewModel.getSearchKeywords().value)
-                            .show(childFragmentManager, "apps_menu")
+                        childFragmentManager.showAppsMenu(packageInfo, searchViewModel.getSearchKeywords().value ?: "").onDismissListener = {
+                            postDelayed(250) {
+                                // searchView.showInput()
+                            }
+                        }
                     }
                 })
 

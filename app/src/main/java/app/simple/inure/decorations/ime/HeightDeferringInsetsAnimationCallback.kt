@@ -60,7 +60,8 @@ class HeightDeferringInsetsAnimationCallback(private val view: View, val persist
 
         with(view) {
             updateLayoutParams {
-                height = this@HeightDeferringInsetsAnimationCallback.height - abs(yBottom)
+                // height = this@HeightDeferringInsetsAnimationCallback.height - abs(yBottom)
+                setPadding(paddingLeft, paddingTop, paddingRight, abs(yBottom))
             }
         }
 

@@ -143,6 +143,10 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         editText.showInput();
     }
     
+    public void hideInput() {
+        editText.hideInput();
+    }
+    
     private void updateDeepSearchData() {
         if (SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
             editText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0);

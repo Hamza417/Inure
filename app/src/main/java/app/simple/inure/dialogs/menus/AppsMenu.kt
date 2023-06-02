@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
@@ -237,6 +238,7 @@ class AppsMenu : ScopedDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        onDismissListener?.invoke()
         SearchPreferences.setSearchKeywordMode(false)
     }
 
@@ -248,6 +250,12 @@ class AppsMenu : ScopedDialogFragment() {
             val fragment = AppsMenu()
             fragment.arguments = args
             return fragment
+        }
+
+        fun FragmentManager.showAppsMenu(packageInfo: PackageInfo, keywords: String? = null): AppsMenu {
+            val dialog = newInstance(packageInfo, keywords)
+            dialog.show(this, "apps_menu")
+            return dialog
         }
     }
 }

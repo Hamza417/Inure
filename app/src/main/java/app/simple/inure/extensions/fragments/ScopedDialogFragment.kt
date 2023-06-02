@@ -40,6 +40,8 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
 
     internal val handler = Handler(Looper.getMainLooper())
 
+    var onDismissListener: (() -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)

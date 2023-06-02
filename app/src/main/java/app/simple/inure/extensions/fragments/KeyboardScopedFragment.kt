@@ -2,6 +2,7 @@ package app.simple.inure.extensions.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
@@ -16,6 +17,21 @@ open class KeyboardScopedFragment : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.addHeightKeyboardCallbacks()
+    }
+
+    open fun disableClipOnParents(v: View) {
+        if (v.parent == null) {
+            return
+        }
+
+        if (v is ViewGroup) {
+            v.clipChildren = false
+            v.clipToPadding = false
+        }
+
+        if (v.parent is View) {
+            disableClipOnParents(v.parent as View)
+        }
     }
 
     /**
@@ -105,7 +121,7 @@ open class KeyboardScopedFragment : ScopedFragment() {
          */
         ViewCompat.setWindowInsetsAnimationCallback(
                 this,
-                HeightDeferringInsetsAnimationCallback(
+                TranslateDeferringInsetsAnimationCallback(
                         view = this,
                         persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
                         deferredInsetTypes = WindowInsetsCompat.Type.ime(),
@@ -116,7 +132,7 @@ open class KeyboardScopedFragment : ScopedFragment() {
         )
         ViewCompat.setWindowInsetsAnimationCallback(
                 this,
-                HeightDeferringInsetsAnimationCallback(
+                TranslateDeferringInsetsAnimationCallback(
                         view = this,
                         persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
                         deferredInsetTypes = WindowInsetsCompat.Type.ime()
@@ -138,7 +154,6 @@ open class KeyboardScopedFragment : ScopedFragment() {
          * [WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE] dispatch mode, which
          * we have done above.
          */
-        ViewCompat.setWindowInsetsAnimationCallback(this, ControlFocusInsetsAnimationCallback(this)
-        )
+        ViewCompat.setWindowInsetsAnimationCallback(this, ControlFocusInsetsAnimationCallback(this))
     }
 }
