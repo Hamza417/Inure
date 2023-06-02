@@ -72,67 +72,104 @@ class MainActivity : BaseActivity() {
 
             when (intent.action) {
                 ShortcutConstants.ANALYTICS_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Analytics.newInstance(), "apps")
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                        .replace(R.id.app_container, Analytics.newInstance(), "analytics")
+                        .addToBackStack("analytics")
                         .commit()
                 }
                 ShortcutConstants.APPS_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
+                        .addToBackStack("apps")
                         .commit()
                 }
                 ShortcutConstants.BATCH_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Batch.newInstance(loading = true), "batch")
+                        .addToBackStack("batch")
                         .commit()
                 }
                 ShortcutConstants.MOST_USED_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, MostUsed.newInstance(loader = true), "most_used")
+                        .addToBackStack("most_used")
                         .commit()
                 }
                 ShortcutConstants.NOTES_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Notes.newInstance(), "notes")
+                        .addToBackStack("notes")
                         .commit()
                 }
                 ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, RecentlyInstalled.newInstance(loading = true), "recently_installed")
+                        .addToBackStack("recently_installed")
                         .commit()
                 }
                 ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, RecentlyUpdated.newInstance(loading = true), "recently_updated")
+                        .addToBackStack("recently_updated")
                         .commit()
                 }
                 ShortcutConstants.TERMINAL_ACTION -> {
+                    openHome()
                     startActivity(Intent(this, Term::class.java))
                     finish()
                 }
                 ShortcutConstants.UNINSTALLED_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Uninstalled.newInstance(), "uninstalled")
+                        .addToBackStack("uninstalled")
                         .commit()
                 }
                 ShortcutConstants.USAGE_STATS_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Statistics.newInstance(loading = true), "stats")
+                        .addToBackStack("stats")
                         .commit()
                 }
                 ShortcutConstants.PREFERENCES_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Preferences.newInstance(), "preferences")
+                        .addToBackStack("preferences")
                         .commit()
                 }
                 ShortcutConstants.SEARCH_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Search.newInstance(true), "search")
+                        .addToBackStack("search")
                         .commit()
                 }
                 ShortcutConstants.MUSIC_ACTION -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, Music.newInstance(), "music")
+                        .addToBackStack("music")
                         .commit()
                 }
                 ShortcutConstants.AUDIO_PLAYER_ACTION -> {
@@ -160,8 +197,11 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 "open_device_info" -> {
+                    openHome()
                     supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(R.id.app_container, DeviceInfo.newInstance(), "device_info")
+                        .addToBackStack("device_info")
                         .commit()
                 }
                 IntentConstants.ACTION_UNLOCK -> {
@@ -203,6 +243,15 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun openHome() {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+            .replace(R.id.app_container, Home.newInstance(), "home")
+            .commit()
+
+        supportFragmentManager.executePendingTransactions()
     }
 
     @Suppress("unused")

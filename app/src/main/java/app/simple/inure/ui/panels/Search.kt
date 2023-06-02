@@ -51,10 +51,6 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // super.onViewCreated(view, savedInstanceState)
 
-        kotlin.runCatching {
-            bottomRightCornerMenu = requireActivity().findViewById(R.id.bottom_menu)
-        }
-
         recyclerView.addHeightKeyboardCallbacks()
         searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
