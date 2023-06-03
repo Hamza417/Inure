@@ -14,7 +14,7 @@ class InstallerViewModelFactory(private val uri: Uri? = null, private val file: 
 
         return when {
             modelClass.isAssignableFrom(InstallerViewModel::class.java) -> {
-                InstallerViewModel(application, uri!!) as T
+                InstallerViewModel(application, uri, file) as T
             }
             modelClass.isAssignableFrom(InstallerManifestViewModel::class.java) -> {
                 InstallerManifestViewModel(application, file!!) as T

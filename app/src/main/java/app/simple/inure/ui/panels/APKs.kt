@@ -12,13 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.*
 import app.simple.inure.R
-import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
 import app.simple.inure.apk.utils.PackageUtils
@@ -38,7 +36,7 @@ import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.popups.apks.PopupApksSortingStyle
 import app.simple.inure.preferences.ApkBrowserPreferences
-import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.ApksSearch
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
@@ -89,19 +87,11 @@ class APKs : ScopedFragment() {
                             /* authority = */ "${requireContext().packageName}.provider",
                             /* file = */ adapterApks.paths[position])
 
-                    val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
-                    intent.setDataAndType(uri, "application/vnd.android.package-archive")
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
                     icon.transitionName = uri.toString()
-
-                    if (BehaviourPreferences.isArcAnimationOn()) {
-                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
-                        startActivity(intent, options.toBundle())
-                    } else {
-                        startActivity(intent)
-                    }
+                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                    requireArguments().putInt(BundleConstants.position, position)
+                    // icon.transitionName = adapterApks.paths[position].absolutePath
+                    openFragmentArc(Installer.newInstance(uri), icon, "installer")
                 }
 
                 override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
@@ -112,19 +102,11 @@ class APKs : ScopedFragment() {
                                     /* authority = */ "${requireContext().packageName}.provider",
                                     /* file = */ adapterApks.paths[position])
 
-                            val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
-                            intent.setDataAndType(uri, "application/vnd.android.package-archive")
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
                             icon.transitionName = uri.toString()
-
-                            if (BehaviourPreferences.isArcAnimationOn()) {
-                                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
-                                startActivity(intent, options.toBundle())
-                            } else {
-                                startActivity(intent)
-                            }
+                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                            requireArguments().putInt(BundleConstants.position, position)
+                            // icon.transitionName = adapterApks.paths[position].absolutePath
+                            openFragmentArc(Installer.newInstance(uri), icon, "installer")
                         }
 
                         override fun onDeleteClicked() {

@@ -49,6 +49,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
                             Shell.setDefaultBuilder(
                                     Shell.Builder
                                         .create()
+                                        .setContext(applicationContext())
                                         .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                         .setTimeout(10))
                         }.getOrElse {

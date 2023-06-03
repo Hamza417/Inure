@@ -9,6 +9,7 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.viewpager2.widget.ViewPager2
 import app.simple.inure.R
+import app.simple.inure.activities.app.MainActivity
+import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
@@ -40,9 +43,11 @@ import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
+import java.io.File
 
 class Installer : ScopedFragment(), InstallerCallbacks {
 
@@ -81,16 +86,15 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         loader = view.findViewById(R.id.loader)
 
         kotlin.runCatching {
-            icon.transitionName = requireArguments().parcelable<Uri>(BundleConstants.uri).toString()
+            icon.transitionName = requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString()
+        }.onFailure {
+            icon.transitionName = requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath
+            Log.d("Installer", "onCreateView: ${requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath}")
         }
 
-        val factory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri, Uri::class.java)!!)
-        } else {
-            @Suppress("DEPRECATION")
-            InstallerViewModelFactory(requireArguments().getParcelable(BundleConstants.uri)!!)
-        }
+        postponeEnterTransition()
 
+        val factory = InstallerViewModelFactory(requireArguments().parcelable(BundleConstants.uri), requireArguments().serializable(BundleConstants.file))
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
@@ -105,11 +109,17 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             setSelectedIndicatorColors(ThemeManager.theme.viewGroupTheme.selectedBackground)
         }
 
+        postponeEnterTransition()
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (requireActivity() is MainActivity) {
+            showLoader(manualOverride = true)
+        }
+
         postponeEnterTransition()
 
         fullVersionCheck()
@@ -226,6 +236,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
+                    hideLoader()
                 }
 
                 val titles = arrayListOf<String>()
@@ -307,7 +318,9 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             launch.setOnClickListener {
                 kotlin.runCatching {
                     PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
-                    requireActivity().finish()
+                    if (requireActivity() is ApkInstallerActivity) {
+                        requireActivity().finish()
+                    }
                 }.onFailure {
                     showError(it.stackTraceToString())
                 }
@@ -321,6 +334,14 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         fun newInstance(uri: Uri): Installer {
             val args = Bundle()
             args.putParcelable(BundleConstants.uri, uri)
+            val fragment = Installer()
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstance(file: File): Installer {
+            val args = Bundle()
+            args.putSerializable(BundleConstants.file, file)
             val fragment = Installer()
             fragment.arguments = args
             return fragment

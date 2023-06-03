@@ -18,9 +18,9 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.getLength
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 import com.anggrayudi.storage.file.baseName
 import com.topjohnwu.superuser.Shell
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import net.lingala.zip4j.ZipFile
 import java.io.File
 
-class InstallerViewModel(application: Application, private val uri: Uri) : RootShizukuViewModel(application) {
+class InstallerViewModel(application: Application, private val uri: Uri?, val file: File?) : RootShizukuViewModel(application) {
 
     private var files: ArrayList<File>? = null
     private var splitApkFiles: ArrayList<File>? = null
@@ -79,25 +79,34 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
         clearInstallerCache()
         PackageData.makePackageFolder(applicationContext())
 
-        uri.let { it ->
-            val documentFile = DocumentFile.fromSingleUri(applicationContext(), it)!!
-            val sourceFile = if (documentFile.name!!.endsWith(".apk")) {
-                applicationContext().getInstallerDir(documentFile.name!!)
-            } else {
-                applicationContext().getInstallerDir(documentFile.baseName + ".zip")
+        if (file != null && file.exists()) {
+            if (file.name.endsWith(".zip") || file.name.endsWith(".apkm") || file.name.endsWith(".apks") || file.name.endsWith(".xapk")) {
+                ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
+                files = File(file.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+            } else if (file.name.endsWith(".apk")) {
+                files = arrayListOf(file)
             }
-
-            if (!sourceFile.exists()) {
-                contentResolver.openInputStream(it).use {
-                    FileUtils.copyStreamToFile(it!!, sourceFile)
+        } else {
+            uri?.let { it ->
+                val documentFile = DocumentFile.fromSingleUri(applicationContext(), it)!!
+                val sourceFile = if (documentFile.name!!.endsWith(".apk")) {
+                    applicationContext().getInstallerDir(documentFile.name!!)
+                } else {
+                    applicationContext().getInstallerDir(documentFile.baseName + ".zip")
                 }
-            }
 
-            if (documentFile.name!!.endsWith(".zip") || documentFile.name!!.endsWith(".apkm") || documentFile.name!!.endsWith(".apks") || documentFile.name!!.endsWith(".xapk")) {
-                ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
-                files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
-            } else if (documentFile.name!!.endsWith(".apk")) {
-                files = arrayListOf(sourceFile)
+                if (!sourceFile.exists()) {
+                    contentResolver.openInputStream(it).use {
+                        FileUtils.copyStreamToFile(it!!, sourceFile)
+                    }
+                }
+
+                if (documentFile.name!!.endsWith(".zip") || documentFile.name!!.endsWith(".apkm") || documentFile.name!!.endsWith(".apks") || documentFile.name!!.endsWith(".xapk")) {
+                    ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                    files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                } else if (documentFile.name!!.endsWith(".apk")) {
+                    files = arrayListOf(sourceFile)
+                }
             }
         }
     }
@@ -156,6 +165,8 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                Shell.cmd("run-as ${packageInfo.value!!.packageName}").exec()
+
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
@@ -196,7 +207,7 @@ class InstallerViewModel(application: Application, private val uri: Uri) : RootS
                     }
                 }
             } catch (e: java.lang.NullPointerException) {
-                if (e.message.isNotNull()) {
+                if (e.message.isNullOrEmpty().invert()) {
                     postWarning(e.message!!)
                 } else {
                     postError(e)
