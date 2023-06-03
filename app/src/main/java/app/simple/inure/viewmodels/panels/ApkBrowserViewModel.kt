@@ -144,12 +144,45 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 return@launch
             }
 
-            files.forEach {
-                if (it.name.contains(keyword, true) ||
-                    it.absolutePath.contains(keyword, true) ||
-                    it.extension.contains(keyword, true) ||
-                    it.lastModified().toDate().contains(keyword, true)) {
-                    filteredPaths.add(it)
+            if (keyword.startsWith("$")) {
+                when (keyword.lowercase()) {
+                    "\$apk" -> {
+                        files.forEach {
+                            if (it.extension == "apk") {
+                                filteredPaths.add(it)
+                            }
+                        }
+                    }
+                    "\$apks" -> {
+                        files.forEach {
+                            if (it.extension == "apks") {
+                                filteredPaths.add(it)
+                            }
+                        }
+                    }
+                    "\$apkm" -> {
+                        files.forEach {
+                            if (it.extension == "apkm") {
+                                filteredPaths.add(it)
+                            }
+                        }
+                    }
+                    "\$xapk" -> {
+                        files.forEach {
+                            if (it.extension == "xapk") {
+                                filteredPaths.add(it)
+                            }
+                        }
+                    }
+                }
+            } else {
+                files.forEach {
+                    if (it.name.contains(keyword, true) ||
+                        it.absolutePath.contains(keyword, true) ||
+                        it.extension.contains(keyword, true) ||
+                        it.lastModified().toDate().contains(keyword, true)) {
+                        filteredPaths.add(it)
+                    }
                 }
             }
 
