@@ -6,13 +6,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.popups.apks.PopupApksCategory
+import app.simple.inure.preferences.ApkBrowserPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 class ApkBrowserViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val paths: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().also {
+    private var files = ArrayList<File>()
+
+    private val pathData: MutableLiveData<ArrayList<File>> by lazy {
+        MutableLiveData<ArrayList<File>>().also {
             loadApkPaths()
         }
     }
@@ -21,8 +26,8 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         MutableLiveData<String>()
     }
 
-    fun getApkPaths(): LiveData<ArrayList<String>> {
-        return paths
+    fun getApkFiles(): LiveData<ArrayList<File>> {
+        return pathData
     }
 
     fun getPathInfo(): LiveData<String> {
@@ -32,21 +37,69 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
     private fun loadApkPaths() {
         viewModelScope.launch(Dispatchers.IO) {
             val externalStorage = Environment.getExternalStorageDirectory()
-            val apkPaths = ArrayList<String>()
+            val apkPaths = ArrayList<File>()
 
             externalStorage.walkTopDown().forEach {
                 info.postValue(it.absolutePath.substringBeforeLast("/"))
 
-                if (it.extension == "apk" || it.extension == "apks" || it.extension == "apkm") {
-                    apkPaths.add(it.absolutePath)
+                when (ApkBrowserPreferences.getAppsCategory()) {
+                    PopupApksCategory.APK -> {
+                        if (it.isFile && it.extension == "apk") {
+                            apkPaths.add(it)
+                        }
+                    }
+                    PopupApksCategory.SPLIT -> {
+                        if (it.isFile && it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
+                            apkPaths.add(it)
+                        }
+                    }
+                    PopupApksCategory.BOTH -> {
+                        if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
+                            apkPaths.add(it)
+                        }
+                    }
+                }
+
+                if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
+                    files.add(it) // backup for filtering
                 }
             }
 
-            paths.postValue(apkPaths)
+            @Suppress("UNCHECKED_CAST")
+            pathData.postValue(apkPaths.clone() as ArrayList<File>)
         }
     }
 
     fun refresh() {
         loadApkPaths()
+    }
+
+    fun filter(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filteredPaths = ArrayList<File>()
+
+            files.forEach {
+                when (ApkBrowserPreferences.getAppsCategory()) {
+                    PopupApksCategory.APK -> {
+                        if (it.isFile && it.extension == "apk" && it.name.contains(query, true)) {
+                            filteredPaths.add(it)
+                        }
+                    }
+                    PopupApksCategory.SPLIT -> {
+                        if (it.isFile && it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk" && it.name.contains(query, true)) {
+                            filteredPaths.add(it)
+                        }
+                    }
+                    PopupApksCategory.BOTH -> {
+                        if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk" && it.name.contains(query, true)) {
+                            filteredPaths.add(it)
+                        }
+                    }
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            pathData.postValue(filteredPaths.clone() as ArrayList<File>)
+        }
     }
 }

@@ -68,4 +68,5 @@
     <string name="hamza_rizwan" translatable="false">Hamza Rizwan</string>
     <string name="developer_desc" translatable="false">Stay connected with me on various social platforms to keep up with my development progress. I\'ll be sharing updates, insights, and interesting projects. Let\'s stay in touch and share the coding journey!</string>
     <string name="sample" translatable="false">sample</string>
+    <string name="apk">APK</string>
 </resources>

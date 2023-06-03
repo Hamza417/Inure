@@ -160,6 +160,11 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        SearchPreferences.setSearchKeywordMode(false)
+    }
+
     companion object {
         fun newInstance(firstLaunch: Boolean): Search {
             val args = Bundle()

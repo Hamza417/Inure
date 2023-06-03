@@ -21,8 +21,8 @@ object BottomMenuConstants {
             divider,
             Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
-            Pair(R.drawable.ic_settings, R.string.preferences),
             divider,
+            Pair(R.drawable.ic_settings, R.string.preferences),
             Pair(R.drawable.ic_search, R.string.search),
     )
 
@@ -146,6 +146,9 @@ object BottomMenuConstants {
     val apkBrowserMenu: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
+                divider,
+                Pair(R.drawable.ic_sort, R.string.sort),
+                Pair(R.drawable.ic_filter, R.string.filter),
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),

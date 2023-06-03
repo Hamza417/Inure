@@ -18,11 +18,12 @@ import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
+import java.io.File
 import java.util.*
 
 class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    var paths = arrayListOf<String>()
+    var paths = arrayListOf<File>()
     private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -47,9 +48,9 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
         if (holder is Holder) {
 
             holder.icon.loadAPKIcon(paths[position])
-            holder.name.text = paths[position].substring(paths[position].lastIndexOf("/") + 1)
-            holder.packageId.text = paths[position]
-            holder.info.text = paths[position].toSize() + " | " + paths[position].substring(paths[position].lastIndexOf(".") + 1).uppercase(Locale.getDefault())
+            holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
+            holder.path.text = paths[position].absolutePath
+            holder.info.text = paths[position].absolutePath.toSize() + " | " + paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault())
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
@@ -130,7 +131,7 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
@@ -144,7 +145,7 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     fun loadSplitIcon() {
         for (i in 0 until paths.size) {
-            if (paths[i].endsWith(".apkm") || paths[i].endsWith(".apks") || paths[i].endsWith(".zip")) {
+            if (paths[i].absolutePath.endsWith(".apkm") || paths[i].absolutePath.endsWith(".apks") || paths[i].absolutePath.endsWith(".zip")) {
                 notifyItemChanged(i + 1)
             }
         }
