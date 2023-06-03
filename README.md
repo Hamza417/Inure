@@ -76,6 +76,7 @@ its [Telegram Group](https://t.me/inure_app_manager) for development related upd
 - [x] Boot manager for all apps.
 - [x] Add option to disable trackers.
 - [ ] Add multiple apk installer.
+- [ ] Selection framework for APKs panel
 - [ ] Batch tracker control.
 - [ ] Add all apps stack trace monitor tool.
 - [ ] Manage system wide default apps.

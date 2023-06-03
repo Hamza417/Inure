@@ -23,7 +23,7 @@ import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -180,7 +180,7 @@ class APKs : ScopedFragment() {
                                     packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
                                 }
 
-                                if (packageInfo.isInstalled()) {
+                                if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
                                     packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
                                     icon.transitionName = packageInfo.packageName
                                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
