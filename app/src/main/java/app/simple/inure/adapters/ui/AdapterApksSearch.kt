@@ -19,7 +19,10 @@ import app.simple.inure.util.FileSizeHelper.toSize
 import java.io.File
 import java.util.*
 
-class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(), val keyword: String) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(),
+                        private val keyword: String,
+                        private val transitionName: String,
+                        private val transitionPosition: Int) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterCallbacks: AdapterCallbacks
 
@@ -31,6 +34,15 @@ class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(), val keyword:
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
         if (holder is Holder) {
+            if (transitionName.isNotEmpty()) {
+                if (position == transitionPosition) {
+                    holder.icon.transitionName = transitionName
+                } else {
+                    holder.icon.transitionName = paths[position].absolutePath
+                }
+            } else {
+                holder.icon.transitionName = paths[position].absolutePath
+            }
 
             holder.icon.loadAPKIcon(paths[position])
             holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
@@ -40,11 +52,11 @@ class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(), val keyword:
                     paths[position].lastModified().toDate()
 
             holder.container.setOnClickListener {
-                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
+                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition, holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
+                adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition, holder.icon)
                 true
             }
 

@@ -67,6 +67,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                 appsAdapterSearchSmall.setOnItemClickListener(object : AdapterCallbacks {
                     override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                        SearchPreferences.setSearchKeywordMode(false)
                         openAppInfo(packageInfo, icon)
                     }
 
@@ -98,6 +99,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                 adapterDeepSearch.setOnItemClickListener(object : AdapterCallbacks {
                     override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                        SearchPreferences.setSearchKeywordMode(false)
                         openAppInfo(packageInfo, icon)
                     }
 

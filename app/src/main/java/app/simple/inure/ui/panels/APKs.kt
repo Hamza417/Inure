@@ -25,6 +25,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apks.ApkScanner
 import app.simple.inure.dialogs.apks.ApkScanner.Companion.showApkScanner
@@ -68,14 +69,18 @@ class APKs : ScopedFragment() {
         if (fullVersionCheck()) {
             if (apkBrowserViewModel.getApkFiles().isInitialized.invert()) {
                 apkScanner = childFragmentManager.showApkScanner()
-                startPostponedEnterTransition()
+                // startPostponedEnterTransition()
             }
         }
 
         apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
+            postponeEnterTransition()
             apkScanner?.dismiss()
 
-            adapterApks = AdapterApks(it)
+            adapterApks = AdapterApks(
+                    it,
+                    requireArguments().getString(BundleConstants.transitionName, ""),
+                    requireArguments().getInt(BundleConstants.position, 0))
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -111,6 +116,8 @@ class APKs : ScopedFragment() {
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                            icon.transitionName = uri.toString()
 
                             if (BehaviourPreferences.isArcAnimationOn()) {
                                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
@@ -176,6 +183,8 @@ class APKs : ScopedFragment() {
                                 if (packageInfo.isInstalled()) {
                                     packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
                                     icon.transitionName = packageInfo.packageName
+                                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                                    requireArguments().putInt(BundleConstants.position, position)
                                     packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
                                     openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                 } else {

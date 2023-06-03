@@ -1,7 +1,6 @@
 package app.simple.inure.ui.subpanels
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -82,6 +81,8 @@ class ApksSearch : KeyboardScopedFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
 
         searchBox.setText(ApkBrowserPreferences.getSearchKeyword())
         searchBox.setWindowInsetsAnimationCallback()
@@ -93,7 +94,12 @@ class ApksSearch : KeyboardScopedFragment() {
         }
 
         apkBrowserViewModel.getSearchResults().observe(viewLifecycleOwner) {
-            adapterApksSearch = AdapterApksSearch(it, searchBox.text.toString())
+            postponeEnterTransition()
+
+            adapterApksSearch = AdapterApksSearch(
+                    it, searchBox.text.toString(),
+                    requireArguments().getString(BundleConstants.transitionName, ""),
+                    requireArguments().getInt(BundleConstants.position, 0))
 
             adapterApksSearch.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -129,6 +135,8 @@ class ApksSearch : KeyboardScopedFragment() {
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+                            icon.transitionName = uri.toString()
 
                             if (BehaviourPreferences.isArcAnimationOn()) {
                                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
@@ -194,6 +202,8 @@ class ApksSearch : KeyboardScopedFragment() {
                                 if (packageInfo.isInstalled()) {
                                     packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
                                     icon.transitionName = packageInfo.packageName
+                                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                                    requireArguments().putInt(BundleConstants.position, position)
                                     packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
                                     openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                 } else {
@@ -223,13 +233,9 @@ class ApksSearch : KeyboardScopedFragment() {
                 }
             }
 
+            ApkBrowserPreferences.setSearchKeyword(text.toString())
+
             clearButtonState()
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-
         }
     }
 

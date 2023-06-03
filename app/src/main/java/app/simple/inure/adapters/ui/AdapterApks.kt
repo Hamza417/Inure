@@ -13,16 +13,18 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.popups.apps.PopupAppsCategory
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.popups.apks.PopupApksCategory
+import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.Sort
+import app.simple.inure.util.SortApks
 import java.io.File
 import java.util.*
 
-class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
+                  private val transitionName: String,
+                  private val transitionPosition: Int) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterCallbacks: AdapterCallbacks
 
@@ -46,6 +48,15 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
         if (holder is Holder) {
+            if (transitionName.isNotEmpty()) {
+                if (position == transitionPosition) {
+                    holder.icon.transitionName = transitionName
+                } else {
+                    holder.icon.transitionName = paths[position].absolutePath
+                }
+            } else {
+                holder.icon.transitionName = paths[position].absolutePath
+            }
 
             holder.icon.loadAPKIcon(paths[position])
             holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
@@ -62,22 +73,21 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
                 adapterCallbacks.onApkLongClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
                 true
             }
-
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total), paths.size)
 
-            holder.category.text = when (MainPreferences.getAppsCategory()) {
-                PopupAppsCategory.USER -> {
-                    holder.getString(R.string.user)
+            holder.category.text = when (ApkBrowserPreferences.getAppsCategory()) {
+                PopupApksCategory.APK -> {
+                    holder.getString(R.string.apk)
                 }
-                PopupAppsCategory.SYSTEM -> {
-                    holder.getString(R.string.system)
+                PopupApksCategory.SPLIT -> {
+                    holder.getString(R.string.split_packages)
                 }
-                PopupAppsCategory.BOTH -> {
+                PopupApksCategory.BOTH -> {
                     with(StringBuilder()) {
-                        append(holder.getString(R.string.user))
+                        append(holder.getString(R.string.apk))
                         append(" | ")
-                        append(holder.getString(R.string.system))
+                        append(holder.getString(R.string.split_packages))
                     }
                 }
                 else -> {
@@ -85,18 +95,15 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
                 }
             }
 
-            holder.sorting.text = when (MainPreferences.getSortStyle()) {
-                Sort.NAME -> {
+            holder.sorting.text = when (ApkBrowserPreferences.getSortStyle()) {
+                SortApks.NAME -> {
                     holder.getString(R.string.name)
                 }
-                Sort.PACKAGE_NAME -> {
-                    holder.getString(R.string.package_name)
+                SortApks.SIZE -> {
+                    holder.getString(R.string.size)
                 }
-                Sort.INSTALL_DATE -> {
-                    holder.getString(R.string.install_date)
-                }
-                Sort.SIZE -> {
-                    holder.getString(R.string.app_size)
+                SortApks.DATE -> {
+                    holder.getString(R.string.date)
                 }
                 else -> {
                     holder.getString(R.string.unknown)
