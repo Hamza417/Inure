@@ -88,6 +88,8 @@
     <string name="alt_sends_esc">Alt клавиша посылает ESC</string>
     <string name="title_mouse_tracking_preference">Отправить события мыши</string>
     <string name="summary_mouse_tracking_preference">Должны ли события касания и прокрутки отправляться в терминал как управляющие последовательности.</string>
+    <string name="title_use_rish">Использовать RISH</string>
+    <string name="summary_use_rish">Использовать ли Shizuku RISH (Remote Interactive Shell Host).\n\nНеобходим доступ к Shizuku.</string>
     <string name="title_use_keyboard_shortcuts">Использовать клавиши быстрого доступа</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Цикл через окна\nCtrl-Shift-N: Новое окно\nCtrl-Shift-V: Вставить.</string>
     <string name="help">Справка</string>
