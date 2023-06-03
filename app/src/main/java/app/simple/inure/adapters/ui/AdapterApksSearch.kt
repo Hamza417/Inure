@@ -13,38 +13,23 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.popups.apps.PopupAppsCategory
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
-import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.Sort
 import java.io.File
 import java.util.*
 
-class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(), val keyword: String) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
-        return when (viewType) {
-            RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_apks, parent, false))
-            }
-            RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_all_apps_small_details, parent, false))
-            }
-            else -> {
-                throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
-            }
-        }
+        return Holder(LayoutInflater.from(parent.context)
+                          .inflate(R.layout.adapter_all_apps_small_details, parent, false))
     }
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
         if (holder is Holder) {
 
             holder.icon.loadAPKIcon(paths[position])
@@ -63,45 +48,9 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
                 true
             }
 
-        } else if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total), paths.size)
-
-            holder.category.text = when (MainPreferences.getAppsCategory()) {
-                PopupAppsCategory.USER -> {
-                    holder.getString(R.string.user)
-                }
-                PopupAppsCategory.SYSTEM -> {
-                    holder.getString(R.string.system)
-                }
-                PopupAppsCategory.BOTH -> {
-                    with(StringBuilder()) {
-                        append(holder.getString(R.string.user))
-                        append(" | ")
-                        append(holder.getString(R.string.system))
-                    }
-                }
-                else -> {
-                    holder.getString(R.string.unknown)
-                }
-            }
-
-            holder.sorting.text = when (MainPreferences.getSortStyle()) {
-                Sort.NAME -> {
-                    holder.getString(R.string.name)
-                }
-                Sort.PACKAGE_NAME -> {
-                    holder.getString(R.string.package_name)
-                }
-                Sort.INSTALL_DATE -> {
-                    holder.getString(R.string.install_date)
-                }
-                Sort.SIZE -> {
-                    holder.getString(R.string.app_size)
-                }
-                else -> {
-                    holder.getString(R.string.unknown)
-                }
-            }
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.path, keyword)
+            AdapterUtils.searchHighlighter(holder.info, keyword)
         }
     }
 
@@ -113,17 +62,11 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
     }
 
     override fun getItemCount(): Int {
-        return paths.size + 1
+        return paths.size
     }
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
-            RecyclerViewUtils.TYPE_HEADER
-        } else RecyclerViewUtils.TYPE_ITEM
     }
 
     fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
@@ -136,13 +79,6 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf()) : RecyclerView.Ada
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
-    }
-
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
-        val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
-        val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
-        val loader: View = itemView.findViewById(R.id.loader)
     }
 
     fun loadSplitIcon() {

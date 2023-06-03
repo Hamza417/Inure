@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,12 +24,22 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
+    private val searchData: MutableLiveData<ArrayList<File>> by lazy {
+        MutableLiveData<ArrayList<File>>().also {
+            search(ApkBrowserPreferences.getSearchKeyword())
+        }
+    }
+
     private val info: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     fun getApkFiles(): LiveData<ArrayList<File>> {
         return pathData
+    }
+
+    fun getSearchResults(): LiveData<ArrayList<File>> {
+        return searchData
     }
 
     fun getPathInfo(): LiveData<String> {
@@ -120,6 +131,32 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
             @Suppress("UNCHECKED_CAST")
             pathData.postValue(sortedPaths.clone() as ArrayList<File>)
+        }
+    }
+
+    fun search(keyword: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filteredPaths = ArrayList<File>()
+
+            if (keyword.isEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                searchData.postValue(filteredPaths.clone() as ArrayList<File>)
+                return@launch
+            }
+
+            files.forEach {
+                if (it.name.contains(keyword, true) ||
+                    it.absolutePath.contains(keyword, true) ||
+                    it.extension.contains(keyword, true) ||
+                    it.lastModified().toDate().contains(keyword, true)) {
+                    filteredPaths.add(it)
+                }
+            }
+
+            filteredPaths.getSortedList(ApkBrowserPreferences.getSortStyle(), ApkBrowserPreferences.isReverseSorting())
+
+            @Suppress("UNCHECKED_CAST")
+            searchData.postValue(filteredPaths.clone() as ArrayList<File>)
         }
     }
 }

@@ -10,6 +10,7 @@ object ApkBrowserPreferences {
     const val appFilter = "apk_app_filter"
     const val sortStyle = "apk_sort_style"
     const val reversed = "apk_sort_reversed"
+    const val searchKeyword = "apk_search_keyword"
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
@@ -49,5 +50,15 @@ object ApkBrowserPreferences {
 
     fun setReverseSorting(value: Boolean) {
         getSharedPreferences().edit().putBoolean(reversed, value).apply()
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------ //
+
+    fun getSearchKeyword(): String {
+        return getSharedPreferences().getString(searchKeyword, "")!!
+    }
+
+    fun setSearchKeyword(keyword: String) {
+        getSharedPreferences().edit().putString(searchKeyword, keyword).apply()
     }
 }

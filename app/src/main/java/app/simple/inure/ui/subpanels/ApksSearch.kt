@@ -1,6 +1,5 @@
-package app.simple.inure.ui.panels
+package app.simple.inure.ui.subpanels
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
@@ -12,77 +11,96 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.selection.*
 import app.simple.inure.R
 import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
-import app.simple.inure.adapters.ui.AdapterApks
+import app.simple.inure.adapters.ui.AdapterApksSearch
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
-import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.apks.ApkScanner
-import app.simple.inure.dialogs.apks.ApkScanner.Companion.showApkScanner
-import app.simple.inure.dialogs.apks.ApksMenu.Companion.showApksMenu
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
-import app.simple.inure.popups.apks.PopupApksCategory
-import app.simple.inure.popups.apks.PopupApksSortingStyle
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.ui.subpanels.ApksSearch
+import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.StatusBarHeight
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 
-class APKs : ScopedFragment() {
+class ApksSearch : KeyboardScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var searchBox: TypeFaceEditText
+    private lateinit var clear: DynamicRippleImageButton
+    private lateinit var searchContainer: LinearLayout
+
     private lateinit var apkBrowserViewModel: ApkBrowserViewModel
-    private lateinit var adapterApks: AdapterApks
-    private var apkScanner: ApkScanner? = null
+    private lateinit var adapterApksSearch: AdapterApksSearch
+
+    private var displayHeight: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_apk_browser, container, false)
+        val view = inflater.inflate(R.layout.fragment_music_search, container, false)
 
-        recyclerView = view.findViewById(R.id.apks_recycler_view)
-
+        recyclerView = view.findViewById(R.id.search_recycler_view)
+        searchBox = view.findViewById(R.id.search_box)
+        clear = view.findViewById(R.id.clear)
+        searchContainer = view.findViewById(R.id.search_container)
         apkBrowserViewModel = ViewModelProvider(requireActivity())[ApkBrowserViewModel::class.java]
+
+        displayHeight = StatusBarHeight.getDisplayHeight(requireContext()) +
+                StatusBarHeight.getStatusBarHeight(requireContext().resources)
+
+        //        val params = searchContainer.layoutParams as ViewGroup.MarginLayoutParams
+        //        params.setMargins(params.leftMargin,
+        //                          StatusBarHeight.getStatusBarHeight(resources) + params.topMargin,
+        //                          params.rightMargin,
+        //                          params.bottomMargin)
+        //
+        //        recyclerView.setPadding(recyclerView.paddingLeft,
+        //                                recyclerView.paddingTop + params.topMargin + params.height + params.bottomMargin,
+        //                                recyclerView.paddingRight,
+        //                                recyclerView.paddingBottom)
 
         return view
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
 
-        if (fullVersionCheck()) {
-            if (apkBrowserViewModel.getApkFiles().isInitialized.invert()) {
-                apkScanner = childFragmentManager.showApkScanner()
-                startPostponedEnterTransition()
-            }
+        searchBox.setText(ApkBrowserPreferences.getSearchKeyword())
+        searchBox.setWindowInsetsAnimationCallback()
+        clearButtonState()
+
+        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+            searchBox.showInput()
+            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
         }
 
-        apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
-            apkScanner?.dismiss()
+        apkBrowserViewModel.getSearchResults().observe(viewLifecycleOwner) {
+            adapterApksSearch = AdapterApksSearch(it, searchBox.text.toString())
 
-            adapterApks = AdapterApks(it)
-
-            adapterApks.setOnItemClickListener(object : AdapterCallbacks {
+            adapterApksSearch.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
                     val uri = FileProvider.getUriForFile(
                             /* context = */ requireActivity().applicationContext,
                             /* authority = */ "${requireContext().packageName}.provider",
-                            /* file = */ adapterApks.paths[position])
+                            /* file = */ adapterApksSearch.paths[position])
 
                     val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
                     intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -105,7 +123,7 @@ class APKs : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position])
 
                             val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -123,10 +141,10 @@ class APKs : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    if (adapterApks.paths[position].delete()) {
-                                        adapterApks.paths.removeAt(position)
-                                        adapterApks.notifyItemRemoved(position.plus(1))
-                                        adapterApks.notifyItemChanged(0) // Update the header
+                                    if (adapterApksSearch.paths[position].delete()) {
+                                        adapterApksSearch.paths.removeAt(position)
+                                        adapterApksSearch.notifyItemRemoved(position.plus(1))
+                                        adapterApksSearch.notifyItemChanged(0) // Update the header
                                     }
                                 }
                             })
@@ -136,7 +154,7 @@ class APKs : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position])
                             val intent = Intent(Intent.ACTION_SEND)
                             intent.type = "application/vnd.android.package-archive"
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
@@ -148,7 +166,7 @@ class APKs : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position])
                             val intent = Intent(requireContext(), ManifestAssociationActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
@@ -158,19 +176,19 @@ class APKs : ScopedFragment() {
 
                         override fun onInfoClicked() {
                             kotlin.runCatching {
-                                if (adapterApks.paths[position].absolutePath.endsWith(".apk")) {
+                                if (adapterApksSearch.paths[position].absolutePath.endsWith(".apk")) {
                                     packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                     } else {
                                         @Suppress("DEPRECATION")
-                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageUtils.flags.toInt())!!
+                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].absolutePath, PackageUtils.flags.toInt())!!
                                     }
 
-                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
+                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].absolutePath
                                 } else {
                                     packageInfo = PackageInfo() // empty package info
                                     packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
+                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].absolutePath
                                 }
 
                                 if (packageInfo.isInstalled()) {
@@ -182,71 +200,51 @@ class APKs : ScopedFragment() {
                                     openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
                                 }
                             }.onFailure {
-                                showWarning("Failed to open apk : ${adapterApks.paths[position].absolutePath.substringAfterLast("/")}", false)
+                                showWarning("Failed to open apk : ${adapterApksSearch.paths[position].absolutePath.substringAfterLast("/")}", false)
                             }
                         }
                     })
                 }
             })
 
-            recyclerView.adapter = adapterApks
+            recyclerView.adapter = adapterApksSearch
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
+        }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.apkBrowserMenu, recyclerView) { id, view ->
-                when (id) {
-                    R.drawable.ic_refresh -> {
-                        apkScanner = childFragmentManager.showApkScanner()
-                        apkBrowserViewModel.refresh()
-                    }
-                    R.drawable.ic_settings -> {
-                        childFragmentManager.showApksMenu()
-                    }
-                    R.drawable.ic_search -> {
-                        openFragmentSlide(ApksSearch.newInstance(), "apks_search")
-                    }
-                    R.drawable.ic_filter -> {
-                        PopupApksCategory(view)
-                    }
-                    R.drawable.ic_sort -> {
-                        PopupApksSortingStyle(view)
-                    }
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                if (text.isNullOrEmpty()) {
+                    apkBrowserViewModel.search("")
+                } else {
+                    apkBrowserViewModel.search(text.toString())
                 }
             }
-        }
-    }
 
-    @Suppress("unused")
-    private fun updateBottomMenu(isSelected: Boolean) {
-        if (isSelected) {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)
-        } else {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu)
+            clearButtonState()
         }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ApkBrowserPreferences.loadSplitIcon -> {
-                adapterApks.loadSplitIcon()
-            }
-            ApkBrowserPreferences.appFilter -> {
-                apkBrowserViewModel.filter("")
-            }
-            ApkBrowserPreferences.reversed,
-            ApkBrowserPreferences.sortStyle -> {
-                apkBrowserViewModel.sort()
-            }
+
+        }
+    }
+
+    private fun clearButtonState() {
+        if (searchBox.text.isNullOrEmpty()) {
+            clear.gone(animate = true)
+        } else {
+            clear.visible(animate = true)
         }
     }
 
     companion object {
-        fun newInstance(): APKs {
+        fun newInstance(): ApksSearch {
             val args = Bundle()
-            val fragment = APKs()
+            val fragment = ApksSearch()
             fragment.arguments = args
             return fragment
         }
