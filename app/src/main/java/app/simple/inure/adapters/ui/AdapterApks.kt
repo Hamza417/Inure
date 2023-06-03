@@ -15,15 +15,15 @@ import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
 import java.io.File
 import java.util.*
 
-class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterApks(var paths: ArrayList<File> = arrayListOf<File>()) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    var paths = arrayListOf<File>()
     private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -50,7 +50,9 @@ class AdapterApks : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.icon.loadAPKIcon(paths[position])
             holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
             holder.path.text = paths[position].absolutePath
-            holder.info.text = paths[position].absolutePath.toSize() + " | " + paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault())
+            holder.info.text = paths[position].absolutePath.toSize() + " | " +
+                    paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
+                    paths[position].lastModified().toDate()
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)

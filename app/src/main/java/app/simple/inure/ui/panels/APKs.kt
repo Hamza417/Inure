@@ -35,6 +35,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.popups.apks.PopupApksCategory
+import app.simple.inure.popups.apks.PopupApksSortingStyle
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.ui.viewers.Information
@@ -73,9 +74,7 @@ class APKs : ScopedFragment() {
         apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
             apkScanner?.dismiss()
 
-            adapterApks = AdapterApks()
-            adapterApks.paths = it
-            adapterApks.notifyDataSetChanged()
+            adapterApks = AdapterApks(it)
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -210,6 +209,9 @@ class APKs : ScopedFragment() {
                     R.drawable.ic_filter -> {
                         PopupApksCategory(view)
                     }
+                    R.drawable.ic_sort -> {
+                        PopupApksSortingStyle(view)
+                    }
                 }
             }
         }
@@ -232,6 +234,10 @@ class APKs : ScopedFragment() {
             }
             ApkBrowserPreferences.appFilter -> {
                 apkBrowserViewModel.filter("")
+            }
+            ApkBrowserPreferences.reversed,
+            ApkBrowserPreferences.sortStyle -> {
+                apkBrowserViewModel.sort()
             }
         }
     }

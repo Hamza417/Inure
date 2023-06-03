@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -65,8 +66,10 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 }
             }
 
+            apkPaths.getSortedList(ApkBrowserPreferences.getSortStyle(), ApkBrowserPreferences.isReverseSorting())
+
             @Suppress("UNCHECKED_CAST")
-            pathData.postValue(apkPaths.clone() as ArrayList<File>)
+            pathData.postValue(apkPaths)
         }
     }
 
@@ -98,8 +101,25 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 }
             }
 
+            filteredPaths.getSortedList(ApkBrowserPreferences.getSortStyle(), ApkBrowserPreferences.isReverseSorting())
+
             @Suppress("UNCHECKED_CAST")
             pathData.postValue(filteredPaths.clone() as ArrayList<File>)
+        }
+    }
+
+    fun sort() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val sortedPaths = ArrayList<File>()
+
+            pathData.value?.forEach {
+                sortedPaths.add(it)
+            }
+
+            sortedPaths.getSortedList(ApkBrowserPreferences.getSortStyle(), ApkBrowserPreferences.isReverseSorting())
+
+            @Suppress("UNCHECKED_CAST")
+            pathData.postValue(sortedPaths.clone() as ArrayList<File>)
         }
     }
 }

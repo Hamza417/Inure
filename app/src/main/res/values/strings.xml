@@ -673,4 +673,5 @@
     <string name="installed">Installed</string>
     <string name="no_boot_components_found">No Boot Components Found</string>
     <string name="follow_developer_on_Socials">Follow Developer on Socials</string>
+    <string name="size">Size</string>
 </resources>
