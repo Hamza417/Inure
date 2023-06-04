@@ -23,6 +23,8 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
     private lateinit var done: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
 
+    private var lastOptimizationState: Boolean = false
+
     private var batteryOptimizationModel: BatteryOptimizationModel? = null
     private var batteryOptimizationCallbacks: BatteryOptimizationCallbacks? = null
 
@@ -43,6 +45,7 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        lastOptimizationState = batteryOptimizationModel?.isOptimized!!
         packageId.text = batteryOptimizationModel?.packageInfo?.applicationInfo?.name
         optimizeRadioButton.isChecked = batteryOptimizationModel?.isOptimized!!
         dontOptimizeRadioButton.isChecked = !batteryOptimizationModel?.isOptimized!!
@@ -62,10 +65,13 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
         }
 
         done.setOnClickListener {
-            batteryOptimizationModel?.let { batteryOptimizationModel ->
-                batteryOptimizationCallbacks?.onOptimizationSet(batteryOptimizationModel)
-                dismiss()
+            if (optimizeRadioButton.isChecked && !lastOptimizationState) {
+                batteryOptimizationCallbacks?.onOptimizationSet(batteryOptimizationModel!!)
+            } else if (dontOptimizeRadioButton.isChecked && lastOptimizationState) {
+                batteryOptimizationCallbacks?.onOptimizationSet(batteryOptimizationModel!!)
             }
+
+            dismiss()
         }
 
         cancel.setOnClickListener {
