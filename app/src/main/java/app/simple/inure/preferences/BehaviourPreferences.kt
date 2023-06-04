@@ -112,7 +112,7 @@ object BehaviourPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setDampingRatio(value: Float) {
-        SharedPreferences.getSharedPreferences().edit().putFloat(dampingRatio, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putFloat(dampingRatio, value.coerceAtLeast(0.1F).coerceAtMost(1F)).apply()
     }
 
     fun getDampingRatio(): Float {

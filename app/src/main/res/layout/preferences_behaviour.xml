@@ -630,7 +630,8 @@
                     app:appFontStyle="medium"
                     app:textColorStyle="accent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+                    android:id="@+id/damping_ratio_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -662,7 +663,7 @@
                         app:drawableEndCompat="@drawable/ic_dot_tiny"
                         app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toTopOf="@id/damping_ration_desc"
-                        app:layout_constraintEnd_toStartOf="@+id/popup_damping_ratio"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/damping_ratio_icon"
                         app:layout_constraintTop_toTopOf="parent"
@@ -678,28 +679,12 @@
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/popup_damping_ratio"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/damping_ratio_icon"
                         app:layout_constraintTop_toBottomOf="@id/damping_ratio_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                        android:id="@+id/popup_damping_ratio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/ani_ic_unfold_popup"
-                        android:drawablePadding="10dp"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/dialog_padding"
-                        android:textSize="@dimen/desc_text_size"
-                        app:appFontStyle="regular"
-                        app:drawableTintStyle="accent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:textColorStyle="tertiary" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
 
                 <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
                     android:id="@+id/stiffness_container"

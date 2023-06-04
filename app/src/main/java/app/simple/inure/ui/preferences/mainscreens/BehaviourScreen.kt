@@ -5,15 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.dynamicanimation.animation.SpringForce
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.dialogs.behavior.DampingRatio.Companion.showDampingRatioDialog
 import app.simple.inure.dialogs.behavior.Stiffness.Companion.showStiffnessDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.behavior.PopupArcType
-import app.simple.inure.popups.behavior.PopupDampingRatio
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
 
@@ -29,7 +28,7 @@ class BehaviourScreen : ScopedFragment() {
 
     private lateinit var transitionType: DynamicRippleTextView
     private lateinit var arcType: DynamicRippleTextView
-    private lateinit var dampingRatio: DynamicRippleTextView
+    private lateinit var dampingRatio: DynamicRippleConstraintLayout
     private lateinit var stiffness: DynamicRippleConstraintLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +44,7 @@ class BehaviourScreen : ScopedFragment() {
 
         transitionType = view.findViewById(R.id.popup_transition_type)
         arcType = view.findViewById(R.id.popup_arc_transition_type)
-        dampingRatio = view.findViewById(R.id.popup_damping_ratio)
+        dampingRatio = view.findViewById(R.id.damping_ratio_container)
         stiffness = view.findViewById(R.id.stiffness_container)
 
         startPostponedEnterTransition()
@@ -66,7 +65,6 @@ class BehaviourScreen : ScopedFragment() {
 
         setTransitionType()
         setArcType()
-        setDampingRatio()
 
         dimWindows.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setDimWindows(it)
@@ -105,7 +103,7 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         dampingRatio.setOnClickListener {
-            PopupDampingRatio(it)
+            childFragmentManager.showDampingRatioDialog()
         }
 
         stiffness.setOnClickListener {
@@ -138,20 +136,10 @@ class BehaviourScreen : ScopedFragment() {
         }
     }
 
-    private fun setDampingRatio() {
-        dampingRatio.text = when (BehaviourPreferences.getDampingRatio()) {
-            SpringForce.DAMPING_RATIO_NO_BOUNCY -> getString(R.string.none)
-            SpringForce.DAMPING_RATIO_LOW_BOUNCY -> getString(R.string.low)
-            SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY -> getString(R.string.medium)
-            SpringForce.DAMPING_RATIO_HIGH_BOUNCY -> getString(R.string.high)
-            else -> getString(R.string.unknown)
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             BehaviourPreferences.dampingRatio -> {
-                setDampingRatio()
+                // setDampingRatio()
             }
             BehaviourPreferences.stiffness -> {
                 // setStiffness()
