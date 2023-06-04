@@ -126,6 +126,6 @@ object BehaviourPreferences {
     }
 
     fun getStiffness(): Float {
-        return SharedPreferences.getSharedPreferences().getFloat(stiffness, SpringForce.STIFFNESS_LOW)
+        return SharedPreferences.getSharedPreferences().getFloat(stiffness, SpringForce.STIFFNESS_LOW).coerceAtLeast(SpringForce.STIFFNESS_VERY_LOW).coerceAtMost(SpringForce.STIFFNESS_HIGH)
     }
 }

@@ -31,7 +31,7 @@ class RoundedCorner : ScopedBottomSheetFragment() {
     private val factor = 10F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_app_corner, container, false)
+        val view = inflater.inflate(R.layout.dialog_corner_radius, container, false)
 
         radiusValue = view.findViewById(R.id.app_corner_radius_textview)
         radiusSeekBar = view.findViewById(R.id.app_corner_radius_seekbar)
