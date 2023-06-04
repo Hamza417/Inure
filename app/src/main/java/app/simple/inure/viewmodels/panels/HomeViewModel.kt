@@ -254,7 +254,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }
 
             if (HomePreferences.isPanelVisible(HomePreferences.isSavedCommandsVisible)) {
-                list.add(Pair(R.drawable.ic_terminal_saved, R.string.saved_commands))
+                list.add(Pair(R.drawable.ic_push_pin, R.string.saved_commands))
             }
 
             list.add(Pair(0, 0)) // Divider
@@ -323,7 +323,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             list.add(VisibilityCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
             list.add(VisibilityCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
             list.add(VisibilityCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
-            list.add(VisibilityCustomizationModel(R.string.saved_commands, R.drawable.ic_terminal_saved, HomePreferences.isSavedCommandsVisible))
+            list.add(VisibilityCustomizationModel(R.string.saved_commands, R.drawable.ic_push_pin, HomePreferences.isSavedCommandsVisible))
             list.add(VisibilityCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
             list.add(VisibilityCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
             list.add(VisibilityCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.isAPKsVisible))

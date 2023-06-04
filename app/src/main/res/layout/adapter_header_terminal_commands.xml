@@ -22,7 +22,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/saved_commands"
-            android:src="@drawable/ic_terminal_saved"
+            android:src="@drawable/ic_push_pin"
             android:transitionName="@string/saved_commands"
             app:tintType="accent" />
 
