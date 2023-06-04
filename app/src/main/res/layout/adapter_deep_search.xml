@@ -2,13 +2,13 @@
 <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/adapter_all_app_container"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/popup_padding">
 
     <app.simple.inure.decorations.views.AppIconImageView
-        android:id="@+id/adapter_all_app_icon"
+        android:id="@+id/icon"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
         android:clickable="false"
@@ -18,7 +18,7 @@
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_all_app_name"
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -27,15 +27,15 @@
         android:maxLines="1"
         android:textSize="@dimen/app_name_text_size"
         app:appFontStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_recently_app_package_id"
+        app:layout_constraintBottom_toTopOf="@+id/package_id"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/adapter_all_app_icon"
-        app:layout_constraintTop_toTopOf="@+id/adapter_all_app_icon"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="@+id/icon"
         app:layout_constraintVertical_bias="0.0"
         app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_recently_app_package_id"
+        android:id="@+id/package_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -43,14 +43,14 @@
         android:maxLines="1"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_all_app_info"
+        app:layout_constraintBottom_toTopOf="@+id/info"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_all_app_name"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toBottomOf="@id/name"
         app:textColorStyle="secondary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_all_app_info"
+        android:id="@+id/info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -58,25 +58,120 @@
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
         app:isDrawableHidden="true"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_deep_info"
+        app:layout_constraintBottom_toTopOf="@id/permissions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
-        app:layout_constraintTop_toBottomOf="@id/adapter_recently_app_package_id"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintTop_toBottomOf="@+id/package_id"
         app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_deep_info"
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/permissions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="1dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
         android:textSize="@dimen/app_package_text_size"
         app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
         app:isDrawableHidden="true"
-        app:layout_constraintBottom_toBottomOf="@+id/adapter_all_app_icon"
+        app:layout_constraintBottom_toTopOf="@+id/receivers"
+        app:layout_constraintEnd_toStartOf="@id/activities"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@+id/info"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/activities"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
+        app:isDrawableHidden="true"
+        app:layout_constraintBottom_toBottomOf="@+id/permissions"
+        app:layout_constraintEnd_toStartOf="@+id/services"
+        app:layout_constraintStart_toEndOf="@+id/permissions"
+        app:layout_constraintTop_toTopOf="@+id/permissions"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/services"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
+        app:isDrawableHidden="true"
+        app:layout_constraintBottom_toBottomOf="@+id/activities"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/adapter_all_app_icon"
-        app:layout_constraintTop_toBottomOf="@+id/adapter_all_app_info"
+        app:layout_constraintStart_toEndOf="@+id/activities"
+        app:layout_constraintTop_toTopOf="@+id/activities"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/receivers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
+        app:isDrawableHidden="true"
+        app:layout_constraintBottom_toBottomOf="@+id/icon"
+        app:layout_constraintEnd_toStartOf="@id/providers"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toBottomOf="@+id/permissions"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/providers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
+        app:isDrawableHidden="true"
+        app:layout_constraintBottom_toBottomOf="@+id/receivers"
+        app:layout_constraintEnd_toStartOf="@+id/resources"
+        app:layout_constraintStart_toEndOf="@+id/receivers"
+        app:layout_constraintTop_toTopOf="@+id/receivers"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/resources"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_package_text_size"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="accent"
+        app:isDrawableHidden="true"
+        app:layout_constraintBottom_toBottomOf="@+id/providers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/providers"
+        app:layout_constraintTop_toTopOf="@+id/providers"
         app:textColorStyle="tertiary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

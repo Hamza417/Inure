@@ -83,7 +83,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                     loader.setVisibility(View.VISIBLE);
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
-            
+    
                 if (count > 0 || !s.toString().isBlank()) {
                     ViewUtils.INSTANCE.visible(clear, true);
                     ViewUtils.INSTANCE.visible(refresh, true);
@@ -92,12 +92,17 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                     ViewUtils.INSTANCE.gone(refresh, true);
                 }
             }
-    
+        
             return Unit.INSTANCE;
         });
     
         menu.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
-        refresh.setOnClickListener(button -> searchViewEventListener.onSearchRefreshPressed(button));
+    
+        refresh.setOnClickListener(button -> {
+            loader.setVisibility(View.VISIBLE);
+            searchViewEventListener.onSearchRefreshPressed(button);
+        });
+    
         clear.setOnClickListener(button -> editText.setText(""));
     }
     

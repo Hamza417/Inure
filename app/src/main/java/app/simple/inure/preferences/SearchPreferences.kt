@@ -76,8 +76,8 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSearchKeywordMode(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(deepSearchKeywordMode, value).apply()
+    fun setSearchKeywordMode(value: Boolean): Boolean {
+        return getSharedPreferences().edit().putBoolean(deepSearchKeywordMode, value).commit()
     }
 
     fun isSearchKeywordModeEnabled(): Boolean {
