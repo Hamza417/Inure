@@ -75,7 +75,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
         }
 
         holder.resources.setOnClickListener {
-            adapterDeepSearchCallbacks.onProvidersClicked(deepSearchInfo[position].packageInfo)
+            adapterDeepSearchCallbacks.onResourcesClicked(deepSearchInfo[position].packageInfo)
         }
     }
 
