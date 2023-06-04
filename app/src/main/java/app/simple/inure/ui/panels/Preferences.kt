@@ -21,6 +21,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
+import app.simple.inure.dialogs.behavior.DampingRatio.Companion.showDampingRatioDialog
+import app.simple.inure.dialogs.behavior.Stiffness.Companion.showStiffnessDialog
 import app.simple.inure.dialogs.configuration.AppPath
 import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.dialogs.terminal.TerminalCommandLine
@@ -33,6 +35,7 @@ import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupDampingRatio
 import app.simple.inure.popups.behavior.PopupStiffness
 import app.simple.inure.popups.behavior.PopupTransitionType
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
@@ -169,10 +172,18 @@ class Preferences : SearchBarScopedFragment() {
                                     PopupArcType(view)
                                 }
                                 R.string.damping_ratio -> {
-                                    PopupDampingRatio(view)
+                                    if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                                        PopupDampingRatio(view)
+                                    } else {
+                                        childFragmentManager.showDampingRatioDialog()
+                                    }
                                 }
                                 R.string.stiffness -> {
-                                    PopupStiffness(view)
+                                    if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                                        PopupStiffness(view)
+                                    } else {
+                                        childFragmentManager.showStiffnessDialog()
+                                    }
                                 }
                                 else -> {
                                     openFragmentSlide(BehaviourScreen.newInstance(), "behaviour_prefs")

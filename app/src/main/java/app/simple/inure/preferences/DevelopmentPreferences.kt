@@ -24,6 +24,7 @@ object DevelopmentPreferences {
     const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
     const val isTextSelectable = "is_text_selectable"
     const val showGreetingInTerminal = "is_greeting_shown_in_terminal"
+    const val oldStyleScrollingBehaviorDialog = "is_old_style_scrolling_behavior_dialog_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -129,6 +130,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Show Greeting In Terminal",
                                             "Show greeting in terminal STDOUT when terminal is opened.",
                                             showGreetingInTerminal,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Use Old Style Scrolling Behavior Dialogs",
+                                            "Use old style scrolling behavior dialog instead of the current one.",
+                                            oldStyleScrollingBehaviorDialog,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

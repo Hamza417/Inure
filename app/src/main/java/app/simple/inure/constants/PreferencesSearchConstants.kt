@@ -71,7 +71,7 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_lightbulb, R.string.colored_shadows, R.string.colored_shadows_desc, toggleable, popups, behaviour),
             PreferenceModel(R.drawable.ic_animation, R.string.transitions, R.string.transition_desc, toggleable, animations, behaviour),
             PreferenceModel(R.drawable.ic_animation, R.string.transition_type, R.string.transition_type_desc, popup, animations, behaviour),
-            PreferenceModel(R.drawable.switch_thumb, R.string.damping_ratio, R.string.damping_ratio_desc, options, scrolling, behaviour),
+            PreferenceModel(R.drawable.switch_thumb, R.string.damping_ratio, R.string.damping_ratio_desc, popup, scrolling, behaviour),
             PreferenceModel(R.drawable.ic_stiffness, R.string.stiffness, R.string.stiffness_desc, popup, scrolling, behaviour),
             PreferenceModel(R.drawable.ic_arc_animations, R.string.arc_animations, R.string.desc_arc_animations, toggleable, animations, behaviour),
             PreferenceModel(R.drawable.ic_arc_animations, R.string.arc_type, R.string.arc_type_desc, popup, animations, behaviour),

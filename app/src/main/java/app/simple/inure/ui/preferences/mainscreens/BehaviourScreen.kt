@@ -13,8 +13,11 @@ import app.simple.inure.dialogs.behavior.DampingRatio.Companion.showDampingRatio
 import app.simple.inure.dialogs.behavior.Stiffness.Companion.showStiffnessDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.behavior.PopupArcType
+import app.simple.inure.popups.behavior.PopupDampingRatio
+import app.simple.inure.popups.behavior.PopupStiffness
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 
 class BehaviourScreen : ScopedFragment() {
 
@@ -103,11 +106,19 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         dampingRatio.setOnClickListener {
-            childFragmentManager.showDampingRatioDialog()
+            if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                PopupDampingRatio(view)
+            } else {
+                childFragmentManager.showDampingRatioDialog()
+            }
         }
 
         stiffness.setOnClickListener {
-            childFragmentManager.showStiffnessDialog()
+            if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                PopupStiffness(view)
+            } else {
+                childFragmentManager.showStiffnessDialog()
+            }
         }
 
         skipLoading.setOnSwitchCheckedChangeListener {
