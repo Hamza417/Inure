@@ -1,0 +1,5 @@
+- Added sort and filter in APKs panel
+- Deep search fixes and various UI improvements
+- Various bug fixes and performance improvements
+
+For full details, please see the app's change logs.
