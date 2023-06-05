@@ -24,6 +24,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.music.AlbumArtAdapter
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.decorations.corners.DynamicCornerTextView
 import app.simple.inure.decorations.lrc.LrcHelper
 import app.simple.inure.decorations.lrc.LrcView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -56,6 +57,7 @@ class AudioPlayerPager : ScopedFragment() {
     private lateinit var previous: DynamicRippleImageButton
     private lateinit var duration: TypeFaceTextView
     private lateinit var progress: TypeFaceTextView
+    private lateinit var number: DynamicCornerTextView
     private lateinit var title: TypeFaceTextView
     private lateinit var artist: TypeFaceTextView
     private lateinit var album: TypeFaceTextView
@@ -101,6 +103,7 @@ class AudioPlayerPager : ScopedFragment() {
         duration = view.findViewById(R.id.current_duration_mime)
         progress = view.findViewById(R.id.current_time_mime)
         fileInfo = view.findViewById(R.id.mime_info)
+        number = view.findViewById(R.id.number)
         title = view.findViewById(R.id.mime_title)
         artist = view.findViewById(R.id.mime_artist)
         album = view.findViewById(R.id.mime_album)
@@ -352,6 +355,7 @@ class AudioPlayerPager : ScopedFragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setMetaData(position: Int) {
         if (requireArguments().getInt(BundleConstants.position) < position) {
             title.setTextWithSlideAnimation(audioModels!![position].title, 250L, ViewUtils.LEFT, 0L)
@@ -374,6 +378,7 @@ class AudioPlayerPager : ScopedFragment() {
         }
 
         setLrc()
+        number.text = "${(position + 1)}/${audioModels!!.size}"
         requireArguments().putInt(BundleConstants.position, position)
     }
 

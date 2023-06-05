@@ -19,6 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <app.simple.inure.decorations.corners.DynamicCornerTextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/dialog_padding"
+            android:backgroundTint="@android:color/white"
+            android:padding="@dimen/popup_padding"
+            app:appFontStyle="bold"
+            app:textColorStyle="secondary" />
+
         <app.simple.inure.decorations.lrc.LrcView
             android:id="@+id/lrc_view"
             android:layout_width="match_parent"
@@ -41,11 +52,24 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
         android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/dialog_padding"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:text="Felicity Mini Player"
+            app:appFontStyle="regular"
+            app:drawableLeftCompat="@drawable/ic_felicity"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="tertiary"
+            tools:ignore="HardcodedText" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/mime_title"
@@ -200,8 +224,9 @@
 
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginHorizontal="@dimen/dialog_padding"
             android:layout_marginTop="@dimen/dialog_padding"
             android:layout_marginBottom="@dimen/dialog_padding"
@@ -210,21 +235,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/popup_padding"
-                android:gravity="center_vertical"
-                android:text="Felicity Mini Player"
-                app:appFontStyle="regular"
-                app:drawableLeftCompat="@drawable/ic_felicity"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="tertiary"
-                tools:ignore="HardcodedText" />
 
             <app.simple.inure.decorations.views.CustomProgressBar
                 android:id="@+id/loader"

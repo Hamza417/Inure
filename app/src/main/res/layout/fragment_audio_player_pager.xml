@@ -19,6 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <app.simple.inure.decorations.corners.DynamicCornerTextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/dialog_padding"
+            android:backgroundTint="@android:color/white"
+            android:padding="@dimen/popup_padding"
+            app:appFontStyle="bold"
+            app:textColorStyle="secondary" />
+
         <app.simple.inure.decorations.lrc.LrcView
             android:id="@+id/lrc_view"
             android:layout_width="match_parent"
@@ -48,13 +59,13 @@
         android:layout_marginHorizontal="@dimen/panel_item_padding"
         android:layout_marginTop="@dimen/dialog_padding"
         android:layout_marginBottom="1dp"
+        android:alpha="0"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textSize="@dimen/audio_title_text_size"
-        android:alpha="0"
         android:text="@string/not_available"
+        android:textSize="@dimen/audio_title_text_size"
         android:transitionName="album_name"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/mime_artist"
