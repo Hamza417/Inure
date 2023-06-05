@@ -75,6 +75,7 @@ its [Telegram Group](https://t.me/inure_app_manager) for development related upd
 - [x] Add battery optimisation manager for all apps.
 - [x] Boot manager for all apps.
 - [x] Add option to disable trackers.
+- [ ] Create activity shortcut on homescreen.
 - [ ] Add multiple apk installer.
 - [ ] Selection framework for APKs panel
 - [ ] Batch tracker control.
