@@ -26,6 +26,7 @@ import app.simple.inure.util.ColorUtils.animateDrawableColorChange
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.TypeFace
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.fadeInAnimation
 import app.simple.inure.util.ViewUtils.fadeOutAnimation
 import app.simple.inure.util.ViewUtils.slideInAnimation
@@ -233,10 +234,10 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    fun setTextWithSlideAnimation(text: String, duration: Long = 250, delay: Long = 0L, completion: (() -> Unit)? = null) {
-        slideOutAnimation(duration, delay / 2L) {
+    fun setTextWithSlideAnimation(text: String, duration: Long = 250, direction: Int = ViewUtils.LEFT, delay: Long = 0L, completion: (() -> Unit)? = null) {
+        slideOutAnimation(duration, delay / 2L, direction) {
             this.text = text
-            slideInAnimation(duration, delay / 2L) {
+            slideInAnimation(duration, delay / 2L, direction) {
                 completion?.let {
                     it()
                 }

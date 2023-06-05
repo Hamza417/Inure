@@ -27,7 +27,6 @@ import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.ui.launcher.SplashScreen
-import app.simple.inure.ui.music.Music
 import app.simple.inure.ui.panels.*
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment

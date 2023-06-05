@@ -53,6 +53,8 @@
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textSize="@dimen/audio_title_text_size"
+        android:alpha="0"
+        android:text="@string/not_available"
         android:transitionName="album_name"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/mime_artist"

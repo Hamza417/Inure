@@ -20,6 +20,7 @@ import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import com.github.mikephil.charting.animation.Easing
@@ -117,11 +118,11 @@ class UsageStatisticsGraph : ScopedFragment() {
                                                            (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
-                            }, 250L, 0L)
+                            }, 250L, ViewUtils.LEFT, 0L)
                 }
             }
 
-            launchCount.setTextWithSlideAnimation(getString(R.string.times, it.launchCount), 250L, 50L)
+            launchCount.setTextWithSlideAnimation(getString(R.string.times, it.launchCount), 250L, ViewUtils.LEFT, 50L)
 
             with(System.currentTimeMillis() - it.appUsage!![0].date) {
                 lastUsed.apply {
@@ -146,12 +147,12 @@ class UsageStatisticsGraph : ScopedFragment() {
                                                            (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
-                            }, 250L, 100L)
+                            }, 250L, ViewUtils.LEFT, 100L)
                 }
             }
 
-            mobileData.setTextWithSlideAnimation(it.mobileData.toString(), 250L, 150L)
-            wifiData.setTextWithSlideAnimation(it.wifiData.toString(), 250L, 200L)
+            mobileData.setTextWithSlideAnimation(it.mobileData.toString(), 250L, ViewUtils.LEFT, 150L)
+            wifiData.setTextWithSlideAnimation(it.wifiData.toString(), 250L, ViewUtils.LEFT, 200L)
         }
 
         appStatisticsGraphViewModel.getChartData().observe(viewLifecycleOwner) {

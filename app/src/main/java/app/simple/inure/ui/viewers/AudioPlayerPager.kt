@@ -38,6 +38,7 @@ import app.simple.inure.util.AudioUtils.toBitrate
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.MusicViewModel
 import kotlinx.coroutines.delay
@@ -72,6 +73,7 @@ class AudioPlayerPager : ScopedFragment() {
     private var serviceBound = false
     private var wasSongPlaying = false
     private var isFinished = false
+    private var oldPosition = 0
 
     /**
      * [currentSeekPosition] will keep the current position of the playback
@@ -169,7 +171,6 @@ class AudioPlayerPager : ScopedFragment() {
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
                                 audioServicePager?.setCurrentPosition(artPager.currentItem)
                                 MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
-                                requireArguments().putInt(BundleConstants.position, artPager.currentItem)
                                 setMetaData(artPager.currentItem)
                             }
                         }
@@ -213,7 +214,6 @@ class AudioPlayerPager : ScopedFragment() {
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
                                 MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                                 audioServicePager?.setCurrentPosition(artPager.currentItem)
-                                requireArguments().putInt(BundleConstants.position, artPager.currentItem)
                                 setMetaData(artPager.currentItem)
                             }
                         }
@@ -353,14 +353,25 @@ class AudioPlayerPager : ScopedFragment() {
     }
 
     private fun setMetaData(position: Int) {
-        title.setTextWithSlideAnimation(audioModels!![position].title, 250L, 0L)
-        artist.setTextWithSlideAnimation(audioModels!![position].artists, 250L, 50L)
-        album.setTextWithSlideAnimation(audioModels!![position].album, 250L, 100L)
-        fileInfo.setTextWithSlideAnimation(getString(
-                R.string.audio_file_info,
-                "." + audioModels!![position].path?.substringAfterLast("."),
-                audioModels!![position].bitrate.toBitrate(),
-                audioModels!![position].mimeType), 250L, 150L)
+        if (requireArguments().getInt(BundleConstants.position) < position) {
+            title.setTextWithSlideAnimation(audioModels!![position].title, 250L, ViewUtils.LEFT, 0L)
+            artist.setTextWithSlideAnimation(audioModels!![position].artists, 250L, ViewUtils.LEFT, 50L)
+            album.setTextWithSlideAnimation(audioModels!![position].album, 250L, ViewUtils.LEFT, 100L)
+            fileInfo.setTextWithSlideAnimation(getString(
+                    R.string.audio_file_info,
+                    "." + audioModels!![position].path?.substringAfterLast("."),
+                    audioModels!![position].bitrate.toBitrate(),
+                    audioModels!![position].mimeType), 250L, ViewUtils.LEFT, 150L)
+        } else {
+            title.setTextWithSlideAnimation(audioModels!![position].title, 250L, ViewUtils.RIGHT, 0L)
+            artist.setTextWithSlideAnimation(audioModels!![position].artists, 250L, ViewUtils.RIGHT, 50L)
+            album.setTextWithSlideAnimation(audioModels!![position].album, 250L, ViewUtils.RIGHT, 100L)
+            fileInfo.setTextWithSlideAnimation(getString(
+                    R.string.audio_file_info,
+                    "." + audioModels!![position].path?.substringAfterLast("."),
+                    audioModels!![position].bitrate.toBitrate(),
+                    audioModels!![position].mimeType), 250L, ViewUtils.RIGHT, 150L)
+        }
 
         setLrc()
         requireArguments().putInt(BundleConstants.position, position)
