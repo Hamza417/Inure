@@ -80,6 +80,7 @@ public class LrcHelper {
         if (lrcLine.trim().isEmpty()) {
             return null;
         }
+    
         List <Lrc> lrcs = new ArrayList <>();
         Matcher matcher = Pattern.compile(LINE_REGEX).matcher(lrcLine);
         if (!matcher.matches()) {
