@@ -96,7 +96,11 @@ class Home : ScopedFragment() {
 
                     gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
-                            return if (it[position].first.isZero()) getInteger(R.integer.span_count) else 1
+                            return if (it[position].first.isZero()) {
+                                getInteger(R.integer.span_count)
+                            } else {
+                                1
+                            }
                         }
                     }
 
