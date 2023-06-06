@@ -675,4 +675,11 @@
     <string name="no_boot_components_found">找不到開機元件</string>
     <string name="follow_developer_on_Socials">在社群中跟隨開發人員</string>
     <string name="size">大小</string>
+    <string name="colorful_icons_desc">在導覽選單版面配置中使用多彩圖示。</string>
+    <string name="palette">調色盤</string>
+    <string name="color_palette_desc">用於多彩圖示的調色盤。</string>
+    <string name="pastel">蠟筆</string>
+    <string name="retro">復古</string>
+    <string name="coffee">咖啡</string>
+    <string name="colorful_icons">多彩圖示</string>
 </resources>
