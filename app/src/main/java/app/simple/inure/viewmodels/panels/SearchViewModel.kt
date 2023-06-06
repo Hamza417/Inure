@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.popups.apps.PopupAppsCategory
@@ -171,13 +172,11 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         kotlin.runCatching {
             if (app.requestedPermissions != null) {
                 for (permission in app.requestedPermissions) {
-                    if (permission.lowercase().contains(keyword.lowercase())) {
-                        // Log.d("Deep Search", "$keyword : $permission")
+                    if (permission.lowercase().contains(keyword.lowercase())
+                        || permission.getPermissionInfo(application)?.loadLabel(application.packageManager).toString().lowercase().contains(keyword.lowercase())) {
                         count = count.inc()
                     }
                 }
-            } else {
-                Log.d("Deep Search", "Permissions: ${app.applicationInfo.name} : 0")
             }
         }
 
