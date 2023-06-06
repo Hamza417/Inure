@@ -6,9 +6,7 @@ import android.text.Spanned
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
-import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.XMLUtils.formatXML
 import app.simple.inure.util.XMLUtils.getPrettyXML
 import com.topjohnwu.superuser.Shell
@@ -44,10 +42,6 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, private va
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val code = fileSystemManager?.getSharedPrefsString()!!
-
-                if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
-                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
-                }
 
                 spanned.postValue(code.formatXML().getPrettyXML())
             }.getOrElse {

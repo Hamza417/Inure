@@ -153,8 +153,6 @@
     <string name="clear_cache">清除缓存</string>
     <string name="use_binary_format">使用二进制格式</string>
     <string name="desc_binary_format">使用二进制格式来显示文件大小，而不是使用常规的 SI格式。\n\n即1024 kB = 1 MB</string>
-    <string name="load_large_strings">加载大型字符串</string>
-    <string name="desc_large_strings">加载字符串时禁止报错以让这些异常大小的字符串在屏幕上的渲染变得顺畅。\n\n不推荐此选项，因为这可能会导致应用程序中的 UI 冻结问题，加载极大字符串可能需要更长时间才能出现在屏幕上。</string>
     <string name="not_granted">未授予, 点击允许</string>
     <string name="usage_access_permission">使用情况访问权限</string>
     <string name="grant_storage_access_permission">授权存储读取权限</string>

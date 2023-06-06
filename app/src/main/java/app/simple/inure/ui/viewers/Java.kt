@@ -21,9 +21,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.miscellaneous.LargeString.Companion.showLargeStringDialog
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -90,7 +92,16 @@ class Java : KeyboardScopedFragment() {
         name.text = path
 
         javaViewModel.getSpanned().observe(viewLifecycleOwner) {
-            java.setText(it)
+            if (it.length > FormattingPreferences.getLargeStringLimit()) {
+                childFragmentManager.showLargeStringDialog(it.length) {
+                    postDelayed {
+                        java.setText(it)
+                    }
+                }
+            } else {
+                java.setText(it)
+            }
+
             progressBar.gone()
             options.visible(true)
         }

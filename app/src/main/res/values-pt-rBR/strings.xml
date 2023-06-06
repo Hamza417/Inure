@@ -153,8 +153,6 @@
     <string name="clear_cache">Limpar cache</string>
     <string name="use_binary_format">Usar o Formato Binário</string>
     <string name="desc_binary_format">Use o formato binário para mostrar tamanhos de arquivo em vez de usar o formato SI convencional.\n\nou seja, 1024 kB = 1 mB</string>
-    <string name="load_large_strings">Carregar frases grandes</string>
-    <string name="desc_large_strings">Erro ao carregar sequências de caracteres que são extraordinariamente grandes para serem processadas suavemente na tela.\n\nEsta opção não é recomendada pois isso pode causar problemas de congelamento da interface do usuário no app e carregar uma cadeia de caracteres grande pode levar mais tempo para aparecer na tela.</string>
     <string name="not_granted">Não concedido, clique para permitir</string>
     <string name="usage_access_permission">Permissão de estatísticas de uso</string>
     <string name="grant_storage_access_permission">Conceder permissão de acesso ao armazenamento</string>

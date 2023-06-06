@@ -23,10 +23,12 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.menus.CodeViewerMenu
+import app.simple.inure.dialogs.miscellaneous.LargeString.Companion.showLargeStringDialog
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.SharedPrefsViewerViewModelFactory
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.viewers.PopupSharedPrefsViewer
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.SharedPreferencesViewerViewModel
@@ -98,7 +100,16 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
         startPostponedEnterTransition()
 
         sharedPreferencesViewerViewModel.getSpanned().observe(viewLifecycleOwner) {
-            text.setText(it)
+            if (it.length > FormattingPreferences.getLargeStringLimit()) {
+                childFragmentManager.showLargeStringDialog(it.length) {
+                    postDelayed {
+                        text.setText(it)
+                    }
+                }
+            } else {
+                text.setText(it)
+            }
+
             progress.gone()
             options.visible(true)
             settings.visible(true)

@@ -91,7 +91,6 @@ object PreferencesSearchConstants {
 
     private val formattingData = arrayListOf(
             PreferenceModel(R.drawable.ic_binary, R.string.use_binary_format, R.string.desc_binary_format, toggleable, information, formatting),
-            PreferenceModel(R.drawable.ic_quote, R.string.load_large_strings, R.string.desc_large_strings, toggleable, information, formatting),
             PreferenceModel(R.drawable.ic_date_format, R.string.date_format, R.string.desc_date_format, popup, information, formatting),
     )
 

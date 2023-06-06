@@ -634,6 +634,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         handler.postDelayed({ action() }, delay)
     }
 
+    protected fun postDelayed(action: () -> Unit) {
+        postDelayed(500, action)
+    }
+
     protected fun removeCallbacks() {
         handler.removeCallbacksAndMessages(null)
     }

@@ -10,9 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
 import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
-import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.StringUtils.readTextSafely
 import app.simple.inure.util.XMLUtils.formatXML
@@ -87,10 +85,6 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                             }
                         }
                     }
-                }
-
-                if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
-                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
                 }
 
                 spanned.postValue(code.formatXML().getPrettyXML())

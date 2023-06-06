@@ -21,9 +21,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.miscellaneous.LargeString.Companion.showLargeStringDialog
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.CodeViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
+import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.ColorUtils.resolveAttrColor
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -91,7 +93,16 @@ class JSON : KeyboardScopedFragment() {
         name.text = path
 
         jsonViewerViewModel.getSpanned().observe(viewLifecycleOwner) {
-            json.setText(it)
+            if (it.length > FormattingPreferences.getLargeStringLimit()) {
+                childFragmentManager.showLargeStringDialog(it.length) {
+                    postDelayed {
+                        json.setText(it)
+                    }
+                }
+            } else {
+                json.setText(it)
+            }
+
             progressBar.gone()
             options.visible(true)
         }

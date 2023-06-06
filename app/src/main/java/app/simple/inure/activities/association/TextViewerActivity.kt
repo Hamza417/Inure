@@ -14,7 +14,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.exceptions.LargeStringException
+import app.simple.inure.dialogs.miscellaneous.LargeString.Companion.showLargeStringDialog
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
@@ -92,11 +92,15 @@ class TextViewerActivity : BaseActivity() {
                     }
 
                     withContext(Dispatchers.Main) {
-                        if (string.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
-                            throw LargeStringException("String size ${string.length} is too big to render without freezing the app")
+                        if (string.length > FormattingPreferences.getLargeStringLimit()) {
+                            supportFragmentManager.showLargeStringDialog(string.length) {
+                                txt.setText(string)
+                                options.visible(true)
+                            }
+                        } else {
+                            txt.setText(string)
+                            txt.visible(animate = true)
                         }
-                        txt.setText(string)
-                        options.visible(true)
                     }
                 }
             }.getOrElse {

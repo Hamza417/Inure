@@ -6,9 +6,7 @@ import android.text.Spanned
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.exceptions.LargeStringException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.JavaSyntaxUtils.highlightJava
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,10 +36,6 @@ class JavaViewModel(application: Application, val accentColor: Int, val packageI
 
             kotlin.runCatching {
                 val code: String = getJavaFile()
-
-                if (code.length >= 150000 && !FormattingPreferences.isLoadingLargeStrings()) {
-                    throw LargeStringException("String size ${code.length} is too big to render without freezing the app")
-                }
 
                 val formattedContent = code.highlightJava()
 

@@ -152,8 +152,6 @@
     <string name="clear_cache">Clear Cache</string>
     <string name="use_binary_format">Use Binary Format</string>
     <string name="desc_binary_format">Use binary format for showing file sizes instead of using the conventional SI format.\n\ni.e. 1024 kB = 1 mB</string>
-    <string name="load_large_strings">Load Large Strings</string>
-    <string name="desc_large_strings">Suppress error while loading strings that are unusually large to be rendered smoothly on the screen.\n\nThis option is not recommended as this can lead to UI freezing issues in the app and loading large string can take longer time to appear on the screen.</string>
     <string name="not_granted">Not Granted, Click to Allow</string>
     <string name="usage_access_permission">Usage Access Permission</string>
     <string name="grant_storage_access_permission">Grant Storage Access Permission</string>
@@ -681,4 +679,5 @@
     <string name="retro">Retro</string>
     <string name="coffee">Coffee</string>
     <string name="colorful_icons">Colorful Icons</string>
+    <string name="large_string_warning">String size %1$d is too large, load anyway?</string>
 </resources>

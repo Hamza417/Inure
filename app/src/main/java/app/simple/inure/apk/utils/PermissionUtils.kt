@@ -21,8 +21,8 @@ object PermissionUtils {
     fun String.getPermissionInfo(context: Context): PermissionInfo? {
         try {
             return context.packageManager.getPermissionInfo(this, PackageManager.GET_META_DATA)
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
+        } catch (_: PackageManager.NameNotFoundException) {
+            // e.printStackTrace()
         }
         return null
     }

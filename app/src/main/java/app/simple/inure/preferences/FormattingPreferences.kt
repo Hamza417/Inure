@@ -1,19 +1,15 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.NonNull
-import org.jetbrains.annotations.NotNull
-
 object FormattingPreferences {
 
     private const val sizeType = "size_type"
-    private const val largeStrings = "load_large_strings"
     private const val dateFormat = "app_date_format"
 
     const val countAllLines = "count_all_lines_in_code_viewers"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSizeType(@NonNull font: String) {
+    fun setSizeType(font: String) {
         SharedPreferences.getSharedPreferences().edit().putString(sizeType, font).apply()
     }
 
@@ -23,17 +19,7 @@ object FormattingPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setLoadLargeStrings(@NotNull value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(largeStrings, value).apply()
-    }
-
-    fun isLoadingLargeStrings(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(largeStrings, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setDateFormat(@NonNull font: String) {
+    fun setDateFormat(font: String) {
         SharedPreferences.getSharedPreferences().edit().putString(dateFormat, font).apply()
     }
 
@@ -43,11 +29,17 @@ object FormattingPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setCountAllLines(@NotNull value: Boolean) {
+    fun setCountAllLines(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(countAllLines, value).apply()
     }
 
     fun isCountingAllLines(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(countAllLines, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun getLargeStringLimit(): Int {
+        return 150000
     }
 }

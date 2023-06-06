@@ -14,7 +14,6 @@ import app.simple.inure.preferences.FormattingPreferences
 class FormattingScreen : ScopedFragment() {
 
     private lateinit var useBinaryFormat: SwitchView
-    private lateinit var loadLargeStrings: SwitchView
     private lateinit var dateFormat: DynamicRippleConstraintLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -23,7 +22,6 @@ class FormattingScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         useBinaryFormat = view.findViewById(R.id.configuration_use_binary_format)
-        loadLargeStrings = view.findViewById(R.id.configuration_lift_string_limit)
         dateFormat = view.findViewById(R.id.date_format_container)
 
         return view
@@ -32,12 +30,7 @@ class FormattingScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadLargeStrings.setChecked(FormattingPreferences.isLoadingLargeStrings())
         useBinaryFormat.setChecked(FormattingPreferences.getSizeType() == "binary")
-
-        loadLargeStrings.setOnSwitchCheckedChangeListener {
-            FormattingPreferences.setLoadLargeStrings(it)
-        }
 
         useBinaryFormat.setOnSwitchCheckedChangeListener {
             if (it) {

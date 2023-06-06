@@ -153,9 +153,7 @@
     <string name="clear_cache">清除快取</string>
     <string name="use_binary_format">使用二進位格式</string>
     <string name="desc_binary_format">使用二進位格式顯示檔案大小，而非使用慣用的 SI 格式。\n\n即：1024 kB = 1 mB</string>
-    <string name="load_large_strings">載入大量字串</string>
-    <string name="desc_large_strings">在載入異常大的字串時隱藏錯誤，以便在螢幕上順暢呈現。\n\n不建議使用此選項，因為這可能會導致應用程式中出現使用者介面凍結問題，並且載入大型字串需要更長的時間才能出現在螢幕上。</string>
-    <string name="not_granted">未授予，按一下以允許</string>
+   <string name="not_granted">未授予，按一下以允許</string>
     <string name="usage_access_permission">使用記錄存取權</string>
     <string name="grant_storage_access_permission">授予儲存空間存取權</string>
     <string name="desc_usage_access">這個應用程式使用 PACKAGE_USAGE_STATS 權限來擷取並計算裝置中可用的各種應用程式使用記錄資料。</string>
