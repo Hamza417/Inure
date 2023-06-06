@@ -23,10 +23,12 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
@@ -101,7 +103,9 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     getInstallLocation(),
                     getState(),
                     getDataDir(),
+                    getCacheSize(),
                     getApkPath(),
+                    getSplitNames(),
                     getGlesVersion(),
                     getArchitecture(),
                     getNativeLibraries(),
@@ -117,7 +121,6 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     getInstaller(),
                     getRequestedPermissions(),
                     getFeatures(),
-                    getSplitNames()
             ))
         }.onFailure {
             it.printStackTrace()
@@ -133,7 +136,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getApkPath(): Pair<Int, Spannable> {
         val apkPath = kotlin.runCatching {
             if (isPackageInstalled) {
-                packageInfo.applicationInfo.sourceDir
+                packageInfo.applicationInfo.sourceDir + " | " + packageInfo.applicationInfo.sourceDir.toSize()
             } else {
                 null
             }
@@ -166,9 +169,22 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getDataDir(): Pair<Int, Spannable> {
         kotlin.runCatching {
+            // val s = packageInfo.applicationInfo.dataDir + " | " + packageInfo.applicationInfo.dataDir.getDirectorySize()
             return Pair(R.string.data, packageInfo.applicationInfo.dataDir.applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.data, getString(R.string.not_available).applySecondaryTextColor())
+        }
+    }
+
+    private fun getCacheSize(): Pair<Int, Spannable> {
+        kotlin.runCatching {
+            val packageSizes = packageInfo.getPackageSize(application)
+            packageSizes.cacheSize.let {
+                val s = it.toSize()
+                return Pair(R.string.cache, s.applySecondaryTextColor())
+            }
+        }.getOrElse {
+            return Pair(R.string.cache, getString(R.string.not_available).applySecondaryTextColor())
         }
     }
 
