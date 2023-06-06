@@ -1,14 +1,17 @@
 package app.simple.inure.adapters.menus
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.popups.appinfo.PopupMenuLayout
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 
 class AdapterMenu(val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
@@ -29,6 +32,10 @@ class AdapterMenu(val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<Adapter
         holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
         holder.icon.setImageResource(list[position].first)
         holder.text.setText(list[position].second)
+
+        if (AccessibilityPreferences.isColorfulIcons()) {
+            holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+        }
 
         holder.container.setOnClickListener {
             adapterMenuCallbacks?.onAppInfoMenuClicked(list[position].second, holder.icon)

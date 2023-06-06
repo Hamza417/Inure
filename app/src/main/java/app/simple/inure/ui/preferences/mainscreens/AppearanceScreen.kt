@@ -34,9 +34,7 @@ class AppearanceScreen : ScopedFragment() {
         typeface = view.findViewById(R.id.appearance_app_typeface)
         roundedCorner = view.findViewById(R.id.appearance_corner_radius)
         iconSize = view.findViewById(R.id.appearance_icon_size)
-
         appTheme = view.findViewById(R.id.appearance_app_theme)
-
         iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
         coloredIconShadows = view.findViewById(R.id.colored_icons_switch)
         accentOnNav = view.findViewById(R.id.appearance_nav_color_switch)

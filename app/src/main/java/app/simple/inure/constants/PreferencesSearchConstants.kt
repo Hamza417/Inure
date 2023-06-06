@@ -100,6 +100,7 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_border_outer, R.string.stroke, R.string.desc_highlight_stroke, toggleable, icons, accessibility),
             PreferenceModel(R.drawable.ic_divider_lines, R.string.dividers, R.string.desc_dividers, toggleable, lists, accessibility),
             PreferenceModel(R.drawable.ic_animation, R.string.reduce_animations, R.string.desc_reduce_animations, toggleable, animations, accessibility),
+            PreferenceModel(R.drawable.ic_format_paint, R.string.colorful_icons, R.string.colorful_icons_desc, toggleable, icons, accessibility),
     )
 
     private val terminalData = arrayListOf(

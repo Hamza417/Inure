@@ -1,5 +1,7 @@
 package app.simple.inure.preferences
 
+import app.simple.inure.constants.Colors
+
 object AccessibilityPreferences {
 
     private const val isHighlightMode = "is_highlight_mode"
@@ -7,6 +9,9 @@ object AccessibilityPreferences {
     private const val isDividerEnabled = "is_divider_enabled"
     private const val reduceAnimations = "reduce_animations"
     private const val bottomMenuContext = "bottom_menu_context"
+    private const val isColorfulIcons = "is_colorful_icons"
+
+    const val colorfulIconsPalette = "colorful_icons_palette"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -56,5 +61,25 @@ object AccessibilityPreferences {
 
     fun isAppElementsContext(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setColorfulIcons(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(isColorfulIcons, boolean).apply()
+    }
+
+    fun isColorfulIcons(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(isColorfulIcons, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setColorfulIconsPalette(palette: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(colorfulIconsPalette, palette).apply()
+    }
+
+    fun getColorfulIconsPalette(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(colorfulIconsPalette, Colors.PASTEL)
     }
 }

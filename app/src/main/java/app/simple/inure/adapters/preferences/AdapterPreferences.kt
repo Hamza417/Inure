@@ -1,15 +1,18 @@
 package app.simple.inure.adapters.preferences
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -36,6 +39,10 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
             holder.text.text = holder.itemView.context.getString(list[position].second)
             holder.icon.setImageResource(list[position].first)
             holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+            }
 
             holder.container.setOnClickListener {
                 preferencesCallbacks?.onPrefsClicked(holder.icon, list[position].second, position)

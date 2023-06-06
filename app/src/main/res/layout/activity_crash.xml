@@ -8,10 +8,10 @@
 
     <app.simple.inure.decorations.theme.ThemeCoordinatorLayout
         android:id="@+id/app_container"
-        android:clipChildren="false"
-        android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -130,6 +130,7 @@
                     android:id="@+id/close"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/popup_padding"
                     android:layout_weight="1"
                     android:clickable="false"
                     android:gravity="center"

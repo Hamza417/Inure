@@ -13,6 +13,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.popups.home.PopupMenuLayout
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
@@ -49,8 +50,11 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
         if (holder is Holder) {
             holder.icon.transitionName = holder.itemView.context.getString(list[position].second)
             holder.icon.setImageResource(list[position].first)
-            holder.icon.imageTintList = ColorStateList.valueOf(Colors.getPastelColor()[position])
             holder.text.text = holder.itemView.context.getString(list[position].second)
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+            }
 
             holder.container.setOnClickListener {
                 adapterHomeMenuCallbacks.onMenuItemClicked(list[position].second, holder.icon)

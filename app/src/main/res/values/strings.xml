@@ -674,4 +674,11 @@
     <string name="no_boot_components_found">No Boot Components Found</string>
     <string name="follow_developer_on_Socials">Follow Developer on Socials</string>
     <string name="size">Size</string>
+    <string name="colorful_icons_desc">Use colorful icons in the navigation menu layouts.</string>
+    <string name="palette">Palette</string>
+    <string name="color_palette_desc">Palette to use for colorful icons.</string>
+    <string name="pastel">Pastel</string>
+    <string name="retro">Retro</string>
+    <string name="coffee">Coffee</string>
+    <string name="colorful_icons">Colorful Icons</string>
 </resources>
