@@ -673,4 +673,12 @@
     <string name="no_boot_components_found">未找到引导组件</string>
     <string name="follow_developer_on_Socials">关注我的社交账号</string>
     <string name="size">大小</string>
+    <string name="colorful_icons_desc">在导航菜单布局中使用彩色图标</string>
+    <string name="palette">调色板</string>
+    <string name="color_palette_desc">用于彩色图标的调色板</string>
+    <string name="pastel">粉彩</string>
+    <string name="retro">复古</string>
+    <string name="coffee">咖啡</string>
+    <string name="colorful_icons">彩色图标</string>
+    <string name="large_string_warning">字符串大小 %1$d 过大，仍要加载？</string>
 </resources>
