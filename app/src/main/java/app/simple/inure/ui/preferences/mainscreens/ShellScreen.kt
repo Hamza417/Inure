@@ -1,9 +1,11 @@
 package app.simple.inure.ui.preferences.mainscreens
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.switchview.SwitchView
@@ -12,7 +14,10 @@ import app.simple.inure.dialogs.terminal.TerminalHomePath
 import app.simple.inure.dialogs.terminal.TerminalInitialCommand
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ShellPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.ui.preferences.subscreens.ShellTerminalType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ShellScreen : ScopedFragment() {
 
@@ -97,6 +102,19 @@ class ShellScreen : ScopedFragment() {
         homePath.setOnClickListener {
             TerminalHomePath.newInstance()
                 .show(childFragmentManager, "home_path")
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            ShellPreferences.useRish -> {
+                if (ShellPreferences.isUsingRISH()) {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        ShizukuUtils.copyRishFiles(requireActivity().applicationContext)
+                    }
+                }
+            }
         }
     }
 

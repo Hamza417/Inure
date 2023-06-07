@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -74,17 +75,7 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
 
     private fun loadBootComponents() {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
-            }
+            val list = getBootComponents()
 
             var bootManagerModelArrayList = ArrayList<BootManagerModel>()
             val packageNames = list.stream().map { it.activityInfo.packageName }.collect(Collectors.toList()).distinct()
@@ -162,6 +153,22 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
             //                    Log.d("BootManagerViewModel", "loadBootComponents: ${result.err}")
             //                }
             //            }
+        }
+    }
+
+    private fun getBootComponents(): MutableList<ResolveInfo> {
+        while (true) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
+                } else {
+                    @Suppress("DEPRECATION")
+                    return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
+            }
         }
     }
 

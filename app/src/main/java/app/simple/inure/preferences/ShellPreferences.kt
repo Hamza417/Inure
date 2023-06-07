@@ -13,7 +13,8 @@ object ShellPreferences {
     private const val allowPathExtensions = "shell_allow_path_extensions"
     private const val allowPathPrepend = "shell_allow_path_prepend"
     private const val homePath = "home_path"
-    private const val useRish = "use_rish"
+
+    const val useRish = "use_rish"
 
     /* ---------------------------------------------------------------------------------------------- */
 

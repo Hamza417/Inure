@@ -202,17 +202,19 @@ public class ShizukuUtils {
         String[] files = {"rish/rish", "rish/rish_shizuku.dex"};
         
         for (String filename : files) {
-            Log.d("Shizuku", "copyRishFiles: " + filename);
-            
             InputStream in = null;
             OutputStream out = null;
             try {
                 in = assetManager.open(filename);
-                
+    
                 File outFile = new File(ShellPreferences.INSTANCE.getHomePath(), filename.substring(filename.lastIndexOf('/') + 1));
-                
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
+    
+                if (outFile.exists()) {
+                    Log.e("Shizuku", "File already exists: " + outFile.getAbsolutePath());
+                } else {
+                    out = new FileOutputStream(outFile);
+                    copyFile(in, out);
+                }
             } catch (IOException e) {
                 Log.e("Shizuku", "Failed to copy asset file: " + filename, e);
             } finally {

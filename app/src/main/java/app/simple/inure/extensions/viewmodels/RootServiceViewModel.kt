@@ -58,12 +58,11 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                     // Create a fs manager with the binder proxy.
                     // We will use this fs manager in our stress test.
                     fileSystemManager = FileSystemManager.getRemote(binder)
+                    runRootProcess(fileSystemManager)
                 }
             } catch (e: RemoteException) {
-                Log.e(tag, "Remote error", e)
+                postWarning("Failed to get remote service")
             }
-
-            runRootProcess(fileSystemManager)
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
