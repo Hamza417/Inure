@@ -387,7 +387,7 @@
     <string name="desc_accent_on_nav">Aplicar cor de destaque na barra de navegação em vez de usar fundos especificados pelo sistema.</string>
     <string name="static_backgrounds">Fundos Estáticos</string>
     <string name="desc_static_backgrounds">Substitua efeitos de ondulação de todos os ícones e botões clicáveis em todo o app com fundos estáticos e feedback de cliques alternativos.</string>
-    <string name="accessibility">Acessabilidade</string>
+    <string name="accessibility">Acessibilidade</string>
     <string name="label_type">Tipo de rótulo</string>
     <string name="id">Identificação</string>
     <string name="descriptive">Descrição</string>
@@ -672,4 +672,13 @@
     <string name="installed">Instalado</string>
     <string name="no_boot_components_found">Nenhum componente de inicialização foi encontrado</string>
     <string name="follow_developer_on_Socials">Siga o desenvolvedor nas redes sociais</string>
+    <string name="size">Tamanho</string>
+    <string name="colorful_icons_desc">Use ícones coloridos nos layouts do menu de navegação.</string>
+    <string name="palette">Palheta</string>
+    <string name="color_palette_desc">Paleta usada para ícones coloridos.</string>
+    <string name="pastel">Pastel</string>
+    <string name="retro">Retrô</string>
+    <string name="coffee">Café</string>
+    <string name="colorful_icons">Ícones Coloridos</string>
+    <string name="large_string_warning">O tamanho da string %1$d é muito grande, carregar mesmo assim?</string>
 </resources>
