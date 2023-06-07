@@ -676,4 +676,12 @@
     <string name="no_boot_components_found">Нет загрузочных компонентов</string>
     <string name="follow_developer_on_Socials">Подписаться на разработчика в соцсетях</string>
     <string name="size">Размер</string>
+    <string name="colorful_icons_desc">Использовать разноцветные иконки в макетах меню навигации.</string>
+    <string name="palette">Палитра</string>
+    <string name="color_palette_desc">Палитра, используемая для красочных иконок.</string>
+    <string name="pastel">Пастель</string>
+    <string name="retro">Ретро</string>
+    <string name="coffee">Кофе</string>
+    <string name="colorful_icons">Разноцветные иконки</string>
+    <string name="large_string_warning">Размер строки %1$d слишком большой, все равно загрузить?</string>
 </resources>
