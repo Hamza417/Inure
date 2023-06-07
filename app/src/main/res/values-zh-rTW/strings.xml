@@ -153,7 +153,7 @@
     <string name="clear_cache">清除快取</string>
     <string name="use_binary_format">使用二進位格式</string>
     <string name="desc_binary_format">使用二進位格式顯示檔案大小，而非使用慣用的 SI 格式。\n\n即：1024 kB = 1 mB</string>
-   <string name="not_granted">未授予，按一下以允許</string>
+    <string name="not_granted">未授予，按一下以允許</string>
     <string name="usage_access_permission">使用記錄存取權</string>
     <string name="grant_storage_access_permission">授予儲存空間存取權</string>
     <string name="desc_usage_access">這個應用程式使用 PACKAGE_USAGE_STATS 權限來擷取並計算裝置中可用的各種應用程式使用記錄資料。</string>
@@ -680,4 +680,5 @@
     <string name="retro">復古</string>
     <string name="coffee">咖啡</string>
     <string name="colorful_icons">多彩圖示</string>
+    <string name="large_string_warning">字串大小 %1$d 過大，仍要載入？</string>
 </resources>
