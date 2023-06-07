@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
+import app.simple.inure.BuildConfig
 import app.simple.inure.libsu.IRootService
 import app.simple.inure.services.RootService
 import com.topjohnwu.superuser.ipc.RootService.bind
@@ -15,12 +16,13 @@ import com.topjohnwu.superuser.nio.FileSystemManager
 
 abstract class RootServiceViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val tag = javaClass.simpleName
+    private val tag = "RootService"
     private var aidlConnection: AIDLConnection? = null
     private var daemonConnection: AIDLConnection? = null
     private var fileSystemManager: FileSystemManager? = null
 
     protected fun initRootProc() {
+        Log.d(tag, "Root proc init")
         val intent = Intent(applicationContext(), RootService::class.java)
         bind(intent, AIDLConnection(isDaemon = false))
     }
@@ -62,6 +64,10 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                 }
             } catch (e: RemoteException) {
                 postWarning("Failed to get remote service")
+
+                if (BuildConfig.DEBUG) {
+                    throw RuntimeException(e)
+                }
             }
         }
 

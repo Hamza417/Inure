@@ -166,7 +166,7 @@ dependencies {
     implementation 'com.jaredrummler:apk-parser:1.0.2'
 
     // root
-    def libsuVersion = '5.0.3'
+    def libsuVersion = '5.1.0'
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"
     implementation "com.github.topjohnwu.libsu:service:${libsuVersion}"
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
@@ -182,6 +182,6 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:2.5.1"
 
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
+    // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
 
 }

@@ -61,6 +61,7 @@ class Trackers : SearchBarScopedFragment() {
 
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
             progress.gone(true)
+            search.visible(animate = true)
             val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {

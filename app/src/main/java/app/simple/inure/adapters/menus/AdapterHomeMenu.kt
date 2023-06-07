@@ -69,7 +69,9 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
     override fun getItemViewType(position: Int): Int {
         return if (list[position].first.isZero()) {
             RecyclerViewUtils.TYPE_DIVIDER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
