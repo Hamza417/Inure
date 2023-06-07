@@ -29,6 +29,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     private int containerHeight;
     private int displayWidth;
     private boolean isScrollListenerAdded = false;
+    private boolean isInitialized = false;
     
     public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -108,8 +109,12 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     }
     
     public void initBottomMenuWithRecyclerView(ArrayList <Pair <Integer, Integer>> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
+        if (isInitialized) {
+            return;
+        }
+    
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-        
+    
         /*
          * Rather than clearing all scroll listeners at once, which will break other
          * features of the app such as Fast Scroller, we will use a boolean to check
@@ -134,6 +139,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                     }
                 }
             }
+    
+            isInitialized = true;
         }
     }
     
@@ -163,6 +170,10 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                 setTranslationY(RangesKt.coerceAtLeast(getTranslationY(), 0));
             }
         }
+    }
+    
+    public void setInitialized(boolean initialized) {
+        isInitialized = initialized;
     }
     
     public void clear() {

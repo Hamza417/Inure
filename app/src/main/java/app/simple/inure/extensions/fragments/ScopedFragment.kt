@@ -119,15 +119,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     override fun onStop() {
-        super.onStop()
         bottomRightCornerMenu?.clearAnimation()
         bottomRightCornerMenu?.gone()
+        super.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
         unregisterSharedPreferenceChangeListener()
+        bottomRightCornerMenu?.clear()
     }
 
     /**

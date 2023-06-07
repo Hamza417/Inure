@@ -204,7 +204,7 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     override fun onDetachedFromWindow() {
+        ThemeManager.removeListener(this)
         super.onDetachedFromWindow()
-        ThemeManager.addListener(this)
     }
 }

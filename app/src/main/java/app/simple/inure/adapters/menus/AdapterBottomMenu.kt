@@ -74,6 +74,10 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
         this.bottomMenuCallbacks = bottomMenuCallbacks
     }
 
+    fun getBottomMenuItems(): ArrayList<Pair<Int, Int>> {
+        return bottomMenuItems
+    }
+
     fun updateMenu(bottomMenuItems: ArrayList<Pair<Int, Int>>) {
         if (this.bottomMenuItems.size != bottomMenuItems.size) {
             val currentSize = this.bottomMenuItems.size

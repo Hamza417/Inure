@@ -95,6 +95,8 @@ class Batch : ScopedFragment() {
     private fun setupBottomMenu() {
         if (bottomRightCornerMenu?.menuAdapter?.itemCount == getBatchMenuItems().size) {
             return
+        } else {
+            bottomRightCornerMenu?.setInitialized(false)
         }
 
         bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->

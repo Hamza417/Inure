@@ -111,8 +111,8 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         unregisterSharedPreferenceChangeListener()
+        super.onDestroy()
     }
 
     /**

@@ -596,6 +596,10 @@ public class TermSession {
         finishCallback = callback;
     }
     
+    public void removeFinishCallback() {
+        finishCallback = null;
+    }
+    
     /**
      * Finish this terminal session.  Frees resources used by the terminal
      * emulator and closes the attached <code>InputStream</code> and
