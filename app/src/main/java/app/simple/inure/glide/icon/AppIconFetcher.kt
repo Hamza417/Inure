@@ -21,9 +21,9 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                 val launcher = appIcon.context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
                 val activityList = launcher.getActivityList(appIcon.packageName, android.os.Process.myUserHandle())[0]
                 if (appIcon.enabled) {
-                    callback.onDataReady(activityList.getBadgedIcon(0).toBitmap())
+                    callback.onDataReady(activityList.getIcon(0).toBitmap())
                 } else {
-                    callback.onDataReady(activityList.getBadgedIcon(0).toBitmap()?.toGrayscale())
+                    callback.onDataReady(activityList.getIcon(0).toBitmap()?.toGrayscale())
                 }
             }.onFailure {
                 // Loading proper icon failed, try loading default icon
