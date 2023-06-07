@@ -11,36 +11,40 @@ import java.util.*
 
 object AdapterUtils {
     fun searchHighlighter(textView: TextView, searchKeyword: String) {
-        val string = textView.text.toSpannable()
-        val startPos = string.toString().lowercase(Locale.getDefault()).indexOf(searchKeyword.lowercase(Locale.getDefault()))
-        val endPos = startPos + searchKeyword.length
+        val pattern = searchKeyword.lowercase().toRegex()
+        val spannable = textView.text.toSpannable()
+        val matcher = pattern.toPattern().matcher(spannable.toString().lowercase(Locale.getDefault()).toSpannable())
 
-        if (startPos != -1) {
+        while (matcher.find()) {
             val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(AppearancePreferences.getAccentColor()))
             val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
-            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(highlightSpan, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        textView.text = string
+        textView.text = spannable
     }
 
     fun searchHighlighter(textView: TextView, searchKeyword: String, ignoreCasing: Boolean) {
-        val string: Spannable = textView.text.toSpannable()
-
-        val startPos = if (ignoreCasing) {
-            string.toString().lowercase(Locale.getDefault()).indexOf(searchKeyword.lowercase(Locale.getDefault()))
+        val pattern = if (ignoreCasing) {
+            searchKeyword.lowercase().toRegex()
         } else {
-            string.toString().indexOf(searchKeyword)
+            searchKeyword.toRegex()
         }
 
-        val endPos = startPos + searchKeyword.length
+        val spannable = textView.text.toSpannable()
 
-        if (startPos != -1) {
+        val matcher = if (ignoreCasing) {
+            pattern.toPattern().matcher(spannable.toString().lowercase(Locale.getDefault()).toSpannable())
+        } else {
+            pattern.toPattern().matcher(spannable.toString().toSpannable())
+        }
+
+        while (matcher.find()) {
             val colorKeyword = ColorStateList(arrayOf(intArrayOf()), intArrayOf(AppearancePreferences.getAccentColor()))
             val highlightSpan = TextAppearanceSpan(null, Typeface.NORMAL, -1, colorKeyword, null)
-            string.setSpan(highlightSpan, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(highlightSpan, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        textView.text = string
+        textView.text = spannable
     }
 }

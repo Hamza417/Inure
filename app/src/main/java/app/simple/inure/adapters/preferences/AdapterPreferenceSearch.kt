@@ -91,10 +91,10 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
         }
 
         if (!keyword.isNullOrEmpty()) {
-            AdapterUtils.searchHighlighter(holder.title, keyword!!)
-            AdapterUtils.searchHighlighter(holder.description, keyword!!)
-            AdapterUtils.searchHighlighter(holder.path, keyword!!)
-            AdapterUtils.searchHighlighter(holder.flags, keyword!!)
+            AdapterUtils.searchHighlighter(holder.title, keyword!!, ignoreCasing = true)
+            AdapterUtils.searchHighlighter(holder.description, keyword!!, ignoreCasing = true)
+            AdapterUtils.searchHighlighter(holder.path, keyword!!, ignoreCasing = true)
+            AdapterUtils.searchHighlighter(holder.flags, keyword!!, ignoreCasing = true)
         }
     }
 
