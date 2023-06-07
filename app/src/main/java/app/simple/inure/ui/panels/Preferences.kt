@@ -308,8 +308,9 @@ class Preferences : SearchBarScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = adapterPreferenceSearch
-            recyclerView.scheduleLayoutAnimation()
+            if (recyclerView.adapter != adapterPreferenceSearch) {
+                recyclerView.adapter = adapterPreferenceSearch
+            }
         }
 
         memory.setOnClickListener {

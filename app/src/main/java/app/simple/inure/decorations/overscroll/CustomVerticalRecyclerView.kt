@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
 import android.util.Log
+import android.view.animation.DecelerateInterpolator
 import android.widget.EdgeEffect
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -214,10 +215,21 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
         }
 
         if (this.adapter.isNotNull()) {
-            layoutAnimation = null
+            this.animate()
+                .alpha(0f)
+                .setDuration(150)
+                .setInterpolator(DecelerateInterpolator())
+                .withEndAction {
+                    super.setAdapter(adapter)
+                    this.animate()
+                        .alpha(1f)
+                        .setInterpolator(DecelerateInterpolator())
+                        .setDuration(150)
+                        .start()
+                }.start()
+        } else {
+            super.setAdapter(adapter)
         }
-
-        super.setAdapter(adapter)
 
         if (!manuallyAnimated && isInEditMode.invert()) {
             if (!AccessibilityPreferences.isAnimationReduced()) {
