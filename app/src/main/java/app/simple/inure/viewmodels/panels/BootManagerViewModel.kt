@@ -158,16 +158,19 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
 
     private fun getBootComponents(): MutableList<ResolveInfo> {
         while (true) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
+            kotlin.runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent),
+                                                                      PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
+                    } else {
+                        @Suppress("DEPRECATION")
+                        return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
+                    }
                 } else {
                     @Suppress("DEPRECATION")
                     return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
                 }
-            } else {
-                @Suppress("DEPRECATION")
-                return packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
             }
         }
     }
