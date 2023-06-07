@@ -2,4 +2,4 @@
 <layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
     android:animation="@anim/list_pop_in_animation"
     android:animationOrder="normal"
-    android:delay="20%" />
+    android:delay="10%" />

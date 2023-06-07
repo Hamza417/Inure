@@ -44,9 +44,11 @@ open class CustomHorizontalRecyclerView(context: Context, attrs: AttributeSet?) 
             }
         }
 
-        layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
-            override fun canScrollVertically(): Boolean {
-                return false
+        if (layoutManager == null) {
+            layoutManager = object : LinearLayoutManager(context, HORIZONTAL, false) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
             }
         }
 

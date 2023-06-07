@@ -305,15 +305,35 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
                         android:text="@string/color_palette_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/palette_rv"
                         app:layout_constraintEnd_toStartOf="@+id/color_palette_popup"
                         app:layout_constraintStart_toEndOf="@+id/color_palette_icon"
                         app:layout_constraintTop_toBottomOf="@id/color_palette_title"
                         app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+                        android:id="@+id/palette_rv"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="15dp"
+                        android:fadingEdgeLength="20dp"
+                        android:layoutAnimation="@anim/list_pop_in_animation_controller"
+                        android:orientation="horizontal"
+                        android:requiresFadingEdge="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/color_palette_popup"
+                        app:layout_constraintStart_toEndOf="@+id/color_palette_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/color_palette_desc"
+                        app:statusBarPaddingRequired="false" />
 
                     <app.simple.inure.decorations.ripple.DynamicRippleTextView
                         android:id="@+id/color_palette_popup"

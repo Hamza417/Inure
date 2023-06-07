@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
+import app.simple.inure.adapters.preferences.AdapterColorPalette
 import app.simple.inure.constants.Colors
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -27,6 +29,7 @@ class AccessibilityScreen : ScopedFragment() {
     private lateinit var colorfulIcons: SwitchView
 
     private lateinit var palette: DynamicRippleTextView
+    private lateinit var paletteRecyclerView: CustomHorizontalRecyclerView
     private lateinit var paletteContainer: ConstraintLayout
     private lateinit var strokeContainer: ConstraintLayout
     private lateinit var reduceAnimationsDesc: TypeFaceTextView
@@ -40,6 +43,7 @@ class AccessibilityScreen : ScopedFragment() {
         reduceAnimations = view.findViewById(R.id.reduce_animation_switch)
         enableContexts = view.findViewById(R.id.enable_context_switch)
         palette = view.findViewById(R.id.color_palette_popup)
+        paletteRecyclerView = view.findViewById(R.id.palette_rv)
         colorfulIcons = view.findViewById(R.id.colorful_icons_switch)
         paletteContainer = view.findViewById(R.id.color_palette_container)
 
@@ -62,6 +66,7 @@ class AccessibilityScreen : ScopedFragment() {
         enableContexts.setChecked(AccessibilityPreferences.isAppElementsContext())
         colorfulIcons.setChecked(AccessibilityPreferences.isColorfulIcons())
         palette.setPalette()
+        paletteRecyclerView.adapter = AdapterColorPalette()
 
         if (highlight.isChecked()) {
             strokeContainer.alpha = 1F
@@ -170,6 +175,19 @@ class AccessibilityScreen : ScopedFragment() {
         when (key) {
             AccessibilityPreferences.colorfulIconsPalette -> {
                 palette.setPalette()
+                paletteRecyclerView.animate()
+                    .alpha(0F)
+                    .setDuration(getInteger(R.integer.animation_duration).toLong())
+                    .setInterpolator(DecelerateInterpolator(1.5F))
+                    .withEndAction {
+                        paletteRecyclerView.adapter = AdapterColorPalette()
+                        paletteRecyclerView.animate()
+                            .alpha(1F)
+                            .setDuration(getInteger(R.integer.animation_duration).toLong())
+                            .setInterpolator(DecelerateInterpolator(1.5F))
+                            .start()
+                    }
+                    .start()
             }
         }
     }

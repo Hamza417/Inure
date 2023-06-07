@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:layout_marginHorizontal="@dimen/popup_item_gap_length"
+    android:background="@android:color/white" />
