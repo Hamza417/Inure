@@ -12,7 +12,7 @@ class BulletTextView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private var bulletDrawable: Drawable? = null
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         setBulletPoint(drawableLeft = bulletDrawable, canvas)
     }

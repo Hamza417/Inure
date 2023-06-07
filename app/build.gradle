@@ -8,7 +8,7 @@ plugins {
 
 android {
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     buildFeatures {
         viewBinding false
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "app.simple.inure"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 77
         versionName "build77"
         vectorDrawables.useSupportLibrary = true
@@ -95,7 +95,7 @@ android {
         jvmTarget = JavaVersion.VERSION_11
     }
 
-    ndkVersion '24.0.8215888'
+    ndkVersion '25.2.9519653'
     namespace 'app.simple.inure'
 
     task generateVersionTxt {

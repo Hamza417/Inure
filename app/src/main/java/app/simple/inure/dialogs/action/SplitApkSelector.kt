@@ -42,7 +42,7 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
         val selectedPaths = mutableSetOf<String>()
 
         paths.add(Pair(packageInfo.applicationInfo.publicSourceDir, true)) // base apk
-        paths.addAll(packageInfo.applicationInfo.splitSourceDirs.map { Pair(it, true) }) // split apks
+        paths.addAll(packageInfo.applicationInfo.splitSourceDirs!!.map { Pair(it, true) }) // split apks
 
         selectedPaths.addAll(paths.map { it.first })
 

@@ -366,7 +366,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadItems()
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             DevelopmentPreferences.music,
             DevelopmentPreferences.enableDeviceInfo,

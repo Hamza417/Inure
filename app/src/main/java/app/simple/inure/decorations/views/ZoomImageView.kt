@@ -87,9 +87,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 onLongClickListener?.onLongClick(this@ZoomImageView)
             }
 
-            override fun onScroll(
-                    e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float,
-            ): Boolean {
+            override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
                 if (scaleDetector.isInProgress) return false
                 val xAbs = distanceX.absoluteValue
                 val yAbs = distanceY.absoluteValue
@@ -124,9 +122,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 return (xAbs > touchSlop || yAbs > touchSlop)
             }
 
-            override fun onFling(
-                    e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float,
-            ): Boolean {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
                 if (currentZoom <= MIN_SCALE) return false
                 val maxX = (preEventImgRect.width() - viewWidth).toInt()
                 val maxY = (preEventImgRect.height() - viewHeight).toInt()

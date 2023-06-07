@@ -37,7 +37,7 @@ class Send : ScopedBottomSheetFragment() {
         paths.add(packageInfo.applicationInfo.publicSourceDir)
 
         kotlin.runCatching {
-            paths.addAll(packageInfo.applicationInfo.splitSourceDirs)
+            paths.addAll(packageInfo.applicationInfo.splitSourceDirs!!)
         }
 
         extractViewModelFactory = ExtractViewModelFactory(packageInfo, paths)

@@ -220,7 +220,7 @@ class BatchExtractService : Service() {
 
             val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
             val progressMonitor = zipFile.progressMonitor
-            val length = packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            val length = (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L) + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
             var oldProgress = 0L
 
             zipFile.isRunInThread = true
@@ -246,7 +246,7 @@ class BatchExtractService : Service() {
                 // status.postValue(getString(R.string.cancelled))
             }
         } else {
-            progress += packageInfo.applicationInfo.splitSourceDirs.getDirectorySize() + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            progress += (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
             sendProgressBroadcast(progress)
         }
     }
@@ -256,8 +256,8 @@ class BatchExtractService : Service() {
 
         list.add(File(packageInfo.applicationInfo.sourceDir))
 
-        for (i in packageInfo.applicationInfo.splitSourceDirs.indices) {
-            list.add(File(packageInfo.applicationInfo.splitSourceDirs[i]))
+        for (i in packageInfo.applicationInfo.splitSourceDirs?.indices!!) {
+            list.add(File(packageInfo.applicationInfo.splitSourceDirs!![i]))
         }
 
         return list
@@ -280,7 +280,7 @@ class BatchExtractService : Service() {
             maxSize += File(app.packageInfo.applicationInfo.sourceDir).length()
 
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
-                maxSize += app.packageInfo.applicationInfo.splitSourceDirs.getDirectorySize()
+                maxSize += app.packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
             }
         }
 
