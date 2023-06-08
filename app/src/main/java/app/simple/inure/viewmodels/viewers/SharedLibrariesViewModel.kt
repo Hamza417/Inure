@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SharedLibraryModel
+import app.simple.inure.util.FileUtils.toFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,11 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
                 val list = arrayListOf<SharedLibraryModel>()
 
                 for (lib in packageInfo.applicationInfo.sharedLibraryFiles) {
-                    list.add(SharedLibraryModel(lib))
+                    list.add(SharedLibraryModel(lib, lib.toFile().length()))
+                }
+
+                for (lib in packageInfo.applicationInfo.nativeLibraryDir.toFile().listFiles()!!) {
+                    list.add(SharedLibraryModel(lib.name, lib.length()))
                 }
 
                 this@SharedLibrariesViewModel.sharedLibraries.postValue(list)

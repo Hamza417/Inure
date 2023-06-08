@@ -3,32 +3,11 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class SharedLibraryModel implements Parcelable {
     
     private String name;
-    
-    public SharedLibraryModel() {
-    
-    }
-    
-    public SharedLibraryModel(String name) {
-        this.name = name;
-    }
-    
-    protected SharedLibraryModel(Parcel in) {
-        name = in.readString();
-    }
-    
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-    }
-    
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    
     public static final Creator <SharedLibraryModel> CREATOR = new Creator <SharedLibraryModel>() {
         @Override
         public SharedLibraryModel createFromParcel(Parcel in) {
@@ -40,6 +19,20 @@ public class SharedLibraryModel implements Parcelable {
             return new SharedLibraryModel[size];
         }
     };
+    private long size;
+    
+    public SharedLibraryModel(String name, long size) {
+        this.name = name;
+        this.size = size;
+    }
+    
+    public SharedLibraryModel() {
+    }
+    
+    protected SharedLibraryModel(Parcel in) {
+        name = in.readString();
+        size = in.readInt();
+    }
     
     public String getName() {
         return name;
@@ -47,5 +40,25 @@ public class SharedLibraryModel implements Parcelable {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public long getSize() {
+        return size;
+    }
+    
+    public void setSize(long size) {
+        this.size = size;
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        
+        parcel.writeString(name);
+        parcel.writeLong(size);
     }
 }
