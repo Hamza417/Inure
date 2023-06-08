@@ -88,6 +88,8 @@
     <string name="alt_sends_esc">Il tasto Alt invia ESC</string>
     <string name="title_mouse_tracking_preference">Invia eventi mouse</string>
     <string name="summary_mouse_tracking_preference">Indica se eventi come il tocco e lo scorrimento devono essere inviati al terminale come sequenze escape.</string>
+    <string name="title_use_rish">Usa RISH</string>
+    <string name="summary_use_rish">Indica se usare Shizuku RISH (Remote Interactive Shell Host). È necessario\n\nl\'accesso a Shizuku.</string>
     <string name="title_use_keyboard_shortcuts">Usa scorciatoie tastiera</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Cicla attraverso le finestre\nCtrl-Shift-N: Nuova finestra\nCtrl-Shift-V: Incolla.</string>
     <string name="help">Aiuto</string>
