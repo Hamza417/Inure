@@ -684,4 +684,5 @@
     <string name="coffee">Кофе</string>
     <string name="colorful_icons">Разноцветные иконки</string>
     <string name="large_string_warning">Размер строки %1$d слишком большой, все равно загрузить?</string>
+    <string name="no_state">Нет Cостояния</string>
 </resources>
