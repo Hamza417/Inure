@@ -507,7 +507,6 @@
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/follow_developer_on_Socials"
                         android:src="@drawable/ic_face"
                         app:tintType="secondary" />
 
@@ -519,7 +518,7 @@
                         android:layout_toEndOf="@id/license_icon"
                         android:drawablePadding="5dp"
                         android:gravity="center_vertical"
-                        android:text="@string/follow_developer_on_Socials"
+                        android:text="@string/developer_profile"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_dot_tiny"

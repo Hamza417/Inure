@@ -674,7 +674,6 @@
     <string name="state">Состояние</string>
     <string name="installed">Установлено</string>
     <string name="no_boot_components_found">Нет загрузочных компонентов</string>
-    <string name="follow_developer_on_Socials">Подписаться на разработчика в соцсетях</string>
     <string name="size">Размер</string>
     <string name="colorful_icons_desc">Использовать разноцветные иконки в макетах меню навигации.</string>
     <string name="palette">Палитра</string>

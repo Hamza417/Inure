@@ -670,7 +670,6 @@
     <string name="state">State</string>
     <string name="installed">Installed</string>
     <string name="no_boot_components_found">No Boot Components Found</string>
-    <string name="follow_developer_on_Socials">Follow Developer on Socials</string>
     <string name="size">Size</string>
     <string name="colorful_icons_desc">Use colorful icons in the navigation menu layouts.</string>
     <string name="palette">Palette</string>
@@ -681,4 +680,5 @@
     <string name="colorful_icons">Colorful Icons</string>
     <string name="large_string_warning">String size %1$d is too large, load anyway?</string>
     <string name="no_state">No State</string>
+    <string name="developer_profile">Developer Profile</string>
 </resources>
