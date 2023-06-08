@@ -15,11 +15,14 @@ import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.selection.*
 import app.simple.inure.R
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
+import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BottomMenuConstants
@@ -38,9 +41,13 @@ import app.simple.inure.popups.apks.PopupApksSortingStyle
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.ApksSearch
-import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import net.lingala.zip4j.ZipFile
 
 class APKs : ScopedFragment() {
 
@@ -146,34 +153,64 @@ class APKs : ScopedFragment() {
                         }
 
                         override fun onInfoClicked() {
-                            kotlin.runCatching {
-                                if (adapterApks.paths[position].absolutePath.endsWith(".apk")) {
-                                    packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                            showLoader(manualOverride = true)
+                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                                kotlin.runCatching {
+                                    if (adapterApks.paths[position].absolutePath.endsWith(".apk")) {
+                                        packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                        } else {
+                                            @Suppress("DEPRECATION")
+                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageUtils.flags.toInt())!!
+                                        }
+
+                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
+                                    } else if (adapterApks.paths[position].absolutePath.endsWith(".apks") ||
+                                        adapterApks.paths[position].absolutePath.endsWith(".xapk") ||
+                                        adapterApks.paths[position].absolutePath.endsWith(".zip") ||
+                                        adapterApks.paths[position].absolutePath.endsWith(".apkm")) {
+
+                                        val copiedFile = requireContext().getInstallerDir(adapterApks.paths[position].name + ".zip") // .zip is useless here
+
+                                        ZipFile(adapterApks.paths[position].path).extractAll(copiedFile.path.substringBeforeLast("."))
+
+                                        for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
+                                            packageInfo = requirePackageManager().getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
+                                            packageInfo.applicationInfo.sourceDir = file.absolutePath
+                                            packageInfo.applicationInfo.publicSourceDir = file.absolutePath
+                                            break
+                                        }
                                     } else {
-                                        @Suppress("DEPRECATION")
-                                        requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageUtils.flags.toInt())!!
+                                        packageInfo = PackageInfo() // empty package info
+                                        packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
                                     }
 
-                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
-                                } else {
-                                    packageInfo = PackageInfo() // empty package info
-                                    packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                    packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
+                                    withContext(Dispatchers.Main) {
+                                        if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                                            packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
+                                            icon.transitionName = packageInfo.packageName
+                                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                                            requireArguments().putInt(BundleConstants.position, position)
+                                            packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
+                                            hideLoader()
+                                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                        } else {
+                                            icon.transitionName = packageInfo.packageName
+                                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
+                                            requireArguments().putInt(BundleConstants.position, position)
+                                            packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
+                                            hideLoader()
+                                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                        }
+                                    }
+                                }.onFailure {
+                                    withContext(Dispatchers.Main) {
+                                        hideLoader()
+                                        showWarning("Failed to open package file" +
+                                                            " : ${adapterApks.paths[position].absolutePath.substringAfterLast("/")}", false)
+                                    }
                                 }
-
-                                if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
-                                    packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
-                                    icon.transitionName = packageInfo.packageName
-                                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                                    requireArguments().putInt(BundleConstants.position, position)
-                                    packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
-                                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
-                                } else {
-                                    openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
-                                }
-                            }.onFailure {
-                                showWarning("Failed to open apk : ${adapterApks.paths[position].absolutePath.substringAfterLast("/")}", false)
                             }
                         }
                     })
