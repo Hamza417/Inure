@@ -1,0 +1,7 @@
+- Added option to enable colorful icons
+- Added various color palettes
+- Added details app info panel
+- Fixed various crashes and issues
+- Fixed some memory leaks
+
+For full details, please see the app's change logs.
