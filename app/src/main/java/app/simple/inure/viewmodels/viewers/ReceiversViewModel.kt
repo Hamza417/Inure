@@ -2,12 +2,13 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.SearchPreferences
@@ -35,8 +36,9 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
                 val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
+                val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (ai in application.packageManager.getPackageInfo(packageInfo.packageName)!!.receivers) {
+                for (ai in getPackageInfo(isInstalled).receivers) {
                     val activityInfoModel = ActivityInfoModel()
 
                     activityInfoModel.activityInfo = ai
@@ -77,6 +79,14 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
                     postError(it)
                 }
             }
+        }
+    }
+
+    private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
+        return if (isInstalled) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_RECEIVERS)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_RECEIVERS)!!
         }
     }
 }

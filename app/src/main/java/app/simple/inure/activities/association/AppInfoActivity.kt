@@ -11,20 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.ui.panels.AppInfo
+import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FileUtils
-import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
-import com.anggrayudi.storage.file.baseName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import net.lingala.zip4j.ZipFile
 
-class AppDetailsActivity : BaseActivity() {
+class AppInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,7 +38,7 @@ class AppDetailsActivity : BaseActivity() {
 
                         val name = DocumentFile.fromSingleUri(applicationContext, uri)!!.name
                         val sourceFile = applicationContext.getInstallerDir(name!!)
-                        var packageInfo: PackageInfo? = null
+                        val packageInfo: PackageInfo
 
                         contentResolver.openInputStream(uri)!!.use {
                             FileUtils.copyStreamToFile(it, sourceFile)
@@ -56,47 +52,19 @@ class AppDetailsActivity : BaseActivity() {
                                 packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
                             }
 
-                            packageInfo.applicationInfo.publicSourceDir = sourceFile.absolutePath
                             packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
-                        } else if (sourceFile.absolutePath.endsWith(".apks") ||
-                            sourceFile.absolutePath.endsWith(".xapk") ||
-                            sourceFile.absolutePath.endsWith(".zip") ||
-                            sourceFile.absolutePath.endsWith(".apkm")) {
-
-                            uri.let { it ->
-                                val documentFile = DocumentFile.fromSingleUri(applicationContext, it)!!
-                                val copiedFile = applicationContext.getInstallerDir(documentFile.baseName + ".zip")
-
-                                if (!copiedFile.exists()) {
-                                    contentResolver.openInputStream(it).use {
-                                        FileUtils.copyStreamToFile(it!!, copiedFile)
-                                    }
-                                }
-
-                                ZipFile(copiedFile.path).extractAll(copiedFile.path.substringBeforeLast("."))
-
-                                for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
-                                    packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
-                                    packageInfo!!.applicationInfo.sourceDir = file.absolutePath
-                                    packageInfo!!.applicationInfo.publicSourceDir = file.absolutePath
-                                    break
-                                }
-                            }
                         } else {
                             packageInfo = PackageInfo() // empty package info
-                            packageInfo!!.applicationInfo = ApplicationInfo() // empty application info
-                            packageInfo!!.applicationInfo.sourceDir = sourceFile.absolutePath
+                            packageInfo.applicationInfo = ApplicationInfo() // empty application info
+                            packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
                         }
-
-                        packageInfo!!.applicationInfo.name = PackageUtils.getApplicationName(baseContext, packageInfo!!.applicationInfo)
-                        packageInfo!!.versionName = PackageUtils.getApplicationVersion(baseContext, packageInfo!!)
 
                         withContext(Dispatchers.Main) {
                             hideLoader()
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, AppInfo.newInstance(packageInfo!!), "app_info")
+                                .replace(R.id.app_container, Information.newInstance(packageInfo), "app_info")
                                 .commit()
                         }
                     }.getOrElse {

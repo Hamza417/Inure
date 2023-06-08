@@ -680,4 +680,5 @@
     <string name="coffee">Coffee</string>
     <string name="colorful_icons">Colorful Icons</string>
     <string name="large_string_warning">String size %1$d is too large, load anyway?</string>
+    <string name="no_state">No State</string>
 </resources>

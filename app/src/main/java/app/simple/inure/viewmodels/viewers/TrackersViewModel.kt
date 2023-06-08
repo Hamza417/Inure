@@ -2,12 +2,13 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -33,7 +34,7 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
-class TrackersViewModel(application: Application, val packageInfo: PackageInfo) : RootServiceViewModel(application) {
+class TrackersViewModel(application: Application, private val packageInfo: PackageInfo) : RootServiceViewModel(application) {
 
     var keyword: String = ""
         set(value) {
@@ -89,9 +90,17 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
         }
     }
 
+    private fun getPackageInfo(): PackageInfo {
+        return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES or PackageManager.GET_RECEIVERS or PackageManager.GET_SERVICES)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES or PackageManager.GET_RECEIVERS or PackageManager.GET_SERVICES)!!
+        }
+    }
+
     private fun getActivityTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val activities = packageManager.getPackageInfo(packageInfo.packageName)!!.activities ?: null
+        val activities = getPackageInfo().activities ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (activities != null) {
@@ -123,7 +132,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getServicesTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val services = packageManager.getPackageInfo(packageInfo.packageName)!!.services ?: null
+        val services = getPackageInfo().services ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (services != null) {
@@ -155,7 +164,7 @@ class TrackersViewModel(application: Application, val packageInfo: PackageInfo) 
 
     private fun getReceiversTrackers(): ArrayList<Tracker> {
         val trackerSignatures = getTrackerSignatures()
-        val receivers = packageManager.getPackageInfo(packageInfo.packageName)!!.receivers ?: null
+        val receivers = getPackageInfo().receivers ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (receivers != null) {

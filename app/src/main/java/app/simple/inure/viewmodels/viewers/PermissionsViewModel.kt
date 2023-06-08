@@ -2,12 +2,13 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
@@ -16,6 +17,7 @@ import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
+import net.dongliu.apk.parser.exception.ParserException
 import java.util.*
 
 class PermissionsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -38,7 +40,12 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val context = context
-                val appPackageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
+                val appPackageInfo = if (packageManager.isPackageInstalled(packageInfo.packageName)) {
+                    packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_PERMISSIONS)!!
+                } else {
+                    packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_PERMISSIONS)!!
+                }
+
                 val permissions = arrayListOf<PermissionInfo>()
 
                 for (count in appPackageInfo.requestedPermissions.indices) {
@@ -80,23 +87,27 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()
 
                 ApkFile(packageInfo.applicationInfo.sourceDir).use { apkFile ->
-                    apkFile.apkMeta.permissions.forEach { permission ->
-                        if (permission.name !in requestedPermissions) {
-                            val permissionInfo = PermissionInfo()
+                    try {
+                        apkFile.apkMeta.permissions.forEach { permission ->
+                            if (permission.name !in requestedPermissions) {
+                                val permissionInfo = PermissionInfo()
 
-                            permissionInfo.permissionInfo = permission.name.getPermissionInfo(context)
-                            permissionInfo.label = kotlin.runCatching {
-                                permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
-                            }.getOrElse {
-                                permission.name
-                            }
+                                permissionInfo.permissionInfo = permission.name.getPermissionInfo(context)
+                                permissionInfo.label = kotlin.runCatching {
+                                    permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
+                                }.getOrElse {
+                                    permission.name
+                                }
 
-                            if (isKeywordMatched(keyword, permission.name, permissionInfo.label)) {
-                                permissionInfo.isGranted = 2
-                                permissionInfo.name = permission.name
-                                permissions.add(permissionInfo)
+                                if (isKeywordMatched(keyword, permission.name, permissionInfo.label)) {
+                                    permissionInfo.isGranted = 2
+                                    permissionInfo.name = permission.name
+                                    permissions.add(permissionInfo)
+                                }
                             }
                         }
+                    } catch (e: ParserException) {
+                        e.printStackTrace()
                     }
                 }
 

@@ -2,12 +2,13 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.SearchPreferences
@@ -15,7 +16,7 @@ import app.simple.inure.util.ActivityUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ActivitiesViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
@@ -36,8 +37,9 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
                 val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
+                val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (ai in packageManager.getPackageInfo(packageInfo.packageName)!!.activities) {
+                for (ai in getPackageInfo(isInstalled).activities) {
                     val activityInfoModel = ActivityInfoModel()
 
                     activityInfoModel.activityInfo = ai
@@ -45,7 +47,7 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     activityInfoModel.target = ai.targetActivity ?: getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
                     activityInfoModel.permission = ai.permission ?: getString(R.string.no_permissions_required)
-                    activityInfoModel.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, ai.name)
+                    activityInfoModel.isEnabled = if (isInstalled) ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, ai.name) else true
 
                     for (signature in signatures) {
                         if (ai.name!!.contains(signature)) {
@@ -80,6 +82,14 @@ class ActivitiesViewModel(application: Application, val packageInfo: PackageInfo
                     postError(it)
                 }
             }
+        }
+    }
+
+    private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
+        return if (isInstalled) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES)!!
         }
     }
 }

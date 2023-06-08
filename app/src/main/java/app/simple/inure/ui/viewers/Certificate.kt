@@ -13,6 +13,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.CertificateViewModelFactory
 import app.simple.inure.popups.viewers.PopupInformation
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.io.File
 
@@ -22,14 +23,12 @@ class Certificate : ScopedFragment() {
     private lateinit var viewModel: CertificatesViewModel
     private lateinit var certificateViewModelFactory: CertificateViewModelFactory
 
-    private var file: File? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_certificate, container, false)
 
         recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        certificateViewModelFactory = CertificateViewModelFactory(packageInfo)
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, packageInfo.applicationInfo.sourceDir.toFile())
         viewModel = ViewModelProvider(this, certificateViewModelFactory)[CertificatesViewModel::class.java]
 
         return view

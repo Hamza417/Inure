@@ -42,10 +42,14 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
                         holder.itemView.context.getString(R.string.not_exported)
                     },
 
-                    if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
-                        holder.itemView.context.getString(R.string.enabled)
-                    } else {
-                        holder.itemView.context.getString(R.string.disabled)
+                    kotlin.runCatching {
+                        if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
+                            holder.itemView.context.getString(R.string.enabled)
+                        } else {
+                            holder.itemView.context.getString(R.string.disabled)
+                        }
+                    }.getOrElse {
+                        holder.itemView.context.getString(R.string.no_state)
                     })
         }.getOrElse {
             it.message ?: holder.itemView.context.getString(R.string.error)

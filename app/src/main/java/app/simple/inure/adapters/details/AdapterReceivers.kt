@@ -29,19 +29,24 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = receivers[position].name
         holder.status.text = holder.itemView.context.getString(
-            R.string.activity_status,
+                R.string.activity_status,
 
-            if (receivers[position].exported) {
-                holder.itemView.context.getString(R.string.exported)
-            } else {
-                holder.itemView.context.getString(R.string.not_exported)
-            },
+                if (receivers[position].exported) {
+                    holder.itemView.context.getString(R.string.exported)
+                } else {
+                    holder.itemView.context.getString(R.string.not_exported)
+                },
 
-            if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[position].name)) {
-                holder.itemView.context.getString(R.string.enabled)
-            } else {
-                holder.itemView.context.getString(R.string.disabled)
-            })
+                kotlin.runCatching {
+                    if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[position].name)) {
+                        holder.itemView.context.getString(R.string.enabled)
+                    } else {
+                        holder.itemView.context.getString(R.string.disabled)
+                    }
+                }.getOrElse {
+                    holder.itemView.context.getString(R.string.no_state)
+                })
+
         holder.status.append(receivers[position].status)
         holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
 

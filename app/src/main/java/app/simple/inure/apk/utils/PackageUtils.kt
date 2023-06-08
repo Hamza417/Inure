@@ -62,7 +62,13 @@ object PackageUtils {
         return try {
             context.packageManager.getApplicationLabel(applicationInfo).toString()
         } catch (e: NameNotFoundException) {
-            context.getString(R.string.unknown)
+            try {
+                context.packageManager.getPackageArchiveInfo(applicationInfo.sourceDir)?.let {
+                    context.packageManager.getApplicationLabel(it.applicationInfo).toString()
+                }
+            } catch (e: NameNotFoundException) {
+                context.getString(R.string.unknown)
+            }
         }
     }
 
@@ -86,15 +92,44 @@ object PackageUtils {
         return null
     }
 
-    fun PackageManager.getPackageArchiveInfo(path: String): PackageInfo? {
+    fun PackageManager.getPackageInfo(packageName: String, flags: Int): PackageInfo? {
         try {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+            } else {
+                @Suppress("DEPRECATION")
+                getPackageInfo(packageName, flags)
+            }
+        } catch (e: NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+        return null
+    }
+
+    fun PackageManager.getPackageArchiveInfo(path: String): PackageInfo? {
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(flags))
             } else {
                 @Suppress("DEPRECATION")
                 getPackageArchiveInfo(path, flags.toInt())
             }
-        } catch (e: RuntimeException) {
+        } catch (e: NameNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun PackageManager.getPackageArchiveInfo(path: String, flags: Int): PackageInfo? {
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(flags.toLong()))
+            } else {
+                @Suppress("DEPRECATION")
+                getPackageArchiveInfo(path, flags)
+            }
+        } catch (e: NameNotFoundException) {
             e.printStackTrace()
         }
 
@@ -139,17 +174,29 @@ object PackageUtils {
     /**
      * Fetches the app's version name from the package id of the application
      * @param context of the given environment
-     * @param applicationInfo is [ApplicationInfo] object containing app's
+     * @param packageInfo is [ApplicationInfo] object containing app's
      *        information
      * @return app's version name as [String]
      */
-    fun getApplicationVersion(context: Context, applicationInfo: PackageInfo): String {
+    fun getApplicationVersion(context: Context, packageInfo: PackageInfo): String {
         return try {
-            context.packageManager.getPackageInfo(applicationInfo.packageName)!!.versionName
+            context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionName
         } catch (e: NameNotFoundException) {
-            context.getString(R.string.unknown)
+            try {
+                context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionName
+            } catch (e: NameNotFoundException) {
+                context.getString(R.string.unknown)
+            } catch (e: NullPointerException) {
+                context.getString(R.string.unknown)
+            }
         } catch (e: NullPointerException) {
-            context.getString(R.string.unknown)
+            try {
+                context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionName
+            } catch (e: NameNotFoundException) {
+                context.getString(R.string.unknown)
+            } catch (e: NullPointerException) {
+                context.getString(R.string.unknown)
+            }
         }
     }
 

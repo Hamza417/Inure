@@ -51,12 +51,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     private fun loadBatteryOptimizationSu() {
         viewModelScope.launch(Dispatchers.IO) {
-            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-            }
+            var apps = getInstalledPackages()
 
             when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
                 PopupAppsCategory.SYSTEM -> {
@@ -227,6 +222,19 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
             loadBatteryOptimizationShizuku()
         } else if (ConfigurationPreferences.isUsingRoot()) {
             loadBatteryOptimizationSu()
+        }
+    }
+
+    private fun getInstalledPackages(): MutableList<PackageInfo> {
+        while (true) {
+            kotlin.runCatching {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
+                } else {
+                    @Suppress("DEPRECATION")
+                    return packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                }
+            }
         }
     }
 

@@ -3,11 +3,12 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.FeatureInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +44,9 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val list = arrayListOf<FeatureInfo>()
+                val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (featureInfo in packageManager.getPackageInfo(packageInfo.packageName)!!.reqFeatures) {
+                for (featureInfo in getPackageInfo(isInstalled).reqFeatures) {
                     list.add(featureInfo)
                 }
 
@@ -75,6 +77,14 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                     postError(it)
                 }
             }
+        }
+    }
+
+    private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
+        return if (isInstalled) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_META_DATA)!!
         }
     }
 }

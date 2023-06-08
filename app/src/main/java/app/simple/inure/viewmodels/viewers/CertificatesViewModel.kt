@@ -9,12 +9,10 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import java.io.File
 import java.security.cert.X509Certificate
 
@@ -35,15 +33,13 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
     private fun loadCertificatesData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val certificates: Array<X509Certificate> = if (packageInfo.isNotNull()) {
+                val certificates: Array<X509Certificate>? = kotlin.runCatching {
                     APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
-                } else {
-                    ApkFile(file).use {
-                        APKCertificateUtils(file, it.apkMeta.packageName, applicationContext()).x509Certificates
-                    }
+                }.getOrElse {
+                    APKCertificateUtils(file, null, applicationContext()).x509Certificates
                 }
 
-                for (cert in certificates) {
+                for (cert in certificates!!) {
                     if (list.isNotEmpty()) {
                         list.add(Pair(0, "".applySecondaryTextColor())) // Divider, trust me
                     }

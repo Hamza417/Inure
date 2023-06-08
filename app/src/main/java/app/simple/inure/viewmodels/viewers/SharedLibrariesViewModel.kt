@@ -2,8 +2,10 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SharedLibraryModel
 import app.simple.inure.util.FileUtils.toFile
@@ -22,8 +24,9 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val list = arrayListOf<SharedLibraryModel>()
+                val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (lib in packageInfo.applicationInfo.sharedLibraryFiles) {
+                for (lib in getPackageInfo(isInstalled).applicationInfo.sharedLibraryFiles) {
                     list.add(SharedLibraryModel(lib, lib.toFile().length()))
                 }
 
@@ -39,6 +42,14 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
                     postError(it)
                 }
             }
+        }
+    }
+
+    private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
+        return if (isInstalled) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_SHARED_LIBRARY_FILES)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_SHARED_LIBRARY_FILES)!!
         }
     }
 }

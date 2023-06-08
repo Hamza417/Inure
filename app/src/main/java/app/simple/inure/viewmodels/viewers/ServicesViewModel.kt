@@ -2,13 +2,14 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.SearchPreferences
@@ -36,8 +37,9 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
             kotlin.runCatching {
                 val list = arrayListOf<ServiceInfoModel>()
                 val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
+                val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (info in application.packageManager.getPackageInfo(packageInfo.packageName)!!.services) {
+                for (info in getPackageInfo(isInstalled).services) {
                     val serviceInfoModel = ServiceInfoModel()
 
                     serviceInfoModel.serviceInfo = info
@@ -80,6 +82,14 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     postError(it)
                 }
             }
+        }
+    }
+
+    private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
+        return if (isInstalled) {
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_SERVICES)!!
+        } else {
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_SERVICES)!!
         }
     }
 }

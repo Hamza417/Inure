@@ -48,7 +48,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
                         holder.itemView.context.getString(R.string.disabled)
                     }
                 }.getOrElse {
-                    holder.itemView.context.getString(R.string.unknown)
+                    holder.itemView.context.getString(R.string.no_state)
                 }
         )
         holder.status.append(activities[position].status)
@@ -59,10 +59,15 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         }
 
         if (activities[position].exported) {
-            if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
-                holder.launch.visible(false)
-                holder.divider.visible(false)
-            } else {
+            kotlin.runCatching {
+                if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
+                    holder.launch.visible(false)
+                    holder.divider.visible(false)
+                } else {
+                    holder.launch.gone()
+                    holder.divider.gone()
+                }
+            }.onFailure {
                 holder.launch.gone()
                 holder.divider.gone()
             }

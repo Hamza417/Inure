@@ -190,25 +190,29 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
     fun loadMetaOptions() {
         viewModelScope.launch(Dispatchers.Default) {
 
-            val list = mutableListOf(
-                    Pair(R.drawable.ic_permission, R.string.permissions),
-                    Pair(R.drawable.ic_activities, R.string.activities),
-                    Pair(R.drawable.ic_services, R.string.services),
-                    Pair(R.drawable.ic_certificate, R.string.certificate),
-                    Pair(R.drawable.ic_resources, R.string.resources),
-                    Pair(R.drawable.ic_receivers, R.string.receivers),
-                    Pair(R.drawable.ic_provider, R.string.providers),
-                    Pair(R.drawable.ic_android, R.string.manifest),
-                    Pair(R.drawable.ic_anchor, R.string.uses_feature),
-                    Pair(R.drawable.ic_graphics, R.string.graphics),
-                    Pair(R.drawable.ic_extras, R.string.extras),
-                    Pair(R.drawable.ic_shared_libs, R.string.shared_libs),
-                    Pair(R.drawable.ic_code, R.string.dex_classes),
-                    Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
-                    Pair(R.drawable.ic_power_off, R.string.boot),
-            )
+            val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-            if (ConfigurationPreferences.isUsingRoot()) {
+            val list = mutableListOf<Pair<Int, Int>>()
+
+            list.add(Pair(R.drawable.ic_permission, R.string.permissions))
+            list.add(Pair(R.drawable.ic_activities, R.string.activities))
+            list.add(Pair(R.drawable.ic_services, R.string.services))
+            list.add(Pair(R.drawable.ic_certificate, R.string.certificate))
+            list.add(Pair(R.drawable.ic_resources, R.string.resources))
+            list.add(Pair(R.drawable.ic_receivers, R.string.receivers))
+            list.add(Pair(R.drawable.ic_provider, R.string.providers))
+            list.add(Pair(R.drawable.ic_android, R.string.manifest))
+            list.add(Pair(R.drawable.ic_anchor, R.string.uses_feature))
+            list.add(Pair(R.drawable.ic_graphics, R.string.graphics))
+            list.add(Pair(R.drawable.ic_extras, R.string.extras))
+            list.add(Pair(R.drawable.ic_shared_libs, R.string.shared_libs))
+            list.add(Pair(R.drawable.ic_code, R.string.dex_classes))
+            list.add(Pair(R.drawable.ic_radiation_nuclear, R.string.trackers))
+            if (isInstalled) {
+                list.add(Pair(R.drawable.ic_power_off, R.string.boot))
+            }
+
+            if (ConfigurationPreferences.isUsingRoot() && isInstalled) {
                 list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.operations))
                 list.add(Pair(R.drawable.sc_preferences, R.string.shared_prefs))
             }

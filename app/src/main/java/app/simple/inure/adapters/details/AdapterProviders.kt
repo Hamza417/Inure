@@ -30,19 +30,23 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         holder.packageId.text = providers[position].name
 
         holder.status.text = holder.itemView.context.getString(
-            R.string.activity_status,
+                R.string.activity_status,
 
-            if (providers[position].isExported) {
-                holder.itemView.context.getString(R.string.exported)
-            } else {
-                holder.itemView.context.getString(R.string.not_exported)
-            },
+                if (providers[position].isExported) {
+                    holder.itemView.context.getString(R.string.exported)
+                } else {
+                    holder.itemView.context.getString(R.string.not_exported)
+                },
 
-            if (ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[position].name)) {
-                holder.itemView.context.getString(R.string.enabled)
-            } else {
-                holder.itemView.context.getString(R.string.disabled)
-            })
+                kotlin.runCatching {
+                    if (ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[position].name)) {
+                        holder.itemView.context.getString(R.string.enabled)
+                    } else {
+                        holder.itemView.context.getString(R.string.disabled)
+                    }
+                }.getOrElse {
+                    holder.itemView.context.getString(R.string.no_state)
+                })
 
         holder.status.append(providers[position].status)
         holder.name.setTrackingIcon(providers[position].trackingId.isNullOrEmpty().not())
