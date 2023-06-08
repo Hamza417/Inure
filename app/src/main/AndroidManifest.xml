@@ -334,7 +334,7 @@
             android:configChanges="uiMode"
             android:documentLaunchMode="always"
             android:exported="true"
-            android:label="Package Installer"
+            android:label="@string/installer"
             android:theme="@style/Inure.Transparent"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
