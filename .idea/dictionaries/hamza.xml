@@ -3,6 +3,7 @@
     <words>
       <w>aaaa</w>
       <w>apkinstaller</w>
+      <w>delims</w>
       <w>djava</w>
       <w>duzhe</w>
       <w>dwhite</w>
@@ -22,6 +23,7 @@
       <w>sharedpref</w>
       <w>teko</w>
       <w>titillium</w>
+      <w>usebackq</w>
     </words>
   </dictionary>
 </component>

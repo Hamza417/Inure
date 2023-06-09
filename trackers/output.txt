@@ -1,0 +1,3 @@
+﻿<string-array name="trackers">
+	<item></item>
+</string-array>
