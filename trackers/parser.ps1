@@ -1,10 +1,20 @@
+# Get current directory
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
+Write-Host "Current directory: $scriptPath"
+Set-Location $scriptPath
+Write-Host "CD'd to: $scriptPath"
+
+## Add line breaks to the output
+Write-Host "`nParsing JSON file..."
+
 $jsonFile = "trackers.json"
 $outputFile = "output.txt"
 
 # If output.txt already exists, delete it
+Write-Host "Checking if $outputFile already exists..."
 if (Test-Path $outputFile)
 {
-    Write-Host "File already exist: $outputFile"
+    Write-Host "File already exist: $scriptPath\$outputFile"
     Remove-Item $outputFile
     Write-Host "Deleted: $outputFile `n"
 }
@@ -18,23 +28,24 @@ $trackers = $jsonObject.trackers
 
 # Print the trackers to the console
 Write-Host "Trackers:"
-for ($i = 0; $i -lt $trackers.Count; $i++) {
-    Write-Host $trackers[$i].website
+$trackers.Values | ForEach-Object {
+    $trackerObject = $_
+    Write-Host $trackerObject.website
 }
 
 # Extract the website tags
-$websites = foreach ($tracker in $trackers)
+foreach ($tracker in $trackers)
 {
     # Print the website to the console
     Write-Host $tracker.website
     $tracker.website
 }
 
-
 # <string-array name="tweb">
 #    <item>https://www.teemo.co</item>
 #    <item>https://www.fidzup.com</item>
 # </string-array>
+
 # Format and write the output to the text file
 $output = @"
 <string-array name="trackers">
@@ -56,4 +67,3 @@ Write-Host "Output written to $outputFile"
 
 # Press any key to continue...
 Read-Host -Prompt "Press Enter to exit"
-```
