@@ -680,5 +680,6 @@
     <string name="coffee">Café</string>
     <string name="colorful_icons">Ícones Coloridos</string>
     <string name="large_string_warning">O tamanho da string %1$d é muito grande, carregar mesmo assim?</string>
-    <string name="no_state">Sem Estado</string>
+    <string name="no_state">Nenhum Estado</string>
+    <string name="developer_profile">Perfil do desenvolvedor</string>
 </resources>
