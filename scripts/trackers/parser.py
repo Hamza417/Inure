@@ -93,15 +93,15 @@ print("Output written to", output_file)
 decision = input("Do you want to copy the file to Inure? (y/n): ")
 if decision.lower() == "y":
     try:
-        open(f"..\\app\\src\\main\\res\\values\\{output_file}", "r")
-        print("File already exists at: ..\\app\\src\\main\\res\\values\\trackers.xml")
+        open(f"..\\..\\app\\src\\main\\res\\values\\{output_file}", "r")
+        print("File already exists at: ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
         print("Deleting..")
-        os.remove(f"..\\app\\src\\main\\res\\values\\{output_file}")
+        os.remove(f"..\\..\\app\\src\\main\\res\\values\\{output_file}")
     except FileNotFoundError:
-        print("File not found at: ..\\app\\src\\main\\res\\values\\trackers.xml")
+        print("File not found at: ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
     finally:
-        os.system(f"copy {output_file} ..\\app\\src\\main\\res\\values\\trackers.xml")
-        print("Copied to: ..\\app\\src\\main\\res\\values\\trackers.xml")
+        os.system(f"copy {output_file} ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
+        print("Copied to: ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
 
 print("Total time taken:", round(time.time() - startTimeMillis, 2), "seconds")
 
