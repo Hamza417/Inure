@@ -108,7 +108,7 @@
     <string name="root_desc">Использовать root методы вместо использования собственных API-интерфейсов и библиотек Android для выполнения некоторых функций.\n\nЭтот вариант рекомендуется, поскольку он может упростить работу пользователя.\n\nТребуется устройство с root-доступом.</string>
     <string name="back_button">Кнопка Назад</string>
     <string name="files">Файлы</string>
-    <string name="method_count">Кол-во способов</string>
+    <string name="method_count">Кол-во методов</string>
     <string name="multi_dex">Мульти Dex, %1$s</string>
     <string name="single_dex">Одиночный Dex, %1$s</string>
     <string name="activity_status">%1$s | %2$s</string>
@@ -684,4 +684,5 @@
     <string name="colorful_icons">Разноцветные иконки</string>
     <string name="large_string_warning">Размер строки %1$d слишком большой, все равно загрузить?</string>
     <string name="no_state">Нет Cостояния</string>
+    <string name="developer_profile">Профиль разработчика</string>
 </resources>
