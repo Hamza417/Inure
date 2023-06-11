@@ -1,9 +1,7 @@
 name: Python Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,7 +21,7 @@ jobs:
 
       - name: Run Python script
         run: |
-          python /trackers/parser.py  # Replace with the actual script name
+          python scripts/trackers/parser.py  # Replace with the actual script name
 
       - name: Copy output file
         run: |
