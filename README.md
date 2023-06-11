@@ -13,7 +13,7 @@ An elegant Android app manager.
 ![](https://img.shields.io/github/languages/count/Hamza417/Inure?color=white&label=Languages)
 ![](https://img.shields.io/github/license/Hamza417/Inure?color=red&label=License)
 ![](https://img.shields.io/badge/Minimum%20SDK-23%20(Marshmallow)-839192?logo=android&logoColor=white)
-![](https://img.shields.io/badge/Target%20SDK-33%20(Android%2013)-566573?logo=android&logoColor=white)
+![](https://img.shields.io/badge/Target%20SDK-34%20(Android%2014)-566573?logo=android&logoColor=white)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 [![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_manager)
 
