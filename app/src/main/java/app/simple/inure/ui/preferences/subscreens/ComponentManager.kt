@@ -36,6 +36,7 @@ class ComponentManager : ScopedFragment() {
                     Triple(R.mipmap.ic_audio_player, R.string.audio_player, AudioPlayerActivity::class.java),
                     // Triple(R.mipmap.ic_terminal, R.string.terminal, TerminalAlias::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.information, AppDetailsActivity::class.java),
+                    Triple(R.mipmap.ic_launcher, R.string.app_information, AppInfoActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.installer, ApkInstallerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.manifest, ManifestAssociationActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.text_viewer, TextViewerActivity::class.java),
