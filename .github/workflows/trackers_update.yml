@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: '3.x'  # Replace 'x' with the desired Python version
 
-      - name: Install dependencies
-        run: pip install -r scripts/trackers/requirements.txt  # Add any required dependencies to requirements.txt
+   #   - name: Install dependencies
+      #  run: pip install -r scripts/trackers/requirements.txt  # Add any required dependencies to requirements.txt
 
       - name: Run Python script
         run: |
