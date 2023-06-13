@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Python script
         run: |
-          python scripts/trackers/parser.py  # Replace with the actual script name
+          python scripts/trackers/actionparser.py  # Replace with the actual script name
 
       - name: Copy output file
         run: |
