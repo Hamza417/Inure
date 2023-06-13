@@ -90,6 +90,3 @@ if decision.lower() == "y":
         print("Copied to: ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
 
 print("Total time taken:", round(time.time() - startTimeMillis, 2), "seconds")
-
-# Open the output file
-os.startfile(output_file)
