@@ -1,7 +1,9 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageInfo
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -61,111 +63,11 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 warning.postValue(context.getString(R.string.app_not_installed, packageInfo.packageName))
 
                 if (ConfigurationPreferences.isUsingRoot()) {
-                    if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
-                        list.add(Pair(R.drawable.ic_launch, R.string.launch))
-                    }
-
-                    list.add(Pair(R.drawable.ic_send, R.string.send))
-
-                    if (isNotThisApp()) {
-                        list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
-
-                        if (packageInfo.isUserApp()) {
-                            list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
-                        }
-
-                        if (packageInfo.isSystemApp()) {
-                            if (packageInfo.isUpdateInstalled()) {
-                                list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
-                            }
-                        }
-
-                        if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
-                            list.add(Pair(R.drawable.ic_disable, R.string.disable))
-                        } else {
-                            list.add(Pair(R.drawable.ic_check, R.string.enable))
-                        }
-
-                        if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
-                            if (packageManager.isAppHidden(packageInfo.packageName)) {
-                                list.add(Pair(R.drawable.ic_visibility, R.string.visible))
-                            } else {
-                                list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
-                            }
-                        }
-
-                        list.add(Pair(R.drawable.ic_close, R.string.force_stop))
-                        list.add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
-                    }
-
-                    list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
-                    list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+                    list.rootMenu()
                 } else if (ConfigurationPreferences.isUsingShizuku()) {
-                    if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
-                        list.add(Pair(R.drawable.ic_launch, R.string.launch))
-                    }
-
-                    list.add(Pair(R.drawable.ic_send, R.string.send))
-
-                    if (isNotThisApp()) {
-                        list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
-
-                        if (packageInfo.isUserApp()) {
-                            list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
-                        }
-
-                        if (packageInfo.isSystemApp()) {
-                            if (packageInfo.isUpdateInstalled()) {
-                                list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
-                            }
-                        }
-
-                        if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
-                            list.add(Pair(R.drawable.ic_disable, R.string.disable))
-                        } else {
-                            list.add(Pair(R.drawable.ic_check, R.string.enable))
-                        }
-
-                        if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
-                            if (packageManager.isAppHidden(packageInfo.packageName)) {
-                                list.add(Pair(R.drawable.ic_visibility, R.string.visible))
-                            } else {
-                                list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
-                            }
-                        }
-
-                        list.add(Pair(R.drawable.ic_close, R.string.force_stop))
-                        list.add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
-                    }
-
-                    list.add(Pair(R.drawable.ic_broom, R.string.clear_cache))
-                    list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+                    list.shizukuMenu()
                 } else {
-                    if (packageInfo.isUserApp()) {
-                        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
-                            list.add(Pair(R.drawable.ic_launch, R.string.launch))
-                        }
-
-                        list.add(Pair(R.drawable.ic_send, R.string.send))
-
-                        if (isNotThisApp()) {
-                            list.add(Pair(R.drawable.ic_delete, R.string.uninstall))
-                        }
-                    } else {
-                        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName)) {
-                            list.add(Pair(R.drawable.ic_launch, R.string.launch))
-                        }
-
-                        list.add(Pair(R.drawable.ic_send, R.string.send))
-
-                        if (isNotThisApp()) {
-                            if (packageInfo.isUpdateInstalled()) {
-                                list.add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
-                            }
-                        }
-                    }
-
-                    list.add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+                    list.normalMenu()
                 }
             } else {
                 if (packageInfo.applicationInfo.sourceDir.toFile().exists()) {
@@ -181,6 +83,19 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
                 list.add(Pair(R.drawable.ic_credits, R.string.credits))
                 list.add(Pair(R.drawable.ic_translate, R.string.translate))
+            }
+
+            // Check if app has settings activity
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                packageManager.queryIntentActivities(Intent().apply {
+                    action = Intent.ACTION_APPLICATION_PREFERENCES
+                }, 0).let { resolveInfos ->
+                    resolveInfos.forEach {
+                        if (it.activityInfo.packageName == packageInfo.packageName) {
+                            list.add(Pair(R.drawable.ic_settings, R.string.preferences))
+                        }
+                    }
+                }
             }
 
             menuOptions.postValue(list)
@@ -232,6 +147,118 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
             miscellaneousItems.postValue(list)
         }
+    }
+
+    private fun ArrayList<Pair<Int, Int>>.rootMenu() {
+        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+            add(Pair(R.drawable.ic_launch, R.string.launch))
+        }
+
+        add(Pair(R.drawable.ic_send, R.string.send))
+
+        if (isNotThisApp()) {
+            add(Pair(R.drawable.ic_delete, R.string.uninstall))
+
+            if (packageInfo.isUserApp()) {
+                add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+            }
+
+            if (packageInfo.isSystemApp()) {
+                if (packageInfo.isUpdateInstalled()) {
+                    add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                }
+            }
+
+            if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
+                add(Pair(R.drawable.ic_disable, R.string.disable))
+            } else {
+                add(Pair(R.drawable.ic_check, R.string.enable))
+            }
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+                if (packageManager.isAppHidden(packageInfo.packageName)) {
+                    add(Pair(R.drawable.ic_visibility, R.string.visible))
+                } else {
+                    add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                }
+            }
+
+            add(Pair(R.drawable.ic_close, R.string.force_stop))
+            add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
+        }
+
+        add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+        add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+    }
+
+    private fun ArrayList<Pair<Int, Int>>.shizukuMenu() {
+        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+            add(Pair(R.drawable.ic_launch, R.string.launch))
+        }
+
+        add(Pair(R.drawable.ic_send, R.string.send))
+
+        if (isNotThisApp()) {
+            add(Pair(R.drawable.ic_delete, R.string.uninstall))
+
+            if (packageInfo.isUserApp()) {
+                add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+            }
+
+            if (packageInfo.isSystemApp()) {
+                if (packageInfo.isUpdateInstalled()) {
+                    add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                }
+            }
+
+            if (packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
+                add(Pair(R.drawable.ic_disable, R.string.disable))
+            } else {
+                add(Pair(R.drawable.ic_check, R.string.enable))
+            }
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+                if (packageManager.isAppHidden(packageInfo.packageName)) {
+                    add(Pair(R.drawable.ic_visibility, R.string.visible))
+                } else {
+                    add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
+                }
+            }
+
+            add(Pair(R.drawable.ic_close, R.string.force_stop))
+            add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
+        }
+
+        add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+        add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+    }
+
+    private fun ArrayList<Pair<Int, Int>>.normalMenu() {
+        if (packageInfo.isUserApp()) {
+            if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+                add(Pair(R.drawable.ic_launch, R.string.launch))
+            }
+
+            add(Pair(R.drawable.ic_send, R.string.send))
+
+            if (isNotThisApp()) {
+                add(Pair(R.drawable.ic_delete, R.string.uninstall))
+            }
+        } else {
+            if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName)) {
+                add(Pair(R.drawable.ic_launch, R.string.launch))
+            }
+
+            add(Pair(R.drawable.ic_send, R.string.send))
+
+            if (isNotThisApp()) {
+                if (packageInfo.isUpdateInstalled()) {
+                    add(Pair(R.drawable.ic_layers_clear, R.string.uninstall_updates))
+                }
+            }
+        }
+
+        add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
     }
 
     private fun isNotThisApp(): Boolean {

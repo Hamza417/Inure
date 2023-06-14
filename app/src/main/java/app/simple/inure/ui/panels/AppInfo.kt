@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -209,7 +210,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.getActionsOptions().observe(viewLifecycleOwner) {
+        componentsViewModel.getActionsOptions().observe(viewLifecycleOwner) { it ->
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
             actionsAdapter = AdapterMenu(it)
@@ -345,6 +346,21 @@ class AppInfo : ScopedFragment() {
                         }
                         R.string.translate -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.translate)), "translate")
+                        }
+                        R.string.preferences -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                if (packageInfo.packageName == requireContext().packageName) {
+                                    openFragmentArc(Preferences.newInstance(), icon, "preferences")
+                                } else {
+                                    requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0).forEach {
+                                        if (it.activityInfo.packageName == packageInfo.packageName) {
+                                            startActivity(Intent(Intent.ACTION_APPLICATION_PREFERENCES).apply {
+                                                setClassName(packageInfo.packageName, it.activityInfo.name)
+                                            })
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
