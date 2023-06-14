@@ -55,6 +55,8 @@ signatures = [tracker["code_signature"] for tracker in json_content["trackers"].
 websites = [tracker["website"] for tracker in json_content["trackers"].values()]
 names = [tracker["name"] for tracker in json_content["trackers"].values()]
 print("Total signatures:", len(signatures))
+print("Total websites:", len(websites))
+print("Total names:", len(names))
 
 # Format the output
 output = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"

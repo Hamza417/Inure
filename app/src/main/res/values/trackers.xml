@@ -83,9 +83,7 @@
         <item>com.vungle.publisher.|com.vungle.warren.</item> <!-- 74 -->
         <item>com.appboy</item> <!-- 75 -->
         <item>com.criteo.</item> <!-- 76 -->
-        <item>
-            com.mapbox.mapboxsdk.module.telemetry|com.mapbox.mapboxsdk.maps.TelemetryDefinition|com.mapbox.android.telemetry.
-        </item> <!-- 77 -->
+        <item>com.mapbox.mapboxsdk.module.telemetry|com.mapbox.mapboxsdk.maps.TelemetryDefinition|com.mapbox.android.telemetry.</item> <!-- 77 -->
         <item>com.optimizely.</item> <!-- 78 -->
         <item>com.taboola.</item> <!-- 79 -->
         <item>com.clevertap.</item> <!-- 80 -->
@@ -138,9 +136,7 @@
         <item>org.altbeacon.beacon.|com.altbeacon.beacon.|org.altbeacon.bluetooth.</item> <!-- 127 -->
         <item>.sizmek.</item> <!-- 128 -->
         <item>com.salesforce.marketingcloud</item> <!-- 129 -->
-        <item>
-            org.mozilla.telemetry|org.mozilla.gecko.telemetry|mozilla.telemetry.glean.|org.mozilla.fenix.GleanMetrics|org.mozilla.fenix.components.metrics
-        </item> <!-- 130 -->
+        <item>org.mozilla.telemetry|org.mozilla.gecko.telemetry|mozilla.telemetry.glean.|org.mozilla.fenix.GleanMetrics|org.mozilla.fenix.components.metrics</item> <!-- 130 -->
         <item>net.nend.android|net.nend.unity.</item> <!-- 131 -->
         <item>com.pusher.client.</item> <!-- 132 -->
         <item>tv.freewheel.ad.</item> <!-- 133 -->
@@ -193,9 +189,7 @@
         <item>com.chartbeat.androidsdk</item> <!-- 180 -->
         <item>com.moengage.</item> <!-- 181 -->
         <item>com.altamob.sdk</item> <!-- 182 -->
-        <item>
-            io.fabric.|com.crashlytics.|com.google.firebase.crashlytics|com.google.firebase.crash.|io.invertase.firebase.crashlytics.
-        </item> <!-- 183 -->
+        <item>io.fabric.|com.crashlytics.|com.google.firebase.crashlytics|com.google.firebase.crash.|io.invertase.firebase.crashlytics.</item> <!-- 183 -->
         <item>com.tl.uic.Tealeaf</item> <!-- 184 -->
         <item>com.amoad.</item> <!-- 185 -->
         <item>com.adadapted.android.sdk.</item> <!-- 186 -->
@@ -221,9 +215,7 @@
         <item>com.sentiance.sdk.</item> <!-- 206 -->
         <item>com.smartlook.sdk.smartlook.</item> <!-- 207 -->
         <item>com.beaconinside.proximitysdk.ProximityService</item> <!-- 208 -->
-        <item>
-            com.talkingdata.sdk.|com.tendcloud.tenddata.|com.talkingdata.appanalytics.|com.talkingdata.adtracking.|com.tendcloud.appcpa.|com.apptalkingdata.push.|com.gametalkingdata.push.
-        </item> <!-- 209 -->
+        <item>com.talkingdata.sdk.|com.tendcloud.tenddata.|com.talkingdata.appanalytics.|com.talkingdata.adtracking.|com.tendcloud.appcpa.|com.apptalkingdata.push.|com.gametalkingdata.push.</item> <!-- 209 -->
         <item>com.flymob.sdk.</item> <!-- 210 -->
         <item>com.noqoush.adfalcon.android.sdk</item> <!-- 211 -->
         <item>com.bitly.Bitly</item> <!-- 212 -->
@@ -245,9 +237,7 @@
         <item>com.atinternet.</item> <!-- 228 -->
         <item>com.redbricklane.zapr</item> <!-- 229 -->
         <item>com.mediba.jp|mediba.ad.sdk.android.openx</item> <!-- 230 -->
-        <item>
-            com.google.ads.|com.google.android.gms.ads.AdView|com.google.android.gms.ads.AdActivity|com.google.android.gms.ads.AdRequest|com.google.android.gms.ads.mediation|com.google.android.gms.ads.doubleclick|com.google.android.ads.|com.google.unity.ads.|com.google.android.gms.admob|com.google.firebase.firebase_ads.
-        </item> <!-- 231 -->
+        <item>com.google.ads.|com.google.android.gms.ads.AdView|com.google.android.gms.ads.AdActivity|com.google.android.gms.ads.AdRequest|com.google.android.gms.ads.mediation|com.google.android.gms.ads.doubleclick|com.google.android.ads.|com.google.unity.ads.|com.google.android.gms.admob|com.google.firebase.firebase_ads.</item> <!-- 231 -->
         <item>com.pure.internal.|com.pure.sdk.</item> <!-- 232 -->
         <item>com.factual.engine|com.factual.Factual</item> <!-- 233 -->
         <item>com.footmarks.footmarkssdkm2</item> <!-- 234 -->
@@ -266,9 +256,7 @@
         <item>me.actv8</item> <!-- 247 -->
         <item>com.iab.omid.library|com.prime31.util.IabHelperImpl|com.prime31.IAB.</item> <!-- 248 -->
         <item>com.nexage.android.|org.nexage.</item> <!-- 249 -->
-        <item>
-            com.huawei.hms.analytics|com.huawei.hms.location|com.huawei.hms.plugin.analytics|com.huawei.hms.plugin.ads|com.huawei.updatesdk.|com.huawei.agconnect.|com.huawei.hms.support.api.push.|com.huawei.hms.flutter.analytics.
-        </item> <!-- 250 -->
+        <item>com.huawei.hms.analytics|com.huawei.hms.location|com.huawei.hms.plugin.analytics|com.huawei.hms.plugin.ads|com.huawei.updatesdk.|com.huawei.agconnect.|com.huawei.hms.support.api.push.|com.huawei.hms.flutter.analytics.</item> <!-- 250 -->
         <item>com.akamai.android.sdk.AkaMap</item> <!-- 251 -->
         <item>ru.mail.mrgservice.advertising|ru.mail.mrgservice.analytics</item> <!-- 252 -->
         <item>com.airpush.</item> <!-- 253 -->
@@ -300,8 +288,7 @@
         <item>ru.tachos.admitadstatisticsdk</item> <!-- 279 -->
         <item>com.amap.api</item> <!-- 280 -->
         <item>com.digitalanalytics.</item> <!-- 281 -->
-        <item>com.bytedance.sdk.openadsdk|com.bytedance.tea.crash.|com.bytedance.embedapplog.|com.bytedance.applog.
-        </item> <!-- 282 -->
+        <item>com.bytedance.sdk.openadsdk|com.bytedance.tea.crash.|com.bytedance.embedapplog.|com.bytedance.applog.</item> <!-- 282 -->
         <item>com.yoc.visx</item> <!-- 283 -->
         <item>com.socdm.d.adgeneration.</item> <!-- 284 -->
         <item>io.adjoe.sdk.|io.adjoe.protection.</item> <!-- 285 -->
@@ -359,16 +346,13 @@
         <item>io.opencensus|io.opentelemetry</item> <!-- 337 -->
         <item>com.snapchat.kit.sdk.SnapLogin</item> <!-- 338 -->
         <item>com.zendrive.sdk.</item> <!-- 339 -->
-        <item>
-            com.fullstory.instrumentation.|com.fullstory.util.|com.fullstory.jni.|com.fullstory.FS|com.fullstory.rust.|com.fullstory.FSSessionData
-        </item> <!-- 340 -->
+        <item>com.fullstory.instrumentation.|com.fullstory.util.|com.fullstory.jni.|com.fullstory.FS|com.fullstory.rust.|com.fullstory.FSSessionData</item> <!-- 340 -->
         <item>sdk.insert.io.|sdk.pendo.io.</item> <!-- 341 -->
         <item>co.vmob.sdk</item> <!-- 342 -->
         <item>com.swirl</item> <!-- 343 -->
         <item>com.treasuredata</item> <!-- 344 -->
         <item>com.exacttarget.</item> <!-- 345 -->
-        <item>com.ibm.mce.sdk.|co.acoustic.mobile.push.sdk.|com.xtify.mce.sdk.|com.xtify.android.sdk.
-        </item> <!-- 346 -->
+        <item>com.ibm.mce.sdk.|co.acoustic.mobile.push.sdk.|com.xtify.mce.sdk.|com.xtify.android.sdk.</item> <!-- 346 -->
         <item>com.ansca.corona</item> <!-- 347 -->
         <item>com.amplifyframework.analytics.</item> <!-- 348 -->
         <item>com.adxcorp.ads|com.adxcorp.nativead</item> <!-- 349 -->
@@ -396,11 +380,8 @@
         <item>com.tagcommander.</item> <!-- 371 -->
         <item></item> <!-- 2 -->
         <item>com.facebook.audiencenetwork</item> <!-- 373 -->
-        <item>com.google.android.apps.analytics.|com.google.android.gms.analytics.|com.google.analytics.
-        </item> <!-- 374 -->
-        <item>
-            com.google.firebase.analytics.|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics
-        </item> <!-- 375 -->
+        <item>com.google.android.apps.analytics.|com.google.android.gms.analytics.|com.google.analytics.</item> <!-- 374 -->
+        <item>com.google.firebase.analytics.|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics</item> <!-- 375 -->
         <item></item> <!-- 2 -->
         <item>com.eulerian.android.sdk</item> <!-- 377 -->
         <item>com.adjust.sdk.|com.adjust.android.sdk.</item> <!-- 378 -->
@@ -429,12 +410,9 @@
         <item>com.avocarrot.sdk</item> <!-- 401 -->
         <item>com.nativex</item> <!-- 402 -->
         <item>com.baidu.BaiduMap</item> <!-- 403 -->
-        <item>
-            com.tencent.map.geolocation|com.tencent.mm.plugin.location.|com.tencent.mm.plugin.location_soso.|com.tencent.mm.plugin.location_google
-        </item> <!-- 404 -->
+        <item>com.tencent.map.geolocation|com.tencent.mm.plugin.location.|com.tencent.mm.plugin.location_soso.|com.tencent.mm.plugin.location_google</item> <!-- 404 -->
         <item>com.hypertrack|com.hypertracklive.|io.hypertrack</item> <!-- 405 -->
-        <item>com.ubercab.analytics.|com.ubercab.library.metrics.analytics.|com.ubercab.client.core.analytics.
-        </item> <!-- 406 -->
+        <item>com.ubercab.analytics.|com.ubercab.library.metrics.analytics.|com.ubercab.client.core.analytics.</item> <!-- 406 -->
         <item>com.lisnr.</item> <!-- 407 -->
         <item>com.longtailvideo.jwplayer.</item> <!-- 408 -->
         <item>com.silverpush.</item> <!-- 409 -->
@@ -447,16 +425,13 @@
         <item>com.telequid.</item> <!-- 416 -->
         <item>com.retency.sdk.android</item> <!-- 417 -->
         <item>com.mngads.sdk|com.mngads.views|com.mngads.</item> <!-- 418 -->
-        <item>com.github.tony19.timber.loggly|com.github.tony19.loggly|com.visiware.sync2ad.logger.loggly.
-        </item> <!-- 419 -->
+        <item>com.github.tony19.timber.loggly|com.github.tony19.loggly|com.visiware.sync2ad.logger.loggly.</item> <!-- 419 -->
         <item>com.adcolony.|com.jirbo.adcolony.</item> <!-- 420 -->
         <item>com.facebook.accountkit</item> <!-- 421 -->
         <item>com.amazon.device.ads</item> <!-- 422 -->
         <item>com.amazon.device.associates</item> <!-- 423 -->
         <item>com.radiusnetworks</item> <!-- 424 -->
-        <item>
-            com.amazon.insights|com.amazonaws.mobileconnectors.pinpoint.analytics.|com.amazonaws.mobileconnectors.amazonmobileanalytics
-        </item> <!-- 425 -->
+        <item>com.amazon.insights|com.amazonaws.mobileconnectors.pinpoint.analytics.|com.amazonaws.mobileconnectors.amazonmobileanalytics</item> <!-- 425 -->
         <item>com.baidu.appx</item> <!-- 426 -->
         <item>com.baidu.location</item> <!-- 427 -->
         <item>com.baidu.mapapi</item> <!-- 428 -->
@@ -756,8 +731,7 @@
         <item>http://vectaury.io/</item> <!-- 289 -->
         <item>https://bidmachine.io/</item> <!-- 290 -->
         <item>http://www.bugsense.com/</item> <!-- 291 -->
-        <item>https://buzzvil.atlassian.net/wiki/spaces/BDG/pages/486834313/BuzzAd-Benefit+Android+SDK
-        </item> <!-- 292 -->
+        <item>https://buzzvil.atlassian.net/wiki/spaces/BDG/pages/486834313/BuzzAd-Benefit+Android+SDK</item> <!-- 292 -->
         <item>http://www.gomfactory.com</item> <!-- 293 -->
         <item>http://www.millennialmedia.com</item> <!-- 294 -->
         <item>https://loopme.com/</item> <!-- 295 -->
@@ -855,8 +829,7 @@
         <item>http://locuslabs.com</item> <!-- 387 -->
         <item>https://moat.com/analytics</item> <!-- 388 -->
         <item>https://segment.com/</item> <!-- 389 -->
-        <item>https://docs.microsoft.com/en-us/azure/mobile-engagement/mobile-engagement-android-sdk-overview
-        </item> <!-- 390 -->
+        <item>https://docs.microsoft.com/en-us/azure/mobile-engagement/mobile-engagement-android-sdk-overview</item> <!-- 390 -->
         <item>https://developers.colocator.net</item> <!-- 391 -->
         <item>https://developers.facebook.com/docs/android</item> <!-- 392 -->
         <item>https://developers.facebook.com/docs/android</item> <!-- 392 -->

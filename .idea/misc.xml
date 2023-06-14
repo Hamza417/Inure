@@ -430,7 +430,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Python 3.10 (venv)" project-jdk-type="Python SDK" />
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>

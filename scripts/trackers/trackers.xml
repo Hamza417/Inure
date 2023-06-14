@@ -70,7 +70,8 @@
         <item>com.adform.sdk.</item> <!-- 61 -->
         <item>jp.tjkapp.adfurikunsdk.|com.glossomads.sdk.</item> <!-- 62 -->
         <item>com.mobvista.</item> <!-- 63 -->
-        <item>com.localytics.android.|com.localytics.androidx|com.localytics.react.</item> <!-- 64 -->
+        <item>com.localytics.android.|com.localytics.androidx|com.localytics.react.
+        </item> <!-- 64 -->
         <item>com.placed.client</item> <!-- 65 -->
         <item>com.adotmob</item> <!-- 66 -->
         <item>com.appodeal.ads.|com.appodealx.</item> <!-- 67 -->
@@ -135,7 +136,8 @@
         <item>com.mobpower.</item> <!-- 124 -->
         <item>com.purplebrain.adbuddiz.sdk.</item> <!-- 125 -->
         <item>com.integralads.avid.library</item> <!-- 126 -->
-        <item>org.altbeacon.beacon.|com.altbeacon.beacon.|org.altbeacon.bluetooth.</item> <!-- 127 -->
+        <item>org.altbeacon.beacon.|com.altbeacon.beacon.|org.altbeacon.bluetooth.
+        </item> <!-- 127 -->
         <item>.sizmek.</item> <!-- 128 -->
         <item>com.salesforce.marketingcloud</item> <!-- 129 -->
         <item>
@@ -164,7 +166,8 @@
         <item>com.danielcwilson.plugins.analytics</item> <!-- 151 -->
         <item>com.bugsee.library.Bugsee</item> <!-- 152 -->
         <item>com.splunk.mint</item> <!-- 153 -->
-        <item>com.microsoft.appcenter.analytics|com.microsoft.azure.mobile.analytics</item> <!-- 154 -->
+        <item>com.microsoft.appcenter.analytics|com.microsoft.azure.mobile.analytics
+        </item> <!-- 154 -->
         <item>com.nielsen.app</item> <!-- 155 -->
         <item>com.stepleaderdigital.reveal</item> <!-- 156 -->
         <item>com.codahale.metrics</item> <!-- 157 -->
@@ -264,7 +267,8 @@
         <item>com.acrcloud</item> <!-- 245 -->
         <item>com.aarki</item> <!-- 246 -->
         <item>me.actv8</item> <!-- 247 -->
-        <item>com.iab.omid.library|com.prime31.util.IabHelperImpl|com.prime31.IAB.</item> <!-- 248 -->
+        <item>com.iab.omid.library|com.prime31.util.IabHelperImpl|com.prime31.IAB.
+        </item> <!-- 248 -->
         <item>com.nexage.android.|org.nexage.</item> <!-- 249 -->
         <item>
             com.huawei.hms.analytics|com.huawei.hms.location|com.huawei.hms.plugin.analytics|com.huawei.hms.plugin.ads|com.huawei.updatesdk.|com.huawei.agconnect.|com.huawei.hms.support.api.push.|com.huawei.hms.flutter.analytics.
@@ -273,7 +277,8 @@
         <item>ru.mail.mrgservice.advertising|ru.mail.mrgservice.analytics</item> <!-- 252 -->
         <item>com.airpush.</item> <!-- 253 -->
         <item>com.adsmogo.|com.alimama.</item> <!-- 254 -->
-        <item>com.anysdk.framework.AnalyticsWrapper|com.anysdk.framework.AdsWrapper</item> <!-- 255 -->
+        <item>com.anysdk.framework.AnalyticsWrapper|com.anysdk.framework.AdsWrapper
+        </item> <!-- 255 -->
         <item>io.presage.</item> <!-- 256 -->
         <item>com.usebutton.sdk.</item> <!-- 257 -->
         <item>com.nutiteq|com.carto</item> <!-- 258 -->
@@ -286,7 +291,8 @@
         <item>com.skplanet.tad</item> <!-- 265 -->
         <item>io.split.android.</item> <!-- 266 -->
         <item>com.mopub.</item> <!-- 267 -->
-        <item>com.infinario.android.infinariosdk.|com.exponea.sdk|com.sygic.aura.</item> <!-- 268 -->
+        <item>com.infinario.android.infinariosdk.|com.exponea.sdk|com.sygic.aura.
+        </item> <!-- 268 -->
         <item>com.ipqualityscore.</item> <!-- 269 -->
         <item>com.opensignal.datacollection.</item> <!-- 270 -->
         <item>com.wirelessregistry.observersdk.</item> <!-- 271 -->
@@ -300,7 +306,8 @@
         <item>ru.tachos.admitadstatisticsdk</item> <!-- 279 -->
         <item>com.amap.api</item> <!-- 280 -->
         <item>com.digitalanalytics.</item> <!-- 281 -->
-        <item>com.bytedance.sdk.openadsdk|com.bytedance.tea.crash.|com.bytedance.embedapplog.|com.bytedance.applog.
+        <item>
+            com.bytedance.sdk.openadsdk|com.bytedance.tea.crash.|com.bytedance.embedapplog.|com.bytedance.applog.
         </item> <!-- 282 -->
         <item>com.yoc.visx</item> <!-- 283 -->
         <item>com.socdm.d.adgeneration.</item> <!-- 284 -->
@@ -336,7 +343,8 @@
         <item>com.facebook.flipper</item> <!-- 314 -->
         <item>com.gpshopper</item> <!-- 315 -->
         <item>com.indooratlas.android.sdk</item> <!-- 316 -->
-        <item>com.janrain.android|com.janrain.android.engage|com.janrain.android.capture</item> <!-- 317 -->
+        <item>com.janrain.android|com.janrain.android.engage|com.janrain.android.capture
+        </item> <!-- 317 -->
         <item>com.innoquant.moca</item> <!-- 318 -->
         <item>com.pointinside</item> <!-- 319 -->
         <item>io.proximi.proximiiolibrary</item> <!-- 320 -->
@@ -367,7 +375,8 @@
         <item>com.swirl</item> <!-- 343 -->
         <item>com.treasuredata</item> <!-- 344 -->
         <item>com.exacttarget.</item> <!-- 345 -->
-        <item>com.ibm.mce.sdk.|co.acoustic.mobile.push.sdk.|com.xtify.mce.sdk.|com.xtify.android.sdk.
+        <item>
+            com.ibm.mce.sdk.|co.acoustic.mobile.push.sdk.|com.xtify.mce.sdk.|com.xtify.android.sdk.
         </item> <!-- 346 -->
         <item>com.ansca.corona</item> <!-- 347 -->
         <item>com.amplifyframework.analytics.</item> <!-- 348 -->
@@ -396,7 +405,8 @@
         <item>com.tagcommander.</item> <!-- 371 -->
         <item></item> <!-- 2 -->
         <item>com.facebook.audiencenetwork</item> <!-- 373 -->
-        <item>com.google.android.apps.analytics.|com.google.android.gms.analytics.|com.google.analytics.
+        <item>
+            com.google.android.apps.analytics.|com.google.android.gms.analytics.|com.google.analytics.
         </item> <!-- 374 -->
         <item>
             com.google.firebase.analytics.|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics
@@ -408,7 +418,8 @@
         <item>com.backelite.android.|com.backelite.bkdroid.</item> <!-- 380 -->
         <item>com.areametrics.areametricssdk|com.areametrics.nosdkandroid</item> <!-- 381 -->
         <item>com.comscore.</item> <!-- 382 -->
-        <item>com.cuebiq.cuebiqsdk.model.Collector|com.cuebiq.cuebiqsdk.receiver.CoverageReceiver</item> <!-- 383 -->
+        <item>com.cuebiq.cuebiqsdk.model.Collector|com.cuebiq.cuebiqsdk.receiver.CoverageReceiver
+        </item> <!-- 383 -->
         <item>com.helpshift</item> <!-- 384 -->
         <item>com.kontakt.sdk.android.</item> <!-- 385 -->
         <item>com.weborama.</item> <!-- 386 -->
@@ -418,7 +429,8 @@
         <item>com.ubikod.capptain.|com.microsoft.azure.engagement.</item> <!-- 390 -->
         <item>net.crowdconnected.androidcolocator</item> <!-- 391 -->
         <item>com.facebook.ads</item> <!-- 392 -->
-        <item>com.facebook.appevents|com.facebook.marketing.|com.facebook.CampaignTrackingReceiver</item> <!-- 393 -->
+        <item>com.facebook.appevents|com.facebook.marketing.|com.facebook.CampaignTrackingReceiver
+        </item> <!-- 393 -->
         <item>com.facebook.login</item> <!-- 394 -->
         <item>com.facebook.notifications</item> <!-- 395 -->
         <item>com.facebook.places</item> <!-- 396 -->
@@ -433,7 +445,8 @@
             com.tencent.map.geolocation|com.tencent.mm.plugin.location.|com.tencent.mm.plugin.location_soso.|com.tencent.mm.plugin.location_google
         </item> <!-- 404 -->
         <item>com.hypertrack|com.hypertracklive.|io.hypertrack</item> <!-- 405 -->
-        <item>com.ubercab.analytics.|com.ubercab.library.metrics.analytics.|com.ubercab.client.core.analytics.
+        <item>
+            com.ubercab.analytics.|com.ubercab.library.metrics.analytics.|com.ubercab.client.core.analytics.
         </item> <!-- 406 -->
         <item>com.lisnr.</item> <!-- 407 -->
         <item>com.longtailvideo.jwplayer.</item> <!-- 408 -->
@@ -447,7 +460,8 @@
         <item>com.telequid.</item> <!-- 416 -->
         <item>com.retency.sdk.android</item> <!-- 417 -->
         <item>com.mngads.sdk|com.mngads.views|com.mngads.</item> <!-- 418 -->
-        <item>com.github.tony19.timber.loggly|com.github.tony19.loggly|com.visiware.sync2ad.logger.loggly.
+        <item>
+            com.github.tony19.timber.loggly|com.github.tony19.loggly|com.visiware.sync2ad.logger.loggly.
         </item> <!-- 419 -->
         <item>com.adcolony.|com.jirbo.adcolony.</item> <!-- 420 -->
         <item>com.facebook.accountkit</item> <!-- 421 -->
@@ -680,7 +694,8 @@
         <item>https://enhance.co</item> <!-- 213 -->
         <item>https://www.arcgis.com/</item> <!-- 214 -->
         <item>https://giphy.com/</item> <!-- 215 -->
-        <item>https://www.salesforce.com/products/marketing-cloud/data-management/?mc=DMP</item> <!-- 216 -->
+        <item>https://www.salesforce.com/products/marketing-cloud/data-management/?mc=DMP
+        </item> <!-- 216 -->
         <item>http://www.schibsted.com/en/ir/</item> <!-- 217 -->
         <item>https://heap.io/</item> <!-- 218 -->
         <item>https://www.crunchbase.com/organization/inneractive</item> <!-- 219 -->
@@ -756,7 +771,8 @@
         <item>http://vectaury.io/</item> <!-- 289 -->
         <item>https://bidmachine.io/</item> <!-- 290 -->
         <item>http://www.bugsense.com/</item> <!-- 291 -->
-        <item>https://buzzvil.atlassian.net/wiki/spaces/BDG/pages/486834313/BuzzAd-Benefit+Android+SDK
+        <item>
+            https://buzzvil.atlassian.net/wiki/spaces/BDG/pages/486834313/BuzzAd-Benefit+Android+SDK
         </item> <!-- 292 -->
         <item>http://www.gomfactory.com</item> <!-- 293 -->
         <item>http://www.millennialmedia.com</item> <!-- 294 -->
@@ -855,7 +871,8 @@
         <item>http://locuslabs.com</item> <!-- 387 -->
         <item>https://moat.com/analytics</item> <!-- 388 -->
         <item>https://segment.com/</item> <!-- 389 -->
-        <item>https://docs.microsoft.com/en-us/azure/mobile-engagement/mobile-engagement-android-sdk-overview
+        <item>
+            https://docs.microsoft.com/en-us/azure/mobile-engagement/mobile-engagement-android-sdk-overview
         </item> <!-- 390 -->
         <item>https://developers.colocator.net</item> <!-- 391 -->
         <item>https://developers.facebook.com/docs/android</item> <!-- 392 -->
@@ -888,10 +905,12 @@
         <item>http://loggly.com/</item> <!-- 419 -->
         <item>http://adcolony.com/</item> <!-- 420 -->
         <item>https://www.accountkit.com/</item> <!-- 421 -->
-        <item>https://developer.amazon.com/public/apis/earn/mobile-ads/docs/quick-start</item> <!-- 422 -->
+        <item>https://developer.amazon.com/public/apis/earn/mobile-ads/docs/quick-start
+        </item> <!-- 422 -->
         <item>https://developer.amazon.com/mobile-associates</item> <!-- 423 -->
         <item>https://www.radiusnetworks.com/</item> <!-- 424 -->
-        <item>https://developer.amazon.com/docs/apps-and-games/sdk-downloads.html</item> <!-- 425 -->
+        <item>https://developer.amazon.com/docs/apps-and-games/sdk-downloads.html
+        </item> <!-- 425 -->
         <item>https://app.baidu.com/</item> <!-- 426 -->
         <item>https://developer.baidu.com/</item> <!-- 3 -->
         <item>http://lbsyun.baidu.com/</item> <!-- 428 -->

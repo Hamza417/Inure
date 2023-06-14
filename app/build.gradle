@@ -120,14 +120,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.fragment:fragment-ktx:1.5.7'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0'
     implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
@@ -144,24 +144,24 @@ dependencies {
 
     // Google
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.15.1'
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
 
     // Toolkit
     implementation 'com.github.android:renderscript-intrinsics-replacement-toolkit:b6363490c3'
 
     // Third Party
     implementation 'net.dongliu:apk-parser:2.6.10'
-    implementation 'com.scottyab:rootbeer-lib:0.0.9'
+    implementation 'com.scottyab:rootbeer-lib:0.1.0'
     implementation 'com.caverock:androidsvg-aar:1.4'
-    implementation "com.anggrayudi:storage:0.13.0"
+    implementation 'com.anggrayudi:storage:1.5.4'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'net.lingala.zip4j:zip4j:2.9.0'
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
 
@@ -172,7 +172,7 @@ dependencies {
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
     // Shizuku
-    def shizukuVersion = '13.1.0'
+    def shizukuVersion = '13.1.2'
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
