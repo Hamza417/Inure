@@ -13,7 +13,7 @@
     <string name="enum_identifier" translatable="false">Enum</string>
     <string name="static_identifier" translatable="false">Static</string>
     <string name="time_placeholder" translatable="false">--:--</string>
-    <string name="audio_file_info" translatable="false">%1$s • %2$s • %3$s</string>
+    <string name="audio_file_info" translatable="false">%1$s | %2$s | %3$s</string>
     <string name="play_store" translatable="false">Play Store</string>
     <string name="amazon" translatable="false">Amazon App Store</string>
     <string name="fdroid" translatable="false">F-Droid</string>

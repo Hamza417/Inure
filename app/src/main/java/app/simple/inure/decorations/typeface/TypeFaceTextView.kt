@@ -138,6 +138,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 4 -> this.animateColorChange(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> this.animateColorChange(AppearancePreferences.getAccentColor())
                 6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
+                7 -> setTextColor(ColorStateList.valueOf(Color.BLACK))
             }
         } else {
             when (colorMode) {
@@ -148,6 +149,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 4 -> setTextColor(ThemeManager.theme.textViewTheme.quaternaryTextColor)
                 5 -> setTextColor(AppearancePreferences.getAccentColor())
                 6 -> setTextColor(ColorStateList.valueOf(Color.WHITE))
+                7 -> setTextColor(ColorStateList.valueOf(Color.BLACK))
             }
         }
     }

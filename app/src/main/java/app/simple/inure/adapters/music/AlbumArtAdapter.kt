@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
 import app.simple.inure.glide.modules.GlideApp
+import app.simple.inure.glide.transformation.Blur
 import app.simple.inure.glide.uricover.UriCoverModel
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -29,10 +31,18 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.albumArt.transitionName = list[position].fileUri
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
-            holder.albumArt.loadFromFileDescriptor(list[position].fileUri.toUri())
+        if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                holder.albumArt.loadBlurredBackgroundDescriptor(list[position].fileUri.toUri())
+            } else {
+                holder.albumArt.loadBlurredBackground(list[position].artUri.toUri())
+            }
         } else {
-            holder.albumArt.loadFromUri(list[position].artUri.toUri())
+            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                holder.albumArt.loadFromFileDescriptor(list[position].fileUri.toUri())
+            } else {
+                holder.albumArt.loadFromUri(list[position].artUri.toUri())
+            }
         }
     }
 
@@ -89,6 +99,24 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
                     return false
                 }
             })
+            .into(this)
+    }
+
+    fun ImageView.loadBlurredBackgroundDescriptor(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .transition(BitmapTransitionOptions.withCrossFade())
+            .transform(CenterCrop(), Blur(25))
+            .load(DescriptorCoverModel(this.context, uri))
+            .into(this)
+    }
+
+    fun ImageView.loadBlurredBackground(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .transition(BitmapTransitionOptions.withCrossFade())
+            .transform(CenterCrop(), Blur(25))
+            .load(UriCoverModel(this.context, uri))
             .into(this)
     }
 }

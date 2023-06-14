@@ -33,6 +33,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.AudioModel
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.util.AudioUtils.toBitrate
@@ -91,7 +92,11 @@ class AudioPlayerPager : ScopedFragment() {
     private val musicViewModel: MusicViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_audio_player_pager, container, false)
+        val view = if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+            inflater.inflate(R.layout.fragment_audio_player_pager_alternate, container, false)
+        } else {
+            inflater.inflate(R.layout.fragment_audio_player_pager, container, false)
+        }
 
         artPager = view.findViewById(R.id.album_art_mime)
         lrcView = view.findViewById(R.id.lrc_view)
@@ -430,7 +435,7 @@ class AudioPlayerPager : ScopedFragment() {
                             }
 
                             override fun onAnimationEnd(animation: Animator) {
-                                lrcView.visibility = View.GONE
+                                lrcView.visibility = View.INVISIBLE
                             }
 
                             override fun onAnimationCancel(animation: Animator) {

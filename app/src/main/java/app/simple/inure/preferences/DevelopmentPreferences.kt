@@ -25,6 +25,7 @@ object DevelopmentPreferences {
     const val isTextSelectable = "is_text_selectable"
     const val showGreetingInTerminal = "is_greeting_shown_in_terminal"
     const val oldStyleScrollingBehaviorDialog = "is_old_style_scrolling_behavior_dialog_enabled"
+    const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -135,6 +136,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Old Style Scrolling Behavior Dialogs",
                                             "Use old style scrolling behavior dialog instead of the current one.",
                                             oldStyleScrollingBehaviorDialog,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Use Alternate Audio Player Interface",
+                                            "Use alternate audio player interface with full screen album art and lyrics view\n\nOnly portrait mode is supported.",
+                                            useAlternateAudioPlayerInterface,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

@@ -141,7 +141,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mime_album"
-        app:textColorStyle="secondary" />
+        app:textColorStyle="accent" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"

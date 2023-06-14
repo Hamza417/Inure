@@ -33,6 +33,7 @@ import androidx.core.graphics.ColorUtils;
 import androidx.core.view.ViewCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.util.TypeFace;
 
 public class LrcView extends View {
@@ -168,7 +169,11 @@ public class LrcView extends View {
             indicatorPaint.setTypeface(TypeFace.INSTANCE.getBoldTypeFace(getContext()));
         }
     
-        setBackgroundColor(ColorUtils.setAlphaComponent(Color.BLACK, 150));
+        if (!isInEditMode()) {
+            if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+                setBackgroundColor(ColorUtils.setAlphaComponent(Color.BLACK, 150));
+            }
+        }
     }
     
     @Override
