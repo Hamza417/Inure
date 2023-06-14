@@ -352,12 +352,16 @@ class AppInfo : ScopedFragment() {
                                 if (packageInfo.packageName == requireContext().packageName) {
                                     openFragmentArc(Preferences.newInstance(), icon, "preferences")
                                 } else {
-                                    requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0).forEach {
-                                        if (it.activityInfo.packageName == packageInfo.packageName) {
-                                            startActivity(Intent(Intent.ACTION_APPLICATION_PREFERENCES).apply {
-                                                setClassName(packageInfo.packageName, it.activityInfo.name)
-                                            })
+                                    try {
+                                        requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0).forEach {
+                                            if (it.activityInfo.packageName == packageInfo.packageName) {
+                                                startActivity(Intent(Intent.ACTION_APPLICATION_PREFERENCES).apply {
+                                                    setClassName(packageInfo.packageName, it.activityInfo.name)
+                                                })
+                                            }
                                         }
+                                    } catch (e: SecurityException) {
+                                        showWarning(e.message ?: getString(R.string.error), goBack = false)
                                     }
                                 }
                             }

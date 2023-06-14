@@ -172,7 +172,7 @@ dependencies {
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
     // Shizuku
-    def shizukuVersion = '13.1.2'
+    def shizukuVersion = '13.1.0'
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
