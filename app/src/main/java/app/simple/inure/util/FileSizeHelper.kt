@@ -21,6 +21,10 @@ object FileSizeHelper {
         return File(this).length()
     }
 
+    fun String.toLength(): Long {
+        return File(this).length()
+    }
+
     fun Array<String>.getDirectorySize(): Long {
         var total = 0L
 

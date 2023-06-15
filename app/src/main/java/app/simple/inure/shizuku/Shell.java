@@ -1,6 +1,8 @@
 package app.simple.inure.shizuku;
 
 import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,12 +20,38 @@ public interface Shell {
     
     String makeLiteral(String arg);
     
-    class Command {
-        private final ArrayList <String> args = new ArrayList <>();
+    class Command implements Parcelable {
+        public static final Creator <Command> CREATOR = new Creator <Command>() {
+            @Override
+            public Command createFromParcel(Parcel in) {
+                return new Command(in);
+            }
+            
+            @Override
+            public Command[] newArray(int size) {
+                return new Command[size];
+            }
+        };
         
         public Command(String command, String... args) {
             this.args.add(command);
             this.args.addAll(Arrays.asList(args));
+        }
+        
+        private ArrayList <String> args = new ArrayList <>();
+        
+        protected Command(Parcel in) {
+            args = in.createStringArrayList();
+        }
+        
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeStringList(args);
+        }
+        
+        @Override
+        public int describeContents() {
+            return 0;
         }
         
         public String[] toStringArray() {

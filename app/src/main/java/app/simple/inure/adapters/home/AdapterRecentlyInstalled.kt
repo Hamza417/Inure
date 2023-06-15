@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -15,7 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.PackageListUtils.setRecentlyInstalledInfo
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -48,10 +47,8 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
             holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
-
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-
-            holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, FormattingPreferences.getDateFormat())
+            holder.date.setRecentlyInstalledInfo(apps[position])
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onAppClicked(apps[position], holder.icon)

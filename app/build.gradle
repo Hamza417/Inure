@@ -164,6 +164,7 @@ dependencies {
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'com.jaredrummler:apk-parser:1.0.2'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
     // root
     def libsuVersion = '5.1.0'

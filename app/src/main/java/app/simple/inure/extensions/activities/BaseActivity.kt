@@ -51,6 +51,7 @@ import com.google.android.material.transition.platform.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -66,6 +67,9 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         SharedPreferences.init(newBaseContext)
         SharedPreferences.initEncrypted(newBaseContext)
         registerSharedPreferencesListener(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            HiddenApiBypass.addHiddenApiExemptions("L")
+        }
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 

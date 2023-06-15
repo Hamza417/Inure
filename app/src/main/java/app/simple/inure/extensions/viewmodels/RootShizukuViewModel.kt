@@ -30,6 +30,23 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
         }
     }
 
+    private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
+        if (Shizuku.isPreV11()) {
+            postWarning("Shizuku pre-v11 is not supported")
+        } else {
+            Log.d("RootViewModel", "Shizuku initialization successful")
+        }
+    }
+
+    private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
+        Log.d("RootViewModel", "Shizuku initialization failed")
+    }
+
+    init {
+        Shizuku.addBinderReceivedListenerSticky(onBinderReceivedListener)
+        Shizuku.addBinderDeadListener(onBinderDeadListener)
+    }
+
     @MainThread
     protected fun initShell() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -108,6 +125,8 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
     override fun onCleared() {
         super.onCleared()
         shell?.close()
+        Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
+        Shizuku.removeBinderDeadListener(onBinderDeadListener)
     }
 
     @Suppress("unused")
