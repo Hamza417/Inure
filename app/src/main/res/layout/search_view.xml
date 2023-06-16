@@ -7,15 +7,24 @@
     android:animateLayoutChanges="true"
     tools:parentTag="app.simple.inure.decorations.corners.DynamicCornerLinearLayout">
 
+    <app.simple.inure.decorations.theme.ThemeIcon
+        android:id="@+id/icon"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_search"
+        android:padding="6dp"
+        android:layout_marginStart="4dp"
+        android:transitionName="@string/search"
+        app:tintType="accent" />
+
     <app.simple.inure.decorations.typeface.TypeFaceEditText
         android:id="@+id/search_view_text_input_layout"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_weight="1"
-        android:padding="@dimen/header_padding"
+        android:padding="@dimen/popup_padding"
         android:background="@android:color/transparent"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:hint="@string/search"
         android:imeOptions="actionSearch"

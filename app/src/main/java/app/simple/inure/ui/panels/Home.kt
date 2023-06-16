@@ -243,7 +243,7 @@ class Home : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            openFragmentSlide(Search.newInstance(true), "search")
+            openFragmentArc(Search.newInstance(true), it, "search")
         }
 
         settings.setOnClickListener {

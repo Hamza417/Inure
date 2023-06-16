@@ -3,12 +3,15 @@ package app.simple.inure.util
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.TypedValue
 import android.view.*
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
@@ -338,5 +341,16 @@ object ViewUtils {
                 }
             }
         }
+    }
+
+    fun ImageView.animateTint(toColor: Int): ValueAnimator {
+        val valueAnimator = ValueAnimator.ofArgb(imageTintList?.defaultColor ?: Color.DKGRAY, toColor)
+        valueAnimator.interpolator = LinearOutSlowInInterpolator()
+        valueAnimator.duration = 500
+        valueAnimator.addUpdateListener { animation ->
+            imageTintList = ColorStateList.valueOf(animation.animatedValue as Int)
+        }
+        valueAnimator.start()
+        return valueAnimator
     }
 }

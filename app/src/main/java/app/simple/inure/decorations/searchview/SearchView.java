@@ -4,7 +4,6 @@ import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton;
+import app.simple.inure.decorations.theme.ThemeIcon;
 import app.simple.inure.decorations.typeface.TypeFaceEditText;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.decorations.views.CustomProgressBar;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.SearchPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TextViewUtils;
@@ -27,6 +28,7 @@ import kotlin.Unit;
 
 public class SearchView extends LinearLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
+    private ThemeIcon icon;
     private TypeFaceEditText editText;
     private TypeFaceTextView number;
     private DynamicRippleImageButton menu;
@@ -36,6 +38,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     private SearchViewEventListener searchViewEventListener;
     
     private ValueAnimator numberAnimator;
+    private ValueAnimator iconAnimator;
     private final DecimalFormat format = new DecimalFormat();
     
     private int oldNumber = 0;
@@ -56,6 +59,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     private void initViews() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
     
+        icon = view.findViewById(R.id.icon);
         editText = view.findViewById(R.id.search_view_text_input_layout);
         number = view.findViewById(R.id.search_number);
         menu = view.findViewById(R.id.search_view_menu_button);
@@ -120,6 +124,9 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         if (numberAnimator != null) {
             numberAnimator.cancel();
         }
+        if (iconAnimator != null) {
+            iconAnimator.cancel();
+        }
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterListener(this);
     }
     
@@ -167,12 +174,10 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     private void updateDeepSearchData() {
         if (SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
-            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0);
-            TextViewUtils.INSTANCE.setDrawableTint(editText, Color.parseColor("#d35400"));
+            iconAnimator = ViewUtils.INSTANCE.animateTint(icon, AppearancePreferences.INSTANCE.getAccentColor());
             editText.setHint(R.string.deep_search);
         } else {
-            editText.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_search, 0, 0, 0);
-            TextViewUtils.INSTANCE.setDrawableTint(editText, ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor());
+            iconAnimator = ViewUtils.INSTANCE.animateTint(icon, ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor());
             editText.setHint(R.string.search);
         }
     }
