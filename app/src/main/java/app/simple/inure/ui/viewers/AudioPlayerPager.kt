@@ -76,7 +76,6 @@ class AudioPlayerPager : ScopedFragment() {
     private var serviceBound = false
     private var wasSongPlaying = false
     private var isFinished = false
-    private var oldPosition = 0
 
     /**
      * [currentSeekPosition] will keep the current position of the playback
@@ -154,6 +153,10 @@ class AudioPlayerPager : ScopedFragment() {
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
                 artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
 
+                (artPager.adapter as AlbumArtAdapter).onAlbumArtClicked = { _, _ ->
+                    audioServicePager?.changePlayerState()
+                }
+
                 /**
                  * This will break the transition for some reason, start the animation without
                  * any callback
@@ -196,6 +199,10 @@ class AudioPlayerPager : ScopedFragment() {
                 audioModels = it
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
                 artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
+
+                (artPager.adapter as AlbumArtAdapter).onAlbumArtClicked = { _, _ ->
+                    audioServicePager?.changePlayerState()
+                }
 
                 /**
                  * This will break the transition for some reason, start the animation without

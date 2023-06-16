@@ -24,6 +24,9 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<AlbumArtAdapter.Holder>() {
+
+    var onAlbumArtClicked: ((ImageView, Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_album_art, parent, false))
     }
@@ -43,6 +46,10 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
             } else {
                 holder.albumArt.loadFromUri(list[position].artUri.toUri())
             }
+        }
+
+        holder.albumArt.setOnClickListener {
+            onAlbumArtClicked?.invoke(holder.albumArt, position)
         }
     }
 

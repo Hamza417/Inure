@@ -453,13 +453,17 @@ class AudioServicePager : Service(),
     }
 
     internal fun changePlayerState(): Boolean {
-        if (mediaPlayer.isPlaying) {
-            pause()
-        } else {
-            play()
-        }
+        if (mediaPlayer.isNotNull()) {
+            if (mediaPlayer.isPlaying) {
+                pause()
+            } else {
+                play()
+            }
 
-        return mediaPlayer.isPlaying
+            return mediaPlayer.isPlaying
+        } else {
+            return false
+        }
     }
 
     private fun pause() {

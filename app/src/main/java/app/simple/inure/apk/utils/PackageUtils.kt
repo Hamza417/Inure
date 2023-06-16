@@ -332,18 +332,20 @@ object PackageUtils {
     }
 
     fun PackageManager.isPackageInstalled(packageName: String): Boolean {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags))
-            } else {
-                @Suppress("DEPRECATION")
-                getPackageInfo(packageName, flags.toInt())
+        while (true) {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags))
+                } else {
+                    @Suppress("DEPRECATION")
+                    getPackageInfo(packageName, flags.toInt())
+                }
+                return true
+            } catch (e: NameNotFoundException) {
+                return false
+            } catch (e: DeadObjectException) {
+                /* no-op */
             }
-            true
-        } catch (e: NameNotFoundException) {
-            false
-        } catch (e: DeadObjectException) {
-            return isPackageInstalled(packageName) // recreate the process??
         }
     }
 
