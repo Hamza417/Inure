@@ -681,4 +681,5 @@
     <string name="large_string_warning">String size %1$d is too large, load anyway?</string>
     <string name="no_state">No State</string>
     <string name="developer_profile">Developer Profile</string>
+    <string name="execute">Execute</string>
 </resources>

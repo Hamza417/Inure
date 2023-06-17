@@ -18,6 +18,7 @@ package app.simple.inure.terminal;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 /*
  * New procedure for launching a command in ATE.
@@ -27,9 +28,10 @@ import android.net.Uri;
  * The old procedure of using Intent.Extra is still available but is discouraged.
  */
 public final class RunScript extends RemoteInterface {
-    private static final String ACTION_RUN_SCRIPT = "inure.terminal.RUN_SCRIPT";
-    private static final String EXTRA_WINDOW_HANDLE = "inure.terminal.window_handle";
+    public static final String ACTION_RUN_SCRIPT = "inure.terminal.RUN_SCRIPT";
+    public static final String EXTRA_WINDOW_HANDLE = "inure.terminal.window_handle";
     private static final String EXTRA_INITIAL_COMMAND = "inure.terminal.iInitialCommand";
+    public static final String EXTRA_SCRIPT_PATH = "inure.terminal.iScriptPath";
     
     @Override
     protected void handleIntent() {
@@ -51,11 +53,12 @@ public final class RunScript extends RemoteInterface {
              * the EXTRA_INITIAL_COMMAND location.
              */
             Uri uri = myIntent.getData();
-            if (uri != null) // scheme[path][arguments]
-            {
+            if (uri != null) { // scheme[path][arguments]
                 String s = uri.getScheme();
+                Log.d(TermDebug.LOG_TAG, "scheme: " + s);
                 if (s != null && s.equalsIgnoreCase("file")) {
                     command = uri.getPath();
+                    Log.d(TermDebug.LOG_TAG, "command: " + command);
                     // Allow for the command to be contained within the arguments string.
                     if (command == null) {
                         command = "";
@@ -67,6 +70,20 @@ public final class RunScript extends RemoteInterface {
                     if (null != (s = uri.getFragment())) {
                         command += " " + s;
                     }
+                } else if (s != null && s.equalsIgnoreCase("content")) {
+                    command = myIntent.getStringExtra(EXTRA_SCRIPT_PATH);
+                    if (command == null) {
+                        command = "";
+                    }
+                    if (!command.equals("")) {
+                        command = "sh " + quoteForBash(command);
+                    }
+                    // Append any arguments.
+                    if (null != (s = uri.getFragment())) {
+                        command += " " + s;
+                    }
+            
+                    Log.d(TermDebug.LOG_TAG, "command: " + command);
                 }
             }
             // If Intent.data not used then fall back to old method.
@@ -80,12 +97,14 @@ public final class RunScript extends RemoteInterface {
                 // Open a new window
                 handle = openNewWindow(command);
             }
+    
             Intent result = new Intent();
             result.putExtra(EXTRA_WINDOW_HANDLE, handle);
             setResult(RESULT_OK, result);
             
             finish();
         } else {
+            Log.d(TermDebug.LOG_TAG, "RunScript intent with bad action " + action);
             super.handleIntent();
         }
     }

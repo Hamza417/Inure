@@ -524,6 +524,26 @@
         </activity>
 
         <activity
+            android:name=".activities.association.BashAssociation"
+            android:exported="true"
+            android:icon="@mipmap/ic_terminal"
+            android:label="@string/execute"
+            android:launchMode="singleTask"
+            android:roundIcon="@mipmap/ic_terminal_round">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="text/x-shellscript" />
+                <data android:mimeType="text/x-sh" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.association.TTFViewerActivity"
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
