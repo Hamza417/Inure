@@ -682,4 +682,5 @@
     <string name="large_string_warning">O tamanho da string %1$d é muito grande, carregar mesmo assim?</string>
     <string name="no_state">Nenhum Estado</string>
     <string name="developer_profile">Perfil do desenvolvedor</string>
+    <string name="execute">Executar</string>
 </resources>
