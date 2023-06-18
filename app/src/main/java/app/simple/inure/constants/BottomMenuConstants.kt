@@ -37,6 +37,8 @@ object BottomMenuConstants {
     private val uninstalledBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_info, R.string.info),
             divider,
+            Pair(R.drawable.ic_refresh, R.string.refresh),
+            divider,
             Pair(R.drawable.ic_settings, R.string.preferences),
             divider,
             Pair(R.drawable.ic_search, R.string.search),

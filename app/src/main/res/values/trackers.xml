@@ -8,7 +8,6 @@
 
     <string-array name="trackers">
         <item>com.databerries.|com.geolocstation.</item> <!-- 1 -->
-        <item></item> <!-- 2 -->
         <item>com.baidu.mobads</item> <!-- 3 -->
         <item>com.baidu.mobstat</item> <!-- 4 -->
         <item>com.estimote.</item> <!-- 5 -->
@@ -378,11 +377,9 @@
         <item>com.yoadx.yoadx.</item> <!-- 369 -->
         <item>coelib.c.couluslibrary</item> <!-- 370 -->
         <item>com.tagcommander.</item> <!-- 371 -->
-        <item></item> <!-- 2 -->
         <item>com.facebook.audiencenetwork</item> <!-- 373 -->
         <item>com.google.android.apps.analytics.|com.google.android.gms.analytics.|com.google.analytics.</item> <!-- 374 -->
         <item>com.google.firebase.analytics.|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics</item> <!-- 375 -->
-        <item></item> <!-- 2 -->
         <item>com.eulerian.android.sdk</item> <!-- 377 -->
         <item>com.adjust.sdk.|com.adjust.android.sdk.</item> <!-- 378 -->
         <item>com.chartboost.sdk.</item> <!-- 379 -->
@@ -405,7 +402,6 @@
         <item>com.facebook.places</item> <!-- 396 -->
         <item>com.smartadserver.</item> <!-- 397 -->
         <item>com.facebook.share</item> <!-- 398 -->
-        <item></item> <!-- 2 -->
         <item>com.applovin</item> <!-- 400 -->
         <item>com.avocarrot.sdk</item> <!-- 401 -->
         <item>com.nativex</item> <!-- 402 -->

@@ -358,6 +358,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         loadDeletedApps()
     }
 
+    fun refreshUninstalled() {
+        loadUninstalledApps()
+    }
+
     fun refreshMostUsed() {
         loadMostUsed()
     }

@@ -75,6 +75,9 @@ class Uninstalled : ScopedFragment() {
                         showLoader(manualOverride = true)
                         homeViewModel.refreshPackageData()
                     }
+                    R.drawable.ic_refresh -> {
+                        homeViewModel.refreshUninstalled()
+                    }
                 }
             }
         }
