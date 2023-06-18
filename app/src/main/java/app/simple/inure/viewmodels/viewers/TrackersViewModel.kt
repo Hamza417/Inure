@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.ReceiversUtils
+import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -112,7 +114,11 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
                             tracker.activityInfo = activity
                             tracker.name = activity.name
-                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
+                            tracker.isEnabled = kotlin.runCatching {
+                                ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
+                            }.getOrElse {
+                                false
+                            }
                             tracker.trackerId = signature
                             tracker.isReceiver = false
                             tracker.isService = false
@@ -144,7 +150,11 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
                             tracker.serviceInfo = service
                             tracker.name = service.name
-                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
+                            tracker.isEnabled = kotlin.runCatching {
+                                ServicesUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
+                            }.getOrElse {
+                                false
+                            }
                             tracker.trackerId = signature
                             tracker.isReceiver = false
                             tracker.isService = true
@@ -176,7 +186,11 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
                             tracker.activityInfo = receiver
                             tracker.name = receiver.name
-                            tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, receiver.name)
+                            tracker.isEnabled = kotlin.runCatching {
+                                ReceiversUtils.isEnabled(applicationContext(), packageInfo.packageName, receiver.name)
+                            }.getOrElse {
+                                false
+                            }
                             tracker.trackerId = signature
                             tracker.isReceiver = true
                             tracker.isService = false
@@ -194,8 +208,8 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         return trackersList
     }
 
-    private fun getTrackerSignatures(): Array<out String> {
-        return applicationContext().resources.getStringArray(R.array.trackers)
+    private fun getTrackerSignatures(): List<String> {
+        return applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {

@@ -217,8 +217,8 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
         return trackersList
     }
 
-    private fun getTrackerSignatures(): Array<out String> {
-        return applicationContext().resources.getStringArray(R.array.trackers)
+    private fun getTrackerSignatures(): List<String> {
+        return applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
