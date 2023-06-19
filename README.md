@@ -28,7 +28,7 @@ An elegant Android app manager.
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-Purchase-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
 [![](https://img.shields.io/badge/Full%20Unlocker%20(Play%20Store)-Purchase-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inureunlocker)
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GitHub%20Sponsors)-Purchase-ffffff?logo=github)](https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253)
-[![](https://img.shields.io/badge/Full%20Unlocker%20(Ko-Fi)-Purchase-FF5E5B?logo=kofi)](https://ko-fi.com/s/c1f0cb960f)
+[![](https://img.shields.io/badge/Full%20Unlocker%20(Ko--Fi)-Purchase-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/s/c1f0cb960f)
 
 ## Featured
 
