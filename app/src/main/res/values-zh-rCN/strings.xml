@@ -682,4 +682,5 @@
     <string name="large_string_warning">字符串大小 %1$d 过大，仍要加载？</string>
     <string name="no_state">无状态</string>
     <string name="developer_profile">开发者资料</string>
+    <string name="execute">执行</string>
 </resources>
