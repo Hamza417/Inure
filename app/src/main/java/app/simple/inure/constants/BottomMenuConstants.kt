@@ -146,7 +146,7 @@ object BottomMenuConstants {
     )
 
     @Suppress("UNCHECKED_CAST")
-    val apkBrowserMenu: ArrayList<Pair<Int, Int>> by lazy {
+    private val apkBrowserMenu_: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
                 divider,
@@ -155,11 +155,11 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),
-        ).clone() as ArrayList<Pair<Int, Int>>
+        )
     }
 
     @Suppress("UNCHECKED_CAST")
-    val apkBrowserMenuSelection: ArrayList<Pair<Int, Int>> by lazy {
+    private val apkBrowserMenuSelection_: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_delete, R.string.delete),
                 Pair(R.drawable.ic_send, R.string.send),
@@ -171,7 +171,7 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),
-        ).clone() as ArrayList<Pair<Int, Int>>
+        )
     }
 
     // *********************************************************************************************** //
@@ -233,5 +233,15 @@ object BottomMenuConstants {
     @Suppress("UNCHECKED_CAST")
     fun getUninstalledBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return uninstalledBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
+    }
+
+    fun getApkBrowserMenu(): ArrayList<Pair<Int, Int>> {
+        @Suppress("UNCHECKED_CAST")
+        return apkBrowserMenu_.clone() as ArrayList<Pair<Int, Int>>
+    }
+
+    fun getApkBrowserMenuSelection(): ArrayList<Pair<Int, Int>> {
+        @Suppress("UNCHECKED_CAST")
+        return apkBrowserMenuSelection_.clone() as ArrayList<Pair<Int, Int>>
     }
 }

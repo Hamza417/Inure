@@ -144,10 +144,9 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         }
     }
     
-    @SuppressWarnings ("unused")
     public void updateBottomMenu(ArrayList <Pair <Integer, Integer>> bottomMenuItems) {
         getMenuAdapter().updateMenu(bottomMenuItems);
-        requestLayout();
+        // requestLayout();
     }
     
     @Override

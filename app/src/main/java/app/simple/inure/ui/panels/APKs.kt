@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -236,7 +237,7 @@ class APKs : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.apkBrowserMenu, recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getApkBrowserMenu(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_refresh -> {
                         apkScanner = childFragmentManager.showApkScanner()
@@ -303,9 +304,11 @@ class APKs : ScopedFragment() {
     @Suppress("UNCHECKED_CAST")
     private fun updateBottomMenu() {
         if (adapterApks.isSelectionMode) {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection.clone() as java.util.ArrayList<Pair<Int, Int>>)
+            Log.d("APKs", "updateBottomMenu: Selection Mode")
+            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getApkBrowserMenuSelection())
         } else {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu.clone() as java.util.ArrayList<Pair<Int, Int>>)
+            Log.d("APKs", "updateBottomMenu: Normal Mode")
+            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getApkBrowserMenu())
         }
     }
 

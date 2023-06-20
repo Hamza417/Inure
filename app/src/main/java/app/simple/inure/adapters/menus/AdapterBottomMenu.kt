@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.menus
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,11 +80,10 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
     }
 
     fun updateMenu(bottomMenuItems: ArrayList<Pair<Int, Int>>) {
-        val currentSize = this.bottomMenuItems.size
+        Log.d("AdapterBottomMenu", "updateMenu: $bottomMenuItems")
         this.bottomMenuItems.clear()
-        notifyItemRangeRemoved(0, currentSize)
         this.bottomMenuItems.addAll(bottomMenuItems)
-        notifyItemRangeInserted(0, this.bottomMenuItems.size)
+        notifyDataSetChanged()
     }
 
     inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {
