@@ -682,4 +682,5 @@
     <string name="no_state">No State</string>
     <string name="developer_profile">Developer Profile</string>
     <string name="execute">Execute</string>
+    <string name="select">Select</string>
 </resources>

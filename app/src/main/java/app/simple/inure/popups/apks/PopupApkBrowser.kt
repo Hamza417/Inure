@@ -15,6 +15,7 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
     private val send: DynamicRippleTextView
     private val manifest: DynamicRippleTextView
     private val info: DynamicRippleTextView
+    private val select: DynamicRippleTextView
 
     private var popupApkBrowserCallbacks: PopupApkBrowserCallbacks? = null
 
@@ -26,6 +27,7 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
         send = contentView.findViewById(R.id.popup_send)
         manifest = contentView.findViewById(R.id.popup_manifest)
         info = contentView.findViewById(R.id.popup_info)
+        select = contentView.findViewById(R.id.popup_select)
 
         install.setOnClickListener {
             popupApkBrowserCallbacks?.onInstallClicked()
@@ -52,6 +54,11 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
             dismiss()
         }
 
+        select.setOnClickListener {
+            popupApkBrowserCallbacks?.onSelectClicked()
+            dismiss()
+        }
+
         init(contentView, view, Gravity.END)
     }
 
@@ -66,6 +73,7 @@ class PopupApkBrowser(view: View) : BasePopupWindow() {
             fun onSendClicked()
             fun onManifestClicked()
             fun onInfoClicked()
+            fun onSelectClicked()
         }
     }
 }

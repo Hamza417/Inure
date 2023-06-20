@@ -35,6 +35,7 @@ import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.popups.apks.PopupApksSortingStyle
@@ -78,21 +79,20 @@ class APKs : ScopedFragment() {
             }
         }
 
-        apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
+        apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) { apkFiles ->
             postponeEnterTransition()
             apkScanner?.dismiss()
 
-            adapterApks = AdapterApks(
-                    it,
-                    requireArguments().getString(BundleConstants.transitionName, ""),
-                    requireArguments().getInt(BundleConstants.position, 0))
+            adapterApks = AdapterApks(apkFiles,
+                                      requireArguments().getString(BundleConstants.transitionName, ""),
+                                      requireArguments().getInt(BundleConstants.position, 0))
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
                     val uri = FileProvider.getUriForFile(
                             /* context = */ requireActivity().applicationContext,
                             /* authority = */ "${requireContext().packageName}.provider",
-                            /* file = */ adapterApks.paths[position])
+                            /* file = */ adapterApks.paths[position].file)
 
                     icon.transitionName = uri.toString()
                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
@@ -107,7 +107,7 @@ class APKs : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApks.paths[position].file)
 
                             icon.transitionName = uri.toString()
                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
@@ -119,7 +119,7 @@ class APKs : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    if (adapterApks.paths[position].delete()) {
+                                    if (adapterApks.paths[position].file.delete()) {
                                         adapterApks.paths.removeAt(position)
                                         adapterApks.notifyItemRemoved(position.plus(1))
                                         adapterApks.notifyItemChanged(0) // Update the header
@@ -132,47 +132,47 @@ class APKs : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApks.paths[position].file)
                             val intent = Intent(Intent.ACTION_SEND)
                             intent.type = "application/vnd.android.package-archive"
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(Intent.createChooser(intent, it[position].absolutePath.substringAfterLast("/")))
+                            startActivity(Intent.createChooser(intent, apkFiles[position].file.absolutePath.substringAfterLast("/")))
                         }
 
                         override fun onManifestClicked() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApks.paths[position])
+                                    /* file = */ adapterApks.paths[position].file)
                             val intent = Intent(requireContext(), ManifestAssociationActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(Intent.createChooser(intent, it[position].absolutePath.substringAfterLast("/")))
+                            startActivity(Intent.createChooser(intent, apkFiles[position].file.absolutePath.substringAfterLast("/")))
                         }
 
                         override fun onInfoClicked() {
                             showLoader(manualOverride = true)
                             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                                 kotlin.runCatching {
-                                    if (adapterApks.paths[position].absolutePath.endsWith(".apk")) {
+                                    if (adapterApks.paths[position].file.absolutePath.endsWith(".apk")) {
                                         packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                         } else {
                                             @Suppress("DEPRECATION")
-                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].absolutePath, PackageUtils.flags.toInt())!!
+                                            requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                         }
 
-                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
-                                    } else if (adapterApks.paths[position].absolutePath.endsWith(".apks") ||
-                                        adapterApks.paths[position].absolutePath.endsWith(".xapk") ||
-                                        adapterApks.paths[position].absolutePath.endsWith(".zip") ||
-                                        adapterApks.paths[position].absolutePath.endsWith(".apkm")) {
+                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
+                                    } else if (adapterApks.paths[position].file.absolutePath.endsWith(".apks") ||
+                                        adapterApks.paths[position].file.absolutePath.endsWith(".xapk") ||
+                                        adapterApks.paths[position].file.absolutePath.endsWith(".zip") ||
+                                        adapterApks.paths[position].file.absolutePath.endsWith(".apkm")) {
 
-                                        val copiedFile = requireContext().getInstallerDir(adapterApks.paths[position].name + ".zip") // .zip is useless here
+                                        val copiedFile = requireContext().getInstallerDir(adapterApks.paths[position].file.name + ".zip") // .zip is useless here
 
-                                        ZipFile(adapterApks.paths[position].path).extractAll(copiedFile.path.substringBeforeLast("."))
+                                        ZipFile(adapterApks.paths[position].file.path).extractAll(copiedFile.path.substringBeforeLast("."))
 
                                         for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
                                             packageInfo = requirePackageManager().getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
@@ -183,7 +183,7 @@ class APKs : ScopedFragment() {
                                     } else {
                                         packageInfo = PackageInfo() // empty package info
                                         packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].absolutePath
+                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
                                     }
 
                                     withContext(Dispatchers.Main) {
@@ -192,14 +192,14 @@ class APKs : ScopedFragment() {
                                             icon.transitionName = packageInfo.packageName
                                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                             requireArguments().putInt(BundleConstants.position, position)
-                                            packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
+                                            packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                         } else {
                                             icon.transitionName = packageInfo.packageName
                                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                             requireArguments().putInt(BundleConstants.position, position)
-                                            packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
+                                            packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                         }
@@ -208,10 +208,19 @@ class APKs : ScopedFragment() {
                                     withContext(Dispatchers.Main) {
                                         hideLoader()
                                         showWarning("Failed to open package file" +
-                                                            " : ${adapterApks.paths[position].absolutePath.substringAfterLast("/")}", false)
+                                                            " : ${adapterApks.paths[position].file.absolutePath.substringAfterLast("/")}", false)
                                     }
                                 }
                             }
+                        }
+
+                        override fun onSelectClicked() {
+                            adapterApks.paths[position].isSelected = !adapterApks.paths[position].isSelected
+                            adapterApks.notifyItemChanged(position.plus(1))
+                            // adapterApks.notifyItemChanged(0) // Update the header
+
+                            adapterApks.isSelectionMode = adapterApks.paths.any { it.isSelected }
+                            updateBottomMenu(adapterApks.paths.any { it.isSelected })
                         }
                     })
                 }
@@ -241,12 +250,47 @@ class APKs : ScopedFragment() {
                     R.drawable.ic_sort -> {
                         PopupApksSortingStyle(view)
                     }
+                    R.drawable.ic_send -> {
+                        if (adapterApks.paths.any { it.isSelected }) {
+                            @Suppress("UNCHECKED_CAST")
+                            val selectedApks = (adapterApks.paths.clone() as ArrayList<ApkFile>).filter { it.isSelected }
+                            val selectedApksFiles = selectedApks.map { it.file }
+                            val selectedApksFilesUri = selectedApksFiles.map { FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it) }
+                            val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
+                            intent.type = "application/vnd.android.package-archive"
+                            intent.putExtra(Intent.EXTRA_STREAM, ArrayList(selectedApksFilesUri))
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            startActivity(Intent.createChooser(intent, "Share ${selectedApksFiles.size} APKs"))
+                        } else {
+                            showWarning("No APKs selected", false)
+                        }
+                    }
+                    R.drawable.ic_delete -> { // Delete the selected files
+                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                            override fun onSure() {
+                                if (adapterApks.paths.any { it.isSelected }) {
+                                    @Suppress("UNCHECKED_CAST") val selectedApks = (adapterApks.paths.clone() as ArrayList<ApkFile>).filter { it.isSelected }
+                                    for (apk in selectedApks) {
+                                        if (apk.file.exists()) {
+                                            if (apk.file.delete()) {
+                                                adapterApks.paths.remove(apk)
+                                                adapterApks.notifyItemRemoved(adapterApks.paths.indexOf(apk) + 1)
+                                            } else {
+                                                showWarning("Failed to delete ${apk.file.name}", false)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    showWarning("No APKs selected", false)
+                                }
+                            }
+                        })
+                    }
                 }
             }
         }
     }
 
-    @Suppress("unused")
     private fun updateBottomMenu(isSelected: Boolean) {
         if (isSelected) {
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)

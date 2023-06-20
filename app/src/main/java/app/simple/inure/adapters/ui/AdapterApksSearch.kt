@@ -13,13 +13,13 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.models.ApkFile
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
-import java.io.File
 import java.util.*
 
-class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(),
+class AdapterApksSearch(var paths: ArrayList<ApkFile> = arrayListOf(),
                         private val keyword: String,
                         private val transitionName: String,
                         private val transitionPosition: Int) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -38,18 +38,18 @@ class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(),
                 if (position == transitionPosition) {
                     holder.icon.transitionName = transitionName
                 } else {
-                    holder.icon.transitionName = paths[position].absolutePath
+                    holder.icon.transitionName = paths[position].file.absolutePath
                 }
             } else {
-                holder.icon.transitionName = paths[position].absolutePath
+                holder.icon.transitionName = paths[position].file.absolutePath
             }
 
-            holder.icon.loadAPKIcon(paths[position])
-            holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
-            holder.path.text = paths[position].absolutePath
-            holder.info.text = paths[position].absolutePath.toSize() + " | " +
-                    paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
-                    paths[position].lastModified().toDate()
+            holder.icon.loadAPKIcon(paths[position].file)
+            holder.name.text = paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf("/") + 1)
+            holder.path.text = paths[position].file.absolutePath
+            holder.info.text = paths[position].file.absolutePath.toSize() + " | " +
+                    paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
+                    paths[position].file.lastModified().toDate()
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition, holder.icon)
@@ -95,7 +95,7 @@ class AdapterApksSearch(var paths: ArrayList<File> = arrayListOf(),
 
     fun loadSplitIcon() {
         for (i in 0 until paths.size) {
-            if (paths[i].absolutePath.endsWith(".apkm") || paths[i].absolutePath.endsWith(".apks") || paths[i].absolutePath.endsWith(".zip")) {
+            if (paths[i].file.absolutePath.endsWith(".apkm") || paths[i].file.absolutePath.endsWith(".apks") || paths[i].file.absolutePath.endsWith(".zip")) {
                 notifyItemChanged(i + 1)
             }
         }

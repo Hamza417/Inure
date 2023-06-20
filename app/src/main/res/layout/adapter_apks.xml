@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <app.simple.inure.decorations.views.AppIconImageView
+        android:id="@+id/app_icon"
+        android:layout_width="@dimen/app_icon_dimension"
+        android:layout_height="@dimen/app_icon_dimension"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/info_text_medium"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:appFontStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/package_id"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@id/app_icon"
+        app:layout_constraintTop_toTopOf="@+id/app_icon"
+        app:layout_constraintVertical_bias="0.0"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/package_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/desc_text_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@+id/details"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/app_icon"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textSize="@dimen/desc_text_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="@+id/app_icon"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/app_icon"
+        app:layout_constraintTop_toBottomOf="@id/package_id"
+        app:textColorStyle="accent" />
+
+    <app.simple.inure.decorations.checkbox.InureCheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="@dimen/checkbox_dimensions"
+        android:layout_height="@dimen/checkbox_dimensions"
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>

@@ -106,7 +106,7 @@ class ApksSearch : KeyboardScopedFragment() {
                     val uri = FileProvider.getUriForFile(
                             /* context = */ requireActivity().applicationContext,
                             /* authority = */ "${requireContext().packageName}.provider",
-                            /* file = */ adapterApksSearch.paths[position])
+                            /* file = */ adapterApksSearch.paths[position].file)
 
                     val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
                     intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -129,7 +129,7 @@ class ApksSearch : KeyboardScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApksSearch.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position].file)
 
                             val intent = Intent(requireContext(), ApkInstallerActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
@@ -149,7 +149,7 @@ class ApksSearch : KeyboardScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    if (adapterApksSearch.paths[position].delete()) {
+                                    if (adapterApksSearch.paths[position].file.delete()) {
                                         adapterApksSearch.paths.removeAt(position)
                                         adapterApksSearch.notifyItemRemoved(position.plus(1))
                                         adapterApksSearch.notifyItemChanged(0) // Update the header
@@ -162,41 +162,41 @@ class ApksSearch : KeyboardScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApksSearch.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position].file)
                             val intent = Intent(Intent.ACTION_SEND)
                             intent.type = "application/vnd.android.package-archive"
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(Intent.createChooser(intent, it[position].absolutePath.substringAfterLast("/")))
+                            startActivity(Intent.createChooser(intent, it[position].file.absolutePath.substringAfterLast("/")))
                         }
 
                         override fun onManifestClicked() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireContext(),
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ adapterApksSearch.paths[position])
+                                    /* file = */ adapterApksSearch.paths[position].file)
                             val intent = Intent(requireContext(), ManifestAssociationActivity::class.java)
                             intent.setDataAndType(uri, "application/vnd.android.package-archive")
                             intent.putExtra(Intent.EXTRA_STREAM, uri)
                             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            startActivity(Intent.createChooser(intent, it[position].absolutePath.substringAfterLast("/")))
+                            startActivity(Intent.createChooser(intent, it[position].file.absolutePath.substringAfterLast("/")))
                         }
 
                         override fun onInfoClicked() {
                             kotlin.runCatching {
-                                if (adapterApksSearch.paths[position].absolutePath.endsWith(".apk")) {
+                                if (adapterApksSearch.paths[position].file.absolutePath.endsWith(".apk")) {
                                     packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                     } else {
                                         @Suppress("DEPRECATION")
-                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].absolutePath, PackageUtils.flags.toInt())!!
+                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                     }
 
-                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].absolutePath
+                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
                                 } else {
                                     packageInfo = PackageInfo() // empty package info
                                     packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].absolutePath
+                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
                                 }
 
                                 if (packageInfo.isInstalled()) {
@@ -204,14 +204,18 @@ class ApksSearch : KeyboardScopedFragment() {
                                     icon.transitionName = packageInfo.packageName
                                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                     requireArguments().putInt(BundleConstants.position, position)
-                                    packageInfo.applicationInfo.name = it[position].absolutePath.substringAfterLast("/")
+                                    packageInfo.applicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
                                     openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                 } else {
                                     openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
                                 }
                             }.onFailure {
-                                showWarning("Failed to open apk : ${adapterApksSearch.paths[position].absolutePath.substringAfterLast("/")}", false)
+                                showWarning("Failed to open apk : ${adapterApksSearch.paths[position].file.absolutePath.substringAfterLast("/")}", false)
                             }
+                        }
+
+                        override fun onSelectClicked() {
+                            /* no-op */
                         }
                     })
                 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -13,20 +14,33 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortApks
-import java.io.File
 import java.util.*
 
-class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
+class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
                   private val transitionName: String,
                   private val transitionPosition: Int) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterCallbacks: AdapterCallbacks
+
+    var isSelectionMode: Boolean = paths.any { it.isSelected }
+        set(value) {
+            if (field != value) {
+                field = value
+                for (i in paths.indices) {
+                    notifyItemChanged(i + 1)
+                }
+            }
+        }
+        get() {
+            return paths.any { it.isSelected }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -36,7 +50,7 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_all_apps_small_details, parent, false))
+                           .inflate(R.layout.adapter_apks, parent, false))
             }
             else -> {
                 throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
@@ -52,21 +66,35 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
                 if (position == transitionPosition) {
                     holder.icon.transitionName = transitionName
                 } else {
-                    holder.icon.transitionName = paths[position].absolutePath
+                    holder.icon.transitionName = paths[position].file.absolutePath
                 }
             } else {
-                holder.icon.transitionName = paths[position].absolutePath
+                holder.icon.transitionName = paths[position].file.absolutePath
             }
 
-            holder.icon.loadAPKIcon(paths[position])
-            holder.name.text = paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf("/") + 1)
-            holder.path.text = paths[position].absolutePath
-            holder.info.text = paths[position].absolutePath.toSize() + " | " +
-                    paths[position].absolutePath.substring(paths[position].absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
-                    paths[position].lastModified().toDate()
+            if (isSelectionMode) {
+                holder.checkBox.visibility = View.VISIBLE
+            } else {
+                holder.checkBox.visibility = View.GONE
+            }
+
+            holder.checkBox.setCheckedWithoutAnimations(paths[position].isSelected)
+
+            holder.icon.loadAPKIcon(paths[position].file)
+            holder.name.text = paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf("/") + 1)
+            holder.path.text = paths[position].file.absolutePath
+            holder.info.text = paths[position].file.absolutePath.toSize() + " | " +
+                    paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
+                    paths[position].file.lastModified().toDate()
 
             holder.container.setOnClickListener {
-                adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
+                if (isSelectionMode) {
+                    paths[position].isSelected = !paths[position].isSelected
+                    holder.checkBox.setChecked(paths[position].isSelected)
+                    isSelectionMode = paths.any { it.isSelected }
+                } else {
+                    adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
+                }
             }
 
             holder.container.setOnLongClickListener {
@@ -142,6 +170,7 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
+        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
@@ -154,7 +183,7 @@ class AdapterApks(var paths: ArrayList<File> = arrayListOf(),
 
     fun loadSplitIcon() {
         for (i in 0 until paths.size) {
-            if (paths[i].absolutePath.endsWith(".apkm") || paths[i].absolutePath.endsWith(".apks") || paths[i].absolutePath.endsWith(".zip")) {
+            if (paths[i].file.absolutePath.endsWith(".apkm") || paths[i].file.absolutePath.endsWith(".apks") || paths[i].file.absolutePath.endsWith(".zip")) {
                 notifyItemChanged(i + 1)
             }
         }

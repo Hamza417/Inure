@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import app.simple.inure.models.ApkFile
 import java.io.File
 import java.util.*
 
@@ -29,7 +30,7 @@ object SortApks {
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
      */
-    fun ArrayList<File>.getSortedList(type: String, reverse: Boolean) {
+    fun ArrayList<ApkFile>.getSortedList(type: String, reverse: Boolean) {
         when (type) {
             NAME -> {
                 this.sortByName(reverse)
@@ -55,7 +56,7 @@ object SortApks {
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
      */
-    fun MutableList<File>.getSortedList(type: String, reverse: Boolean) {
+    fun MutableList<ApkFile>.getSortedList(type: String, reverse: Boolean) {
         when (type) {
             NAME -> {
                 (this as ArrayList).sortByName(reverse)
@@ -75,14 +76,14 @@ object SortApks {
     /**
      * sort application list name
      */
-    private fun ArrayList<File>.sortByName(reverse: Boolean) {
+    private fun ArrayList<ApkFile>.sortByName(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.name.lowercase(Locale.getDefault())
+                it.file.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.name.lowercase(Locale.getDefault())
+                it.file.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -90,14 +91,14 @@ object SortApks {
     /**
      * sort application list package name
      */
-    private fun ArrayList<File>.sortBySize(reverse: Boolean) {
+    private fun ArrayList<ApkFile>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.length()
+                it.file.length()
             }
         } else {
             this.sortBy {
-                it.length()
+                it.file.length()
             }
         }
     }
@@ -105,7 +106,7 @@ object SortApks {
     /**
      * Sort by created on date
      */
-    private fun ArrayList<File>.sortByCreatedOn(reverse: Boolean) {
+    private fun ArrayList<ApkFile>.sortByCreatedOn(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
                 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -115,7 +116,7 @@ object SortApks {
                 //                    it.lastModified()
                 //                }
 
-                it.lastModified()
+                it.file.lastModified()
             }
         } else {
             this.sortBy {
@@ -126,7 +127,7 @@ object SortApks {
                 //                    it.lastModified()
                 //                }
 
-                it.lastModified()
+                it.file.lastModified()
             }
         }
     }
