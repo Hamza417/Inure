@@ -23,6 +23,7 @@
     <string name="text" translatable="false">Text</string>
     <string name="over_scroll_behavior" translatable="false">app.simple.inure.decorations.behaviors.OverScrollBehavior</string>
     <string name="github" translatable="false">GitHub</string>
+    <string name="kofi" translatable="false">Ko-fi</string>
     <string name="exodus" translatable="false">εxodus</string>
     <string name="progress" translatable="false">%d%%</string>
     <string name="x_509" translatable="false">X.509</string>
@@ -59,6 +60,7 @@
     <string name="json" translatable="false">.JSON</string>
     <string name="csv" translatable="false">.CSV</string>
     <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
+    <string name="kofi_link" translatable="false">https://ko-fi.com/s/c1f0cb960f</string>
     <string name="shizuku" translatable="false">Shizuku</string>
     <string name="instagram" translatable="false">Instagram</string>
     <string name="twitter" translatable="false">Twitter</string>

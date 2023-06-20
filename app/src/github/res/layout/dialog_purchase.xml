@@ -58,6 +58,21 @@
             app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/kofi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/kofi"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

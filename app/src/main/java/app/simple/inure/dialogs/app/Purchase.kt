@@ -19,6 +19,7 @@ class Purchase : ScopedBottomSheetFragment() {
     private lateinit var playStore: DynamicRippleTextView
     private lateinit var gumroad: DynamicRippleTextView
     private lateinit var github: DynamicRippleTextView
+    private lateinit var kofi: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_purchase, container, false)
@@ -26,6 +27,7 @@ class Purchase : ScopedBottomSheetFragment() {
         playStore = view.findViewById(R.id.play_store)
         gumroad = view.findViewById(R.id.gumroad)
         github = view.findViewById(R.id.github)
+        kofi = view.findViewById(R.id.kofi)
         close = view.findViewById(R.id.close)
 
         return view
@@ -47,6 +49,11 @@ class Purchase : ScopedBottomSheetFragment() {
         github.setOnClickListener {
             // Open GitHub link in Browser
             getString(R.string.github_link).asUri().openInBrowser(requireContext())
+        }
+
+        kofi.setOnClickListener {
+            // Open Ko-Fi link in Browser
+            getString(R.string.kofi_link).asUri().openInBrowser(requireContext())
         }
 
         close.setOnClickListener {
