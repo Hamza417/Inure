@@ -89,4 +89,8 @@ public interface AdapterCallbacks {
     default void onApkLongClicked(@NonNull View view, int position, @NotNull ImageView icon) {
     
     }
+    
+    default void onSelectionChanged() {
+    
+    }
 }

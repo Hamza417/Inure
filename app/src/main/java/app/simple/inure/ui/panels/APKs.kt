@@ -220,9 +220,13 @@ class APKs : ScopedFragment() {
                             // adapterApks.notifyItemChanged(0) // Update the header
 
                             adapterApks.isSelectionMode = adapterApks.paths.any { it.isSelected }
-                            updateBottomMenu(adapterApks.paths.any { it.isSelected })
+                            updateBottomMenu()
                         }
                     })
+                }
+
+                override fun onSelectionChanged() {
+                    updateBottomMenu()
                 }
             })
 
@@ -273,13 +277,18 @@ class APKs : ScopedFragment() {
                                     for (apk in selectedApks) {
                                         if (apk.file.exists()) {
                                             if (apk.file.delete()) {
+                                                val position = adapterApks.paths.indexOf(apk)
                                                 adapterApks.paths.remove(apk)
-                                                adapterApks.notifyItemRemoved(adapterApks.paths.indexOf(apk) + 1)
+                                                adapterApks.notifyItemRemoved(position.plus(1))
+                                                adapterApks.notifyItemChanged(0) // Update the header
                                             } else {
                                                 showWarning("Failed to delete ${apk.file.name}", false)
                                             }
                                         }
                                     }
+
+                                    adapterApks.isSelectionMode = adapterApks.paths.any { it.isSelected }
+                                    updateBottomMenu()
                                 } else {
                                     showWarning("No APKs selected", false)
                                 }
@@ -291,11 +300,12 @@ class APKs : ScopedFragment() {
         }
     }
 
-    private fun updateBottomMenu(isSelected: Boolean) {
-        if (isSelected) {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection)
+    @Suppress("UNCHECKED_CAST")
+    private fun updateBottomMenu() {
+        if (adapterApks.isSelectionMode) {
+            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenuSelection.clone() as java.util.ArrayList<Pair<Int, Int>>)
         } else {
-            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu)
+            bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.apkBrowserMenu.clone() as java.util.ArrayList<Pair<Int, Int>>)
         }
     }
 

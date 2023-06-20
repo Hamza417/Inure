@@ -79,13 +79,11 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
     }
 
     fun updateMenu(bottomMenuItems: ArrayList<Pair<Int, Int>>) {
-        if (this.bottomMenuItems.size != bottomMenuItems.size) {
-            val currentSize = this.bottomMenuItems.size
-            this.bottomMenuItems.clear()
-            notifyItemRangeRemoved(0, currentSize)
-            this.bottomMenuItems.addAll(bottomMenuItems)
-            notifyItemRangeInserted(0, this.bottomMenuItems.size)
-        }
+        val currentSize = this.bottomMenuItems.size
+        this.bottomMenuItems.clear()
+        notifyItemRangeRemoved(0, currentSize)
+        this.bottomMenuItems.addAll(bottomMenuItems)
+        notifyItemRangeInserted(0, this.bottomMenuItems.size)
     }
 
     inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {

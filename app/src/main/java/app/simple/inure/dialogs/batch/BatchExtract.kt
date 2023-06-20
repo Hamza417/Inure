@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -101,12 +102,12 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                             name.text = buildString {
                                 append(fileName)
-                                append(".apkm")
+                                append(Misc.splitApkFormat)
                             }
                         } else { // For APK files
                             name.text = buildString {
                                 append(fileName)
-                                append(".apk")
+                                append(Misc.apkFormat)
                             }
                         }
                     }

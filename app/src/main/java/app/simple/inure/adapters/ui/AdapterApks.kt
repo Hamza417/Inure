@@ -87,13 +87,14 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
                     paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
                     paths[position].file.lastModified().toDate()
 
-            holder.container.setOnClickListener {
+            holder.container.setOnClickListener { view ->
                 if (isSelectionMode) {
                     paths[position].isSelected = !paths[position].isSelected
                     holder.checkBox.setChecked(paths[position].isSelected)
                     isSelectionMode = paths.any { it.isSelected }
+                    adapterCallbacks.onSelectionChanged()
                 } else {
-                    adapterCallbacks.onApkClicked(it, holder.bindingAdapterPosition.minus(1), holder.icon)
+                    adapterCallbacks.onApkClicked(view, holder.bindingAdapterPosition.minus(1), holder.icon)
                 }
             }
 

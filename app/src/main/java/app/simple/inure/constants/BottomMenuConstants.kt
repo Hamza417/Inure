@@ -145,6 +145,7 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_watch_later, R.string.date),
     )
 
+    @Suppress("UNCHECKED_CAST")
     val apkBrowserMenu: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
@@ -154,9 +155,10 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),
-        )
+        ).clone() as ArrayList<Pair<Int, Int>>
     }
 
+    @Suppress("UNCHECKED_CAST")
     val apkBrowserMenuSelection: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_delete, R.string.delete),
@@ -169,7 +171,7 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
                 Pair(R.drawable.ic_search, R.string.search),
-        )
+        ).clone() as ArrayList<Pair<Int, Int>>
     }
 
     // *********************************************************************************************** //
