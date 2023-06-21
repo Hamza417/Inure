@@ -307,6 +307,10 @@ class AppsSort : ScopedBottomSheetFragment() {
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
             applicationTypeChipGroup.check(R.id.split)
         }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
+            applicationTypeChipGroup.check(R.id.combine_flags)
+        }
     }
 
     companion object {

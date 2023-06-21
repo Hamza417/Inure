@@ -8,7 +8,7 @@ object AppsPreferences {
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val appsType = "list_apps_type"
-    const val appsFilter = "apps_filter_"
+    const val appsFilter = "apps_filter_2"
     const val combineFilter = "combine_filter"
     const val appsCategory = "apps_category"
 

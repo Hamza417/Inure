@@ -127,9 +127,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
                 }
 
-                if (categoryList.isNotEmpty()) {
-                    apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
+                apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
 
             var filteredList = arrayListOf<PackageInfo>()

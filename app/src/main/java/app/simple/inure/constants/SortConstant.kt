@@ -8,11 +8,11 @@ object SortConstant {
     const val ASCENDING = "ascending"
     const val DESCENDING = "descending"
 
-    const val DISABLED = 0x0001
-    const val ENABLED = 0x0002
-    const val APK = 0x0004
-    const val SPLIT = 0x0008
-    const val COMBINE_FLAGS = 0x0010
+    const val DISABLED = 1
+    const val ENABLED = 2
+    const val APK = 4
+    const val SPLIT = 8
+    const val COMBINE_FLAGS = 16
     const val ALL = DISABLED or ENABLED or APK or SPLIT
 
     const val CATEGORY_UNSPECIFIED = 1
