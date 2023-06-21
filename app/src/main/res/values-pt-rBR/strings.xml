@@ -684,4 +684,8 @@
     <string name="developer_profile">Perfil do desenvolvedor</string>
     <string name="execute">Executar</string>
     <string name="select">Selecione</string>
+    <string name="ascending">Ordem Crescente</string>
+    <string name="descending">Ordem Decrescente</string>
+    <string name="all">Tudo</string>
+    <string name="combine_flags">Combinar Sinalizadores</string>
 </resources>
