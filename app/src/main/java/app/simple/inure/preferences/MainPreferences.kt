@@ -21,7 +21,8 @@ object MainPreferences {
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
-    const val applicationType = "application_type"
+    const val appsFilter = "apps_filter_"
+    const val combineFilter = "combine_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -134,13 +135,21 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setApplicationType(type: String) {
-        getSharedPreferences().edit().putString(applicationType, type).apply()
+    fun setAppsFilter(value: Int) {
+        getSharedPreferences().edit().putInt(appsFilter, value).commit()
     }
 
-    fun getApplicationType(): String {
-        return getSharedPreferences().getString(applicationType, SortConstant.ALL)!!
+    fun getAppsFilter(): Int {
+        return getSharedPreferences().getInt(appsFilter, SortConstant.ALL)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setCombineFilter(value: Boolean) {
+        getSharedPreferences().edit().putBoolean(combineFilter, value).apply()
+    }
+
+    fun isCombineFilter(): Boolean {
+        return getSharedPreferences().getBoolean(combineFilter, false)
+    }
 }

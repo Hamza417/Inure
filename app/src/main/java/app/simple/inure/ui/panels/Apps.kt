@@ -21,7 +21,6 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
@@ -80,11 +79,8 @@ class Apps : ScopedFragment() {
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
                 when (id) {
-                    R.drawable.ic_sort -> {
-                        childFragmentManager.showAppsSortDialog()
-                    }
                     R.drawable.ic_filter -> {
-                        PopupAppsCategory(view)
+                        childFragmentManager.showAppsSortDialog()
                     }
                     R.drawable.ic_settings -> {
                         childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
@@ -153,7 +149,9 @@ class Apps : ScopedFragment() {
         when (key) {
             MainPreferences.sortStyle,
             MainPreferences.isSortingReversed,
-            MainPreferences.listAppsCategory -> {
+            MainPreferences.listAppsCategory,
+            MainPreferences.appsFilter,
+            MainPreferences.combineFilter -> {
                 appsViewModel.loadAppData()
             }
         }

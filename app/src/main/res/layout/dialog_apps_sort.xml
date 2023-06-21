@@ -29,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:checkedChip="@id/name"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="0dp"
             app:selectionRequired="true"
             app:singleSelection="true">
 
@@ -69,6 +71,7 @@
             android:layout_height="wrap_content"
             android:text="@string/sorting_style"
             android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -95,8 +98,9 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/filter"
+            android:text="@string/application_type"
             android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -129,8 +133,9 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/application_type"
+            android:text="@string/filter"
             android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -139,12 +144,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:singleSelection="false">
-
-            <app.simple.inure.decorations.views.Chip
-                android:id="@+id/all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/all" />
 
             <app.simple.inure.decorations.views.Chip
                 android:id="@+id/disabled"
@@ -170,6 +169,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/split_packages" />
 
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/combine_flags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/combine_flags" />
+
         </com.google.android.material.chip.ChipGroup>
+
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 </FrameLayout>

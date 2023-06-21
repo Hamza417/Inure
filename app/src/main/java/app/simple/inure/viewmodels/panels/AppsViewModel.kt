@@ -10,6 +10,8 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +37,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         return appData.value.isNullOrEmpty()
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
@@ -52,9 +55,76 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 }
             }
 
-            apps.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
+            var filteredList = arrayListOf<PackageInfo>()
 
-            appData.postValue(apps as ArrayList<PackageInfo>?)
+            if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                            true
+                        } else {
+                            p.applicationInfo.enabled.invert()
+                        }
+                    } else {
+                        true
+                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                            true
+                        } else {
+                            p.applicationInfo.enabled
+                        }
+                    } else {
+                        true
+                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
+                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                            true
+                        } else {
+                            p.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                        }
+                    } else {
+                        true
+                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
+                            true
+                        } else {
+                            p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                        }
+                    } else {
+                        true
+                    }
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            } else {
+                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.enabled.invert()
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.enabled
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
+                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                // Remove duplicate elements
+                filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+
+            filteredList.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
+
+            appData.postValue(filteredList as ArrayList<PackageInfo>?)
             appLoaded.postValue(AppsEvent(true))
         }
     }

@@ -19,7 +19,6 @@ object BottomMenuConstants {
     private val allAppsBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             refresh,
             divider,
-            Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
             divider,
             Pair(R.drawable.ic_settings, R.string.preferences),
