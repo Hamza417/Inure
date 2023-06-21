@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.search.PopupSortingStyle
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort
@@ -81,9 +81,9 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
     private fun setListCategory() {
         appsCategory.text = when (SearchPreferences.getAppsCategory()) {
-            PopupAppsCategory.SYSTEM -> getString(R.string.system)
-            PopupAppsCategory.USER -> getString(R.string.user)
-            PopupAppsCategory.BOTH -> getString(R.string.both)
+            SortConstant.SYSTEM -> getString(R.string.system)
+            SortConstant.USER -> getString(R.string.user)
+            SortConstant.BOTH -> getString(R.string.both)
             else -> getString(R.string.unknown)
         }
     }

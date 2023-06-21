@@ -8,9 +8,9 @@ import android.content.pm.PackageInfo
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.SortUsageStats.sortStats
@@ -47,12 +47,12 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             }
 
             when (StatisticsPreferences.getAppsCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     list = list.stream().filter { p ->
                         p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageStats>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     list = list.stream().filter { p ->
                         p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageStats>
@@ -94,12 +94,12 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
         var apps = getInstalledApps()
 
         when (StatisticsPreferences.getAppsCategory()) {
-            PopupAppsCategory.SYSTEM -> {
+            SortConstant.SYSTEM -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
-            PopupAppsCategory.USER -> {
+            SortConstant.USER -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>

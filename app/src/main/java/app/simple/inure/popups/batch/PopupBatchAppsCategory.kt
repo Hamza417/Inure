@@ -4,12 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import app.simple.inure.R
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
-import app.simple.inure.popups.apps.PopupAppsCategory.Companion.BOTH
-import app.simple.inure.popups.apps.PopupAppsCategory.Companion.SYSTEM
-import app.simple.inure.popups.apps.PopupAppsCategory.Companion.USER
 import app.simple.inure.preferences.BatchPreferences
 
 class PopupBatchAppsCategory(view: View) : BasePopupWindow() {
@@ -25,14 +23,14 @@ class PopupBatchAppsCategory(view: View) : BasePopupWindow() {
         user = contentView.findViewById(R.id.popup_category_user)
         both = contentView.findViewById(R.id.popup_category_both)
 
-        system.onClick(SYSTEM)
-        user.onClick(USER)
-        both.onClick(BOTH)
+        system.onClick(SortConstant.SYSTEM)
+        user.onClick(SortConstant.USER)
+        both.onClick(SortConstant.BOTH)
 
         when (BatchPreferences.getAppsCategory()) {
-            USER -> user.isSelected = true
-            SYSTEM -> system.isSelected = true
-            BOTH -> both.isSelected = true
+            SortConstant.USER -> user.isSelected = true
+            SortConstant.SYSTEM -> system.isSelected = true
+            SortConstant.BOTH -> both.isSelected = true
         }
 
         init(contentView, view)

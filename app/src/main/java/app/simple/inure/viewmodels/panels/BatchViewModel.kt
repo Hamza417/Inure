@@ -8,11 +8,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -52,12 +52,12 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
             }
 
             when (BatchPreferences.getAppsCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>

@@ -45,7 +45,7 @@ public class Utils {
         valueAnimator.start();
     }
     
-    static RippleDrawable getRippleDrawable(Drawable backgroundDrawable) {
+    public static RippleDrawable getRippleDrawable(Drawable backgroundDrawable) {
         float[] outerRadii = new float[8];
         float[] innerRadii = new float[8];
         Arrays.fill(outerRadii, AppearancePreferences.INSTANCE.getCornerRadius());

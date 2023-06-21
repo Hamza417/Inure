@@ -1,6 +1,6 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.util.SortBootManager
 
 object BootManagerPreferences {
@@ -36,6 +36,6 @@ object BootManagerPreferences {
     }
 
     fun getAppsCategory(): String {
-        return SharedPreferences.getSharedPreferences().getString(appsCategory, PopupAppsCategory.BOTH)!!
+        return SharedPreferences.getSharedPreferences().getString(appsCategory, SortConstant.BOTH)!!
     }
 }

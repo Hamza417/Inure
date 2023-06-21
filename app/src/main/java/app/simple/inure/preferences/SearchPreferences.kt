@@ -1,6 +1,6 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
 
@@ -51,7 +51,7 @@ object SearchPreferences {
     }
 
     fun getAppsCategory(): String {
-        return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+        return getSharedPreferences().getString(listAppsCategory, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

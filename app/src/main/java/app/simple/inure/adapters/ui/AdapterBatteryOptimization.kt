@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -14,7 +15,6 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.LocaleHelper
@@ -80,13 +80,13 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
             holder.category.text = when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     holder.getString(R.string.user)
                 }
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     holder.getString(R.string.system)
                 }
-                PopupAppsCategory.BOTH -> {
+                SortConstant.BOTH -> {
                     with(StringBuilder()) {
                         append(holder.getString(R.string.user))
                         append(" | ")

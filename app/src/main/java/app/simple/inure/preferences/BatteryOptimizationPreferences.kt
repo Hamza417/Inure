@@ -1,6 +1,6 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.util.Sort
 
 object BatteryOptimizationPreferences {
@@ -18,7 +18,7 @@ object BatteryOptimizationPreferences {
     fun getBatteryOptimizationCategory(): String {
         return SharedPreferences.getSharedPreferences()
             .getString(batteryOptimizationCategory,
-                       PopupAppsCategory.BOTH)!!
+                       SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

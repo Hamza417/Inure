@@ -6,9 +6,9 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -40,12 +40,12 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             var apps = getInstalledApps()
 
             when (MainPreferences.getAppsCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>

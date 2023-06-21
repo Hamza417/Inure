@@ -16,12 +16,12 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apps.AllAppsMenu.Companion.newAppsMenuInstance
+import app.simple.inure.dialogs.apps.AppsSort.Companion.showAppsSortDialog
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.popups.apps.PopupAppsCategory
-import app.simple.inure.popups.apps.PopupSortingStyle
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
@@ -81,7 +81,7 @@ class Apps : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), appsListRecyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_sort -> {
-                        PopupSortingStyle(view)
+                        childFragmentManager.showAppsSortDialog()
                     }
                     R.drawable.ic_filter -> {
                         PopupAppsCategory(view)

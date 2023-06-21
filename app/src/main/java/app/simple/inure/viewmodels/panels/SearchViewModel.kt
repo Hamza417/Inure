@@ -12,9 +12,9 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.NullSafety.isNotNull
@@ -102,12 +102,12 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }.collect(Collectors.toList()) as ArrayList<PackageInfo>
 
         when (SearchPreferences.getAppsCategory()) {
-            PopupAppsCategory.SYSTEM -> {
+            SortConstant.SYSTEM -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
-            PopupAppsCategory.USER -> {
+            SortConstant.USER -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -129,12 +129,12 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
 
         when (SearchPreferences.getAppsCategory()) {
-            PopupAppsCategory.SYSTEM -> {
+            SortConstant.SYSTEM -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
-            PopupAppsCategory.USER -> {
+            SortConstant.USER -> {
                 apps = apps.stream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>

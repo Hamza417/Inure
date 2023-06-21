@@ -1,7 +1,7 @@
 package app.simple.inure.preferences
 
 import app.simple.inure.BuildConfig
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.Sort
 
@@ -21,6 +21,7 @@ object MainPreferences {
     const val sortStyle = "sort_style"
     const val isSortingReversed = "is_sorting_reversed"
     const val listAppsCategory = "list_apps_category"
+    const val applicationType = "application_type"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -84,7 +85,7 @@ object MainPreferences {
     }
 
     fun getAppsCategory(): String {
-        return getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+        return getSharedPreferences().getString(listAppsCategory, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -130,4 +131,16 @@ object MainPreferences {
     fun isDisclaimerAgreed(): Boolean {
         return getSharedPreferences().getBoolean(disclaimerAgreed, false)
     }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setApplicationType(type: String) {
+        getSharedPreferences().edit().putString(applicationType, type).apply()
+    }
+
+    fun getApplicationType(): String {
+        return getSharedPreferences().getString(applicationType, SortConstant.ALL)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
 }

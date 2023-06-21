@@ -683,4 +683,7 @@
     <string name="developer_profile">Developer Profile</string>
     <string name="execute">Execute</string>
     <string name="select">Select</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="all">All</string>
 </resources>

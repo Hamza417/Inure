@@ -9,6 +9,12 @@ object Sort {
 
     /**
      * Sorts the [PackageInfo] [ArrayList] by
+     * apps update date
+     */
+    const val UPDATE_DATE = "update_date"
+
+    /**
+     * Sorts the [PackageInfo] [ArrayList] by
      * [ApplicationInfo.name]
      */
     const val NAME = "name"
@@ -54,6 +60,9 @@ object Sort {
             INSTALL_DATE -> {
                 this.sortByInstallDate(reverse)
             }
+            UPDATE_DATE -> {
+                this.sortByUpdateDate(reverse)
+            }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
             }
@@ -82,6 +91,9 @@ object Sort {
             }
             INSTALL_DATE -> {
                 (this as ArrayList).sortByInstallDate(reverse)
+            }
+            UPDATE_DATE -> {
+                (this as ArrayList).sortByUpdateDate(reverse)
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -135,7 +147,7 @@ object Sort {
     }
 
     /**
-     * sort application list alphabetically
+     * sort application list by install date
      */
     private fun ArrayList<PackageInfo>.sortByInstallDate(reverse: Boolean) {
         return if (reverse) {
@@ -145,6 +157,21 @@ object Sort {
         } else {
             this.sortBy {
                 it.firstInstallTime
+            }
+        }
+    }
+
+    /**
+     * sort application list by update date
+     */
+    private fun ArrayList<PackageInfo>.sortByUpdateDate(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.lastUpdateTime
+            }
+        } else {
+            this.sortBy {
+                it.lastUpdateTime
             }
         }
     }

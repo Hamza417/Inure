@@ -13,10 +13,10 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.ReceiversUtils
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BootManagerModel
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.SortBootManager.getSortedList
 import com.topjohnwu.superuser.Shell
@@ -101,12 +101,12 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
             }
 
             when (BootManagerPreferences.getAppsCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
                         p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<BootManagerModel>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
                         p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<BootManagerModel>

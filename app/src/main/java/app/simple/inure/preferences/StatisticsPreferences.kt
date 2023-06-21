@@ -1,6 +1,6 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.SortUsageStats
@@ -63,7 +63,7 @@ object StatisticsPreferences {
     }
 
     fun getAppsCategory(): String {
-        return getSharedPreferences().getString(appsCategory, PopupAppsCategory.BOTH)!!
+        return getSharedPreferences().getString(appsCategory, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

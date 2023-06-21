@@ -1,9 +1,7 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.NonNull
-import app.simple.inure.popups.apps.PopupAppsCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.util.Sort
-import org.jetbrains.annotations.NotNull
 
 object BatchPreferences {
 
@@ -35,7 +33,7 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortStyle(@NonNull style: String) {
+    fun setSortStyle(style: String) {
         SharedPreferences.getSharedPreferences().edit().putString(sortStyle, style).apply()
     }
 
@@ -45,7 +43,7 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(@NotNull value: Boolean) {
+    fun setReverseSorting(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
     }
 
@@ -55,11 +53,11 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsCategory(@NonNull category: String) {
+    fun setAppsCategory(category: String) {
         SharedPreferences.getSharedPreferences().edit().putString(listAppsCategory, category).apply()
     }
 
     fun getAppsCategory(): String {
-        return SharedPreferences.getSharedPreferences().getString(listAppsCategory, PopupAppsCategory.BOTH)!!
+        return SharedPreferences.getSharedPreferences().getString(listAppsCategory, SortConstant.BOTH)!!
     }
 }

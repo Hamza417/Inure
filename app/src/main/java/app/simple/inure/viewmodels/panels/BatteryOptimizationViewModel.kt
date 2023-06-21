@@ -10,10 +10,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BatteryOptimizationModel
-import app.simple.inure.popups.apps.PopupAppsCategory
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
@@ -54,12 +54,12 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
             var apps = getInstalledPackages()
 
             when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -126,12 +126,12 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
             }
 
             when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
-                PopupAppsCategory.SYSTEM -> {
+                SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
-                PopupAppsCategory.USER -> {
+                SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
