@@ -683,4 +683,9 @@
     <string name="no_state">无状态</string>
     <string name="developer_profile">开发者资料</string>
     <string name="execute">执行</string>
+    <string name="select">选择</string>
+    <string name="ascending">升序</string>
+    <string name="descending">降序</string>
+    <string name="all">全部</string>
+    <string name="combine_flags">组合标志</string>
 </resources>
