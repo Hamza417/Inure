@@ -685,4 +685,10 @@
     <string name="large_string_warning">Размер строки %1$d слишком большой, все равно загрузить?</string>
     <string name="no_state">Нет Cостояния</string>
     <string name="developer_profile">Профиль разработчика</string>
+    <string name="execute">Выполнить</string>
+    <string name="select">Выбрать</string>
+    <string name="ascending">По возрастанию</string>
+    <string name="descending">По убыванию</string>
+    <string name="all">Все</string>
+    <string name="combine_flags">Объединить флаги</string>
 </resources>
