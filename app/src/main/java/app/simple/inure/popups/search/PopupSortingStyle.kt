@@ -9,7 +9,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 import app.simple.inure.extensions.popup.PopupMenuCallback
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.Sort
 
@@ -44,7 +43,7 @@ class PopupSortingStyle(view: View) : BasePopupWindow() {
         size.onClick(Sort.SIZE)
         installDate.onClick(Sort.INSTALL_DATE)
 
-        reversedCheckBox.setChecked(MainPreferences.isReverseSorting())
+        reversedCheckBox.setChecked(SearchPreferences.isReverseSorting())
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.toggle()

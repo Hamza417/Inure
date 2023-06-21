@@ -21,7 +21,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
@@ -147,11 +147,12 @@ class Apps : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MainPreferences.sortStyle,
-            MainPreferences.isSortingReversed,
-            MainPreferences.listAppsCategory,
-            MainPreferences.appsFilter,
-            MainPreferences.combineFilter -> {
+            AppsPreferences.sortStyle,
+            AppsPreferences.isSortingReversed,
+            AppsPreferences.appsCategory,
+            AppsPreferences.appsFilter,
+            AppsPreferences.combineFilter,
+            AppsPreferences.appsType -> {
                 appsViewModel.loadAppData()
             }
         }

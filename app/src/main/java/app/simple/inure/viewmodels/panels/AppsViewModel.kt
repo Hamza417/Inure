@@ -3,13 +3,14 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
@@ -42,7 +43,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
 
-            when (MainPreferences.getAppsCategory()) {
+            when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
@@ -55,36 +56,112 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 }
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val categoryList = ArrayList<PackageInfo>()
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_GAME
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_AUDIO)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_VIDEO)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_IMAGE)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_SOCIAL)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_NEWS)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_NEWS
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_MAPS)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_MAPS
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_PRODUCTIVITY)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
+                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.category == ApplicationInfo.CATEGORY_GAME
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
+                        categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                            p.applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY
+                        }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                    }
+                }
+
+                if (categoryList.isNotEmpty()) {
+                    apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+                }
+            }
+
             var filteredList = arrayListOf<PackageInfo>()
 
-            if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
+            if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
                 filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                             true
                         } else {
                             p.applicationInfo.enabled.invert()
                         }
                     } else {
                         true
-                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                             true
                         } else {
                             p.applicationInfo.enabled
                         }
                     } else {
                         true
-                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
-                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
                             true
                         } else {
                             p.applicationInfo.splitSourceDirs.isNullOrEmpty()
                         }
                     } else {
                         true
-                    } && if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                        if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
+                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
                             true
                         } else {
                             p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
@@ -94,25 +171,25 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
             } else {
-                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                     filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
                         p.applicationInfo.enabled.invert()
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
                 }
 
-                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                     filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
                         p.applicationInfo.enabled
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
                 }
 
-                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.APK)) {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
                     filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
                         p.applicationInfo.splitSourceDirs.isNullOrEmpty()
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
                 }
 
-                if (FlagUtils.isFlagSet(MainPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
                     filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
                         p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
@@ -122,7 +199,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
 
-            filteredList.getSortedList(MainPreferences.getSortStyle(), MainPreferences.isReverseSorting())
+            filteredList.getSortedList(AppsPreferences.getSortStyle(), AppsPreferences.isReverseSorting())
 
             appData.postValue(filteredList as ArrayList<PackageInfo>?)
             appLoaded.postValue(AppsEvent(true))

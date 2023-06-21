@@ -9,7 +9,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 import app.simple.inure.preferences.BatteryOptimizationPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.Sort
 
 class PopupBatteryOptimizationSortingStyle(view: View) : BasePopupWindow() {
@@ -42,7 +41,7 @@ class PopupBatteryOptimizationSortingStyle(view: View) : BasePopupWindow() {
             Sort.PACKAGE_NAME -> packageName.isSelected = true
         }
 
-        reversedCheckBox.setChecked(MainPreferences.isReverseSorting())
+        reversedCheckBox.setChecked(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.toggle()

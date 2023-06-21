@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             app:checkedChip="@id/name"
             app:chipSpacingHorizontal="5dp"
-            app:chipSpacingVertical="0dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
             app:selectionRequired="true"
             app:singleSelection="true">
 
@@ -79,6 +79,8 @@
             android:id="@+id/sorting_style_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
             app:singleSelection="true">
 
             <app.simple.inure.decorations.views.Chip
@@ -108,6 +110,8 @@
             android:id="@+id/filter_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
             app:singleSelection="true">
 
             <app.simple.inure.decorations.views.Chip
@@ -131,6 +135,88 @@
         </com.google.android.material.chip.ChipGroup>
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/category_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apps_category"
+            android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/category_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
+            app:singleSelection="false">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/unspecified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unspecified" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/video" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/social"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/social" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/maps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/maps" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/productivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/productivity" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/accessibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accessibility" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/filter"
@@ -143,6 +229,8 @@
             android:id="@+id/application_type_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
             app:singleSelection="false">
 
             <app.simple.inure.decorations.views.Chip

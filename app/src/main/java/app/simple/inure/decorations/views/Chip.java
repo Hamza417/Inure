@@ -53,13 +53,16 @@ public class Chip extends com.google.android.material.chip.Chip {
                         ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()
                 }
         ));
-        
+    
         setShapeAppearanceModel(new ShapeAppearanceModel()
                 .toBuilder()
                 .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                 .build());
-        
+    
         ViewUtils.INSTANCE.addShadow(this);
         setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight()));
+    
+        setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
+        setChipStrokeWidth(1);
     }
 }

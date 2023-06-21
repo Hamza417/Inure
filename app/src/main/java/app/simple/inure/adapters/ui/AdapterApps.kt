@@ -16,7 +16,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.PackageListUtils.setAppInfo
@@ -77,7 +77,7 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
-            holder.category.text = when (MainPreferences.getAppsCategory()) {
+            holder.category.text = when (AppsPreferences.getAppsType()) {
                 SortConstant.USER -> {
                     holder.getString(R.string.user)
                 }
@@ -96,7 +96,7 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
                 }
             }
 
-            holder.sorting.text = when (MainPreferences.getSortStyle()) {
+            holder.sorting.text = when (AppsPreferences.getSortStyle()) {
                 Sort.NAME -> {
                     holder.getString(R.string.name)
                 }
@@ -108,6 +108,9 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
                 }
                 Sort.SIZE -> {
                     holder.getString(R.string.app_size)
+                }
+                Sort.UPDATE_DATE -> {
+                    holder.getString(R.string.update_date)
                 }
                 else -> {
                     holder.getString(R.string.unknown)

@@ -1,9 +1,7 @@
 package app.simple.inure.preferences
 
 import app.simple.inure.BuildConfig
-import app.simple.inure.constants.SortConstant
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.util.Sort
 
 /**
  * All app preferences
@@ -18,11 +16,6 @@ object MainPreferences {
     private const val unlockerWarningCount = "unlocker_warning_count"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
     private const val disclaimerAgreed = "disclaimer_agreed"
-    const val sortStyle = "sort_style"
-    const val isSortingReversed = "is_sorting_reversed"
-    const val listAppsCategory = "list_apps_category"
-    const val appsFilter = "apps_filter_"
-    const val combineFilter = "combine_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -57,36 +50,6 @@ object MainPreferences {
 
     fun getAppLanguage(): String? {
         return getSharedPreferences().getString(appLanguage, "default")
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setSortStyle(style: String) {
-        getSharedPreferences().edit().putString(sortStyle, style).apply()
-    }
-
-    fun getSortStyle(): String {
-        return getSharedPreferences().getString(sortStyle, Sort.NAME)!!
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setReverseSorting(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
-    }
-
-    fun isReverseSorting(): Boolean {
-        return getSharedPreferences().getBoolean(isSortingReversed, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setAppsCategory(category: String) {
-        getSharedPreferences().edit().putString(listAppsCategory, category).apply()
-    }
-
-    fun getAppsCategory(): String {
-        return getSharedPreferences().getString(listAppsCategory, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -131,25 +94,5 @@ object MainPreferences {
 
     fun isDisclaimerAgreed(): Boolean {
         return getSharedPreferences().getBoolean(disclaimerAgreed, false)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setAppsFilter(value: Int) {
-        getSharedPreferences().edit().putInt(appsFilter, value).commit()
-    }
-
-    fun getAppsFilter(): Int {
-        return getSharedPreferences().getInt(appsFilter, SortConstant.ALL)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setCombineFilter(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(combineFilter, value).apply()
-    }
-
-    fun isCombineFilter(): Boolean {
-        return getSharedPreferences().getBoolean(combineFilter, false)
     }
 }
