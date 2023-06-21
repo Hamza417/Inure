@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -42,6 +43,8 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
+            Log.d("AppsViewModel", "loadAppData: apps size: ${getUninstalledApps().size}")
+            apps.addAll(getUninstalledApps())
 
             when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {
@@ -166,6 +169,10 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     } else {
                         true
+                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                    } else {
+                        true
                     }
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
             } else {
@@ -190,6 +197,12 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
                     filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
                         p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                        p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
                 }
 

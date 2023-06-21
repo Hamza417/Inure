@@ -64,6 +64,9 @@ class AppsSort : ScopedBottomSheetFragment() {
             Sort.SIZE -> {
                 sortChipGroup.check(R.id.size)
             }
+            Sort.TARGET_SDK -> {
+                sortChipGroup.check(R.id.target_sdk)
+            }
         }
 
         if (AppsPreferences.isReverseSorting()) {
@@ -102,6 +105,9 @@ class AppsSort : ScopedBottomSheetFragment() {
                     R.id.size -> {
                         AppsPreferences.setSortStyle(Sort.SIZE)
                     }
+                    R.id.target_sdk -> {
+                        AppsPreferences.setSortStyle(Sort.TARGET_SDK)
+                    }
                 }
             }
         }
@@ -135,7 +141,7 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
         }
 
-        applicationTypeChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+        applicationTypeChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var sourceFlags = AppsPreferences.getAppsFilter()
 
             sourceFlags = if (checkedIds.contains(R.id.disabled)) {
@@ -160,6 +166,12 @@ class AppsSort : ScopedBottomSheetFragment() {
                 FlagUtils.setFlag(sourceFlags, SortConstant.SPLIT)
             } else {
                 FlagUtils.unsetFlag(sourceFlags, SortConstant.SPLIT)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.uninstalled)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.UNINSTALLED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.UNINSTALLED)
             }
 
             sourceFlags = if (checkedIds.contains(R.id.combine_flags)) {
@@ -306,6 +318,10 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
             applicationTypeChipGroup.check(R.id.split)
+        }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+            applicationTypeChipGroup.check(R.id.uninstalled)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {

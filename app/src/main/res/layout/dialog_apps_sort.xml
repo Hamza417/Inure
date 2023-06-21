@@ -64,6 +64,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/update_date" />
 
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/target_sdk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/target_sdk" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -244,6 +250,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enabled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/uninstalled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uninstalled" />
 
             <app.simple.inure.decorations.views.Chip
                 android:id="@+id/apk"

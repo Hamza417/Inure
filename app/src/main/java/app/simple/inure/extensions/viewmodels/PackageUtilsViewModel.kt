@@ -18,6 +18,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -38,8 +39,15 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
-        @Suppress("UNCHECKED_CAST")
-        return uninstalledApps.clone() as ArrayList<PackageInfo>
+        if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
+            @Suppress("UNCHECKED_CAST")
+            return uninstalledApps.clone() as ArrayList<PackageInfo>
+        } else {
+            Log.d("PackageUtilsViewModel", "getUninstalledApps: uninstalledApps is null or empty, reloading")
+            @Suppress("CAST_NEVER_SUCCEEDS")
+            loadUninstalledApps()
+            return getUninstalledApps()
+        }
     }
 
     protected fun loadPackageData() {
@@ -92,23 +100,24 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     protected fun loadUninstalledApps() {
         while (true) {
             try {
-                if (uninstalledApps.isEmpty()) {
-                    uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                                .of((PackageManager.GET_META_DATA
-                                                                        or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
+                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                            .of((PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
                     } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            @Suppress("DEPRECATION")
-                            packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                        or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                        } else {
-                            @Suppress("DEPRECATION")
-                            packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                        or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                        }
-                    }.toArrayList()
-                }
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
+                    }
+                }.stream().filter {
+                    it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                }.collect(Collectors.toList())
+                    .toArrayList()
 
                 @Suppress("UNCHECKED_CAST")
                 onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)

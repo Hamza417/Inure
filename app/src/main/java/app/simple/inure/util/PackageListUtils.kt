@@ -44,13 +44,16 @@ object PackageListUtils {
                 append(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
             }
 
+            append(" | ")
+
             if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(" | ")
                 append(context.getString(R.string.apk))
             } else {
-                append(" | ")
                 append(context.getString(R.string.split_packages))
             }
+
+            append(" | ")
+            append(packageInfo.applicationInfo.targetSdkVersion)
 
             text = toString()
         }

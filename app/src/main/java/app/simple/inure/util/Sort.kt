@@ -38,6 +38,12 @@ object Sort {
     const val INSTALL_DATE = "install_date"
 
     /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps target sdk
+     */
+    const val TARGET_SDK = "target_sdk"
+
+    /**
      * Sort the given [ArrayList] in various ways
      *
      * @param type use [Sort.NAME] constants
@@ -62,6 +68,9 @@ object Sort {
             }
             UPDATE_DATE -> {
                 this.sortByUpdateDate(reverse)
+            }
+            TARGET_SDK -> {
+                this.sortByTargetSdk(reverse)
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -94,6 +103,9 @@ object Sort {
             }
             UPDATE_DATE -> {
                 (this as ArrayList).sortByUpdateDate(reverse)
+            }
+            TARGET_SDK -> {
+                (this as ArrayList).sortByTargetSdk(reverse)
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -172,6 +184,21 @@ object Sort {
         } else {
             this.sortBy {
                 it.lastUpdateTime
+            }
+        }
+    }
+
+    /**
+     * sort application list by target sdk
+     */
+    private fun ArrayList<PackageInfo>.sortByTargetSdk(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.applicationInfo.targetSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.applicationInfo.targetSdkVersion
             }
         }
     }

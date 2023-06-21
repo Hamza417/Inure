@@ -12,7 +12,8 @@ object SortConstant {
     const val ENABLED = 2
     const val APK = 4
     const val SPLIT = 8
-    const val COMBINE_FLAGS = 16
+    const val UNINSTALLED = 16
+    const val COMBINE_FLAGS = 32
     const val ALL = DISABLED or ENABLED or APK or SPLIT
 
     const val CATEGORY_UNSPECIFIED = 1

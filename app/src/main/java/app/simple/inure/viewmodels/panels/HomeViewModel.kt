@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.lifecycle.LiveData
@@ -185,9 +184,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     private fun loadDeletedApps() {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = getUninstalledApps().stream()
-                .filter { it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
-                .collect(Collectors.toList()) as ArrayList<PackageInfo>
+            val apps = getUninstalledApps()
 
             apps.sortBy {
                 it.applicationInfo.name

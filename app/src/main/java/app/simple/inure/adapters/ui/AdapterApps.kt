@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
@@ -57,9 +59,14 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
         if (holder is Holder) {
 
             holder.icon.transitionName = apps[position].packageName
-            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
+
+            if (apps[position].applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].applicationInfo.sourceDir.toFile())
+            } else {
+                holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
+            }
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
             holder.info.setAppInfo(apps[position])
