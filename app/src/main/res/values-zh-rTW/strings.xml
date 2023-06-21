@@ -684,4 +684,7 @@
     <string name="developer_profile">開發人員設定檔</string>
     <string name="execute">執行</string>
     <string name="select">選取</string>
+    <string name="ascending">遞增</string>
+    <string name="descending">遞減</string>
+    <string name="all">所有</string>
 </resources>
