@@ -2,6 +2,8 @@ package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
+import androidx.annotation.RequiresApi
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
@@ -46,10 +48,13 @@ object SortBootManager {
     const val TARGET_SDK = "target_sdk"
 
     /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps min sdk
+     */
+    const val MIN_SDK = "min_sdk"
+
+    /**
      * Sort the given [ArrayList] in various ways
-     *
-     * @param type use [Sort.NAME] constants
-     *             to specify sorting methods for the list
      *
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
@@ -74,17 +79,21 @@ object SortBootManager {
             TARGET_SDK -> {
                 this.sortByTargetSdk(BootManagerPreferences.isSortingReversed())
             }
+            MIN_SDK -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    this.sortByMinSdk(BootManagerPreferences.isSortingReversed())
+                }
+            }
             else -> {
-                throw IllegalArgumentException("use default sorting constants to sort the list")
+                BootManagerPreferences.setSortStyle(NAME)
+                throw IllegalArgumentException("use default sorting constants to sort the list, " +
+                                                       "default sorting style is NAME")
             }
         }
     }
 
     /**
      * Sort the given [ArrayList] in various ways
-     *
-     * @param type use [Sort.NAME] constants
-     *             to specify sorting methods for the list
      *
      * @throws IllegalArgumentException if the [type] parameter
      *                                  is specified correctly
@@ -109,8 +118,15 @@ object SortBootManager {
             TARGET_SDK -> {
                 (this as ArrayList).sortByTargetSdk(BootManagerPreferences.isSortingReversed())
             }
+            MIN_SDK -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    (this as ArrayList).sortByMinSdk(BootManagerPreferences.isSortingReversed())
+                }
+            }
             else -> {
-                throw IllegalArgumentException("use default sorting constants to sort the list")
+                BootManagerPreferences.setSortStyle(NAME)
+                throw IllegalArgumentException("use default sorting constants to sort the list, " +
+                                                       "default sorting style is NAME")
             }
         }
     }
@@ -201,6 +217,22 @@ object SortBootManager {
         } else {
             this.sortBy {
                 it.packageInfo.applicationInfo.targetSdkVersion
+            }
+        }
+    }
+
+    /**
+     * sort application list by min sdk
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun ArrayList<BootManagerModel>.sortByMinSdk(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.packageInfo.applicationInfo.minSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo.applicationInfo.minSdkVersion
             }
         }
     }

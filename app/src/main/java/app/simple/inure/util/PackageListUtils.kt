@@ -85,7 +85,13 @@ object PackageListUtils {
             }
 
             append(" | ")
-            append(packageInfo.applicationInfo.targetSdkVersion)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                append(packageInfo.applicationInfo.minSdkVersion)
+                append("..")
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            } else {
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            }
 
             text = toString()
         }

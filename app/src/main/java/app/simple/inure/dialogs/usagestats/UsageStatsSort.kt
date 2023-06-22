@@ -1,5 +1,6 @@
 package app.simple.inure.dialogs.usagestats
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,10 @@ class UsageStatsSort : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
+        }
+
         setSort()
         setSortStyle()
         setApplicationType()
@@ -55,6 +60,9 @@ class UsageStatsSort : ScopedBottomSheetFragment() {
                     }
                     R.id.target_sdk -> {
                         StatisticsPreferences.setSortType(SortUsageStats.TARGET_SDK)
+                    }
+                    R.id.min_sdk -> {
+                        StatisticsPreferences.setSortType(SortUsageStats.MINIMUM_SDK)
                     }
                     R.id.time_used -> {
                         StatisticsPreferences.setSortType(SortUsageStats.TIME_USED)

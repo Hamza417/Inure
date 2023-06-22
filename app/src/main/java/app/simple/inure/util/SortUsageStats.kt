@@ -1,5 +1,7 @@
 package app.simple.inure.util
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
@@ -16,6 +18,7 @@ object SortUsageStats {
     const val INSTALL_DATE = "install_date"
     const val UPDATE_DATE = "update_date"
     const val TARGET_SDK = "target_sdk"
+    const val MINIMUM_SDK = "minimum_sdk"
 
     fun ArrayList<PackageStats>.sortStats() {
         when (StatisticsPreferences.getSortedBy()) {
@@ -51,6 +54,11 @@ object SortUsageStats {
             }
             TARGET_SDK -> {
                 sortByTargetSdk()
+            }
+            MINIMUM_SDK -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    sortByMinimumSdk()
+                }
             }
             else -> {
                 sortByName()
@@ -186,6 +194,19 @@ object SortUsageStats {
         } else {
             this.sortBy {
                 it.packageInfo!!.applicationInfo.targetSdkVersion
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun ArrayList<PackageStats>.sortByMinimumSdk() {
+        return if (StatisticsPreferences.isReverseSorting()) {
+            this.sortByDescending {
+                it.packageInfo!!.applicationInfo.minSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo!!.applicationInfo.minSdkVersion
             }
         }
     }

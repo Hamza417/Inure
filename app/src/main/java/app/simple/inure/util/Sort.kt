@@ -2,6 +2,8 @@ package app.simple.inure.util
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
+import androidx.annotation.RequiresApi
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.toLength
 import java.util.*
@@ -45,6 +47,12 @@ object Sort {
     const val TARGET_SDK = "target_sdk"
 
     /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps min sdk
+     */
+    const val MIN_SDK = "min_sdk"
+
+    /**
      * Sort the given [ArrayList] in various ways
      *
      * @param type use [Sort.NAME] constants
@@ -72,6 +80,11 @@ object Sort {
             }
             TARGET_SDK -> {
                 this.sortByTargetSdk(reverse)
+            }
+            MIN_SDK -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    this.sortByMinSdk(reverse)
+                }
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -107,6 +120,11 @@ object Sort {
             }
             TARGET_SDK -> {
                 (this as ArrayList).sortByTargetSdk(reverse)
+            }
+            MIN_SDK -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    (this as ArrayList).sortByMinSdk(reverse)
+                }
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -208,6 +226,22 @@ object Sort {
         } else {
             this.sortBy {
                 it.applicationInfo.targetSdkVersion
+            }
+        }
+    }
+
+    /**
+     * sort application list by min sdk
+     */
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun ArrayList<PackageInfo>.sortByMinSdk(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.applicationInfo.minSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.applicationInfo.minSdkVersion
             }
         }
     }

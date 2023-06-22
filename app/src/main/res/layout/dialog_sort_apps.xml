@@ -65,6 +65,12 @@
                 android:text="@string/update_date" />
 
             <app.simple.inure.decorations.views.Chip
+                android:id="@+id/min_sdk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/minimum_sdk" />
+
+            <app.simple.inure.decorations.views.Chip
                 android:id="@+id/target_sdk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

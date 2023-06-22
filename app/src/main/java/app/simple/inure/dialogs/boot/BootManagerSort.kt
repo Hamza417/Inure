@@ -1,5 +1,6 @@
 package app.simple.inure.dialogs.boot
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,10 @@ class BootManagerSort : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
+        }
+
         setSortChipGroup()
         setSortStyleChipGroup()
         setApplicationTypeChipGroup()
@@ -60,6 +65,9 @@ class BootManagerSort : ScopedBottomSheetFragment() {
             SortBootManager.TARGET_SDK -> {
                 sortChipGroup.check(R.id.target_sdk)
             }
+            SortBootManager.MIN_SDK -> {
+                sortChipGroup.check(R.id.min_sdk)
+            }
         }
 
         sortChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -82,6 +90,9 @@ class BootManagerSort : ScopedBottomSheetFragment() {
                     }
                     R.id.target_sdk -> {
                         BootManagerPreferences.setSortStyle(SortBootManager.TARGET_SDK)
+                    }
+                    R.id.min_sdk -> {
+                        BootManagerPreferences.setSortStyle(SortBootManager.MIN_SDK)
                     }
                 }
             }

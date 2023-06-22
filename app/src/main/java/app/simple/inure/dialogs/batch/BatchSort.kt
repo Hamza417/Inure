@@ -1,5 +1,6 @@
 package app.simple.inure.dialogs.batch
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,10 @@ class BatchSort : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
+        }
 
         setSortChipGroup()
         setSortStyleChipGroup()
@@ -159,6 +164,9 @@ class BatchSort : ScopedBottomSheetFragment() {
             Sort.PACKAGE_NAME -> {
                 sortChipGroup.check(R.id.package_name)
             }
+            Sort.MIN_SDK -> {
+                sortChipGroup.check(R.id.min_sdk)
+            }
         }
 
         sortChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -181,6 +189,9 @@ class BatchSort : ScopedBottomSheetFragment() {
                     }
                     R.id.package_name -> {
                         BatchPreferences.setSortStyle(Sort.PACKAGE_NAME)
+                    }
+                    R.id.min_sdk -> {
+                        BatchPreferences.setSortStyle(Sort.MIN_SDK)
                     }
                 }
             }

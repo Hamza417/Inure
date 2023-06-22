@@ -46,6 +46,10 @@ class AppsSort : ScopedBottomSheetFragment() {
             view.findViewById<View>(R.id.category_title).visibility = View.GONE
         }
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
+        }
+
         setAppsFilter()
 
         when (AppsPreferences.getSortStyle()) {
@@ -66,6 +70,11 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
             Sort.TARGET_SDK -> {
                 sortChipGroup.check(R.id.target_sdk)
+            }
+            Sort.MIN_SDK -> {
+                kotlin.runCatching { // Probably not needed
+                    sortChipGroup.check(R.id.min_sdk)
+                }
             }
         }
 
@@ -107,6 +116,9 @@ class AppsSort : ScopedBottomSheetFragment() {
                     }
                     R.id.target_sdk -> {
                         AppsPreferences.setSortStyle(Sort.TARGET_SDK)
+                    }
+                    R.id.min_sdk -> {
+                        AppsPreferences.setSortStyle(Sort.MIN_SDK)
                     }
                 }
             }

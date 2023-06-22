@@ -1,5 +1,6 @@
 package app.simple.inure.dialogs.batteryoptimizations
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort
+import app.simple.inure.util.SortBatteryOptimization
 import com.google.android.material.chip.ChipGroup
 
 class BatteryOptimizationSort : ScopedBottomSheetFragment() {
@@ -33,6 +35,10 @@ class BatteryOptimizationSort : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
+        }
 
         setSortChipGroup()
         setSortStyleChipGroup()
@@ -124,23 +130,26 @@ class BatteryOptimizationSort : ScopedBottomSheetFragment() {
 
     private fun setSortChipGroup() {
         when (BatteryOptimizationPreferences.getSortStyle()) {
-            Sort.NAME -> {
+            SortBatteryOptimization.NAME -> {
                 sortChipGroup.check(R.id.name)
             }
-            Sort.PACKAGE_NAME -> {
+            SortBatteryOptimization.PACKAGE_NAME -> {
                 sortChipGroup.check(R.id.package_name)
             }
-            Sort.INSTALL_DATE -> {
+            SortBatteryOptimization.INSTALL_DATE -> {
                 sortChipGroup.check(R.id.install_date)
             }
-            Sort.UPDATE_DATE -> {
+            SortBatteryOptimization.UPDATE_DATE -> {
                 sortChipGroup.check(R.id.update_date)
             }
-            Sort.SIZE -> {
+            SortBatteryOptimization.SIZE -> {
                 sortChipGroup.check(R.id.size)
             }
-            Sort.TARGET_SDK -> {
+            SortBatteryOptimization.TARGET_SDK -> {
                 sortChipGroup.check(R.id.target_sdk)
+            }
+            SortBatteryOptimization.MIN_SDK -> {
+                sortChipGroup.check(R.id.min_sdk)
             }
         }
 
@@ -164,6 +173,9 @@ class BatteryOptimizationSort : ScopedBottomSheetFragment() {
                     }
                     R.id.target_sdk -> {
                         BatteryOptimizationPreferences.setSortStyle(Sort.TARGET_SDK)
+                    }
+                    R.id.min_sdk -> {
+                        BatteryOptimizationPreferences.setSortStyle(Sort.MIN_SDK)
                     }
                 }
             }
