@@ -16,8 +16,6 @@ import app.simple.inure.dialogs.batteryoptimizations.BatteryOptimizationSwitch.C
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
-import app.simple.inure.popups.battery.PopupBatteryOptimizationCategory
-import app.simple.inure.popups.battery.PopupBatteryOptimizationSortingStyle
 import app.simple.inure.popups.battery.PopupOptimizationSwitch
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -64,14 +62,6 @@ class BatteryOptimization : ScopedFragment() {
             adapterBatteryOptimization = AdapterBatteryOptimization(batteryOptimizationModelArrayList)
 
             adapterBatteryOptimization.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onFilterPressed(view: View) {
-                    PopupBatteryOptimizationCategory(view)
-                }
-
-                override fun onSortPressed(view: View) {
-                    PopupBatteryOptimizationSortingStyle(view)
-                }
-
                 override fun onSearchPressed(view: View) {
                     openFragmentSlide(Search.newInstance(true), "search")
                 }
@@ -114,14 +104,15 @@ class BatteryOptimization : ScopedFragment() {
                     R.drawable.ic_filter -> {
                         childFragmentManager.showBatteryOptimizationSort()
                     }
-                    R.drawable.ic_sort -> {
-                        PopupBatteryOptimizationSortingStyle(view)
-                    }
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), "search")
                     }
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "preferences")
+                    }
+                    R.drawable.ic_refresh -> {
+                        showLoader(manualOverride = true)
+                        batteryOptimizationViewModel.refresh()
                     }
                 }
             }
