@@ -34,6 +34,18 @@ object SortBootManager {
     const val INSTALL_DATE = "install_date"
 
     /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps update date
+     */
+    const val UPDATE_DATE = "update_date"
+
+    /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps target sdk
+     */
+    const val TARGET_SDK = "target_sdk"
+
+    /**
      * Sort the given [ArrayList] in various ways
      *
      * @param type use [Sort.NAME] constants
@@ -43,18 +55,24 @@ object SortBootManager {
      *                                  is specified correctly
      */
     fun ArrayList<BootManagerModel>.getSortedList() {
-        when (BootManagerPreferences.getSortingStyle()) {
-            SortBatteryOptimization.NAME -> {
+        when (BootManagerPreferences.getSortStyle()) {
+            NAME -> {
                 this.sortByName(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.PACKAGE_NAME -> {
+            PACKAGE_NAME -> {
                 this.sortByPackageName(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.SIZE -> {
+            SIZE -> {
                 this.sortBySize(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.INSTALL_DATE -> {
+            INSTALL_DATE -> {
                 this.sortByInstallDate(BootManagerPreferences.isSortingReversed())
+            }
+            UPDATE_DATE -> {
+                this.sortByUpdateDate(BootManagerPreferences.isSortingReversed())
+            }
+            TARGET_SDK -> {
+                this.sortByTargetSdk(BootManagerPreferences.isSortingReversed())
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -72,18 +90,24 @@ object SortBootManager {
      *                                  is specified correctly
      */
     fun MutableList<BootManagerModel>.getSortedList() {
-        when (BootManagerPreferences.getSortingStyle()) {
-            SortBatteryOptimization.NAME -> {
+        when (BootManagerPreferences.getSortStyle()) {
+            NAME -> {
                 (this as ArrayList).sortByName(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.PACKAGE_NAME -> {
+            PACKAGE_NAME -> {
                 (this as ArrayList).sortByPackageName(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.SIZE -> {
+            SIZE -> {
                 (this as ArrayList).sortBySize(BootManagerPreferences.isSortingReversed())
             }
-            SortBatteryOptimization.INSTALL_DATE -> {
+            INSTALL_DATE -> {
                 (this as ArrayList).sortByInstallDate(BootManagerPreferences.isSortingReversed())
+            }
+            UPDATE_DATE -> {
+                (this as ArrayList).sortByUpdateDate(BootManagerPreferences.isSortingReversed())
+            }
+            TARGET_SDK -> {
+                (this as ArrayList).sortByTargetSdk(BootManagerPreferences.isSortingReversed())
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -137,7 +161,7 @@ object SortBootManager {
     }
 
     /**
-     * sort application list alphabetically
+     * sort application list by install date
      */
     private fun ArrayList<BootManagerModel>.sortByInstallDate(reverse: Boolean) {
         return if (reverse) {
@@ -147,6 +171,36 @@ object SortBootManager {
         } else {
             this.sortBy {
                 it.packageInfo.firstInstallTime
+            }
+        }
+    }
+
+    /**
+     * sort application list by update date
+     */
+    private fun ArrayList<BootManagerModel>.sortByUpdateDate(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.packageInfo.lastUpdateTime
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo.lastUpdateTime
+            }
+        }
+    }
+
+    /**
+     * sort application list by target sdk
+     */
+    private fun ArrayList<BootManagerModel>.sortByTargetSdk(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.packageInfo.applicationInfo.targetSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo.applicationInfo.targetSdkVersion
             }
         }
     }

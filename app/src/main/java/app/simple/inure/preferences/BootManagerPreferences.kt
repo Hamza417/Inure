@@ -8,14 +8,15 @@ object BootManagerPreferences {
     const val sortingStyle = "boot_manager_sorting_style"
     const val sortingReversed = "boot_manager_sorting_reversed"
     const val appsCategory = "boot_manager_apps_category"
+    const val filter = "boot_manager_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortingStyle(value: String) {
+    fun setSortStyle(value: String) {
         SharedPreferences.getSharedPreferences().edit().putString(sortingStyle, value).apply()
     }
 
-    fun getSortingStyle(): String {
+    fun getSortStyle(): String {
         return SharedPreferences.getSharedPreferences().getString(sortingStyle, SortBootManager.NAME)!!
     }
 
@@ -37,5 +38,15 @@ object BootManagerPreferences {
 
     fun getAppsCategory(): String {
         return SharedPreferences.getSharedPreferences().getString(appsCategory, SortConstant.BOTH)!!
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setFilter(value: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(filter, value).apply()
+    }
+
+    fun getFilter(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(filter, SortConstant.ALL_BOOT_STATES)
     }
 }

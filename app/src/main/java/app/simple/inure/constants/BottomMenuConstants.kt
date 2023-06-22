@@ -44,7 +44,7 @@ object BottomMenuConstants {
     )
 
     private val bootManagerBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
-            Pair(R.drawable.ic_sort, R.string.sort),
+            // Pair(R.drawable.ic_sort, R.string.sort),
             Pair(R.drawable.ic_filter, R.string.filter),
             Pair(R.drawable.ic_settings, R.string.preferences),
             divider,

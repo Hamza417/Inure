@@ -47,4 +47,8 @@ object SortConstant {
     const val BATCH_ENABLED = 4
     const val BATCH_DISABLED = 8
     const val ALL_BATCH_STATES = BATCH_SELECTED or BATCH_NOT_SELECTED or BATCH_ENABLED or BATCH_DISABLED
+
+    const val BOOT_ENABLED = 1
+    const val BOOT_DISABLED = 2
+    const val ALL_BOOT_STATES = BOOT_ENABLED or BOOT_DISABLED
 }

@@ -103,7 +103,7 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
                 }
             }
 
-            holder.sorting.text = when (BootManagerPreferences.getSortingStyle()) {
+            holder.sorting.text = when (BootManagerPreferences.getSortStyle()) {
                 SortBatteryOptimization.NAME -> {
                     holder.getString(R.string.name)
                 }

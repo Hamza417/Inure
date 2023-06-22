@@ -13,14 +13,13 @@ import app.simple.inure.adapters.ui.AdapterBootManager
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.boot.BootManagerSort.Companion.showBootManagerSort
 import app.simple.inure.dialogs.bootmanager.BootComponentSelector
 import app.simple.inure.dialogs.bootmanager.BootComponentSelector.Companion.showBootComponentSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.popups.bootmanager.PopupBootManager
-import app.simple.inure.popups.bootmanager.PopupBootManagerAppsCategory
-import app.simple.inure.popups.bootmanager.PopupBootManagerSortingStyle
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.BootManagerViewModel
@@ -101,10 +100,7 @@ class BootManager : ScopedFragment() {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
                     R.drawable.ic_filter -> {
-                        PopupBootManagerAppsCategory(view)
-                    }
-                    R.drawable.ic_sort -> {
-                        PopupBootManagerSortingStyle(view)
+                        childFragmentManager.showBootManagerSort()
                     }
                 }
             }
@@ -121,10 +117,12 @@ class BootManager : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BootManagerPreferences.appsCategory -> {
+            BootManagerPreferences.appsCategory,
+            BootManagerPreferences.filter -> {
                 bootManagerViewModel?.reloadBootComponentData()
             }
-            BootManagerPreferences.sortingStyle, BootManagerPreferences.sortingReversed -> {
+            BootManagerPreferences.sortingStyle,
+            BootManagerPreferences.sortingReversed -> {
                 bootManagerViewModel?.sortBootComponentData()
             }
         }

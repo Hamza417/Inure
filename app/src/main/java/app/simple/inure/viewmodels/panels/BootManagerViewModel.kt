@@ -18,6 +18,7 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.preferences.BootManagerPreferences
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortBootManager.getSortedList
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +116,23 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
 
             bootManagerModelArrayList.getSortedList()
 
-            bootComponentData.postValue(bootManagerModelArrayList)
+            var filteredList = ArrayList<BootManagerModel>()
+
+            if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_ENABLED)) {
+                filteredList.addAll(bootManagerModelArrayList.stream().filter { p ->
+                    p.enabledComponents.isNotEmpty() && p.disabledComponents.isEmpty()
+                }.collect(Collectors.toList()) as ArrayList<BootManagerModel>)
+            }
+
+            if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_DISABLED)) {
+                filteredList.addAll(bootManagerModelArrayList.stream().filter { p ->
+                    p.disabledComponents.isNotEmpty() && p.enabledComponents.isEmpty()
+                }.collect(Collectors.toList()) as ArrayList<BootManagerModel>)
+            }
+
+            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<BootManagerModel>
+
+            bootComponentData.postValue(filteredList)
 
             // This method is also valid but it's not as efficient as the above method
             //
