@@ -2,13 +2,14 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
 
 object SDKHelper {
 
-    const val totalSDKs = 32
+    const val totalSDKs = Build.VERSION_CODES.UPSIDE_DOWN_CAKE // Max SDK code
 
     /**
      * List of all SDK names of Android since the beginning
@@ -189,6 +190,7 @@ object SDKHelper {
             31 -> getColor(context, R.color.android_12)
             32 -> getColor(context, R.color.android_12L)
             33 -> getColor(context, R.color.android_13)
+            34 -> getColor(context, R.color.android_14)
             else -> Color.WHITE
         }
     }

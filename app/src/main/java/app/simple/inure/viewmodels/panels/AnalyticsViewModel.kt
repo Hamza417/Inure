@@ -39,7 +39,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         return minimumOsData
     }
 
-    fun getTargetOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
+    fun getTargetSDKData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return targetOsData
     }
 

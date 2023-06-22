@@ -96,7 +96,7 @@ class Analytics : ScopedFragment() {
             minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
-        analyticsViewModel.getTargetOsData().observe(viewLifecycleOwner) {
+        analyticsViewModel.getTargetSDKData().observe(viewLifecycleOwner) {
             targetOsPie.apply {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
