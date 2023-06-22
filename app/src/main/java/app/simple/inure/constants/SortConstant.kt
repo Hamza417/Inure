@@ -41,4 +41,10 @@ object SortConstant {
     const val OPTIMIZED = 1
     const val NOT_OPTIMIZED = 2
     const val ALL_OPTIMIZATION_STATES = OPTIMIZED or NOT_OPTIMIZED
+
+    const val BATCH_SELECTED = 1
+    const val BATCH_NOT_SELECTED = 2
+    const val BATCH_ENABLED = 4
+    const val BATCH_DISABLED = 8
+    const val ALL_BATCH_STATES = BATCH_SELECTED or BATCH_NOT_SELECTED or BATCH_ENABLED or BATCH_DISABLED
 }

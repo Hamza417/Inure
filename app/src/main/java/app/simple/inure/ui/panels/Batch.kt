@@ -18,6 +18,7 @@ import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchMenu
+import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
@@ -27,8 +28,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.popups.batch.PopupBatchAppsCategory
-import app.simple.inure.popups.batch.PopupBatchSortingStyle
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.ui.viewers.HtmlViewer
@@ -110,11 +109,8 @@ class Batch : ScopedFragment() {
                         batchViewModel.selectAllBatchItems()
                     }
                 }
-                R.drawable.ic_sort -> {
-                    PopupBatchSortingStyle(view)
-                }
                 R.drawable.ic_filter -> {
-                    PopupBatchAppsCategory(view)
+                    childFragmentManager.showBatchSort()
                 }
                 R.drawable.ic_search -> {
                     openFragmentSlide(Search.newInstance(true), "search")
@@ -228,7 +224,8 @@ class Batch : ScopedFragment() {
             }
             BatchPreferences.isSortingReversed,
             BatchPreferences.listAppsCategory,
-            BatchPreferences.sortStyle -> {
+            BatchPreferences.sortStyle,
+            BatchPreferences.listAppsFilter -> {
                 batchViewModel.refresh()
             }
         }

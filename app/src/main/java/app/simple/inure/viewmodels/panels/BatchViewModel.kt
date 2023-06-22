@@ -14,6 +14,7 @@ import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +44,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         return selectedApps
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
@@ -66,7 +68,36 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             apps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
 
-            batchData.postValue(getBatchStateData(apps))
+            val list = getBatchStateData(apps.clone() as ArrayList<PackageInfo>)
+            var filtered = arrayListOf<BatchPackageInfo>()
+
+            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SELECTED)) {
+                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
+                    it.isSelected
+                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_NOT_SELECTED)) {
+                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
+                    !it.isSelected
+                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_ENABLED)) {
+                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
+                    it.packageInfo.applicationInfo.enabled
+                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_DISABLED)) {
+                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
+                    !it.packageInfo.applicationInfo.enabled
+                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
+            }
+
+            filtered = filtered.stream().distinct().collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+
+            batchData.postValue(filtered)
         }
     }
 
