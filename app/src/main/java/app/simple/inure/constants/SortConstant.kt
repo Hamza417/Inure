@@ -37,4 +37,8 @@ object SortConstant {
                 CATEGORY_MAPS or
                 CATEGORY_PRODUCTIVITY or
                 CATEGORY_ACCESSIBILITY
+
+    const val OPTIMIZED = 1
+    const val NOT_OPTIMIZED = 2
+    const val ALL_OPTIMIZATION_STATES = OPTIMIZED or NOT_OPTIMIZED
 }

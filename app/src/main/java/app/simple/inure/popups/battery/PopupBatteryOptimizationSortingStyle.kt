@@ -34,27 +34,27 @@ class PopupBatteryOptimizationSortingStyle(view: View) : BasePopupWindow() {
         size.onClick(Sort.SIZE)
         installDate.onClick(Sort.INSTALL_DATE)
 
-        when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+        when (BatteryOptimizationPreferences.getSortStyle()) {
             Sort.NAME -> name.isSelected = true
             Sort.INSTALL_DATE -> installDate.isSelected = true
             Sort.SIZE -> size.isSelected = true
             Sort.PACKAGE_NAME -> packageName.isSelected = true
         }
 
-        reversedCheckBox.setChecked(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+        reversedCheckBox.setChecked(BatteryOptimizationPreferences.isSortingReversed())
 
         contentView.findViewById<DynamicRippleTextView>(R.id.sort_reversed).setOnClickListener {
             reversedCheckBox.toggle()
         }
 
         reversedCheckBox.setOnCheckedChangeListener { isChecked ->
-            BatteryOptimizationPreferences.setBatteryOptimizationIsSortingReversed(isChecked)
+            BatteryOptimizationPreferences.setSortingReversed(isChecked)
         }
     }
 
     private fun TextView.onClick(style: String) {
         this.setOnClickListener {
-            BatteryOptimizationPreferences.setBatteryOptimizationSortStyle(style)
+            BatteryOptimizationPreferences.setSortStyle(style)
             dismiss()
         }
     }

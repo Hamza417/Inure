@@ -18,6 +18,8 @@ import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SortBatteryOptimization.getSortedList
 import com.topjohnwu.superuser.Shell
@@ -53,7 +55,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
         viewModelScope.launch(Dispatchers.IO) {
             var apps = getInstalledPackages()
 
-            when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+            when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
@@ -100,14 +102,28 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                             }
                         }
 
-                        for (app in batteryOptimizationArrayList) {
+                        var filtered = arrayListOf<BatteryOptimizationModel>()
+
+                        if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
+                            filtered = batteryOptimizationArrayList.stream().filter {
+                                it.isOptimized
+                            }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
+                        }
+
+                        if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.NOT_OPTIMIZED)) {
+                            filtered = batteryOptimizationArrayList.stream().filter {
+                                it.isOptimized.invert()
+                            }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
+                        }
+
+                        for (app in filtered) {
                             kotlin.runCatching {
                                 app.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
                             }
                         }
 
-                        batteryOptimizationArrayList.getSortedList()
-                        batteryOptimizationData.postValue(batteryOptimizationArrayList)
+                        filtered.getSortedList()
+                        batteryOptimizationData.postValue(filtered)
                     }
                 }
             }.getOrElse {
@@ -125,7 +141,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                 packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
             }
 
-            when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+            when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
@@ -172,14 +188,28 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         }
                     }
 
-                    for (app in batteryOptimizationArrayList) {
+                    var filtered = arrayListOf<BatteryOptimizationModel>()
+
+                    if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
+                        filtered = batteryOptimizationArrayList.stream().filter {
+                            it.isOptimized
+                        }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
+                    }
+
+                    if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.NOT_OPTIMIZED)) {
+                        filtered = batteryOptimizationArrayList.stream().filter {
+                            it.isOptimized.invert()
+                        }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
+                    }
+
+                    for (app in filtered) {
                         kotlin.runCatching {
                             app.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
                         }
                     }
 
-                    batteryOptimizationArrayList.getSortedList()
-                    batteryOptimizationData.postValue(batteryOptimizationArrayList)
+                    filtered.getSortedList()
+                    batteryOptimizationData.postValue(filtered)
                 }
             }.getOrElse {
                 postError(it)

@@ -79,7 +79,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
-            holder.category.text = when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+            holder.category.text = when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.USER -> {
                     holder.getString(R.string.user)
                 }
@@ -98,7 +98,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 }
             }
 
-            holder.sorting.text = when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+            holder.sorting.text = when (BatteryOptimizationPreferences.getSortStyle()) {
                 SortBatteryOptimization.NAME -> {
                     holder.getString(R.string.name)
                 }

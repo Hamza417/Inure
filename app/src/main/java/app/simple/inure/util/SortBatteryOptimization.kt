@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
+import app.simple.inure.util.FileSizeHelper.toLength
 import java.util.*
 
 object SortBatteryOptimization {
@@ -34,21 +35,39 @@ object SortBatteryOptimization {
     const val INSTALL_DATE = "install_date"
 
     /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps update date
+     */
+    const val UPDATE_DATE = "update_date"
+
+    /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * apps target sdk
+     */
+    const val TARGET_SDK = "target_sdk"
+
+    /**
      * Sort the given [ArrayList] in various ways
      */
     fun ArrayList<BatteryOptimizationModel>.getSortedList() {
-        when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+        when (BatteryOptimizationPreferences.getSortStyle()) {
             NAME -> {
-                this.sortByName(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                this.sortByName(BatteryOptimizationPreferences.isSortingReversed())
             }
             PACKAGE_NAME -> {
-                this.sortByPackageName(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                this.sortByPackageName(BatteryOptimizationPreferences.isSortingReversed())
             }
             SIZE -> {
-                this.sortBySize(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                this.sortBySize(BatteryOptimizationPreferences.isSortingReversed())
             }
             INSTALL_DATE -> {
-                this.sortByInstallDate(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                this.sortByInstallDate(BatteryOptimizationPreferences.isSortingReversed())
+            }
+            UPDATE_DATE -> {
+                this.sortByUpdateDate(BatteryOptimizationPreferences.isSortingReversed())
+            }
+            TARGET_SDK -> {
+                this.sortByTargetSdk(BatteryOptimizationPreferences.isSortingReversed())
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -60,18 +79,24 @@ object SortBatteryOptimization {
      * Sort the given [ArrayList] in various ways
      */
     fun MutableList<BatteryOptimizationModel>.getSortedList() {
-        when (BatteryOptimizationPreferences.getBatteryOptimizationSortStyle()) {
+        when (BatteryOptimizationPreferences.getSortStyle()) {
             NAME -> {
-                (this as ArrayList).sortByName(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                (this as ArrayList).sortByName(BatteryOptimizationPreferences.isSortingReversed())
             }
             PACKAGE_NAME -> {
-                (this as ArrayList).sortByPackageName(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                (this as ArrayList).sortByPackageName(BatteryOptimizationPreferences.isSortingReversed())
             }
             SIZE -> {
-                (this as ArrayList).sortBySize(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                (this as ArrayList).sortBySize(BatteryOptimizationPreferences.isSortingReversed())
             }
             INSTALL_DATE -> {
-                (this as ArrayList).sortByInstallDate(BatteryOptimizationPreferences.isBatteryOptimizationSortingReversed())
+                (this as ArrayList).sortByInstallDate(BatteryOptimizationPreferences.isSortingReversed())
+            }
+            UPDATE_DATE -> {
+                (this as ArrayList).sortByUpdateDate(BatteryOptimizationPreferences.isSortingReversed())
+            }
+            TARGET_SDK -> {
+                (this as ArrayList).sortByTargetSdk(BatteryOptimizationPreferences.isSortingReversed())
             }
             else -> {
                 throw IllegalArgumentException("use default sorting constants to sort the list")
@@ -100,11 +125,19 @@ object SortBatteryOptimization {
     private fun ArrayList<BatteryOptimizationModel>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+                if (it.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.packageInfo.applicationInfo.sourceDir.toLength()
+                } else {
+                    it.packageInfo.applicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.applicationInfo.sourceDir.toLength()
+                }
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+                if (it.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.packageInfo.applicationInfo.sourceDir.toLength()
+                } else {
+                    it.packageInfo.applicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.applicationInfo.sourceDir.toLength()
+                }
             }
         }
     }
@@ -139,4 +172,33 @@ object SortBatteryOptimization {
         }
     }
 
+    /**
+     * sort application list by update date
+     */
+    private fun ArrayList<BatteryOptimizationModel>.sortByUpdateDate(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.packageInfo.lastUpdateTime
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo.lastUpdateTime
+            }
+        }
+    }
+
+    /**
+     * sort application list by target sdk
+     */
+    private fun ArrayList<BatteryOptimizationModel>.sortByTargetSdk(reverse: Boolean) {
+        return if (reverse) {
+            this.sortByDescending {
+                it.packageInfo.applicationInfo.targetSdkVersion
+            }
+        } else {
+            this.sortBy {
+                it.packageInfo.applicationInfo.targetSdkVersion
+            }
+        }
+    }
 }

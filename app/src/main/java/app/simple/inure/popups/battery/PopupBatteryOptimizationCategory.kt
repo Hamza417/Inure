@@ -27,7 +27,7 @@ class PopupBatteryOptimizationCategory(view: View) : BasePopupWindow() {
         user.onClick(SortConstant.USER)
         both.onClick(SortConstant.BOTH)
 
-        when (BatteryOptimizationPreferences.getBatteryOptimizationCategory()) {
+        when (BatteryOptimizationPreferences.getApplicationType()) {
             SortConstant.USER -> user.isSelected = true
             SortConstant.SYSTEM -> system.isSelected = true
             SortConstant.BOTH -> both.isSelected = true
@@ -38,7 +38,7 @@ class PopupBatteryOptimizationCategory(view: View) : BasePopupWindow() {
 
     private fun TextView.onClick(category: String) {
         this.setOnClickListener {
-            BatteryOptimizationPreferences.setBatteryOptimizationCategory(category)
+            BatteryOptimizationPreferences.setApplicationType(category)
             dismiss()
         }
     }

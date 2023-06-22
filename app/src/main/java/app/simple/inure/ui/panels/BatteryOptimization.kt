@@ -11,6 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatteryOptimization
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.batteryoptimizations.BatteryOptimizationSort.Companion.showBatteryOptimizationSort
 import app.simple.inure.dialogs.batteryoptimizations.BatteryOptimizationSwitch.Companion.showBatteryOptimizationSwitch
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -111,7 +112,7 @@ class BatteryOptimization : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_filter -> {
-                        PopupBatteryOptimizationCategory(view)
+                        childFragmentManager.showBatteryOptimizationSort()
                     }
                     R.drawable.ic_sort -> {
                         PopupBatteryOptimizationSortingStyle(view)
@@ -135,7 +136,8 @@ class BatteryOptimization : ScopedFragment() {
         when (key) {
             BatteryOptimizationPreferences.batteryOptimizationSortStyle,
             BatteryOptimizationPreferences.batteryOptimizationIsSortingReversed,
-            BatteryOptimizationPreferences.batteryOptimizationCategory -> {
+            BatteryOptimizationPreferences.batteryOptimizationCategory,
+            BatteryOptimizationPreferences.batteryOptimizationFilter -> {
                 batteryOptimizationViewModel.refresh()
             }
         }

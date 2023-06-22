@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_margin="@dimen/dialog_padding"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort"
+            android:textSize="@dimen/preferences_title_text_size"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/sort_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:checkedChip="@id/name"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/package_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/package_name" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_size" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/install_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/install_date" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/update_date" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/target_sdk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/target_sdk" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sorting_style"
+            android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/sorting_style_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:singleSelection="true">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/ascending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ascending" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/descending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/descending" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/application_type"
+            android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filter_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:singleSelection="true">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/both" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/system"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/system" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/category_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/apps_category"
+            android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/category_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
+            app:singleSelection="false">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/unspecified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unspecified" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/video" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/image" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/social"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/social" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/news" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/maps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/maps" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/productivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/productivity" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/accessibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accessibility" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textSize="@dimen/preferences_title_text_size"
+            android:layout_marginTop="5dp"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/application_type_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="5dp"
+            app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:singleSelection="false">
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/disabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/disabled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enabled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/uninstalled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uninstalled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/apk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apk" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/split"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/split_packages" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/combine_flags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/combine_flags" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+</FrameLayout>
