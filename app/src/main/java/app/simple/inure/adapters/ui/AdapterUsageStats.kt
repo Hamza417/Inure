@@ -159,6 +159,21 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
                 SortUsageStats.TIME_USED -> {
                     holder.getString(R.string.time_used)
                 }
+                SortUsageStats.APP_SIZE -> {
+                    holder.getString(R.string.app_size)
+                }
+                SortUsageStats.PACKAGE_NAME -> {
+                    holder.getString(R.string.package_name)
+                }
+                SortUsageStats.INSTALL_DATE -> {
+                    holder.getString(R.string.install_date)
+                }
+                SortUsageStats.UPDATE_DATE -> {
+                    holder.getString(R.string.update_date)
+                }
+                SortUsageStats.TARGET_SDK -> {
+                    holder.getString(R.string.target_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }

@@ -27,6 +27,7 @@ object DevelopmentPreferences {
     const val oldStyleScrollingBehaviorDialog = "is_old_style_scrolling_behavior_dialog_enabled"
     const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
     const val showCompleteAppSize = "is_complete_app_size_shown"
+    const val removeStrokeFromChips = "is_stroke_removed_from_chips"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -145,8 +146,13 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Show Complete App Size",
-                                            "Show complete app size including cache, data, obb, etc. in the various panels of the app.",
+                                            "Show complete app size including cache, data, obb, etc. in the various panels of the app.\n\nCan cause some performance issues.",
                                             showCompleteAppSize,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Remove Stroke From Chips",
+                                            "Remove stroke from chips in the app's sorting GUI.",
+                                            removeStrokeFromChips,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

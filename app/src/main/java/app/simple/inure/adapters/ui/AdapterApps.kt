@@ -119,6 +119,9 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
                 Sort.UPDATE_DATE -> {
                     holder.getString(R.string.update_date)
                 }
+                Sort.TARGET_SDK -> {
+                    holder.getString(R.string.target_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }

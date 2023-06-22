@@ -16,11 +16,8 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
+import app.simple.inure.util.*
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.LocaleHelper
-import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.SortBatteryOptimization
-import app.simple.inure.util.StatusBarHeight
 
 class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -110,6 +107,12 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 }
                 SortBatteryOptimization.INSTALL_DATE -> {
                     holder.getString(R.string.install_date)
+                }
+                SortBatteryOptimization.UPDATE_DATE -> {
+                    holder.getString(R.string.update_date)
+                }
+                SortBatteryOptimization.TARGET_SDK -> {
+                    holder.getString(R.string.target_sdk)
                 }
                 else -> {
                     holder.getString(R.string.unknown)

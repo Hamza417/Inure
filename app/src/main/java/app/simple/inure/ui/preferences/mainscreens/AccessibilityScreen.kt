@@ -18,6 +18,8 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.appearances.PopupPalettes
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.util.TextViewUtils.makeLinks
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class AccessibilityScreen : ScopedFragment() {
 
@@ -69,9 +71,9 @@ class AccessibilityScreen : ScopedFragment() {
         paletteRecyclerView.adapter = AdapterColorPalette()
 
         if (highlight.isChecked()) {
-            strokeContainer.alpha = 1F
+            strokeContainer.visible(false)
         } else {
-            strokeContainer.alpha = 0.4F
+            strokeContainer.gone()
         }
 
         if (colorfulIcons.isChecked()) {
@@ -87,17 +89,9 @@ class AccessibilityScreen : ScopedFragment() {
             AccessibilityPreferences.setHighlightMode(it)
             stroke.isEnabled = it
             if (it) {
-                strokeContainer.animate()
-                    .alpha(1F)
-                    .setDuration(getInteger(R.integer.animation_duration).toLong())
-                    .setInterpolator(DecelerateInterpolator(1.5F))
-                    .start()
+                strokeContainer.visible(false)
             } else {
-                strokeContainer.animate()
-                    .alpha(0.4F)
-                    .setDuration(getInteger(R.integer.animation_duration).toLong())
-                    .setInterpolator(DecelerateInterpolator(1.5F))
-                    .start()
+                strokeContainer.gone()
             }
         }
 

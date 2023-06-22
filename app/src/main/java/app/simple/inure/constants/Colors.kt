@@ -167,4 +167,10 @@ object Colors {
             else -> getPastelColor()
         }
     }
+
+    fun getColorsTwice(): ArrayList<Int> {
+        val colors = getColors()
+        colors.addAll(colors)
+        return colors
+    }
 }
