@@ -122,6 +122,9 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
                 Sort.TARGET_SDK -> {
                     holder.getString(R.string.target_sdk)
                 }
+                Sort.MIN_SDK -> {
+                    holder.getString(R.string.minimum_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }

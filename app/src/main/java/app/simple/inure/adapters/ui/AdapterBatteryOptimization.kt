@@ -114,6 +114,9 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 SortBatteryOptimization.TARGET_SDK -> {
                     holder.getString(R.string.target_sdk)
                 }
+                SortBatteryOptimization.MIN_SDK -> {
+                    holder.getString(R.string.minimum_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }

@@ -174,6 +174,9 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
                 SortUsageStats.TARGET_SDK -> {
                     holder.getString(R.string.target_sdk)
                 }
+                SortUsageStats.MINIMUM_SDK -> {
+                    holder.getString(R.string.minimum_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }

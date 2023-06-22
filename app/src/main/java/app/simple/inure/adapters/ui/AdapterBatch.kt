@@ -147,6 +147,15 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 Sort.SIZE -> {
                     holder.getString(R.string.app_size)
                 }
+                Sort.UPDATE_DATE -> {
+                    holder.getString(R.string.update_date)
+                }
+                Sort.TARGET_SDK -> {
+                    holder.getString(R.string.target_sdk)
+                }
+                Sort.MIN_SDK -> {
+                    holder.getString(R.string.minimum_sdk)
+                }
                 else -> {
                     holder.getString(R.string.unknown)
                 }
