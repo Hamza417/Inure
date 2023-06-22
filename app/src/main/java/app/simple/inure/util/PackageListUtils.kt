@@ -6,7 +6,9 @@ import android.os.Build
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
@@ -26,10 +28,40 @@ object PackageListUtils {
             }
 
             append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(packageInfo.applicationInfo.sourceDir.toSize())
+            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    }
+                } else {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength() +
+                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    }
+                }
             } else {
-                append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() + packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                } else {
+                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                }
             }
             append(" | ")
 
@@ -71,10 +103,40 @@ object PackageListUtils {
             }
 
             append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(packageInfo.applicationInfo.sourceDir.toSize())
+            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    }
+                } else {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength() +
+                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    }
+                }
             } else {
-                append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() + packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                } else {
+                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -100,10 +162,40 @@ object PackageListUtils {
             append(" | ")
             //            append(packageInfo.versionName)
             //            append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(packageInfo.applicationInfo.sourceDir.toSize())
+            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    }
+                } else {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength() +
+                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    }
+                }
             } else {
-                append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() + packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                } else {
+                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                }
             }
             append(" | ")
             if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
@@ -120,10 +212,40 @@ object PackageListUtils {
             append(" | ")
             //            append(packageInfo.versionName)
             //            append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(packageInfo.applicationInfo.sourceDir.toSize())
+            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    }
+                } else {
+                    with(packageInfo.getPackageSize(context)) {
+                        append((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength() +
+                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    }
+                }
             } else {
-                append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() + packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                } else {
+                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                }
             }
             append(" | ")
             if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {

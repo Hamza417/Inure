@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
+import app.simple.inure.util.FileSizeHelper.toLength
 import java.util.*
 
 object Sort {
@@ -134,11 +135,19 @@ object Sort {
     private fun ArrayList<PackageInfo>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.applicationInfo.sourceDir.getDirectoryLength()
+                if (it.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.applicationInfo.sourceDir.toLength()
+                } else {
+                    it.applicationInfo.sourceDir.getDirectoryLength() + it.applicationInfo.sourceDir.toLength()
+                }
             }
         } else {
             this.sortBy {
-                it.applicationInfo.sourceDir.getDirectoryLength()
+                if (it.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.applicationInfo.sourceDir.toLength()
+                } else {
+                    it.applicationInfo.sourceDir.getDirectoryLength() + it.applicationInfo.sourceDir.toLength()
+                }
             }
         }
     }

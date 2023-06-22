@@ -383,7 +383,6 @@ object PackageUtils {
      * Fetches the directory size of this installed application
      * @return [Long] and should be formatted manually
      */
-    @Suppress("unused")
     fun PackageInfo.getPackageSize(context: Context): PackageSizes {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager

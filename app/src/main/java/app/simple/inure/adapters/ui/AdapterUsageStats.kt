@@ -73,32 +73,38 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
             with(list[position].totalTimeUsed) {
                 holder.time.apply {
-                    this.text = when {
-                        TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_seconds,
-                                                   TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_short,
-                                                   TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
-                        }
-                        TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
-                            this.context.getString(R.string.used_for_long,
-                                                   TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                   (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                        }
-                        else -> {
-                            if (isLimitedToHours) {
-                                this.context.getString(R.string.used_for_long,
-                                                       TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                       (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                            } else {
-                                this.context.getString(R.string.used_for_days,
-                                                       TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                       (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
-                                                       (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                            }
-                        }
+                    this.text = buildString {
+                        append(
+                                when {
+                                    TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
+                                        this@apply.context.getString(R.string.used_for_seconds,
+                                                                     TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
+                                    }
+                                    TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
+                                        this@apply.context.getString(R.string.used_for_short,
+                                                                     TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
+                                    }
+                                    TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
+                                        this@apply.context.getString(R.string.used_for_long,
+                                                                     TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                                     (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                    }
+                                    else -> {
+                                        if (isLimitedToHours) {
+                                            this@apply.context.getString(R.string.used_for_long,
+                                                                         TimeUnit.MILLISECONDS.toHours(this@with).toString(),
+                                                                         (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                        } else {
+                                            this@apply.context.getString(R.string.used_for_days,
+                                                                         TimeUnit.MILLISECONDS.toDays(this@with).toString(),
+                                                                         (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
+                                                                         (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
+                                        }
+                                    }
+                                })
+
+                        append(" | ")
+                        append(list[position].appSize.toSize())
                     }
                 }
             }

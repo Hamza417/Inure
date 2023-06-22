@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.dialogs.usagestats.UsageStatsSort.Companion.showUsageStatsSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.usagestats.PopupUsageIntervals
 import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
@@ -21,6 +23,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     private lateinit var interval: DynamicRippleTextView
     private lateinit var unusedAppsToggle: SwitchView
     private lateinit var limitToHours: SwitchView
+    private lateinit var filter: DynamicRippleImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_usage_stats, container, false)
@@ -30,6 +33,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
         interval = view.findViewById(R.id.popup_interval)
         unusedAppsToggle = view.findViewById(R.id.hide_unused_switch)
         limitToHours = view.findViewById(R.id.limit_hours_switch)
+        filter = view.findViewById(R.id.filter)
 
         return view
     }
@@ -56,6 +60,11 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
         limitToHours.setOnSwitchCheckedChangeListener {
             StatisticsPreferences.setLimitToHours(it)
+        }
+
+        filter.setOnClickListener {
+            parentFragmentManager.showUsageStatsSort()
+            dismiss()
         }
 
         settings.setOnClickListener {

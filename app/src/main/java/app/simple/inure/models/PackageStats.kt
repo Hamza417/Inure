@@ -37,4 +37,9 @@ class PackageStats {
      * App usage data
      */
     var appUsage: ArrayList<AppUsageModel>? = null
+
+    /**
+     * Cache size
+     */
+    var appSize = 0L
 }

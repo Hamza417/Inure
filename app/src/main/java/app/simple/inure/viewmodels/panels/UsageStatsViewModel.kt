@@ -8,11 +8,13 @@ import android.content.pm.PackageInfo
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
 import app.simple.inure.preferences.StatisticsPreferences
+import app.simple.inure.util.FileSizeHelper.toLength
 import app.simple.inure.util.SortUsageStats.sortStats
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -139,6 +141,8 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                     packageStats.wifiData = wifiData[uid]
                 } else packageStats.wifiData = DataUsage.EMPTY
 
+                packageStats.appSize = getCacheSize(app)
+
                 list.add(packageStats)
 
                 progress.postValue(list.size)
@@ -224,22 +228,42 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
 
             val packageStats = PackageStats()
             packageStats.packageInfo = packageManager.getPackageInfo(packageName)
-
             packageStats.launchCount = accessCount[packageName] ?: 0
             packageStats.lastUsageTime = lastUse[packageName] ?: 0
             packageStats.totalTimeUsed = screenTimes[packageName] ?: 0
+
             val uid: Int = packageStats.packageInfo?.applicationInfo?.uid!!
 
             if (mobileData.containsKey(uid)) {
                 packageStats.mobileData = mobileData[uid]
-            } else packageStats.mobileData = DataUsage.EMPTY
+            } else {
+                packageStats.mobileData = DataUsage.EMPTY
+            }
+
             if (wifiData.containsKey(uid)) {
                 packageStats.wifiData = wifiData[uid]
-            } else packageStats.wifiData = DataUsage.EMPTY
+            } else {
+                packageStats.wifiData = DataUsage.EMPTY
+            }
 
+            packageStats.appSize = getCacheSize(packageStats.packageInfo!!)
             screenTimeList.add(packageStats)
         }
+
         return screenTimeList
+    }
+
+    private fun getCacheSize(packageInfo: PackageInfo): Long {
+        with(packageInfo.getPackageSize(application)) {
+            return cacheSize +
+                    externalCacheSize +
+                    dataSize +
+                    externalDataSize +
+                    codeSize +
+                    externalCodeSize +
+                    externalObbSize +
+                    packageInfo.applicationInfo.sourceDir.toLength()
+        }
     }
 
     override fun onAppUninstalled(packageName: String?) {

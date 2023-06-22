@@ -26,6 +26,7 @@ object DevelopmentPreferences {
     const val showGreetingInTerminal = "is_greeting_shown_in_terminal"
     const val oldStyleScrollingBehaviorDialog = "is_old_style_scrolling_behavior_dialog_enabled"
     const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
+    const val showCompleteAppSize = "is_complete_app_size_shown"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -141,6 +142,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Alternate Audio Player Interface",
                                             "Use alternate audio player interface with full screen album art and lyrics view\n\nOnly portrait mode is supported.",
                                             useAlternateAudioPlayerInterface,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Show Complete App Size",
+                                            "Show complete app size including cache, data, obb, etc. in the various panels of the app.",
+                                            showCompleteAppSize,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

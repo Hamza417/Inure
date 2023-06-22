@@ -20,18 +20,18 @@ class AppsSort : ScopedBottomSheetFragment() {
 
     private lateinit var sortChipGroup: ChipGroup
     private lateinit var sortStyleChipGroup: ChipGroup
-    private lateinit var filterChipGroup: ChipGroup
     private lateinit var applicationTypeChipGroup: ChipGroup
     private lateinit var categoryChipGroup: ChipGroup
+    private lateinit var filterChipGroup: ChipGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_apps_sort, container, false)
+        val view = inflater.inflate(R.layout.dialog_sort_apps, container, false)
 
         sortChipGroup = view.findViewById(R.id.sort_chip_group)
         sortStyleChipGroup = view.findViewById(R.id.sorting_style_chip_group)
-        filterChipGroup = view.findViewById(R.id.filter_chip_group)
         applicationTypeChipGroup = view.findViewById(R.id.application_type_chip_group)
         categoryChipGroup = view.findViewById(R.id.category_chip_group)
+        filterChipGroup = view.findViewById(R.id.filter_chip_group)
 
         return view
     }

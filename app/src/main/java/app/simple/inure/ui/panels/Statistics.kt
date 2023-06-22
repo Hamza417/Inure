@@ -18,9 +18,9 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission.Companion.showUsageStatsPermissionDialog
 import app.simple.inure.dialogs.usagestats.UsageStatsMenu
+import app.simple.inure.dialogs.usagestats.UsageStatsSort.Companion.showUsageStatsSort
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.popups.usagestats.PopupAppsCategory
 import app.simple.inure.popups.usagestats.PopupUsageStatsSorting
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
@@ -81,7 +81,7 @@ class Statistics : ScopedFragment() {
                         PopupUsageStatsSorting(view)
                     }
                     R.drawable.ic_filter -> {
-                        PopupAppsCategory(view)
+                        childFragmentManager.showUsageStatsSort()
                     }
                     R.drawable.ic_settings -> {
                         UsageStatsMenu.newInstance()
