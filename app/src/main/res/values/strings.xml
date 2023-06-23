@@ -689,5 +689,5 @@
     <string name="combine_flags">Combine Flags</string>
     <string name="selected">Selected</string>
     <string name="package_type">Package Type</string>
-    <string name="info_visibility_customization_desc">Customize the information strip of some main apps' panel lists.</string>
+    <string name="info_visibility_customization_desc">Customize the information strip of some main apps\' panel lists.</string>
 </resources>
