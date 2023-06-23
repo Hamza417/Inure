@@ -65,10 +65,14 @@ object PackageListUtils {
             }
             append(" | ")
 
-            if (packageInfo.applicationInfo.enabled) {
-                append(context.getString(R.string.enabled))
+            if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                append(context.getString(R.string.uninstalled))
             } else {
-                append(context.getString(R.string.disabled))
+                if (packageInfo.applicationInfo.enabled) {
+                    append(context.getString(R.string.enabled))
+                } else {
+                    append(context.getString(R.string.disabled))
+                }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -158,6 +162,15 @@ object PackageListUtils {
                 append(context.getString(R.string.split_packages))
             }
 
+            append(" | ")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                append(packageInfo.applicationInfo.minSdkVersion)
+                append("..")
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            } else {
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            }
+
             text = toString()
         }
     }
@@ -209,6 +222,16 @@ object PackageListUtils {
             } else {
                 append(context.getString(R.string.split_packages))
             }
+
+            append(" | ")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                append(packageInfo.applicationInfo.minSdkVersion)
+                append("..")
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            } else {
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            }
+
         }.also { text = it }
     }
 
@@ -259,6 +282,16 @@ object PackageListUtils {
             } else {
                 append(context.getString(R.string.split_packages))
             }
+
+            append(" | ")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                append(packageInfo.applicationInfo.minSdkVersion)
+                append("..")
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            } else {
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            }
+
         }.also { text = it }
     }
 }
