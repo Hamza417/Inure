@@ -11,6 +11,7 @@ object AppsPreferences {
     const val appsFilter = "apps_filter_2"
     const val combineFilter = "combine_filter"
     const val appsCategory = "apps_category"
+    const val infoCustomFilter = "info_custom_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -70,5 +71,15 @@ object AppsPreferences {
 
     fun getAppsCategory(): Int {
         return SharedPreferences.getSharedPreferences().getInt(appsCategory, SortConstant.ALL_CATEGORIES)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setInfoCustomFilter(value: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(infoCustomFilter, value).apply()
+    }
+
+    fun getInfoCustomFilter(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(infoCustomFilter, SortConstant.INFO_DEFAULT)
     }
 }

@@ -7,7 +7,9 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.DateUtils.toDate
@@ -18,83 +20,117 @@ import app.simple.inure.util.FileSizeHelper.toSize
 object PackageListUtils {
     fun TypeFaceTextView.setAppInfo(packageInfo: PackageInfo) {
         buildString {
-            //            append(packageInfo.versionName)
-            //            append(" | ")
-
-            if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                append(context.getString(R.string.user))
-            } else {
-                append(context.getString(R.string.system))
+            // Version
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_VERSION)) {
+                append(packageInfo.versionName)
             }
 
-            append(" | ")
-            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    with(packageInfo.getPackageSize(context)) {
-                        append((cacheSize +
-                                dataSize +
-                                codeSize +
-                                externalCacheSize +
-                                externalDataSize +
-                                externalMediaSize +
-                                externalObbSize +
-                                externalCodeSize +
+            // Type
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_TYPE)) {
+                if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+                    appendOR(context.getString(R.string.user))
+                } else {
+                    appendOR(context.getString(R.string.system))
+                }
+            }
+
+            // Size
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_SIZE)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                    if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        with(packageInfo.getPackageSize(context)) {
+                            appendOR((cacheSize +
+                                    dataSize +
+                                    codeSize +
+                                    externalCacheSize +
+                                    externalDataSize +
+                                    externalMediaSize +
+                                    externalObbSize +
+                                    externalCodeSize +
+                                    packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                        }
+                    } else {
+                        with(packageInfo.getPackageSize(context)) {
+                            appendOR((cacheSize +
+                                    dataSize +
+                                    codeSize +
+                                    externalCacheSize +
+                                    externalDataSize +
+                                    externalMediaSize +
+                                    externalObbSize +
+                                    externalCodeSize +
+                                    packageInfo.applicationInfo.sourceDir.toLength() +
+                                    packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                        }
+                    }
+                } else {
+                    if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        appendOR(packageInfo.applicationInfo.sourceDir.toSize())
+                    } else {
+                        appendOR((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
                                 packageInfo.applicationInfo.sourceDir.toLength()).toSize())
                     }
+                }
+            }
+
+            // State
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_STATE)) {
+                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                    appendOR(context.getString(R.string.uninstalled))
                 } else {
-                    with(packageInfo.getPackageSize(context)) {
-                        append((cacheSize +
-                                dataSize +
-                                codeSize +
-                                externalCacheSize +
-                                externalDataSize +
-                                externalMediaSize +
-                                externalObbSize +
-                                externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength() +
-                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    if (packageInfo.applicationInfo.enabled) {
+                        appendOR(context.getString(R.string.enabled))
+                    } else {
+                        appendOR(context.getString(R.string.disabled))
                     }
                 }
-            } else {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    append(packageInfo.applicationInfo.sourceDir.toSize())
-                } else {
-                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
-                }
-            }
-            append(" | ")
-
-            if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                append(context.getString(R.string.uninstalled))
-            } else {
-                if (packageInfo.applicationInfo.enabled) {
-                    append(context.getString(R.string.enabled))
-                } else {
-                    append(context.getString(R.string.disabled))
-                }
             }
 
+            // Category
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                append(" | ")
-                append(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+                if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_CATEGORY)) {
+                    appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+                }
             }
 
-            append(" | ")
-
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                append(context.getString(R.string.apk))
-            } else {
-                append(context.getString(R.string.split_packages))
+            // Target SDK
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_PACKAGE_TYPE)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    appendOR(context.getString(R.string.apk))
+                } else {
+                    appendOR(context.getString(R.string.split_packages))
+                }
             }
 
-            append(" | ")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                append(packageInfo.applicationInfo.minSdkVersion)
-                append("..")
-                append(packageInfo.applicationInfo.targetSdkVersion)
-            } else {
-                append(packageInfo.applicationInfo.targetSdkVersion)
+            // Min SDK
+            when {
+                FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_MIN_SDK or SortConstant.INFO_TARGET_SDK) -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                        append("..")
+                        append(packageInfo.applicationInfo.targetSdkVersion)
+                    } else {
+                        append(packageInfo.applicationInfo.targetSdkVersion)
+                    }
+                }
+                FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_MIN_SDK) -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                    }
+                }
+                FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_TARGET_SDK) -> {
+                    appendOR(packageInfo.applicationInfo.targetSdkVersion.toString())
+                }
+            }
+
+            // Install time
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_INSTALL_DATE)) {
+                appendOR(packageInfo.firstInstallTime.toDate())
+            }
+
+            // Update time
+            if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_UPDATE_DATE)) {
+                appendOR(packageInfo.lastUpdateTime.toDate())
             }
 
             text = toString()
@@ -293,5 +329,12 @@ object PackageListUtils {
             }
 
         }.also { text = it }
+    }
+
+    private fun StringBuilder.appendOR(value: String) {
+        if (isNotEmpty()) {
+            append(" | ")
+        }
+        append(value)
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/info_visibility"
+        layout="@layout/adapter_all_apps_small_details" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:clipChildren="false"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:background="@android:color/white"
+        android:paddingVertical="@dimen/popup_padding"
+        android:layoutAnimation="@anim/list_animation_controller"
+        app:isFastScrollRequired="false"
+        app:statusBarPaddingRequired="false" />
+
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

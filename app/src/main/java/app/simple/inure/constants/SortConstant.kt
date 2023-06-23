@@ -57,4 +57,16 @@ object SortConstant {
     const val APKS_APKM = 4
     const val APKS_XAPK = 8
     const val ALL_APKS = APKS_APK or APKS_APKS or APKS_APKM or APKS_XAPK
+
+    const val INFO_TYPE = 1
+    const val INFO_SIZE = 2
+    const val INFO_STATE = 4
+    const val INFO_CATEGORY = 8
+    const val INFO_PACKAGE_TYPE = 16
+    const val INFO_MIN_SDK = 32
+    const val INFO_TARGET_SDK = 64
+    const val INFO_INSTALL_DATE = 128
+    const val INFO_UPDATE_DATE = 256
+    const val INFO_VERSION = 512
+    const val INFO_DEFAULT = INFO_TYPE or INFO_SIZE or INFO_STATE or INFO_CATEGORY or INFO_PACKAGE_TYPE
 }
