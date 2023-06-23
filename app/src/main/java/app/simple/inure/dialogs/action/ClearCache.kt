@@ -1,19 +1,27 @@
 package app.simple.inure.dialogs.action
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
 import app.simple.inure.factories.actions.ClearCacheViewModelFactory
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.viewmodels.dialogs.ClearCacheViewModel
 
 class ClearCache : ScopedActionDialogBottomFragment() {
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val size = with(packageInfo.getPackageSize(requireContext())) {
+            cacheSize + dataSize + codeSize
+        }
 
         with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
@@ -24,7 +32,10 @@ class ClearCache : ScopedActionDialogBottomFragment() {
                 when (it) {
                     "Done" -> {
                         loader.loaded()
-                        status.setText(R.string.cleared)
+                        val sizeNow = with(packageInfo.getPackageSize(requireContext())) {
+                            cacheSize + dataSize + codeSize
+                        }
+                        status.text = getString(R.string.cleared) + " -> " + (size - sizeNow).toSize()
                     }
                     "Failed" -> {
                         loader.error()
