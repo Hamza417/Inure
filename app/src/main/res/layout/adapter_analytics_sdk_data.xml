@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="@dimen/popup_padding"
+    android:layout_height="wrap_content">
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="1px"
+        android:layout_marginHorizontal="@dimen/popup_padding"
+        android:layout_height="match_parent" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/sdk"
+        android:layout_width="wrap_content"
+        android:text="@string/android"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/code"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="@string/android"
+        android:paddingVertical="5dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/preferences_title_text_size"
+        android:drawablePadding="5dp"
+        app:appFontStyle="medium"
+        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableTintStyle="secondary"
+        app:textColorStyle="tertiary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/total"
+        android:layout_width="wrap_content"
+        android:text="@string/android"
+        android:padding="5dp"
+        android:layout_marginEnd="@dimen/dialog_padding"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/percentage"
+        android:layout_width="wrap_content"
+        android:text="@string/android"
+        android:padding="5dp"
+        android:layout_marginEnd="@dimen/dialog_padding"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/preferences_title_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="accent" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
