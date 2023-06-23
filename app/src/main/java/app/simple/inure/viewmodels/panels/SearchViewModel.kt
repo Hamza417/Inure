@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.DeadObjectException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,9 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ArrayUtils.clone
+import app.simple.inure.util.ArrayUtils.toArrayList
+import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +30,7 @@ import java.util.stream.Collectors
 class SearchViewModel(application: Application) : WrappedViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
+    private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
     private var flags = PackageManager.GET_META_DATA or
             PackageManager.GET_PERMISSIONS or
@@ -88,8 +93,10 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun loadSearchData(keywords: String) {
         var apps = getInstalledApps()
+        apps.addAll(getUninstalledApps())
 
         if (keywords.isEmpty()) {
             searchData.postValue(arrayListOf())
@@ -114,14 +121,92 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
             }
         }
 
-        apps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+        var filteredList = arrayListOf<PackageInfo>()
 
-        searchData.postValue(apps)
+        if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
+            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                        true
+                    } else {
+                        p.applicationInfo.enabled.invert()
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                        true
+                    } else {
+                        p.applicationInfo.enabled
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                        true
+                    } else {
+                        p.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                        true
+                    } else {
+                        p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                } else {
+                    true
+                }
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+        } else {
+            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    p.applicationInfo.enabled.invert()
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    p.applicationInfo.enabled
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    p.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            }
+
+            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+            }
+
+            // Remove duplicate elements
+            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+        }
+
+        filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+
+        searchData.postValue(filteredList)
     }
 
     private fun loadDeepSearchData(keywords: String) {
         var list = arrayListOf<SearchModel>()
         var apps = getInstalledApps()
+        apps.addAll(getUninstalledApps())
 
         if (keywords.isEmpty()) {
             deepSearchData.postValue(arrayListOf())
@@ -264,9 +349,18 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
             @Suppress("UNCHECKED_CAST")
             return apps.clone() as ArrayList<PackageInfo>
         } else {
-            Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
-            apps = loadInstalledApps() as ArrayList<PackageInfo>
+            apps = loadInstalledApps().clone()
             return getInstalledApps()
+        }
+    }
+
+    private fun getUninstalledApps(): ArrayList<PackageInfo> {
+        if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
+            @Suppress("UNCHECKED_CAST")
+            return uninstalledApps.clone() as ArrayList<PackageInfo>
+        } else {
+            loadUninstalledApps()
+            return getUninstalledApps()
         }
     }
 
@@ -285,6 +379,36 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
                 }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                 }
+            }
+        }
+    }
+
+    private fun loadUninstalledApps() {
+        while (true) {
+            try {
+                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                            .of((PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
+                    } else {
+                        @Suppress("DEPRECATION")
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
+                    }
+                }.stream().filter {
+                    it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                }.collect(Collectors.toList())
+                    .toArrayList()
+
+                break
+            } catch (e: DeadObjectException) {
+                Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadObjectException")
+                // We'll go again!!!
             }
         }
     }

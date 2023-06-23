@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.constants.SortConstant
@@ -29,9 +28,9 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         sortChipGroup = view.findViewById(R.id.sort_chip_group)
         sortStyleChipGroup = view.findViewById(R.id.sorting_style_chip_group)
-        applicationTypeChipGroup = view.findViewById(R.id.application_type_chip_group)
-        categoryChipGroup = view.findViewById(R.id.category_chip_group)
         filterChipGroup = view.findViewById(R.id.filter_chip_group)
+        categoryChipGroup = view.findViewById(R.id.category_chip_group)
+        applicationTypeChipGroup = view.findViewById(R.id.application_type_chip_group)
 
         return view
     }
@@ -40,16 +39,14 @@ class AppsSort : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            setAppsCategory()
-        } else {
-            categoryChipGroup.visibility = View.GONE
-            view.findViewById<View>(R.id.category_title).visibility = View.GONE
+            categoryChipGroup.removeView(view.findViewById(R.id.accessibility))
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
         }
 
+        setAppsCategory()
         setAppsFilter()
 
         when (AppsPreferences.getSortStyle()) {
@@ -86,13 +83,13 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         when (AppsPreferences.getAppsType()) {
             SortConstant.BOTH -> {
-                filterChipGroup.check(R.id.both)
+                applicationTypeChipGroup.check(R.id.both)
             }
             SortConstant.SYSTEM -> {
-                filterChipGroup.check(R.id.system)
+                applicationTypeChipGroup.check(R.id.system)
             }
             SortConstant.USER -> {
-                filterChipGroup.check(R.id.user)
+                applicationTypeChipGroup.check(R.id.user)
             }
         }
 
@@ -137,7 +134,7 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
         }
 
-        filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+        applicationTypeChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             for (id in checkedIds) {
                 when (id) {
                     R.id.both -> {
@@ -153,7 +150,7 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
         }
 
-        applicationTypeChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+        filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var sourceFlags = AppsPreferences.getAppsFilter()
 
             sourceFlags = if (checkedIds.contains(R.id.disabled)) {
@@ -262,7 +259,6 @@ class AppsSort : ScopedBottomSheetFragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setAppsCategory() {
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.ALL_CATEGORIES)) {
             // Check all chips
@@ -317,27 +313,27 @@ class AppsSort : ScopedBottomSheetFragment() {
 
     private fun setAppsFilter() {
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-            applicationTypeChipGroup.check(R.id.disabled)
+            filterChipGroup.check(R.id.disabled)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-            applicationTypeChipGroup.check(R.id.enabled)
+            filterChipGroup.check(R.id.enabled)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-            applicationTypeChipGroup.check(R.id.apk)
+            filterChipGroup.check(R.id.apk)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-            applicationTypeChipGroup.check(R.id.split)
+            filterChipGroup.check(R.id.split)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-            applicationTypeChipGroup.check(R.id.uninstalled)
+            filterChipGroup.check(R.id.uninstalled)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
-            applicationTypeChipGroup.check(R.id.combine_flags)
+            filterChipGroup.check(R.id.combine_flags)
         }
     }
 

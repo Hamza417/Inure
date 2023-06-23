@@ -10,6 +10,7 @@ object SearchPreferences {
     const val sortStyle = "search_sort_style"
     const val isSortingReversed = "is_search_sorting_reversed"
     const val listAppsCategory = "search_list_apps_category"
+    const val appsFilter = "search_apps_filter"
     const val ignoreCasing = "search_ignore_case"
     const val deepSearch = "deep_search"
     const val deepSearchKeywordMode = "deep_search_keyword_mode"
@@ -82,5 +83,15 @@ object SearchPreferences {
 
     fun isSearchKeywordModeEnabled(): Boolean {
         return getSharedPreferences().getBoolean(deepSearchKeywordMode, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setAppsFilter(filter: Int) {
+        getSharedPreferences().edit().putInt(appsFilter, filter).apply()
+    }
+
+    fun getAppsFilter(): Int {
+        return getSharedPreferences().getInt(appsFilter, SortConstant.ALL)
     }
 }

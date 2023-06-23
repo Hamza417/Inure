@@ -186,7 +186,8 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             SearchPreferences.sortStyle,
             SearchPreferences.isSortingReversed,
             SearchPreferences.listAppsCategory,
-            SearchPreferences.deepSearch -> {
+            SearchPreferences.deepSearch,
+            SearchPreferences.appsFilter -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
             SearchPreferences.ignoreCasing -> {
@@ -195,6 +196,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 } else {
                     appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
                 }
+
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
         }
