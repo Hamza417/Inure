@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -15,10 +16,10 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.ApkFile
-import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortApks
 import java.util.*
@@ -105,22 +106,33 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
         } else if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total), paths.size)
 
-            holder.category.text = when (ApkBrowserPreferences.getAppsCategory()) {
-                PopupApksCategory.APK -> {
-                    holder.getString(R.string.apk)
+            holder.category.text = buildString {
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK)) {
+                    append(holder.getString(R.string.apk))
                 }
-                PopupApksCategory.SPLIT -> {
-                    holder.getString(R.string.split_packages)
-                }
-                PopupApksCategory.BOTH -> {
-                    with(StringBuilder()) {
-                        append(holder.getString(R.string.apk))
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS)) {
+                    if (this.isNotEmpty()) {
                         append(" | ")
-                        append(holder.getString(R.string.split_packages))
                     }
+
+                    append(holder.getString(R.string.apks))
                 }
-                else -> {
-                    holder.getString(R.string.unknown)
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM)) {
+                    if (this.isNotEmpty()) {
+                        append(" | ")
+                    }
+
+                    append(holder.getString(R.string.apkm))
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK)) {
+                    if (this.isNotEmpty()) {
+                        append(" | ")
+                    }
+
+                    append(holder.getString(R.string.xapk))
                 }
             }
 

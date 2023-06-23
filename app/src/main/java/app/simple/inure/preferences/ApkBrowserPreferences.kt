@@ -1,15 +1,15 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.popups.apks.PopupApksCategory
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.SortApks
 
 object ApkBrowserPreferences {
 
     const val loadSplitIcon = "load_split_icon"
-    const val appFilter = "apk_app_filter"
     const val sortStyle = "apk_sort_style"
     const val reversed = "apk_sort_reversed"
+    const val apkFilter = "apk_filter"
     const val searchKeyword = "apk_search_keyword"
 
     // ------------------------------------------------------------------------------------------------------------------ //
@@ -20,16 +20,6 @@ object ApkBrowserPreferences {
 
     fun setLoadSplitIcon(value: Boolean) {
         getSharedPreferences().edit().putBoolean(loadSplitIcon, value).apply()
-    }
-
-    // ------------------------------------------------------------------------------------------------------------------ //
-
-    fun getAppsCategory(): String {
-        return getSharedPreferences().getString(appFilter, PopupApksCategory.BOTH)!!
-    }
-
-    fun setAppsCategory(category: String) {
-        getSharedPreferences().edit().putString(appFilter, category).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
@@ -60,5 +50,15 @@ object ApkBrowserPreferences {
 
     fun setSearchKeyword(keyword: String) {
         getSharedPreferences().edit().putString(searchKeyword, keyword).apply()
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------ //
+
+    fun getApkFilter(): Int {
+        return getSharedPreferences().getInt(apkFilter, SortConstant.ALL_APKS)
+    }
+
+    fun setApkFilter(filter: Int) {
+        getSharedPreferences().edit().putInt(apkFilter, filter).apply()
     }
 }

@@ -71,4 +71,7 @@
     <string name="hamza_rizwan" translatable="false">Hamza Rizwan</string>
     <string name="sample" translatable="false">sample</string>
     <string name="apk" translatable="false">APK</string>
+    <string name="apks">APKS</string>
+    <string name="apkm">APKM</string>
+    <string name="xapk">XAPK</string>
 </resources>

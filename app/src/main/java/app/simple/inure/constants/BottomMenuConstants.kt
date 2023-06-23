@@ -149,7 +149,7 @@ object BottomMenuConstants {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
                 divider,
-                Pair(R.drawable.ic_sort, R.string.sort),
+                // Pair(R.drawable.ic_sort, R.string.sort),
                 Pair(R.drawable.ic_filter, R.string.filter),
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),
@@ -165,7 +165,7 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_refresh, R.string.refresh),
                 divider,
-                Pair(R.drawable.ic_sort, R.string.sort),
+                // Pair(R.drawable.ic_sort, R.string.sort),
                 Pair(R.drawable.ic_filter, R.string.filter),
                 divider,
                 Pair(R.drawable.ic_settings, R.string.preferences),

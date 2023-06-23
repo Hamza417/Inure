@@ -32,14 +32,13 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.apks.ApkScanner
 import app.simple.inure.dialogs.apks.ApkScanner.Companion.showApkScanner
 import app.simple.inure.dialogs.apks.ApksMenu.Companion.showApksMenu
+import app.simple.inure.dialogs.apks.ApksSort.Companion.showApksSort
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApkBrowser
-import app.simple.inure.popups.apks.PopupApksCategory
-import app.simple.inure.popups.apks.PopupApksSortingStyle
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.ApksSearch
@@ -250,10 +249,7 @@ class APKs : ScopedFragment() {
                         openFragmentSlide(ApksSearch.newInstance(), "apks_search")
                     }
                     R.drawable.ic_filter -> {
-                        PopupApksCategory(view)
-                    }
-                    R.drawable.ic_sort -> {
-                        PopupApksSortingStyle(view)
+                        childFragmentManager.showApksSort()
                     }
                     R.drawable.ic_send -> {
                         if (adapterApks.paths.any { it.isSelected }) {
@@ -318,11 +314,12 @@ class APKs : ScopedFragment() {
             ApkBrowserPreferences.loadSplitIcon -> {
                 adapterApks.loadSplitIcon()
             }
-            ApkBrowserPreferences.appFilter -> {
-                apkBrowserViewModel.filter("")
+            ApkBrowserPreferences.apkFilter -> {
+                apkBrowserViewModel.filter()
             }
             ApkBrowserPreferences.reversed,
-            ApkBrowserPreferences.sortStyle -> {
+            ApkBrowserPreferences.sortStyle,
+            -> {
                 apkBrowserViewModel.sort()
             }
         }

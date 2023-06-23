@@ -5,11 +5,12 @@ import android.os.Environment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ApkFile
-import app.simple.inure.popups.apks.PopupApksCategory
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,22 +55,20 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
             externalStorage.walkTopDown().forEach {
                 info.postValue(it.absolutePath.substringBeforeLast("/"))
 
-                when (ApkBrowserPreferences.getAppsCategory()) {
-                    PopupApksCategory.APK -> {
-                        if (it.isFile && it.extension == "apk") {
-                            apkPaths.add(ApkFile(it))
-                        }
-                    }
-                    PopupApksCategory.SPLIT -> {
-                        if (it.isFile && it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
-                            apkPaths.add(ApkFile(it))
-                        }
-                    }
-                    PopupApksCategory.BOTH -> {
-                        if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
-                            apkPaths.add(ApkFile(it))
-                        }
-                    }
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK) && it.extension == "apk") {
+                    apkPaths.add(ApkFile(it))
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS) && it.extension == "apks") {
+                    apkPaths.add(ApkFile(it))
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM) && it.extension == "apkm") {
+                    apkPaths.add(ApkFile(it))
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.extension == "xapk") {
+                    apkPaths.add(ApkFile(it))
                 }
 
                 if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
@@ -88,27 +87,25 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         loadApkPaths()
     }
 
-    fun filter(query: String) {
+    fun filter() {
         viewModelScope.launch(Dispatchers.IO) {
             val filteredPaths = ArrayList<ApkFile>()
 
             files.forEach {
-                when (ApkBrowserPreferences.getAppsCategory()) {
-                    PopupApksCategory.APK -> {
-                        if (it.file.isFile && it.file.extension == "apk" && it.file.name.contains(query, true)) {
-                            filteredPaths.add(ApkFile(it.file))
-                        }
-                    }
-                    PopupApksCategory.SPLIT -> {
-                        if (it.file.isFile && it.file.extension == "apks" || it.file.extension == "apkm" || it.file.extension == "xapk" && it.file.name.contains(query, true)) {
-                            filteredPaths.add(it)
-                        }
-                    }
-                    PopupApksCategory.BOTH -> {
-                        if (it.file.isFile && it.file.extension == "apk" || it.file.extension == "apks" || it.file.extension == "apkm" || it.file.extension == "xapk" && it.file.name.contains(query, true)) {
-                            filteredPaths.add(it)
-                        }
-                    }
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK) && it.file.extension == "apk") {
+                    filteredPaths.add(it)
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS) && it.file.extension == "apks") {
+                    filteredPaths.add(it)
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM) && it.file.extension == "apkm") {
+                    filteredPaths.add(it)
+                }
+
+                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.file.extension == "xapk") {
+                    filteredPaths.add(it)
                 }
             }
 

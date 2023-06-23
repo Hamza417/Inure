@@ -51,4 +51,10 @@ object SortConstant {
     const val BOOT_ENABLED = 1
     const val BOOT_DISABLED = 2
     const val ALL_BOOT_STATES = BOOT_ENABLED or BOOT_DISABLED
+
+    const val APKS_APK = 1
+    const val APKS_APKS = 2
+    const val APKS_APKM = 4
+    const val APKS_XAPK = 8
+    const val ALL_APKS = APKS_APK or APKS_APKS or APKS_APKM or APKS_XAPK
 }
