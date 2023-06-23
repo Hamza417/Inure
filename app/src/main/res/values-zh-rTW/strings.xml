@@ -688,4 +688,5 @@
     <string name="descending">遞減</string>
     <string name="all">所有</string>
     <string name="combine_flags">合併旗標</string>
+    <string name="selected">已選取</string>
 </resources>
