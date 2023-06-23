@@ -172,7 +172,14 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     barEntries[number].y += it.startTime
                     barEntries[number].data = getDayString(it.date.toLocalDate())
                 } catch (e: IndexOutOfBoundsException) {
-                    barEntries.add(number, BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    try {
+                        barEntries.add(number, BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    } catch (e: IndexOutOfBoundsException) {
+                        /**
+                         * The number of days between the first and last usage is greater than 7.
+                         */
+                        barEntries.add(BarEntry(number.toFloat(), it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    }
                 }
             }
 
@@ -216,7 +223,15 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     pieEntries.remove(pieEntries[numberOfDays])
                     pieEntries.add(numberOfDays, pieEntry)
                 } catch (e: java.lang.IndexOutOfBoundsException) {
-                    pieEntries.add(numberOfDays, PieEntry(it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    try {
+                        pieEntries.add(numberOfDays, PieEntry(it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    } catch (e: IndexOutOfBoundsException) {
+                        /**
+                         * The numberOfDays is greater than the size of the pieEntries list.
+                         * This means that the pieEntries list needs to be expanded.
+                         */
+                        pieEntries.add(PieEntry(it.startTime.toFloat(), getDayString(it.date.toLocalDate())))
+                    }
                 }
             }
 

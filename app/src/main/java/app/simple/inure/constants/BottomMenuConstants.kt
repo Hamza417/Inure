@@ -91,7 +91,7 @@ object BottomMenuConstants {
 
     private val batchMenuNonRoot: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
-                Pair(R.drawable.ic_delete, R.string.delete),
+                Pair(R.drawable.ic_delete, R.string.uninstall),
                 // Pair(R.drawable.ic_share, R.string.share),
                 Pair(R.drawable.ic_downloading, R.string.extract),
                 Pair(R.drawable.ic_text_snippet, R.string.data),
@@ -113,7 +113,7 @@ object BottomMenuConstants {
                 Pair(R.drawable.ic_settings_power, R.string.battery),
                 // Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
                 divider,
-                Pair(R.drawable.ic_delete, R.string.delete),
+                Pair(R.drawable.ic_delete, R.string.uninstall),
                 // Pair(R.drawable.ic_share, R.string.share),
                 Pair(R.drawable.ic_downloading, R.string.extract),
                 Pair(R.drawable.ic_text_snippet, R.string.data),
