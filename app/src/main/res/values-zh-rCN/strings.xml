@@ -688,4 +688,7 @@
     <string name="descending">降序</string>
     <string name="all">全部</string>
     <string name="combine_flags">组合标志</string>
+    <string name="selected">已选择</string>
+    <string name="package_type">安装包类型</string>
+    <string name="info_visibility_customization_desc">自定义一些主要应用面板列表的信息条</string>
 </resources>
