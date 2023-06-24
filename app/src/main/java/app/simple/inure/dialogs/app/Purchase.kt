@@ -12,6 +12,7 @@ import app.simple.inure.util.AppUtils
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.MarketUtils
+import app.simple.inure.util.ViewUtils.gone
 
 class Purchase : ScopedBottomSheetFragment() {
 
@@ -35,6 +36,12 @@ class Purchase : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (AppUtils.isPlayFlavor()) {
+            kofi.gone()
+            gumroad.gone()
+            github.gone()
+        }
 
         playStore.setOnClickListener {
             // Open in Play Store
