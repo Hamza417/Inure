@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.dialogs.apks.ApksSort.Companion.showApksSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.ApkBrowserPreferences
 
@@ -15,12 +17,14 @@ class ApksMenu : ScopedBottomSheetFragment() {
 
     private lateinit var loadSplitIconSwitch: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
+    private lateinit var filter: DynamicRippleImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_apk_browser, container, false)
 
         loadSplitIconSwitch = view.findViewById(R.id.load_split_icon)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
+        filter = view.findViewById(R.id.filter)
 
         return view
     }
@@ -36,6 +40,11 @@ class ApksMenu : ScopedBottomSheetFragment() {
 
         openSettings.setOnClickListener {
             openSettings()
+        }
+
+        filter.setOnClickListener {
+            parentFragmentManager.showApksSort()
+            dismiss()
         }
     }
 
