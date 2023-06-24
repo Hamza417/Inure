@@ -689,4 +689,6 @@
     <string name="all">所有</string>
     <string name="combine_flags">合併旗標</string>
     <string name="selected">已選取</string>
+    <string name="package_type">套件類型</string>
+    <string name="info_visibility_customization_desc">自訂部分主要應用程式面板清單的資訊條。</string>
 </resources>
