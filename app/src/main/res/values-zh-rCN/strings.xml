@@ -176,7 +176,7 @@
     <string name="grant">授予</string>
     <string name="privileged">特权</string>
     <string name="development">开发者</string>
-    <string name="installer">安装来源</string>
+    <string name="installer">安装器</string>
     <string name="verifier">验证来源</string>
     <string name="pre_installed">预装</string>
     <string name="setup">安装</string>
@@ -197,7 +197,7 @@
     <string name="prefer_external">优先外部</string>
     <string name="application_type">应用类型</string>
     <string name="transition_desc">启用面板之间的淡入淡出过渡动画。 建议关闭此选项，因为这将使 UI 的其他动画更加流畅。\n\n如果系统本身禁用了动画，则此选项不会被覆盖.</string>
-    <string name="transitions">Transitions</string>
+    <string name="transitions">过渡动画</string>
     <string name="arc_animations">弧动画</string>
     <string name="desc_arc_animations">启用或禁用图标的圆形路径动画.\n\n如果系统本身禁用动画，此选项不会被覆盖.</string>
     <string name="valid_to">有效期至</string>
@@ -461,7 +461,7 @@
     <string name="pin_to_home_panel">添加到主屏幕</string>
     <string name="remove_from_home_screen">从主屏幕中移除</string>
     <string name="limit_stats_to_hours">将统计数据限制为小时</string>
-    <string name="sure">Sure</string>
+    <string name="sure">确认</string>
     <string name="editor">Editor</string>
     <string name="ignore_case">忽略大小写</string>
     <string name="formatting">格式化</string>
@@ -557,8 +557,8 @@
     <string name="through">Through</string>
     <string name="transition_type">过渡类型</string>
     <string name="transition_type_desc">切换面板时中播放的过渡类型。</string>
-    <string name="arc_type">圆弧类型</string>
-    <string name="arc_type_desc">切换要使用的圆弧类型面板。</string>
+    <string name="arc_type">弧类型</string>
+    <string name="arc_type_desc">切换要使用的弧动画类型。</string>
     <string name="usage_statistics_engine">使用情况统计引擎</string>
     <string name="legacy">传统</string>
     <string name="screen_time">屏幕开启时间：</string>
