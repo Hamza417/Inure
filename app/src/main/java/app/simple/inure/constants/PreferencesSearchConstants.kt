@@ -143,8 +143,9 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_licenses, R.string.open_source_licenses, R.string.desc_licenses, web_page, application, about),
             PreferenceModel(R.drawable.ic_github, R.string.github, R.string.desc_github, link, contribute, about),
             PreferenceModel(R.drawable.ic_translate, R.string.translate, R.string.transition_desc, link, contribute, about),
-            PreferenceModel(R.drawable.ic_telegram, R.string.join_telegram, R.string.desc_telegram, link, contribute, about),
+            PreferenceModel(R.drawable.ic_telegram, R.string.join_telegram, R.string.empty, link, contribute, about),
             PreferenceModel(R.drawable.ic_share, R.string.share, R.string.desc_share, popup, contribute, about),
+            PreferenceModel(R.drawable.ic_face, R.string.developer_profile, R.string.empty, popup, contribute, about),
     )
 
     // ---------------------------------------------------------------------------------------------------------- //

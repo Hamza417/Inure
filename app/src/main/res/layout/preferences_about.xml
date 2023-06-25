@@ -444,11 +444,12 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
 
-                <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
                     android:id="@+id/about_telegram"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:orientation="horizontal"
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
@@ -470,7 +471,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_toEndOf="@id/telegram_icon"
                         android:drawablePadding="5dp"
-                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/join_telegram"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
@@ -479,20 +480,7 @@
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
 
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/telegram_tag"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="60dp"
-                        android:layout_toEndOf="@id/telegram_icon"
-                        android:text="@string/desc_telegram"
-                        android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular"
-                        app:textColorStyle="tertiary" />
-
-                </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
+                </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
 
                 <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
                     android:id="@+id/follow"

@@ -29,7 +29,7 @@ class AboutScreen : ScopedFragment() {
     private lateinit var translation: DynamicRippleRelativeLayout
     private lateinit var licenses: DynamicRippleRelativeLayout
     private lateinit var privacyPolicy: DynamicRippleLinearLayout
-    private lateinit var telegram: DynamicRippleRelativeLayout
+    private lateinit var telegram: DynamicRippleLinearLayout
     private lateinit var follow: DynamicRippleLinearLayout
     private lateinit var share: DynamicRippleRelativeLayout
 

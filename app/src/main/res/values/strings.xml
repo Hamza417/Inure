@@ -396,8 +396,7 @@
     <string name="faq">FAQ</string>
     <string name="shared_libs">Shared Libs</string>
     <string name="copy_package_name">Copy Package Name</string>
-    <string name="join_telegram">Telegram Group</string>
-    <string name="desc_telegram">Join app\'s group on Telegram for discussions with other users and developer.</string>
+    <string name="join_telegram">Telegram Channel</string>
     <string name="batch">Batch</string>
     <string name="verifying_license">Verifying License</string>
     <string name="day_night">Day/Night</string>
