@@ -82,14 +82,20 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         while (true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 kotlin.runCatching {
-                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())).loadPackageNames()
+                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                                   .of((PackageManager.GET_META_DATA
+                                                                           or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
                 }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadSystemException")
                 }
             } else {
                 @Suppress("DEPRECATION")
                 kotlin.runCatching {
-                    return packageManager.getInstalledPackages(PackageManager.GET_META_DATA).loadPackageNames()
+                    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
+                    } else {
+                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
+                    }
                 }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadSystemException")
                 }
@@ -99,7 +105,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     protected fun loadUninstalledApps() {
         while (true) {
-            try {
+            kotlin.runCatching {
                 uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
                                                             .of((PackageManager.GET_META_DATA
@@ -121,10 +127,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
                 @Suppress("UNCHECKED_CAST")
                 onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
-                break
-            } catch (e: DeadObjectException) {
-                Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadObjectException")
-                // We'll go again!!!
+                return
+            }.getOrElse {
+                Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadSystemException")
             }
         }
     }

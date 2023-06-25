@@ -42,7 +42,6 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = getInstalledApps()
-            apps.addAll(getUninstalledApps())
 
             when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {

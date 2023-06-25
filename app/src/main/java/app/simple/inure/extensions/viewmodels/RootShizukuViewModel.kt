@@ -125,8 +125,11 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
     override fun onCleared() {
         super.onCleared()
         shell?.close()
-        Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
-        Shizuku.removeBinderDeadListener(onBinderDeadListener)
+
+        kotlin.runCatching {
+            Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
+            Shizuku.removeBinderDeadListener(onBinderDeadListener)
+        }
     }
 
     @Suppress("unused")
@@ -134,6 +137,7 @@ abstract class RootShizukuViewModel(application: Application) : WrappedViewModel
         return shell
     }
 
+    @Suppress("unused")
     protected fun isShellAvailable(): Boolean {
         return shell != null
     }

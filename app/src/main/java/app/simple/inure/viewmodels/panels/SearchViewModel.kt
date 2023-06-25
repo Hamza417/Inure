@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.DeadObjectException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +17,6 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ArrayUtils.clone
-import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.NullSafety.isNotNull
@@ -30,14 +28,25 @@ import java.util.stream.Collectors
 class SearchViewModel(application: Application) : WrappedViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
-    private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
-    private var flags = PackageManager.GET_META_DATA or
-            PackageManager.GET_PERMISSIONS or
-            PackageManager.GET_ACTIVITIES or
-            PackageManager.GET_SERVICES or
-            PackageManager.GET_RECEIVERS or
-            PackageManager.GET_PROVIDERS
+    @Suppress("DEPRECATION")
+    private var flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        PackageManager.GET_META_DATA or
+                PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_ACTIVITIES or
+                PackageManager.GET_SERVICES or
+                PackageManager.GET_RECEIVERS or
+                PackageManager.GET_PROVIDERS or
+                PackageManager.MATCH_UNINSTALLED_PACKAGES
+    } else {
+        PackageManager.GET_META_DATA or
+                PackageManager.GET_PERMISSIONS or
+                PackageManager.GET_ACTIVITIES or
+                PackageManager.GET_SERVICES or
+                PackageManager.GET_RECEIVERS or
+                PackageManager.GET_PROVIDERS or
+                PackageManager.GET_UNINSTALLED_PACKAGES
+    }
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -96,7 +105,6 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     @Suppress("UNCHECKED_CAST")
     private fun loadSearchData(keywords: String) {
         var apps = getInstalledApps()
-        apps.addAll(getUninstalledApps())
 
         if (keywords.isEmpty()) {
             searchData.postValue(arrayListOf())
@@ -206,7 +214,6 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     private fun loadDeepSearchData(keywords: String) {
         var list = arrayListOf<SearchModel>()
         var apps = getInstalledApps()
-        apps.addAll(getUninstalledApps())
 
         if (keywords.isEmpty()) {
             deepSearchData.postValue(arrayListOf())
@@ -354,16 +361,6 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         }
     }
 
-    private fun getUninstalledApps(): ArrayList<PackageInfo> {
-        if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
-            @Suppress("UNCHECKED_CAST")
-            return uninstalledApps.clone() as ArrayList<PackageInfo>
-        } else {
-            loadUninstalledApps()
-            return getUninstalledApps()
-        }
-    }
-
     private fun loadInstalledApps(): MutableList<PackageInfo> {
         while (true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -379,36 +376,6 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
                 }.getOrElse {
                     Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
                 }
-            }
-        }
-    }
-
-    private fun loadUninstalledApps() {
-        while (true) {
-            try {
-                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                            .of((PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                    }
-                }.stream().filter {
-                    it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                }.collect(Collectors.toList())
-                    .toArrayList()
-
-                break
-            } catch (e: DeadObjectException) {
-                Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadObjectException")
-                // We'll go again!!!
             }
         }
     }
