@@ -372,7 +372,7 @@
     <string name="contribute">Contribute</string>
     <string name="desc_github">打开应用程序的代码仓库。</string>
     <string name="legal_notes">法律声明</string>
-    <string name="application">Application</string>
+    <string name="application">应用程序</string>
     <string name="credits">鸣谢</string>
     <string name="desc_credits">了解这些实体对开发这个应用作出的贡献。</string>
     <string name="user_agreements">用户协议</string>
@@ -397,8 +397,7 @@
     <string name="faq">常问问题</string>
     <string name="shared_libs">共享库</string>
     <string name="copy_package_name">复制包名</string>
-    <string name="join_telegram">Telegram 群组</string>
-    <string name="desc_telegram">立刻加入Telegram群组, 与其他用户和开发者进行讨论.</string>
+    <string name="join_telegram">Telegram 频道</string>
     <string name="batch">批处理</string>
     <string name="verifying_license">验证许可证中</string>
     <string name="day_night">日间/夜间</string>
