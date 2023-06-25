@@ -4,12 +4,12 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
+import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.adapters.PreferencesCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -62,8 +62,16 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val text: TypeFaceTextView = itemView.findViewById(R.id.preferences_text)
-        val icon: ImageView = itemView.findViewById(R.id.preferences_icon)
+        val icon: ThemeIcon = itemView.findViewById(R.id.preferences_icon)
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.pref_container)
+
+        init {
+            text.isSelected = true
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                icon.setTintType(3)
+            }
+        }
     }
 
     inner class Divider(itemView: View) : VerticalListViewHolder(itemView)

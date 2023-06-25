@@ -53,7 +53,12 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
             holder.text.text = holder.itemView.context.getString(list[position].second)
 
             if (AccessibilityPreferences.isColorfulIcons()) {
-                holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+                holder.icon.imageTintList = ColorStateList(arrayOf(intArrayOf(
+                        android.R.attr.state_enabled
+                ), intArrayOf()), intArrayOf(
+                        Colors.getColors()[position],
+                        Colors.getColors()[position]
+                ))
             }
 
             holder.container.setOnClickListener {
@@ -81,6 +86,10 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
 
         init {
             text.isSelected = true
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                icon.setTintType(3)
+            }
         }
     }
 
