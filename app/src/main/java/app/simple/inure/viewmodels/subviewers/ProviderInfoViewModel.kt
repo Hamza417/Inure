@@ -42,8 +42,13 @@ class ProviderInfoViewModel(application: Application, private val providerInfoMo
     }
 
     private fun getAuthority(): Pair<Int, Spannable> {
-        return Pair(R.string.authority,
-                    providerInfoModel.authority.applySecondaryTextColor())
+        return try {
+            Pair(R.string.authority,
+                 providerInfoModel.authority.applySecondaryTextColor())
+        } catch (e: NullPointerException) {
+            Pair(R.string.authority,
+                 getApplication<Application>().getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getInitOrder(): Pair<Int, Spannable> {

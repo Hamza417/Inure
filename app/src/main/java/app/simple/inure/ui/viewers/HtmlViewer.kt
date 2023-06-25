@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.net.Uri
 import android.os.Bundle
+import android.os.TransactionTooLargeException
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
@@ -101,9 +102,13 @@ class HtmlViewer : ScopedFragment() {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
-                            val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("xml", htmlTxt)
-                            clipboard?.setPrimaryClip(clip)
+                            try {
+                                val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+                                val clip = ClipData.newPlainText("xml", htmlTxt)
+                                clipboard?.setPrimaryClip(clip)
+                            } catch (e: TransactionTooLargeException) {
+                                showWarning("Text is too large to copy", goBack = false)
+                            }
                         }
                         getString(R.string.export) -> {
                             val name = with(path.text.toString()) {

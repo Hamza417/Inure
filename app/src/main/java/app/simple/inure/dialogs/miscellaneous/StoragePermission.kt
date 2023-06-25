@@ -1,6 +1,7 @@
 package app.simple.inure.dialogs.miscellaneous
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -105,12 +106,16 @@ class StoragePermission : ScopedBottomSheetFragment() {
      * Grant storage permission
      */
     private fun askPermission() {
-        val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+        try {
+            val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
-        } else {
-            requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
+            } else {
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            }
+        } catch (e: ActivityNotFoundException) {
+            showWarning("ERROR: No Activity found to handle this intent", false)
         }
     }
 
