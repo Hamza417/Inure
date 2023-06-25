@@ -688,4 +688,7 @@
     <string name="descending">Ordem Decrescente</string>
     <string name="all">Tudo</string>
     <string name="combine_flags">Combinar Sinalizadores</string>
+    <string name="selected">Selecionado</string>
+    <string name="package_type">Tipo de Pacote</string>
+    <string name="info_visibility_customization_desc">Personalize a faixa de informações de algumas listas de painéis de aplicativos principais.</string>
 </resources>
