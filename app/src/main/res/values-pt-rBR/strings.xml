@@ -397,8 +397,7 @@
     <string name="faq">Perguntas Frequentes</string>
     <string name="shared_libs">Bibliotecas Compartilhadas</string>
     <string name="copy_package_name">Copiar Nome do Pacote</string>
-    <string name="join_telegram">Grupo do Telegram</string>
-    <string name="desc_telegram">Junte-se ao grupo do app no Telegram para discussões com outros usuários e desenvolvedores.</string>
+    <string name="join_telegram">Canal do Telegram</string>
     <string name="batch">Lote</string>
     <string name="verifying_license">Verificando a licença</string>
     <string name="day_night">Dia/Noite</string>
