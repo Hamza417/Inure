@@ -397,7 +397,7 @@
     <string name="faq">ЧАВО</string>
     <string name="shared_libs">Общие библиотеки</string>
     <string name="copy_package_name">Скопировать имя пакета</string>
-    <string name="join_telegram">Канал Telegram</string>
+    <string name="join_telegram">Группа в Telegram</string>
     <string name="batch">Пакетная обработка</string>
     <string name="verifying_license">Проверка лицензии</string>
     <string name="day_night">День/Ночь</string>
@@ -690,7 +690,4 @@
     <string name="descending">По убыванию</string>
     <string name="all">Все</string>
     <string name="combine_flags">Объединить флаги</string>
-    <string name="selected">Выбранные</string>
-    <string name="package_type">Тип Пакета</string>
-    <string name="info_visibility_customization_desc">Настройка информационной панели некоторых основных приложений.</string>
 </resources>
