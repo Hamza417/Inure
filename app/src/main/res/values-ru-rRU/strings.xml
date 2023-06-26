@@ -690,4 +690,7 @@
     <string name="descending">По убыванию</string>
     <string name="all">Все</string>
     <string name="combine_flags">Объединить флаги</string>
+    <string name="selected">Выбранные</string>
+    <string name="package_type">Тип Пакета</string>
+    <string name="info_visibility_customization_desc">Настройка информационной панели некоторых основных приложений.</string>
 </resources>
