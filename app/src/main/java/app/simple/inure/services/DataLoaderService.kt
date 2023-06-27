@@ -8,7 +8,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
-import android.os.DeadObjectException
 import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -72,11 +71,11 @@ class DataLoaderService : Service() {
 
     @Suppress("UNCHECKED_CAST")
     fun getUninstalledApps(): ArrayList<PackageInfo> {
-        if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
-            return uninstalledApps.clone() as ArrayList<PackageInfo>
+        return if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
+            uninstalledApps.clone() as ArrayList<PackageInfo>
         } else {
             loadUninstalledApps()
-            return uninstalledApps.clone() as ArrayList<PackageInfo>
+            uninstalledApps.clone() as ArrayList<PackageInfo>
         }
     }
 
@@ -107,6 +106,8 @@ class DataLoaderService : Service() {
 
     fun refresh() {
         isLoading = false
+        apps.clear()
+        uninstalledApps.clear()
         startLoading()
     }
 
@@ -143,12 +144,9 @@ class DataLoaderService : Service() {
                 packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
             }.collect(Collectors.toList()).toArrayList()
         }
-
-        @Suppress("UNCHECKED_CAST")
-        onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
     }
 
-    fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
+    private fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
         forEach {
             it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
         }
@@ -163,36 +161,37 @@ class DataLoaderService : Service() {
      *        information
      * @return app's name as [String]
      */
-    protected fun getApplicationName(context: Context, applicationInfo: ApplicationInfo): String? {
+    private fun getApplicationName(context: Context, applicationInfo: ApplicationInfo): String? {
         return try {
             context.packageManager.getApplicationLabel(applicationInfo).toString()
         } catch (e: PackageManager.NameNotFoundException) {
             context.getString(R.string.unknown)
-        } catch (e: DeadObjectException) {
-            Log.e("PackageUtilsViewModel", "getApplicationName: DeadObjectException")
-            getApplicationName(context, applicationInfo)
         }
     }
 
     private fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
-        Log.d("PackageUtilsViewModel", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
+        Log.d("DataLoaderService", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
         LocalBroadcastManager.getInstance(applicationContext)
             .sendBroadcast(Intent(UNINSTALLED_APPS_LOADED))
     }
 
     private fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
-        Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
+        Log.d("DataLoaderService", "onAppsLoaded: ${apps.size}")
         LocalBroadcastManager.getInstance(applicationContext)
             .sendBroadcast(Intent(INSTALLED_APPS_LOADED))
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun refreshUninstalled() {
         uninstalledApps.clear()
         loadUninstalledApps()
+        onUninstalledAppsLoaded(uninstalledApps.clone() as ArrayList<PackageInfo>)
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun refreshInstalled() {
         apps.clear()
         apps = loadInstalledApps() as ArrayList<PackageInfo>
+        onAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
     }
 }

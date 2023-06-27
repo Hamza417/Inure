@@ -1,11 +1,19 @@
 package app.simple.inure.ui.launcher
 
+import android.Manifest
+import android.app.AppOpsManager
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.os.Process
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.AppOpsManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -51,7 +59,30 @@ class Disclaimer : ScopedFragment() {
 
         agree.setOnClickListener {
             MainPreferences.setDisclaimerAgreed(true)
-            openFragmentSlide(SplashScreen.newInstance(skip = false))
+
+            if (checkForPermission()) {
+                openFragmentSlide(SplashScreen.newInstance(skip = false))
+            } else {
+                openFragmentSlide(Setup.newInstance())
+            }
+        }
+    }
+
+    private fun checkForPermission(): Boolean {
+        val appOps = requireContext().getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
+        } else {
+            @Suppress("Deprecation")
+            appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
+        }
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            mode == AppOpsManagerCompat.MODE_ALLOWED && Environment.isExternalStorageManager()
+        } else {
+            mode == AppOpsManagerCompat.MODE_ALLOWED &&
+                    (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         }
     }
 

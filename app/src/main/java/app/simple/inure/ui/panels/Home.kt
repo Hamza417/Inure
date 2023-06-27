@@ -255,7 +255,7 @@ class Home : ScopedFragment() {
                 override fun onMenuItemClicked(source: Int) {
                     when (source) {
                         R.string.refresh -> {
-                            homeViewModel.refresh()
+                            // homeViewModel.refresh()
                         }
                         R.string.preferences -> {
                             openFragmentLinear(Preferences.newInstance(), icon, "preferences_screen")

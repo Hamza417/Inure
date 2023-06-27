@@ -59,7 +59,7 @@ object AppearancePreferences {
     @Suppress("unused")
     @ColorInt
     fun getAccentColorLight(): Int {
-        return ColorUtils.lightenColor(getSharedPreferences().getInt(accentColor, 0), 0.5F)
+        return ColorUtils.lightenColor(getSharedPreferences().getInt(accentColor, 0), 0.25F)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

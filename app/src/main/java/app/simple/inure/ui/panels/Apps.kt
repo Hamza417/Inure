@@ -3,7 +3,6 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -140,7 +139,7 @@ class Apps : ScopedFragment() {
 
         appsViewModel.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
             appsEvent.getContentIfNotHandledOrReturnNull()?.let {
-                Log.d("Apps", if (it) "Apps Loaded" else "Failed")
+                // Log.d("Apps", if (it) "Apps Loaded" else "Failed")
             }
         }
     }

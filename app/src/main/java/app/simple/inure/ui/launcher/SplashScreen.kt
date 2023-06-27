@@ -66,7 +66,7 @@ class SplashScreen : ScopedFragment() {
     private var dataLoaderService: DataLoaderService? = null
     private var broadcastReceiver: BroadcastReceiver? = null
 
-    private var intentFilter: IntentFilter = IntentFilter(DataLoaderService.APPS_LOADED)
+    private var intentFilter: IntentFilter = IntentFilter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -74,6 +74,10 @@ class SplashScreen : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        intentFilter.addAction(DataLoaderService.APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -129,24 +133,25 @@ class SplashScreen : ScopedFragment() {
                     openFragmentSlide(Disclaimer.newInstance())
                 }
                 requireArguments().getBoolean("skip") -> {
-                    proceed()
+                    startLoaderService()
                 }
                 !checkForPermission() -> {
                     if (SetupPreferences.isDontShowAgain()) {
-                        proceed()
+                        startLoaderService()
                     } else {
                         openFragmentSlide(Setup.newInstance())
                     }
                 }
                 else -> {
-                    if (dataLoaderService == null) {
-                        requireContext().bindService(Intent(requireContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
-                    } else {
-                        dataLoaderService?.startLoading()
-                    }
+                    startLoaderService()
                 }
             }
         }
+    }
+
+    private fun startLoaderService() {
+        val intent = Intent(requireContext(), DataLoaderService::class.java)
+        requireContext().bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
     }
 
     private fun proceed() {
@@ -374,8 +379,7 @@ class SplashScreen : ScopedFragment() {
 
     override fun onResume() {
         super.onResume()
-        requireContext().bindService(Intent(requireContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver!!, IntentFilter(DataLoaderService.APPS_LOADED))
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver!!, intentFilter)
     }
 
     override fun onDestroy() {

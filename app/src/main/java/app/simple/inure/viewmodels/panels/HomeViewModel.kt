@@ -168,15 +168,14 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
         }
     }
 
-    private fun loadDeletedApps() {
+    private fun loadDeletedApps(uninstalledApps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = getUninstalledApps()
 
-            apps.sortBy {
+            uninstalledApps.sortBy {
                 it.applicationInfo.name
             }
 
-            uninstalled.postValue(apps)
+            uninstalled.postValue(uninstalledApps)
         }
     }
 
@@ -317,7 +316,6 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
-        refresh()
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
@@ -329,16 +327,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
-        loadDeletedApps()
-    }
-
-    fun refresh() {
-        loadRecentlyInstalledAppData()
-        loadMostUsed()
-        loadRecentlyUpdatedAppData()
-        loadDisabledApps()
-        loadHiddenApps()
-        loadDeletedApps()
+        loadDeletedApps(uninstalledApps)
     }
 
     fun refreshMostUsed() {
