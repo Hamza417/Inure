@@ -466,8 +466,6 @@
     <string name="formatting">Formattazione</string>
     <string name="sdk_value">Valore SDK</string>
     <string name="pie_hole_radius">Raggio foro a torta</string>
-    <string name="termux_title">Usa Termux</string>
-    <string name="termux_desc">Usa Termux invece del terminale nativo dell\'app.</string>
     <string name="desc_share">Racconta ad altri sull\'app \☺</string>
     <string name="desc_share_02">Scansiona il codice QR per aprire la pagina dell\'app sul Play Store o condividi il link dell\'app.</string>
     <string name="share_message">Condividi messaggio</string>

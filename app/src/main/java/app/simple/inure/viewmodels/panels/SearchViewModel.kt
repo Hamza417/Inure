@@ -14,6 +14,7 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
@@ -96,7 +97,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     @Suppress("UNCHECKED_CAST")
     private fun loadSearchData(keywords: String) {
-        var apps = getInstalledApps()
+        var apps = (getInstalledApps() + getUninstalledApps()).toArrayList()
 
         if (keywords.isEmpty()) {
             searchData.postValue(arrayListOf())

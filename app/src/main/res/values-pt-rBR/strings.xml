@@ -466,8 +466,6 @@
     <string name="formatting">Formatando</string>
     <string name="sdk_value">Valor do SDK</string>
     <string name="pie_hole_radius">Raio do Furo</string>
-    <string name="termux_title">Usar Termux</string>
-    <string name="termux_desc">Use o Termux em vez do Emulador de Terminal nativo do aplicativo.</string>
     <string name="desc_share">Fale para outras pessoas sobre o aplicativo \☺️</string>
     <string name="desc_share_02">Escaneie o Código QR para abrir a página do aplicativo na Play Store ou compartilhar o link do aplicativo.</string>
     <string name="share_message">Compartilhar mensagem</string>

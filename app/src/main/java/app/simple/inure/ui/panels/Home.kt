@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
-import app.simple.inure.apk.utils.PackageUtils
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
@@ -123,16 +121,12 @@ class Home : ScopedFragment() {
                             openFragmentArc(Analytics.newInstance(), icon, "analytics")
                         }
                         R.string.terminal -> {
-                            if (TerminalPreferences.isUsingTermux() && requirePackageManager().isPackageInstalledAndEnabled("com.termux")) {
-                                PackageUtils.launchThisPackage(requireContext(), "com.termux")
+                            val intent = Intent(requireActivity(), Term::class.java)
+                            if (BehaviourPreferences.isArcAnimationOn()) {
+                                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
+                                startActivity(intent, options.toBundle())
                             } else {
-                                val intent = Intent(requireActivity(), Term::class.java)
-                                if (BehaviourPreferences.isArcAnimationOn()) {
-                                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), icon, icon.transitionName)
-                                    startActivity(intent, options.toBundle())
-                                } else {
-                                    startActivity(intent)
-                                }
+                                startActivity(intent)
                             }
                         }
                         R.string.usage_statistics -> {

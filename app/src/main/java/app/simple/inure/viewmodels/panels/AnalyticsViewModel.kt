@@ -18,21 +18,15 @@ import kotlinx.coroutines.launch
 class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private val minimumOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
 
     private val targetOsData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
 
     private val installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
 
     fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {

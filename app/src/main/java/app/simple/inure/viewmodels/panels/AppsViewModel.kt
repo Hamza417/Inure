@@ -11,6 +11,7 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.preferences.AppsPreferences
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
@@ -39,7 +40,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
     @Suppress("UNCHECKED_CAST")
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = getInstalledApps()
+            var apps = (getInstalledApps() + getUninstalledApps()).toArrayList()
 
             when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {

@@ -466,8 +466,6 @@
     <string name="formatting">格式</string>
     <string name="sdk_value">SDK 值</string>
     <string name="pie_hole_radius">餅孔半徑</string>
-    <string name="termux_title">使用 Termux</string>
-    <string name="termux_desc">使用 Termux 而非應用程式原生終端機仿真器。</string>
     <string name="desc_share">向他人介紹這個應用程式 \☺</string>
     <string name="desc_share_02">掃描 QR 圖碼以開啟 Play 商店頁面或分享應用程式連結</string>
     <string name="share_message">分享訊息</string>

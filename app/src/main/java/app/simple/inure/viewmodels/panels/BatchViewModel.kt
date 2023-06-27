@@ -14,6 +14,7 @@ import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
     @Suppress("UNCHECKED_CAST")
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
-            var apps = getInstalledApps()
+            var apps = (getInstalledApps() + getUninstalledApps()).toArrayList()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 apps.removeIf { it.packageName == applicationContext().packageName }

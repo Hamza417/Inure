@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.stream.Collectors
 
 class DataLoaderService : Service() {
 
@@ -105,10 +106,8 @@ class DataLoaderService : Service() {
     }
 
     fun refresh() {
-        CoroutineScope(Dispatchers.IO).launch {
-            isLoading = false
-            startLoading()
-        }
+        isLoading = false
+        startLoading()
     }
 
     fun hasDataLoaded(): Boolean {
@@ -124,7 +123,7 @@ class DataLoaderService : Service() {
         }
     }
 
-    protected fun loadUninstalledApps() {
+    private fun loadUninstalledApps() {
         if (uninstalledApps.isEmpty()) {
             uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
@@ -140,7 +139,9 @@ class DataLoaderService : Service() {
                     packageManager.getInstalledPackages(PackageManager.GET_META_DATA
                                                                 or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
                 }
-            }.toArrayList()
+            }.stream().filter { packageInfo: PackageInfo ->
+                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+            }.collect(Collectors.toList()).toArrayList()
         }
 
         @Suppress("UNCHECKED_CAST")
@@ -183,5 +184,15 @@ class DataLoaderService : Service() {
         Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
         LocalBroadcastManager.getInstance(applicationContext)
             .sendBroadcast(Intent(INSTALLED_APPS_LOADED))
+    }
+
+    fun refreshUninstalled() {
+        uninstalledApps.clear()
+        loadUninstalledApps()
+    }
+
+    fun refreshInstalled() {
+        apps.clear()
+        apps = loadInstalledApps() as ArrayList<PackageInfo>
     }
 }

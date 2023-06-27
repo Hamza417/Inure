@@ -466,8 +466,6 @@
     <string name="formatting">Форматирование</string>
     <string name="sdk_value">Значение SDK</string>
     <string name="pie_hole_radius">Радиус отверстия кругового графика</string>
-    <string name="termux_title">Использование Termux</string>
-    <string name="termux_desc">Использовать Termux вместо встроенного эмулятора терминала.</string>
     <string name="desc_share">Расскажите другим об этом приложении \☺</string>
     <string name="desc_share_02">Отсканируйте QR-код, чтобы открыть страницу приложения в Play Store или поделиться ссылкой на приложение.</string>
     <string name="share_message">Поделиться сообщением</string>

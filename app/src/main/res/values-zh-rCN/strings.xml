@@ -466,8 +466,6 @@
     <string name="formatting">格式化</string>
     <string name="sdk_value">SDK 值</string>
     <string name="pie_hole_radius">饼状图半径</string>
-    <string name="termux_title">使用 Termux</string>
-    <string name="termux_desc">使用 Termux 而不是应用程序的本机终端模拟器。</string>
     <string name="desc_share">告诉其他人这个应用程序 \☺</string>
     <string name="desc_share_02">扫描二维码以打开应用在Play商店的页面或共享应用链接。</string>
     <string name="share_message">分享信息</string>

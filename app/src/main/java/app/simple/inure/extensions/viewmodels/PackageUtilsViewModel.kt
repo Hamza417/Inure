@@ -1,5 +1,6 @@
 package app.simple.inure.extensions.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.*
 import android.content.pm.ApplicationInfo
@@ -22,11 +23,18 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
     private var serviceConnection: ServiceConnection? = null
+
+    @SuppressLint("StaticFieldLeak") // This is an application context
     private var dataLoaderService: DataLoaderService? = null
     private var broadcastReceiver: BroadcastReceiver? = null
-    private var intentFilter: IntentFilter = IntentFilter(DataLoaderService.APPS_LOADED)
+    private var intentFilter: IntentFilter = IntentFilter()
 
     init {
+        intentFilter.addAction(DataLoaderService.APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
+
+        @Suppress("UNCHECKED_CAST")
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
@@ -46,8 +54,8 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             }
         }
 
+        @Suppress("UNCHECKED_CAST")
         broadcastReceiver = object : BroadcastReceiver() {
-            @Suppress("UNCHECKED_CAST")
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     DataLoaderService.APPS_LOADED -> {
@@ -56,6 +64,14 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
                         onAppsLoaded(apps)
                         onUninstalledAppsLoaded(uninstalledApps)
+                    }
+                    DataLoaderService.UNINSTALLED_APPS_LOADED -> {
+                        uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                        onUninstalledAppsLoaded(uninstalledApps)
+                    }
+                    DataLoaderService.INSTALLED_APPS_LOADED -> {
+                        apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
+                        onAppsLoaded(apps)
                     }
                 }
             }
@@ -85,6 +101,14 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     fun refreshPackageData() {
         dataLoaderService!!.refresh()
+    }
+
+    fun refreshUninstalledPackageData() {
+        dataLoaderService!!.refreshUninstalled()
+    }
+
+    fun refreshInstalledPackageData() {
+        dataLoaderService!!.refreshInstalled()
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
@@ -186,11 +210,11 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     open fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
-        Log.d("PackageUtilsViewModel", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
+        // Log.d("PackageUtilsViewModel", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
     }
 
     open fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
-        Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
+        // Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
     }
 
     override fun onCleared() {

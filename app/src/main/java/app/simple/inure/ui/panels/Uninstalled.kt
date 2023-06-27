@@ -39,6 +39,7 @@ class Uninstalled : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
+            hideLoader()
             postponeEnterTransition()
 
             adapterUninstalled?.apps = it
@@ -71,12 +72,9 @@ class Uninstalled : ScopedFragment() {
                         UninstallInfo.newInstance()
                             .show(childFragmentManager, "uninstall_info")
                     }
-                    R.drawable.ic_delete -> {
-                        showLoader(manualOverride = true)
-                        homeViewModel.refreshPackageData()
-                    }
                     R.drawable.ic_refresh -> {
-                        homeViewModel.refreshUninstalled()
+                        showLoader(manualOverride = true)
+                        homeViewModel.refreshUninstalledPackageData()
                     }
                 }
             }

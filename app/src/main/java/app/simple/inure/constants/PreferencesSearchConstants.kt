@@ -104,7 +104,7 @@ object PreferencesSearchConstants {
 
     private val terminalData = arrayListOf(
             PreferenceModel(R.mipmap.ic_terminal, R.string.standalone_terminal, R.string.standalone_terminal_desc, toggleable, terminal, terminal),
-            PreferenceModel(-1, R.string.termux_title, R.string.termux_desc, toggleable, terminal, terminal),
+            //PreferenceModel(-1, R.string.termux_title, R.string.termux_desc, toggleable, terminal, terminal),
             PreferenceModel(R.drawable.ic_text_fields, R.string.title_fontsize_preference, R.string.summary_fontsize_preference, options, text, terminal),
             PreferenceModel(R.drawable.ic_colors, R.string.title_color_preference, R.string.summary_color_preference, options, text, terminal),
             PreferenceModel(R.drawable.ic_navigation_color, R.string.title_cursorblink_preference, R.string.summary_cursorblink_preference, toggleable, text, terminal),
