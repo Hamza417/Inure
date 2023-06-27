@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="5dp"
             app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <app.simple.inure.decorations.views.Chip
@@ -124,6 +125,7 @@
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="5dp"
             app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <app.simple.inure.decorations.views.Chip
@@ -161,6 +163,7 @@
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="5dp"
             app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+            app:selectionRequired="true"
             app:singleSelection="false">
 
             <app.simple.inure.decorations.views.Chip
