@@ -384,7 +384,12 @@ class SplashScreen : ScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unbindService(serviceConnection!!)
+        try {
+            requireContext().unbindService(serviceConnection!!)
+        } catch (e: java.lang.IllegalArgumentException) {
+            e.printStackTrace()
+        }
+
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)
     }
 

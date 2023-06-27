@@ -223,9 +223,21 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             serviceConnection?.let {
                 application.applicationContext.unbindService(it)
             }
-
-            LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(broadcastReceiver!!)
         } catch (e: java.lang.IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+
+        try {
+            broadcastReceiver?.let {
+                LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(it)
+            }
+        } catch (e: java.lang.IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        } catch (e: NullPointerException) {
             e.printStackTrace()
         }
     }
