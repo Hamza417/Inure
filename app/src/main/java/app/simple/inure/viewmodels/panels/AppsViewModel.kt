@@ -58,71 +58,87 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val categoryList = ArrayList<PackageInfo>()
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                for (app in (apps.clone() as ArrayList<PackageInfo>)) {
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_GAME
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_AUDIO)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_AUDIO)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_VIDEO)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_VIDEO)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_IMAGE)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_IMAGE)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_SOCIAL)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_SOCIAL)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_NEWS)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_NEWS
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_NEWS) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_NEWS)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_MAPS)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_MAPS
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_MAPS) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_MAPS)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_PRODUCTIVITY)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY) {
+                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_PRODUCTIVITY)) {
+                            if (!categoryList.contains(app)) {
+                                categoryList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
-                    categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.category == ApplicationInfo.CATEGORY_GAME
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
-                        categoryList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                            p.applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY
-                        }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        if (app.applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY) {
+                            if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
+                                if (!categoryList.contains(app)) {
+                                    categoryList.add(app)
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -172,34 +188,46 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
             } else {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.enabled.invert()
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                for (app in apps) {
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                        if (app.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                            if (!filteredList.contains(app)) {
+                                filteredList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.enabled
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                        if (app.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                            if (!filteredList.contains(app)) {
+                                filteredList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.splitSourceDirs.isNullOrEmpty()
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                        if (!app.applicationInfo.enabled) {
+                            if (!filteredList.contains(app)) {
+                                filteredList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-                }
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
+                        if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                            if (!filteredList.contains(app)) {
+                                filteredList.add(app)
+                            }
+                        }
+                    }
 
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                    filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                        if (app.applicationInfo.enabled) {
+                            if (!filteredList.contains(app)) {
+                                filteredList.add(app)
+                            }
+                        }
+                    }
                 }
 
                 // Remove duplicate elements
