@@ -118,16 +118,22 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
 
             var filteredList = ArrayList<BootManagerModel>()
 
-            if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_ENABLED)) {
-                filteredList.addAll(bootManagerModelArrayList.stream().filter { p ->
-                    p.enabledComponents.isNotEmpty() && p.disabledComponents.isEmpty()
-                }.collect(Collectors.toList()) as ArrayList<BootManagerModel>)
-            }
+            for (app in bootManagerModelArrayList) {
+                if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_ENABLED)) {
+                    if (app.enabledComponents.isNotEmpty() && app.disabledComponents.isEmpty()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_DISABLED)) {
-                filteredList.addAll(bootManagerModelArrayList.stream().filter { p ->
-                    p.disabledComponents.isNotEmpty() && p.enabledComponents.isEmpty()
-                }.collect(Collectors.toList()) as ArrayList<BootManagerModel>)
+                if (FlagUtils.isFlagSet(BootManagerPreferences.getFilter(), SortConstant.BOOT_DISABLED)) {
+                    if (app.disabledComponents.isNotEmpty() && app.enabledComponents.isEmpty()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
             }
 
             filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<BootManagerModel>

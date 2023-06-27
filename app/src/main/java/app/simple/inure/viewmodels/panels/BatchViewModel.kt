@@ -70,28 +70,38 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
             val list = getBatchStateData(apps.clone() as ArrayList<PackageInfo>)
             var filtered = arrayListOf<BatchPackageInfo>()
 
-            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SELECTED)) {
-                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
-                    it.isSelected
-                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
-            }
+            for (item in list) {
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SELECTED)) {
+                    if (item.isSelected) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_NOT_SELECTED)) {
-                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
-                    !it.isSelected
-                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
-            }
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_NOT_SELECTED)) {
+                    if (!item.isSelected) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_ENABLED)) {
-                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
-                    it.packageInfo.applicationInfo.enabled
-                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
-            }
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_ENABLED)) {
+                    if (item.packageInfo.applicationInfo.enabled) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_DISABLED)) {
-                filtered.addAll((list.clone() as ArrayList<BatchPackageInfo>).stream().filter {
-                    !it.packageInfo.applicationInfo.enabled
-                }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>)
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_DISABLED)) {
+                    if (!item.packageInfo.applicationInfo.enabled) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
             }
 
             filtered = filtered.stream().distinct().collect(Collectors.toList()) as ArrayList<BatchPackageInfo>

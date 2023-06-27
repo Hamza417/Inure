@@ -165,34 +165,46 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 }
             }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
         } else {
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    p.applicationInfo.enabled.invert()
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-            }
+            for (app in apps) {
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (app.applicationInfo.enabled.invert()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    p.applicationInfo.enabled
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-            }
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (app.applicationInfo.enabled) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    p.applicationInfo.splitSourceDirs.isNullOrEmpty()
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-            }
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-            }
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (app.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
 
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
-                    p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    if (app.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
             }
 
             // Remove duplicate elements

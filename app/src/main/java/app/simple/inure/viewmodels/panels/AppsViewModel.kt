@@ -58,7 +58,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val categoryList = ArrayList<PackageInfo>()
 
-                for (app in (apps.clone() as ArrayList<PackageInfo>)) {
+                for (app in apps) {
                     if (app.applicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
                             if (!categoryList.contains(app)) {
@@ -142,7 +142,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
                 }
 
-                apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+                apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo> // Unnecessary ??
             }
 
             var filteredList = arrayListOf<PackageInfo>()
