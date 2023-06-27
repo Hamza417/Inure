@@ -25,9 +25,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
     private var batchDatabase: BatchDatabase? = null
 
     private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
-        MutableLiveData<ArrayList<BatchPackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<BatchPackageInfo>>()
     }
 
     private val selectedApps: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {

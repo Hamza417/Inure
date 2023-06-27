@@ -24,9 +24,7 @@ import java.util.stream.Collectors
 class UsageStatsViewModel(application: Application) : app.simple.inure.extensions.viewmodels.UsageStatsViewModel(application) {
 
     val usageData: MutableLiveData<ArrayList<PackageStats>> by lazy {
-        MutableLiveData<ArrayList<PackageStats>>().also {
-            loadAppStats()
-        }
+        MutableLiveData<ArrayList<PackageStats>>()
     }
 
     val progress = MutableLiveData<Int>()

@@ -20,31 +20,41 @@ import app.simple.inure.util.NullSafety.isNotNull
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DataLoaderService : Service() {
 
     companion object {
-        val UNINSTALLED_APPS_LOADED = "uninstalled_apps_loaded"
-        val INSTALLED_APPS_LOADED = "installed_apps_loaded"
+        const val UNINSTALLED_APPS_LOADED = "uninstalled_apps_loaded"
+        const val INSTALLED_APPS_LOADED = "installed_apps_loaded"
+        const val APPS_LOADED = "apps_loaded"
     }
 
+    private val TAG: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
-    private var areAppsLoadingStarted = false
+    private var isLoading = false
 
-    inner class LocalBinder : Binder() {
+    inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
             return this@DataLoaderService
         }
     }
 
     override fun onBind(intent: Intent): IBinder {
-        return LocalBinder()
+        return LoaderBinder()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        loadPackageData()
+        CoroutineScope(Dispatchers.Default).launch {
+            startLoading()
+
+            withContext(Dispatchers.Main) {
+                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
+            }
+        }
+
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -69,9 +79,9 @@ class DataLoaderService : Service() {
         }
     }
 
-    protected fun loadPackageData() {
-        if (areAppsLoadingStarted.invert()) {
-            areAppsLoadingStarted = true
+    fun startLoading() {
+        if (isLoading.invert()) {
+            isLoading = true
 
             CoroutineScope(Dispatchers.IO).launch {
                 if (apps.isEmpty()) {
@@ -84,67 +94,57 @@ class DataLoaderService : Service() {
 
                 onAppsLoaded(apps.toArrayList())
                 onUninstalledAppsLoaded(uninstalledApps.toArrayList())
+
+                withContext(Dispatchers.Main) {
+                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
+                    Log.d(TAG, "startLoading: apps loaded")
+                    isLoading = false
+                }
             }
         }
     }
 
-    fun refreshPackageData() {
+    fun refresh() {
         CoroutineScope(Dispatchers.IO).launch {
-            apps = loadInstalledApps().clone()
-            onAppsLoaded(apps.toArrayList())
+            isLoading = false
+            startLoading()
         }
+    }
+
+    fun hasDataLoaded(): Boolean {
+        return apps.isNotEmpty() && uninstalledApps.isNotEmpty()
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                try {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())).loadPackageNames()
-                } catch (e: DeadObjectException) {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                    loadInstalledApps()
-                }
-            } else {
-                try {
-                    @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA).loadPackageNames()
-                } catch (e: DeadObjectException) {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                    loadInstalledApps()
-                }
-            }
-        } catch (e: DeadObjectException) {
-            Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-            loadInstalledApps()
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())).loadPackageNames()
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.getInstalledPackages(PackageManager.GET_META_DATA).loadPackageNames()
         }
     }
 
     protected fun loadUninstalledApps() {
-        try {
-            if (uninstalledApps.isEmpty()) {
-                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                            .of((PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
+        if (uninstalledApps.isEmpty()) {
+            uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
+                                                        .of((PackageManager.GET_META_DATA
+                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                    }
-                }.toArrayList()
-            }
-
-            @Suppress("UNCHECKED_CAST")
-            onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
-        } catch (e: DeadObjectException) {
-            Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadObjectException")
-            loadUninstalledApps()
+                    @Suppress("DEPRECATION")
+                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA
+                                                                or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
+                }
+            }.toArrayList()
         }
+
+        @Suppress("UNCHECKED_CAST")
+        onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
     }
 
     fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {

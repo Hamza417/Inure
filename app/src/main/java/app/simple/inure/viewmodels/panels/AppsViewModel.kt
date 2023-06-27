@@ -21,9 +21,7 @@ import java.util.stream.Collectors
 class AppsViewModel(application: Application) : DataGeneratorViewModel(application) {
 
     private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     val appLoaded: MutableLiveData<AppsEvent<Boolean>> by lazy {

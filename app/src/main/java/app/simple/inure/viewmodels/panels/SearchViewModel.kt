@@ -5,27 +5,23 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class SearchViewModel(application: Application) : WrappedViewModel(application) {
+class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
 
@@ -55,15 +51,11 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     }
 
     private val searchData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val deepSearchData: MutableLiveData<ArrayList<SearchModel>> by lazy {
-        MutableLiveData<ArrayList<SearchModel>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<SearchModel>>()
     }
 
     fun getSearchKeywords(): LiveData<String> {
@@ -97,7 +89,7 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
     fun reload() {
         viewModelScope.launch(Dispatchers.IO) {
             apps.clear()
-            loadPackageData()
+            refreshPackageData()
             initiateSearch(searchKeywords.value!!)
         }
     }
@@ -351,51 +343,9 @@ class SearchViewModel(application: Application) : WrappedViewModel(application) 
         return count
     }
 
-    fun getInstalledApps(): ArrayList<PackageInfo> {
-        if (apps.isNotNull() && apps.isNotEmpty()) {
-            @Suppress("UNCHECKED_CAST")
-            return apps.clone() as ArrayList<PackageInfo>
-        } else {
-            apps = loadInstalledApps().clone()
-            return getInstalledApps()
-        }
-    }
-
-    private fun loadInstalledApps(): MutableList<PackageInfo> {
-        while (true) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                kotlin.runCatching {
-                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong())).loadPackageNames()
-                }.getOrElse {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                }
-            } else {
-                kotlin.runCatching {
-                    @Suppress("DEPRECATION")
-                    return packageManager.getInstalledPackages(flags).loadPackageNames()
-                }.getOrElse {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadObjectException")
-                }
-            }
-        }
-    }
-
-    private fun loadPackageData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (apps.isEmpty()) {
-                apps = loadInstalledApps().clone()
-            }
-
-            initiateSearch(SearchPreferences.getLastSearchKeyword())
-        }
-    }
-
-    private fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
-        forEach {
-            it.applicationInfo.name = PackageUtils.getApplicationName(application.applicationContext, it.applicationInfo)
-        }
-
-        return this
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        initiateSearch(SearchPreferences.getLastSearchKeyword())
     }
 
     override fun onAppUninstalled(packageName: String?) {

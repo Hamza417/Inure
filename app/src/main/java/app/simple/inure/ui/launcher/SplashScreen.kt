@@ -3,12 +3,9 @@ package app.simple.inure.ui.launcher
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AppOpsManager
-import android.content.Context
+import android.content.*
 import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
-import android.os.Process
+import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.Misc
@@ -29,6 +27,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.*
+import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.Trial
 import app.simple.inure.util.AppUtils
@@ -63,12 +62,41 @@ class SplashScreen : ScopedFragment() {
 
     private val launcherViewModel: LauncherViewModel by viewModels()
 
+    private var serviceConnection: ServiceConnection? = null
+    private var dataLoaderService: DataLoaderService? = null
+    private var broadcastReceiver: BroadcastReceiver? = null
+
+    private var intentFilter: IntentFilter = IntentFilter(DataLoaderService.APPS_LOADED)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == DataLoaderService.APPS_LOADED) {
+                    proceed()
+                }
+            }
+        }
+
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
+                if (dataLoaderService?.hasDataLoaded() == true) {
+                    proceed()
+                } else {
+                    dataLoaderService?.startLoading()
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                dataLoaderService = null
+            }
+        }
 
         startPostponedEnterTransition()
 
@@ -111,7 +139,11 @@ class SplashScreen : ScopedFragment() {
                     }
                 }
                 else -> {
-                    proceed()
+                    if (dataLoaderService == null) {
+                        requireContext().bindService(Intent(requireContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
+                    } else {
+                        dataLoaderService?.startLoading()
+                    }
                 }
             }
         }
@@ -338,6 +370,18 @@ class SplashScreen : ScopedFragment() {
             // Should always be 0
             daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireContext().bindService(Intent(requireContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver!!, IntentFilter(DataLoaderService.APPS_LOADED))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireContext().unbindService(serviceConnection!!)
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)
     }
 
     companion object {

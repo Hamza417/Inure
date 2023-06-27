@@ -36,41 +36,27 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private val oneMonth = 2592000000 // 30 days
 
     private val recentlyInstalledAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val recentlyUpdatedAppData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val mostUsedAppData: MutableLiveData<ArrayList<PackageStats>> by lazy {
-        MutableLiveData<ArrayList<PackageStats>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageStats>>()
     }
 
     private val uninstalled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            viewModelScope.launch(Dispatchers.IO) {
-                loadUninstalledApps()
-            }
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val disabled: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val hidden: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadPackageData()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
@@ -356,7 +342,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     fun refreshUninstalled() {
-        loadUninstalledApps()
+
     }
 
     fun refreshMostUsed() {

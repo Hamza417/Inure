@@ -1,137 +1,90 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
-import android.content.Context
+import android.content.*
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.DeadObjectException
+import android.os.IBinder
 import android.util.Log
-import androidx.lifecycle.viewModelScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.services.DataLoaderService
 import app.simple.inure.util.ArrayUtils
-import app.simple.inure.util.ArrayUtils.clone
-import app.simple.inure.util.ArrayUtils.toArrayList
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.stream.Collectors
 
 abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
-    private var areAppsLoadingStarted = false
+    private var serviceConnection: ServiceConnection? = null
+    private var dataLoaderService: DataLoaderService? = null
+    private var broadcastReceiver: BroadcastReceiver? = null
+    private var intentFilter: IntentFilter = IntentFilter(DataLoaderService.APPS_LOADED)
+
+    init {
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
+                if (dataLoaderService!!.hasDataLoaded()) {
+                    apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
+                    uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+
+                    onAppsLoaded(apps)
+                    onUninstalledAppsLoaded(uninstalledApps)
+                } else {
+                    dataLoaderService!!.startLoading()
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                dataLoaderService = null
+            }
+        }
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            @Suppress("UNCHECKED_CAST")
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    DataLoaderService.APPS_LOADED -> {
+                        apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
+                        uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+
+                        onAppsLoaded(apps)
+                        onUninstalledAppsLoaded(uninstalledApps)
+                    }
+                }
+            }
+        }
+
+        LocalBroadcastManager.getInstance(applicationContext()).registerReceiver(broadcastReceiver!!, intentFilter)
+        applicationContext().bindService(Intent(applicationContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
+    }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
         if (apps.isNotNull() && apps.isNotEmpty()) {
             @Suppress("UNCHECKED_CAST")
-            return apps.clone() as ArrayList<PackageInfo>
+            return dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
         } else {
-            Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
-            apps = loadInstalledApps() as ArrayList<PackageInfo>
-            return getInstalledApps()
+            return arrayListOf()
         }
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
         if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
             @Suppress("UNCHECKED_CAST")
-            return uninstalledApps.clone() as ArrayList<PackageInfo>
+            return dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
         } else {
-            Log.d("PackageUtilsViewModel", "getUninstalledApps: uninstalledApps is null or empty, reloading")
-            @Suppress("CAST_NEVER_SUCCEEDS")
-            loadUninstalledApps()
-            return getUninstalledApps()
-        }
-    }
-
-    protected fun loadPackageData() {
-        if (areAppsLoadingStarted.invert()) {
-            areAppsLoadingStarted = true
-
-            viewModelScope.launch(Dispatchers.IO) {
-                if (apps.isEmpty()) {
-                    apps = loadInstalledApps().clone()
-                }
-                onAppsLoaded(apps.toArrayList())
-            }
+            return arrayListOf()
         }
     }
 
     fun refreshPackageData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            apps = loadInstalledApps().clone()
-            onAppsLoaded(apps.toArrayList())
-        }
-    }
-
-    fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
-        forEach {
-            it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
-        }
-
-        return this
-    }
-
-    private fun loadInstalledApps(): MutableList<PackageInfo> {
-        while (true) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                kotlin.runCatching {
-                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                                   .of((PackageManager.GET_META_DATA
-                                                                           or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
-                }.getOrElse {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadSystemException")
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                kotlin.runCatching {
-                    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                    } else {
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                    }
-                }.getOrElse {
-                    Log.e("PackageUtilsViewModel", "loadInstalledApps: DeadSystemException")
-                }
-            }
-        }
-    }
-
-    protected fun loadUninstalledApps() {
-        while (true) {
-            kotlin.runCatching {
-                uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                            .of((PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                    or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                    }
-                }.stream().filter {
-                    it.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                }.collect(Collectors.toList())
-                    .toArrayList()
-
-                @Suppress("UNCHECKED_CAST")
-                onUninstalledAppsLoaded(apps.clone() as ArrayList<PackageInfo>)
-                return
-            }.getOrElse {
-                Log.e("PackageUtilsViewModel", "loadUninstalledApps: DeadSystemException")
-            }
-        }
+        dataLoaderService!!.refresh()
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
@@ -238,5 +191,18 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     open fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         Log.d("PackageUtilsViewModel", "onAppsLoaded: ${apps.size}")
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        try {
+            serviceConnection?.let {
+                application.applicationContext.unbindService(it)
+            }
+
+            LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(broadcastReceiver!!)
+        } catch (e: java.lang.IllegalStateException) {
+            e.printStackTrace()
+        }
     }
 }
