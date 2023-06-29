@@ -28,7 +28,7 @@ public class PaddingAwareFrameLayout extends ThemeFrameLayout implements SharedP
     }
     
     private void updatePadding() {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.transparentStatus)) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.disableTransparentStatus)) {
             if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
                 setPadding(getPaddingLeft(),
                         Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
@@ -45,7 +45,7 @@ public class PaddingAwareFrameLayout extends ThemeFrameLayout implements SharedP
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(DevelopmentPreferences.transparentStatus)) {
+        if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
             updatePadding();
         }
     }

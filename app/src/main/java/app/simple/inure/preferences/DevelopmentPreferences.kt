@@ -18,7 +18,7 @@ object DevelopmentPreferences {
     const val enableDeviceInfo = "is_device_info_enabled"
     const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
     const val enableHiddenApps = "is_hidden_apps_enabled"
-    const val transparentStatus = "is_transparent_status_disabled_removed"
+    const val disableTransparentStatus = "is_transparent_status_disabled_removed"
     const val loadAllInstallerPages = "is_all_installer_pages_loaded"
     const val isNotchAreaEnabled = "is_notch_area_enabled"
     const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
@@ -107,7 +107,7 @@ object DevelopmentPreferences {
 
                 DevelopmentPreferencesModel("Disable Transparent Status",
                                             "Disable transparent status bar in the app. This will make the status bar opaque.",
-                                            transparentStatus,
+                                            disableTransparentStatus,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Load All Installer Pages",

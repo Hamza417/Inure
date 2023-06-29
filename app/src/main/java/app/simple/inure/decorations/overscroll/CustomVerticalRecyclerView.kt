@@ -52,7 +52,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
                     edgeColor = AppearancePreferences.getAccentColor()
 
                     if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
-                        if (!DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
+                        if (!DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
                             setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
                         }
                     }

@@ -187,7 +187,7 @@ object ThemeUtils {
     }
 
     private fun setStatusAndNavColors(window: Window) {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.transparentStatus)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
         } else {
             window.statusBarColor = Color.TRANSPARENT
