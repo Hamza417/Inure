@@ -22,6 +22,7 @@ import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.*
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -57,7 +58,9 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
         if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
-            holder.icon.loadAppIcon(apps[position].packageInfo.packageName, apps[position].packageInfo.applicationInfo.enabled)
+            holder.icon.loadAppIcon(apps[position].packageInfo.packageName,
+                                    apps[position].packageInfo.applicationInfo.enabled,
+                                    apps[position].packageInfo.applicationInfo.sourceDir.toFile())
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
@@ -265,6 +268,10 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             apps[i].isSelected = false
             notifyItemChanged(i.plus(1))
         }
+    }
+
+    fun getSelectedAppsCount(): Int {
+        return apps.count { it.isSelected }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

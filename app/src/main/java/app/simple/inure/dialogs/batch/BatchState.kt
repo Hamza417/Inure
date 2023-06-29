@@ -49,7 +49,11 @@ class BatchState : ScopedBottomSheetFragment() {
 
         batchStateViewModel?.getSuccess()?.observe(viewLifecycleOwner) {
             state.text = buildString {
-                append(getString(R.string.count_done, it))
+                if (requireArguments().getBoolean(BundleConstants.state)) {
+                    append(getString(R.string.n_enabled, it))
+                } else {
+                    append(getString(R.string.n_disabled, it))
+                }
                 append(" | ")
                 append(getString(R.string.count_failed, appList.size - it))
             }

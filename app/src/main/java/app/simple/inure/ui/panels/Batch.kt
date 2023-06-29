@@ -51,7 +51,6 @@ class Batch : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_batch, container, false)
 
         recyclerView = view.findViewById(R.id.batch_recycler_view)
-
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
         return view
@@ -122,35 +121,43 @@ class Batch : ScopedFragment() {
                         .show(childFragmentManager, "batch_menu")
                 }
                 R.drawable.ic_delete -> {
-                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                        override fun onSure() {
-                            BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
-                                .show(childFragmentManager, "batch_uninstaller")
-                        }
-                    })
+                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!) {
+                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                            override fun onSure() {
+                                BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
+                                    .show(childFragmentManager, "batch_uninstaller")
+                            }
+                        })
+                    } else {
+                        showWarning("RESTRICTION: Cannot uninstall all apps at once", goBack = false)
+                    }
                 }
                 R.drawable.ic_hide_source -> {
-                    PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
-                        override fun onEnableAll() {
-                            onSure {
-                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
-                                    for (app in adapterBatch!!.getCurrentAppsList()) {
-                                        adapterBatch!!.updateBatchItem(app)
+                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!) {
+                        PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
+                            override fun onEnableAll() {
+                                onSure {
+                                    childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
+                                        for (app in adapterBatch!!.getCurrentAppsList()) {
+                                            adapterBatch!!.updateBatchItem(app)
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        override fun onDisableAll() {
-                            onSure {
-                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), false) {
-                                    for (app in adapterBatch!!.getCurrentAppsList()) {
-                                        adapterBatch!!.updateBatchItem(app)
+                            override fun onDisableAll() {
+                                onSure {
+                                    childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), false) {
+                                        for (app in adapterBatch!!.getCurrentAppsList()) {
+                                            adapterBatch!!.updateBatchItem(app)
+                                        }
                                     }
                                 }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        showWarning("RESTRICTION: Cannot change state of all apps at once", goBack = false)
+                    }
                 }
                 R.drawable.ic_send -> {
                     /* no-op */
