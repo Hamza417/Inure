@@ -50,6 +50,8 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 apps.removeIf { it.packageName == applicationContext().packageName }
+            } else {
+                apps = apps.filter { it.packageName != applicationContext().packageName } as ArrayList<PackageInfo>
             }
 
             when (BatchPreferences.getAppsCategory()) {

@@ -1,7 +1,6 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import app.simple.inure.util.*
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import java.util.*
 import java.util.stream.Collectors
 
 class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boolean = true) : RecyclerView.Adapter<VerticalListViewHolder>() {
@@ -54,7 +54,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = if (headerEnabled) holder.bindingAdapterPosition - 1 else holder.bindingAdapterPosition
+        val position = if (headerEnabled) position_ - 1 else position_
 
         if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
@@ -76,10 +76,10 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.checkBox.setOnCheckedChangeListener {
                 apps[position].isSelected = it
                 apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
-                adapterCallbacks?.onBatchChanged(apps[holder.bindingAdapterPosition.minus(1)])
+                adapterCallbacks?.onBatchChanged(apps[position])
 
                 if (highlight) {
-                    holder.container.setDefaultBackground(apps[holder.bindingAdapterPosition.minus(1)].isSelected)
+                    holder.container.setDefaultBackground(apps[position].isSelected)
                 }
 
                 if (apps[position].isSelected) {
@@ -92,13 +92,16 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
                 if (BatchPreferences.isSelectionOnTop() && it) {
                     if (headerEnabled) {
-                        Log.d("AdapterBatch", "Moving ${holder.bindingAdapterPosition.minus(1)} to 0")
-                        apps.move(holder.bindingAdapterPosition.minus(1), 0)
-                        Log.d("AdapterBatch", "Notifying ${holder.bindingAdapterPosition} to 1")
+                        // apps.move(holder.bindingAdapterPosition.minus(1), 0)
+                        Collections.swap(apps, holder.bindingAdapterPosition.minus(1), 0)
                         notifyItemMoved(holder.bindingAdapterPosition, 1)
+                        notifyItemChanged(holder.bindingAdapterPosition)
+                        notifyItemChanged(1)
+                        notifyItemRangeChanged(0, apps.size.plus(1))
                     } else {
                         apps.move(holder.bindingAdapterPosition, 0)
                         notifyItemMoved(holder.bindingAdapterPosition, 0)
+                        notifyItemRangeChanged(0, apps.size)
                     }
                 }
 
