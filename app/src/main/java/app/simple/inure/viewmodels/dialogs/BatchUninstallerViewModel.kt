@@ -1,4 +1,4 @@
-package app.simple.inure.viewmodels.panels
+package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.ApplicationInfo

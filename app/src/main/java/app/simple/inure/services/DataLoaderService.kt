@@ -30,7 +30,7 @@ class DataLoaderService : Service() {
         const val APPS_LOADED = "apps_loaded"
     }
 
-    private val TAG: String = "DataLoaderService"
+    private val tag: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
@@ -97,7 +97,7 @@ class DataLoaderService : Service() {
 
                 withContext(Dispatchers.Main) {
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
-                    Log.d(TAG, "startLoading: apps loaded")
+                    Log.d(tag, "startLoading: apps loaded")
                     isLoading = false
                 }
             }

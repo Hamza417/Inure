@@ -4,16 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.viewmodels.panels.BatchUninstallerViewModel
+import app.simple.inure.viewmodels.dialogs.BatchStateViewModel
+import app.simple.inure.viewmodels.dialogs.BatchUninstallerViewModel
 
-class BatchViewModelFactory(private val list: ArrayList<BatchPackageInfo>) : ViewModelProvider.Factory {
+class BatchViewModelFactory(private val list: ArrayList<BatchPackageInfo>, val state: Boolean) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
-        when {
+        return when {
             modelClass.isAssignableFrom(BatchUninstallerViewModel::class.java) -> {
-                return BatchUninstallerViewModel(application, list) as T
+                BatchUninstallerViewModel(application, list) as T
+            }
+            modelClass.isAssignableFrom(BatchStateViewModel::class.java) -> {
+                BatchStateViewModel(application, list, state) as T
             }
             else -> {
                 throw java.lang.IllegalArgumentException("Nope, Wrong ViewModel!!")

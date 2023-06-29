@@ -420,6 +420,21 @@
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dialog_padding"
+                    android:layout_marginTop="5dp"
+                    android:drawablePadding="5dp"
+                    android:layout_marginBottom="@dimen/panel_item_padding"
+                    android:gravity="center_vertical"
+                    android:text="@string/colorful_icons"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="secondary" />
+
             </LinearLayout>
 
         </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

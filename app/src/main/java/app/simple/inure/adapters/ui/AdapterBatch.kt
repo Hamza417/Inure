@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +53,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = if (headerEnabled) position_ - 1 else position_
+        val position = if (headerEnabled) holder.bindingAdapterPosition - 1 else holder.bindingAdapterPosition
 
         if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
@@ -72,31 +73,39 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.checkBox.setOnCheckedChangeListener {
                 apps[position].isSelected = it
                 apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
-                adapterCallbacks?.onBatchChanged(apps[position])
+                adapterCallbacks?.onBatchChanged(apps[holder.bindingAdapterPosition.minus(1)])
 
                 if (highlight) {
-                    holder.container.setDefaultBackground(apps[position].isSelected)
+                    holder.container.setDefaultBackground(apps[holder.bindingAdapterPosition.minus(1)].isSelected)
                 }
 
                 if (apps[position].isSelected) {
-                    holder.date.text = holder.itemView.context.getString(R.string.selected_on, DateUtils.formatDate(apps[position].dateSelected, pattern))
+                    holder.date.text = holder.itemView.context.getString(
+                            R.string.selected_on,
+                            DateUtils.formatDate(apps[position].dateSelected, pattern))
                 } else {
                     holder.date.setText(R.string.not_selected)
                 }
 
                 if (BatchPreferences.isSelectionOnTop() && it) {
                     if (headerEnabled) {
+                        Log.d("AdapterBatch", "Moving ${holder.bindingAdapterPosition.minus(1)} to 0")
                         apps.move(holder.bindingAdapterPosition.minus(1), 0)
+                        Log.d("AdapterBatch", "Notifying ${holder.bindingAdapterPosition} to 1")
                         notifyItemMoved(holder.bindingAdapterPosition, 1)
                     } else {
                         apps.move(holder.bindingAdapterPosition, 0)
                         notifyItemMoved(holder.bindingAdapterPosition, 0)
                     }
                 }
+
+                if (headerEnabled) notifyItemChanged(0)
             }
 
             if (apps[position].isSelected) {
-                holder.date.text = holder.itemView.context.getString(R.string.selected_on, DateUtils.formatDate(apps[position].dateSelected, pattern))
+                holder.date.text = holder.itemView.context.getString(
+                        R.string.selected_on,
+                        DateUtils.formatDate(apps[position].dateSelected, pattern))
             } else {
                 holder.date.setText(R.string.not_selected)
             }
@@ -114,6 +123,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
         if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+            holder.selected.text = apps.count { it.isSelected }.toString()
 
             holder.category.text = when (BatchPreferences.getAppsCategory()) {
                 SortConstant.USER -> {
@@ -270,5 +280,6 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
         val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
+        val selected: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_selected)
     }
 }

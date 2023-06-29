@@ -29,9 +29,11 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
 import app.simple.inure.decorations.views.BottomMenuRecyclerView
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
@@ -621,6 +623,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                  */
             }
         }
+    }
+
+    protected fun onSure(onSure: () -> Unit) {
+        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+            override fun onSure() {
+                onSure()
+            }
+        })
     }
 
     protected fun goBack() {

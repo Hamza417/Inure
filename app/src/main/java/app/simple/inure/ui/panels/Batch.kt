@@ -19,6 +19,7 @@ import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBat
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
+import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
@@ -28,6 +29,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.ui.viewers.HtmlViewer
@@ -124,6 +126,29 @@ class Batch : ScopedFragment() {
                         override fun onSure() {
                             BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
                                 .show(childFragmentManager, "batch_uninstaller")
+                        }
+                    })
+                }
+                R.drawable.ic_hide_source -> {
+                    PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
+                        override fun onEnableAll() {
+                            onSure {
+                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
+                                    for (app in adapterBatch!!.getCurrentAppsList()) {
+                                        adapterBatch!!.updateBatchItem(app)
+                                    }
+                                }
+                            }
+                        }
+
+                        override fun onDisableAll() {
+                            onSure {
+                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), false) {
+                                    for (app in adapterBatch!!.getCurrentAppsList()) {
+                                        adapterBatch!!.updateBatchItem(app)
+                                    }
+                                }
+                            }
                         }
                     })
                 }

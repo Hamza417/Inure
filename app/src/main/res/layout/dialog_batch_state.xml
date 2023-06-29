@@ -17,7 +17,7 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_state"
+            android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/dialog_padding"
@@ -25,7 +25,7 @@
             android:textSize="@dimen/popup_text_size"
             android:gravity="center_vertical"
             app:appFontStyle="medium"
-            app:drawableStartCompat="@drawable/ic_delete"
+            app:drawableStartCompat="@drawable/ic_hide_source"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 

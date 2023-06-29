@@ -23,7 +23,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
-import app.simple.inure.viewmodels.panels.BatchUninstallerViewModel
+import app.simple.inure.viewmodels.dialogs.BatchUninstallerViewModel
 import app.simple.inure.viewmodels.panels.BatchViewModel
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
@@ -31,7 +31,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     private lateinit var state: TypeFaceTextView
 
     private var appList = arrayListOf<BatchPackageInfo>()
-
     private var batchUninstallerViewModel: BatchUninstallerViewModel? = null
     private var batchViewModel: BatchViewModel? = null
     private var batchUninstallerProgressStateModel = BatchUninstallerProgressStateModel()
@@ -78,7 +77,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
         }
 
         if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
-            val batchViewModelFactory = BatchViewModelFactory(appList)
+            val batchViewModelFactory = BatchViewModelFactory(appList, requireArguments().getBoolean(BundleConstants.state))
             batchUninstallerViewModel = ViewModelProvider(this, batchViewModelFactory)[BatchUninstallerViewModel::class.java]
         }
 

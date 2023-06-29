@@ -61,6 +61,20 @@
             app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/adapter_total_selected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="8dp"
+            android:drawablePadding="@dimen/popup_padding"
+            android:textSize="16sp"
+            app:appFontStyle="bold"
+            app:drawableStartCompat="@drawable/ic_check_12dp"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_header_sorting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
