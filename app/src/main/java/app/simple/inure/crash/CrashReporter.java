@@ -53,15 +53,21 @@ public class CrashReporter implements Thread.UncaughtExceptionHandler {
     public void initialize() {
         long timeStamp = CrashPreferences.INSTANCE.getCrashLog();
     
-        if (timeStamp != CrashPreferences.crashTimestampEmptyDefault) {
-            String stack = Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp));
-            Intent intent = new Intent(context, CrashReporterActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(CrashReporterActivity.MODE_NORMAL, stack);
-            context.startActivity(intent);
+        try {
+            if (timeStamp != CrashPreferences.crashTimestampEmptyDefault) {
+                String stack = Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp));
+                Intent intent = new Intent(context, CrashReporterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(CrashReporterActivity.MODE_NORMAL, stack);
+                context.startActivity(intent);
+            }
+        
+            Thread.setDefaultUncaughtExceptionHandler(new CrashReporter(context));
+        } catch (RuntimeException e) {
+            if (context.getExternalFilesDir("logs").delete()) {
+                Log.e(TAG, "Crash handler crashed -----> deleted crash logs");
+            }
         }
-    
-        Thread.setDefaultUncaughtExceptionHandler(new CrashReporter(context));
     }
     
     @SuppressWarnings ("unused")

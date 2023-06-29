@@ -54,13 +54,12 @@ class Analytics : ScopedFragment() {
             minSdkHeading.gone()
         }
 
-        startPostponedEnterTransition()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        startPostponedEnterTransition()
 
         analyticsViewModel.getMinimumOsData().observe(viewLifecycleOwner) {
             minimumOsPie.apply {
@@ -151,6 +150,7 @@ class Analytics : ScopedFragment() {
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
             AnalyticsPreferences.sdkValue -> {
                 analyticsViewModel.refresh()

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.os.BuildCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -54,7 +55,9 @@ import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 @SuppressLint("Registered")
-open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.content.SharedPreferences.OnSharedPreferenceChangeListener {
+open class BaseActivity : AppCompatActivity(),
+                          ThemeChangedListener,
+                          android.content.SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * Fragments own loader instance
@@ -73,6 +76,7 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
+    @androidx.annotation.OptIn(BuildCompat.PrereleaseSdkCheck::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent).invert()) {
             AppearancePreferences.setCustomColor(false)
@@ -170,6 +174,27 @@ open class BaseActivity : AppCompatActivity(), ThemeChangedListener, android.con
                 }
             }
         }
+
+        //        if (BuildCompat.isAtLeastT()) {
+        //            val callback = object : OnBackPressedCallback(true) {
+        //                override fun handleOnBackPressed() {
+        //                    Log.d("BaseActivity", supportFragmentManager.backStackEntryCount.toString() + " back stack entries")
+        //                    if (supportFragmentManager.backStackEntryCount > 0) {
+        //                        supportFragmentManager.popBackStack()
+        //                        if (supportFragmentManager.executePendingTransactions()) {
+        //                            Log.d("BaseActivity", "Popped back stack")
+        //                        } else {
+        //                            Log.d("BaseActivity", "Couldn't pop back stack")
+        //                        }
+        //                    } else {
+        //                        Log.d("BaseActivity", "No back stack entries")
+        //                        onBackPressedDispatcher.onBackPressed()
+        //                    }
+        //                }
+        //            }
+        //
+        //            onBackPressedDispatcher.addCallback(this, callback)
+        //        }
     }
 
     override fun onResume() {
