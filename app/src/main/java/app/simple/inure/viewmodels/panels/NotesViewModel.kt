@@ -28,9 +28,7 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
     }
 
     private val notesData: MutableLiveData<ArrayList<NotesPackageInfo>> by lazy {
-        MutableLiveData<ArrayList<NotesPackageInfo>>().also {
-            loadNotesData()
-        }
+        MutableLiveData<ArrayList<NotesPackageInfo>>()
     }
 
     private val delete = MutableLiveData<Int>()
@@ -93,6 +91,11 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
 
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
+        loadNotesData()
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
         loadNotesData()
     }
 

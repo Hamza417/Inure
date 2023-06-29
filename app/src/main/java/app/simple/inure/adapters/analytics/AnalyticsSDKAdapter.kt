@@ -12,13 +12,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.util.PackageListUtils.setAppInfo
 
 class AnalyticsSDKAdapter(private val packageInfo: ArrayList<PackageInfo>) : RecyclerView.Adapter<AnalyticsSDKAdapter.Holder>() {
 
     private var adapterCallbacks: AdapterCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_apps, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_all_apps_small_details, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -26,6 +27,7 @@ class AnalyticsSDKAdapter(private val packageInfo: ArrayList<PackageInfo>) : Rec
         holder.icon.loadAppIcon(packageInfo[position].packageName, packageInfo[position].applicationInfo.enabled)
         holder.name.text = packageInfo[position].applicationInfo.name
         holder.packageName.text = packageInfo[position].packageName
+        holder.details.setAppInfo(packageInfo[position])
 
         holder.container.setOnClickListener {
             adapterCallbacks?.onAppClicked(packageInfo[holder.bindingAdapterPosition], holder.icon)
@@ -48,7 +50,8 @@ class AnalyticsSDKAdapter(private val packageInfo: ArrayList<PackageInfo>) : Rec
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_name)
+        val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val details: TypeFaceTextView = itemView.findViewById(R.id.details)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 }

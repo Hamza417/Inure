@@ -18,17 +18,11 @@ import kotlinx.coroutines.launch
 class AnalyticsSDKViewModel(application: Application, private val entry: Entry) : PackageUtilsViewModel(application) {
 
     private val data1: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                loadSDKFilteredAppsList()
-            }
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     private val data2: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>().also {
-            loadTargetSDKFilteredAppsList()
-        }
+        MutableLiveData<ArrayList<PackageInfo>>()
     }
 
     fun getMinimumSDKApps(): MutableLiveData<ArrayList<PackageInfo>> {
@@ -96,5 +90,13 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
 
             data2.postValue(sdkFilteredApps)
         }
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            loadSDKFilteredAppsList()
+        }
+        loadTargetSDKFilteredAppsList()
     }
 }

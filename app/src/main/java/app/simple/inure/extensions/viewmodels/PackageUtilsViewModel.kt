@@ -15,7 +15,6 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.util.ArrayUtils
-import app.simple.inure.util.NullSafety.isNotNull
 
 abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -39,8 +38,8 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
                 if (dataLoaderService!!.hasDataLoaded()) {
-                    apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-                    uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                    apps = dataLoaderService!!.getInstalledApps()
+                    uninstalledApps = dataLoaderService!!.getUninstalledApps()
 
                     onAppsLoaded(apps)
                     onUninstalledAppsLoaded(uninstalledApps)
@@ -82,21 +81,11 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
-        if (apps.isNotNull() && apps.isNotEmpty()) {
-            @Suppress("UNCHECKED_CAST")
-            return dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-        } else {
-            return arrayListOf()
-        }
+        return dataLoaderService!!.getInstalledApps()
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
-        if (uninstalledApps.isNotNull() && uninstalledApps.isNotEmpty()) {
-            @Suppress("UNCHECKED_CAST")
-            return dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
-        } else {
-            return arrayListOf()
-        }
+        return dataLoaderService!!.getUninstalledApps()
     }
 
     fun refreshPackageData() {
