@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.PointF
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,23 +14,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.ImageViewerViewModelFactory
 import app.simple.inure.popups.viewers.PopupImageViewer
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.ImageViewerViewModel
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -45,7 +50,7 @@ class ImageViewer : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
-    private lateinit var header: PaddingAwareLinearLayout
+    private lateinit var header: LinearLayout
     private lateinit var background: FrameLayout
 
     private val imageViewerViewModel: ImageViewerViewModel by lazy {
@@ -93,6 +98,31 @@ class ImageViewer : ScopedFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView).isAppearanceLightStatusBars = false
+
+        with(header) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+                if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
+                    setPadding(paddingLeft,
+                               Math.abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
+                               paddingRight,
+                               paddingBottom)
+                }
+            } else {
+                setPadding(paddingLeft,
+                           StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
+                           paddingRight,
+                           paddingBottom)
+            }
+
+            background = GradientDrawable().apply {
+                colors = intArrayOf(Color.BLACK, Color.TRANSPARENT)
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+                shape = GradientDrawable.RECTANGLE
+            }
+        }
 
         imageViewerViewModel.getBitmap().observe(viewLifecycleOwner) {
             image.setImage(ImageSource.bitmap(it))
@@ -214,6 +244,11 @@ class ImageViewer : ScopedFragment() {
         colorAnim.interpolator = LinearOutSlowInInterpolator()
         colorAnim.addUpdateListener { animation -> image.setBackgroundColor(animation.animatedValue as Int) }
         colorAnim.start()
+    }
+
+    override fun onDestroy() {
+        ThemeUtils.setBarColors(resources, requireActivity().window)
+        super.onDestroy()
     }
 
     companion object {

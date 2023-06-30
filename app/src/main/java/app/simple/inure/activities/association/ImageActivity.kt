@@ -1,25 +1,31 @@
 package app.simple.inure.activities.association
 
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.PointF
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.DecelerateInterpolator
+import android.widget.LinearLayout
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.documentfile.provider.DocumentFile
 import app.simple.inure.R
 import app.simple.inure.constants.Warnings
-import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.glide.svg.SVG
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.DevelopmentPreferences.get
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.FileUtils.isSVG
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ProcessUtils
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -36,7 +42,7 @@ class ImageActivity : BaseActivity() {
     private lateinit var gif: ZoomImageView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
-    private lateinit var header: PaddingAwareLinearLayout
+    private lateinit var header: LinearLayout
 
     private var isFullScreen = true
 
@@ -49,6 +55,31 @@ class ImageActivity : BaseActivity() {
         back = findViewById(R.id.image_viewer_back_button)
         name = findViewById(R.id.image_name)
         header = findViewById(R.id.header)
+
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+
+        with(header) {
+            if (get(DevelopmentPreferences.disableTransparentStatus)) {
+                if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
+                    setPadding(paddingLeft,
+                               Math.abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
+                               paddingRight,
+                               paddingBottom)
+                }
+            } else {
+                setPadding(paddingLeft,
+                           StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
+                           paddingRight,
+                           paddingBottom)
+            }
+
+            background = GradientDrawable().apply {
+                colors = intArrayOf(Color.BLACK, Color.TRANSPARENT)
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+                shape = GradientDrawable.RECTANGLE
+            }
+        }
 
         ProcessUtils.ensureOnMainThread {
             kotlin.runCatching {

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/image_viewer_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@android:color/black"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fitsSystemWindows="false">
@@ -21,12 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+    <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:elevation="@dimen/app_views_elevation"
+        android:background="@android:color/black"
         android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -36,7 +35,7 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_arrow_back"
-            app:buttonTintType="accent"
+            app:buttonTintType="white"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -48,7 +47,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            app:textColorStyle="white" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/image_viewer_option"
@@ -56,9 +55,9 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_more_vert"
-            app:buttonTintType="regular"
+            app:buttonTintType="white"
             tools:ignore="ContentDescription" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+    </LinearLayout>
 
-</app.simple.inure.decorations.theme.ThemeFrameLayout>
+</FrameLayout>
