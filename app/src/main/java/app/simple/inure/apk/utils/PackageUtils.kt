@@ -9,7 +9,6 @@ import android.content.pm.*
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
-import android.os.DeadObjectException
 import android.os.RemoteException
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
@@ -332,21 +331,27 @@ object PackageUtils {
     }
 
     fun PackageManager.isPackageInstalled(packageName: String): Boolean {
-        while (true) {
-            try {
+        var tryUpTo = 3
+
+        while (tryUpTo != 0) {
+            kotlin.runCatching {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags))
+                    getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
                 } else {
                     @Suppress("DEPRECATION")
-                    getPackageInfo(packageName, flags.toInt())
+                    getPackageInfo(packageName, 0)
                 }
                 return true
-            } catch (e: NameNotFoundException) {
-                return false
-            } catch (e: DeadObjectException) {
-                /* no-op */
+            }.getOrElse {
+                if (it is NameNotFoundException) {
+                    return false
+                } else {
+                    tryUpTo--
+                }
             }
         }
+
+        return false
     }
 
     /**

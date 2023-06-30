@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.lifecycle.LiveData
@@ -73,8 +74,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 if (packageInfo.applicationInfo.sourceDir.toFile().exists()) {
                     list.add(Pair(R.drawable.ic_send, R.string.send))
 
-                    if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
-                        list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+                    if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                        list.add(Pair(R.drawable.ic_publish, R.string.install))
+                    } else {
+                        if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
+                            list.add(Pair(R.drawable.ic_restart_alt, R.string.reinstall))
+                        }
                     }
                 }
             }

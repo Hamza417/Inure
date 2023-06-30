@@ -84,31 +84,37 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                     }
                 }
 
+                appPackageInfo.permissions
+
                 val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()
 
-                ApkFile(packageInfo.applicationInfo.sourceDir).use { apkFile ->
-                    try {
-                        apkFile.apkMeta.permissions.forEach { permission ->
-                            if (permission.name !in requestedPermissions) {
-                                val permissionInfo = PermissionInfo()
+                try {
+                    ApkFile(packageInfo.applicationInfo.sourceDir).use { apkFile ->
+                        try {
+                            apkFile.apkMeta.permissions.forEach { permission ->
+                                if (permission.name !in requestedPermissions) {
+                                    val permissionInfo = PermissionInfo()
 
-                                permissionInfo.permissionInfo = permission.name.getPermissionInfo(context)
-                                permissionInfo.label = kotlin.runCatching {
-                                    permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
-                                }.getOrElse {
-                                    permission.name
-                                }
+                                    permissionInfo.permissionInfo = permission.name.getPermissionInfo(context)
+                                    permissionInfo.label = kotlin.runCatching {
+                                        permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
+                                    }.getOrElse {
+                                        permission.name
+                                    }
 
-                                if (isKeywordMatched(keyword, permission.name, permissionInfo.label)) {
-                                    permissionInfo.isGranted = 2
-                                    permissionInfo.name = permission.name
-                                    permissions.add(permissionInfo)
+                                    if (isKeywordMatched(keyword, permission.name, permissionInfo.label)) {
+                                        permissionInfo.isGranted = 2
+                                        permissionInfo.name = permission.name
+                                        permissions.add(permissionInfo)
+                                    }
                                 }
                             }
+                        } catch (e: ParserException) {
+                            e.printStackTrace()
                         }
-                    } catch (e: ParserException) {
-                        e.printStackTrace()
                     }
+                } catch (e: java.lang.ClassCastException) {
+                    e.printStackTrace()
                 }
 
                 this@PermissionsViewModel.permissions.postValue(permissions.apply {

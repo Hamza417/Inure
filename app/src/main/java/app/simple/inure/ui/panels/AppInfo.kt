@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -49,6 +50,7 @@ import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
@@ -280,6 +282,14 @@ class AppInfo : ScopedFragment() {
                                     })
                                 }
                             })
+                        }
+                        R.string.install -> {
+                            val uri = FileProvider.getUriForFile(
+                                    /* context = */ requireActivity().applicationContext,
+                                    /* authority = */ "${requireContext().packageName}.provider",
+                                    /* file = */ packageInfo.applicationInfo.sourceDir.toFile())
+
+                            openFragmentArc(Installer.newInstance(uri), this@AppInfo.icon, "installer")
                         }
                         R.string.send -> {
                             Send.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
