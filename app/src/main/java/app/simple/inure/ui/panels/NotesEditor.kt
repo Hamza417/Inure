@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.graphics.Typeface
@@ -17,6 +18,7 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -256,6 +258,7 @@ class NotesEditor : KeyboardScopedFragment() {
             if (it >= 0) {
                 save.gone(true)
                 isSaved = true
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(NOTES_UPDATED))
                 Log.d("NotesEditor", "Saved notes")
             }
         }
@@ -386,5 +389,7 @@ class NotesEditor : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val NOTES_UPDATED = "notes_updated"
     }
 }

@@ -1,16 +1,22 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageInfo
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.NotesModel
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.text.SpannableSerializer
+import app.simple.inure.ui.panels.NotesEditor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -21,6 +27,20 @@ import java.lang.reflect.Type
 class NotesViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var notesDatabase: NotesDatabase? = null
+    private var broadcastReceiver: BroadcastReceiver? = null
+    private val intentFilter = IntentFilter(NotesEditor.NOTES_UPDATED)
+
+    init {
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == NotesEditor.NOTES_UPDATED) {
+                    loadNotesData()
+                }
+            }
+        }
+
+        LocalBroadcastManager.getInstance(application).registerReceiver(broadcastReceiver!!, intentFilter)
+    }
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -105,6 +125,9 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
 
     override fun onCleared() {
         super.onCleared()
-        notesDatabase?.close()
+        kotlin.runCatching {
+            notesDatabase?.close()
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver!!)
+        }
     }
 }

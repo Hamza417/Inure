@@ -35,6 +35,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import kotlin.math.abs
 
 class ImageActivity : BaseActivity() {
 
@@ -62,7 +63,7 @@ class ImageActivity : BaseActivity() {
             if (get(DevelopmentPreferences.disableTransparentStatus)) {
                 if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
                     setPadding(paddingLeft,
-                               Math.abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
+                               abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
                                paddingRight,
                                paddingBottom)
                 }
