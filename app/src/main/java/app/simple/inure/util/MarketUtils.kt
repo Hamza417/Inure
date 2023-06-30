@@ -149,7 +149,7 @@ object MarketUtils {
      * @param packageName Package ID of the app
      */
     fun openAppOnFdroid(context: Context, packageName: String) {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.f-droid.org/en/packages/$packageName\\/"))
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.f-droid.org/en/packages/$packageName/"))
         context.startActivity(webIntent)
     }
 }

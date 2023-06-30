@@ -406,13 +406,13 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.zip" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.zip" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip" />
-                <!--                <data android:pathPattern=".*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\..*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\..*\\..*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xapk" />-->
-                <!--                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xapk" />-->
+                <data android:pathPattern=".*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xapk" />
             </intent-filter>
         </activity>
 
