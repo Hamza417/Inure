@@ -472,10 +472,11 @@
                         android:layout_toEndOf="@id/telegram_icon"
                         android:drawablePadding="5dp"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/join_telegram"
+                        android:text="@string/telegram"
                         android:textSize="@dimen/preferences_title_text_size"
+                        android:gravity="center_vertical"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_link_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_tiny"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />

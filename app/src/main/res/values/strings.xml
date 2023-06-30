@@ -396,7 +396,6 @@
     <string name="faq">FAQ</string>
     <string name="shared_libs">Shared Libs</string>
     <string name="copy_package_name">Copy Package Name</string>
-    <string name="join_telegram">Telegram Channel</string>
     <string name="batch">Batch</string>
     <string name="verifying_license">Verifying License</string>
     <string name="day_night">Day/Night</string>
@@ -687,4 +686,6 @@
     <string name="selected">Selected</string>
     <string name="package_type">Package Type</string>
     <string name="info_visibility_customization_desc">Customize the information strip of some main apps\' panel lists.</string>
+    <string name="group">Group</string>
+    <string name="channel">Channel</string>
 </resources>

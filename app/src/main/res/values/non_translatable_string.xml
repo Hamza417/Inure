@@ -71,8 +71,10 @@
     <string name="hamza_rizwan" translatable="false">Hamza Rizwan</string>
     <string name="sample" translatable="false">sample</string>
     <string name="apk" translatable="false">APK</string>
-    <string name="apks">APKS</string>
-    <string name="apkm">APKM</string>
-    <string name="xapk">XAPK</string>
-    <string name="empty"></string>
+    <string name="apks" translatable="false">APKS</string>
+    <string name="apkm" translatable="false">APKM</string>
+    <string name="xapk" translatable="false">XAPK</string>
+    <!--suppress CheckTagEmptyBody -->
+    <string name="empty" translatable="false"></string>
+    <string name="telegram" translatable="false">Telegram</string>
 </resources>

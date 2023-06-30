@@ -295,7 +295,7 @@ class Preferences : SearchBarScopedFragment() {
                                     val uri: Uri = Uri.parse("https://crowdin.com/project/inure")
                                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                                 }
-                                R.string.join_telegram -> {
+                                R.string.telegram -> {
                                     val uri: Uri = Uri.parse("https://t.me/inure_app_manager")
                                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                                 }
