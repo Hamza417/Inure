@@ -106,7 +106,7 @@
     <string name="root">Root</string>
     <string name="use_root_methods">Usar Métodos Root</string>
     <string name="root_desc">Use métodos raiz em vez de usar APIs nativas do Android e Libs para executar algumas funções.\n\nEsta opção é recomendada pois pode tornar a experiência do usuário mais racionalizada.\n\nDispositivo com root é necessário.</string>
-    <string name="back_button">Botão voltar</string>
+    <string name="back_button">Voltar</string>
     <string name="files">Arquivos</string>
     <string name="method_count">Contagem de método</string>
     <string name="multi_dex">Múltiplos Dex, %1$s</string>
@@ -687,4 +687,7 @@
     <string name="selected">Selecionado</string>
     <string name="package_type">Tipo de Pacote</string>
     <string name="info_visibility_customization_desc">Personalize a faixa de informações de algumas listas de painéis de aplicativos principais.</string>
+    <string name="group">Grupo</string>
+    <string name="channel">Canal</string>
+    <string name="rate_reminder">Você lançou o Inure %1$d vezes desde %2$s, gostaria de escrever um comentário e me contar sua experiência?</string>
 </resources>
