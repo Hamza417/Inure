@@ -106,7 +106,7 @@
     <string name="root">Root</string>
     <string name="use_root_methods">Использовать Root</string>
     <string name="root_desc">Использовать root методы вместо использования собственных API-интерфейсов и библиотек Android для выполнения некоторых функций.\n\nЭтот вариант рекомендуется, поскольку он может упростить работу пользователя.\n\nТребуется устройство с root-доступом.</string>
-    <string name="back_button">Кнопка Назад</string>
+    <string name="back_button">Назад</string>
     <string name="files">Файлы</string>
     <string name="method_count">Кол-во методов</string>
     <string name="multi_dex">Мульти Dex, %1$s</string>
@@ -690,4 +690,7 @@
     <string name="selected">Выбранные</string>
     <string name="package_type">Тип Пакета</string>
     <string name="info_visibility_customization_desc">Настройка информационной панели некоторых основных приложений.</string>
+    <string name="group">Группа</string>
+    <string name="channel">Канал</string>
+    <string name="rate_reminder">Вы запустили Inure %1$d начиная с %2$s, хотите написать отзыв и поделиться своим опытом?</string>
 </resources>
