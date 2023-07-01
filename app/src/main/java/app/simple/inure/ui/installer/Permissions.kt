@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.adapters.installer.AdapterInstallerPermissions
@@ -17,7 +18,14 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.viewmodels.installer.InstallerPermissionViewModel
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class Permissions : ScopedFragment() {
@@ -55,7 +63,7 @@ class Permissions : ScopedFragment() {
             recyclerView.adapter = AdapterInstallerPermissions(permissions)
         }
 
-        installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) {
+        installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) { it ->
             (parentFragment as InstallerCallbacks).onLoadingFinished()
             val adapterPermissions = AdapterPermissions(it.first, "")
             packageInfo = it.second
@@ -67,6 +75,50 @@ class Permissions : ScopedFragment() {
                             adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
                         }
                     })
+                }
+
+                override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        val mode = if (checked) "grant" else "revoke"
+
+                        if (ConfigurationPreferences.isUsingRoot()) {
+                            kotlin.runCatching {
+                                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
+                                    if (it.isSuccess) {
+                                        withContext(Dispatchers.Main) {
+                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                        }
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            showWarning("ERR: failed to $mode permission", goBack = false)
+                                        }
+                                    }
+                                }
+                            }.getOrElse {
+                                withContext(Dispatchers.Main) {
+                                    showWarning("ERR: failed to acquire root", goBack = false)
+                                }
+                            }
+                        } else if (ConfigurationPreferences.isUsingShizuku()) {
+                            kotlin.runCatching {
+                                ShizukuUtils.execInternal(Command("pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
+                                    if (it.isSuccessful) {
+                                        withContext(Dispatchers.Main) {
+                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                        }
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            showWarning("ERR: failed to $mode permission", goBack = false)
+                                        }
+                                    }
+                                }
+                            }.getOrElse {
+                                withContext(Dispatchers.Main) {
+                                    showWarning("ERR: failed to acquire Shizuku", goBack = false)
+                                }
+                            }
+                        }
+                    }
                 }
             })
 

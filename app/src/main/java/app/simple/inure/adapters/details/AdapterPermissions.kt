@@ -10,7 +10,8 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.AppearancePreferences
@@ -39,7 +40,16 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.name.setPermissionName(position, permissions[position])
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
-            holder.name.setDangerousPermissionIcon(PermissionUtils.isDangerous(permissions[position].permissionInfo!!))
+
+            if (PermissionUtils.isDangerous(permissions[position].permissionInfo!!)) {
+                holder.switch.visible(false)
+                holder.name.setDangerousPermissionIcon(isDangerous = true)
+            } else {
+                holder.switch.gone()
+                holder.name.setDangerousPermissionIcon(isDangerous = false)
+            }
+
+            holder.switch.staticChecked(permissions[position].isGranted == 1)
 
             /* -------------------------------------------------------------------------------------------------------- */
 
@@ -51,12 +61,19 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.status.setTextColor(ThemeManager.theme.textViewTheme.secondaryTextColor)
             holder.desc.gone()
             holder.name.setDangerousPermissionIcon(false)
+            holder.switch.gone()
         }
 
         if (isRootShizukuMode) {
             holder.container.setOnClickListener {
                 permissionCallbacks?.onPermissionClicked(it, permissions[position], position)
             }
+
+            holder.switch.setOnSwitchCheckedChangeListener {
+                permissionCallbacks?.onPermissionSwitchClicked(it, permissions[position], position)
+            }
+        } else {
+            holder.switch.gone()
         }
 
         if (keyword.isNotBlank()) {
@@ -141,7 +158,8 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_permissions_container)
+        val switch: SwitchView = itemView.findViewById(R.id.switch_view)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_permissions_container)
 
         init {
             name.enableSelection()
@@ -153,6 +171,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     companion object {
         interface PermissionCallbacks {
             fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int)
+            fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int)
         }
     }
 }

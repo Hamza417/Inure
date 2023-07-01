@@ -14,7 +14,7 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_search"
         android:padding="6dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:transitionName="@string/search"
         app:tintType="accent" />
 
@@ -42,7 +42,8 @@
         android:id="@+id/search_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/popup_padding"
+        android:layout_marginEnd="@dimen/popup_padding"
+        android:layout_marginStart="4dp"
         android:saveEnabled="true"
         android:text="000"
         android:textSize="@dimen/info_text_small"

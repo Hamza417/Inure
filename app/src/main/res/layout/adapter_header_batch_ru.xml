@@ -68,6 +68,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="8dp"
             android:drawablePadding="@dimen/popup_padding"
+            android:paddingHorizontal="1dp"
             android:textSize="16sp"
             app:appFontStyle="bold"
             app:drawableStartCompat="@drawable/ic_check_12dp"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.constants.BundleConstants
@@ -19,8 +20,14 @@ import app.simple.inure.dialogs.menus.PermissionsMenu
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.PermissionInfo
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.PermissionPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.viewmodels.viewers.PermissionsViewModel
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Permissions : SearchBarScopedFragment() {
 
@@ -62,6 +69,50 @@ class Permissions : SearchBarScopedFragment() {
                             adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
                         }
                     })
+                }
+
+                override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                        val mode = if (checked) "grant" else "revoke"
+
+                        if (ConfigurationPreferences.isUsingRoot()) {
+                            kotlin.runCatching {
+                                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
+                                    if (it.isSuccess) {
+                                        withContext(Dispatchers.Main) {
+                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                        }
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            showWarning("ERR: failed to $mode permission", goBack = false)
+                                        }
+                                    }
+                                }
+                            }.getOrElse {
+                                withContext(Dispatchers.Main) {
+                                    showWarning("ERR: failed to acquire root", goBack = false)
+                                }
+                            }
+                        } else if (ConfigurationPreferences.isUsingShizuku()) {
+                            kotlin.runCatching {
+                                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
+                                    if (it.isSuccessful) {
+                                        withContext(Dispatchers.Main) {
+                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                        }
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            showWarning("ERR: failed to $mode permission", goBack = false)
+                                        }
+                                    }
+                                }
+                            }.getOrElse {
+                                withContext(Dispatchers.Main) {
+                                    showWarning("ERR: failed to acquire Shizuku", goBack = false)
+                                }
+                            }
+                        }
+                    }
                 }
             })
 
