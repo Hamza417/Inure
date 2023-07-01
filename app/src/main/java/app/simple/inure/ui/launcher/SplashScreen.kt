@@ -32,6 +32,7 @@ import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.Trial
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.launcher.LauncherViewModel
 import app.simple.inure.viewmodels.panels.*
@@ -284,10 +285,29 @@ class SplashScreen : ScopedFragment() {
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isEverythingLoaded()) {
-            if (TrialPreferences.getDaysLeft() != -1) {
-                openFragmentArc(Home.newInstance(), icon)
+            if (MainPreferences.getLaunchCount() % 7 == 0 && StatusBarHeight.isLandscape(requireContext()).invert()) {
+                if (MainPreferences.isShowRateReminder()) {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                        .replace(R.id.app_container, Home.newInstance(), "home")
+                        .commit()
+
+                    requireActivity().supportFragmentManager.executePendingTransactions()
+
+                    openFragmentSlide(Rate.newInstance(), "rate")
+                } else {
+                    if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
+                        openFragmentArc(Home.newInstance(), icon)
+                    } else {
+                        openFragmentSlide(Trial.newInstance())
+                    }
+                }
             } else {
-                openFragmentSlide(Trial.newInstance())
+                if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
+                    openFragmentArc(Home.newInstance(), icon)
+                } else {
+                    openFragmentSlide(Trial.newInstance())
+                }
             }
         }
     }

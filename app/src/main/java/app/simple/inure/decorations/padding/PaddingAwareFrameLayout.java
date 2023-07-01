@@ -23,6 +23,10 @@ public class PaddingAwareFrameLayout extends ThemeFrameLayout implements SharedP
     }
     
     private void init() {
+        if (isInEditMode()) {
+            return;
+        }
+    
         updatePadding();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }

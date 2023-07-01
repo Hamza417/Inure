@@ -105,7 +105,7 @@
     <string name="root">Root</string>
     <string name="use_root_methods">Use Root Methods</string>
     <string name="root_desc">Use root methods instead of using native Android APIs and Libs to perform some functions.\n\nThis option is recommended as it can make the user experience more streamlined.\n\nRooted device is required.</string>
-    <string name="back_button">Back Button</string>
+    <string name="back_button">Back</string>
     <string name="files">Files</string>
     <string name="method_count">Method Count</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
@@ -688,4 +688,5 @@
     <string name="info_visibility_customization_desc">Customize the information strip of some main apps\' panel lists.</string>
     <string name="group">Group</string>
     <string name="channel">Channel</string>
+    <string name="rate_reminder">You\'ve launched Inure %1$d times since %2$s, would you like to write a review and let me know your experience?</string>
 </resources>

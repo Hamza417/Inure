@@ -16,6 +16,7 @@ object MainPreferences {
     private const val unlockerWarningCount = "unlocker_warning_count"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
     private const val disclaimerAgreed = "disclaimer_agreed"
+    private const val isRateReminderShown = "is_rate_reminder_shown"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -94,5 +95,15 @@ object MainPreferences {
 
     fun isDisclaimerAgreed(): Boolean {
         return getSharedPreferences().getBoolean(disclaimerAgreed, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setShowRateReminder(value: Boolean) {
+        getSharedPreferences().edit().putBoolean(isRateReminderShown, value).apply()
+    }
+
+    fun isShowRateReminder(): Boolean {
+        return getSharedPreferences().getBoolean(isRateReminderShown, true) && getLaunchCount() > 70
     }
 }

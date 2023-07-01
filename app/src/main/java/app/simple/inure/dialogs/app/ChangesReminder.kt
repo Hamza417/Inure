@@ -17,7 +17,7 @@ class ChangesReminder : ScopedBottomSheetFragment() {
     private lateinit var cancel: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_changelogs_reminded, container, false)
+        val view = inflater.inflate(R.layout.dialog_reminder_changelogs, container, false)
 
         sure = view.findViewById(R.id.sure)
         cancel = view.findViewById(R.id.cancel)
