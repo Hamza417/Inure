@@ -28,6 +28,7 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKHelper
@@ -106,6 +107,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     getCacheSize(),
                     getApkPath(),
                     getSplitNames(),
+                    getTrackers(),
                     getGlesVersion(),
                     getArchitecture(),
                     getNativeLibraries(),
@@ -451,6 +453,58 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
         return Pair(R.string.split_packages,
                     names.toString().applySecondaryTextColor())
+    }
+
+    private fun getTrackers(): Pair<Int, Spannable> {
+        val trackers = applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
+        var count = 0
+        val list: MutableList<String> = mutableListOf()
+
+        for (activity in packageInfo.activities) {
+            for (tracker in trackers) {
+                if (activity.name.lowercase().contains(tracker.lowercase())) {
+                    count++
+                    list.add(activity.name)
+                    break
+                }
+            }
+        }
+
+        for (service in packageInfo.services) {
+            for (tracker in trackers) {
+                if (service.name.lowercase().contains(tracker.lowercase())) {
+                    count++
+                    list.add(service.name)
+                    break
+                }
+            }
+        }
+
+        for (receiver in packageInfo.receivers) {
+            for (tracker in trackers) {
+                if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                    count++
+                    list.add(receiver.name)
+                    break
+                }
+            }
+        }
+
+        buildString {
+            for (tracker in list) {
+                if (this.isEmpty()) {
+                    append(getString(R.string.trackers_count, count))
+                    append("\n\n")
+                    append(tracker)
+                } else {
+                    append("\n")
+                    append(tracker)
+                }
+            }
+
+            return Pair(R.string.trackers,
+                        this.toString().applySecondaryTextColor())
+        }
     }
 
     private fun getFeatures(): Pair<Int, Spannable> {
