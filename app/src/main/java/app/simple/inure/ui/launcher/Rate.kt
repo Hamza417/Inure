@@ -42,6 +42,7 @@ class Rate : ScopedFragment() {
                                       TrialPreferences.getFirstLaunchDate(), "dd MMM yyyy"))
 
         sure.setOnClickListener {
+            showAgain.setChecked(true)
             MarketUtils.openAppOnPlayStore(requireContext(), requireContext().packageName)
         }
 

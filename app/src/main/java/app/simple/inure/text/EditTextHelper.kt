@@ -8,6 +8,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.*
 import android.widget.EditText
+import androidx.core.text.toSpannable
 import app.simple.inure.preferences.AppearancePreferences
 import java.util.*
 import kotlin.math.roundToInt
@@ -446,5 +447,30 @@ object EditTextHelper {
         }
 
         setSelection(leftSpace, rightSpace)
+    }
+
+    fun EditText.findMatches(searchKeyword: String): ArrayList<Int> {
+        val pattern = searchKeyword.lowercase().toRegex()
+        val spannable = text.toSpannable()
+        val matcher = pattern.toPattern().matcher(spannable.toString().lowercase(Locale.getDefault()).toSpannable())
+        val list = ArrayList<Int>()
+
+        val spans: Array<BackgroundColorSpan> = spannable.getSpans(0, spannable.length, BackgroundColorSpan::class.java)
+
+        for (span in spans) {
+            spannable.removeSpan(span)
+        }
+
+        if (searchKeyword.isNotEmpty()) {
+            while (matcher.find()) {
+                val highlightSpan = BackgroundColorSpan(AppearancePreferences.getAccentColorLight())
+                spannable.setSpan(highlightSpan, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                list.add(matcher.start())
+            }
+        }
+
+        text.clear()
+        setText(spannable)
+        return list
     }
 }

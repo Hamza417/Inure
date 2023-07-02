@@ -57,4 +57,15 @@
         android:visibility="gone"
         app:buttonTintType="regular" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/search"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:clickable="false"
+        android:src="@drawable/ic_search"
+        android:visibility="gone"
+        app:buttonTintType="regular" />
+
 </LinearLayout>

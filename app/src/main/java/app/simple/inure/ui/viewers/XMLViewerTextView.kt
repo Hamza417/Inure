@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -19,6 +21,7 @@ import app.simple.inure.constants.MimeConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
@@ -28,6 +31,7 @@ import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.text.EditTextHelper.findMatches
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
@@ -41,10 +45,20 @@ class XMLViewerTextView : KeyboardScopedFragment() {
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
+    private lateinit var search: DynamicRippleImageButton
+    private lateinit var searchContainer: ThemeLinearLayout
+    private lateinit var searchInput: TypeFaceEditText
+    private lateinit var previous: DynamicRippleImageButton
+    private lateinit var next: DynamicRippleImageButton
+    private lateinit var clear: DynamicRippleImageButton
+    private lateinit var count: TypeFaceTextView
     private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
+
+    private var matches: ArrayList<Int>? = null
+    private var position = -1
 
     private val exportManifest = registerForActivityResult(CreateDocument(MimeConstants.xmlType)) { uri: Uri? ->
         if (uri == null) {
@@ -73,6 +87,13 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
         settings = view.findViewById(R.id.xml_viewer_settings)
+        search = view.findViewById(R.id.search)
+        searchContainer = view.findViewById(R.id.search_container)
+        searchInput = view.findViewById(R.id.input)
+        previous = view.findViewById(R.id.previous)
+        next = view.findViewById(R.id.next)
+        clear = view.findViewById(R.id.clear)
+        count = view.findViewById(R.id.count)
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
         name.text = requireArguments().getString("path_to_xml")!!
@@ -114,6 +135,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
             progress.gone()
             options.visible(true)
             settings.visible(true)
+            search.visible(animate = true)
         }
 
         componentsViewModel.getError().observe(viewLifecycleOwner) {
@@ -146,6 +168,52 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         settings.setOnClickListener {
             CodeViewerMenu.newInstance()
                 .show(childFragmentManager, "code_viewer_menu")
+        }
+
+        search.setOnClickListener {
+            if (searchContainer.isVisible) {
+                searchContainer.gone()
+            } else {
+                searchContainer.visible(false)
+            }
+        }
+
+        searchInput.doOnTextChanged { text, start, before, count ->
+            matches?.clear()
+            matches = this.text.findMatches(text.toString())
+
+            if (matches?.isNotEmpty() == true) position = 0
+            jumpToMatch(position)
+        }
+
+        next.setOnClickListener {
+            jumpToMatch(++position)
+        }
+
+        previous.setOnClickListener {
+            jumpToMatch(--position)
+        }
+
+        clear.setOnClickListener {
+            searchInput.text?.clear()
+            count.text = "0"
+        }
+    }
+
+    private fun jumpToMatch(position: Int) {
+        matches?.let {
+            if (it.isNotEmpty()) {
+                if (position in 0 until it.size) {
+                    count.text = buildString {
+                        append(position.plus(1))
+                        append("/")
+                        append(it.size)
+                    }
+
+                    val layout = this.text.layout
+                    scrollView.scrollTo(0, layout.getLineTop(layout.getLineForOffset(it[position])))
+                }
+            }
         }
     }
 
