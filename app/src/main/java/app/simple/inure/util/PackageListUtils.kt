@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
@@ -18,7 +19,12 @@ import app.simple.inure.util.FileSizeHelper.toLength
 import app.simple.inure.util.FileSizeHelper.toSize
 
 object PackageListUtils {
+
     fun TypeFaceTextView.setAppInfo(packageInfo: PackageInfo) {
+        text = context.getAppInfo(packageInfo)
+    }
+
+    fun Context.getAppInfo(packageInfo: PackageInfo): StringBuilder {
         buildString {
             // Version
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_VERSION)) {
@@ -28,9 +34,9 @@ object PackageListUtils {
             // Type
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_TYPE)) {
                 if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
-                    appendOR(context.getString(R.string.user))
+                    appendOR(getString(R.string.user))
                 } else {
-                    appendOR(context.getString(R.string.system))
+                    appendOR(getString(R.string.system))
                 }
             }
 
@@ -38,7 +44,7 @@ object PackageListUtils {
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_SIZE)) {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
                     if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                        with(packageInfo.getPackageSize(context)) {
+                        with(packageInfo.getPackageSize(this@getAppInfo)) {
                             appendOR((cacheSize +
                                     dataSize +
                                     codeSize +
@@ -50,7 +56,7 @@ object PackageListUtils {
                                     packageInfo.applicationInfo.sourceDir.toLength()).toSize())
                         }
                     } else {
-                        with(packageInfo.getPackageSize(context)) {
+                        with(packageInfo.getPackageSize(this@getAppInfo)) {
                             appendOR((cacheSize +
                                     dataSize +
                                     codeSize +
@@ -76,12 +82,12 @@ object PackageListUtils {
             // State
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_STATE)) {
                 if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                    appendOR(context.getString(R.string.uninstalled))
+                    appendOR(getString(R.string.uninstalled))
                 } else {
                     if (packageInfo.applicationInfo.enabled) {
-                        appendOR(context.getString(R.string.enabled))
+                        appendOR(getString(R.string.enabled))
                     } else {
-                        appendOR(context.getString(R.string.disabled))
+                        appendOR(getString(R.string.disabled))
                     }
                 }
             }
@@ -89,16 +95,16 @@ object PackageListUtils {
             // Category
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_CATEGORY)) {
-                    appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+                    appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, this@getAppInfo))
                 }
             }
 
             // Target SDK
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_PACKAGE_TYPE)) {
                 if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    appendOR(context.getString(R.string.apk))
+                    appendOR(getString(R.string.apk))
                 } else {
-                    appendOR(context.getString(R.string.split_packages))
+                    appendOR(getString(R.string.split_packages))
                 }
             }
 
@@ -131,6 +137,91 @@ object PackageListUtils {
             // Update time
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_UPDATE_DATE)) {
                 appendOR(packageInfo.lastUpdateTime.toDate())
+            }
+
+            return this
+        }
+    }
+
+    fun TypeFaceTextView.setAppInfoNoFlag(packageInfo: PackageInfo) {
+        buildString {
+            // Version
+            append(packageInfo.versionName)
+
+            // Type
+            if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+                appendOR(context.getString(R.string.user))
+            } else {
+                appendOR(context.getString(R.string.system))
+            }
+
+            // Size
+            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    with(packageInfo.getPackageSize(context)) {
+                        appendOR((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    }
+                } else {
+                    with(packageInfo.getPackageSize(context)) {
+                        appendOR((cacheSize +
+                                dataSize +
+                                codeSize +
+                                externalCacheSize +
+                                externalDataSize +
+                                externalMediaSize +
+                                externalObbSize +
+                                externalCodeSize +
+                                packageInfo.applicationInfo.sourceDir.toLength() +
+                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                    }
+                }
+            } else {
+                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    appendOR(packageInfo.applicationInfo.sourceDir.toSize())
+                } else {
+                    appendOR((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                }
+            }
+
+            // State
+            if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                appendOR(context.getString(R.string.uninstalled))
+            } else {
+                if (packageInfo.applicationInfo.enabled) {
+                    appendOR(context.getString(R.string.enabled))
+                } else {
+                    appendOR(context.getString(R.string.disabled))
+                }
+            }
+
+            // Category
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+            }
+
+            // Target SDK
+            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                appendOR(context.getString(R.string.apk))
+            } else {
+                appendOR(context.getString(R.string.split_packages))
+            }
+
+            // Min SDK
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                append("..")
+                append(packageInfo.applicationInfo.targetSdkVersion)
+            } else {
+                append(packageInfo.applicationInfo.targetSdkVersion)
             }
 
             text = toString()

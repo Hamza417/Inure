@@ -613,8 +613,7 @@
     <string name="bottom_menu_context_desc">Add labels below the bottom menu icons to make their function and context clear.</string>
     <string name="clear">Clear</string>
     <string name="uninstall_updates">Uninstall Updates</string>
-    <string name="trackers_message">%1$d Tested Signatures on %2$d Classes</string>
-    <string name="trackers_title">%1$d Trackers = %1$d Classes</string>
+    <string name="trackers_count">%1$d Trackers</string>
     <string name="inure_has_been_updated">Inure has been updated, would you like to see change logs?</string>
     <string name="refetching_data">Refetching Data</string>
     <string name="changes_are_not_saved_continue">Changes are not saved, continue?</string>

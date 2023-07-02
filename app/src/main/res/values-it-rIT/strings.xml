@@ -614,8 +614,6 @@
     <string name="bottom_menu_context_desc">Aggiungi etichette sotto le icone del menu inferiore per rendere chiara la loro funzione e il contesto.</string>
     <string name="clear">Cancella</string>
     <string name="uninstall_updates">Disinstalla aggiornamenti</string>
-    <string name="trackers_message">%1$d firme testate su %2$d classi</string>
-    <string name="trackers_title">%1$d tracker = %1$d classi</string>
     <string name="inure_has_been_updated">Inure è stato aggiornato, vuoi vedere il registro modifiche?</string>
     <string name="refetching_data">Ricarica dati</string>
     <string name="changes_are_not_saved_continue">Le modifiche non sono salvate, continuare?</string>

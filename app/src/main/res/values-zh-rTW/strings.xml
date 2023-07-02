@@ -614,8 +614,6 @@
     <string name="bottom_menu_context_desc">在底部選單圖示下方新增標籤，使其功能與內容更加清楚</string>
     <string name="clear">清除</string>
     <string name="uninstall_updates">解除安裝更新</string>
-    <string name="trackers_message">在 %2$d 個類別上測試了 %1$d 個簽章</string>
-    <string name="trackers_title">%1$d 個追蹤器 = %1$d 個類別</string>
     <string name="inure_has_been_updated">Inure 已更新，要查看變更記錄嗎？</string>
     <string name="refetching_data">重新擷取資料</string>
     <string name="changes_are_not_saved_continue">變更尚未儲存，要繼續嗎？</string>

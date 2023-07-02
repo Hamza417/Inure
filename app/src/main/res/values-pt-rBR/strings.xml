@@ -614,8 +614,6 @@
     <string name="bottom_menu_context_desc">Adicione etiquetas abaixo os ícones do menu inferior para deixar seu contexto claro e funcional.</string>
     <string name="clear">Limpar</string>
     <string name="uninstall_updates">Desinstalar atualizações</string>
-    <string name="trackers_message">%1$d Assinaturas testadas em %2$d Classes</string>
-    <string name="trackers_title">%1$d Rastreadores = %1$d Classes</string>
     <string name="inure_has_been_updated">O Inure foi atualizado, gostaria de ver os registros de alterações?</string>
     <string name="refetching_data">Recuperando dados</string>
     <string name="changes_are_not_saved_continue">As alterações não foram salvas, continuar?</string>

@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
@@ -38,7 +37,6 @@ import app.simple.inure.dialogs.action.SplitApkSelector.Companion.showSplitApkSe
 import app.simple.inure.dialogs.action.State.Companion.showState
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
-import app.simple.inure.dialogs.appinfo.AppInfoMenu
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -55,6 +53,7 @@ import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.MarketUtils
+import app.simple.inure.util.PackageListUtils.getAppInfo
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -66,7 +65,7 @@ class AppInfo : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
-    private lateinit var settings: DynamicRippleImageButton
+    private lateinit var details: TypeFaceTextView
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
@@ -91,7 +90,7 @@ class AppInfo : ScopedFragment() {
         icon = view.findViewById(R.id.fragment_app_info_icon)
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
-        settings = view.findViewById(R.id.settings_button)
+        details = view.findViewById(R.id.fragment_app_details)
         appInformation = view.findViewById(R.id.app_info_information_tv)
         usageStatistics = view.findViewById(R.id.app_info_storage_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
@@ -381,6 +380,19 @@ class AppInfo : ScopedFragment() {
             })
         }
 
+        componentsViewModel.getTrackers().observe(viewLifecycleOwner) {
+            val details = requireContext().getAppInfo(packageInfo)
+
+            if (details.isEmpty()) {
+                details.append(getString(R.string.trackers_count, it))
+            } else {
+                details.append(" | ")
+                details.append(getString(R.string.trackers_count, it))
+            }
+
+            this.details.text = details
+        }
+
         componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
 
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
@@ -444,12 +456,7 @@ class AppInfo : ScopedFragment() {
         }
 
         name.text = packageInfo.applicationInfo.name
-        packageId.text = PackageUtils.getApplicationVersion(requireContext(), packageInfo)
-
-        settings.setOnClickListener {
-            AppInfoMenu.newInstance()
-                .show(childFragmentManager, "app_info_menu")
-        }
+        packageId.text = packageInfo.packageName
 
         appInformation.setOnClickListener {
             openFragmentSlide(Information.newInstance(packageInfo), "information")

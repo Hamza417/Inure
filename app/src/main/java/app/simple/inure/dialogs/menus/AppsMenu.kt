@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -30,6 +29,7 @@ import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
@@ -38,9 +38,9 @@ import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 class AppsMenu : ScopedDialogFragment() {
 
     private lateinit var icon: AppIconImageView
-    private lateinit var settings: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
+    private lateinit var details: TypeFaceTextView
 
     private lateinit var copyPackageName: DynamicRippleTextView
     private lateinit var launch: DynamicRippleTextView
@@ -66,9 +66,9 @@ class AppsMenu : ScopedDialogFragment() {
         val view = inflater.inflate(R.layout.dialog_apps_menu, container, false)
 
         icon = view.findViewById(R.id.fragment_app_info_icon)
-        settings = view.findViewById(R.id.settings_button)
         name = view.findViewById(R.id.fragment_app_name)
         packageName = view.findViewById(R.id.fragment_app_package_id)
+        details = view.findViewById(R.id.fragment_app_details)
 
         copyPackageName = view.findViewById(R.id.copy_package_name)
         launch = view.findViewById(R.id.launch)
@@ -88,6 +88,7 @@ class AppsMenu : ScopedDialogFragment() {
         toQuickApp = view.findViewById(R.id.to_quick_app)
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
+        details.setAppInfo(packageInfo)
 
         return view
     }
@@ -229,10 +230,6 @@ class AppsMenu : ScopedDialogFragment() {
             } else {
                 quickAppsViewModel.addQuickApp(packageInfo.packageName)
             }
-        }
-
-        settings.setOnClickListener {
-            openSettings()
         }
     }
 

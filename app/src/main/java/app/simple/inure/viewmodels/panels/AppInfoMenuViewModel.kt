@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -44,6 +45,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
+    private val trackers: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>().also {
+            loadTrackers()
+        }
+    }
+
     fun getComponentsOptions(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
@@ -54,6 +61,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun getMiscellaneousItems(): LiveData<List<Pair<Int, Int>>> {
         return miscellaneousItems
+    }
+
+    fun getTrackers(): LiveData<Int> {
+        return trackers
     }
 
     fun loadActionOptions() {
@@ -264,6 +275,50 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         }
 
         add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
+    }
+
+    private fun loadTrackers() {
+        viewModelScope.launch(Dispatchers.Default) {
+            val packageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
+                    or PackageManager.GET_SERVICES
+                    or PackageManager.GET_RECEIVERS)
+
+            val trackers = getTrackerSignatures()
+            var count = 0
+
+            for (activity in packageInfo.activities) {
+                for (tracker in trackers) {
+                    if (activity.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        break
+                    }
+                }
+            }
+
+            for (service in packageInfo.services) {
+                for (tracker in trackers) {
+                    if (service.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        break
+                    }
+                }
+            }
+
+            for (receiver in packageInfo.receivers) {
+                for (tracker in trackers) {
+                    if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        break
+                    }
+                }
+            }
+
+            this@AppInfoMenuViewModel.trackers.postValue(count)
+        }
+    }
+
+    private fun getTrackerSignatures(): List<String> {
+        return applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
     }
 
     private fun isNotThisApp(): Boolean {

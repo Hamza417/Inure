@@ -617,8 +617,6 @@
     <string name="bottom_menu_context_desc">Добавление меток под значками нижнего меню, чтобы прояснить их назначение и контекст.</string>
     <string name="clear">Очистить</string>
     <string name="uninstall_updates">Удалить обновления</string>
-    <string name="trackers_message">%1$d протестированных подписей в %2$d классах</string>
-    <string name="trackers_title">%1$d трекеры = %1$d классы</string>
     <string name="inure_has_been_updated">Inure был обновлён, вы хотели бы видеть список изменений?</string>
     <string name="refetching_data">Извлечение данных</string>
     <string name="changes_are_not_saved_continue">Изменения не сохранены. Продолжить?</string>
