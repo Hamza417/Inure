@@ -449,28 +449,17 @@ object EditTextHelper {
         setSelection(leftSpace, rightSpace)
     }
 
-    fun EditText.findMatches(searchKeyword: String): ArrayList<Int> {
+    fun EditText.findMatches(searchKeyword: String): ArrayList<Pair<Int, Int>> {
         val pattern = searchKeyword.lowercase().toRegex()
-        val spannable = text.toSpannable()
-        val matcher = pattern.toPattern().matcher(spannable.toString().lowercase(Locale.getDefault()).toSpannable())
-        val list = ArrayList<Int>()
-
-        val spans: Array<BackgroundColorSpan> = spannable.getSpans(0, spannable.length, BackgroundColorSpan::class.java)
-
-        for (span in spans) {
-            spannable.removeSpan(span)
-        }
+        val matcher = pattern.toPattern().matcher(text.toString().lowercase(Locale.getDefault()).toSpannable())
+        val list = ArrayList<Pair<Int, Int>>()
 
         if (searchKeyword.isNotEmpty()) {
             while (matcher.find()) {
-                val highlightSpan = BackgroundColorSpan(AppearancePreferences.getAccentColorLight())
-                spannable.setSpan(highlightSpan, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                list.add(matcher.start())
+                list.add(Pair(matcher.start(), matcher.end()))
             }
         }
 
-        text.clear()
-        setText(spannable)
         return list
     }
 }

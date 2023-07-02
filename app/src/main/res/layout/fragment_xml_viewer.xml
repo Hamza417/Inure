@@ -7,48 +7,54 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true">
 
-    <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
-        android:id="@+id/xml_nested_scroll_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:orientation="vertical"
-        android:animateLayoutChanges="true"
-        app:layout_behavior="@string/over_scroll_behavior">
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:animateLayoutChanges="true"
+        <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+            android:id="@+id/xml_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false"
             android:clipToPadding="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
+            app:layout_behavior="@string/over_scroll_behavior">
 
-            <include layout="@layout/header_xml_viewer" />
-
-            <app.simple.inure.decorations.theme.ThemeDivider
+            <LinearLayout
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
-                android:layout_height="1px" />
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="vertical">
 
-            <app.simple.inure.decorations.views.LineNumberEditText
-                android:id="@+id/text_viewer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:paddingVertical="10dp"
-                android:paddingStart="10dp"
-                android:textCursorDrawable="@drawable/text_cursor"
-                android:textIsSelectable="true"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="regular"
-                app:textColorStyle="secondary"
-                tools:ignore="RtlSymmetry" />
+                <include layout="@layout/header_xml_viewer" />
 
-        </LinearLayout>
+                <app.simple.inure.decorations.theme.ThemeDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1px" />
 
-    </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+                <app.simple.inure.decorations.views.LineNumberEditText
+                    android:id="@+id/text_viewer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:paddingVertical="10dp"
+                    android:paddingStart="10dp"
+                    android:textCursorDrawable="@drawable/text_cursor"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="secondary"
+                    tools:ignore="RtlSymmetry" />
+
+            </LinearLayout>
+
+        </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="wrap_content"
@@ -58,6 +64,7 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.theme.ThemeIcon
@@ -109,6 +116,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/clear_data"
+            android:layout_marginEnd="@dimen/popup_item_gap_length"
             android:src="@drawable/ic_arrow_left"
             app:buttonTintType="regular" />
 
@@ -117,7 +125,7 @@
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/clear_data"
+            android:layout_marginEnd="@dimen/popup_item_gap_length"
             android:src="@drawable/ic_arrow_right"
             app:buttonTintType="regular" />
 

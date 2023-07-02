@@ -36,6 +36,7 @@ class Rate : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
+        showAgain.setChecked(MainPreferences.isShowRateReminder())
         text.text = getString(R.string.rate_reminder,
                               MainPreferences.getLaunchCount(),
                               DateUtils.formatDate(

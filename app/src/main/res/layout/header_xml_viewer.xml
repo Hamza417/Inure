@@ -40,20 +40,9 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/popup_item_gap_length"
         android:clickable="false"
         android:src="@drawable/ic_more_vert"
-        android:visibility="gone"
-        app:buttonTintType="regular" />
-
-    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/xml_viewer_settings"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
-        android:clickable="false"
-        android:src="@drawable/ic_settings"
         android:visibility="gone"
         app:buttonTintType="regular" />
 
@@ -62,9 +51,20 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/popup_item_gap_length"
         android:clickable="false"
         android:src="@drawable/ic_search"
+        android:visibility="gone"
+        app:buttonTintType="regular" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/xml_viewer_settings"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/popup_item_gap_length"
+        android:clickable="false"
+        android:src="@drawable/ic_settings"
         android:visibility="gone"
         app:buttonTintType="regular" />
 

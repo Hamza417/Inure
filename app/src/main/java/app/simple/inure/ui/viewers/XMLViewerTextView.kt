@@ -4,8 +4,11 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +60,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
-    private var matches: ArrayList<Int>? = null
+    private var matches: ArrayList<Pair<Int, Int>>? = null
     private var position = -1
 
     private val exportManifest = registerForActivityResult(CreateDocument(MimeConstants.xmlType)) { uri: Uri? ->
@@ -172,13 +175,15 @@ class XMLViewerTextView : KeyboardScopedFragment() {
 
         search.setOnClickListener {
             if (searchContainer.isVisible) {
+                searchInput.hideInput()
                 searchContainer.gone()
             } else {
+                searchInput.showInput()
                 searchContainer.visible(false)
             }
         }
 
-        searchInput.doOnTextChanged { text, start, before, count ->
+        searchInput.doOnTextChanged { text, _, _, count ->
             matches?.clear()
             matches = this.text.findMatches(text.toString())
 
@@ -187,16 +192,26 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         }
 
         next.setOnClickListener {
-            jumpToMatch(++position)
+            if (position < (matches?.size?.minus(1) ?: 0)) {
+                jumpToMatch(++position)
+
+            }
         }
 
         previous.setOnClickListener {
-            jumpToMatch(--position)
+            if (position > 0) {
+                jumpToMatch(--position)
+            }
         }
 
         clear.setOnClickListener {
-            searchInput.text?.clear()
-            count.text = "0"
+            if (searchInput.text?.isEmpty() == true) {
+                searchInput.hideInput()
+                searchContainer.gone()
+            } else {
+                searchInput.text?.clear()
+                count.text = "0"
+            }
         }
     }
 
@@ -211,7 +226,33 @@ class XMLViewerTextView : KeyboardScopedFragment() {
                     }
 
                     val layout = this.text.layout
-                    scrollView.scrollTo(0, layout.getLineTop(layout.getLineForOffset(it[position])))
+                    scrollView.scrollTo(0, layout.getLineTop(layout.getLineForOffset(it[position].first)))
+                    updateTextHighlight()
+                }
+            } else {
+                count.text = "0"
+                updateTextHighlight()
+            }
+        }
+    }
+
+    private fun updateTextHighlight() {
+        kotlin.runCatching {
+            matches?.let {
+                val spans: Array<BackgroundColorSpan> = text.text?.getSpans(0, text.text!!.length, BackgroundColorSpan::class.java)!!
+
+                for (span in spans) {
+                    text.text?.removeSpan(span)
+                }
+
+                for (i in matches?.indices!!) {
+                    if (i == position) {
+                        text.text?.setSpan(BackgroundColorSpan(Color.CYAN),
+                                           it[i].first, it[i].second, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    } else {
+                        text.text?.setSpan(BackgroundColorSpan(Color.YELLOW),
+                                           it[i].first, it[i].second, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
                 }
             }
         }
