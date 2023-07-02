@@ -106,7 +106,7 @@
     <string name="root">Root</string>
     <string name="use_root_methods">使用 Root 方式</string>
     <string name="root_desc">使用 Root 方式，而非使用原生 Android API 和程式庫來執行功能。\n\n建議使用這個選項，因為它可以簡化使用者體驗。\n\n裝置需要 Root。</string>
-    <string name="back_button">返回按鈕</string>
+    <string name="back_button">返回</string>
     <string name="files">檔案</string>
     <string name="method_count">方法計數</string>
     <string name="multi_dex">多重 Dex，%1$s</string>
@@ -689,4 +689,5 @@
     <string name="info_visibility_customization_desc">自訂部分主要應用程式面板清單的資訊條。</string>
     <string name="group">群組</string>
     <string name="channel">頻道</string>
+    <string name="rate_reminder">自從 %2$s 以來，您已經啟動 Inure %1$d 次，要為 Inure 撰寫評論並讓我們瞭解您的體驗嗎？</string>
 </resources>
