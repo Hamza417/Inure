@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
@@ -21,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.MimeConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -48,6 +48,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
+    private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var search: DynamicRippleImageButton
     private lateinit var searchContainer: ThemeLinearLayout
     private lateinit var searchInput: TypeFaceEditText
@@ -55,7 +56,6 @@ class XMLViewerTextView : KeyboardScopedFragment() {
     private lateinit var next: DynamicRippleImageButton
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var count: TypeFaceTextView
-    private lateinit var scrollView: PaddingAwareNestedScrollView
 
     private lateinit var componentsViewModel: XMLViewerViewModel
     private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
@@ -90,6 +90,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         progress = view.findViewById(R.id.xml_loader)
         options = view.findViewById(R.id.xml_viewer_options)
         settings = view.findViewById(R.id.xml_viewer_settings)
+        scrollView = view.findViewById(R.id.xml_nested_scroll_view)
         search = view.findViewById(R.id.search)
         searchContainer = view.findViewById(R.id.search_container)
         searchInput = view.findViewById(R.id.input)
@@ -97,7 +98,6 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         next = view.findViewById(R.id.next)
         clear = view.findViewById(R.id.clear)
         count = view.findViewById(R.id.count)
-        scrollView = view.findViewById(R.id.xml_nested_scroll_view)
 
         name.text = requireArguments().getString("path_to_xml")!!
 
@@ -247,10 +247,10 @@ class XMLViewerTextView : KeyboardScopedFragment() {
 
                 for (i in matches?.indices!!) {
                     if (i == position) {
-                        text.text?.setSpan(BackgroundColorSpan(Color.CYAN),
+                        text.text?.setSpan(BackgroundColorSpan(Misc.textHighlightFocused),
                                            it[i].first, it[i].second, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     } else {
-                        text.text?.setSpan(BackgroundColorSpan(Color.YELLOW),
+                        text.text?.setSpan(BackgroundColorSpan(Misc.textHighlightUnfocused),
                                            it[i].first, it[i].second, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     }
                 }

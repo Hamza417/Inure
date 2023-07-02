@@ -1,5 +1,6 @@
 package app.simple.inure.constants
 
+import android.graphics.Color
 import androidx.dynamicanimation.animation.SpringForce
 
 object Misc {
@@ -24,4 +25,7 @@ object Misc {
 
     const val splitApkFormat = ".apks"
     const val apkFormat = ".apk"
+
+    var textHighlightFocused = Color.parseColor("#a2d9ce")
+    var textHighlightUnfocused = Color.parseColor("#f9e79f")
 }

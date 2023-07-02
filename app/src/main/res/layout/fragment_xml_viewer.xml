@@ -105,6 +105,7 @@
             android:layout_marginStart="4dp"
             android:saveEnabled="true"
             android:text="0"
+            android:layout_gravity="center_vertical"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:textColorStyle="secondary"
