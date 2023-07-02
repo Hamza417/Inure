@@ -9,7 +9,6 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,10 +85,11 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         loader = view.findViewById(R.id.loader)
 
         kotlin.runCatching {
-            icon.transitionName = requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString()
+            icon.transitionName = requireArguments()
+                .getString(BundleConstants.transitionName,
+                           requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString())
         }.onFailure {
             icon.transitionName = requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath
-            Log.d("Installer", "onCreateView: ${requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath}")
         }
 
         postponeEnterTransition()
@@ -330,10 +330,19 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
     }
 
+    override fun onLoadingStarted() {
+        // loader.visible(true)
+    }
+
+    override fun onLoadingFinished() {
+        // loader.gone(animate = true)
+    }
+
     companion object {
-        fun newInstance(uri: Uri): Installer {
+        fun newInstance(uri: Uri, transitionName: String? = null): Installer {
             val args = Bundle()
             args.putParcelable(BundleConstants.uri, uri)
+            args.putString(BundleConstants.transitionName, transitionName)
             val fragment = Installer()
             fragment.arguments = args
             return fragment
@@ -346,13 +355,5 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             fragment.arguments = args
             return fragment
         }
-    }
-
-    override fun onLoadingStarted() {
-        // loader.visible(true)
-    }
-
-    override fun onLoadingFinished() {
-        // loader.gone(animate = true)
     }
 }

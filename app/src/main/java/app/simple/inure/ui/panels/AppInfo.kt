@@ -289,7 +289,7 @@ class AppInfo : ScopedFragment() {
                                     /* authority = */ "${requireContext().packageName}.provider",
                                     /* file = */ packageInfo.applicationInfo.sourceDir.toFile())
 
-                            openFragmentArc(Installer.newInstance(uri), this@AppInfo.icon, "installer")
+                            openFragmentArc(Installer.newInstance(uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, "installer")
                         }
                         R.string.send -> {
                             Send.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
@@ -436,6 +436,7 @@ class AppInfo : ScopedFragment() {
         }
 
         icon.transitionName = packageInfo.packageName
+
         try {
             icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
         } catch (e: NullPointerException) {
