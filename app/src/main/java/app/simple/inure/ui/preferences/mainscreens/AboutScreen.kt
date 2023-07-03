@@ -16,6 +16,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.Socials.Companion.showSocialsDialog
 import app.simple.inure.dialogs.app.Telegram.Companion.showTelegramDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.preferences.subscreens.Share
 import app.simple.inure.util.AppUtils
@@ -23,6 +24,7 @@ import app.simple.inure.util.AppUtils
 class AboutScreen : ScopedFragment() {
 
     private lateinit var versionTag: TypeFaceTextView
+    private lateinit var version: TypeFaceTextView
     private lateinit var changelogs: DynamicRippleRelativeLayout
     private lateinit var github: DynamicRippleRelativeLayout
     private lateinit var userAgreement: DynamicRippleRelativeLayout
@@ -38,6 +40,7 @@ class AboutScreen : ScopedFragment() {
         val view = inflater.inflate(R.layout.preferences_about, container, false)
 
         versionTag = view.findViewById(R.id.app_version_tag)
+        version = view.findViewById(R.id.app_version_value)
         changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)
         userAgreement = view.findViewById(R.id.user_agreement)
@@ -56,6 +59,12 @@ class AboutScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         setAppVersionTag()
+
+        if (TrialPreferences.isFullVersion()) {
+            version.append("-full")
+        } else {
+            version.append("-trial (${TrialPreferences.getDaysLeft()} days left")
+        }
 
         credits.setOnClickListener {
             openWebPage(getString(R.string.credits))
@@ -100,24 +109,38 @@ class AboutScreen : ScopedFragment() {
     }
 
     private fun setAppVersionTag() {
-        if (AppUtils.isGithubFlavor()) {
-            versionTag.append(" (Github/FOSS)")
-            ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
-                versionTag.text.toSpannable().let { spannable ->
-                    spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
-                                      versionTag.text.length,
-                                      Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    versionTag.text = spannable
+        when {
+            AppUtils.isGithubFlavor() -> {
+                versionTag.append(" (Github/FOSS)")
+                ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
+                    versionTag.text.toSpannable().let { spannable ->
+                        spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
+                                          versionTag.text.length,
+                                          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        versionTag.text = spannable
+                    }
                 }
             }
-        } else if (AppUtils.isPlayFlavor()) {
-            versionTag.append(" (Play Store)")
-            ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
-                versionTag.text.toSpannable().let { spannable ->
-                    spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
-                                      versionTag.text.length,
-                                      Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    versionTag.text = spannable
+            AppUtils.isPlayFlavor() -> {
+                versionTag.append(" (Play Store)")
+                ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
+                    versionTag.text.toSpannable().let { spannable ->
+                        spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
+                                          versionTag.text.length,
+                                          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        versionTag.text = spannable
+                    }
+                }
+            }
+            AppUtils.isBetaFlavor() -> {
+                versionTag.append(" (Beta Testing)")
+                ForegroundColorSpan(ThemeManager.theme.textViewTheme.tertiaryTextColor).let { foregroundColorSpan ->
+                    versionTag.text.toSpannable().let { spannable ->
+                        spannable.setSpan(foregroundColorSpan, versionTag.text.indexOfFirst { it == '(' },
+                                          versionTag.text.length,
+                                          Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        versionTag.text = spannable
+                    }
                 }
             }
         }

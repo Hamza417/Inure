@@ -25,4 +25,11 @@ object AppUtils {
     fun isGithubFlavor(): Boolean {
         return BuildConfig.FLAVOR == "github"
     }
+
+    /**
+     * Returns true if the flavor is beta
+     */
+    fun isBetaFlavor(): Boolean {
+        return BuildConfig.FLAVOR == "beta"
+    }
 }

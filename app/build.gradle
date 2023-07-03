@@ -66,6 +66,11 @@ android {
             dimension "version"
             // versionNameSuffix "-play"
         }
+        beta {
+            dimension "version"
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-test"
+        }
     }
 
     buildTypes {
@@ -174,13 +179,15 @@ dependencies {
 
     // Shizuku
     def shizukuVersion = '13.1.0'
+    //noinspection GradleDependency
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
+    //noinspection GradleDependency
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
     // Room
-    implementation "androidx.room:room-ktx:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
-    androidTestImplementation "androidx.room:room-testing:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+    androidTestImplementation "androidx.room:room-testing:2.5.2"
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
