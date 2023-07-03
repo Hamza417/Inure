@@ -80,17 +80,14 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
             activitiesCallbacks.onActivityClicked(activities[holder.absoluteAdapterPosition], activities[holder.absoluteAdapterPosition].name)
         }
 
-        if (isRootMode) {
-            holder.container.setOnLongClickListener {
-                activitiesCallbacks
-                    .onActivityLongPressed(
-                            activities[holder.absoluteAdapterPosition].name,
-                            packageInfo,
-                            it,
-                            ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name),
-                            holder.absoluteAdapterPosition)
-                true
-            }
+        holder.container.setOnLongClickListener {
+            activitiesCallbacks
+                .onActivityLongPressed(
+                        activities[holder.absoluteAdapterPosition],
+                        packageInfo,
+                        it,
+                        holder.absoluteAdapterPosition)
+            true
         }
 
         if (keyword.isNotBlank()) {
@@ -128,7 +125,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
 
         interface ActivitiesCallbacks {
             fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String)
-            fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int)
+            fun onActivityLongPressed(activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo, icon: View, position: Int)
             fun onLaunchClicked(packageName: String, name: String)
         }
     }

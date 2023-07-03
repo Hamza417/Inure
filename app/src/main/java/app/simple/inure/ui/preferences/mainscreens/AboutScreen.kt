@@ -63,7 +63,7 @@ class AboutScreen : ScopedFragment() {
         if (TrialPreferences.isFullVersion()) {
             version.append("-full")
         } else {
-            version.append("-trial (${TrialPreferences.getDaysLeft()} days left")
+            version.append("-trial (${TrialPreferences.getDaysLeft()} days left)")
         }
 
         credits.setOnClickListener {

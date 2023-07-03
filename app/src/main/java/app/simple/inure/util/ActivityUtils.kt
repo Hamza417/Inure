@@ -5,10 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ComponentInfo
 import android.content.pm.PackageManager
+import android.content.pm.ShortcutInfo
+import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.util.NullSafety.isNotNull
 
 object ActivityUtils {
@@ -21,6 +25,37 @@ object ActivityUtils {
         launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         launchIntent.component = ComponentName(packageName, packageId)
         startActivity(context, launchIntent, null)
+    }
+
+    @Suppress("DEPRECATION")
+    fun createShortcut(context: Context, activityInfoModel: ActivityInfoModel) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            val builder = ShortcutInfo.Builder(context, activityInfoModel.name.substringAfterLast("."))
+                .setShortLabel(activityInfoModel.name.substringAfterLast("."))
+                .setIcon(Icon.createWithBitmap(activityInfoModel.activityInfo.loadIcon(context.packageManager).toBitmap()))
+                .setIntent(Intent(Intent.ACTION_MAIN)
+                               .addCategory(Intent.CATEGORY_LAUNCHER)
+                               .setComponent(ComponentName(activityInfoModel.activityInfo.packageName, activityInfoModel.name)))
+
+            val shortcutInfo = builder.build()
+            val shortcutManager = context.getSystemService(AppCompatActivity.SHORTCUT_SERVICE) as android.content.pm.ShortcutManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                shortcutManager.requestPinShortcut(shortcutInfo, null)
+            } else {
+                shortcutManager.addDynamicShortcuts(listOf(shortcutInfo))
+            }
+        } else {
+            val shortcutIntent = Intent(Intent.ACTION_MAIN)
+            shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+            shortcutIntent.component = ComponentName(activityInfoModel.activityInfo.packageName, activityInfoModel.name)
+
+            val intent = Intent()
+            intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+            intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, activityInfoModel.name.substringAfterLast("."))
+            intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, activityInfoModel.activityInfo.loadIcon(context.packageManager).toBitmap())
+            intent.action = "com.android.launcher.action.INSTALL_SHORTCUT"
+            context.sendBroadcast(intent)
+        }
     }
 
     /**

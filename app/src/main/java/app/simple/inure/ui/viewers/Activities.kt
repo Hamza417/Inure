@@ -63,26 +63,34 @@ class Activities : SearchBarScopedFragment() {
                     openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), "activity_info")
                 }
 
-                override fun onActivityLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    PopupActivitiesMenu(icon, isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
+                override fun onActivityLongPressed(activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo, icon: View, position: Int) {
+                    val isEnabled = ActivityUtils.isEnabled(requireContext(), packageInfo.packageName, activityInfoModel.name)
+                    PopupActivitiesMenu(icon, isEnabled).setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
-                                    ActivityLauncher.newInstance(packageInfo, packageId)
+                                    ActivityLauncher.newInstance(packageInfo, activityInfoModel.name)
                                         .show(childFragmentManager, "activity_launcher")
                                 }
                                 getString(R.string.force_launch_with_action) -> {
-                                    IntentAction.newInstance(packageInfo, packageId)
+                                    IntentAction.newInstance(packageInfo, activityInfoModel.name)
                                         .show(childFragmentManager, "intent_action")
                                 }
                                 getString(R.string.enable), getString(R.string.disable) -> {
-                                    val p = ComponentState.newInstance(packageInfo, packageId, isComponentEnabled)
+                                    val p = ComponentState.newInstance(packageInfo, activityInfoModel.name, isEnabled)
                                     p.setOnComponentStateChangeListener(object : ComponentState.Companion.ComponentStatusCallbacks {
                                         override fun onSuccess() {
                                             adapterActivities?.notifyItemChanged(position)
                                         }
                                     })
                                     p.show(childFragmentManager, "component_state")
+                                }
+                                getString(R.string.create_shortcut) -> {
+                                    if (activityInfoModel.exported) {
+                                        ActivityUtils.createShortcut(requireContext(), activityInfoModel = activityInfoModel)
+                                    } else {
+                                        showWarning("ERR: " + getString(R.string.not_exported), false)
+                                    }
                                 }
                             }
                         }
