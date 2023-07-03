@@ -34,6 +34,7 @@ class Analytics : ScopedFragment() {
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
     private lateinit var installLocationPie: ThemePieChart
+    private lateinit var packageTypePie: ThemePieChart
     private lateinit var minSdkHeading: TypeFaceTextView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
@@ -46,6 +47,7 @@ class Analytics : ScopedFragment() {
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
         installLocationPie = view.findViewById(R.id.install_location_pie)
+        packageTypePie = view.findViewById(R.id.package_type_pie)
         minSdkHeading = view.findViewById(R.id.min_sdk_heading)
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
@@ -128,6 +130,22 @@ class Analytics : ScopedFragment() {
             installLocationPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
+        analyticsViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
+            packageTypePie.apply {
+                PieDataSet(it.first, "").apply {
+                    data = PieData(this)
+                    colors = ColorTemplate.PASTEL_COLORS.toMutableList()
+                    valueTextColor = Color.TRANSPARENT
+                    setEntryLabelColor(Color.TRANSPARENT)
+                }
+            }
+
+            packageTypePie.setAnimation(false)
+            packageTypePie.notifyDataSetChanged()
+            packageTypePie.invalidate()
+            packageTypePie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
+        }
+
         settings.setOnClickListener {
             AnalyticsMenu.newInstance()
                 .show(childFragmentManager, "analytics_menu")
@@ -142,7 +160,7 @@ class Analytics : ScopedFragment() {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
             AnalyticsPreferences.sdkValue -> {
-                analyticsViewModel.refresh()
+                analyticsViewModel.refreshPackageData()
             }
         }
     }

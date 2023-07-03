@@ -157,6 +157,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/panel_item_padding"
+                android:padding="@dimen/panel_item_padding"
+                android:text="@string/package_type"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.theme.ThemePieChart
+                android:id="@+id/package_type_pie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pie_chart_height" />
+
         </LinearLayout>
     </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
 </app.simple.inure.decorations.theme.ThemeCoordinatorLayout>

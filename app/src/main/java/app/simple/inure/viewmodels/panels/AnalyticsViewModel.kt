@@ -29,6 +29,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
 
+    private val packageTypeData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
+    }
+
     fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return minimumOsData
     }
@@ -41,10 +45,13 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         return installLocationData
     }
 
+    fun getPackageTypeData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
+        return packageTypeData
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun loadMinimumOsData() {
+    private fun loadMinimumOsData(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -68,9 +75,8 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
-    private fun loadTargetOsData() {
+    private fun loadTargetOsData(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -94,9 +100,8 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
-    private fun loadInstallLocationData() {
+    private fun loadInstallLocationData(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            val apps = getInstalledApps()
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
 
@@ -123,20 +128,39 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
-    internal fun refresh() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            loadMinimumOsData()
+    private fun loadPackageTypeData(apps: ArrayList<PackageInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = arrayListOf<PieEntry>()
+            val colors = arrayListOf<Int>()
+
+            var split = 0F
+            var apk = 0F
+
+            for (app in apps) {
+                if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    split++
+                } else {
+                    apk++
+                }
+            }
+
+            if (split != 0F) data.add(PieEntry(split, getString(R.string.split_packages)))
+            if (apk != 0F) data.add(PieEntry(apk, getString(R.string.apk)))
+
+            packageTypeData.postValue(Pair(data, colors))
         }
-        loadTargetOsData()
-        loadInstallLocationData()
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
-        refresh()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            loadMinimumOsData(apps)
+        }
+        loadTargetOsData(apps)
+        loadInstallLocationData(apps)
+        loadPackageTypeData(apps)
     }
 
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
-        refresh()
     }
 }
