@@ -3,7 +3,7 @@ package app.simple.inure.factories.subpanels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.subviewers.AnalyticsSDKViewModel
+import app.simple.inure.viewmodels.subviewers.AnalyticsDataViewModel
 import com.github.mikephil.charting.data.Entry
 
 class AnalyticsSDKViewModelFactory(private val entry: Entry) : ViewModelProvider.Factory {
@@ -12,8 +12,8 @@ class AnalyticsSDKViewModelFactory(private val entry: Entry) : ViewModelProvider
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
         when {
-            modelClass.isAssignableFrom(AnalyticsSDKViewModel::class.java) -> {
-                return AnalyticsSDKViewModel(application, entry) as T
+            modelClass.isAssignableFrom(AnalyticsDataViewModel::class.java) -> {
+                return AnalyticsDataViewModel(application, entry) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

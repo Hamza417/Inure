@@ -19,15 +19,13 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.AnalyticsSDKViewModelFactory
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
-import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.subviewers.AnalyticsDataViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 
-class AnalyticsMinimumSDK : ScopedFragment() {
+class AnalyticsPackageType : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
@@ -57,11 +55,7 @@ class AnalyticsMinimumSDK : ScopedFragment() {
             startPostponedEnterTransition()
         }
 
-        title.text = if (AnalyticsPreferences.getSDKValue()) {
-            SDKHelper.getSdkTitle(SDKHelper.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
-        } else {
-            requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
-        }
+        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
 
         back.setOnClickListener {
             popBackStack()
@@ -69,9 +63,9 @@ class AnalyticsMinimumSDK : ScopedFragment() {
 
         analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
-            val adapterAnalyticsSDK = AnalyticsDataAdapter(it)
+            val analyticsDataAdapter = AnalyticsDataAdapter(it)
 
-            adapterAnalyticsSDK.setOnAdapterCallbacks(object : AdapterCallbacks {
+            analyticsDataAdapter.setOnAdapterCallbacks(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
@@ -82,7 +76,7 @@ class AnalyticsMinimumSDK : ScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = adapterAnalyticsSDK
+            recyclerView.adapter = analyticsDataAdapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -91,10 +85,10 @@ class AnalyticsMinimumSDK : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(e: Entry?): AnalyticsMinimumSDK {
+        fun newInstance(e: Entry?): AnalyticsPackageType {
             val args = Bundle()
             args.putParcelable(BundleConstants.entry, e)
-            val fragment = AnalyticsMinimumSDK()
+            val fragment = AnalyticsPackageType()
             fragment.arguments = args
             return fragment
         }

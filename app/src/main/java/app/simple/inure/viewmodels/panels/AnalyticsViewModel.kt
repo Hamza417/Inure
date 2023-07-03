@@ -138,9 +138,9 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
             for (app in apps) {
                 if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    split++
-                } else {
                     apk++
+                } else {
+                    split++
                 }
             }
 

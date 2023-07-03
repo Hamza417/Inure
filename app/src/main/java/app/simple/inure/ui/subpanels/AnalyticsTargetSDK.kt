@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.analytics.AnalyticsSDKAdapter
+import app.simple.inure.adapters.analytics.AnalyticsDataAdapter
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -23,7 +23,7 @@ import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.subviewers.AnalyticsSDKViewModel
+import app.simple.inure.viewmodels.subviewers.AnalyticsDataViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 
@@ -33,7 +33,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
     private lateinit var title: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var analyticsSDKViewModel: AnalyticsSDKViewModel
+    private lateinit var analyticsDataViewModel: AnalyticsDataViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics_sdk, container, false)
@@ -43,7 +43,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
         val analyticsSDKViewModelFactory = AnalyticsSDKViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
-        analyticsSDKViewModel = ViewModelProvider(this, analyticsSDKViewModelFactory)[AnalyticsSDKViewModel::class.java]
+        analyticsDataViewModel = ViewModelProvider(this, analyticsSDKViewModelFactory)[AnalyticsDataViewModel::class.java]
 
         return view
     }
@@ -51,7 +51,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (analyticsSDKViewModel.getTargetSDKApps().value != null) {
+        if (analyticsDataViewModel.getAnalyticsData().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
@@ -67,9 +67,9 @@ class AnalyticsTargetSDK : ScopedFragment() {
             popBackStack()
         }
 
-        analyticsSDKViewModel.getTargetSDKApps().observe(viewLifecycleOwner) {
+        analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
-            val adapterAnalyticsSDK = AnalyticsSDKAdapter(it)
+            val adapterAnalyticsSDK = AnalyticsDataAdapter(it)
 
             adapterAnalyticsSDK.setOnAdapterCallbacks(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {

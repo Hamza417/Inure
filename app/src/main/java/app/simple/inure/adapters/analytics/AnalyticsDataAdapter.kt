@@ -14,7 +14,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.PackageListUtils.setAppInfo
 
-class AnalyticsSDKAdapter(private val packageInfo: ArrayList<PackageInfo>) : RecyclerView.Adapter<AnalyticsSDKAdapter.Holder>() {
+class AnalyticsDataAdapter(private val packageInfo: ArrayList<PackageInfo>) : RecyclerView.Adapter<AnalyticsDataAdapter.Holder>() {
 
     private var adapterCallbacks: AdapterCallbacks? = null
 

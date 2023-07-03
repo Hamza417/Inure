@@ -17,6 +17,7 @@ import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
+import app.simple.inure.ui.subpanels.AnalyticsPackageType
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
@@ -138,6 +139,16 @@ class Analytics : ScopedFragment() {
                     valueTextColor = Color.TRANSPARENT
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
+
+                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        openFragmentSlide(AnalyticsPackageType.newInstance(e), "package_type")
+                    }
+                })
             }
 
             packageTypePie.setAnimation(false)
