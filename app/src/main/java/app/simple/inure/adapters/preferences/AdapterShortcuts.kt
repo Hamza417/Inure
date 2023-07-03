@@ -20,7 +20,10 @@ import app.simple.inure.models.ShortcutModel
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortcuts: MutableList<ShortcutInfoCompat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterShortcuts(private val list: List<ShortcutModel>,
+                       private val shortcuts: MutableList<ShortcutInfoCompat>,
+                       private val onShortcutLongPressed: (ShortcutInfoCompat, View) -> Unit) :
+        RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -75,6 +78,22 @@ class AdapterShortcuts(private val list: List<ShortcutModel>, private val shortc
 
             holder.container.setOnClickListener {
                 holder.checkBox.callOnClick()
+            }
+
+            holder.container.setOnLongClickListener {
+                val intent = Intent(holder.context, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.action = list[position].action
+
+                val shortcut = ShortcutInfoCompat.Builder(holder.context, list[position].id)
+                    .setShortLabel(holder.getString(list[position].name))
+                    .setActivity(ComponentName(holder.context, MainActivity::class.java))
+                    .setIcon(IconCompat.createWithResource(holder.context, list[position].icon))
+                    .setIntent(intent)
+                    .build()
+
+                onShortcutLongPressed(shortcut, it)
+                true
             }
 
         } else if (holder is Header) {

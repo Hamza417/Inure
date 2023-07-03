@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterShortcuts
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.popups.configuration.PopupShortcuts
 import app.simple.inure.viewmodels.preferences.ShortcutsViewModel
 
 class Shortcuts : ScopedFragment() {
@@ -31,10 +33,18 @@ class Shortcuts : ScopedFragment() {
 
         shortcutsViewModel.getShortcuts().observe(viewLifecycleOwner) {
             val shortcuts = ShortcutManagerCompat.getDynamicShortcuts(requireContext())
-            val adapterShortcuts = AdapterShortcuts(it, shortcuts)
+            val adapterShortcuts = AdapterShortcuts(it, shortcuts) { shortcutInfoCompat, view ->
+                PopupShortcuts(view) {
+                    createShortcut(shortcutInfoCompat)
+                }
+            }
 
             recyclerView.adapter = adapterShortcuts
         }
+    }
+
+    private fun createShortcut(shortcutInfoCompat: ShortcutInfoCompat) {
+        ShortcutManagerCompat.requestPinShortcut(requireContext(), shortcutInfoCompat, null)
     }
 
     companion object {

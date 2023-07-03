@@ -42,7 +42,16 @@ object ActivityUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 shortcutManager.requestPinShortcut(shortcutInfo, null)
             } else {
-                shortcutManager.addDynamicShortcuts(listOf(shortcutInfo))
+                val shortcutIntent = Intent(Intent.ACTION_MAIN)
+                shortcutIntent.addCategory(Intent.CATEGORY_LAUNCHER)
+                shortcutIntent.component = ComponentName(activityInfoModel.activityInfo.packageName, activityInfoModel.name)
+
+                val intent = Intent()
+                intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+                intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, activityInfoModel.name.substringAfterLast("."))
+                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, activityInfoModel.activityInfo.loadIcon(context.packageManager).toBitmap())
+                intent.action = "com.android.launcher.action.INSTALL_SHORTCUT"
+                context.sendBroadcast(intent)
             }
         } else {
             val shortcutIntent = Intent(Intent.ACTION_MAIN)
