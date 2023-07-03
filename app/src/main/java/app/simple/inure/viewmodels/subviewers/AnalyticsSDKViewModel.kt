@@ -13,6 +13,7 @@ import app.simple.inure.util.SDKHelper
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AnalyticsSDKViewModel(application: Application, private val entry: Entry) : PackageUtilsViewModel(application) {
@@ -36,6 +37,8 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun loadSDKFilteredAppsList() {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(250L) // Optimization baybeee!!!
+
             val apps = getInstalledApps()
             val sdkFilteredApps = arrayListOf<PackageInfo>()
 
@@ -65,6 +68,8 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
 
     private fun loadTargetSDKFilteredAppsList() {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(250L) // Optimization baybeee!!!
+
             val apps = getInstalledApps()
             val sdkFilteredApps = arrayListOf<PackageInfo>()
 
@@ -97,6 +102,7 @@ class AnalyticsSDKViewModel(application: Application, private val entry: Entry) 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             loadSDKFilteredAppsList()
         }
+
         loadTargetSDKFilteredAppsList()
     }
 }

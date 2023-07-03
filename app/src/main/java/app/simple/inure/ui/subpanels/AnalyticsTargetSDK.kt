@@ -51,6 +51,12 @@ class AnalyticsTargetSDK : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (analyticsSDKViewModel.getTargetSDKApps().value != null) {
+            postponeEnterTransition()
+        } else {
+            startPostponedEnterTransition()
+        }
+
         title.text = if (AnalyticsPreferences.getSDKValue()) {
             SDKHelper.getSdkTitle(SDKHelper.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
         } else {

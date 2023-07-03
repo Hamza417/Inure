@@ -20,7 +20,6 @@ import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -81,15 +80,7 @@ class Analytics : ScopedFragment() {
                 })
             }
 
-            /**
-             * It's workaround for the bug that messes up the layout
-             * of the legend data and solved by call
-             * [PieChart.notifyDataSetChanged] two times.
-             *
-             * TODO - Find a solution
-             */
             minimumOsPie.setAnimation(true)
-            minimumOsPie.notifyDataSetChanged()
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.invalidate()
             minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
@@ -117,7 +108,6 @@ class Analytics : ScopedFragment() {
 
             targetOsPie.setAnimation(false)
             targetOsPie.notifyDataSetChanged()
-            targetOsPie.notifyDataSetChanged()
             targetOsPie.invalidate()
             targetOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
@@ -133,7 +123,6 @@ class Analytics : ScopedFragment() {
             }
 
             installLocationPie.setAnimation(false)
-            installLocationPie.notifyDataSetChanged()
             installLocationPie.notifyDataSetChanged()
             installLocationPie.invalidate()
             installLocationPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
