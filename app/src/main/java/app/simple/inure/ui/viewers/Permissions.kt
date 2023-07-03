@@ -58,8 +58,8 @@ class Permissions : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        permissionsViewModel.getPermissions().observe(viewLifecycleOwner) {
-            adapterPermissions = AdapterPermissions(it, searchBox.text.toString().trim())
+        permissionsViewModel.getPermissions().observe(viewLifecycleOwner) { permissionInfos ->
+            adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim())
             recyclerView.adapter = adapterPermissions
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
@@ -85,12 +85,14 @@ class Permissions : SearchBarScopedFragment() {
                                     } else {
                                         withContext(Dispatchers.Main) {
                                             showWarning("ERR: failed to $mode permission", goBack = false)
+                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                         }
                                     }
                                 }
                             }.getOrElse {
                                 withContext(Dispatchers.Main) {
                                     showWarning("ERR: failed to acquire root", goBack = false)
+                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                 }
                             }
                         } else if (ConfigurationPreferences.isUsingShizuku()) {
@@ -103,12 +105,14 @@ class Permissions : SearchBarScopedFragment() {
                                     } else {
                                         withContext(Dispatchers.Main) {
                                             showWarning("ERR: failed to $mode permission", goBack = false)
+                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                         }
                                     }
                                 }
                             }.getOrElse {
                                 withContext(Dispatchers.Main) {
                                     showWarning("ERR: failed to acquire Shizuku", goBack = false)
+                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                 }
                             }
                         }

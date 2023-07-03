@@ -16,8 +16,6 @@ import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
-import net.dongliu.apk.parser.exception.ParserException
 import java.util.*
 
 class PermissionsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -79,13 +77,12 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                             permissionInfo.name = appPackageInfo.requestedPermissions[count]
                             permissions.add(permissionInfo)
                         }
-
-                        it.printStackTrace()
                     }
                 }
 
                 appPackageInfo.permissions
 
+                /*
                 val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()
 
                 try {
@@ -116,6 +113,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 } catch (e: java.lang.ClassCastException) {
                     e.printStackTrace()
                 }
+                */
 
                 this@PermissionsViewModel.permissions.postValue(permissions.apply {
                     sortBy {

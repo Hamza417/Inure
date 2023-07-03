@@ -92,10 +92,10 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                         }
                         permissionInfo.name = appPackageInfo.requestedPermissions[count]
                         permissions.add(permissionInfo)
-
-                        // it.printStackTrace()
                     }
                 }
+
+                /*
                 val requestedPermissions = appPackageInfo.requestedPermissions.toMutableList()
 
                 apkFile.apkMeta.permissions.forEach { permission ->
@@ -116,6 +116,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                 }
 
                 apkFile.close()
+                */
 
                 permissionsInfo.postValue(Pair(permissions.apply {
                     sortBy {
