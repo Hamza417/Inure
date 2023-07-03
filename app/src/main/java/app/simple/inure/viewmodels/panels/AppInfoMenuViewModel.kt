@@ -286,29 +286,35 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             val trackers = getTrackerSignatures()
             var count = 0
 
-            for (activity in packageInfo.activities) {
-                for (tracker in trackers) {
-                    if (activity.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        break
+            if (packageInfo.activities != null) {
+                for (activity in packageInfo.activities) {
+                    for (tracker in trackers) {
+                        if (activity.name.lowercase().contains(tracker.lowercase())) {
+                            count++
+                            break
+                        }
                     }
                 }
             }
 
-            for (service in packageInfo.services) {
-                for (tracker in trackers) {
-                    if (service.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        break
+            if (packageInfo.services != null) {
+                for (service in packageInfo.services) {
+                    for (tracker in trackers) {
+                        if (service.name.lowercase().contains(tracker.lowercase())) {
+                            count++
+                            break
+                        }
                     }
                 }
             }
 
-            for (receiver in packageInfo.receivers) {
-                for (tracker in trackers) {
-                    if (receiver.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        break
+            if (packageInfo.receivers != null) {
+                for (receiver in packageInfo.receivers) {
+                    for (tracker in trackers) {
+                        if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                            count++
+                            break
+                        }
                     }
                 }
             }
