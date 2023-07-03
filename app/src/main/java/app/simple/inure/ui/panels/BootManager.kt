@@ -91,7 +91,7 @@ class BootManager : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getBootManagerBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getBootManagerBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "preferences")

@@ -154,7 +154,7 @@ class Text : KeyboardScopedFragment() {
             }
         }
 
-        searchInput.doOnTextChanged { text, _, _, count ->
+        searchInput.doOnTextChanged { text, _, _, _ ->
             matches?.clear()
             matches = this.text.findMatches(text.toString())
 

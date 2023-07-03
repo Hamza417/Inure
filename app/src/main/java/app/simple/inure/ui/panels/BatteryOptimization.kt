@@ -99,7 +99,7 @@ class BatteryOptimization : ScopedFragment() {
 
             recyclerView.adapter = adapterBatteryOptimization
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_filter -> {
                         childFragmentManager.showBatteryOptimizationSort()

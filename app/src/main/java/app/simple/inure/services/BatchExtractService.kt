@@ -198,7 +198,7 @@ class BatchExtractService : Service() {
             inputStream = FileInputStream(source)
             outputStream = FileOutputStream(dest)
 
-            copyStream(inputStream!!, outputStream!!, length)
+            copyStream(inputStream!!, outputStream!!)
 
             inputStream!!.close()
             outputStream!!.close()
@@ -264,7 +264,7 @@ class BatchExtractService : Service() {
     }
 
     @Throws(IOException::class)
-    fun copyStream(from: InputStream, to: OutputStream, length: Long) {
+    fun copyStream(from: InputStream, to: OutputStream) {
         val buf = ByteArray(1024 * 1024)
         var len: Long
 

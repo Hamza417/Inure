@@ -236,7 +236,7 @@ class APKs : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getApkBrowserMenu(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getApkBrowserMenu(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_refresh -> {
                         apkScanner = childFragmentManager.showApkScanner()

@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.menus
 
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +34,6 @@ class AdapterFormattingStrip(val icons: List<Int>) : RecyclerView.Adapter<Adapte
 
     fun setOnFormattingStripClickedListener(formattingStripCallbacks: FormattingStripCallbacks) {
         this.formattingStripCallbacks = formattingStripCallbacks
-    }
-
-    fun updateSelection(text: Editable?, selectionStart: Int, selectionEnd: Int) {
-
     }
 
     companion object {
