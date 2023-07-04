@@ -125,7 +125,7 @@ class Trackers : SearchBarScopedFragment() {
         }
 
         trackersViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, false)
+            showWarning(it)
         }
 
         search.setOnClickListener {

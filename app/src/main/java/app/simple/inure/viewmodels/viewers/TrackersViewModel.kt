@@ -79,7 +79,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
             trackersList.addAll(getReceiversTrackers())
 
             trackersList.sortBy {
-                it.name
+                it.name.substringAfterLast(".")
             }
 
             if (trackersList.size.isZero()) {
@@ -136,10 +136,6 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         val trackerSignatures = applicationContext().getTrackerSignatures()
         val activities = getPackageInfo().activities ?: null
         val trackersList = arrayListOf<Tracker>()
-
-        for (signature in trackerSignatures) {
-            Log.d("Trackers", signature)
-        }
 
         if (activities != null) {
             for (activity in activities) {

@@ -54,7 +54,7 @@
                 android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
-                android:text="@string/enable"
+                android:text="@string/unblock"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
@@ -67,7 +67,7 @@
                 android:layout_marginStart="5dp"
                 android:gravity="center"
                 android:padding="@dimen/button_padding"
-                android:text="@string/disable"
+                android:text="@string/block"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />

@@ -599,5 +599,6 @@
         <item>com.faendir.acra.</item>
         <item>org.acra.</item>
         <item>cat.ereza.customactivityoncrash</item>
+        <item>com.android.billing</item>
     </string-array>
 </resources>
