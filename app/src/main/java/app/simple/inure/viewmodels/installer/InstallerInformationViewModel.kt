@@ -81,6 +81,10 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getFeatures())
         //  list.add(getApkPath())
 
+        kotlin.runCatching {
+            apkFile?.close()
+        }
+
         information.postValue(list)
     }
 

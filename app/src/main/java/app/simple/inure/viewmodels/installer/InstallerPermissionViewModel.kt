@@ -2,10 +2,10 @@ package app.simple.inure.viewmodels.installer
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -65,33 +65,35 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val context = context
-                val apkFile = ApkFile(file)
-                val appPackageInfo = packageManager.getPackageInfo(apkFile.apkMeta.packageName)!!
+
+                val appPackageInfo = packageManager.getPackageArchiveInfo(file!!.absolutePath, PackageManager.GET_PERMISSIONS)!!
                 val permissions = arrayListOf<PermissionInfo>()
 
-                for (count in appPackageInfo.requestedPermissions.indices) {
-                    val permissionInfo = PermissionInfo()
+                if (appPackageInfo.requestedPermissions != null) {
+                    for (count in appPackageInfo.requestedPermissions.indices) {
+                        val permissionInfo = PermissionInfo()
 
-                    kotlin.runCatching {
-                        permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
-                        permissionInfo.label = permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
-                        if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                            permissionInfo.isGranted = 1
-                        } else {
-                            permissionInfo.isGranted = 0
+                        kotlin.runCatching {
+                            permissionInfo.permissionInfo = appPackageInfo.requestedPermissions[count].getPermissionInfo(context)
+                            permissionInfo.label = permissionInfo.permissionInfo!!.loadLabel(context.packageManager).toString().capitalizeFirstLetter()
+                            if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                                permissionInfo.isGranted = 1
+                            } else {
+                                permissionInfo.isGranted = 0
+                            }
+                            permissionInfo.name = appPackageInfo.requestedPermissions[count]
+                            permissions.add(permissionInfo)
+                        }.onFailure {
+                            permissionInfo.permissionInfo = null
+                            permissionInfo.label = appPackageInfo.requestedPermissions[count]
+                            if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
+                                permissionInfo.isGranted = 1
+                            } else {
+                                permissionInfo.isGranted = 0
+                            }
+                            permissionInfo.name = appPackageInfo.requestedPermissions[count]
+                            permissions.add(permissionInfo)
                         }
-                        permissionInfo.name = appPackageInfo.requestedPermissions[count]
-                        permissions.add(permissionInfo)
-                    }.onFailure {
-                        permissionInfo.permissionInfo = null
-                        permissionInfo.label = appPackageInfo.requestedPermissions[count]
-                        if (appPackageInfo.requestedPermissionsFlags[count] and PackageInfo.REQUESTED_PERMISSION_GRANTED != 0) {
-                            permissionInfo.isGranted = 1
-                        } else {
-                            permissionInfo.isGranted = 0
-                        }
-                        permissionInfo.name = appPackageInfo.requestedPermissions[count]
-                        permissions.add(permissionInfo)
                     }
                 }
 

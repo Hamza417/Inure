@@ -3,6 +3,7 @@ package app.simple.inure.activities.association
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.activities.BaseActivity
@@ -38,5 +39,18 @@ class ApkInstallerActivity : BaseActivity() {
                 showError(it.stackTraceToString())
             }
         }
+    }
+
+    private fun clearInstallerCache() {
+        kotlin.runCatching {
+            if (File(applicationContext.cacheDir.path + "/installer_cache/").deleteRecursively()) {
+                Log.d(javaClass.name, "Installer cache cleared")
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        clearInstallerCache()
     }
 }
