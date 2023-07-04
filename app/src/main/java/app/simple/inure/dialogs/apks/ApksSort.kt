@@ -105,6 +105,10 @@ class ApksSort : ScopedBottomSheetFragment() {
             filterChipGroup.check(R.id.xapk)
         }
 
+        if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_HIDDEN)) {
+            filterChipGroup.check(R.id.hidden)
+        }
+
         filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var flags = ApkBrowserPreferences.getApkFilter()
 
@@ -130,6 +134,12 @@ class ApksSort : ScopedBottomSheetFragment() {
                 FlagUtils.setFlag(flags, SortConstant.APKS_XAPK)
             } else {
                 FlagUtils.unsetFlag(flags, SortConstant.APKS_XAPK)
+            }
+
+            flags = if (checkedIds.contains(R.id.hidden)) {
+                FlagUtils.setFlag(flags, SortConstant.APKS_HIDDEN)
+            } else {
+                FlagUtils.unsetFlag(flags, SortConstant.APKS_HIDDEN)
             }
 
             ApkBrowserPreferences.setApkFilter(flags)

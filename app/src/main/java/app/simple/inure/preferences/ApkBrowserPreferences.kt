@@ -11,7 +11,6 @@ object ApkBrowserPreferences {
     const val reversed = "apk_sort_reversed"
     const val apkFilter = "apk_filter"
     const val searchKeyword = "apk_search_keyword"
-    const val nomedia = "nomedia_apks"
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
@@ -61,15 +60,5 @@ object ApkBrowserPreferences {
 
     fun setApkFilter(filter: Int) {
         getSharedPreferences().edit().putInt(apkFilter, filter).apply()
-    }
-
-    // ------------------------------------------------------------------------------------------------------------------ //
-
-    fun isNomediaEnabled(): Boolean {
-        return getSharedPreferences().getBoolean(nomedia, true)
-    }
-
-    fun setNomediaEnabled(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(nomedia, value).apply()
     }
 }

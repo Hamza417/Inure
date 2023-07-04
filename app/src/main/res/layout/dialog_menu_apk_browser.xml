@@ -62,50 +62,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="@dimen/dialog_padding">
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:drawablePadding="5dp"
-                    android:text="@string/nomedia"
-                    android:textSize="@dimen/info_text_small"
-                    app:appFontStyle="bold"
-                    app:drawableTintStyle="warning"
-                    app:textColorStyle="primary" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/nomedia_desc"
-                    android:textSize="@dimen/desc_text_size"
-                    app:appFontStyle="regular"
-                    app:textColorStyle="tertiary" />
-
-            </LinearLayout>
-
-            <app.simple.inure.decorations.switchview.SwitchView
-                android:id="@+id/nomedia_switch"
-                android:layout_width="@dimen/switch_width"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/dialog_padding" />
-
-        </LinearLayout>
-
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"

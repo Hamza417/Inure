@@ -80,12 +80,12 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 }
             }
 
-            if (ApkBrowserPreferences.isNomediaEnabled()) {
+            if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_HIDDEN).invert()) {
                 val mediaPaths = ArrayList<ApkFile>()
 
                 for (file in apkPaths) {
                     println("Time taken: " + measureTimeMillis {
-                        if (file.file.isNomediaFileOrDirectory().invert()) {
+                        if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
                             mediaPaths.add(file)
                             Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
                         }
@@ -166,6 +166,25 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
                 if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.file.extension == "xapk") {
                     filteredPaths.add(it)
+                }
+            }
+
+            if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_HIDDEN).invert()) {
+                val mediaPaths = ArrayList<ApkFile>()
+
+                for (file in filteredPaths) {
+                    println("Time taken: " + measureTimeMillis {
+                        if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
+                            mediaPaths.add(file)
+                            Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
+                        }
+                    })
+                }
+
+                filteredPaths.clear()
+
+                for (file in mediaPaths) {
+                    filteredPaths.add(file)
                 }
             }
 

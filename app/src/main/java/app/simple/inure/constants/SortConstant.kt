@@ -56,6 +56,7 @@ object SortConstant {
     const val APKS_APKS = 2
     const val APKS_APKM = 4
     const val APKS_XAPK = 8
+    const val APKS_HIDDEN = 16
     const val ALL_APKS = APKS_APK or APKS_APKS or APKS_APKM or APKS_XAPK
 
     const val INFO_TYPE = 1

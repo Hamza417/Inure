@@ -16,7 +16,6 @@ import app.simple.inure.preferences.ApkBrowserPreferences
 class ApksMenu : ScopedBottomSheetFragment() {
 
     private lateinit var loadSplitIconSwitch: SwitchView
-    private lateinit var nomediaSwitch: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
     private lateinit var filter: DynamicRippleImageButton
 
@@ -24,7 +23,6 @@ class ApksMenu : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_menu_apk_browser, container, false)
 
         loadSplitIconSwitch = view.findViewById(R.id.load_split_icon)
-        nomediaSwitch = view.findViewById(R.id.nomedia_switch)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
         filter = view.findViewById(R.id.filter)
 
@@ -35,15 +33,9 @@ class ApksMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loadSplitIconSwitch.setChecked(ApkBrowserPreferences.isLoadSplitIcon())
-        nomediaSwitch.setChecked(ApkBrowserPreferences.isNomediaEnabled())
 
         loadSplitIconSwitch.setOnSwitchCheckedChangeListener { isChecked ->
             ApkBrowserPreferences.setLoadSplitIcon(isChecked)
-        }
-
-        nomediaSwitch.setOnSwitchCheckedChangeListener { isChecked ->
-            ApkBrowserPreferences.setNomediaEnabled(isChecked)
-            dismiss()
         }
 
         openSettings.setOnClickListener {
