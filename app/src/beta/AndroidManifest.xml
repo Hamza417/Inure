@@ -37,6 +37,27 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
+    <permission
+        android:name="inure.terminal.permission.RUN_SCRIPT"
+        android:description="@string/permdesc_run_script"
+        android:label="@string/perm_run_script"
+        android:protectionLevel="dangerous"
+        tools:node="remove" />
+
+    <permission
+        android:name="inure.terminal.permission.APPEND_TO_PATH"
+        android:description="@string/permdesc_append_to_path"
+        android:label="@string/perm_append_to_path"
+        android:protectionLevel="dangerous"
+        tools:node="remove" />
+
+    <permission
+        android:name="inure.terminal.permission.PREPEND_TO_PATH"
+        android:description="@string/permdesc_prepend_to_path"
+        android:label="@string/perm_prepend_to_path"
+        android:protectionLevel="dangerous"
+        tools:node="remove" />
+
     <uses-feature
         android:name="android.software.device_admin"
         android:required="false" />

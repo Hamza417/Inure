@@ -12,11 +12,11 @@ import app.simple.inure.models.ApkFile
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils.toDate
-import app.simple.inure.util.FileUtils.isNomediaFileOrDirectory
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.system.measureTimeMillis
 
 class ApkBrowserViewModel(application: Application) : WrappedViewModel(application) {
@@ -81,12 +81,12 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
             }
 
             if (ApkBrowserPreferences.isNomediaEnabled()) {
-                val noMediaPaths = ArrayList<ApkFile>()
+                val mediaPaths = ArrayList<ApkFile>()
 
                 for (file in apkPaths) {
                     println("Time taken: " + measureTimeMillis {
                         if (file.file.isNomediaFileOrDirectory().invert()) {
-                            noMediaPaths.add(file)
+                            mediaPaths.add(file)
                             Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
                         }
                     })
@@ -94,7 +94,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
                 apkPaths.clear()
 
-                for (file in noMediaPaths) {
+                for (file in mediaPaths) {
                     apkPaths.add(file)
                 }
             }
@@ -108,6 +108,43 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
     fun refresh() {
         loadApkPaths()
+    }
+
+    /**
+     * This is a terrible way to check if a file is a .nomedia file or directory
+     */
+    private fun File.isNomediaFileOrDirectory(): Boolean {
+        return if (isFile) {
+            if (absolutePath.split("/").any { it.startsWith(".") }) {
+                return true
+            } else {
+                if (name == ".nomedia") {
+                    return true
+                } else {
+                    for (i in 0..parentFile?.listFiles()?.size!!.minus(1)) {
+                        if (parentFile?.listFiles()?.get(i)?.name == ".nomedia") {
+                            Log.d("File", "Found .nomedia file in ${parentFile?.listFiles()?.get(i)?.absolutePath}")
+                            return true
+                        }
+                    }
+
+                    return false
+                }
+            }
+        } else if (isDirectory) {
+            if (absolutePath.split("/").any { it.startsWith(".") }) {
+                return true
+            } else {
+                listFiles()?.forEach {
+                    if (it.name == ".nomedia") {
+                        return true
+                    }
+                }
+            }
+            false
+        } else {
+            false
+        }
     }
 
     fun filter() {
