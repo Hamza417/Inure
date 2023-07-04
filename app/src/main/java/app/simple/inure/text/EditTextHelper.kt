@@ -10,6 +10,7 @@ import android.text.style.*
 import android.widget.EditText
 import androidx.core.text.toSpannable
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.util.ConditionUtils.invert
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -21,10 +22,13 @@ object EditTextHelper {
     private const val blurRadius = 5f
     private const val spanUpperThreshold = 96
     private const val spanLowerThreshold = 12
+    private const val relativeProportion = 0.75f
 
     private var leftSpace: Int = 0
     private var rightSpace: Int = 0
     private var cursorPosition: Int = 0
+
+    private var wasAlreadySelected = false
 
     fun EditText.toBold() {
         selectTheCurrentWord()
@@ -43,8 +47,9 @@ object EditTextHelper {
             text.setSpan(StyleSpan(Typeface.BOLD), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.toItalics() {
@@ -64,8 +69,9 @@ object EditTextHelper {
             text.setSpan(StyleSpan(Typeface.ITALIC), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.toUnderline() {
@@ -83,8 +89,9 @@ object EditTextHelper {
             text.setSpan(UnderlineSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.toStrikethrough() {
@@ -102,8 +109,9 @@ object EditTextHelper {
             text.setSpan(StrikethroughSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.addBullet() {
@@ -133,9 +141,14 @@ object EditTextHelper {
 
         val superscriptSpan: Array<SuperscriptSpan> = text.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
         val subscriptSpan: Array<SubscriptSpan> = text.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
+        val relativeSizeSpan: Array<RelativeSizeSpan> = text.getSpans(selectionStart, selectionEnd, RelativeSizeSpan::class.java)
 
         for (subscript in subscriptSpan) {
             text.removeSpan(subscript)
+        }
+
+        for (sizeSpan in relativeSizeSpan) {
+            text.removeSpan(sizeSpan)
         }
 
         var exists = false
@@ -147,10 +160,12 @@ object EditTextHelper {
 
         if (!exists) {
             text.setSpan(SuperscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(RelativeSizeSpan(relativeProportion), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.toSubscript() {
@@ -158,9 +173,14 @@ object EditTextHelper {
 
         val subscriptSpan: Array<SubscriptSpan> = text.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
         val superscriptSpan: Array<SuperscriptSpan> = text.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
+        val relativeSizeSpan: Array<RelativeSizeSpan> = text.getSpans(selectionStart, selectionEnd, RelativeSizeSpan::class.java)
 
         for (superscript in superscriptSpan) {
             text.removeSpan(superscript)
+        }
+
+        for (sizeSpan in relativeSizeSpan) {
+            text.removeSpan(sizeSpan)
         }
 
         var exists = false
@@ -172,10 +192,12 @@ object EditTextHelper {
 
         if (!exists) {
             text.setSpan(SubscriptSpan(), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            text.setSpan(RelativeSizeSpan(relativeProportion), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.increaseTextSize() {
@@ -223,8 +245,9 @@ object EditTextHelper {
             text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.toQuote() {
@@ -260,8 +283,9 @@ object EditTextHelper {
             //            }
         }
 
-        // Remove the selection
-        setSelection(cursorPosition, cursorPosition)
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
     }
 
     fun EditText.blur() {
@@ -310,7 +334,14 @@ object EditTextHelper {
     fun EditText.selectTheCurrentWord() {
         cursorPosition = selectionStart
 
-        if (selectionStart != selectionEnd) return
+        if (selectionStart != selectionEnd) {
+            leftSpace = selectionStart
+            rightSpace = selectionEnd
+            wasAlreadySelected = true
+            return
+        } else {
+            wasAlreadySelected = false
+        }
 
         /**
          * Select the current word and check for the existence of a space, period and any special characters
@@ -353,7 +384,14 @@ object EditTextHelper {
     fun EditText.selectTheCurrentSentence() {
         cursorPosition = selectionStart
 
-        if (selectionStart != selectionEnd) return
+        if (selectionStart != selectionEnd) {
+            leftSpace = selectionStart
+            rightSpace = selectionEnd
+            wasAlreadySelected = true
+            return
+        } else {
+            wasAlreadySelected = false
+        }
 
         /**
          * Find the first space on the left side of the cursor

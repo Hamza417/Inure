@@ -78,6 +78,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
+    private var originalText: SpannableStringBuilder? = null
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -85,8 +86,6 @@ class NotesEditor : KeyboardScopedFragment() {
             .registerTypeAdapter(type, SpannableSerializer())
             .create()
     }
-
-    private var isSaved = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
@@ -134,14 +133,17 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         noteEditText.doAfterTextChanged {
-            handler.removeCallbacksAndMessages(null)
-            save.visible(true)
-            isSaved = false
-            handler.postDelayed(
-                    {
-                        Log.d("NotesEditor", "Saving notes")
-                        handleTextChange(NotesPreferences.isAutoSave())
-                    }, 1000)
+            if (originalText.toString() != it.toString()) {
+                handler.removeCallbacksAndMessages(null)
+                save.visible(true)
+                handler.postDelayed(
+                        {
+                            Log.d("NotesEditor", "Saving notes")
+                            handleTextChange(NotesPreferences.isAutoSave())
+                        }, 1000)
+            } else {
+                save.gone(true)
+            }
         }
 
         noteEditText.addOnSelectionChangedListener(object : TypeFaceEditText.Companion.OnSelectionChangedListener {
@@ -193,13 +195,14 @@ class NotesEditor : KeyboardScopedFragment() {
 
         notesEditorViewModel.getNoteData().observe(viewLifecycleOwner) {
             notesPackageInfo = it
+            originalText = SpannableStringBuilder(it.note)
+
             if (NotesPreferences.areJSONSpans()) {
                 noteEditText.setText(gson.toJson(it.note), TextView.BufferType.SPANNABLE)
             } else {
                 noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
             }
             textViewUndoRedo?.clearHistory()
-            isSaved = true // We are setting it to true because we are loading the data from the database
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
 
@@ -256,10 +259,9 @@ class NotesEditor : KeyboardScopedFragment() {
 
         notesEditorViewModel.getSavedState().observe(viewLifecycleOwner) {
             if (it >= 0) {
+                originalText = SpannableStringBuilder(noteEditText.text)
                 save.gone(true)
-                isSaved = true
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(NOTES_UPDATED))
-                Log.d("NotesEditor", "Saved notes")
             }
         }
 
@@ -293,7 +295,7 @@ class NotesEditor : KeyboardScopedFragment() {
         undoRedoButtonState()
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (isSaved) {
+            if (originalText.toString() == noteEditText.text.toString()) {
                 remove()
                 goBack()
             } else {
@@ -318,7 +320,6 @@ class NotesEditor : KeyboardScopedFragment() {
 
     private fun handleTextChange(save: Boolean) {
         this.save.visible(true)
-        isSaved = false
 
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(

@@ -8,7 +8,6 @@ import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerMaterialCardView extends ThemeMaterialCardView {
-    
     public DynamicCornerMaterialCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
