@@ -692,5 +692,4 @@
     <string name="create_shortcut">Criar Atalho</string>
     <string name="block">Bloquear</string>
     <string name="unblock">Desbloquear</string>
-    <string name="nomedia_desc">Excluir pastas e arquivos ocultos.</string>
 </resources>
