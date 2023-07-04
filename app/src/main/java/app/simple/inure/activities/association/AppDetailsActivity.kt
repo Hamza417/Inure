@@ -48,44 +48,47 @@ class AppDetailsActivity : BaseActivity() {
                             FileUtils.copyStreamToFile(it, sourceFile)
                         }
 
-                        if (sourceFile.absolutePath.endsWith(".apk")) {
-                            packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
-                            } else {
-                                @Suppress("DEPRECATION")
-                                packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
+                        when {
+                            sourceFile.absolutePath.lowercase().endsWith(".apk") -> { // Single APK
+                                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                } else {
+                                    @Suppress("DEPRECATION")
+                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
+                                }
+
+                                packageInfo.applicationInfo.publicSourceDir = sourceFile.absolutePath
+                                packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
                             }
+                            sourceFile.absolutePath.endsWith(".apks") ||
+                                    sourceFile.absolutePath.endsWith(".xapk") ||
+                                    sourceFile.absolutePath.endsWith(".zip") ||
+                                    sourceFile.absolutePath.endsWith(".apkm") -> { // Split APK
+                                uri.let { it ->
+                                    val documentFile = DocumentFile.fromSingleUri(applicationContext, it)!!
+                                    val copiedFile = applicationContext.getInstallerDir(documentFile.baseName + ".zip")
 
-                            packageInfo.applicationInfo.publicSourceDir = sourceFile.absolutePath
-                            packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
-                        } else if (sourceFile.absolutePath.endsWith(".apks") ||
-                            sourceFile.absolutePath.endsWith(".xapk") ||
-                            sourceFile.absolutePath.endsWith(".zip") ||
-                            sourceFile.absolutePath.endsWith(".apkm")) {
+                                    if (!copiedFile.exists()) {
+                                        contentResolver.openInputStream(it).use {
+                                            FileUtils.copyStreamToFile(it!!, copiedFile)
+                                        }
+                                    }
 
-                            uri.let { it ->
-                                val documentFile = DocumentFile.fromSingleUri(applicationContext, it)!!
-                                val copiedFile = applicationContext.getInstallerDir(documentFile.baseName + ".zip")
+                                    ZipFile(copiedFile.path).extractAll(copiedFile.path.substringBeforeLast("."))
 
-                                if (!copiedFile.exists()) {
-                                    contentResolver.openInputStream(it).use {
-                                        FileUtils.copyStreamToFile(it!!, copiedFile)
+                                    for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
+                                        packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
+                                        packageInfo!!.applicationInfo.sourceDir = file.absolutePath
+                                        packageInfo!!.applicationInfo.publicSourceDir = file.absolutePath
+                                        break
                                     }
                                 }
-
-                                ZipFile(copiedFile.path).extractAll(copiedFile.path.substringBeforeLast("."))
-
-                                for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
-                                    packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
-                                    packageInfo!!.applicationInfo.sourceDir = file.absolutePath
-                                    packageInfo!!.applicationInfo.publicSourceDir = file.absolutePath
-                                    break
-                                }
                             }
-                        } else {
-                            packageInfo = PackageInfo() // empty package info
-                            packageInfo!!.applicationInfo = ApplicationInfo() // empty application info
-                            packageInfo!!.applicationInfo.sourceDir = sourceFile.absolutePath
+                            else -> {
+                                packageInfo = PackageInfo() // empty package info
+                                packageInfo!!.applicationInfo = ApplicationInfo() // empty application info
+                                packageInfo!!.applicationInfo.sourceDir = sourceFile.absolutePath
+                            }
                         }
 
                         packageInfo!!.applicationInfo.name = PackageUtils.getApplicationName(baseContext, packageInfo!!.applicationInfo)

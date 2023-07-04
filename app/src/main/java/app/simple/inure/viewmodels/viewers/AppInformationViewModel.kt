@@ -87,8 +87,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
                 isPackageInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
             } else {
-                packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
-                isPackageInstalled = true
+                try {
+                    packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
+                    isPackageInstalled = true
+                } catch (e: java.lang.NullPointerException) {
+                    isPackageInstalled = false
+                    packageInfo = packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!
+                }
             }
         }.getOrElse {
             it.printStackTrace()
@@ -500,6 +505,10 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     append("\n")
                     append(tracker)
                 }
+            }
+
+            if (this.isEmpty()) {
+                append(getString(R.string.no_trackers_found))
             }
 
             return Pair(R.string.trackers,
