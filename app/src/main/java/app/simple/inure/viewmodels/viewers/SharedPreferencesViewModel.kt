@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -86,7 +85,6 @@ class SharedPreferencesViewModel(private val packageInfo: PackageInfo, applicati
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
-        Log.d("SharedPreferences", "runRootProcess: Root proc acquired")
         loadSharedPrefsFiles(fileSystemManager)
     }
 }

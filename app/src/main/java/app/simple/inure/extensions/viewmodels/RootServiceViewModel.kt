@@ -10,8 +10,8 @@ import android.util.Log
 import app.simple.inure.BuildConfig
 import app.simple.inure.libsu.IRootService
 import app.simple.inure.services.RootService
-import com.topjohnwu.superuser.ipc.RootService.bind
-import com.topjohnwu.superuser.ipc.RootService.unbind
+import app.simple.inure.util.ConditionUtils.invert
+import com.topjohnwu.superuser.ipc.RootService.*
 import com.topjohnwu.superuser.nio.FileSystemManager
 
 abstract class RootServiceViewModel(application: Application) : WrappedViewModel(application) {
@@ -23,13 +23,13 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
 
     protected fun initRootProc() {
         Log.d(tag, "Root proc init")
-        val intent = Intent(applicationContext(), RootService::class.java)
+        val intent = Intent(application, RootService::class.java)
         bind(intent, AIDLConnection(isDaemon = false))
     }
 
     abstract fun runRootProcess(fileSystemManager: FileSystemManager?)
 
-    private fun stopService() {
+    private fun unbind() {
         try {
             unbind(aidlConnection!!)
         } catch (e: java.lang.NullPointerException) {
@@ -46,6 +46,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                 aidlConnection = this
             }
             val ipc: IRootService = IRootService.Stub.asInterface(service)
+
             try {
                 kotlin.runCatching {
                     // It's crashing, don't uncomment
@@ -54,7 +55,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                     // Log.d(tag, "AIDL UID: ${ipc.uid}")
                 }
 
-                if (!isDaemon) {
+                if (isDaemon.invert()) {
                     // Get the remote file system service proxy through AIDL
                     val binder: IBinder = ipc.fileSystemService
                     // Create a fs manager with the binder proxy.
@@ -79,6 +80,8 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                 aidlConnection = null
                 fileSystemManager = null
             }
+
+            stop(Intent(application, RootService::class.java))
         }
     }
 
@@ -88,6 +91,6 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
 
     override fun onCleared() {
         super.onCleared()
-        stopService()
+        unbind()
     }
 }

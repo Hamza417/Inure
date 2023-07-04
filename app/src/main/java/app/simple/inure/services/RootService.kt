@@ -48,10 +48,12 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
     }
 
     override fun onCreate() {
+        super.onCreate()
         Log.d(tag, "AIDLService: onCreate, $uuid")
     }
 
     override fun onRebind(intent: Intent) {
+        super.onRebind(intent)
         // This callback will be called when we are reusing a previously started root process
         Log.d(tag, "AIDLService: onRebind, daemon process reused")
     }
@@ -64,10 +66,16 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
     override fun onUnbind(intent: Intent): Boolean {
         Log.d(tag, "AIDLService: onUnbind, client process unbound")
         // Return true here so onRebind will be called
-        return true
+        return false
+    }
+
+    override fun stopService(name: Intent?): Boolean {
+        Log.d(tag, "AIDLService: stopService")
+        return super.stopService(name)
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         Log.d(tag, "AIDLService: onDestroy")
     }
 }
