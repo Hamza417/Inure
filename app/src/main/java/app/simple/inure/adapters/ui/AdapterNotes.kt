@@ -7,12 +7,13 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -128,15 +129,20 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_all_app_icon)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_all_app_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_package_id)
-        val updated: TypeFaceTextView = itemView.findViewById(R.id.adapter_notes_updated)
-        val note: TypeFaceTextView = itemView.findViewById(R.id.adapter_note)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_all_app_container)
+        val icon: ImageView = itemView.findViewById(R.id.app_icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.app_name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val updated: TypeFaceTextView = itemView.findViewById(R.id.date_updated)
+        val note: TypeFaceTextView = itemView.findViewById(R.id.notes)
+        val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+
+        init {
+            val params = itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+            params.isFullSpan = true
+        }
     }
 }

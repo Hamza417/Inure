@@ -10,6 +10,8 @@
         android:background="@android:color/white"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/popup_padding"
+        android:paddingBottom="@dimen/popup_padding"
         android:layoutAnimation="@anim/notes_list_controller"
         app:isFadingEdgeRequired="true" />
 
