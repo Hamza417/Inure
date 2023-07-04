@@ -51,13 +51,13 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
         MutableLiveData<ArrayList<NotesPackageInfo>>()
     }
 
-    private val delete = MutableLiveData<Int>()
+    private val delete = MutableLiveData<Int?>()
 
     fun getNotesData(): LiveData<ArrayList<NotesPackageInfo>> {
         return notesData
     }
 
-    fun getDelete(): LiveData<Int> {
+    fun getDelete(): LiveData<Int?> {
         return delete
     }
 
@@ -129,5 +129,9 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
             notesDatabase?.close()
             LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver!!)
         }
+    }
+
+    fun clearDelete() {
+        delete.postValue(null)
     }
 }

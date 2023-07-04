@@ -74,7 +74,10 @@ class Notes : ScopedFragment() {
             })
 
             notesViewModel.getDelete().observe(viewLifecycleOwner) {
-                adapterNotes?.removeItem(it)
+                if (it != null) {
+                    adapterNotes?.removeItem(it)
+                    notesViewModel.clearDelete()
+                }
             }
 
             recyclerView.adapter = adapterNotes

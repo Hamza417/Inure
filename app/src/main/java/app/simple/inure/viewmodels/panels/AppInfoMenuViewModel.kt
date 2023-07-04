@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -279,47 +280,57 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     private fun loadTrackers() {
         viewModelScope.launch(Dispatchers.Default) {
-            val packageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
-                    or PackageManager.GET_SERVICES
-                    or PackageManager.GET_RECEIVERS)
+            kotlin.runCatching {
+                val packageInfo: PackageInfo = try {
+                    packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
+                            or PackageManager.GET_SERVICES
+                            or PackageManager.GET_RECEIVERS)
+                } catch (e: NameNotFoundException) {
+                    packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
+                            or PackageManager.GET_SERVICES
+                            or PackageManager.GET_RECEIVERS)!!
+                }
 
-            val trackers = getTrackerSignatures()
-            var count = 0
+                val trackers = getTrackerSignatures()
+                var count = 0
 
-            if (packageInfo.activities != null) {
-                for (activity in packageInfo.activities) {
-                    for (tracker in trackers) {
-                        if (activity.name.lowercase().contains(tracker.lowercase())) {
-                            count++
-                            break
+                if (packageInfo.activities != null) {
+                    for (activity in packageInfo.activities) {
+                        for (tracker in trackers) {
+                            if (activity.name.lowercase().contains(tracker.lowercase())) {
+                                count++
+                                break
+                            }
                         }
                     }
                 }
-            }
 
-            if (packageInfo.services != null) {
-                for (service in packageInfo.services) {
-                    for (tracker in trackers) {
-                        if (service.name.lowercase().contains(tracker.lowercase())) {
-                            count++
-                            break
+                if (packageInfo.services != null) {
+                    for (service in packageInfo.services) {
+                        for (tracker in trackers) {
+                            if (service.name.lowercase().contains(tracker.lowercase())) {
+                                count++
+                                break
+                            }
                         }
                     }
                 }
-            }
 
-            if (packageInfo.receivers != null) {
-                for (receiver in packageInfo.receivers) {
-                    for (tracker in trackers) {
-                        if (receiver.name.lowercase().contains(tracker.lowercase())) {
-                            count++
-                            break
+                if (packageInfo.receivers != null) {
+                    for (receiver in packageInfo.receivers) {
+                        for (tracker in trackers) {
+                            if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                                count++
+                                break
+                            }
                         }
                     }
                 }
-            }
 
-            this@AppInfoMenuViewModel.trackers.postValue(count)
+                this@AppInfoMenuViewModel.trackers.postValue(count)
+            }.getOrElse {
+                this@AppInfoMenuViewModel.trackers.postValue(0)
+            }
         }
     }
 
