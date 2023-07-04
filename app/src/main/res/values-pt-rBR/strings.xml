@@ -614,6 +614,7 @@
     <string name="bottom_menu_context_desc">Adicione etiquetas abaixo os ícones do menu inferior para deixar seu contexto claro e funcional.</string>
     <string name="clear">Limpar</string>
     <string name="uninstall_updates">Desinstalar atualizações</string>
+    <string name="trackers_count">%1$d Rastreadores</string>
     <string name="inure_has_been_updated">O Inure foi atualizado, gostaria de ver os registros de alterações?</string>
     <string name="refetching_data">Recuperando dados</string>
     <string name="changes_are_not_saved_continue">As alterações não foram salvas, continuar?</string>
@@ -688,4 +689,8 @@
     <string name="group">Grupo</string>
     <string name="channel">Canal</string>
     <string name="rate_reminder">Você lançou o Inure %1$d vezes desde %2$s, gostaria de escrever um comentário e me contar sua experiência?</string>
+    <string name="create_shortcut">Criar Atalho</string>
+    <string name="block">Bloquear</string>
+    <string name="unblock">Desbloquear</string>
+    <string name="nomedia_desc">Excluir pastas e arquivos ocultos.</string>
 </resources>
