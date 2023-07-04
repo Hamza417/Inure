@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -94,9 +95,39 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
     private fun getPackageInfo(): PackageInfo {
         return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
-            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES or PackageManager.GET_RECEIVERS or PackageManager.GET_SERVICES)!!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                packageManager.getPackageInfo(
+                        packageInfo.packageName,
+                        PackageManager.GET_ACTIVITIES or
+                                PackageManager.GET_RECEIVERS or
+                                PackageManager.GET_SERVICES or
+                                PackageManager.MATCH_DISABLED_COMPONENTS)!!
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(
+                        packageInfo.packageName,
+                        PackageManager.GET_ACTIVITIES or
+                                PackageManager.GET_RECEIVERS or
+                                PackageManager.GET_SERVICES or
+                                PackageManager.GET_DISABLED_COMPONENTS)!!
+            }
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES or PackageManager.GET_RECEIVERS or PackageManager.GET_SERVICES)!!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                packageManager.getPackageArchiveInfo(
+                        packageInfo.applicationInfo.sourceDir,
+                        PackageManager.GET_ACTIVITIES or
+                                PackageManager.GET_RECEIVERS or
+                                PackageManager.GET_SERVICES or
+                                PackageManager.MATCH_DISABLED_COMPONENTS)!!
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageArchiveInfo(
+                        packageInfo.packageName,
+                        PackageManager.GET_ACTIVITIES or
+                                PackageManager.GET_RECEIVERS or
+                                PackageManager.GET_SERVICES or
+                                PackageManager.GET_DISABLED_COMPONENTS)!!
+            }
         }
     }
 
@@ -105,11 +136,15 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         val activities = getPackageInfo().activities ?: null
         val trackersList = arrayListOf<Tracker>()
 
+        for (signature in trackerSignatures) {
+            Log.d("Trackers", signature)
+        }
+
         if (activities != null) {
             for (activity in activities) {
                 for (signature in trackerSignatures) {
                     if (activity.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
-                        if (activity.name.contains(signature)) {
+                        if (activity.name.lowercase().contains(signature.lowercase())) {
                             val tracker = Tracker()
 
                             tracker.activityInfo = activity
@@ -145,7 +180,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
             for (service in services) {
                 for (signature in trackerSignatures) {
                     if (service.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
-                        if (service.name.contains(signature)) {
+                        if (service.name.lowercase().contains(signature.lowercase())) {
                             val tracker = Tracker()
 
                             tracker.serviceInfo = service
@@ -180,8 +215,9 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         if (receivers != null) {
             for (receiver in receivers) {
                 for (signature in trackerSignatures) {
-                    if (receiver.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
-                        if (receiver.name.contains(signature)) {
+                    if (receiver.name.lowercase().contains(keyword.lowercase())
+                        || signature.lowercase().contains(keyword.lowercase())) {
+                        if (receiver.name.lowercase().contains(signature.lowercase())) {
                             val tracker = Tracker()
 
                             tracker.activityInfo = receiver
@@ -209,7 +245,9 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     private fun getTrackerSignatures(): List<String> {
-        return applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
+        return applicationContext().resources.getStringArray(R.array.trackers).filter {
+            it.isNullOrEmpty().invert()
+        }
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {

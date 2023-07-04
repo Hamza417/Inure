@@ -282,13 +282,31 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val packageInfo: PackageInfo = try {
-                    packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
-                            or PackageManager.GET_SERVICES
-                            or PackageManager.GET_RECEIVERS)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
+                                or PackageManager.GET_SERVICES
+                                or PackageManager.GET_RECEIVERS
+                                or PackageManager.MATCH_DISABLED_COMPONENTS)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
+                                or PackageManager.GET_SERVICES
+                                or PackageManager.GET_RECEIVERS
+                                or PackageManager.GET_DISABLED_COMPONENTS)
+                    }
                 } catch (e: NameNotFoundException) {
-                    packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
-                            or PackageManager.GET_SERVICES
-                            or PackageManager.GET_RECEIVERS)!!
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
+                                or PackageManager.GET_SERVICES
+                                or PackageManager.GET_RECEIVERS
+                                or PackageManager.MATCH_DISABLED_COMPONENTS)!!
+                    } else {
+                        @Suppress("DEPRECATION")
+                        packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
+                                or PackageManager.GET_SERVICES
+                                or PackageManager.GET_RECEIVERS
+                                or PackageManager.GET_DISABLED_COMPONENTS)!!
+                    }
                 }
 
                 val trackers = getTrackerSignatures()
