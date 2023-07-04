@@ -18,6 +18,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import com.topjohnwu.superuser.nio.ExtendedFile
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
@@ -132,7 +133,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     private fun getActivityTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = getTrackerSignatures()
+        val trackerSignatures = applicationContext().getTrackerSignatures()
         val activities = getPackageInfo().activities ?: null
         val trackersList = arrayListOf<Tracker>()
 
@@ -172,7 +173,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     private fun getServicesTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = getTrackerSignatures()
+        val trackerSignatures = applicationContext().getTrackerSignatures()
         val services = getPackageInfo().services ?: null
         val trackersList = arrayListOf<Tracker>()
 
@@ -208,7 +209,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     private fun getReceiversTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = getTrackerSignatures()
+        val trackerSignatures = applicationContext().getTrackerSignatures()
         val receivers = getPackageInfo().receivers ?: null
         val trackersList = arrayListOf<Tracker>()
 
@@ -242,12 +243,6 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         }
 
         return trackersList
-    }
-
-    private fun getTrackerSignatures(): List<String> {
-        return applicationContext().resources.getStringArray(R.array.trackers).filter {
-            it.isNullOrEmpty().invert()
-        }
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {

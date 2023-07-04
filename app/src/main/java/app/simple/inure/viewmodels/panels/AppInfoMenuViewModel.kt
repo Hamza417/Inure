@@ -23,6 +23,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -309,7 +310,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     }
                 }
 
-                val trackers = getTrackerSignatures()
+                val trackers = application.getTrackerSignatures()
                 var count = 0
 
                 if (packageInfo.activities != null) {
@@ -350,10 +351,6 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 this@AppInfoMenuViewModel.trackers.postValue(0)
             }
         }
-    }
-
-    private fun getTrackerSignatures(): List<String> {
-        return applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
     }
 
     private fun isNotThisApp(): Boolean {

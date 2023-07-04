@@ -28,13 +28,13 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import app.simple.inure.util.StringUtils.endsWithAny
+import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
@@ -456,7 +456,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getTrackers(): Pair<Int, Spannable> {
-        val trackers = applicationContext().resources.getStringArray(R.array.trackers).filter { it.isNullOrEmpty().invert() }
+        val trackers = applicationContext().getTrackerSignatures()
         var count = 0
         val list: MutableList<String> = mutableListOf()
 
