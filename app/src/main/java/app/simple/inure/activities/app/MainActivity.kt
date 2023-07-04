@@ -230,9 +230,15 @@ class MainActivity : BaseActivity() {
                     }
                 }
                 else -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                        .commit()
+                    if (AppUtils.isBetaFlavor()) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
+                    }
                 }
             }
         }

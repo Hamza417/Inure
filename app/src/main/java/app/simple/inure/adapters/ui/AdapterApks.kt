@@ -80,13 +80,13 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
             }
 
             holder.checkBox.setCheckedWithoutAnimations(paths[position].isSelected)
-
             holder.icon.loadAPKIcon(paths[position].file)
             holder.name.text = paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf("/") + 1)
             holder.path.text = paths[position].file.absolutePath
             holder.info.text = paths[position].file.absolutePath.toSize() + " | " +
                     paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf(".") + 1).uppercase(Locale.getDefault()) + " | " +
                     paths[position].file.lastModified().toDate()
+            holder.name.setHiddenIcon(holder.name.text.startsWith("."))
 
             holder.container.setOnClickListener { view ->
                 if (isSelectionMode) {

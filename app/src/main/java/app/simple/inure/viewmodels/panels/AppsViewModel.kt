@@ -142,7 +142,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
                 }
 
-                apps = categoryList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo> // Unnecessary ??
+                apps = categoryList //.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo> // Unnecessary ??
             }
 
             var filteredList = arrayListOf<PackageInfo>()

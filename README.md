@@ -76,7 +76,7 @@ and submit your feedbacks or get development related updates.
 - [x] Add battery optimisation manager for all apps.
 - [x] Boot manager for all apps.
 - [x] Add option to disable trackers.
-- [ ] Create activity shortcut on homescreen.
+- [x] Create activity shortcut on homescreen.
 - [ ] Add multiple apk installer.
 - [ ] Selection framework for APKs panel
 - [ ] Batch tracker control.

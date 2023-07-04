@@ -214,6 +214,20 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
+    fun setHiddenIcon(isTracker: Boolean) {
+        @Suppress("LiftReturnOrAssignment")
+        if (isTracker) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_12dp, 0)
+            alpha = 0.75f
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            alpha = 1f
+        }
+
+        drawableTintMode = 0
+        setDrawableTint(false)
+    }
+
     fun setDangerousPermissionIcon(isDangerous: Boolean) {
         if (isDangerous) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skull_12dp, 0)

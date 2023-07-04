@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.views.Chip
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.FlagUtils
@@ -38,7 +37,7 @@ class AppsSort : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             categoryChipGroup.removeView(view.findViewById(R.id.accessibility))
         }
 
@@ -231,10 +230,12 @@ class AppsSort : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(categoryFlags, SortConstant.CATEGORY_PRODUCTIVITY)
             }
 
-            categoryFlags = if (checkedIds.contains(R.id.accessibility)) {
-                FlagUtils.setFlag(categoryFlags, SortConstant.CATEGORY_ACCESSIBILITY)
-            } else {
-                FlagUtils.unsetFlag(categoryFlags, SortConstant.CATEGORY_ACCESSIBILITY)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                categoryFlags = if (checkedIds.contains(R.id.accessibility)) {
+                    FlagUtils.setFlag(categoryFlags, SortConstant.CATEGORY_ACCESSIBILITY)
+                } else {
+                    FlagUtils.unsetFlag(categoryFlags, SortConstant.CATEGORY_ACCESSIBILITY)
+                }
             }
 
             categoryFlags = if (checkedIds.contains(R.id.news)) {
@@ -260,16 +261,6 @@ class AppsSort : ScopedBottomSheetFragment() {
     }
 
     private fun setAppsCategory() {
-        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.ALL_CATEGORIES)) {
-            // Check all chips
-            for (i in 0 until categoryChipGroup.childCount) {
-                val chip = categoryChipGroup.getChildAt(i) as Chip
-                chip.isChecked = true
-            }
-
-            return
-        }
-
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
             categoryChipGroup.check(R.id.game)
         }
@@ -302,8 +293,10 @@ class AppsSort : ScopedBottomSheetFragment() {
             categoryChipGroup.check(R.id.productivity)
         }
 
-        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
-            categoryChipGroup.check(R.id.accessibility)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
+                categoryChipGroup.check(R.id.accessibility)
+            }
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {

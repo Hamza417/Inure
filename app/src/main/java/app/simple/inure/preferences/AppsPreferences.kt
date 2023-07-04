@@ -10,7 +10,7 @@ object AppsPreferences {
     const val appsType = "list_apps_type"
     const val appsFilter = "apps_filter_2"
     const val combineFilter = "combine_filter"
-    const val appsCategory = "apps_category"
+    const val appsCategory = "apps_category_flags"
     const val infoCustomFilter = "info_custom_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -65,12 +65,12 @@ object AppsPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsCategory(value: Int): Boolean {
-        return SharedPreferences.getSharedPreferences().edit().putInt(appsCategory, value).commit()
+    fun setAppsCategory(value: Long): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putLong(appsCategory, value).commit()
     }
 
-    fun getAppsCategory(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(appsCategory, SortConstant.ALL_CATEGORIES)
+    fun getAppsCategory(): Long {
+        return SharedPreferences.getSharedPreferences().getLong(appsCategory, SortConstant.ALL_CATEGORIES)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

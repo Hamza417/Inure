@@ -1,5 +1,8 @@
 package app.simple.inure.constants
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+
 object SortConstant {
     const val SYSTEM = "system"
     const val USER = "user"
@@ -16,27 +19,42 @@ object SortConstant {
     const val COMBINE_FLAGS = 32
     const val ALL = DISABLED or ENABLED or APK or SPLIT
 
-    const val CATEGORY_UNSPECIFIED = 1
-    const val CATEGORY_GAME = 2
-    const val CATEGORY_AUDIO = 4
-    const val CATEGORY_VIDEO = 8
-    const val CATEGORY_IMAGE = 16
-    const val CATEGORY_SOCIAL = 32
-    const val CATEGORY_NEWS = 64
-    const val CATEGORY_MAPS = 128
-    const val CATEGORY_PRODUCTIVITY = 256
-    const val CATEGORY_ACCESSIBILITY = 512
+    const val CATEGORY_UNSPECIFIED = 1L shl 1
+    const val CATEGORY_GAME = 1L shl 2
+    const val CATEGORY_AUDIO = 1L shl 3
+    const val CATEGORY_VIDEO = 1L shl 4
+    const val CATEGORY_IMAGE = 1L shl 5
+    const val CATEGORY_SOCIAL = 1L shl 6
+    const val CATEGORY_NEWS = 1L shl 7
+    const val CATEGORY_MAPS = 1L shl 8
+    const val CATEGORY_PRODUCTIVITY = 1L shl 9
 
-    const val ALL_CATEGORIES =
-        CATEGORY_GAME or
-                CATEGORY_AUDIO or
-                CATEGORY_VIDEO or
-                CATEGORY_IMAGE or
-                CATEGORY_SOCIAL or
-                CATEGORY_NEWS or
-                CATEGORY_MAPS or
-                CATEGORY_PRODUCTIVITY or
-                CATEGORY_ACCESSIBILITY
+    @RequiresApi(Build.VERSION_CODES.S)
+    const val CATEGORY_ACCESSIBILITY = 1L shl 10
+
+    var ALL_CATEGORIES =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            CATEGORY_UNSPECIFIED or
+                    CATEGORY_GAME or
+                    CATEGORY_AUDIO or
+                    CATEGORY_VIDEO or
+                    CATEGORY_IMAGE or
+                    CATEGORY_SOCIAL or
+                    CATEGORY_NEWS or
+                    CATEGORY_MAPS or
+                    CATEGORY_PRODUCTIVITY or
+                    CATEGORY_ACCESSIBILITY
+        } else {
+            CATEGORY_UNSPECIFIED or
+                    CATEGORY_GAME or
+                    CATEGORY_AUDIO or
+                    CATEGORY_VIDEO or
+                    CATEGORY_IMAGE or
+                    CATEGORY_SOCIAL or
+                    CATEGORY_NEWS or
+                    CATEGORY_MAPS or
+                    CATEGORY_PRODUCTIVITY
+        }
 
     const val OPTIMIZED = 1
     const val NOT_OPTIMIZED = 2
