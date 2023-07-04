@@ -55,6 +55,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         viewModelScope.launch(Dispatchers.IO) {
             val externalStorage = Environment.getExternalStorageDirectory()
             val apkPaths = ArrayList<ApkFile>()
+            files.clear()
 
             externalStorage.walkTopDown().forEach {
                 info.postValue(it.absolutePath.substringBeforeLast("/"))

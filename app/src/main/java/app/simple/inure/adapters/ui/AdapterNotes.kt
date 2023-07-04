@@ -139,10 +139,37 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        private val listStyle: ImageView = itemView.findViewById(R.id.list_style)
 
         init {
             val params = itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
             params.isFullSpan = true
+
+            updateListStyle()
+
+            listStyle.setOnClickListener {
+                when (NotesPreferences.getListType()) {
+                    NotesPreferences.LIST_TYPE_STAGGERED -> {
+                        NotesPreferences.setListType(NotesPreferences.LIST_TYPE_LIST)
+                        updateListStyle()
+                    }
+                    NotesPreferences.LIST_TYPE_LIST -> {
+                        NotesPreferences.setListType(NotesPreferences.LIST_TYPE_STAGGERED)
+                        updateListStyle()
+                    }
+                }
+            }
+        }
+
+        fun updateListStyle() {
+            when (NotesPreferences.getListType()) {
+                NotesPreferences.LIST_TYPE_STAGGERED -> {
+                    listStyle.setImageResource(R.drawable.ic_notes_staggered)
+                }
+                NotesPreferences.LIST_TYPE_LIST -> {
+                    listStyle.setImageResource(R.drawable.ic_notes_list)
+                }
+            }
         }
     }
 }

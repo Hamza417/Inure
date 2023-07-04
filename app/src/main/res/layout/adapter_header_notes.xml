@@ -60,6 +60,13 @@
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/list_style"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginEnd="8dp"
+            app:buttonTintType="regular" />
+
     </LinearLayout>
 
 </LinearLayout>

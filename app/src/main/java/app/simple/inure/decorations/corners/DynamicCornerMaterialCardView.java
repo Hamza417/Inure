@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import app.simple.inure.decorations.theme.ThemeMaterialCardView;
+import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicCornerMaterialCardView extends ThemeMaterialCardView {
@@ -22,7 +23,8 @@ public class DynamicCornerMaterialCardView extends ThemeMaterialCardView {
         if (isInEditMode()) {
             return;
         }
-        
+    
+        setRadius(Math.min(AppearancePreferences.INSTANCE.getCornerRadius(), 75F));
         ViewUtils.INSTANCE.addShadow(this);
     }
 }

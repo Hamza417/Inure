@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.transition.TransitionManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterNotes
 import app.simple.inure.constants.BottomMenuConstants
@@ -28,6 +30,7 @@ class Notes : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private var adapterNotes: AdapterNotes? = null
+    private var staggeredGridLayoutManager: StaggeredGridLayoutManager? = null
     private lateinit var notesViewModel: NotesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -81,11 +84,19 @@ class Notes : ScopedFragment() {
                 }
             }
 
-            val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            when (NotesPreferences.getListType()) {
+                NotesPreferences.LIST_TYPE_STAGGERED -> {
+                    staggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                }
+                NotesPreferences.LIST_TYPE_LIST -> {
+                    staggeredGridLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+                }
+            }
 
-            recyclerView.layoutManager = staggeredGridLayoutManager
+            staggeredGridLayoutManager?.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
             // recyclerView.addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.popup_padding), true))
+            recyclerView.layoutManager = staggeredGridLayoutManager
+            recyclerView.itemAnimator = DefaultItemAnimator()
             recyclerView.adapter = adapterNotes
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
@@ -113,6 +124,22 @@ class Notes : ScopedFragment() {
         when (key) {
             NotesPreferences.expandedNotes -> {
                 adapterNotes?.areNotesExpanded = NotesPreferences.areNotesExpanded()
+            }
+            NotesPreferences.listType -> {
+                when (NotesPreferences.getListType()) {
+                    NotesPreferences.LIST_TYPE_STAGGERED -> {
+                        recyclerView.post {
+                            TransitionManager.beginDelayedTransition(recyclerView)
+                            (recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 2
+                        }
+                    }
+                    NotesPreferences.LIST_TYPE_LIST -> {
+                        recyclerView.post {
+                            TransitionManager.beginDelayedTransition(recyclerView)
+                            (recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 1
+                        }
+                    }
+                }
             }
         }
     }
