@@ -322,6 +322,10 @@ class APKs : ScopedFragment() {
             -> {
                 apkBrowserViewModel.sort()
             }
+            ApkBrowserPreferences.nomedia -> {
+                apkScanner = childFragmentManager.showApkScanner()
+                apkBrowserViewModel.refresh()
+            }
         }
     }
 

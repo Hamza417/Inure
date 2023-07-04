@@ -173,4 +173,40 @@ object FileUtils {
     fun String.makePathBashCompatible(): String {
         return this.replace(" ", "\\ ")
     }
+
+    /**
+     * This is a terrible way to check if a file is a .nomedia file or directory
+     */
+    fun File.isNomediaFileOrDirectory(): Boolean {
+        return if (isFile) {
+            if (absolutePath.split("/").any { it.startsWith(".") }) {
+                return true
+            } else {
+                if (name == ".nomedia") {
+                    return true
+                } else {
+                    absolutePath.split("/").forEach { it ->
+                        return it.toFile().listFiles()?.any {
+                            it.name == ".nomedia"
+                        } ?: false
+                    }
+
+                    return false
+                }
+            }
+        } else if (isDirectory) {
+            if (absolutePath.split("/").any { it.startsWith(".") }) {
+                return true
+            } else {
+                listFiles()?.forEach {
+                    if (it.name == ".nomedia") {
+                        return true
+                    }
+                }
+            }
+            false
+        } else {
+            false
+        }
+    }
 }

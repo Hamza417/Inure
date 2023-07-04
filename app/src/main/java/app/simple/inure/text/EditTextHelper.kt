@@ -131,10 +131,16 @@ object EditTextHelper {
     fun EditText.toSuperscript() {
         selectTheCurrentWord()
 
-        val spans: Array<SuperscriptSpan> = text.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
+        val superscriptSpan: Array<SuperscriptSpan> = text.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
+        val subscriptSpan: Array<SubscriptSpan> = text.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
+
+        for (subscript in subscriptSpan) {
+            text.removeSpan(subscript)
+        }
+
         var exists = false
 
-        for (span in spans) {
+        for (span in superscriptSpan) {
             text.removeSpan(span)
             exists = true
         }
@@ -150,10 +156,16 @@ object EditTextHelper {
     fun EditText.toSubscript() {
         selectTheCurrentWord()
 
-        val spans: Array<SubscriptSpan> = text.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
+        val subscriptSpan: Array<SubscriptSpan> = text.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
+        val superscriptSpan: Array<SuperscriptSpan> = text.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
+
+        for (superscript in superscriptSpan) {
+            text.removeSpan(superscript)
+        }
+
         var exists = false
 
-        for (span in spans) {
+        for (span in subscriptSpan) {
             text.removeSpan(span)
             exists = true
         }

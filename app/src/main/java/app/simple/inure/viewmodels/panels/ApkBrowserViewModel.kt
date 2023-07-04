@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.panels
 
 import android.app.Application
 import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,11 +10,14 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ApkFile
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.FileUtils.isNomediaFileOrDirectory
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 class ApkBrowserViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -73,6 +77,25 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
                 if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
                     files.add(ApkFile(it)) // backup for filtering
+                }
+            }
+
+            if (ApkBrowserPreferences.isNomediaEnabled()) {
+                val noMediaPaths = ArrayList<ApkFile>()
+
+                for (file in apkPaths) {
+                    println("Time taken: " + measureTimeMillis {
+                        if (file.file.isNomediaFileOrDirectory().invert()) {
+                            noMediaPaths.add(file)
+                            Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
+                        }
+                    })
+                }
+
+                apkPaths.clear()
+
+                for (file in noMediaPaths) {
+                    apkPaths.add(file)
                 }
             }
 

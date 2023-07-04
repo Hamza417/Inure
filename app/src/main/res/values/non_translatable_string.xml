@@ -77,4 +77,5 @@
     <!--suppress CheckTagEmptyBody -->
     <string name="empty" translatable="false"></string>
     <string name="telegram" translatable="false">Telegram</string>
+    <string name="nomedia">.nomedia</string>
 </resources>

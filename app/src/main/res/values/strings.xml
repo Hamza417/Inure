@@ -691,4 +691,5 @@
     <string name="create_shortcut">Create Shortcut</string>
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+    <string name="nomedia_desc">Exclude hidden directories and files.</string>
 </resources>
