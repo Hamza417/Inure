@@ -25,8 +25,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.extensions.popup.PopupMenuCallback
-import app.simple.inure.popups.app.PopupHome
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.*
 import app.simple.inure.terminal.Term
@@ -47,7 +45,6 @@ class Home : ScopedFragment() {
     private lateinit var icon: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
-    private lateinit var options: DynamicRippleImageButton
     private lateinit var purchase: DynamicRippleImageButton
 
     private lateinit var homeViewModel: HomeViewModel
@@ -64,7 +61,6 @@ class Home : ScopedFragment() {
         icon = view.findViewById(R.id.header_icon)
         search = view.findViewById(R.id.home_header_search_button)
         settings = view.findViewById(R.id.home_header_pref_button)
-        options = view.findViewById(R.id.home_header_option_button)
         purchase = view.findViewById(R.id.home_purchase)
 
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
@@ -250,21 +246,6 @@ class Home : ScopedFragment() {
                 .replace(R.id.app_container, Preferences.newInstance())
                 .addToBackStack("preferences")
                 .commit()
-        }
-
-        options.setOnClickListener {
-            PopupHome(it).setOnPopupMenuCallback(object : PopupMenuCallback {
-                override fun onMenuItemClicked(source: Int) {
-                    when (source) {
-                        R.string.refresh -> {
-                            // homeViewModel.refresh()
-                        }
-                        R.string.preferences -> {
-                            openFragmentLinear(Preferences.newInstance(), icon, "preferences_screen")
-                        }
-                    }
-                }
-            })
         }
 
         purchase.setOnClickListener {
