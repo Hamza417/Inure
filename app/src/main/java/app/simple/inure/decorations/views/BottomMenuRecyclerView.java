@@ -3,9 +3,12 @@ package app.simple.inure.decorations.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -26,10 +29,12 @@ import kotlin.ranges.RangesKt;
 
 public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
+    private static final String TAG = "BottomMenuRecyclerView";
     private int containerHeight;
     private int displayWidth;
     private boolean isScrollListenerAdded = false;
     private boolean isInitialized = false;
+    private boolean isBottomMenuVisible = true;
     
     public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -63,6 +68,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         setAdapter(adapterBottomMenu);
         
         post(() -> {
+            scrollToPosition(bottomMenuItems.size() - 1);
+    
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
     
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
@@ -125,18 +132,41 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         
         if (recyclerView != null) {
             if (recyclerView.getAdapter() != null) {
-                if (recyclerView.getAdapter().getItemCount() > 10) {
-                    if (!isScrollListenerAdded) {
-                        recyclerView.addOnScrollListener(new OnScrollListener() {
-                            @Override
-                            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                                super.onScrolled(recyclerView, dx, dy);
-                                setTranslationY(dy);
+                if (!isScrollListenerAdded) {
+                    recyclerView.addOnScrollListener(new OnScrollListener() {
+                        @Override
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            // setTranslationY(dy);
+                            setContainerVisibility(dy, true);
+                        }
+            
+                        @Override
+                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                            super.onScrollStateChanged(recyclerView, newState);
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                if (getTranslationY() > 0) {
+                                    if (recyclerView.canScrollVertically(1)) {
+                                        animate()
+                                                .translationY(0)
+                                                .setDuration(250)
+                                                .setInterpolator(new DecelerateInterpolator())
+                                                .start();
+                                    }
+                                }
+                            } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                                if (getTranslationY() == 0) {
+                                    animate()
+                                            .translationY(containerHeight)
+                                            .setDuration(250)
+                                            .setInterpolator(new AccelerateInterpolator())
+                                            .start();
+                                }
                             }
-                        });
-    
-                        isScrollListenerAdded = true;
-                    }
+                        }
+                    });
+        
+                    isScrollListenerAdded = true;
                 }
             }
     
@@ -154,6 +184,36 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         super.setVisibility(visibility);
         if (visibility == VISIBLE) {
             scheduleLayoutAnimation();
+        }
+    }
+    
+    public void setContainerVisibility(int dy, boolean animate) {
+        if (dy > 0 && isBottomMenuVisible) {
+            Log.d(TAG, "setContainerVisibility: " + dy);
+            if (animate) {
+                animate()
+                        .translationY(containerHeight)
+                        .setDuration(250)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .start();
+            } else {
+                setTranslationY(containerHeight);
+            }
+            
+            isBottomMenuVisible = false;
+        } else if (dy < 0 && !isBottomMenuVisible) {
+            Log.d(TAG, "setContainerVisibility: " + dy);
+            if (animate) {
+                animate()
+                        .translationY(0)
+                        .setDuration(250)
+                        .setInterpolator(new DecelerateInterpolator())
+                        .start();
+            } else {
+                setTranslationY(0);
+            }
+            
+            isBottomMenuVisible = true;
         }
     }
     
