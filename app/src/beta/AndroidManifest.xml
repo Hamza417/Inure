@@ -221,7 +221,7 @@
 
         <activity
             android:name=".activities.association.AppInfoActivity"
-            android:enabled="true"
+            android:enabled="false"
             android:exported="true"
             android:label="@string/information">
             <intent-filter>

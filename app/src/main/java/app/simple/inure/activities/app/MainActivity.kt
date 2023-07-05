@@ -55,6 +55,10 @@ class MainActivity : BaseActivity() {
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
 
+        if (AppUtils.isBetaFlavor()) {
+            setExpiryStamp()
+        }
+
         if (savedInstanceState.isNull()) {
             if (MainPreferences.getLaunchCount().isZero()) {
                 TrialPreferences.setFirstLaunchDate(System.currentTimeMillis())
@@ -253,12 +257,11 @@ class MainActivity : BaseActivity() {
         supportFragmentManager.executePendingTransactions()
     }
 
-    @Suppress("unused")
     private fun setExpiryStamp() {
         val expiryDate = Calendar.getInstance()
 
         expiryDate.clear()
-        expiryDate.set(2022, Calendar.DECEMBER, 31)
+        expiryDate.set(2023, Calendar.JULY, 6)
         expiryDate.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
 
         if (CalendarUtils.isToday(expiryDate)) {

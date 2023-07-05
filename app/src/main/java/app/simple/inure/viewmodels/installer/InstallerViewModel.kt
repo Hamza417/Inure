@@ -228,7 +228,11 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 val sessionId = with(ShizukuUtils.execInternal(Command("pm install-create -S $totalSizeOfAllApks"), null)) {
                     Log.d("Installer", "Output: $out")
                     with(out) {
-                        substringAfter("[").substringBefore("]").toInt()
+                        if (isNotEmpty()) {
+                            "${substringAfter("[").substringBefore("]").toInt()}"
+                        } else {
+                            throw Exception("Unable to get session id")
+                        }
                     }
                 }
 
