@@ -63,12 +63,12 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             holder.packageId.text = notes[position].packageInfo.packageName
             holder.note.text = notes[position].note
 
-            holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
+            // holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
 
             if (areNotesExpanded) {
                 holder.note.maxLines = Int.MAX_VALUE
             } else {
-                holder.note.maxLines = 7
+                holder.note.maxLines = 16
             }
 
             holder.updated.text = holder.context.getString(R.string.edited_on, DateUtils.formatDate(notes[position].dateUpdated))
@@ -163,7 +163,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
         }
 
-        fun updateListStyle() {
+        private fun updateListStyle() {
             when (NotesPreferences.getListType()) {
                 NotesPreferences.LIST_TYPE_STAGGERED -> {
                     listStyle.setImageResource(R.drawable.ic_notes_staggered)

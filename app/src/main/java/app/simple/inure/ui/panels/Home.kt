@@ -237,17 +237,19 @@ class Home : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            openFragmentArc(Search.newInstance(true), it, "search")
+            requireActivity().supportFragmentManager.beginTransaction()
+                .addSharedElement(it, it.transitionName)
+                .replace(R.id.app_container, Search.newInstance(firstLaunch = true))
+                .addToBackStack("search")
+                .commit()
         }
 
         settings.setOnClickListener {
-            openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
-
-            //            childFragmentManager.showHomeMenu().setOnHomeMenuCallbacks(object : HomeMenu.Companion.HomeMenuCallbacks {
-            //                override fun onOpenSettings() {
-            //                    openFragmentLinear(Preferences.newInstance(), it, "preferences_screen")
-            //                }
-            //            })
+            requireActivity().supportFragmentManager.beginTransaction()
+                .addSharedElement(it, it.transitionName)
+                .replace(R.id.app_container, Preferences.newInstance())
+                .addToBackStack("preferences")
+                .commit()
         }
 
         options.setOnClickListener {

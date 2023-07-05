@@ -2,6 +2,7 @@ package app.simple.inure.ui.panels
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,6 +41,7 @@ import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.ui.preferences.mainscreens.*
 import app.simple.inure.ui.preferences.subscreens.*
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
+import com.google.android.material.transition.MaterialContainerTransform
 
 class Preferences : SearchBarScopedFragment() {
 
@@ -66,7 +68,13 @@ class Preferences : SearchBarScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+            setAllContainerColors(Color.TRANSPARENT)
+            scrimColor = Color.TRANSPARENT
+        }
+
+        postponeEnterTransition()
 
         preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
             postponeEnterTransition()

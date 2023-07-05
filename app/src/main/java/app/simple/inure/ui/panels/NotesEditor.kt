@@ -3,6 +3,7 @@ package app.simple.inure.ui.panels
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -119,7 +120,13 @@ class NotesEditor : KeyboardScopedFragment() {
         customTextWatcher = CustomTextWatcher(this)
         this.container.transitionName = packageInfo.packageName
 
-        sharedElementEnterTransition = MaterialContainerTransform()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+            setAllContainerColors(Color.TRANSPARENT)
+            scrimColor = Color.TRANSPARENT
+            isElevationShadowEnabled = false
+        }
+
         startPostponedEnterTransition()
 
         return view

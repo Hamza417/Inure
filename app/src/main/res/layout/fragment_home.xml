@@ -61,7 +61,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_search"
-            android:transitionName="@string/search"
+            android:transitionName="search_transition"
             app:buttonTintType="regular" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton

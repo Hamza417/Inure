@@ -2,6 +2,7 @@ package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.viewmodels.panels.SearchViewModel
+import com.google.android.material.transition.MaterialContainerTransform
 
 class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -52,6 +54,14 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // super.onViewCreated(view, savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.animation_duration).toLong()
+            setAllContainerColors(Color.TRANSPARENT)
+            scrimColor = Color.TRANSPARENT
+        }
+
+        postponeEnterTransition()
 
         recyclerView.addHeightKeyboardCallbacks()
         searchView.editText.setWindowInsetsAnimationCallback()

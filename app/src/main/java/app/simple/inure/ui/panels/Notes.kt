@@ -24,8 +24,6 @@ import app.simple.inure.popups.notes.PopupNotesMenu
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.ui.viewers.Note
 import app.simple.inure.viewmodels.panels.NotesViewModel
-import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialElevationScale
 
 class Notes : ScopedFragment() {
 
@@ -55,15 +53,6 @@ class Notes : ScopedFragment() {
 
             adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onNoteClicked(notesPackageInfo: NotesPackageInfo, view: View) {
-                    sharedElementEnterTransition = MaterialContainerTransform().apply {
-                        duration = 1000
-                        fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
-                        startView = view
-                        endView = view
-                    }
-                    exitTransition = MaterialElevationScale(/* growing = */ false)
-                    reenterTransition = MaterialElevationScale(/* growing = */ true)
-
                     requireActivity().supportFragmentManager.beginTransaction()
                         .addSharedElement(view, notesPackageInfo.packageInfo.packageName)
                         .replace(R.id.app_container, NotesEditor.newInstance(notesPackageInfo.packageInfo))
