@@ -278,7 +278,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         clearSecondaryProgressAnimation();
         secondaryProgressAnimator = ObjectAnimator.ofInt(this, "secondaryProgress", getSecondaryProgress(), value);
         secondaryProgressAnimator.setDuration(1000L);
-        secondaryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+        secondaryProgressAnimator.setInterpolator(Utils.getInterpolator());
         secondaryProgressAnimator.setAutoCancel(true);
         secondaryProgressAnimator.start();
     }

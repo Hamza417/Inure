@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.animation.DecelerateInterpolator;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -143,7 +142,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
             }
             valueAnimator = ValueAnimator.ofFloat(getHoleRadius(), value);
             valueAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
-            valueAnimator.setInterpolator(new DecelerateInterpolator());
+            valueAnimator.setInterpolator(Utils.getInterpolator());
             valueAnimator.addUpdateListener(animation -> {
                 setHoleRadius((float) animation.getAnimatedValue());
                 invalidate();

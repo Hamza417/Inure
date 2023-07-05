@@ -12,7 +12,6 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
 import app.simple.inure.loaders.ImageLoader;
 import app.simple.inure.preferences.AccessibilityPreferences;
@@ -57,7 +56,7 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
         if (animate) {
             valueAnimator = ValueAnimator.ofArgb(getImageTintList().getDefaultColor(), endColor);
             valueAnimator.setDuration(getResources().getInteger(R.integer.theme_change_duration));
-            valueAnimator.setInterpolator(new LinearOutSlowInInterpolator());
+            valueAnimator.setInterpolator(Utils.getInterpolator());
             valueAnimator.addUpdateListener(animation -> setImageTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
             valueAnimator.start();
         } else {

@@ -7,7 +7,6 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.animation.DecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +45,7 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
         if (animate) {
             valueAnimator = ValueAnimator.ofArgb(getImageTintList().getDefaultColor(), endColor);
             valueAnimator.setDuration(getResources().getInteger(R.integer.theme_change_duration));
-            valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+            valueAnimator.setInterpolator(Utils.getInterpolator());
             valueAnimator.addUpdateListener(animation -> setImageTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
             valueAnimator.start();
         } else {
