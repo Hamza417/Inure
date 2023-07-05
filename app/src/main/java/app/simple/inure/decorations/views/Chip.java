@@ -50,7 +50,7 @@ public class Chip extends com.google.android.material.chip.Chip {
                 
                 }},
                 new int[] {
-                        AppearancePreferences.INSTANCE.getAccentColorLight(),
+                        AppearancePreferences.INSTANCE.getAccentColorLight(getContext()),
                         ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()
                 }
         ));
@@ -61,7 +61,7 @@ public class Chip extends com.google.android.material.chip.Chip {
                 .build());
     
         ViewUtils.INSTANCE.addShadow(this);
-        setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight()));
+        setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
     
         if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
             setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));

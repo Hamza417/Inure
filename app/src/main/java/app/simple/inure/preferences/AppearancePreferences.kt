@@ -1,10 +1,12 @@
 package app.simple.inure.preferences
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.TypeFace
 
@@ -58,8 +60,12 @@ object AppearancePreferences {
 
     @Suppress("unused")
     @ColorInt
-    fun getAccentColorLight(): Int {
-        return ColorUtils.lightenColor(getSharedPreferences().getInt(accentColor, 0), 0.25F)
+    fun getAccentColorLight(context: Context): Int {
+        return if (ThemeUtils.isNightMode(context.resources)) {
+            getSharedPreferences().getInt(accentColorLight, ColorUtils.darkenColor(getAccentColor(), 0.2F))
+        } else {
+            getSharedPreferences().getInt(accentColorLight, ColorUtils.lightenColor(getAccentColor(), 0.4F))
+        }
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -10,6 +10,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
+import app.simple.inure.apk.utils.PackageData.getOtherCacheDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.activities.BaseActivity
@@ -41,7 +42,7 @@ class AppDetailsActivity : BaseActivity() {
                         }
 
                         val name = DocumentFile.fromSingleUri(applicationContext, uri)!!.name
-                        val sourceFile = applicationContext.getInstallerDir(name!!)
+                        val sourceFile = applicationContext.getOtherCacheDir(name!!)
                         var packageInfo: PackageInfo? = null
 
                         contentResolver.openInputStream(uri)!!.use {
@@ -103,6 +104,7 @@ class AppDetailsActivity : BaseActivity() {
                                 .commit()
                         }
                     }.getOrElse {
+                        it.printStackTrace()
                         kotlin.runCatching {
                             withContext(Dispatchers.Main) {
                                 hideLoader()

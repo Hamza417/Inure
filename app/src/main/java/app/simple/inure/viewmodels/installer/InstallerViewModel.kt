@@ -76,6 +76,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     private fun extractFiles() {
+        clearInstallerCache()
         PackageData.makePackageFolder(applicationContext())
 
         if (file != null && file.exists()) {
@@ -333,6 +334,14 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
          */
         // super.onShizukuDenied()
         packageManagerInstall()
+    }
+
+    private fun clearInstallerCache() {
+        kotlin.runCatching {
+            if (File(applicationContext().cacheDir.path + "/installer_cache/").deleteRecursively()) {
+                Log.d(javaClass.name, "Installer cache cleared")
+            }
+        }
     }
 
     private fun installCommand(): String {

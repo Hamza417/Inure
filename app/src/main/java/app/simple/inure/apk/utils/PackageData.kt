@@ -43,6 +43,15 @@ object PackageData {
         return File(cacheDir.path + "/installer_cache/" + name)
     }
 
+    fun Context.getOtherCacheDir(name: String): File {
+        if (File(cacheDir.path + "/other_cache/").exists() &&
+            File(cacheDir.path + "/other_cache/").isFile) {
+            File(cacheDir.path + "/other_cache/").delete()
+        }
+        File(cacheDir.path + "/other_cache/").mkdir()
+        return File(cacheDir.path + "/other_cache/" + name)
+    }
+
     fun Context.getInstallerDir(name: String, dirName: String): File {
         if (File(cacheDir.path + "/installer_cache/" + dirName + "/").exists() &&
             File(cacheDir.path + "/installer_cache/" + dirName + "/").isFile) {
