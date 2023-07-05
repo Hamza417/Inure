@@ -231,7 +231,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         if (isNotEmpty()) {
                             "${substringAfter("[").substringBefore("]").toInt()}"
                         } else {
-                            throw Exception("Unable to get session id")
+                            postWarning("ERR: unable to get session id")
+                            return@launch
                         }
                     }
                 }

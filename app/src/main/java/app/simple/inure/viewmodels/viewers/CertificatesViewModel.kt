@@ -61,7 +61,21 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
         list.add(Pair(R.string.certificate_sha1, APKCertificateUtils.getCertificateFingerprint(cert, "SHA1").lowercase().applySecondaryTextColor()))
         list.add(Pair(R.string.certificate_sha256, APKCertificateUtils.getCertificateFingerprint(cert, "SHA-256").lowercase().applySecondaryTextColor()))
         list.add(Pair(R.string.certificate_md5, APKCertificateUtils.getCertificateFingerprint(cert, "MD5").applySecondaryTextColor()))
-        list.add(Pair(R.string.public_key, cert.publicKey.toString().split("=").toTypedArray()[1].split(",").toTypedArray()[0].applySecondaryTextColor()))
+
+        try {
+            // RSA Public Key
+            list.add(Pair(R.string.public_key, ("RSA" +
+                    cert.publicKey.toString()
+                        .split("=").toTypedArray()[1]
+                        .split(",").toTypedArray()[0]).applySecondaryTextColor()))
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            // DSA Public Key
+            list.add(Pair(R.string.public_key, ("DSA" +
+                    cert.publicKey.toString()
+                        .split("Y:").toTypedArray()[1]
+                        .trim()).applySecondaryTextColor()))
+        }
+
         list.add(Pair(R.string.valid_from, cert.notBefore.toString().applyAccentColor()))
         list.add(Pair(R.string.valid_to, cert.notAfter.toString().applyAccentColor()))
         list.add(Pair(R.string.issuer, cert.issuerX500Principal?.name!!.applyAccentColor()))

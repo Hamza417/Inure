@@ -50,8 +50,6 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
         viewModelScope.launch(Dispatchers.IO) {
             var apps = getInstalledApps()
 
-            Log.d("Battery", apps.size.toString())
-
             when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
@@ -64,8 +62,6 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
-
-            Log.d("Battery", apps.size.toString())
 
             kotlin.runCatching {
                 Shell.cmd("dumpsys deviceidle whitelist").exec().let { result ->
@@ -120,8 +116,6 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                                 }
                             }
                         }
-
-                        Log.d("Battery", filtered.size.toString())
 
                         for (app in filtered) {
                             kotlin.runCatching {

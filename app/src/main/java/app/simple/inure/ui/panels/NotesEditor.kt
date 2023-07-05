@@ -7,8 +7,8 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
+import android.text.TextWatcher
 import android.text.style.*
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.addCallback
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
@@ -80,6 +79,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
     private var originalText: SpannableStringBuilder? = null
+    private var customTextWatcher: CustomTextWatcher? = null
 
     private val gson: Gson by lazy {
         val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
@@ -113,6 +113,8 @@ class NotesEditor : KeyboardScopedFragment() {
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
         notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
 
+        customTextWatcher = CustomTextWatcher(this)
+
         startPostponedEnterTransition()
 
         return view
@@ -133,19 +135,7 @@ class NotesEditor : KeyboardScopedFragment() {
             formattingStrip.layoutParams = params
         }
 
-        noteEditText.doAfterTextChanged {
-            if (originalText.toString() != it.toString()) {
-                handler.removeCallbacksAndMessages(null)
-                save.visible(true)
-                handler.postDelayed(
-                        {
-                            Log.d("NotesEditor", "Saving notes")
-                            handleTextChange(NotesPreferences.isAutoSave())
-                        }, 1000)
-            } else {
-                save.gone(true)
-            }
-        }
+        noteEditText.addTextChangedListener(customTextWatcher)
 
         noteEditText.addOnSelectionChangedListener(object : TypeFaceEditText.Companion.OnSelectionChangedListener {
             override fun onSelectionChanged(selectionStart: Int, selectionEnd: Int) {
@@ -334,6 +324,21 @@ class NotesEditor : KeyboardScopedFragment() {
         val afterChange: Editable = noteEditText.editableText!!.subSequence(start, noteEditText.selectionEnd) as Editable
         textViewUndoRedo?.addHistory(start, beforeChange, afterChange)
         undoRedoButtonState()
+        noteEditText.text?.let {
+            doAfterTextChanged(noteEditText.editableText!!, true)
+        }
+    }
+
+    private fun doAfterTextChanged(editable: Editable, isFormatting: Boolean = false) {
+        if (originalText.toString() != editable.toString() || isFormatting) {
+            handler.removeCallbacksAndMessages(null)
+            save.visible(true)
+            postDelayed(1000) {
+                handleTextChange(NotesPreferences.isAutoSave())
+            }
+        } else {
+            save.gone(true)
+        }
     }
 
     private fun handleTextChange(save: Boolean) {
@@ -377,6 +382,24 @@ class NotesEditor : KeyboardScopedFragment() {
     private fun undoRedoButtonState() {
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
+    }
+
+    private open class CustomTextWatcher(private val notesEditor: NotesEditor) : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            /* no-op */
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            notesEditor.doAfterTextChanged(s as Editable)
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            /* no-op */
+        }
+
+        fun callOnTextChanged(editable: Editable, b: Boolean) {
+            onTextChanged(editable, 0, 0, 0)
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
