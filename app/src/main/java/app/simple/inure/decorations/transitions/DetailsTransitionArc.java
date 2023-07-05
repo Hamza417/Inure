@@ -54,7 +54,7 @@ public class DetailsTransitionArc extends TransitionSet {
     
     private void init() {
         /*
-         * Arc motion will set a curve on the objects's
+         * Arc motion will set a curve on the object's
          * motion when the view is transitioning.
          */
         ArcMotion arcMotion = new ArcMotion();

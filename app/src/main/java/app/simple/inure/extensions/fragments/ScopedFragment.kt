@@ -64,9 +64,9 @@ import kotlinx.coroutines.launch
  */
 abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private val maximumAngle = 90
-    private val minimumHorizontalAngle = 80
-    private val minimumVerticalAngle = 15
+    protected var maximumAngle = 90
+    protected var minimumHorizontalAngle = 80
+    protected var minimumVerticalAngle = 15
 
     /**
      * [ScopedFragment]'s own [Handler] instance
@@ -245,6 +245,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                             minimumHorizontalAngle = this.minimumHorizontalAngle
                             minimumVerticalAngle = this.minimumVerticalAngle
                         })
+                        isElevationShadowEnabled = false
                     }
                     sharedElementReturnTransition = MaterialContainerTransform().apply {
                         setDuration(duration)
@@ -255,6 +256,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                             minimumHorizontalAngle = this.minimumHorizontalAngle
                             minimumVerticalAngle = this.minimumVerticalAngle
                         })
+                        isElevationShadowEnabled = false
                     }
                 }
                 PopupArcType.MATERIAL -> {
@@ -263,12 +265,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                         setAllContainerColors(Color.TRANSPARENT)
                         scrimColor = Color.TRANSPARENT
                         setPathMotion(MaterialArcMotion())
+                        isElevationShadowEnabled = false
                     }
                     sharedElementReturnTransition = MaterialContainerTransform().apply {
                         setDuration(duration)
                         setAllContainerColors(Color.TRANSPARENT)
                         scrimColor = Color.TRANSPARENT
                         setPathMotion(MaterialArcMotion())
+                        isElevationShadowEnabled = false
                     }
                 }
                 PopupArcType.LEGACY -> {
