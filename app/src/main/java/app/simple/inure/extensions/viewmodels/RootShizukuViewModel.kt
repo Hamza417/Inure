@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import rikka.shizuku.Shizuku
 
-abstract class RootShizukuViewModel(application: Application) : WrappedViewModel(application) {
+abstract class RootShizukuViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var shell: Shell? = null
 

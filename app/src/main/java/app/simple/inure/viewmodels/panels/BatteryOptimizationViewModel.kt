@@ -1,10 +1,9 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,10 +28,6 @@ import java.util.stream.Collectors
 
 class BatteryOptimizationViewModel(application: Application) : RootShizukuViewModel(application) {
 
-    init {
-        initializeCoreFramework()
-    }
-
     private val batteryOptimizationArrayList = ArrayList<BatteryOptimizationModel>()
 
     private val batteryOptimizationData: MutableLiveData<ArrayList<BatteryOptimizationModel>> by lazy {
@@ -53,7 +48,9 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     private fun loadBatteryOptimizationSu() {
         viewModelScope.launch(Dispatchers.IO) {
-            var apps = getInstalledPackages()
+            var apps = getInstalledApps()
+
+            Log.d("Battery", apps.size.toString())
 
             when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
@@ -67,6 +64,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
+
+            Log.d("Battery", apps.size.toString())
 
             kotlin.runCatching {
                 Shell.cmd("dumpsys deviceidle whitelist").exec().let { result ->
@@ -122,6 +121,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                             }
                         }
 
+                        Log.d("Battery", filtered.size.toString())
+
                         for (app in filtered) {
                             kotlin.runCatching {
                                 app.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
@@ -140,12 +141,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     private fun loadBatteryOptimizationShizuku() {
         viewModelScope.launch(Dispatchers.IO) {
-            var apps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-            }
+            var apps = getInstalledApps()
 
             when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
@@ -254,24 +250,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     fun refresh() {
         batteryOptimizationArrayList.clear()
-        if (ConfigurationPreferences.isUsingShizuku()) {
-            loadBatteryOptimizationShizuku()
-        } else if (ConfigurationPreferences.isUsingRoot()) {
-            loadBatteryOptimizationSu()
-        }
-    }
-
-    private fun getInstalledPackages(): MutableList<PackageInfo> {
-        while (true) {
-            kotlin.runCatching {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    return packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
-                } else {
-                    @Suppress("DEPRECATION")
-                    return packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                }
-            }
-        }
+        initializeCoreFramework()
     }
 
     fun clearBatteryOptimizationAppData() {
@@ -302,5 +281,20 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     override fun onShizukuCreated() {
         loadBatteryOptimizationShizuku()
+    }
+
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        initializeCoreFramework()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            ConfigurationPreferences.isUsingRoot,
+            ConfigurationPreferences.isUsingShizuku -> {
+                refresh()
+            }
+        }
     }
 }

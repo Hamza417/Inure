@@ -5,10 +5,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,7 +20,7 @@ import app.simple.inure.preferences.ConfigurationPreferences;
 import app.simple.inure.receivers.AppUninstalledBroadcastReceiver;
 import app.simple.inure.util.ContextUtils;
 
-public class WrappedViewModel extends AndroidViewModel {
+public class WrappedViewModel extends AndroidViewModel implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     public final ErrorLiveData error = new ErrorLiveData();
     public final MutableLiveData <String> warning = new MutableLiveData <>();
@@ -34,6 +36,7 @@ public class WrappedViewModel extends AndroidViewModel {
             onAppUninstalled(packageName);
             Log.d("AppUninstalled", packageName);
         });
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferenceChangeListener(this);
     }
     
     public final Context getContext() {
@@ -96,11 +99,18 @@ public class WrappedViewModel extends AndroidViewModel {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        
+    
         try {
             getApplication().getApplicationContext().unregisterReceiver(appUninstallBroadcastReceiver);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
+    
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
+    
     }
 }
