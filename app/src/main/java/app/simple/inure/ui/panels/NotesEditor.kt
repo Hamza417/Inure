@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +31,7 @@ import app.simple.inure.dialogs.notes.NotesEditorMenu
 import app.simple.inure.dialogs.notes.NotesNotSavedWarning.Companion.showNoteNotSavedWarning
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
@@ -45,6 +47,7 @@ import app.simple.inure.text.EditTextHelper.toUnderline
 import app.simple.inure.text.SpannableSerializer
 import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
@@ -59,6 +62,7 @@ import java.lang.reflect.Type
 
 class NotesEditor : KeyboardScopedFragment() {
 
+    private lateinit var icon: ImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
     private lateinit var noteEditText: TypeFaceEditText
@@ -82,7 +86,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var notesEditorViewModel: NotesEditorViewModel
     private var notesPackageInfo: NotesPackageInfo? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
-    private var originalText: SpannableStringBuilder? = null
+    private var originalText: SpannableStringBuilder = SpannableStringBuilder("")
     private var customTextWatcher: CustomTextWatcher? = null
 
     private val gson: Gson by lazy {
@@ -95,6 +99,7 @@ class NotesEditor : KeyboardScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
 
+        icon = view.findViewById(R.id.app_icon)
         name = view.findViewById(R.id.fragment_app_name)
         packageId = view.findViewById(R.id.fragment_app_package_id)
         noteEditText = view.findViewById(R.id.app_notes_edit_text)
@@ -136,6 +141,7 @@ class NotesEditor : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
 
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()

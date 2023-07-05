@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.ime.InsetsAnimationLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:id="@+id/container"
     android:transitionName="transition_note_editor"
     android:orientation="vertical">
 
@@ -16,16 +17,26 @@
         android:animateLayoutChanges="true"
         android:padding="@dimen/popup_padding">
 
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/fragment_app_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:textSize="@dimen/info_text_large"
+            android:layout_marginStart="8dp"
             app:appFontStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/fragment_app_package_id"
             app:layout_constraintEnd_toStartOf="@+id/undo"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/app_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:textColorStyle="primary" />
 
@@ -39,10 +50,11 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:textSize="@dimen/app_name_text_size"
+            android:layout_marginStart="8dp"
             app:appFontStyle="regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/undo"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/app_icon"
             app:layout_constraintTop_toBottomOf="@id/fragment_app_name"
             app:textColorStyle="secondary" />
 
@@ -60,7 +72,7 @@
             android:id="@+id/undo"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:src="@drawable/ic_undo"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +83,7 @@
             android:id="@+id/redo"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:src="@drawable/ic_redo"
             app:buttonTintType="regular"
@@ -83,7 +95,7 @@
             android:id="@+id/save"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:src="@drawable/ic_save"
             app:layout_constraintBottom_toBottomOf="parent"
