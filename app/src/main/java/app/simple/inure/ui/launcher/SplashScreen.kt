@@ -285,7 +285,7 @@ class SplashScreen : ScopedFragment() {
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
         if (isEverythingLoaded()) {
-            if (MainPreferences.getLaunchCount() % 7 == 0 && StatusBarHeight.isLandscape(requireContext()).invert()) {
+            if (MainPreferences.getLaunchCount() % 7 == 0 && StatusBarHeight.isLandscape(requireContext()).invert() && AppUtils.isPlayFlavor()) {
                 if (MainPreferences.isShowRateReminder()) {
                     requireActivity().supportFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
