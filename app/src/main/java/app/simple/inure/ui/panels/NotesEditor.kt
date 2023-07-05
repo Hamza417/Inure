@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ime.InsetsAnimationLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -49,6 +50,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -64,6 +66,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var save: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var formattingStrip: ThemeLinearLayout
+    private lateinit var container: InsetsAnimationLinearLayout
 
     private lateinit var bold: DynamicRippleImageButton
     private lateinit var italic: DynamicRippleImageButton
@@ -99,6 +102,7 @@ class NotesEditor : KeyboardScopedFragment() {
         save = view.findViewById(R.id.save)
         settings = view.findViewById(R.id.settings)
         formattingStrip = view.findViewById(R.id.formatting_strip)
+        this.container = view.findViewById(R.id.container)
 
         bold = view.findViewById(R.id.bold)
         italic = view.findViewById(R.id.italic)
@@ -112,9 +116,10 @@ class NotesEditor : KeyboardScopedFragment() {
         val factory = NotesViewModelFactory(packageInfo)
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
         notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
-
         customTextWatcher = CustomTextWatcher(this)
+        this.container.transitionName = packageInfo.packageName
 
+        sharedElementEnterTransition = MaterialContainerTransform()
         startPostponedEnterTransition()
 
         return view

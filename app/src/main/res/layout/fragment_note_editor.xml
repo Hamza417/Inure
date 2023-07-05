@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
+    android:id="@+id/container"
+    android:transitionName="transition_note_editor"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -55,7 +55,9 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = notes[position].packageInfo.packageName
+            // holder.icon.transitionName = notes[position].packageInfo.packageName
+
+            holder.container.transitionName = notes[position].packageInfo.packageName
             holder.icon.loadAppIcon(notes[position].packageInfo.packageName, notes[position].packageInfo.applicationInfo.enabled)
             holder.name.text = notes[position].packageInfo.applicationInfo.name
             holder.packageId.text = notes[position].packageInfo.packageName
@@ -78,7 +80,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
 
             holder.container.setOnClickListener {
-                adapterCallbacks?.onNoteClicked(notes[position])
+                adapterCallbacks?.onNoteClicked(notes[position], it)
             }
 
             holder.container.setOnLongClickListener {

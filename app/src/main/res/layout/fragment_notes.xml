@@ -12,7 +12,6 @@
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/popup_padding"
         android:paddingBottom="@dimen/popup_padding"
-        android:layoutAnimation="@anim/notes_list_controller"
         app:isFadingEdgeRequired="true" />
 
     <app.simple.inure.decorations.views.BottomMenuRecyclerView

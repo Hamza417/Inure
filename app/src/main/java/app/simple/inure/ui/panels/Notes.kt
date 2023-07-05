@@ -24,6 +24,8 @@ import app.simple.inure.popups.notes.PopupNotesMenu
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.ui.viewers.Note
 import app.simple.inure.viewmodels.panels.NotesViewModel
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
 
 class Notes : ScopedFragment() {
 
@@ -37,7 +39,6 @@ class Notes : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_notes, container, false)
 
         recyclerView = view.findViewById(R.id.notes_recycler_view)
-
         notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
 
         return view
@@ -45,6 +46,7 @@ class Notes : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
 
         fullVersionCheck()
 
@@ -52,8 +54,21 @@ class Notes : ScopedFragment() {
             adapterNotes = AdapterNotes(it)
 
             adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onNoteClicked(notesPackageInfo: NotesPackageInfo) {
-                    openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_viewer")
+                override fun onNoteClicked(notesPackageInfo: NotesPackageInfo, view: View) {
+                    sharedElementEnterTransition = MaterialContainerTransform().apply {
+                        duration = 1000
+                        fadeMode = MaterialContainerTransform.FADE_MODE_THROUGH
+                        startView = view
+                        endView = view
+                    }
+                    exitTransition = MaterialElevationScale(/* growing = */ false)
+                    reenterTransition = MaterialElevationScale(/* growing = */ true)
+
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .addSharedElement(view, notesPackageInfo.packageInfo.packageName)
+                        .replace(R.id.app_container, NotesEditor.newInstance(notesPackageInfo.packageInfo))
+                        .addToBackStack("notes_editor")
+                        .commit()
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {

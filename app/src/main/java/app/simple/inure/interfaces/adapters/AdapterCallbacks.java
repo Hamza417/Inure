@@ -50,7 +50,7 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onNoteClicked(@NonNull NotesPackageInfo notesPackageInfo) {
+    default void onNoteClicked(@NonNull NotesPackageInfo notesPackageInfo, @NotNull View view) {
     
     }
     
