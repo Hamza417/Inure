@@ -9,10 +9,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/panel_item_padding"
-        android:layout_marginTop="@dimen/panel_item_padding"
+        android:layout_marginHorizontal="@dimen/popup_padding"
+        android:layout_marginTop="@dimen/popup_padding"
         android:animateLayoutChanges="true"
-        android:paddingVertical="10dp">
+        android:padding="@dimen/popup_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/fragment_app_name"
@@ -94,16 +94,15 @@
         android:id="@+id/app_notes_edit_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_margin="@dimen/popup_padding"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:fadingEdge="vertical"
         android:importantForAutofill="no"
         android:fadingEdgeLength="@dimen/fading_edge_length"
         android:gravity="top"
-        android:hint="@string/notes"
         android:inputType="textImeMultiLine|textMultiLine|textCapSentences|textNoSuggestions"
-        android:paddingHorizontal="@dimen/panel_item_padding"
+        android:paddingHorizontal="@dimen/popup_padding"
         android:requiresFadingEdge="vertical"
         android:saveEnabled="true"
         android:textCursorDrawable="@drawable/text_cursor"
@@ -133,41 +132,48 @@
                 android:id="@+id/bold"
                 android:layout_width="60dp"
                 android:layout_height="@dimen/button_size"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:src="@drawable/ic_format_bold" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/italic"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_italic" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/underline"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_underlined" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/strike_thru"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_strikethrough" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/super_script"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_superscript" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/sub_script"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_subscript" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/paint"
                 android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
                 android:layout_height="@dimen/button_size"
                 android:src="@drawable/ic_format_paint" />
 

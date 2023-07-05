@@ -17,6 +17,7 @@ class PopupBackgroundSpan(anchor: View) : BasePopupWindow() {
     private var purple: DynamicRippleImageButton
     private var blue: DynamicRippleImageButton
     private var green: DynamicRippleImageButton
+    private var clear: DynamicRippleImageButton
 
     private var popupBackgroundSpanCallback: PopupBackgroundSpanCallback? = null
 
@@ -28,6 +29,7 @@ class PopupBackgroundSpan(anchor: View) : BasePopupWindow() {
         purple = contentView.findViewById(R.id.purple)
         blue = contentView.findViewById(R.id.blue)
         green = contentView.findViewById(R.id.green)
+        clear = contentView.findViewById(R.id.clear)
 
         red.setOnClickListener {
             popupBackgroundSpanCallback?.onColorClicked(Color.parseColor("#f1948a"))
@@ -49,6 +51,11 @@ class PopupBackgroundSpan(anchor: View) : BasePopupWindow() {
             dismiss()
         }
 
+        clear.setOnClickListener {
+            popupBackgroundSpanCallback?.onClearClicked()
+            dismiss()
+        }
+
         setContentView(contentView)
         init()
         showAsDropDown(anchor, (-width / 1.4).roundToInt(), height / 16, Gravity.NO_GRAVITY)
@@ -61,6 +68,7 @@ class PopupBackgroundSpan(anchor: View) : BasePopupWindow() {
     companion object {
         interface PopupBackgroundSpanCallback {
             fun onColorClicked(color: Int)
+            fun onClearClicked()
         }
     }
 }

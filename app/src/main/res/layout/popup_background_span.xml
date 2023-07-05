@@ -12,7 +12,7 @@
         android:id="@+id/red"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="@dimen/popup_item_gap_length"
         android:src="@drawable/ic_span_color"
         android:tint="#f1948a"
         app:buttonTintType="custom" />
@@ -21,7 +21,7 @@
         android:id="@+id/purple"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="@dimen/popup_item_gap_length"
         android:src="@drawable/ic_span_color"
         android:tint="#d2b4de"
         app:buttonTintType="custom" />
@@ -30,7 +30,7 @@
         android:id="@+id/blue"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="@dimen/popup_item_gap_length"
         android:tint="#aed6f1"
         android:src="@drawable/ic_span_color"
         app:buttonTintType="custom" />
@@ -42,5 +42,18 @@
         android:src="@drawable/ic_span_color"
         android:tint="#a2d9ce"
         app:buttonTintType="custom" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="1px"
+        android:layout_marginHorizontal="5dp"
+        android:layout_height="match_parent" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/clear"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:src="@drawable/ic_close"
+        android:tint="#DF007A"
+        app:buttonTintType="regular" />
 
 </merge>

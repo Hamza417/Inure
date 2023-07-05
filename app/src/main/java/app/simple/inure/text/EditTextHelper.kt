@@ -234,15 +234,25 @@ object EditTextHelper {
         selectTheCurrentWord()
 
         val spans: Array<BackgroundColorSpan> = text.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
-        var exists = false
 
         for (span in spans) {
             text.removeSpan(span)
-            exists = true
         }
 
-        if (!exists) {
-            text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        text.setSpan(BackgroundColorSpan(color), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
+    }
+
+    fun EditText.clearHighlight() {
+        selectTheCurrentWord()
+
+        val spans: Array<BackgroundColorSpan> = text.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
+
+        for (span in spans) {
+            text.removeSpan(span)
         }
 
         if (wasAlreadySelected.invert()) { // Remove the selection

@@ -33,6 +33,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.text.EditTextHelper.clearHighlight
 import app.simple.inure.text.EditTextHelper.highlightText
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
@@ -148,7 +149,6 @@ class NotesEditor : KeyboardScopedFragment() {
 
         noteEditText.addOnSelectionChangedListener(object : TypeFaceEditText.Companion.OnSelectionChangedListener {
             override fun onSelectionChanged(selectionStart: Int, selectionEnd: Int) {
-                Log.d("NotesEditor", "Selection changed, start: $selectionStart, end: $selectionEnd")
                 val boldSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StyleSpan::class.java)
                 val italicSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, StyleSpan::class.java)
                 val underlineSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, UnderlineSpan::class.java)
@@ -159,7 +159,6 @@ class NotesEditor : KeyboardScopedFragment() {
 
                 if (boldSpan.isNotEmpty()) {
                     for (span in boldSpan) {
-                        Log.d("NotesEditor", "Bold span: ${span.style}")
                         if (span.style == Typeface.BOLD) {
                             bold.setDefaultBackground(true)
                             break
@@ -173,7 +172,6 @@ class NotesEditor : KeyboardScopedFragment() {
 
                 if (italicSpan.isNotEmpty()) {
                     for (span in italicSpan) {
-                        Log.d("NotesEditor", "Italic span: ${span.style}")
                         if (span.style == Typeface.ITALIC) {
                             italic.setDefaultBackground(true)
                             break
@@ -207,34 +205,54 @@ class NotesEditor : KeyboardScopedFragment() {
         }
 
         bold.setOnClickListener {
-            handleFormattingChange { noteEditText.toBold() }
+            handleFormattingChange {
+                noteEditText.toBold()
+            }
         }
 
         italic.setOnClickListener {
-            handleFormattingChange { noteEditText.toItalics() }
+            handleFormattingChange {
+                noteEditText.toItalics()
+            }
         }
 
         underline.setOnClickListener {
-            handleFormattingChange { noteEditText.toUnderline() }
+            handleFormattingChange {
+                noteEditText.toUnderline()
+            }
         }
 
         strikethrough.setOnClickListener {
-            handleFormattingChange { noteEditText.toStrikethrough() }
+            handleFormattingChange {
+                noteEditText.toStrikethrough()
+            }
         }
 
         superScript.setOnClickListener {
-            handleFormattingChange { noteEditText.toSuperscript() }
+            handleFormattingChange {
+                noteEditText.toSuperscript()
+            }
         }
 
         subScript.setOnClickListener {
-            handleFormattingChange { noteEditText.toSubscript() }
+            handleFormattingChange {
+                noteEditText.toSubscript()
+            }
         }
 
         paint.setOnClickListener {
             PopupBackgroundSpan(it).setOnPopupBackgroundCallbackListener(
                     object : PopupBackgroundSpan.Companion.PopupBackgroundSpanCallback {
                         override fun onColorClicked(color: Int) {
-                            handleFormattingChange { noteEditText.highlightText(color) }
+                            handleFormattingChange {
+                                noteEditText.highlightText(color)
+                            }
+                        }
+
+                        override fun onClearClicked() {
+                            handleFormattingChange {
+                                noteEditText.clearHighlight()
+                            }
                         }
                     })
         }
@@ -324,7 +342,7 @@ class NotesEditor : KeyboardScopedFragment() {
         if (notesPackageInfo.isNull()) {
             notesPackageInfo = NotesPackageInfo(
                     packageInfo,
-                    SpannableStringBuilder(noteEditText.text),
+                    SpannableStringBuilder(noteEditText.text?.trimEnd()),
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {
