@@ -692,4 +692,6 @@
     <string name="create_shortcut">Criar Atalho</string>
     <string name="block">Bloquear</string>
     <string name="unblock">Desbloquear</string>
+    <string name="undo">Desfazer</string>
+    <string name="redo">Refazer</string>
 </resources>
