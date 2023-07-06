@@ -6,25 +6,16 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import java.io.File
 import java.util.*
 
 class InstallerPermissionViewModel(application: Application, val file: File?) : WrappedViewModel(application) {
-
-    private val permissionsFile: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().also {
-            loadPermissions()
-        }
-    }
 
     private val permissionsInfo: MutableLiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>> by lazy {
         MutableLiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>>().also {
@@ -32,32 +23,8 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         }
     }
 
-    fun getPermissionsFile(): LiveData<ArrayList<String>> {
-        return permissionsFile
-    }
-
     fun getPermissionsInfo(): LiveData<Pair<ArrayList<PermissionInfo>, PackageInfo>> {
         return permissionsInfo
-    }
-
-    private fun loadPermissions() {
-        viewModelScope.launch(Dispatchers.Default) {
-            kotlin.runCatching {
-                ApkFile(file).use { apkFile ->
-                    if (packageManager.isPackageInstalled(apkFile.apkMeta.packageName)) return@launch
-
-                    val permissions = packageManager.getPackageArchiveInfo(file!!.absolutePath)?.requestedPermissions?.toMutableList() ?: return@launch
-
-                    permissions.sortBy {
-                        it.lowercase()
-                    }
-
-                    this@InstallerPermissionViewModel.permissionsFile.postValue(permissions as ArrayList<String> /* = java.util.ArrayList<kotlin.String> */)
-                }
-            }.getOrElse {
-                it.printStackTrace()
-            }
-        }
     }
 
     fun loadPermissionData() {

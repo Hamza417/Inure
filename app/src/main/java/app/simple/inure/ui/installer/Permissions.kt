@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
-import app.simple.inure.adapters.installer.AdapterInstallerPermissions
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -61,10 +60,10 @@ class Permissions : ScopedFragment() {
         startPostponedEnterTransition()
         (parentFragment as InstallerCallbacks).onLoadingStarted()
 
-        installerPermissionViewModel.getPermissionsFile().observe(viewLifecycleOwner) { permissions ->
-            (parentFragment as InstallerCallbacks).onLoadingFinished()
-            recyclerView.adapter = AdapterInstallerPermissions(permissions)
-        }
+        //        installerPermissionViewModel.getPermissionsFile().observe(viewLifecycleOwner) { permissions ->
+        //            // (parentFragment as InstallerCallbacks).onLoadingFinished()
+        //            // recyclerView.adapter = AdapterInstallerPermissions(permissions)
+        //        }
 
         installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) { it ->
             (parentFragment as InstallerCallbacks).onLoadingFinished()

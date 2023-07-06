@@ -308,12 +308,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         checkLaunchStatus()
         uninstall.visible(false)
         cancel.setText(R.string.close)
-
-        requireActivity().supportFragmentManager.fragments.forEach {
-            if (it is Permissions) {
-                it.setPackageInstalled(true)
-            }
-        }
     }
 
     private fun checkLaunchStatus() {

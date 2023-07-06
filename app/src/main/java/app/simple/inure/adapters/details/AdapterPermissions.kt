@@ -94,18 +94,20 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
         }
 
-        text = when (permissions[position].isGranted) {
-            0 -> {
-                text.toString() + " | " + context.getString(R.string.rejected)
-            }
-            1 -> {
-                text.toString() + " | " + context.getString(R.string.granted)
-            }
-            2 -> {
-                text.toString() + " | " + context.getString(R.string.unknown)
-            }
-            else -> {
-                text.toString() + " | " + context.getString(R.string.unknown)
+        if (isPackageInstalled) {
+            text = when (permissions[position].isGranted) {
+                0 -> {
+                    text.toString() + " | " + context.getString(R.string.rejected)
+                }
+                1 -> {
+                    text.toString() + " | " + context.getString(R.string.granted)
+                }
+                2 -> {
+                    text.toString() + " | " + context.getString(R.string.unknown)
+                }
+                else -> {
+                    text.toString() + " | " + context.getString(R.string.unknown)
+                }
             }
         }
     }
