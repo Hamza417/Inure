@@ -189,7 +189,6 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     public void setContainerVisibility(int dy, boolean animate) {
         if (dy > 0 && isBottomMenuVisible) {
-            Log.d(TAG, "setContainerVisibility: " + dy);
             if (animate) {
                 animate()
                         .translationY(containerHeight)

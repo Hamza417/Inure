@@ -30,8 +30,17 @@
                 android:layout_width="@dimen/folding_arrow_size"
                 android:layout_height="@dimen/folding_arrow_size"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
+                app:buttonTintType="regular" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/layout_app_info_menu"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_grid_2_16dp"
                 app:buttonTintType="regular" />
 
             <app.simple.inure.decorations.theme.ThemeDivider
@@ -62,8 +71,17 @@
                 android:layout_width="@dimen/folding_arrow_size"
                 android:layout_height="@dimen/folding_arrow_size"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
+                app:buttonTintType="regular" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/layout_app_info_actions"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_grid_2_16dp"
                 app:buttonTintType="regular" />
 
             <app.simple.inure.decorations.theme.ThemeDivider
@@ -94,8 +112,17 @@
                 android:layout_width="@dimen/folding_arrow_size"
                 android:layout_height="@dimen/folding_arrow_size"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_arrow_drop_down_24dp"
+                app:buttonTintType="regular" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/layout_app_info_misc"
+                android:layout_width="@dimen/folding_arrow_size"
+                android:layout_height="@dimen/folding_arrow_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_grid_2_16dp"
                 app:buttonTintType="regular" />
 
             <app.simple.inure.decorations.theme.ThemeDivider

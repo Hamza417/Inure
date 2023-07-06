@@ -45,7 +45,6 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -73,6 +72,9 @@ class AppInfo : ScopedFragment() {
     private lateinit var meta: GridRecyclerView
     private lateinit var actions: GridRecyclerView
     private lateinit var miscellaneous: GridRecyclerView
+    private lateinit var metaLayoutButton: DynamicRippleImageButton
+    private lateinit var actionsLayoutButton: DynamicRippleImageButton
+    private lateinit var miscellaneousLayoutButton: DynamicRippleImageButton
 
     private lateinit var foldMetaDataMenu: DynamicRippleImageButton
     private lateinit var foldActionsMenu: DynamicRippleImageButton
@@ -98,6 +100,9 @@ class AppInfo : ScopedFragment() {
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
         miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
+        metaLayoutButton = view.findViewById(R.id.layout_app_info_menu)
+        actionsLayoutButton = view.findViewById(R.id.layout_app_info_actions)
+        miscellaneousLayoutButton = view.findViewById(R.id.layout_app_info_misc)
 
         if (AccessibilityPreferences.isAnimationReduced()) {
             meta.layoutAnimation = null
@@ -125,6 +130,17 @@ class AppInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
+            when (AppInformationPreferences.getMetaMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    meta.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                    metaLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                    metaLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
+                }
+            }
+
             if (AppInformationPreferences.isMetaMenuFolded()) {
                 startPostponedEnterTransition()
                 return@observe
@@ -132,15 +148,6 @@ class AppInfo : ScopedFragment() {
 
             metaAdapter = AdapterMenu(it)
             metaAdapter?.setHasStableIds(true)
-
-            when (AppInformationPreferences.getMenuLayout()) {
-                PopupMenuLayout.HORIZONTAL -> {
-                    meta.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-                }
-                PopupMenuLayout.GRID -> {
-                    meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
-                }
-            }
 
             meta.adapter = metaAdapter
             meta.scheduleLayoutAnimation()
@@ -213,18 +220,21 @@ class AppInfo : ScopedFragment() {
         }
 
         componentsViewModel.getActionsOptions().observe(viewLifecycleOwner) { it ->
+
+            when (AppInformationPreferences.getActionMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    actions.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                    actionsLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                    actionsLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
+                }
+            }
+
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
             actionsAdapter = AdapterMenu(it)
-
-            when (AppInformationPreferences.getMenuLayout()) {
-                PopupMenuLayout.HORIZONTAL -> {
-                    actions.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-                }
-                PopupMenuLayout.GRID -> {
-                    actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
-                }
-            }
 
             actions.adapter = actionsAdapter
             actions.scheduleLayoutAnimation()
@@ -397,18 +407,20 @@ class AppInfo : ScopedFragment() {
 
         componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
 
+            when (AppInformationPreferences.getMiscMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+                    miscellaneousLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
+                    miscellaneousLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
+                }
+            }
+
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
             miscellaneousAdapter = AdapterMenu(it)
-
-            when (AppInformationPreferences.getMenuLayout()) {
-                PopupMenuLayout.HORIZONTAL -> {
-                    miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-                }
-                PopupMenuLayout.GRID -> {
-                    miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
-                }
-            }
 
             miscellaneous.adapter = miscellaneousAdapter
             miscellaneous.scheduleLayoutAnimation()
@@ -487,6 +499,39 @@ class AppInfo : ScopedFragment() {
         foldMiscMenu.setOnClickListener {
             AppInformationPreferences.setMiscMenuFold(!AppInformationPreferences.isMiscMenuFolded())
         }
+
+        metaLayoutButton.setOnClickListener {
+            when (AppInformationPreferences.getMetaMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    AppInformationPreferences.setMetaMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    AppInformationPreferences.setMetaMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
+                }
+            }
+        }
+
+        actionsLayoutButton.setOnClickListener {
+            when (AppInformationPreferences.getActionMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    AppInformationPreferences.setActionMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    AppInformationPreferences.setActionMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
+                }
+            }
+        }
+
+        miscellaneousLayoutButton.setOnClickListener {
+            when (AppInformationPreferences.getMiscMenuLayout()) {
+                AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
+                    AppInformationPreferences.setMiscMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
+                }
+                AppInformationPreferences.MENU_LAYOUT_GRID -> {
+                    AppInformationPreferences.setMiscMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
+                }
+            }
+        }
     }
 
     private fun metaMenuState() {
@@ -543,6 +588,15 @@ class AppInfo : ScopedFragment() {
                 componentsViewModel.loadMiscellaneousItems()
                 componentsViewModel.loadMetaOptions()
                 componentsViewModel.loadActionOptions()
+            }
+            AppInformationPreferences.metaMenuLayout -> {
+                componentsViewModel.loadMetaOptions()
+            }
+            AppInformationPreferences.actionMenuLayout -> {
+                componentsViewModel.loadActionOptions()
+            }
+            AppInformationPreferences.miscMenuLayout -> {
+                componentsViewModel.loadMiscellaneousItems()
             }
         }
     }
