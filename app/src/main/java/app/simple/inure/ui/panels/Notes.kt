@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ShareCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -80,6 +81,14 @@ class Notes : ScopedFragment() {
 
                         override fun onEditClicked() {
                             openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_editor")
+                        }
+
+                        override fun onShareClicked() {
+                            ShareCompat.IntentBuilder(requireContext())
+                                .setType("text/plain")
+                                .setChooserTitle(notesPackageInfo.packageInfo.packageName)
+                                .setText(notesPackageInfo.note)
+                                .startChooser()
                         }
                     })
                 }

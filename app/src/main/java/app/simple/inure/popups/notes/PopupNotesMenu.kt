@@ -14,6 +14,7 @@ class PopupNotesMenu(view: View) : BasePopupWindow() {
     private val delete: DynamicRippleTextView
     private val open: DynamicRippleTextView
     private val edit: DynamicRippleTextView
+    private val share: DynamicRippleTextView
 
     init {
         val contentView = LayoutInflater.from(view.context)
@@ -22,6 +23,7 @@ class PopupNotesMenu(view: View) : BasePopupWindow() {
         delete = contentView.findViewById(R.id.popup_delete)
         open = contentView.findViewById(R.id.popup_open)
         edit = contentView.findViewById(R.id.popup_edit)
+        share = contentView.findViewById(R.id.popup_share)
 
         init(contentView, view, Gravity.END)
     }
@@ -44,6 +46,12 @@ class PopupNotesMenu(view: View) : BasePopupWindow() {
                 dismiss()
             }
         }
+
+        share.setOnClickListener {
+            popupNotesMenuCallback.onShareClicked().also {
+                dismiss()
+            }
+        }
     }
 
     companion object {
@@ -51,6 +59,7 @@ class PopupNotesMenu(view: View) : BasePopupWindow() {
             fun onDeleteClicked()
             fun onOpenClicked()
             fun onEditClicked()
+            fun onShareClicked()
         }
     }
 }
