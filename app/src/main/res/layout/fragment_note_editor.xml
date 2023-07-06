@@ -192,6 +192,13 @@
                 android:src="@drawable/ic_format_paint" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/size"
+                android:layout_width="60dp"
+                android:layout_marginEnd="@dimen/popup_item_gap_length"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_font_size" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
                 android:id="@+id/date"
                 android:layout_width="60dp"
                 android:layout_height="@dimen/button_size"

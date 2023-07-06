@@ -200,6 +200,58 @@ object EditTextHelper {
         }
     }
 
+    fun EditText.setTextSize(size: Int) {
+        selectTheCurrentWord()
+
+        val spans: Array<AbsoluteSizeSpan> = text.getSpans(selectionStart, selectionEnd, AbsoluteSizeSpan::class.java)
+        var fontSize: Int = textSize.roundToInt()
+
+        for (span in spans) {
+            fontSize = if (span.size > spanUpperThreshold) {
+                spanUpperThreshold
+            } else {
+                size
+            }
+        }
+
+        text.setSpan(AbsoluteSizeSpan(fontSize), selectionStart, selectionEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
+    }
+
+    fun EditText.resetTextSize() {
+        selectTheCurrentWord()
+
+        val spans: Array<AbsoluteSizeSpan> = text.getSpans(selectionStart, selectionEnd, AbsoluteSizeSpan::class.java)
+
+        for (span in spans) {
+            text.removeSpan(span)
+        }
+
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
+    }
+
+    fun EditText.getCurrentTextSize(): Int {
+        selectTheCurrentWord()
+
+        val spans: Array<AbsoluteSizeSpan> = text.getSpans(selectionStart, selectionEnd, AbsoluteSizeSpan::class.java)
+        var fontSize: Int = textSize.roundToInt()
+
+        for (span in spans) {
+            fontSize = span.size
+        }
+
+        if (wasAlreadySelected.invert()) { // Remove the selection
+            setSelection(cursorPosition, cursorPosition)
+        }
+
+        return fontSize
+    }
+
     fun EditText.increaseTextSize() {
         val spans: Array<AbsoluteSizeSpan> = text.getSpans(selectionStart, selectionEnd, AbsoluteSizeSpan::class.java)
         var fontSize: Int = textSize.roundToInt()

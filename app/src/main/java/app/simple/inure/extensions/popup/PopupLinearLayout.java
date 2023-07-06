@@ -36,28 +36,30 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
     }
     
     private void animateChildren() {
-        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
-            setScaleY(0);
+        if (!isInEditMode()) {
+            if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+                setScaleY(0);
             
-            animate()
-                    .scaleY(1)
-                    .setDuration(200)
-                    .setInterpolator(new DecelerateInterpolator(1.5F))
-                    .start();
+                animate()
+                        .scaleY(1)
+                        .setDuration(200)
+                        .setInterpolator(new DecelerateInterpolator(1.5F))
+                        .start();
             
-            post(() -> {
-                for (int i = 0; i < getChildCount(); i++) {
-                    getChildAt(i).setAlpha(0);
-                    getChildAt(i).setTranslationY(-8);
+                post(() -> {
+                    for (int i = 0; i < getChildCount(); i++) {
+                        getChildAt(i).setAlpha(0);
+                        getChildAt(i).setTranslationY(-8);
                     
-                    getChildAt(i).animate()
-                            .translationY(0)
-                            .alpha(1)
-                            .setDuration(200)
-                            .setStartDelay(200 + (i * 35L))
-                            .start();
-                }
-            });
+                        getChildAt(i).animate()
+                                .translationY(0)
+                                .alpha(1)
+                                .setDuration(200)
+                                .setStartDelay(200 + (i * 35L))
+                                .start();
+                    }
+                });
+            }
         }
     }
 }

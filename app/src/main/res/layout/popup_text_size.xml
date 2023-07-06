@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:parentTag="app.simple.inure.extensions.popup.PopupLinearLayout">
+
+    <app.simple.inure.decorations.theme.ThemeSeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/popup_padding"
+        android:maxHeight="@dimen/seekbar_max_height"
+        android:splitTrack="false" />
+
+</merge>

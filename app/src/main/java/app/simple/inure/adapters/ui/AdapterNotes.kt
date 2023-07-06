@@ -66,7 +66,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             // holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
 
             if (areNotesExpanded) {
-                holder.note.maxLines = Int.MAX_VALUE
+                holder.note.maxLines = 60
             } else {
                 holder.note.maxLines = 16
             }

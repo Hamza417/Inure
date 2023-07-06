@@ -13,6 +13,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.SeekBar
 import androidx.annotation.ColorInt
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
@@ -352,5 +353,21 @@ object ViewUtils {
         }
         valueAnimator.start()
         return valueAnimator
+    }
+
+    fun SeekBar.onProgressChanged(function: (Int) -> Unit) {
+        setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, p2: Boolean) {
+                function(progress)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+                /* no-op */
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                /* no-op */
+            }
+        })
     }
 }

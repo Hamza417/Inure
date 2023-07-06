@@ -35,9 +35,13 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupBackgroundSpan
+import app.simple.inure.popups.notes.PopupTextSize
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.text.EditTextHelper.clearHighlight
+import app.simple.inure.text.EditTextHelper.getCurrentTextSize
 import app.simple.inure.text.EditTextHelper.highlightText
+import app.simple.inure.text.EditTextHelper.resetTextSize
+import app.simple.inure.text.EditTextHelper.setTextSize
 import app.simple.inure.text.EditTextHelper.toBold
 import app.simple.inure.text.EditTextHelper.toItalics
 import app.simple.inure.text.EditTextHelper.toStrikethrough
@@ -80,6 +84,7 @@ class NotesEditor : KeyboardScopedFragment() {
     private lateinit var superScript: DynamicRippleImageButton
     private lateinit var subScript: DynamicRippleImageButton
     private lateinit var paint: DynamicRippleImageButton
+    private lateinit var size: DynamicRippleImageButton
     private lateinit var date: DynamicRippleImageButton
 
     private lateinit var notesViewModel: NotesViewModel
@@ -117,6 +122,7 @@ class NotesEditor : KeyboardScopedFragment() {
         superScript = view.findViewById(R.id.super_script)
         subScript = view.findViewById(R.id.sub_script)
         paint = view.findViewById(R.id.paint)
+        size = view.findViewById(R.id.size)
         date = view.findViewById(R.id.date)
 
         val factory = NotesViewModelFactory(packageInfo)
@@ -164,6 +170,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 val superScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SuperscriptSpan::class.java)
                 val subScriptSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, SubscriptSpan::class.java)
                 val backgroundColorSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, BackgroundColorSpan::class.java)
+                val absoluteSizeSpan = noteEditText.editableText!!.getSpans(selectionStart, selectionEnd, AbsoluteSizeSpan::class.java)
 
                 if (boldSpan.isNotEmpty()) {
                     for (span in boldSpan) {
@@ -196,6 +203,7 @@ class NotesEditor : KeyboardScopedFragment() {
                 superScript.setDefaultBackground(superScriptSpan.isNotEmpty())
                 subScript.setDefaultBackground(subScriptSpan.isNotEmpty())
                 paint.setDefaultBackground(backgroundColorSpan.isNotEmpty())
+                size.setDefaultBackground(absoluteSizeSpan.isNotEmpty())
             }
         })
 
@@ -263,6 +271,19 @@ class NotesEditor : KeyboardScopedFragment() {
                             }
                         }
                     })
+        }
+
+        size.setOnClickListener {
+            PopupTextSize(it, noteEditText.getCurrentTextSize()).onSizeChanged = {
+                handleFormattingChange {
+                    noteEditText.setTextSize(it)
+                }
+            }
+        }
+
+        size.setOnLongClickListener {
+            noteEditText.resetTextSize()
+            true
         }
 
         date.setOnClickListener {
