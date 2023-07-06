@@ -30,7 +30,7 @@ class Information : ScopedFragment() {
         val file = requireArguments().serializable<File>(BundleConstants.file)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
-        installerInformationViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerInformationViewModel::class.java]
+        installerInformationViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerInformationViewModel::class.java]
 
         return view
     }

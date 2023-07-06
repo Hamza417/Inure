@@ -50,7 +50,7 @@ class Permissions : ScopedFragment() {
         }
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
-        installerPermissionViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerPermissionViewModel::class.java]
+        installerPermissionViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerPermissionViewModel::class.java]
 
         return view
     }

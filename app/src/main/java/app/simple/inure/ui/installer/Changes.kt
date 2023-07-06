@@ -29,7 +29,7 @@ class Changes : ScopedFragment() {
         val file = requireArguments().serializable<File>(BundleConstants.file)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
-        installerChangesViewModel = ViewModelProvider(requireActivity(), installerViewModelFactory)[InstallerChangesViewModel::class.java]
+        installerChangesViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerChangesViewModel::class.java]
 
         return view
     }
