@@ -48,7 +48,6 @@ import app.simple.inure.text.EditTextHelper.toStrikethrough
 import app.simple.inure.text.EditTextHelper.toSubscript
 import app.simple.inure.text.EditTextHelper.toSuperscript
 import app.simple.inure.text.EditTextHelper.toUnderline
-import app.simple.inure.text.SpannableSerializer
 import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.FileUtils.toFile
@@ -59,10 +58,6 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
 
 class NotesEditor : KeyboardScopedFragment() {
 
@@ -93,13 +88,6 @@ class NotesEditor : KeyboardScopedFragment() {
     private var textViewUndoRedo: TextViewUndoRedo? = null
     private var originalText: SpannableStringBuilder = SpannableStringBuilder("")
     private var customTextWatcher: CustomTextWatcher? = null
-
-    private val gson: Gson by lazy {
-        val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
-        GsonBuilder()
-            .registerTypeAdapter(type, SpannableSerializer())
-            .create()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_editor, container, false)
@@ -151,7 +139,6 @@ class NotesEditor : KeyboardScopedFragment() {
         name.text = packageInfo.applicationInfo.name
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()
-        handleFormattingState()
 
         if (StatusBarHeight.isLandscape(requireContext())) {
             val params: FrameLayout.LayoutParams = formattingStrip.layoutParams as FrameLayout.LayoutParams
@@ -211,11 +198,7 @@ class NotesEditor : KeyboardScopedFragment() {
             notesPackageInfo = it
             originalText = SpannableStringBuilder(it.note)
 
-            if (NotesPreferences.areJSONSpans()) {
-                noteEditText.setText(gson.toJson(it.note), TextView.BufferType.SPANNABLE)
-            } else {
-                noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
-            }
+            noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
             textViewUndoRedo?.clearHistory()
             textViewUndoRedo = TextViewUndoRedo(noteEditText)
         }
@@ -390,15 +373,7 @@ class NotesEditor : KeyboardScopedFragment() {
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {
-            if (NotesPreferences.areJSONSpans()) {
-                kotlin.runCatching {
-                    notesPackageInfo?.note = gson.fromJson(noteEditText.text.toString(), SpannableStringBuilder::class.java)
-                }.onFailure {
-                    notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
-                }
-            } else {
-                notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
-            }
+            notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
         }
 
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
@@ -407,14 +382,6 @@ class NotesEditor : KeyboardScopedFragment() {
         if (save) {
             notesEditorViewModel.updateNoteData(notesPackageInfo!!)
             notesViewModel.refreshNotes()
-        }
-    }
-
-    private fun handleFormattingState() {
-        if (NotesPreferences.areJSONSpans()) {
-            bottomRightCornerMenu?.gone()
-        } else {
-            bottomRightCornerMenu?.visible(false)
         }
     }
 
@@ -443,10 +410,6 @@ class NotesEditor : KeyboardScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            NotesPreferences.jsonSpans -> {
-                notesEditorViewModel.refresh()
-                handleFormattingState()
-            }
             NotesPreferences.autoSave -> {
                 if (!NotesPreferences.isAutoSave()) {
                     save.visible(true)
