@@ -2,6 +2,7 @@ package app.simple.inure.ui.panels
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
@@ -52,6 +53,7 @@ import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PackageListUtils.getAppInfo
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
@@ -270,7 +272,11 @@ class AppInfo : ScopedFragment() {
                                     val updatesUninstaller = UpdatesUninstaller.newInstance(packageInfo)
 
                                     updatesUninstaller.listener = {
-                                        requireActivity().supportFragmentManager.popBackStackImmediate()
+                                        if (FlagUtils.isFlagSet(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) {
+                                            FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+                                        }
+
+                                        componentsViewModel.loadActionOptions()
                                     }
 
                                     updatesUninstaller.show(childFragmentManager, "uninstaller")

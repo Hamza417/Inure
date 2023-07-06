@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -37,6 +38,8 @@ class Permissions : SearchBarScopedFragment() {
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var adapterPermissions: AdapterPermissions
 
+    private var isPackageInstalled = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_permissions, container, false)
 
@@ -48,6 +51,7 @@ class Permissions : SearchBarScopedFragment() {
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory)[PermissionsViewModel::class.java]
+        isPackageInstalled = requirePackageManager().isPackageInstalled(packageInfo.packageName)
 
         searchBoxState(false, PermissionPreferences.isSearchVisible())
         startPostponedEnterTransition()
@@ -59,7 +63,7 @@ class Permissions : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner) { permissionInfos ->
-            adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim())
+            adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
             recyclerView.adapter = adapterPermissions
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {

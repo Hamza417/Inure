@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -45,10 +46,8 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
                 ApkFile(file).use { apkFile ->
                     if (packageManager.isPackageInstalled(apkFile.apkMeta.packageName)) return@launch
 
-                    val permissions = apkFile.apkMeta.usesPermissions
-                    for (p in apkFile.apkMeta.permissions) {
-                        permissions.add(p.name)
-                    }
+                    val permissions = packageManager.getPackageArchiveInfo(file!!.absolutePath)?.requestedPermissions?.toMutableList() ?: return@launch
+
                     permissions.sortBy {
                         it.lowercase()
                     }
@@ -61,7 +60,7 @@ class InstallerPermissionViewModel(application: Application, val file: File?) : 
         }
     }
 
-    private fun loadPermissionData() {
+    fun loadPermissionData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val context = context

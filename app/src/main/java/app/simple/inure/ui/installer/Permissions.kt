@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterPermissions
 import app.simple.inure.adapters.installer.AdapterInstallerPermissions
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.PermissionStatus
@@ -34,6 +35,8 @@ class Permissions : ScopedFragment() {
 
     private var file: File? = null
     private lateinit var installerPermissionViewModel: InstallerPermissionViewModel
+
+    private var isPackageInstalled = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_permissions, container, false)
@@ -65,8 +68,9 @@ class Permissions : ScopedFragment() {
 
         installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) { it ->
             (parentFragment as InstallerCallbacks).onLoadingFinished()
-            val adapterPermissions = AdapterPermissions(it.first, "")
             packageInfo = it.second
+            isPackageInstalled = requirePackageManager().isPackageInstalled(packageInfo.packageName)
+            val adapterPermissions = AdapterPermissions(it.first, "", isPackageInstalled)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
@@ -123,6 +127,13 @@ class Permissions : ScopedFragment() {
             })
 
             recyclerView.adapter = adapterPermissions
+        }
+    }
+
+    fun setPackageInstalled(packageInstalled: Boolean) {
+        isPackageInstalled = packageInstalled
+        if (packageInstalled) {
+            installerPermissionViewModel.loadPermissionData()
         }
     }
 

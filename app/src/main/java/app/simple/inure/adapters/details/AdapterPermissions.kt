@@ -24,12 +24,13 @@ import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String)
+class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String, private val isPackageInstalled: Boolean)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private var permissionCallbacks: PermissionCallbacks? = null
     private var permissionLabelMode = PermissionPreferences.getLabelType()
-    private val isRootShizukuMode = ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()
+    private val isRootShizukuMode = (ConfigurationPreferences.isUsingRoot()
+            || ConfigurationPreferences.isUsingShizuku()) && isPackageInstalled
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_permissions, parent, false))
@@ -41,7 +42,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
 
-            if (PermissionUtils.isDangerous(permissions[position].permissionInfo!!)) {
+            if (PermissionUtils.isDangerous(permissions[position].permissionInfo!!) && isPackageInstalled) {
                 holder.switch.visible(false)
                 holder.name.setDangerousPermissionIcon(isDangerous = true)
             } else {
