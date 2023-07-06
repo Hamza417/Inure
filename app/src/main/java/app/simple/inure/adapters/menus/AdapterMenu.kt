@@ -10,18 +10,17 @@ import app.simple.inure.R
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.popups.appinfo.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 
-class AdapterMenu(val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<AdapterMenu.Holder>() {
+class AdapterMenu(val list: List<Pair<Int, Int>>, layoutStyle: Int) : RecyclerView.Adapter<AdapterMenu.Holder>() {
 
     private var adapterMenuCallbacks: AdapterMenuCallbacks? = null
 
-    private val menuLayout = when (AppInformationPreferences.getMenuLayout()) {
-        PopupMenuLayout.HORIZONTAL -> R.layout.adapter_app_info_menu_horizontal
-        PopupMenuLayout.GRID -> R.layout.adapter_app_info_menu_grid
-        else -> R.layout.adapter_app_info_menu_horizontal
+    private val menuLayout = when (layoutStyle) {
+        AppInformationPreferences.MENU_LAYOUT_GRID -> R.layout.adapter_app_info_menu_grid
+        AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> R.layout.adapter_app_info_menu_horizontal
+        else -> R.layout.adapter_app_info_menu_grid
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

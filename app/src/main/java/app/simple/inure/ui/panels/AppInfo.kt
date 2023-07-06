@@ -146,7 +146,7 @@ class AppInfo : ScopedFragment() {
                 return@observe
             }
 
-            metaAdapter = AdapterMenu(it)
+            metaAdapter = AdapterMenu(it, AppInformationPreferences.getMetaMenuLayout())
             metaAdapter?.setHasStableIds(true)
 
             meta.adapter = metaAdapter
@@ -234,7 +234,7 @@ class AppInfo : ScopedFragment() {
 
             if (AppInformationPreferences.isActionMenuFolded()) return@observe
 
-            actionsAdapter = AdapterMenu(it)
+            actionsAdapter = AdapterMenu(it, AppInformationPreferences.getActionMenuLayout())
 
             actions.adapter = actionsAdapter
             actions.scheduleLayoutAnimation()
@@ -420,7 +420,7 @@ class AppInfo : ScopedFragment() {
 
             if (AppInformationPreferences.isMiscMenuFolded()) return@observe
 
-            miscellaneousAdapter = AdapterMenu(it)
+            miscellaneousAdapter = AdapterMenu(it, AppInformationPreferences.getMiscMenuLayout())
 
             miscellaneous.adapter = miscellaneousAdapter
             miscellaneous.scheduleLayoutAnimation()
