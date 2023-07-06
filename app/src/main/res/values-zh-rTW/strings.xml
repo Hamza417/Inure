@@ -692,4 +692,6 @@
     <string name="create_shortcut">建立捷徑</string>
     <string name="block">封鎖</string>
     <string name="unblock">解除封鎖</string>
+    <string name="undo">復原</string>
+    <string name="redo">重做</string>
 </resources>
