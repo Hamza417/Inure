@@ -78,7 +78,7 @@ and submit your feedbacks or get development related updates.
 - [x] Add option to disable trackers.
 - [x] Create activity shortcut on homescreen.
 - [ ] Add multiple apk installer.
-- [ ] Selection framework for APKs panel
+- [x] Selection framework for APKs panel
 - [ ] Batch tracker control.
 - [ ] Add all apps stack trace monitor tool.
 - [ ] Manage system wide default apps.
