@@ -18,6 +18,7 @@ import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.theme.ThemeButton;
 import app.simple.inure.loaders.ImageLoader;
+import app.simple.inure.popups.app.PopupTooltip;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.Theme;
@@ -30,6 +31,11 @@ public class DynamicRippleImageButton extends ThemeButton {
     public DynamicRippleImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
+    
+        setOnLongClickListener(view -> {
+            new PopupTooltip(view);
+            return false;
+        });
     }
     
     @Override

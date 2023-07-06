@@ -41,12 +41,14 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
     override fun onBindViewHolder(holder: HorizontalListViewHolder, position: Int) {
         if (holder is Holder) {
             holder.button.setImageResource(bottomMenuItems[position].first)
+            holder.button.contentDescription = holder.itemView.context.getString(bottomMenuItems[position].second)
 
             holder.button.setOnClickListener {
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
         } else if (holder is HolderContext) {
             holder.button.setImageResource(bottomMenuItems[position].first)
+            holder.button.contentDescription = holder.itemView.context.getString(bottomMenuItems[position].second)
             holder.text.text = holder.itemView.context.getString(bottomMenuItems[position].second)
 
             holder.container.setOnClickListener {

@@ -465,32 +465,38 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         var count = 0
         val list: MutableList<String> = mutableListOf()
 
-        for (activity in packageInfo.activities) {
-            for (tracker in trackers) {
-                if (activity.name.lowercase().contains(tracker.lowercase())) {
-                    count++
-                    list.add(activity.name)
-                    break
+        if (packageInfo.activities != null) {
+            for (activity in packageInfo.activities) {
+                for (tracker in trackers) {
+                    if (activity.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        list.add(activity.name)
+                        break
+                    }
                 }
             }
         }
 
-        for (service in packageInfo.services) {
-            for (tracker in trackers) {
-                if (service.name.lowercase().contains(tracker.lowercase())) {
-                    count++
-                    list.add(service.name)
-                    break
+        if (packageInfo.services != null) {
+            for (service in packageInfo.services) {
+                for (tracker in trackers) {
+                    if (service.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        list.add(service.name)
+                        break
+                    }
                 }
             }
         }
 
-        for (receiver in packageInfo.receivers) {
-            for (tracker in trackers) {
-                if (receiver.name.lowercase().contains(tracker.lowercase())) {
-                    count++
-                    list.add(receiver.name)
-                    break
+        if (packageInfo.providers != null) {
+            for (receiver in packageInfo.receivers) {
+                for (tracker in trackers) {
+                    if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                        count++
+                        list.add(receiver.name)
+                        break
+                    }
                 }
             }
         }

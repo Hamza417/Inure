@@ -193,7 +193,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         return list
     }
 
-    fun updateBatchItem(batchPackageInfo: BatchPackageInfo, update: Boolean = false) {
+    fun updateBatchItem(batchPackageInfo: BatchPackageInfo, update: Boolean = false, updateSelected: Boolean = false) {
         viewModelScope.launch(Dispatchers.IO) {
             batchDatabase = BatchDatabase.getInstance(context)
             batchDatabase?.batchDao()
@@ -203,6 +203,10 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             if (update) {
                 loadAppData()
+            }
+
+            if (updateSelected) {
+                loadSelectedApps()
             }
         }
     }

@@ -691,4 +691,6 @@
     <string name="create_shortcut">Create Shortcut</string>
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 </resources>

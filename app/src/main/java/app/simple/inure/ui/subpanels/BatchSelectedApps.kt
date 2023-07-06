@@ -38,7 +38,7 @@ class BatchSelectedApps : ScopedFragment() {
 
             adapterBatch.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
-                    batchViewModel.updateBatchItem(batchPackageInfo, update = false)
+                    batchViewModel.updateBatchItem(batchPackageInfo, update = true)
                 }
             })
 

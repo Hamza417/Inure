@@ -67,7 +67,7 @@
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_item_gap_length"
-        android:contentDescription="@string/clear_data"
+        android:contentDescription="@string/clear"
         android:src="@drawable/ic_close"
         app:buttonTintType="secondary" />
 
@@ -76,7 +76,7 @@
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/clear_data"
+        android:contentDescription="@string/refresh"
         android:src="@drawable/ic_refresh"
         app:buttonTintType="secondary" />
 
@@ -92,6 +92,7 @@
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_padding"
+        android:contentDescription="@string/preferences"
         android:src="@drawable/ic_settings"
         app:buttonTintType="regular" />
 

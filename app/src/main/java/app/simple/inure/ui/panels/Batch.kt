@@ -78,7 +78,7 @@ class Batch : ScopedFragment() {
                 }
 
                 override fun onBatchChanged(batchPackageInfo: BatchPackageInfo) {
-                    batchViewModel.updateBatchItem(batchPackageInfo)
+                    batchViewModel.updateBatchItem(batchPackageInfo, updateSelected = true)
                     setupBottomMenu()
                 }
             })
