@@ -137,9 +137,9 @@ and submit your feedbacks or get development related updates.
 
 Various accessibility features to make the app more accessible to users.
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/27.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/29.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/25.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-|                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/27.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/29.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/30.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:--------------------------------------------------------------------:|
+|                                 0x00                                  |                                 0x01                                  |                                 0x02                                 |
 
 ### Menus and Dialogs
 
