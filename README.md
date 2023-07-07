@@ -130,10 +130,10 @@ and submit your feedbacks or get development related updates.
 |                                 0x19                                  |                                 0x1A                                  |                                 0x1B                                  |
 
 | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/28.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/31.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/35.png) |
-|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:----------------------------------------------------------------------|
-|                                 0x1C                                  |                                 0x1D                                  | 0x1E                                                                  |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x1C                                  |                                 0x1D                                  |                                 0x1E                                  |
 
-## Accessibility
+### Accessibility
 
 Various accessibility features to make the app more accessible to users.
 
@@ -141,7 +141,7 @@ Various accessibility features to make the app more accessible to users.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
 
-## Menus and Dialogs
+### Menus and Dialogs
 
 Various styles of menus and dialogs used in the app.
 
