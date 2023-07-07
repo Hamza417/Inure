@@ -101,11 +101,11 @@ and submit your feedbacks or get development related updates.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x04                                  |                                 0x05                                  |                                 0x06                                  |  
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/05.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/08.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x07                                  |                                 0x08                                  |                                 0x09                                  | 
 
-| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/09.jpg) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/10.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/11.jpg) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x0A                                  |                                 0x0B                                  |
 
@@ -129,12 +129,31 @@ and submit your feedbacks or get development related updates.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x19                                  |                                 0x1A                                  |                                 0x1B                                  |
 
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/28.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/31.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/35.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:----------------------------------------------------------------------|
+|                                 0x1C                                  |                                 0x1D                                  | 0x1E                                                                  |
+
+## Accessibility
+
+Various accessibility features to make the app more accessible to users.
+
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/27.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/29.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/25.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
+
+## Menus and Dialogs
+
+Various styles of menus and dialogs used in the app.
+
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/32.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/33.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/34.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
+
 ## Behind The Scenes
 
 |             ![01](./assets/01.jpg)              |
 |:-----------------------------------------------:|
-|   Designing of interface skeletons for Inure    |
-
+|   Designing of interface skeletons for Inure    | 
 |        ![01](./assets/inure_music.png)        |
 |:---------------------------------------------:|
 | Audio Player interface design (later removed) |
