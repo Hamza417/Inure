@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
@@ -264,7 +263,6 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
     }
 
     override fun onShellDenied() {
-        warning.postValue(Warnings.getNoRootConnectionWarning())
         batteryOptimizationData.postValue(ArrayList())
     }
 

@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
@@ -75,6 +76,7 @@ class SplashScreen : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        startPostponedEnterTransition()
 
         intentFilter.addAction(DataLoaderService.APPS_LOADED)
         intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
@@ -103,8 +105,6 @@ class SplashScreen : ScopedFragment() {
             }
         }
 
-        startPostponedEnterTransition()
-
         icon = view.findViewById(R.id.imageView)
         loaderImageView = view.findViewById(R.id.loader)
         daysLeft = view.findViewById(R.id.days_left)
@@ -115,7 +115,7 @@ class SplashScreen : ScopedFragment() {
             icon.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.app_icon_animation))
         }
 
-        if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
+        if (BehaviourPreferences.isSkipLoading()) {
             loaderImageView.alpha = 0F
         }
 
@@ -130,20 +130,23 @@ class SplashScreen : ScopedFragment() {
             }
 
             when {
-                MainPreferences.isDisclaimerAgreed().invert() -> {
+                MainPreferences.isDisclaimerAgreed().invert() -> { // First check if disclaimer is agreed
                     openFragmentSlide(Disclaimer.newInstance())
                 }
-                requireArguments().getBoolean("skip") -> {
+
+                requireArguments().getBoolean(BundleConstants.skip) -> { // Second check if setup is skipped
                     startLoaderService()
                 }
+
                 !checkForPermission() -> {
-                    if (SetupPreferences.isDontShowAgain()) {
+                    if (SetupPreferences.isDontShowAgain()) { // If setup not skipped open setup
                         startLoaderService()
                     } else {
                         openFragmentSlide(Setup.newInstance())
                     }
                 }
-                else -> {
+
+                else -> { // Load all data
                     startLoaderService()
                 }
             }
@@ -277,14 +280,13 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
-        if (BehaviourPreferences.isSkipLoadingMainScreenState()) {
-            openFragmentArc(Home.newInstance(), icon)
+        if (BehaviourPreferences.isSkipLoading()) {
+            openApp()
         }
     }
 
     private fun openApp() {
-        if (BehaviourPreferences.isSkipLoadingMainScreenState()) return
-        if (isEverythingLoaded()) {
+        if (isEverythingLoaded() || BehaviourPreferences.isSkipLoading()) {
             if (MainPreferences.getLaunchCount() % 7 == 0 && StatusBarHeight.isLandscape(requireContext()).invert() && AppUtils.isPlayFlavor()) {
                 if (MainPreferences.isShowRateReminder()) {
                     requireActivity().supportFragmentManager.beginTransaction()
@@ -416,7 +418,7 @@ class SplashScreen : ScopedFragment() {
     companion object {
         fun newInstance(skip: Boolean): SplashScreen {
             val args = Bundle()
-            args.putBoolean("skip", skip)
+            args.putBoolean(BundleConstants.skip, skip)
             val fragment = SplashScreen()
             fragment.arguments = args
             return fragment

@@ -53,6 +53,5 @@ class AppIconModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         registry.append(AppIcon::class.java, Bitmap::class.java, AppIconLoader.Factory())
-        //registry.append(AppGraphicsModel::class.java, InputStream::class.java, AppGraphicsLoader.Factory())
     }
 }

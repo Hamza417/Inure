@@ -19,13 +19,30 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.preferences.*
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.ui.launcher.SplashScreen
-import app.simple.inure.ui.panels.*
+import app.simple.inure.ui.panels.Analytics
+import app.simple.inure.ui.panels.Apps
+import app.simple.inure.ui.panels.Batch
+import app.simple.inure.ui.panels.DeviceInfo
+import app.simple.inure.ui.panels.Home
+import app.simple.inure.ui.panels.MostUsed
+import app.simple.inure.ui.panels.Music
+import app.simple.inure.ui.panels.Notes
+import app.simple.inure.ui.panels.Preferences
+import app.simple.inure.ui.panels.RecentlyInstalled
+import app.simple.inure.ui.panels.RecentlyUpdated
+import app.simple.inure.ui.panels.Search
+import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.Uninstalled
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
@@ -36,7 +53,8 @@ import app.simple.inure.util.Logger
 import app.simple.inure.util.NullSafety.isNull
 import com.topjohnwu.superuser.ipc.RootService
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
 
 class MainActivity : BaseActivity() {
 
@@ -76,6 +94,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("analytics")
                         .commit()
                 }
+
                 ShortcutConstants.APPS_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -84,6 +103,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("apps")
                         .commit()
                 }
+
                 ShortcutConstants.BATCH_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -92,6 +112,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("batch")
                         .commit()
                 }
+
                 ShortcutConstants.MOST_USED_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -100,6 +121,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("most_used")
                         .commit()
                 }
+
                 ShortcutConstants.NOTES_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -108,6 +130,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("notes")
                         .commit()
                 }
+
                 ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -116,6 +139,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("recently_installed")
                         .commit()
                 }
+
                 ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -124,11 +148,13 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("recently_updated")
                         .commit()
                 }
+
                 ShortcutConstants.TERMINAL_ACTION -> {
                     openHome()
                     startActivity(Intent(this, Term::class.java))
                     finish()
                 }
+
                 ShortcutConstants.UNINSTALLED_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -137,6 +163,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("uninstalled")
                         .commit()
                 }
+
                 ShortcutConstants.USAGE_STATS_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -145,6 +172,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("stats")
                         .commit()
                 }
+
                 ShortcutConstants.PREFERENCES_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -153,6 +181,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("preferences")
                         .commit()
                 }
+
                 ShortcutConstants.SEARCH_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -161,6 +190,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("search")
                         .commit()
                 }
+
                 ShortcutConstants.MUSIC_ACTION -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -169,6 +199,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("music")
                         .commit()
                 }
+
                 ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                     if (supportFragmentManager.findFragmentByTag("audio_player_pager") == null) {
                         supportFragmentManager.beginTransaction()
@@ -193,6 +224,7 @@ class MainActivity : BaseActivity() {
                             .commit()
                     }
                 }
+
                 "open_device_info" -> {
                     openHome()
                     supportFragmentManager.beginTransaction()
@@ -201,6 +233,7 @@ class MainActivity : BaseActivity() {
                         .addToBackStack("device_info")
                         .commit()
                 }
+
                 IntentConstants.ACTION_UNLOCK -> {
                     if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
                         if (TrialPreferences.isFullVersion()) {
@@ -233,6 +266,7 @@ class MainActivity : BaseActivity() {
                             .commit()
                     }
                 }
+
                 else -> {
                     if (AppUtils.isBetaFlavor()) {
                         supportFragmentManager.beginTransaction()

@@ -105,7 +105,7 @@ object BehaviourPreferences {
         SharedPreferences.getSharedPreferences().edit().putBoolean(skipLoading, boolean).apply()
     }
 
-    fun isSkipLoadingMainScreenState(): Boolean {
+    fun isSkipLoading(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(skipLoading, false)
     }
 

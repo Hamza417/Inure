@@ -64,7 +64,7 @@ class BehaviourScreen : ScopedFragment() {
         transition.setChecked(BehaviourPreferences.isTransitionOn())
         animations.setChecked(BehaviourPreferences.isArcAnimationOn())
         marquee.setChecked(BehaviourPreferences.isMarqueeOn())
-        skipLoading.setChecked(BehaviourPreferences.isSkipLoadingMainScreenState())
+        skipLoading.setChecked(BehaviourPreferences.isSkipLoading())
 
         setTransitionType()
         setArcType()

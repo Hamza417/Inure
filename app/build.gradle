@@ -12,6 +12,7 @@ android {
 
     buildFeatures {
         viewBinding false
+        aidl true
     }
 
     defaultConfig {
@@ -97,12 +98,12 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        jvmTarget = JavaVersion.VERSION_17
     }
 
     ndkVersion '25.2.9519653'
@@ -151,6 +152,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta02'
     implementation 'androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03'
     implementation "androidx.security:security-crypto:1.1.0-alpha06"
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Google
     implementation 'com.google.android.material:material:1.9.0'
