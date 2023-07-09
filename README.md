@@ -154,6 +154,7 @@ Various styles of menus and dialogs used in the app.
 |             ![01](./assets/01.jpg)              |
 |:-----------------------------------------------:|
 |   Designing of interface skeletons for Inure    | 
+
 |        ![01](./assets/inure_music.png)        |
 |:---------------------------------------------:|
 | Audio Player interface design (later removed) |
