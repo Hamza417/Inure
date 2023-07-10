@@ -7,6 +7,7 @@ object ConfigurationPreferences {
     const val isUsingShizuku = "is_using_shizuku"
     const val language = "language_of_app"
     const val appPath = "app_path"
+    const val isExternalStorage = "is_external_storage"
 
     fun setKeepScreenOn(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit().putBoolean(keepScreenOn, value).apply()
@@ -58,5 +59,15 @@ object ConfigurationPreferences {
 
     fun defaultAppPath() {
         SharedPreferences.getSharedPreferences().edit().putString(appPath, "Inure App Manager").apply()
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setExternalStorage(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(isExternalStorage, value).apply()
+    }
+
+    fun isExternalStorage(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(isExternalStorage, false)
     }
 }

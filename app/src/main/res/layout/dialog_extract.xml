@@ -47,8 +47,9 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 android:layout_weight="1"
+                android:text="@string/loading"
                 android:textSize="@dimen/info_text_small"
-                app:appFontStyle="medium"
+                app:appFontStyle="bold"
                 app:textColorStyle="secondary" />
 
 

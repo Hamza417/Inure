@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
+import app.simple.inure.util.SDCard
 import java.io.File
 
 object PackageData {
@@ -28,9 +30,17 @@ object PackageData {
 
     fun getPackageDir(context: Context, path: String): File? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !context.areStoragePermissionsGranted()) {
-            context.getExternalFilesDir("")
+            if (ConfigurationPreferences.isExternalStorage()) {
+                (SDCard.findSdCardPath(context).absolutePath + "/" + path).toFile()
+            } else {
+                context.getExternalFilesDir("")
+            }
         } else {
-            File(Environment.getExternalStorageDirectory(), path)
+            if (ConfigurationPreferences.isExternalStorage()) {
+                (SDCard.findSdCardPath(context).absolutePath + "/" + path).toFile()
+            } else {
+                File(Environment.getExternalStorageDirectory(), path)
+            }
         }
     }
 
