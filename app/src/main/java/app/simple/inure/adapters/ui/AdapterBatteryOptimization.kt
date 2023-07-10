@@ -34,10 +34,12 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                                .inflate(R.layout.adapter_header_battery_optimization, parent, false))
                 }
             }
+
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_battery_optimization, parent, false))
             }
+
             else -> {
                 throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
             }
@@ -66,7 +68,8 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             }
 
             holder.container.setOnClickListener {
-                adapterCallbacks?.onBatteryOptimizationClicked(it, apps[holder.bindingAdapterPosition.minus(1)], holder.bindingAdapterPosition.minus(1))
+                adapterCallbacks?.onBatteryOptimizationClicked(
+                        it, apps[holder.bindingAdapterPosition.minus(1)], holder.bindingAdapterPosition.minus(1))
             }
 
             holder.container.setOnLongClickListener {
@@ -80,9 +83,11 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 SortConstant.USER -> {
                     holder.getString(R.string.user)
                 }
+
                 SortConstant.SYSTEM -> {
                     holder.getString(R.string.system)
                 }
+
                 SortConstant.BOTH -> {
                     with(StringBuilder()) {
                         append(holder.getString(R.string.user))
@@ -90,6 +95,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                         append(holder.getString(R.string.system))
                     }
                 }
+
                 else -> {
                     holder.getString(R.string.unknown)
                 }
@@ -99,24 +105,31 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 SortBatteryOptimization.NAME -> {
                     holder.getString(R.string.name)
                 }
+
                 SortBatteryOptimization.PACKAGE_NAME -> {
                     holder.getString(R.string.package_name)
                 }
+
                 SortBatteryOptimization.SIZE -> {
                     holder.getString(R.string.app_size)
                 }
+
                 SortBatteryOptimization.INSTALL_DATE -> {
                     holder.getString(R.string.install_date)
                 }
+
                 SortBatteryOptimization.UPDATE_DATE -> {
                     holder.getString(R.string.update_date)
                 }
+
                 SortBatteryOptimization.TARGET_SDK -> {
                     holder.getString(R.string.target_sdk)
                 }
+
                 SortBatteryOptimization.MIN_SDK -> {
                     holder.getString(R.string.minimum_sdk)
                 }
+
                 else -> {
                     holder.getString(R.string.unknown)
                 }
@@ -150,12 +163,15 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             BatteryOptimizationModel.TYPE_SYSTEM -> {
                 R.string.system
             }
+
             BatteryOptimizationModel.TYPE_USER -> {
                 R.string.user
             }
+
             BatteryOptimizationModel.TYPE_SYSTEM_EXCIDLE -> {
                 R.string.system_excidle
             }
+
             else -> {
                 R.string.unknown
             }
@@ -167,6 +183,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             true -> {
                 R.string.optimized
             }
+
             false -> {
                 R.string.not_optimized
             }

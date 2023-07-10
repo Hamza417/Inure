@@ -166,6 +166,7 @@ class SplashScreen : ScopedFragment() {
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
         val notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
+        val apkBrowserViewModel = ViewModelProvider(requireActivity())[ApkBrowserViewModel::class.java]
 
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
@@ -278,6 +279,13 @@ class SplashScreen : ScopedFragment() {
             Log.d(TAG, "Boot manager data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isBootManagerLoaded = true
             openApp()
+        }
+
+        /**
+         * We'll only trigger the APKs loading if the user has enabled the feature
+         */
+        apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Apk files loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
         }
 
         if (BehaviourPreferences.isSkipLoading()) {
