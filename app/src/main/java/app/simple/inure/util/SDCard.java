@@ -107,7 +107,7 @@ public class SDCard {
     public static File findSdCardPath(Context context) {
         String[] mountFields;
         BufferedReader bufferedReader = null;
-        String lineRead = null;
+        String lineRead;
         
         /* Possible SD card paths */
         LinkedHashSet <File> candidatePaths = new LinkedHashSet <>();
@@ -191,18 +191,19 @@ public class SDCard {
         if (!mountedPaths.isEmpty()) {
             // See https://stackoverflow.com/a/5374346/423105 on why the following is necessary.
             // Basically, .toArray() needs its parameter to know what type of array to return.
+            @SuppressWarnings ("ToArrayCallWithZeroLengthArrayArgument")
             File[] mountedPathsArray = mountedPaths.toArray(new File[mountedPaths.size()]);
             addAncestors(candidatePaths, mountedPathsArray);
         }
         
         // Add hard-coded known common paths to candidate list:
-        addStrings(candidatePaths, commonPaths);
+        addStrings(candidatePaths);
         
         // If the above doesn't work we could try the following other options, but in my experience they
         // haven't added anything helpful yet.
-        
+    
         // getExternalFilesDir() and getExternalStorageDirectory() typically something app-specific like
-        //   /storage/sdcard1/Android/data/com.mybackuparchives.android/files
+        // /storage/sdcard1/Android/data/com.mybackuparchives.android/files
         // so we want the great-great-grandparent folder.
         
         // This may be non-removable.
@@ -310,8 +311,8 @@ public class SDCard {
     /**
      * Add each path to the collection.
      */
-    private static void addStrings(LinkedHashSet <File> candidatePaths, String[] newPaths) {
-        for (String path : newPaths) {
+    private static void addStrings(LinkedHashSet <File> candidatePaths) {
+        for (String path : SDCard.commonPaths) {
             addPath(path, null, candidatePaths);
         }
     }

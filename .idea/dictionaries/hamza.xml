@@ -3,27 +3,43 @@
     <words>
       <w>aaaa</w>
       <w>actionparser</w>
+      <w>alcatel</w>
+      <w>antipattern</w>
       <w>apkinstaller</w>
+      <w>asec</w>
       <w>baybeee</w>
       <w>bpemmctest</w>
+      <w>canonicalizing</w>
       <w>delims</w>
       <w>djava</w>
+      <w>dmask</w>
       <w>duzhe</w>
       <w>dwhite</w>
       <w>emmc</w>
       <w>enoent</w>
+      <w>extsd</w>
       <w>extsdcard</w>
       <w>eyjge</w>
+      <w>fmask</w>
+      <w>fone</w>
       <w>gonçalves</w>
       <w>grotesk</w>
       <w>inari</w>
       <w>infos</w>
       <w>inureunlocker</w>
+      <w>iocharset</w>
+      <w>knownfile</w>
       <w>landroid</w>
       <w>lrcs</w>
       <w>malgon</w>
       <w>microsd</w>
+      <w>mountpoint</w>
+      <w>mtdblock</w>
+      <w>mybackuparchives</w>
+      <w>nodev</w>
+      <w>noexec</w>
       <w>nomedia</w>
+      <w>nosuid</w>
       <w>português</w>
       <w>refetching</w>
       <w>reinstaller</w>
@@ -35,6 +51,8 @@
       <w>teko</w>
       <w>titillium</w>
       <w>usebackq</w>
+      <w>vfat</w>
+      <w>vold</w>
     </words>
   </dictionary>
 </component>
