@@ -95,7 +95,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                             }
                         }
 
-                        val filtered = arrayListOf<BatteryOptimizationModel>()
+                        var filtered = arrayListOf<BatteryOptimizationModel>()
 
                         for (app in batteryOptimizationArrayList) {
                             if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
@@ -114,6 +114,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                                 }
                             }
                         }
+
+                        filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
 
                         for (app in filtered) {
                             kotlin.runCatching {
@@ -182,7 +184,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         }
                     }
 
-                    val filtered = arrayListOf<BatteryOptimizationModel>()
+                    var filtered = arrayListOf<BatteryOptimizationModel>()
 
                     for (app in batteryOptimizationArrayList) {
                         if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
@@ -201,6 +203,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                             }
                         }
                     }
+
+                    filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
 
                     for (app in filtered) {
                         kotlin.runCatching {

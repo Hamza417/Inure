@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
@@ -73,7 +73,7 @@
             android:drawablePadding="@dimen/popup_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
-            app:drawableStartCompat="@drawable/ic_sort_tiny"
+            app:drawableStartCompat="@drawable/ic_sort_16dp"
             app:drawableTintStyle="secondary"
             app:textColorStyle="tertiary" />
 
@@ -86,7 +86,7 @@
             android:drawablePadding="@dimen/popup_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
-            app:drawableStartCompat="@drawable/ic_filter_tiny"
+            app:drawableStartCompat="@drawable/ic_filter_16dp"
             app:drawableTintStyle="secondary"
             app:textColorStyle="tertiary" />
 

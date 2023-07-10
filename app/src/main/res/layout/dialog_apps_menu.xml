@@ -102,7 +102,7 @@
                 android:text="@string/sample"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_filter_tiny"
+                app:drawableStartCompat="@drawable/ic_filter_12dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="tertiary" />
 
