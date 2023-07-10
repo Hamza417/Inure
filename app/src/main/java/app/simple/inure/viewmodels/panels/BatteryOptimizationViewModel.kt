@@ -16,7 +16,6 @@ import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SortBatteryOptimization.getSortedList
@@ -183,18 +182,24 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         }
                     }
 
-                    var filtered = arrayListOf<BatteryOptimizationModel>()
+                    val filtered = arrayListOf<BatteryOptimizationModel>()
 
-                    if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
-                        filtered = batteryOptimizationArrayList.stream().filter {
-                            it.isOptimized
-                        }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
-                    }
+                    for (app in batteryOptimizationArrayList) {
+                        if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.OPTIMIZED)) {
+                            if (app.isOptimized) {
+                                if (!filtered.contains(app)) {
+                                    filtered.add(app)
+                                }
+                            }
+                        }
 
-                    if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.NOT_OPTIMIZED)) {
-                        filtered = batteryOptimizationArrayList.stream().filter {
-                            it.isOptimized.invert()
-                        }.collect(Collectors.toList()) as ArrayList<BatteryOptimizationModel>
+                        if (FlagUtils.isFlagSet(BatteryOptimizationPreferences.getFilter(), SortConstant.NOT_OPTIMIZED)) {
+                            if (!app.isOptimized) {
+                                if (!filtered.contains(app)) {
+                                    filtered.add(app)
+                                }
+                            }
+                        }
                     }
 
                     for (app in filtered) {
