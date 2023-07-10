@@ -29,6 +29,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.Shizuku
 
 class Permissions : SearchBarScopedFragment() {
 
@@ -68,11 +69,12 @@ class Permissions : SearchBarScopedFragment() {
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
-                    childFragmentManager.showPermissionStatus(packageInfo, permissionInfo).setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
-                        override fun onSuccess(grantedStatus: Boolean) {
-                            adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
-                        }
-                    })
+                    childFragmentManager.showPermissionStatus(packageInfo, permissionInfo)
+                        .setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
+                            override fun onSuccess(grantedStatus: Boolean) {
+                                adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
+                            }
+                        })
                 }
 
                 override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
@@ -101,16 +103,24 @@ class Permissions : SearchBarScopedFragment() {
                             }
                         } else if (ConfigurationPreferences.isUsingShizuku()) {
                             kotlin.runCatching {
-                                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
-                                    if (it.isSuccessful) {
-                                        withContext(Dispatchers.Main) {
-                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                if (Shizuku.pingBinder()) {
+                                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(
+                                            "pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
+                                        if (it.isSuccessful) {
+                                            withContext(Dispatchers.Main) {
+                                                adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                            }
+                                        } else {
+                                            withContext(Dispatchers.Main) {
+                                                showWarning("ERR: failed to $mode permission", goBack = false)
+                                                adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                            }
                                         }
-                                    } else {
-                                        withContext(Dispatchers.Main) {
-                                            showWarning("ERR: failed to $mode permission", goBack = false)
-                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
-                                        }
+                                    }
+                                } else {
+                                    withContext(Dispatchers.Main) {
+                                        showWarning("ERR: failed to acquire Shizuku", goBack = false)
+                                        adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                     }
                                 }
                             }.getOrElse {
@@ -158,6 +168,7 @@ class Permissions : SearchBarScopedFragment() {
             PermissionPreferences.permissionSearch -> {
                 searchBoxState(true, PermissionPreferences.isSearchVisible())
             }
+
             PermissionPreferences.labelType -> {
                 adapterPermissions.update()
             }
