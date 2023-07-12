@@ -694,4 +694,6 @@
     <string name="unblock">Desbloquear</string>
     <string name="undo">Desfazer</string>
     <string name="redo">Refazer</string>
+    <string name="external_storage">Armazenamento Externo</string>
+    <string name="external_storage_desc">Inclua também o armazenamento externo durante o escaneamento.</string>
 </resources>
