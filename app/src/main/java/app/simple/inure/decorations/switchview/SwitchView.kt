@@ -52,14 +52,14 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
         view.setOnClickListener {
             if (!isEnabled) return@setOnClickListener
 
-            isChecked = if (isChecked) {
+            if (isChecked) {
+                isChecked = false
                 animateUnchecked()
                 switchCallbacks?.onCheckedChanged(false)
-                false
             } else {
+                isChecked = true
                 animateChecked()
                 switchCallbacks?.onCheckedChanged(true)
-                true
             }
         }
 
@@ -104,10 +104,10 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     fun setChecked(checked: Boolean) {
         isChecked = if (checked) {
             animateChecked()
-            checked
+            true
         } else {
             animateUnchecked()
-            checked
+            false
         }
     }
 

@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="@dimen/popup_padding"
-            android:text="@string/prefer_external" />
+            android:layout_marginStart="@dimen/popup_padding"
+            android:text="@string/external_storage" />
 
     </LinearLayout>
 

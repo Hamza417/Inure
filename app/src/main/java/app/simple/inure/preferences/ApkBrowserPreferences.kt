@@ -11,6 +11,7 @@ object ApkBrowserPreferences {
     const val reversed = "apk_sort_reversed"
     const val apkFilter = "apk_filter"
     const val searchKeyword = "apk_search_keyword"
+    const val externalStorage = "apk_external_storage"
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
@@ -60,5 +61,15 @@ object ApkBrowserPreferences {
 
     fun setApkFilter(filter: Int) {
         getSharedPreferences().edit().putInt(apkFilter, filter).apply()
+    }
+
+    // ------------------------------------------------------------------------------------------------------------------ //
+
+    fun isExternalStorage(): Boolean {
+        return getSharedPreferences().getBoolean(externalStorage, false)
+    }
+
+    fun setExternalStorage(value: Boolean) {
+        getSharedPreferences().edit().putBoolean(externalStorage, value).apply()
     }
 }

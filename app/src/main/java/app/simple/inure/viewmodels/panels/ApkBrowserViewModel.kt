@@ -13,6 +13,7 @@ import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.util.SDCard
 import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,31 +54,38 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun loadApkPaths() {
         viewModelScope.launch(Dispatchers.IO) {
-            val externalStorage = Environment.getExternalStorageDirectory()
+            val externalStoragePaths: ArrayList<File?> = if (ApkBrowserPreferences.isExternalStorage()) {
+                arrayListOf(Environment.getExternalStorageDirectory(), SDCard.findSdCardPath(application))
+            } else {
+                arrayListOf(Environment.getExternalStorageDirectory())
+            }
+
             val apkPaths = ArrayList<ApkFile>()
             files.clear()
 
-            externalStorage.walkTopDown().forEach {
-                info.postValue(it.absolutePath.substringBeforeLast("/"))
+            externalStoragePaths.forEach { path ->
+                path?.walkTopDown()!!.forEach {
+                    info.postValue(it.absolutePath.substringBeforeLast("/"))
 
-                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK) && it.extension == "apk") {
-                    apkPaths.add(ApkFile(it))
-                }
+                    if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK) && it.extension == "apk") {
+                        apkPaths.add(ApkFile(it))
+                    }
 
-                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS) && it.extension == "apks") {
-                    apkPaths.add(ApkFile(it))
-                }
+                    if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS) && it.extension == "apks") {
+                        apkPaths.add(ApkFile(it))
+                    }
 
-                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM) && it.extension == "apkm") {
-                    apkPaths.add(ApkFile(it))
-                }
+                    if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM) && it.extension == "apkm") {
+                        apkPaths.add(ApkFile(it))
+                    }
 
-                if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.extension == "xapk") {
-                    apkPaths.add(ApkFile(it))
-                }
+                    if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.extension == "xapk") {
+                        apkPaths.add(ApkFile(it))
+                    }
 
-                if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
-                    files.add(ApkFile(it)) // backup for filtering
+                    if (it.isFile && it.extension == "apk" || it.extension == "apks" || it.extension == "apkm" || it.extension == "xapk") {
+                        files.add(ApkFile(it)) // backup for filtering
+                    }
                 }
             }
 
@@ -88,7 +96,6 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                     println("Time taken: " + measureTimeMillis {
                         if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
                             mediaPaths.add(file)
-                            Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
                         }
                     })
                 }
@@ -102,7 +109,6 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
             apkPaths.getSortedList(ApkBrowserPreferences.getSortStyle(), ApkBrowserPreferences.isReverseSorting())
 
-            @Suppress("UNCHECKED_CAST")
             pathData.postValue(apkPaths)
         }
     }
@@ -114,6 +120,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
     /**
      * This is a terrible way to check if a file is a .nomedia file or directory
      */
+    @Suppress("unused")
     private fun File.isNomediaFileOrDirectory(): Boolean {
         return if (isFile) {
             if (absolutePath.split("/").any { it.startsWith(".") }) {
@@ -230,6 +237,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                             }
                         }
                     }
+
                     "\$apks" -> {
                         files.forEach {
                             if (it.file.extension == "apks") {
@@ -237,6 +245,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                             }
                         }
                     }
+
                     "\$apkm" -> {
                         files.forEach {
                             if (it.file.extension == "apkm") {
@@ -244,6 +253,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                             }
                         }
                     }
+
                     "\$xapk" -> {
                         files.forEach {
                             if (it.file.extension == "xapk") {

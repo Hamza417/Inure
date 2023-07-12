@@ -18,6 +18,8 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -50,6 +52,9 @@ class InstallerInformationViewModel(application: Application, private val file: 
         kotlin.runCatching {
             packageInfo = packageManager.getPackageArchiveInfo(file)
 
+            if (packageManager.isPackageInstalled(packageName = packageInfo!!.packageName)) {
+                packageInfo = packageManager.getPackageInfo(packageInfo!!.packageName)
+            }
         }.onFailure {
             postError(it)
             return

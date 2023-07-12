@@ -12,10 +12,13 @@ import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.apks.ApksSort.Companion.showApksSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.SDCard
 
 class ApksMenu : ScopedBottomSheetFragment() {
 
     private lateinit var loadSplitIconSwitch: SwitchView
+    private lateinit var externalStorageSwitchView: SwitchView
     private lateinit var openSettings: DynamicRippleTextView
     private lateinit var filter: DynamicRippleImageButton
 
@@ -23,6 +26,7 @@ class ApksMenu : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_menu_apk_browser, container, false)
 
         loadSplitIconSwitch = view.findViewById(R.id.load_split_icon)
+        externalStorageSwitchView = view.findViewById(R.id.external_storage_switch)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
         filter = view.findViewById(R.id.filter)
 
@@ -33,9 +37,25 @@ class ApksMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loadSplitIconSwitch.setChecked(ApkBrowserPreferences.isLoadSplitIcon())
+        externalStorageSwitchView.setChecked(ApkBrowserPreferences.isExternalStorage())
+
 
         loadSplitIconSwitch.setOnSwitchCheckedChangeListener { isChecked ->
             ApkBrowserPreferences.setLoadSplitIcon(isChecked)
+        }
+
+        externalStorageSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
+            if (isChecked) {
+                if (SDCard.findSdCardPath(requireApplication().applicationContext).isNotNull()) {
+                    ApkBrowserPreferences.setExternalStorage(true)
+                    dismiss()
+                } else {
+                    externalStorageSwitchView.setChecked(false)
+                    showWarning("No SD Card found", false)
+                }
+            } else {
+                ApkBrowserPreferences.setExternalStorage(false)
+            }
         }
 
         openSettings.setOnClickListener {

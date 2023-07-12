@@ -153,7 +153,7 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Remove Stroke From Chips",
                                             "Remove stroke from chips in the app's sorting GUI.",
                                             removeStrokeFromChips,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
         ).sortedBy {
             it.title
         }

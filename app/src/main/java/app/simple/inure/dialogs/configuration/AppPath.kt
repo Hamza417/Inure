@@ -15,6 +15,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.SDCard
 
 class AppPath : ScopedDialogFragment() {
 
@@ -60,7 +61,16 @@ class AppPath : ScopedDialogFragment() {
         }
 
         sdcardCheckbox.setOnCheckedChangeListener {
-            ConfigurationPreferences.setExternalStorage(it)
+            if (it) {
+                if (SDCard.findSdCardPath(requireContext()) != null) {
+                    ConfigurationPreferences.setExternalStorage(true)
+                } else {
+                    sdcardCheckbox.setChecked(false)
+                    showWarning("No SD Card found", dismiss = false)
+                }
+            } else {
+                ConfigurationPreferences.setExternalStorage(false)
+            }
         }
 
         reset.setOnClickListener {

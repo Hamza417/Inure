@@ -693,4 +693,6 @@
     <string name="unblock">Unblock</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
+    <string name="external_storage">External Storage</string>
+    <string name="external_storage_desc">Also include external storage while scanning.</string>
 </resources>

@@ -8,7 +8,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -242,21 +241,28 @@ class APKs : ScopedFragment() {
                         apkScanner = childFragmentManager.showApkScanner()
                         apkBrowserViewModel.refresh()
                     }
+
                     R.drawable.ic_settings -> {
                         childFragmentManager.showApksMenu()
                     }
+
                     R.drawable.ic_search -> {
                         openFragmentSlide(ApksSearch.newInstance(), "apks_search")
                     }
+
                     R.drawable.ic_filter -> {
                         childFragmentManager.showApksSort()
                     }
+
                     R.drawable.ic_send -> {
                         if (adapterApks.paths.any { it.isSelected }) {
                             @Suppress("UNCHECKED_CAST")
                             val selectedApks = (adapterApks.paths.clone() as ArrayList<ApkFile>).filter { it.isSelected }
                             val selectedApksFiles = selectedApks.map { it.file }
-                            val selectedApksFilesUri = selectedApksFiles.map { FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it) }
+                            val selectedApksFilesUri = selectedApksFiles.map {
+                                FileProvider.getUriForFile(requireContext(),
+                                                           "${requireContext().packageName}.provider", it)
+                            }
                             val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
                             intent.type = "application/vnd.android.package-archive"
                             intent.putExtra(Intent.EXTRA_STREAM, ArrayList(selectedApksFilesUri))
@@ -266,11 +272,15 @@ class APKs : ScopedFragment() {
                             showWarning("No APKs selected", false)
                         }
                     }
+
                     R.drawable.ic_delete -> { // Delete the selected files
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
                                 if (adapterApks.paths.any { it.isSelected }) {
-                                    @Suppress("UNCHECKED_CAST") val selectedApks = (adapterApks.paths.clone() as ArrayList<ApkFile>).filter { it.isSelected }
+                                    @Suppress("UNCHECKED_CAST") val selectedApks =
+                                        (adapterApks.paths.clone() as ArrayList<ApkFile>).filter {
+                                            it.isSelected
+                                        }
                                     for (apk in selectedApks) {
                                         if (apk.file.exists()) {
                                             if (apk.file.delete()) {
@@ -297,13 +307,10 @@ class APKs : ScopedFragment() {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     private fun updateBottomMenu() {
         if (adapterApks.isSelectionMode) {
-            Log.d("APKs", "updateBottomMenu: Selection Mode")
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getApkBrowserMenuSelection())
         } else {
-            Log.d("APKs", "updateBottomMenu: Normal Mode")
             bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getApkBrowserMenu())
         }
     }
@@ -314,13 +321,20 @@ class APKs : ScopedFragment() {
             ApkBrowserPreferences.loadSplitIcon -> {
                 adapterApks.loadSplitIcon()
             }
+
             ApkBrowserPreferences.apkFilter -> {
                 apkBrowserViewModel.filter()
             }
+
             ApkBrowserPreferences.reversed,
             ApkBrowserPreferences.sortStyle,
             -> {
                 apkBrowserViewModel.sort()
+            }
+
+            ApkBrowserPreferences.externalStorage -> {
+                apkBrowserViewModel.refresh()
+                apkScanner = childFragmentManager.showApkScanner()
             }
         }
     }

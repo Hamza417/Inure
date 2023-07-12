@@ -48,6 +48,8 @@ import app.simple.inure.themes.manager.ThemeUtils.setTheme
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.SDCard
 import com.google.android.material.transition.platform.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -92,7 +94,6 @@ open class BaseActivity : AppCompatActivity(),
         }
 
         // Disable splash screen
-
         ThemeUtils.setAppTheme(baseContext.resources)
         TrialPreferences.migrateLegacy()
 
@@ -171,6 +172,15 @@ open class BaseActivity : AppCompatActivity(),
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 withContext(Dispatchers.IO) {
                     StackTraceDatabase.init(applicationContext)
+
+                    if (SDCard.findSdCardPath(applicationContext).isNull()) {
+                        ApkBrowserPreferences.setExternalStorage(false)
+                        ConfigurationPreferences.setExternalStorage(false)
+
+                        Log.d("BaseActivity", "No external storage found")
+                    } else {
+                        Log.d("BaseActivity", "External storage found")
+                    }
                 }
             }
         }
@@ -220,29 +230,34 @@ open class BaseActivity : AppCompatActivity(),
                         enterTransition = Fade()
                         reenterTransition = Fade()
                     }
+
                     PopupTransitionType.ELEVATION -> {
                         exitTransition = MaterialElevationScale(false)
                         enterTransition = MaterialElevationScale(true)
                         reenterTransition = MaterialElevationScale(false)
                     }
+
                     PopupTransitionType.SHARED_AXIS_X -> {
                         enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
                         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
                         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
                         returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
                     }
+
                     PopupTransitionType.SHARED_AXIS_Y -> {
                         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
                         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
                         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
                         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
                     }
+
                     PopupTransitionType.SHARED_AXIS_Z -> {
                         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
                         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
                         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
                         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
                     }
+
                     PopupTransitionType.THROUGH -> {
                         exitTransition = MaterialFadeThrough()
                         enterTransition = MaterialFadeThrough()
@@ -285,6 +300,7 @@ open class BaseActivity : AppCompatActivity(),
                             }
                         }
                     }
+
                     PopupArcType.MATERIAL -> {
                         sharedElementEnterTransition = MaterialContainerTransform().apply {
                             duration = resources.getInteger(R.integer.animation_duration).toLong()
@@ -301,6 +317,7 @@ open class BaseActivity : AppCompatActivity(),
                             pathMotion = MaterialArcMotion()
                         }
                     }
+
                     PopupArcType.LEGACY -> {
                         sharedElementEnterTransition = DetailsTransitionArc()
                         sharedElementReturnTransition = DetailsTransitionArc()
@@ -448,14 +465,17 @@ open class BaseActivity : AppCompatActivity(),
                                     // Bottom - reset the padding in portrait
                                     setPadding(0, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_90 -> {
                                     // Left
                                     setPadding(cutoutDepth, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_180 -> {
                                     // Top - reset the padding if upside down
                                     setPadding(0, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_270 -> {
                                     // Right
                                     setPadding(0, 0, cutoutDepth, 0)
@@ -470,14 +490,17 @@ open class BaseActivity : AppCompatActivity(),
                                     // Bottom - reset the padding in portrait
                                     setPadding(0, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_90 -> {
                                     // Left
                                     setPadding(cutoutDepth, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_180 -> {
                                     // Top - reset the padding if upside down
                                     setPadding(0, 0, 0, 0)
                                 }
+
                                 Surface.ROTATION_270 -> {
                                     // Right
                                     setPadding(0, 0, cutoutDepth, 0)
@@ -555,23 +578,29 @@ open class BaseActivity : AppCompatActivity(),
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }
+
             AppearancePreferences.accentColor -> {
                 Log.d("BaseActivity", "Accent color changed")
                 setNavColor(accent = true)
             }
+
             AppearancePreferences.accentOnNav -> {
                 Log.d("BaseActivity", "Accent color changed")
                 setNavColor()
             }
+
             BehaviourPreferences.arcType -> {
                 // setArc()
             }
+
             BehaviourPreferences.transitionType -> {
                 // setTransitions()
             }
+
             DevelopmentPreferences.isNotchAreaEnabled -> {
                 enableNotchArea()
             }
+
             DevelopmentPreferences.enableCustomColorPickerInAccent -> {
                 if (AppearancePreferences.isCustomColor()) {
                     AppearancePreferences.setCustomColor(false)

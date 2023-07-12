@@ -19,6 +19,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
@@ -140,6 +141,14 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
     protected fun showError(error: String) {
         childFragmentManager.showError(error).setOnErrorCallbackListener {
             dismiss()
+        }
+    }
+
+    open fun showWarning(warning: String, dismiss: Boolean = true) {
+        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+            if (dismiss) {
+                dismiss()
+            }
         }
     }
 }
