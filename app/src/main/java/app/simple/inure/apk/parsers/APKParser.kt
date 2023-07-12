@@ -15,7 +15,7 @@ import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.io.IOException
-import java.util.*
+import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -62,6 +62,16 @@ object APKParser {
             }
         }.getOrElse {
             throw ApkParserException("Couldn't fetch GLES version due to error : ${it.message}")
+        }
+    }
+
+    fun File.getMinSDK(): String {
+        kotlin.runCatching {
+            ApkFile(this).use {
+                return it.apkMeta.minSdkVersion.toString()
+            }
+        }.getOrElse {
+            throw ApkParserException("Couldn't fetch min SDK version due to error : ${it.message}")
         }
     }
 
@@ -219,7 +229,7 @@ object APKParser {
     /**
      * Fetch APK's dex data
      */
-    fun File.getDexData(): Array<out DexClass>? {
+    fun File.getDexData(): Array<DexClass> {
         kotlin.runCatching {
             ApkFile(this).use {
                 return it.dexClasses

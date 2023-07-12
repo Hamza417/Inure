@@ -10,12 +10,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
+import app.simple.inure.apk.parsers.APKParser.getDexData
+import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
+import app.simple.inure.apk.parsers.APKParser.getMinSDK
 import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -24,15 +26,12 @@ import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
-import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.text.NumberFormat
 
 class InstallerInformationViewModel(application: Application, private val file: File) : WrappedViewModel(application) {
 
-    private var apkFile: ApkFile? = null
     private var packageInfo: PackageInfo? = null
 
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
@@ -49,11 +48,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun loadInformation() {
         kotlin.runCatching {
-            apkFile = ApkFile(file)
+            packageInfo = packageManager.getPackageArchiveInfo(file)
 
-            if (packageManager.isPackageInstalled(apkFile!!.apkMeta.packageName)) {
-                packageInfo = packageManager.getPackageInfo(apkFile!!.apkMeta.packageName)
-            }
         }.onFailure {
             postError(it)
             return
@@ -81,26 +77,28 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getFeatures())
         //  list.add(getApkPath())
 
-        kotlin.runCatching {
-            apkFile?.close()
-        }
-
         information.postValue(list)
     }
 
     private fun getPackageName(): Pair<Int, Spannable> {
         return Pair(R.string.package_name,
-                    apkFile!!.apkMeta.packageName.applySecondaryTextColor())
+                    packageInfo!!.packageName.applySecondaryTextColor())
     }
 
     private fun getVersion(): Pair<Int, Spannable> {
         return Pair(R.string.version,
-                    apkFile?.apkMeta?.versionName?.applySecondaryTextColor() ?: "N/A".applySecondaryTextColor())
+                    packageInfo!!.versionName?.applySecondaryTextColor() ?: "N/A".applySecondaryTextColor())
     }
 
     private fun getVersionCode(): Pair<Int, Spannable> {
-        return Pair(R.string.version_code,
-                    apkFile!!.apkMeta.versionCode.toString().applySecondaryTextColor())
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Pair(R.string.version_code,
+                 packageInfo!!.longVersionCode.toString().applySecondaryTextColor())
+        } else {
+            @Suppress("DEPRECATION")
+            Pair(R.string.version_code,
+                 packageInfo!!.versionCode.toString().applySecondaryTextColor())
+        }
     }
 
     private fun getApkPath(): Pair<Int, Spannable> {
@@ -110,7 +108,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getGlesVersion(): Pair<Int, Spannable> {
         val glesVersion = kotlin.runCatching {
-            apkFile!!.apkMeta.glEsVersion.toString().ifEmpty { getString(R.string.not_available) }
+            file.getGlEsVersion()
         }.getOrElse {
             getString(R.string.not_available)
         }
@@ -147,16 +145,10 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun getMinSDK(): Pair<Int, Spannable> {
         val minSdk = kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                "${apkFile!!.apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkFile!!.apkMeta.minSdkVersion)}"
+                "${packageInfo!!.applicationInfo.minSdkVersion}," +
+                        " ${SDKHelper.getSdkTitle(packageInfo!!.applicationInfo!!.minSdkVersion)}"
             } else {
-                when (val apkMeta: Any = apkFile!!.apkMeta) {
-                    is ApkMeta -> {
-                        "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
-                    }
-                    else -> {
-                        getString(R.string.not_available)
-                    }
-                }
+                file.getMinSDK()
             }
         }.getOrElse {
             getString(R.string.not_available)
@@ -168,7 +160,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
-            "${apkFile!!.apkMeta.targetSdkVersion}, ${SDKHelper.getSdkTitle(apkFile!!.apkMeta.targetSdkVersion)}"
+            "${packageInfo!!.applicationInfo.targetSdkVersion}, " +
+                    SDKHelper.getSdkTitle(packageInfo!!.applicationInfo.targetSdkVersion)
         }.getOrElse {
             it.message!!
         }
@@ -180,7 +173,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun getMethodCount(): Pair<Int, Spannable> {
         val method = kotlin.runCatching {
             var count = 0
-            val dexClasses: Array<DexClass> = apkFile!!.dexClasses
+            val dexClasses: Array<DexClass> = file.getDexData()
 
             for (i in dexClasses) {
                 count += i.javaClass.methods.size
@@ -221,7 +214,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val features = StringBuilder()
 
         try {
-            for (feature in apkFile!!.apkMeta.usesFeatures) {
+            for (feature in packageInfo!!.reqFeatures) {
                 if (features.isEmpty()) {
                     features.append(feature.name)
                 } else {
