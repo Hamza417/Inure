@@ -25,6 +25,16 @@ object StringUtils {
         }
     }
 
+    fun String.containsAny(chars: CharArray): Boolean {
+        for (char in chars) {
+            if (this.contains(char)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     /**
      * This function is solely used for coloring the path
      * strings in the format of a/y/z and the last index

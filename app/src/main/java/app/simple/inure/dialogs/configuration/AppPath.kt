@@ -15,7 +15,9 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.SDCard
+import app.simple.inure.util.StringUtils.containsAny
 
 class AppPath : ScopedDialogFragment() {
 
@@ -25,6 +27,10 @@ class AppPath : ScopedDialogFragment() {
     private lateinit var save: DynamicRippleTextView
     private lateinit var close: DynamicRippleTextView
     private lateinit var reset: DynamicRippleTextView
+
+    // |\\?*<\":>+[]/'"
+    private val reservedCharactersAndroid =
+        charArrayOf('|', '\\', '?', '*', '<', '\"', ':', '>', '+', '[', ']', '/', '\'')
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_app_path, container, false)
@@ -48,15 +54,26 @@ class AppPath : ScopedDialogFragment() {
 
         editText.doOnTextChanged { text, _, _, _ ->
             pathInfo.text = PackageData.getPackageDir(requireContext(), text.toString())?.absolutePath
+
+            if (text.toString().containsAny(reservedCharactersAndroid)) {
+                pathInfo.error = "Invalid path: ${pathInfo.text} "
+            } else {
+                pathInfo.error = null
+            }
         }
 
         save.setOnClickListener {
             kotlin.runCatching {
-                PackageData.makePackageFolder(requireContext(), editText.text.toString())
-                ConfigurationPreferences.setAppPath(editText.text.toString())
-                dismiss()
+                if (editText.text.toString().containsAny(reservedCharactersAndroid).invert()) {
+                    PackageData.makePackageFolder(requireContext(), editText.text.toString())
+                    ConfigurationPreferences.setAppPath(editText.text.toString())
+                    dismiss()
+                } else {
+                    showWarning("Invalid path: ${pathInfo.text} ", dismiss = false)
+                }
             }.onFailure {
                 pathInfo.error = it.localizedMessage
+                showWarning("ERR: ${it.message ?: it.javaClass.name ?: "unknown error"} ", dismiss = false)
             }
         }
 
