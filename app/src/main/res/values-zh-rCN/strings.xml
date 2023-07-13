@@ -694,4 +694,6 @@
     <string name="unblock">取消屏蔽</string>
     <string name="undo">撤消</string>
     <string name="redo">重做</string>
+    <string name="external_storage">外部存储</string>
+    <string name="external_storage_desc">同时扫描外部存储</string>
 </resources>
