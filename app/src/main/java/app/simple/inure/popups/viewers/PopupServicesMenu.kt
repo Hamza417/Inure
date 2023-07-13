@@ -1,9 +1,9 @@
 package app.simple.inure.popups.viewers
 
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
@@ -28,7 +28,7 @@ class PopupServicesMenu(view: View, isComponentEnabled: Boolean) : BasePopupWind
             componentState.onClick(it)
         }
 
-        init(contentView, view, Gravity.END)
+        init(contentView, view, Misc.xOffset, Misc.yOffset)
 
         setOnDismissListener {
             popupMainMenuCallbacks.onDismiss()

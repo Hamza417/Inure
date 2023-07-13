@@ -65,7 +65,7 @@ class BootManager : ScopedFragment() {
                 }
 
                 override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
-                    PopupBootManager(view).setOnPopupBootManagerCallbacks(object : PopupBootManager.Companion.PopupBootManagerCallbacks {
+                    PopupBootManager(requireView()).setOnPopupBootManagerCallbacks(object : PopupBootManager.Companion.PopupBootManagerCallbacks {
                         override fun onEnableAllClicked() {
                             showLoader(manualOverride = true).also {
                                 bootManagerViewModel?.enableAllComponents(bootManagerModel.copy(), position)

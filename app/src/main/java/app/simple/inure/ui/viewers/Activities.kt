@@ -65,13 +65,14 @@ class Activities : SearchBarScopedFragment() {
 
                 override fun onActivityLongPressed(activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo, icon: View, position: Int) {
                     val isEnabled = ActivityUtils.isEnabled(requireContext(), packageInfo.packageName, activityInfoModel.name)
-                    PopupActivitiesMenu(icon, isEnabled).setOnMenuClickListener(object : PopupMenuCallback {
+                    PopupActivitiesMenu(requireView(), isEnabled).setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.force_launch) -> {
                                     ActivityLauncher.newInstance(packageInfo, activityInfoModel.name)
                                         .show(childFragmentManager, "activity_launcher")
                                 }
+
                                 getString(R.string.force_launch_with_action) -> {
                                     IntentAction.newInstance(packageInfo, activityInfoModel.name)
                                         .show(childFragmentManager, "intent_action")

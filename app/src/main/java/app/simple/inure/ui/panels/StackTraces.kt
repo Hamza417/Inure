@@ -51,7 +51,7 @@ class StackTraces : ScopedFragment() {
                 }
 
                 override fun onStackTraceLongClicked(stackTrace: StackTrace, view: View, position: Int) {
-                    PopupStackTracesMenu(view).setOnPopupStackTracesCallbacks(object : PopupStackTracesCallbacks {
+                    PopupStackTracesMenu(requireView()).setOnPopupStackTracesCallbacks(object : PopupStackTracesCallbacks {
                         override fun onDelete() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {

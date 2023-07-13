@@ -60,9 +60,7 @@ class Receivers : SearchBarScopedFragment() {
                 }
 
                 override fun onReceiverLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val popupReceiversMenu = PopupReceiversMenu(icon, isComponentEnabled)
-
-                    popupReceiversMenu.setOnMenuClickListener(object : PopupMenuCallback {
+                    PopupReceiversMenu(icon, isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.enable), getString(R.string.disable) -> {

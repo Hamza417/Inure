@@ -28,6 +28,12 @@ open class BasePopupWindow : PopupWindow() {
         showAsDropDown(viewGroup, xOff.toInt() - width / 2, yOff.toInt() - height, Gravity.START)
     }
 
+    fun init(contentView: View, view: View, xOff: Float, yOff: Float) {
+        setContentView(contentView)
+        init()
+        showAsDropDown(view, xOff.toInt().minus(width.div(2)), yOff.toInt().minus(height.div(2)))
+    }
+
     fun init(contentView: View, view: View) {
         setContentView(contentView)
         init()
@@ -48,7 +54,7 @@ open class BasePopupWindow : PopupWindow() {
         animationStyle = R.style.PopupAnimation
         isClippingEnabled = false
         isFocusable = true
-        elevation = 40F
+        elevation = 20F
 
         ViewUtils.addShadow(contentView)
 
@@ -62,13 +68,19 @@ open class BasePopupWindow : PopupWindow() {
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {
         super.showAsDropDown(anchor, xoff, yoff, gravity)
-        valueAnimator = animateElevation(50F)
+        valueAnimator = animateElevation(20F)
+        dimBehind(contentView)
+    }
+
+    override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int) {
+        super.showAsDropDown(anchor, xoff, yoff)
+        valueAnimator = animateElevation(20F)
         dimBehind(contentView)
     }
 
     override fun showAsDropDown(anchor: View?) {
         super.showAsDropDown(anchor)
-        valueAnimator = animateElevation(50F)
+        valueAnimator = animateElevation(20F)
         dimBehind(contentView)
     }
 

@@ -55,7 +55,7 @@ class TerminalCommands : ScopedFragment() {
                 }
 
                 override fun onCommandLongClicked(terminalCommand: TerminalCommand?, view: View, position: Int) {
-                    PopupTerminalCommands(view).setOnPopupNotesMenuCallbackListener(object : PopupTerminalCommands.Companion.PopupTerminalCommandsCallbacks {
+                    PopupTerminalCommands(requireView()).setOnPopupNotesMenuCallbackListener(object : PopupTerminalCommands.Companion.PopupTerminalCommandsCallbacks {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {

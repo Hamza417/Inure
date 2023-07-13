@@ -60,9 +60,7 @@ class Services : SearchBarScopedFragment() {
                 }
 
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    val v = PopupServicesMenu(icon, isComponentEnabled)
-
-                    v.setOnMenuClickListener(object : PopupMenuCallback {
+                    PopupServicesMenu(requireView(), isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
                         override fun onMenuItemClicked(source: String) {
                             when (source) {
                                 getString(R.string.enable), getString(R.string.disable) -> {

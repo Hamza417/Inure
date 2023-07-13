@@ -101,7 +101,7 @@ class APKs : ScopedFragment() {
                 }
 
                 override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
-                    PopupApkBrowser(view).setPopupApkBrowserCallbacks(object : PopupApkBrowser.Companion.PopupApkBrowserCallbacks {
+                    PopupApkBrowser(requireView()).setPopupApkBrowserCallbacks(object : PopupApkBrowser.Companion.PopupApkBrowserCallbacks {
                         override fun onInstallClicked() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,

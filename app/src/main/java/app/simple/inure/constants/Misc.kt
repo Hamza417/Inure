@@ -11,6 +11,9 @@ object Misc {
     const val blurRadius = 16F
     const val dimAmount = 0.75F
 
+    var xOffset = 0F
+    var yOffset = 0F
+
     // Hover props
     const val hoverAnimationDuration = 250L
     const val hoverAnimationDampingRatio = SpringForce.DAMPING_RATIO_NO_BOUNCY

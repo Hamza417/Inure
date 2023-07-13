@@ -8,11 +8,13 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
@@ -332,6 +334,17 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        /**
+         * Store the touch coordinates
+         */
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            Misc.xOffset = ev.rawX
+            Misc.yOffset = ev.rawY
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     /**

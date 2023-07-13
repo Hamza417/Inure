@@ -66,7 +66,7 @@ class Notes : ScopedFragment() {
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {
-                    PopupNotesMenu(view).setOnPopupNotesMenuCallbackListener(object : PopupNotesMenu.Companion.PopupNotesMenuCallback {
+                    PopupNotesMenu(requireView()).setOnPopupNotesMenuCallbackListener(object : PopupNotesMenu.Companion.PopupNotesMenuCallback {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
