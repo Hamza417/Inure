@@ -3,7 +3,6 @@ package app.simple.inure.decorations.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -115,13 +114,14 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         return (AdapterBottomMenu) super.getAdapter();
     }
     
-    public void initBottomMenuWithRecyclerView(ArrayList <Pair <Integer, Integer>> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
+    public void initBottomMenuWithRecyclerView(ArrayList <Pair <Integer,
+            Integer>> bottomMenuItems, RecyclerView recyclerView, BottomMenuCallbacks bottomMenuCallbacks) {
         if (isInitialized) {
             return;
         }
-    
+        
         initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
-    
+        
         /*
          * Rather than clearing all scroll listeners at once, which will break other
          * features of the app such as Fast Scroller, we will use a boolean to check
@@ -140,13 +140,21 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                             // setTranslationY(dy);
                             setContainerVisibility(dy, true);
                         }
-            
+    
                         @Override
                         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                             super.onScrollStateChanged(recyclerView, newState);
                             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                                 if (getTranslationY() > 0) {
-                                    if (recyclerView.canScrollVertically(1)) {
+                                    if (recyclerView.getAdapter().getItemCount() > 6) {
+                                        if (recyclerView.canScrollVertically(1)) {
+                                            animate()
+                                                    .translationY(0)
+                                                    .setDuration(250)
+                                                    .setInterpolator(new DecelerateInterpolator())
+                                                    .start();
+                                        }
+                                    } else {
                                         animate()
                                                 .translationY(0)
                                                 .setDuration(250)
@@ -165,7 +173,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                             }
                         }
                     });
-        
+    
                     isScrollListenerAdded = true;
                 }
             }
@@ -201,7 +209,6 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             
             isBottomMenuVisible = false;
         } else if (dy < 0 && !isBottomMenuVisible) {
-            Log.d(TAG, "setContainerVisibility: " + dy);
             if (animate) {
                 animate()
                         .translationY(0)

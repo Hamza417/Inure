@@ -67,7 +67,9 @@ class ApkIconFetcher internal constructor(private val apkIcon: ApkIcon) : DataFe
                     }
                 }
             }.onFailure {
-                val p0 = ApkFile(apkIcon.file).allIcons
+                val p0 = ApkFile(apkIcon.file).use {
+                    it.allIcons
+                }
                 callback.onDataReady(BitmapFactory.decodeStream(ByteArrayInputStream(p0.last().data)))
             }
         }.getOrElse {
