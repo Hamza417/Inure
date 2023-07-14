@@ -205,12 +205,10 @@ public class Term extends BaseActivity implements UpdateCallback,
             int actionBarMode = settings.actionBarMode();
             this.actionBarMode = actionBarMode;
             switch (actionBarMode) {
-                case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE:
-                    setTheme(R.style.Theme_AppCompat_DayNight_DarkActionBar);
-                    break;
-                case TermSettings.ACTION_BAR_MODE_HIDES:
-                    setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
-                    break;
+                case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE ->
+                        setTheme(R.style.Theme_AppCompat_DayNight_DarkActionBar);
+                case TermSettings.ACTION_BAR_MODE_HIDES ->
+                        setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
             }
         } else {
             actionBarMode = TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE;
@@ -234,41 +232,33 @@ public class Term extends BaseActivity implements UpdateCallback,
     
             terminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
-                    case 0: {
+                    case 0 -> {
                         startActivityForResult(new Intent(Term.this, WindowList.class), REQUEST_CHOOSE_WINDOW);
-                        break;
                     }
-                    case 1: {
+                    case 1 -> {
                         doToggleSoftKeyboard();
-                        break;
                     }
-                    case 2: {
+                    case 2 -> {
                         TerminalSpecialKeys.Companion.newInstance()
                                 .show(getSupportFragmentManager(), "special_keys");
-                        break;
                     }
-                    case 3: {
+                    case 3 -> {
                         doPreferences();
-                        break;
                     }
-                    case 4: {
+                    case 4 -> {
                         doResetTerminal();
                         Toast toast = Toast.makeText(getBaseContext(), R.string.reset_toast_notification, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
-                        break;
                     }
-                    case 5: {
+                    case 5 -> {
                         doCopyAll();
-                        break;
                     }
-                    case 6: {
+                    case 6 -> {
                         doToggleWakeLock();
-                        break;
                     }
-                    case 7: {
+                    case 7 -> {
                         doToggleWifiLock();
-                        break;
                     }
                 }
             });
@@ -715,15 +705,14 @@ public class Term extends BaseActivity implements UpdateCallback,
         // huge number simply opens new window
         // TODO: add a way to restrict max number of windows per caller (possibly via reusing BoundSession)
         switch (action) {
-            case RemoteInterface.PRIVACT_OPEN_NEW_WINDOW:
-                onResumeSelectWindow = Integer.MAX_VALUE;
-                break;
-            case RemoteInterface.PRIVACT_SWITCH_WINDOW:
+            case RemoteInterface.PRIVACT_OPEN_NEW_WINDOW ->
+                    onResumeSelectWindow = Integer.MAX_VALUE;
+            case RemoteInterface.PRIVACT_SWITCH_WINDOW -> {
                 int target = intent.getIntExtra(RemoteInterface.PRIVEXTRA_TARGET_WINDOW, -1);
                 if (target >= 0) {
                     onResumeSelectWindow = target;
                 }
-                break;
+            }
         }
     }
     

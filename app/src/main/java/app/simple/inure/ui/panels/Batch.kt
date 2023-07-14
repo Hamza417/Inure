@@ -17,6 +17,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
+import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceStop
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
@@ -222,15 +223,24 @@ class Batch : ScopedFragment() {
                         }
                     }
                 }
+
                 R.drawable.ic_settings_power -> {
                     childFragmentManager.showBatchBatteryOptimization(adapterBatch?.getCurrentAppsList()!!)
                 }
+
                 R.drawable.ic_checklist -> {
                     openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
                 }
+
                 R.drawable.ic_refresh -> {
                     showLoader(manualOverride = true)
                     batchViewModel.refreshPackageData()
+                }
+
+                R.drawable.ic_close -> {
+                    onSure {
+                        childFragmentManager.showBatchForceStop(adapterBatch?.getCurrentAppsList()!!)
+                    }
                 }
             }
         }

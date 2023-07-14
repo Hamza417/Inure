@@ -8,6 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.util.ViewUtils.gone
 
 open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
 
@@ -40,7 +41,11 @@ open class ScopedActionDialogBottomFragment : ScopedBottomSheetFragment() {
             method.setText(R.string.package_manager)
         }
 
-        packageName.text = packageInfo.packageName
+        try {
+            packageName.text = packageInfo.packageName
+        } catch (e: UninitializedPropertyAccessException) {
+            packageName.gone()
+        }
     }
 
     open fun getLayoutViewId(): Int {

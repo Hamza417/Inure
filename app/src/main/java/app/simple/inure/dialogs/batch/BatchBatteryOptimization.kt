@@ -13,7 +13,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.InureRadioButton
 import app.simple.inure.dialogs.app.Result.Companion.showResult
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.factories.actions.BatchBatteryOptimizationFactory
+import app.simple.inure.factories.batch.BatchAppsFactory
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import app.simple.inure.viewmodels.dialogs.BatchBatteryOptimizationViewModel
@@ -28,11 +28,11 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
     private lateinit var cancel: DynamicRippleTextView
 
     private var batchBatteryOptimizationViewModel: BatchBatteryOptimizationViewModel? = null
-    private var batchBatteryOptimizationFactory: BatchBatteryOptimizationFactory? = null
+    private var batchAppsFactory: BatchAppsFactory? = null
     private var batteryOptimizationViewModel: BatteryOptimizationViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_battery_optimization_batch, container, false)
+        val view = inflater.inflate(R.layout.dialog_batch_battery_optimization, container, false)
 
         totalApps = view.findViewById(R.id.total_apps)
         optimize = view.findViewById(R.id.optimize_rb)
@@ -40,8 +40,8 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
         set = view.findViewById(R.id.set)
         cancel = view.findViewById(R.id.cancel)
 
-        batchBatteryOptimizationFactory = BatchBatteryOptimizationFactory(requireArguments().parcelableArrayList(BundleConstants.batchBatteryOptimization)!!)
-        batchBatteryOptimizationViewModel = ViewModelProvider(this, batchBatteryOptimizationFactory!!)[BatchBatteryOptimizationViewModel::class.java]
+        batchAppsFactory = BatchAppsFactory(requireArguments().parcelableArrayList(BundleConstants.batchBatteryOptimization)!!)
+        batchBatteryOptimizationViewModel = ViewModelProvider(this, batchAppsFactory!!)[BatchBatteryOptimizationViewModel::class.java]
         batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
 
         return view

@@ -159,7 +159,6 @@ class APKs : ScopedFragment() {
                                         packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                             requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                         } else {
-                                            @Suppress("DEPRECATION")
                                             requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                         }
 

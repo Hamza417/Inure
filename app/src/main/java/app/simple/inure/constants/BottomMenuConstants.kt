@@ -115,6 +115,7 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_hide_source, R.string.state),
                 Pair(R.drawable.ic_delete, R.string.uninstall),
+                Pair(R.drawable.ic_close, R.string.force_stop),
                 // Pair(R.drawable.ic_share, R.string.share),
                 Pair(R.drawable.ic_downloading, R.string.extract),
                 Pair(R.drawable.ic_text_snippet, R.string.data),
