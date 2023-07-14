@@ -64,16 +64,20 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
 
         try {
             // RSA Public Key
-            list.add(Pair(R.string.public_key, ("RSA" +
+            list.add(Pair(R.string.public_key, (
                     cert.publicKey.toString()
                         .split("=").toTypedArray()[1]
                         .split(",").toTypedArray()[0]).applySecondaryTextColor()))
+
+            list.add(Pair(R.string.public_key_type, "RSA (Rivest–Shamir–Adleman)".applyAccentColor()))
         } catch (e: ArrayIndexOutOfBoundsException) {
             // DSA Public Key
-            list.add(Pair(R.string.public_key, ("DSA" +
+            list.add(Pair(R.string.public_key, (
                     cert.publicKey.toString()
                         .split("Y:").toTypedArray()[1]
                         .trim()).applySecondaryTextColor()))
+
+            list.add(Pair(R.string.public_key_type, "DSA (Digital Signature Algorithm)".applyAccentColor()))
         }
 
         list.add(Pair(R.string.valid_from, cert.notBefore.toString().applyAccentColor()))
