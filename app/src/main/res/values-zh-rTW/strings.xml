@@ -694,4 +694,7 @@
     <string name="unblock">解除封鎖</string>
     <string name="undo">復原</string>
     <string name="redo">重做</string>
+    <string name="external_storage">外部儲存空間</string>
+    <string name="external_storage_desc">掃描時一併包含外部儲存空間。</string>
+    <string name="public_key_type">公開金鑰類型</string>
 </resources>
