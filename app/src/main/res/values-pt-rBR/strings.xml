@@ -696,4 +696,5 @@
     <string name="redo">Refazer</string>
     <string name="external_storage">Armazenamento Externo</string>
     <string name="external_storage_desc">Inclua também o armazenamento externo durante o escaneamento.</string>
+    <string name="public_key_type">Tipo de Chave Pública</string>
 </resources>
