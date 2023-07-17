@@ -88,7 +88,7 @@ class Apps : ScopedFragment() {
                                 appsViewModel.generateAppsData(it)
                             }
 
-                            appsViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
+                            appsViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
                                     hideLoader()
                                     when {

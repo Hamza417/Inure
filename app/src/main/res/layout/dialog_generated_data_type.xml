@@ -10,236 +10,139 @@
 
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/popup_item_gap_length"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+        android:clipChildren="true"
+        android:clipToPadding="true"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
-        android:padding="@dimen/dialog_padding">
+        android:padding="@dimen/dialog_padding"
+        android:layout_height="wrap_content">
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/popup_item_gap_length"
-            android:paddingHorizontal="@dimen/popup_padding"
-            android:text="@string/mandatory"
-            app:appFontStyle="medium"
-            app:textColorStyle="accent" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
+            android:orientation="vertical">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/name"
-                android:textSize="@dimen/desc_text_size"
+                android:text="@string/required"
+                android:textSize="@dimen/preferences_title_text_size"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/name_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/required_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:checkedChip="@id/name"
+                app:chipSpacingHorizontal="5dp"
+                app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+                app:selectionRequired="true"
+                app:singleSelection="false">
 
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/package_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/popup_item_gap_length"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/package_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/package_name" />
+
+            </com.google.android.material.chip.ChipGroup>
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/package_name"
-                android:textSize="@dimen/desc_text_size"
+                android:text="@string/optional"
+                android:textSize="@dimen/preferences_title_text_size"
+                android:layout_marginTop="5dp"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/package_name_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/optional_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="5dp"
+                app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+                app:selectionRequired="false"
+                app:singleSelection="false">
 
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/version" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="@dimen/popup_item_gap_length"
-            android:paddingHorizontal="@dimen/popup_padding"
-            android:text="@string/optional"
-            app:appFontStyle="medium"
-            app:textColorStyle="accent" />
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/install_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/install_date" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/version"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/update_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/update_date" />
+
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/min_sdk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minimum_sdk" />
+
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/target_sdk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/target_sdk" />
+
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_size" />
+
+            </com.google.android.material.chip.ChipGroup>
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/version"
-                android:textSize="@dimen/desc_text_size"
+                android:text="@string/link"
+                android:textSize="@dimen/preferences_title_text_size"
+                android:layout_marginTop="5dp"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/version_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
-
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
-
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/install_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/popup_item_gap_length"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/link_chip_group"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/install_date"
-                android:textSize="@dimen/desc_text_size"
-                app:appFontStyle="bold"
-                app:textColorStyle="primary" />
+                app:chipSpacingHorizontal="5dp"
+                app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+                app:selectionRequired="false"
+                app:singleSelection="false">
 
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/install_date_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/play_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/play_store" />
 
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/fdroid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fdroid" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/update_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/popup_item_gap_length"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
+            </com.google.android.material.chip.ChipGroup>
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/update_date"
-                android:textSize="@dimen/desc_text_size"
-                app:appFontStyle="bold"
-                app:textColorStyle="primary" />
-
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/update_date_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
-
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="@dimen/popup_item_gap_length"
-            android:paddingHorizontal="@dimen/popup_padding"
-            android:text="@string/link"
-            app:appFontStyle="medium"
-            app:textColorStyle="accent" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/play_store"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/popup_padding"
-                android:layout_weight="1"
-                android:drawablePadding="5dp"
-                android:text="@string/play_store"
-                android:textSize="@dimen/desc_text_size"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_link_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="primary" />
-
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/play_store_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
-
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
-
-        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-            android:id="@+id/fdroid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/popup_item_gap_length"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/popup_padding"
-                android:layout_weight="1"
-                android:drawablePadding="5dp"
-                android:text="@string/fdroid"
-                android:textSize="@dimen/desc_text_size"
-                app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_link_tiny"
-                app:drawableTintStyle="accent"
-                app:textColorStyle="primary" />
-
-            <app.simple.inure.decorations.checkbox.InureCheckBox
-                android:id="@+id/fdroid_checkbox"
-                android:layout_width="@dimen/checkbox_dimensions"
-                android:layout_height="@dimen/checkbox_dimensions" />
-
-        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+        </LinearLayout>
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,10 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.GeneratedDataPreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.FileSizeHelper.getDirectorySize
+import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FlagUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,11 +26,13 @@ import java.io.OutputStreamWriter
 
 open class DataGeneratorViewModel(application: Application) : PackageUtilsViewModel(application) {
 
+    private val flags = GeneratedDataPreferences.getGeneratorFlags()
+
     private val generatedAppDataPath: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
-    fun getGeneratedAppData(): LiveData<String> {
+    fun getGeneratedDataPath(): LiveData<String> {
         return generatedAppDataPath
     }
 
@@ -95,25 +102,37 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             // Generate xml
             stringBuilder.append("\n\t<app>\n")
 
-            if (GeneratedDataPreferences.isGeneratedName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
                 stringBuilder.append("\t\t<name>${app.applicationInfo.name}</name>\n")
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\t\t<package_name>${app.packageName}</package_name>\n")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append("\t\t<version_name>${app.versionName}</version_name>\n")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
                 stringBuilder.append("\t\t<first_install_time>${app.firstInstallTime.toDate()}</first_install_time>\n")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
                 stringBuilder.append("\t\t<last_update_time>${app.lastUpdateTime.toDate()}</last_update_time>\n")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                    stringBuilder.append("\t\t<minimum_sdk>${app.applicationInfo.minSdkVersion}</minimum_sdk>\n")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                stringBuilder.append("\t\t<target_sdk>${app.applicationInfo.targetSdkVersion}</target_sdk>\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
+                stringBuilder.append("\t\t<size>${app.getSize()}</size>\n")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
                 stringBuilder.append("\t\t<play_store_link>https://play.google.com/store/apps/details?id=${app.packageName}</play_store_link>\n")
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t<fdroid_link>https://f-droid.org/en/packages/${app.packageName}</fdroid_link>\n")
 
             stringBuilder.append("\t<app>\n")
@@ -132,25 +151,37 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
         for (i in apps.indices) {
             stringBuilder.append("\n\n")
-            if (GeneratedDataPreferences.isGeneratedName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
                 stringBuilder.append("Name: ${apps[i].applicationInfo.name}\n")
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append(apps[i].applicationInfo.packageName + "\n")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append(apps[i].versionName + "\n")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
                 stringBuilder.append(apps[i].firstInstallTime.toDate() + "\n")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
                 stringBuilder.append(apps[i].lastUpdateTime.toDate() + "\n")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                    stringBuilder.append(apps[i].applicationInfo.minSdkVersion.toString() + "\n")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                stringBuilder.append(apps[i].applicationInfo.targetSdkVersion.toString() + "\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
+                stringBuilder.append("${apps[i].getSize()}\n")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
                 stringBuilder.append("https://play.google.com/store/apps/details?id=${apps[i].packageName}\n")
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("https://f-droid.org/en/packages/${apps[i].packageName}\n")
         }
 
@@ -171,35 +202,48 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         for (app in apps) {
             stringBuilder.append("\n\t\t{")
 
-            if (GeneratedDataPreferences.isGeneratedName()) {
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME)) {
                 stringBuilder.append("\n\t\t\t\"name\": \"${app.applicationInfo.name}\",")
             }
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME)) {
                 stringBuilder.append("\n\t\t\t\"package_name\": \"${app.packageName}\",")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
-                stringBuilder.append("\n\t\t\t\"version_name\": \"${app.versionName}\",")
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
+                    stringBuilder.append("\n\t\t\t\"version_name\": \"${app.versionName}\",")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
-                stringBuilder.append("\n\t\t\t\"first_install_time\": \"${app.firstInstallTime.toDate()}\",")
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
+                    stringBuilder.append("\n\t\t\t\"first_install_time\": \"${app.firstInstallTime.toDate()}\",")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
-                stringBuilder.append("\n\t\t\t\"last_update_time\": \"${app.lastUpdateTime.toDate()}\",")
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
+                    stringBuilder.append("\n\t\t\t\"last_update_time\": \"${app.lastUpdateTime.toDate()}\",")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
-                stringBuilder.append("\n\t\t\t\"play_store_link\": \"https://play.google.com/store/apps/details?id=${app.packageName}\",")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                        stringBuilder.append("\n\t\t\t\"minimum_sdk\": \"${app.applicationInfo.minSdkVersion}\",")
+                }
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
-                stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\"")
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                    stringBuilder.append("\n\t\t\t\"target_sdk\": \"${app.applicationInfo.targetSdkVersion}\",")
 
-            stringBuilder.append("\n\t\t},")
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
+                    stringBuilder.append("\n\t\t\t\"size\": \"${app.getSize()}\",")
+                }
+
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
+                    stringBuilder.append("\n\t\t\t\"play_store_link\": \"https://play.google.com/store/apps/details?id=${app.packageName}\",")
+
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
+                    stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\"")
+
+                stringBuilder.append("\n\t\t},")
+            }
+
+            stringBuilder.append("\n\t]")
+            stringBuilder.append("\n}")
+
+            stringBuilder.append("\n")
         }
-
-        stringBuilder.append("\n\t]")
-        stringBuilder.append("\n}")
-
-        stringBuilder.append("\n")
 
         return stringBuilder
     }
@@ -208,49 +252,71 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         val stringBuilder = StringBuilder()
 
         // Create csv headers first
-        if (GeneratedDataPreferences.isGeneratedName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
             stringBuilder.append("\"Name,\"")
 
-        if (GeneratedDataPreferences.isGeneratedPackageName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
             stringBuilder.append("\"Package Name,\"")
 
-        if (GeneratedDataPreferences.isGeneratedVersion())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
             stringBuilder.append("\"Version Name,\"")
 
-        if (GeneratedDataPreferences.isGeneratedInstallDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
             stringBuilder.append("\"First Install Time,\"")
 
-        if (GeneratedDataPreferences.isGeneratedUpdateDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
             stringBuilder.append("\"Last Update Time,\"")
 
-        if (GeneratedDataPreferences.isGeneratedPlayStore())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                stringBuilder.append("\"Minimum SDK,\"")
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+            stringBuilder.append("\"Target SDK,\"")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+            stringBuilder.append("\"Size,\"")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
             stringBuilder.append("\"Play Store Link,\"")
 
-        if (GeneratedDataPreferences.isGeneratedFdroid())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\"F-Droid Link,\"")
 
         stringBuilder.append("\n")
 
         for (app in apps) {
-            if (GeneratedDataPreferences.isGeneratedName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
                 stringBuilder.append("\"${app.applicationInfo.name}\",")
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\"${app.packageName}\",")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append("\"${app.versionName}\",")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
                 stringBuilder.append("\"${app.firstInstallTime.toDate()}\",")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
                 stringBuilder.append("\"${app.lastUpdateTime.toDate()}\",")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                    stringBuilder.append("\"${app.applicationInfo.minSdkVersion}\",")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                stringBuilder.append("\"${app.applicationInfo.targetSdkVersion}\",")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+                stringBuilder.append("\"${app.getSize()}\",")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
                 stringBuilder.append("\"https://play.google.com/store/apps/details?id=${app.packageName}\",")
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\"https://f-droid.org/en/packages/${app.packageName}\",")
 
             stringBuilder.append("\n")
@@ -318,25 +384,36 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         // Add serial number
         stringBuilder.append("\t\t\t<th style=\"width:5%\">S. No.</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
             stringBuilder.append("\t\t\t<th>Name</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedPackageName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
             stringBuilder.append("\t\t\t<th>Package Name</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedVersion())
-            stringBuilder.append("\t\t\t<th>Version Name</th>\r\n")
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
+            stringBuilder.append("\t\t\t<th>Version</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedInstallDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
             stringBuilder.append("\t\t\t<th>First Install Time</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedUpdateDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
             stringBuilder.append("\t\t\t<th>Last Update Time</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedPlayStore())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                stringBuilder.append("\t\t\t<th>Minimum SDK</th>\r\n")
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+            stringBuilder.append("\t\t\t<th>Target SDK</th>\r\n")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+            stringBuilder.append("\t\t\t<th>Size</th>\r\n")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
             stringBuilder.append("\t\t\t<th>Play Store Link</th>\r\n")
 
-        if (GeneratedDataPreferences.isGeneratedFdroid())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\t\t\t<th>F-Droid Link</th>\r\n")
 
         stringBuilder.append("\t\t</tr>\r\n")
@@ -347,25 +424,36 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             // Add serial number
             stringBuilder.append("\t\t\t<td>${apps.indexOf(app) + 1}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
                 stringBuilder.append("\t\t\t<td>${app.applicationInfo.name}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\t\t\t<td>${app.packageName}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append("\t\t\t<td>${app.versionName}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
                 stringBuilder.append("\t\t\t<td>${app.firstInstallTime.toDate()}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
                 stringBuilder.append("\t\t\t<td>${app.lastUpdateTime.toDate()}</td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                    stringBuilder.append("\t\t\t<td>${app.applicationInfo.minSdkVersion}</td>\r\n")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                stringBuilder.append("\t\t\t<td>${app.applicationInfo.targetSdkVersion}</td>\r\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+                stringBuilder.append("\t\t\t<td>${app.getSize()}</td>\r\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
                 stringBuilder.append("\t\t\t<td><a href=\"https://play.google.com/store/apps/details?id=${app.packageName}\">Play Store</a></td>\r\n")
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t\t<td><a href=\"https://f-droid.org/en/packages/${app.packageName}\">F-Droid</a></td>\r\n")
 
             stringBuilder.append("\t\t</tr>\r\n")
@@ -391,50 +479,72 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         // Add serial number
         stringBuilder.append(" S. No. |")
 
-        if (GeneratedDataPreferences.isGeneratedName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
             stringBuilder.append(" Name |")
 
-        if (GeneratedDataPreferences.isGeneratedPackageName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
             stringBuilder.append(" Package Name |")
 
-        if (GeneratedDataPreferences.isGeneratedVersion())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
             stringBuilder.append(" Version Name |")
 
-        if (GeneratedDataPreferences.isGeneratedInstallDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
             stringBuilder.append(" First Install Time |")
 
-        if (GeneratedDataPreferences.isGeneratedUpdateDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
             stringBuilder.append(" Last Update Time |")
 
-        if (GeneratedDataPreferences.isGeneratedPlayStore())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                stringBuilder.append(" Minimum SDK |")
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+            stringBuilder.append(" Target SDK |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+            stringBuilder.append(" Size |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
             stringBuilder.append(" Play Store Link |")
 
-        if (GeneratedDataPreferences.isGeneratedFdroid())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append(" F-Droid Link |")
 
         stringBuilder.append("\r\n")
 
         stringBuilder.append("|")
 
-        if (GeneratedDataPreferences.isGeneratedName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedPackageName())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedVersion())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedInstallDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedUpdateDate())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedPlayStore())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                stringBuilder.append(" --- |")
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
             stringBuilder.append(" --- |")
 
-        if (GeneratedDataPreferences.isGeneratedFdroid())
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+            stringBuilder.append(" --- |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
+            stringBuilder.append(" --- |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append(" --- |")
 
         stringBuilder.append("\r\n")
@@ -445,25 +555,36 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             // Add serial number
             stringBuilder.append(" ${apps.indexOf(app) + 1} |")
 
-            if (GeneratedDataPreferences.isGeneratedName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
                 stringBuilder.append(" ${app.applicationInfo.name} |")
 
-            if (GeneratedDataPreferences.isGeneratedPackageName())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append(" ${app.packageName} |")
 
-            if (GeneratedDataPreferences.isGeneratedVersion())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append(" ${app.versionName} |")
 
-            if (GeneratedDataPreferences.isGeneratedInstallDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE))
                 stringBuilder.append(" ${app.firstInstallTime.toDate()} |")
 
-            if (GeneratedDataPreferences.isGeneratedUpdateDate())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE))
                 stringBuilder.append(" ${app.lastUpdateTime.toDate()} |")
 
-            if (GeneratedDataPreferences.isGeneratedPlayStore())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
+                    stringBuilder.append(" ${app.applicationInfo.minSdkVersion} |")
+            }
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
+                stringBuilder.append(" ${app.applicationInfo.targetSdkVersion} |")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
+                stringBuilder.append(" ${app.getSize()} |")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE))
                 stringBuilder.append(" [Play Store](https://play.google.com/store/apps/details?id=${app.packageName}) |")
 
-            if (GeneratedDataPreferences.isGeneratedFdroid())
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append(" [F-Droid](https://f-droid.org/en/packages/${app.packageName}) |")
 
             stringBuilder.append("\r\n")
@@ -477,5 +598,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
     fun clearGeneratedAppsDataLiveData() {
         generatedAppDataPath.postValue(null)
+    }
+
+    private fun PackageInfo.getSize(): String {
+        val appSize = applicationInfo.sourceDir.toFile().length()
+        val splitSourceDirs = applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
+
+        return (appSize + splitSourceDirs).toSize()
     }
 }

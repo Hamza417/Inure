@@ -2,37 +2,24 @@ package app.simple.inure.dialogs.miscellaneous
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.dialog.GeneratedDataCallbacks
 import app.simple.inure.popups.app.PopupGeneratedDataFormat
 import app.simple.inure.preferences.GeneratedDataPreferences
+import app.simple.inure.util.FlagUtils
+import com.google.android.material.chip.ChipGroup
 
 class GenerateAppData : ScopedBottomSheetFragment() {
 
-    private lateinit var name: DynamicRippleLinearLayout
-    private lateinit var packageName: DynamicRippleLinearLayout
-    private lateinit var version: DynamicRippleLinearLayout
-    private lateinit var installDate: DynamicRippleLinearLayout
-    private lateinit var updateDate: DynamicRippleLinearLayout
-    private lateinit var playStore: DynamicRippleLinearLayout
-    private lateinit var fdroid: DynamicRippleLinearLayout
-
-    private lateinit var nameCheckBox: InureCheckBox
-    private lateinit var packageNameCheckBox: InureCheckBox
-    private lateinit var versionCheckBox: InureCheckBox
-    private lateinit var installDateCheckBox: InureCheckBox
-    private lateinit var updateDateCheckBox: InureCheckBox
-    private lateinit var playStoreCheckBox: InureCheckBox
-    private lateinit var fdroidCheckBox: InureCheckBox
+    private lateinit var requiredChipGroup: ChipGroup
+    private lateinit var optionalChipGroup: ChipGroup
+    private lateinit var linkChipGroup: ChipGroup
 
     private lateinit var format: DynamicRippleTextView
     private lateinit var generate: DynamicRippleTextView
@@ -42,21 +29,9 @@ class GenerateAppData : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_generated_data_type, container, false)
 
-        name = view.findViewById(R.id.name)
-        packageName = view.findViewById(R.id.package_name)
-        version = view.findViewById(R.id.version)
-        installDate = view.findViewById(R.id.install_date)
-        updateDate = view.findViewById(R.id.update_date)
-        playStore = view.findViewById(R.id.play_store)
-        fdroid = view.findViewById(R.id.fdroid)
-
-        nameCheckBox = view.findViewById(R.id.name_checkbox)
-        packageNameCheckBox = view.findViewById(R.id.package_name_checkbox)
-        versionCheckBox = view.findViewById(R.id.version_checkbox)
-        installDateCheckBox = view.findViewById(R.id.install_date_checkbox)
-        updateDateCheckBox = view.findViewById(R.id.update_date_checkbox)
-        playStoreCheckBox = view.findViewById(R.id.play_store_checkbox)
-        fdroidCheckBox = view.findViewById(R.id.fdroid_checkbox)
+        requiredChipGroup = view.findViewById(R.id.required_chip_group)
+        optionalChipGroup = view.findViewById(R.id.optional_chip_group)
+        linkChipGroup = view.findViewById(R.id.link_chip_group)
 
         format = view.findViewById(R.id.format)
         generate = view.findViewById(R.id.generate)
@@ -67,70 +42,86 @@ class GenerateAppData : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setFlags()
         setDataFormat()
-        nameCheckBox.setChecked(GeneratedDataPreferences.isGeneratedName())
-        packageNameCheckBox.setChecked(GeneratedDataPreferences.isGeneratedPackageName())
-        versionCheckBox.setChecked(GeneratedDataPreferences.isGeneratedVersion())
-        installDateCheckBox.setChecked(GeneratedDataPreferences.isGeneratedInstallDate())
-        updateDateCheckBox.setChecked(GeneratedDataPreferences.isGeneratedUpdateDate())
-        playStoreCheckBox.setChecked(GeneratedDataPreferences.isGeneratedPlayStore())
-        fdroidCheckBox.setChecked(GeneratedDataPreferences.isGeneratedFdroid())
         generateButtonState()
 
-        name.setOnClickListener {
-            nameCheckBox.toggle()
+        requiredChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
+
+            sourceFlags = if (checkedIds.contains(R.id.name)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.NAME)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.NAME)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.package_name)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.PACKAGE_NAME)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.PACKAGE_NAME)
+            }
+
+            GeneratedDataPreferences.setGeneratorFlags(sourceFlags)
         }
 
-        packageName.setOnClickListener {
-            packageNameCheckBox.toggle()
+        optionalChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
+
+            sourceFlags = if (checkedIds.contains(R.id.version)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.VERSION)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.VERSION)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.install_date)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.INSTALL_DATE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.INSTALL_DATE)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.update_date)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.UPDATE_DATE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.UPDATE_DATE)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.min_sdk)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.MINIMUM_SDK)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.MINIMUM_SDK)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.target_sdk)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.TARGET_SDK)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.TARGET_SDK)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.size)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.SIZE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.SIZE)
+            }
+
+            GeneratedDataPreferences.setGeneratorFlags(sourceFlags)
         }
 
-        version.setOnClickListener {
-            versionCheckBox.toggle()
-        }
+        linkChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
 
-        installDate.setOnClickListener {
-            installDateCheckBox.toggle()
-        }
+            sourceFlags = if (checkedIds.contains(R.id.play_store)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.PLAY_STORE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.PLAY_STORE)
+            }
 
-        updateDate.setOnClickListener {
-            updateDateCheckBox.toggle()
-        }
+            sourceFlags = if (checkedIds.contains(R.id.fdroid)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.FDROID)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
+            }
 
-        playStore.setOnClickListener {
-            playStoreCheckBox.toggle()
-        }
-
-        fdroid.setOnClickListener {
-            fdroidCheckBox.toggle()
-        }
-
-        nameCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedName(isChecked)
-        }
-
-        packageNameCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedPackageName(isChecked)
-        }
-
-        versionCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedVersion(isChecked)
-        }
-
-        installDateCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedInstallDate(isChecked)
-        }
-
-        updateDateCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedUpdateDate(isChecked)
-        }
-
-        playStoreCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedPlayStore(isChecked)
-        }
-
-        fdroidCheckBox.setOnCheckedChangeListener { isChecked ->
-            GeneratedDataPreferences.setGeneratedFdroid(isChecked)
+            GeneratedDataPreferences.setGeneratorFlags(sourceFlags)
         }
 
         format.setOnClickListener {
@@ -140,6 +131,54 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         generate.setOnClickListener {
             generatedDataCallbacks?.onGenerateData()
             dismiss()
+        }
+    }
+
+    private fun setFlags() {
+        val flags = GeneratedDataPreferences.getGeneratorFlags()
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME)) {
+            requiredChipGroup.check(R.id.name)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME)) {
+            requiredChipGroup.check(R.id.package_name)
+        }
+
+        // ---------------------------------------------------------------------------- //
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION)) {
+            optionalChipGroup.check(R.id.version)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.INSTALL_DATE)) {
+            optionalChipGroup.check(R.id.install_date)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.UPDATE_DATE)) {
+            optionalChipGroup.check(R.id.update_date)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK)) {
+            optionalChipGroup.check(R.id.min_sdk)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK)) {
+            optionalChipGroup.check(R.id.target_sdk)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
+            optionalChipGroup.check(R.id.size)
+        }
+
+        // ---------------------------------------------------------------------------- //
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE)) {
+            optionalChipGroup.check(R.id.play_store)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID)) {
+            optionalChipGroup.check(R.id.fdroid)
         }
     }
 
@@ -157,17 +196,16 @@ class GenerateAppData : ScopedBottomSheetFragment() {
     }
 
     private fun isAtLeastOneIdFieldIsSelected(): Boolean {
-        return GeneratedDataPreferences.isGeneratedName() || GeneratedDataPreferences.isGeneratedPackageName()
+        return FlagUtils.isFlagSet(GeneratedDataPreferences.getGeneratorFlags(), GeneratedDataPreferences.NAME) ||
+                FlagUtils.isFlagSet(GeneratedDataPreferences.getGeneratorFlags(), GeneratedDataPreferences.PACKAGE_NAME)
     }
 
     private fun generateButtonState() {
         if (isAtLeastOneIdFieldIsSelected()) {
-            Log.d("GenerateAppData", "generateButtonState: True ${isAtLeastOneIdFieldIsSelected()}")
             generate.isEnabled = true
             generate.isClickable = true
             generate.animate().alpha(1f).setDuration(300).start()
         } else {
-            Log.d("GenerateAppData", "generateButtonState: False ${isAtLeastOneIdFieldIsSelected()}")
             generate.isEnabled = false
             generate.isClickable = false
             generate.animate().alpha(0.5f).setDuration(300).start()
@@ -187,9 +225,6 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         when (key) {
             GeneratedDataPreferences.generatedDataType -> {
                 setDataFormat()
-            }
-            GeneratedDataPreferences.name, GeneratedDataPreferences.packageName -> {
-                generateButtonState()
             }
         }
     }

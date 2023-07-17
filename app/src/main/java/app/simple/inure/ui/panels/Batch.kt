@@ -186,7 +186,7 @@ class Batch : ScopedFragment() {
                         }
                     }
 
-                    batchViewModel.getGeneratedAppData().observe(viewLifecycleOwner) {
+                    batchViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
                         if (it.isNotNull()) {
                             hideLoader()
                             when {
