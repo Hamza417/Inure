@@ -121,6 +121,18 @@ class GenerateAppData : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
             }
 
+            sourceFlags = if (checkedIds.contains(R.id.amazon)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.galaxy_store)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
+            }
+
             GeneratedDataPreferences.setGeneratorFlags(sourceFlags)
         }
 
@@ -174,11 +186,19 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         // ---------------------------------------------------------------------------- //
 
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PLAY_STORE)) {
-            optionalChipGroup.check(R.id.play_store)
+            linkChipGroup.check(R.id.play_store)
         }
 
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID)) {
-            optionalChipGroup.check(R.id.fdroid)
+            linkChipGroup.check(R.id.fdroid)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE)) {
+            linkChipGroup.check(R.id.amazon)
+        }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE)) {
+            linkChipGroup.check(R.id.galaxy_store)
         }
     }
 

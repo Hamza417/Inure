@@ -139,6 +139,18 @@
                     android:layout_height="wrap_content"
                     android:text="@string/fdroid" />
 
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/amazon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amazon" />
+
+                <app.simple.inure.decorations.views.Chip
+                    android:id="@+id/galaxy_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/galaxy_store" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>

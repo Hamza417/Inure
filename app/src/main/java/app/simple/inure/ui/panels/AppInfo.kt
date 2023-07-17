@@ -31,12 +31,18 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.GridRecyclerView
-import app.simple.inure.dialogs.action.*
+import app.simple.inure.dialogs.action.ClearCache
+import app.simple.inure.dialogs.action.ClearData
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
+import app.simple.inure.dialogs.action.ForceStop
 import app.simple.inure.dialogs.action.Hide.Companion.showHide
+import app.simple.inure.dialogs.action.Reinstaller
 import app.simple.inure.dialogs.action.Reinstaller.Companion.showReinstaller
+import app.simple.inure.dialogs.action.Send
 import app.simple.inure.dialogs.action.SplitApkSelector.Companion.showSplitApkSelector
 import app.simple.inure.dialogs.action.State.Companion.showState
+import app.simple.inure.dialogs.action.Uninstaller
+import app.simple.inure.dialogs.action.UpdatesUninstaller
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
@@ -50,7 +56,26 @@ import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.installer.Installer
-import app.simple.inure.ui.viewers.*
+import app.simple.inure.ui.viewers.Activities
+import app.simple.inure.ui.viewers.Boot
+import app.simple.inure.ui.viewers.Certificate
+import app.simple.inure.ui.viewers.Dexs
+import app.simple.inure.ui.viewers.Extras
+import app.simple.inure.ui.viewers.Features
+import app.simple.inure.ui.viewers.Graphics
+import app.simple.inure.ui.viewers.Information
+import app.simple.inure.ui.viewers.Operations
+import app.simple.inure.ui.viewers.Permissions
+import app.simple.inure.ui.viewers.Providers
+import app.simple.inure.ui.viewers.Receivers
+import app.simple.inure.ui.viewers.Resources
+import app.simple.inure.ui.viewers.Services
+import app.simple.inure.ui.viewers.SharedLibs
+import app.simple.inure.ui.viewers.Trackers
+import app.simple.inure.ui.viewers.UsageStatistics
+import app.simple.inure.ui.viewers.UsageStatisticsGraph
+import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.FlagUtils
@@ -449,14 +474,21 @@ class AppInfo : ScopedFragment() {
                                 })
                             }
                         }
+
                         R.string.play_store -> {
                             MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
                         }
+
                         R.string.amazon -> {
                             MarketUtils.openAppOnAmazonStore(requireContext(), packageInfo.packageName)
                         }
+
                         R.string.fdroid -> {
                             MarketUtils.openAppOnFdroid(requireContext(), packageInfo.packageName)
+                        }
+
+                        R.string.galaxy_store -> {
+                            MarketUtils.openAppOnGalaxyStore(requireContext(), packageInfo.packageName)
                         }
                     }
                 }

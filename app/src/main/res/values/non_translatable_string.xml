@@ -17,6 +17,7 @@
     <string name="play_store" translatable="false">Play Store</string>
     <string name="amazon" translatable="false">Amazon App Store</string>
     <string name="fdroid" translatable="false">F-Droid</string>
+    <string name="galaxy_store" translatable="false">Galaxy Store</string>
     <string name="px" translatable="false">%1$s px</string>
     <string name="amoled" translatable="false">AMOLED</string>
     <string name="shell" translatable="false">Shell</string>

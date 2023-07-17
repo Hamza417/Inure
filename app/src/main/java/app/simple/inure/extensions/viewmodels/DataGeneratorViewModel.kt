@@ -26,7 +26,7 @@ import java.io.OutputStreamWriter
 
 open class DataGeneratorViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private var flags: Int = 0
+    private var flags: Long = 0
 
     private val generatedAppDataPath: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -137,6 +137,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t<fdroid_link>https://f-droid.org/en/packages/${app.packageName}</fdroid_link>\n")
 
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                stringBuilder.append("\t\t<amazon_store_link>https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}</amazon_store_link>\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                stringBuilder.append("\t\t<galaxy_store_link>https://galaxystore.samsung.com/detail/${app.packageName}</galaxy_store_link>\n")
+
             stringBuilder.append("\t<app>\n")
         }
 
@@ -185,6 +191,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("https://f-droid.org/en/packages/${apps[i].packageName}\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                stringBuilder.append("https://www.amazon.com/gp/mas/dl/android?p=${apps[i].packageName}\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                stringBuilder.append("https://galaxystore.samsung.com/detail/${apps[i].packageName}\n")
         }
 
         stringBuilder.append("\n")
@@ -238,6 +250,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                     stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\"")
 
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                    stringBuilder.append("\n\t\t\t\"amazon_store_link\": \"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\"")
+
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                    stringBuilder.append("\n\t\t\t\"galaxy_store_link\": \"https://galaxystore.samsung.com/detail/${app.packageName}\"")
+
                 stringBuilder.append("\n\t\t},")
             }
 
@@ -286,6 +304,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\"F-Droid Link,\"")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+            stringBuilder.append("\"Amazon Store Link,\"")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+            stringBuilder.append("\"Galaxy Store Link,\"")
+
         stringBuilder.append("\n")
 
         for (app in apps) {
@@ -320,6 +344,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\"https://f-droid.org/en/packages/${app.packageName}\",")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                stringBuilder.append("\"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\",")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                stringBuilder.append("\"https://galaxystore.samsung.com/detail/${app.packageName}\",")
 
             stringBuilder.append("\n")
         }
@@ -418,6 +448,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\t\t\t<th>F-Droid Link</th>\r\n")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+            stringBuilder.append("\t\t\t<th>Amazon Store Link</th>\r\n")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+            stringBuilder.append("\t\t\t<th>Galaxy Store Link</th>\r\n")
+
         stringBuilder.append("\t\t</tr>\r\n")
 
         for (app in apps) {
@@ -457,6 +493,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t\t<td><a href=\"https://f-droid.org/en/packages/${app.packageName}\">F-Droid</a></td>\r\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                stringBuilder.append("\t\t\t<td><a href=\"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\">Amazon Store</a></td>\r\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                stringBuilder.append("\t\t\t<td><a href=\"https://galaxystore.samsung.com/detail/${app.packageName}\">Galaxy Store</a></td>\r\n")
 
             stringBuilder.append("\t\t</tr>\r\n")
         }
@@ -513,6 +555,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append(" F-Droid Link |")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+            stringBuilder.append(" Amazon Store Link |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+            stringBuilder.append(" Galaxy Store Link |")
+
         stringBuilder.append("\r\n")
 
         stringBuilder.append("|")
@@ -547,6 +595,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             stringBuilder.append(" --- |")
 
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
+            stringBuilder.append(" --- |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+            stringBuilder.append(" --- |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
             stringBuilder.append(" --- |")
 
         stringBuilder.append("\r\n")
@@ -588,6 +642,12 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append(" [F-Droid](https://f-droid.org/en/packages/${app.packageName}) |")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
+                stringBuilder.append(" [Amazon Store](https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}) |")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
+                stringBuilder.append(" [Galaxy Store](https://galaxy.store/${app.packageName}) |")
 
             stringBuilder.append("\r\n")
         }

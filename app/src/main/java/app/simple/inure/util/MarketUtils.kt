@@ -152,4 +152,15 @@ object MarketUtils {
         val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.f-droid.org/en/packages/$packageName/"))
         context.startActivity(webIntent)
     }
+
+    /**
+     * Opens app's page on Galaxy Store
+     *
+     * @param context Context of the environment
+     * @param packageName Package ID of the app
+     */
+    fun openAppOnGalaxyStore(context: Context, packageName: String) {
+        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://galaxystore.samsung.com/detail/$packageName"))
+        context.startActivity(webIntent)
+    }
 }
