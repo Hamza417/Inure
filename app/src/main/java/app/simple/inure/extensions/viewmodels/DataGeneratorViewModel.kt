@@ -26,7 +26,7 @@ import java.io.OutputStreamWriter
 
 open class DataGeneratorViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private val flags = GeneratedDataPreferences.getGeneratorFlags()
+    private var flags: Int = 0
 
     private val generatedAppDataPath: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -79,6 +79,8 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
     }
 
     private fun getGeneratedString(): StringBuilder {
+        flags = GeneratedDataPreferences.getGeneratorFlags()
+
         return when (GeneratedDataPreferences.getGeneratedDataType()) {
             GeneratedDataPreferences.XML -> generateXML()
             GeneratedDataPreferences.JSON -> generateJSON()

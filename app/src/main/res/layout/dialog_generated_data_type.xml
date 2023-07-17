@@ -34,7 +34,6 @@
                 android:id="@+id/required_chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:checkedChip="@id/name"
                 app:chipSpacingHorizontal="5dp"
                 app:chipSpacingVertical="@dimen/chip_vertical_spacing"
                 app:selectionRequired="true"

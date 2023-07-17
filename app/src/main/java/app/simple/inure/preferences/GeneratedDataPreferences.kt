@@ -3,7 +3,7 @@ package app.simple.inure.preferences
 object GeneratedDataPreferences {
 
     const val generatedDataType = "generated_data_type"
-    private const val generatorFlags = "generator_flags_"
+    private const val generatorFlags = "generator_flags_a"
 
     const val NAME = 1
     const val PACKAGE_NAME = 2
