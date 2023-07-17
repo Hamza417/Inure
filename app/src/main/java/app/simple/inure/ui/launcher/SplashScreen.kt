@@ -21,7 +21,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.constants.Misc
 import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -122,7 +121,9 @@ class SplashScreen : ScopedFragment() {
         // (icon.drawable as AnimatedVectorDrawable).start()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(Misc.delay)
+            if (BehaviourPreferences.isSkipLoading()) {
+                delay(250L)
+            }
 
             // Initialize native crash handler
             if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
@@ -156,6 +157,10 @@ class SplashScreen : ScopedFragment() {
     private fun startLoaderService() {
         val intent = Intent(requireContext(), DataLoaderService::class.java)
         requireContext().bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
+
+        if (BehaviourPreferences.isSkipLoading()) {
+            proceed()
+        }
     }
 
     private fun proceed() {
