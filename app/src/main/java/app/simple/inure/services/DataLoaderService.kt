@@ -3,6 +3,7 @@ package app.simple.inure.services
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -12,6 +13,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.constants.IntentConstants
+import app.simple.inure.interfaces.receivers.AppUninstallCallbacks
+import app.simple.inure.receivers.AppUninstalledBroadcastReceiver
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -33,6 +37,8 @@ class DataLoaderService : Service() {
     private val tag: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
+    private var intentFilter = IntentFilter()
+    private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
 
     private var isLoading = false
 
@@ -46,6 +52,38 @@ class DataLoaderService : Service() {
         return LoaderBinder()
     }
 
+    override fun onCreate() {
+        super.onCreate()
+
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED)
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
+        intentFilter.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
+        intentFilter.addAction(IntentConstants.ACTION_APP_UNINSTALLED)
+
+        appUninstalledBroadcastReceiver.setAppUninstallCallbacks(object : AppUninstallCallbacks {
+            override fun onAppUninstalled(packageName: String?) {
+                Log.d("AppUninstalled", "onAppUninstalled: $packageName")
+
+            }
+
+            override fun onAppInstalled(packageName: String?) {
+                Log.d("AppUninstalled", "onAppInstalled: $packageName")
+            }
+
+            override fun onAppUpdated(packageName: String?) {
+                Log.d("AppUninstalled", "onAppUpdated: $packageName")
+            }
+
+            override fun onAppReplaced(packageName: String?) {
+                Log.d("AppUninstalled", "onAppReplaced: $packageName")
+            }
+
+        })
+
+        registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
+    }
+
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         CoroutineScope(Dispatchers.Default).launch {
             startLoading()
@@ -56,6 +94,11 @@ class DataLoaderService : Service() {
         }
 
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(appUninstalledBroadcastReceiver)
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
