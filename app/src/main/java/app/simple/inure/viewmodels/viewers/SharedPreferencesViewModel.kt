@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
+import app.simple.inure.util.ConditionUtils.isNotNull
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
@@ -36,15 +37,16 @@ class SharedPreferencesViewModel(private val packageInfo: PackageInfo, applicati
         return deleted
     }
 
-    private fun loadSharedPrefsFiles(fileSystemManager: FileSystemManager?) {
+    private fun loadSharedPrefsFiles(fileSystemManager: FileSystemManager) {
         viewModelScope.launch(Dispatchers.IO) {
             withTimeout(10000) {
                 kotlin.runCatching {
-                    with(fileSystemManager?.getFile(path)) {
+                    with(fileSystemManager.getFile(path)) {
                         kotlin.runCatching {
-                            val list = this?.list()?.toList() as ArrayList<String>?
+                            val list = this.list()?.toList() as ArrayList<String>?
                             sharedPrefsFiles.postValue(list!!)
                         }.getOrElse {
+                            postError(it)
                             sharedPrefsFiles.postValue(arrayListOf())
                         }
                     }
@@ -85,6 +87,12 @@ class SharedPreferencesViewModel(private val packageInfo: PackageInfo, applicati
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
-        loadSharedPrefsFiles(fileSystemManager)
+        if (fileSystemManager.isNotNull()) {
+            fileSystemManager?.let {
+                loadSharedPrefsFiles(it)
+            }
+        } else {
+            postWarning("ERR: Could not acquire file system manager with root access")
+        }
     }
 }

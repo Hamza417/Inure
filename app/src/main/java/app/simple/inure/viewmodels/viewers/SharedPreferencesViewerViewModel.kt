@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
+import app.simple.inure.util.ConditionUtils.isNotNull
 import app.simple.inure.util.XMLUtils.formatXML
 import app.simple.inure.util.XMLUtils.getPrettyXML
 import com.topjohnwu.superuser.Shell
@@ -38,10 +39,10 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, private va
         return loaderCode
     }
 
-    private fun loadSharedPrefsFile(fileSystemManager: FileSystemManager?) {
+    private fun loadSharedPrefsFile(fileSystemManager: FileSystemManager) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val code = fileSystemManager?.getSharedPrefsString()!!
+                val code = fileSystemManager.getSharedPrefsString()
 
                 spanned.postValue(code.formatXML().getPrettyXML())
             }.getOrElse {
@@ -60,7 +61,13 @@ class SharedPreferencesViewerViewModel(private val pathToXml: String, private va
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
-        loadSharedPrefsFile(fileSystemManager)
+        if (fileSystemManager.isNotNull()) {
+            fileSystemManager?.let {
+                loadSharedPrefsFile(it)
+            }
+        } else {
+            postWarning("ERR: Could not acquire file system manager with root access")
+        }
     }
 
     @Suppress("unused")

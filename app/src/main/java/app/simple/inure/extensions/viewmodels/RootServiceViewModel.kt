@@ -11,7 +11,9 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.libsu.IRootService
 import app.simple.inure.services.RootService
 import app.simple.inure.util.ConditionUtils.invert
-import com.topjohnwu.superuser.ipc.RootService.*
+import com.topjohnwu.superuser.ipc.RootService.bind
+import com.topjohnwu.superuser.ipc.RootService.stop
+import com.topjohnwu.superuser.ipc.RootService.unbind
 import com.topjohnwu.superuser.nio.FileSystemManager
 
 abstract class RootServiceViewModel(application: Application) : WrappedViewModel(application) {
@@ -45,6 +47,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
             } else {
                 aidlConnection = this
             }
+
             val ipc: IRootService = IRootService.Stub.asInterface(service)
 
             try {

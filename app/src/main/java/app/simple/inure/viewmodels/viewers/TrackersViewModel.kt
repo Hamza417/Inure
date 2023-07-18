@@ -17,6 +17,7 @@ import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.ConditionUtils.isNotNull
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import com.topjohnwu.superuser.nio.ExtendedFile
@@ -242,7 +243,13 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
-        scanTrackers()
+        if (fileSystemManager.isNotNull()) {
+            fileSystemManager?.let {
+                scanTrackers()
+            }
+        } else {
+            postWarning("ERR: Could not acquire file system manager with root access")
+        }
     }
 
     fun clear() {

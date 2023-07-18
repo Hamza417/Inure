@@ -33,7 +33,9 @@ public class DynamicRippleImageButton extends ThemeButton {
         setBackgroundColor(Color.TRANSPARENT);
     
         setOnLongClickListener(view -> {
-            new PopupTooltip(view);
+            if (getContentDescription() != null || !getContentDescription().toString().isEmpty()) {
+                new PopupTooltip(view);
+            }
             return false;
         });
     }
@@ -48,7 +50,7 @@ public class DynamicRippleImageButton extends ThemeButton {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(0.8F)
@@ -58,7 +60,7 @@ public class DynamicRippleImageButton extends ThemeButton {
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-    
+        
                 try {
                     if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE) {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -83,9 +85,9 @@ public class DynamicRippleImageButton extends ThemeButton {
                     return super.onTouchEvent(event);
                 }
             }
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP: {
+            case MotionEvent.ACTION_MOVE,
+                    MotionEvent.ACTION_CANCEL,
+                    MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(1F)
@@ -96,9 +98,9 @@ public class DynamicRippleImageButton extends ThemeButton {
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
             }
         }
+    
         return super.onTouchEvent(event);
     }
     
