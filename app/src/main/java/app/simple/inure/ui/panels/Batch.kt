@@ -111,18 +111,22 @@ class Batch : ScopedFragment() {
                         batchViewModel.selectAllBatchItems()
                     }
                 }
+
                 R.drawable.ic_filter -> {
                     childFragmentManager.showBatchSort()
                 }
+
                 R.drawable.ic_search -> {
                     openFragmentSlide(Search.newInstance(true), "search")
                 }
+
                 R.drawable.ic_settings -> {
                     BatchMenu.newInstance()
                         .show(childFragmentManager, "batch_menu")
                 }
+
                 R.drawable.ic_delete -> {
-                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!) {
+                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
                                 BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
@@ -133,8 +137,9 @@ class Batch : ScopedFragment() {
                         showWarning("RESTRICTION: Cannot uninstall all apps at once", goBack = false)
                     }
                 }
+
                 R.drawable.ic_hide_source -> {
-                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!) {
+                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
                         PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
                             override fun onEnableAll() {
                                 onSure {
@@ -160,9 +165,11 @@ class Batch : ScopedFragment() {
                         showWarning("RESTRICTION: Cannot change state of all apps at once", goBack = false)
                     }
                 }
+
                 R.drawable.ic_send -> {
                     /* no-op */
                 }
+
                 R.drawable.ic_downloading -> {
                     childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
@@ -178,6 +185,7 @@ class Batch : ScopedFragment() {
                         }
                     })
                 }
+
                 R.drawable.ic_text_snippet -> {
                     childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
                         showLoader(manualOverride = true)
@@ -200,17 +208,21 @@ class Batch : ScopedFragment() {
                                                              pathToXml = it,
                                                              isRaw = true), "xml_viewer")
                                 }
+
                                 it.endsWith(".html") -> {
-                                    openFragmentSlide(HtmlViewer
-                                                          .newInstance(packageInfo = PackageInfo(), it,
-                                                                       isRaw = true), "web_page")
+                                    openFragmentSlide(
+                                            HtmlViewer
+                                                .newInstance(packageInfo = PackageInfo(), it,
+                                                             isRaw = true), "web_page")
                                 }
+
                                 it.endsWith(".json") -> {
                                     openFragmentSlide(
                                             JSON.newInstance(packageInfo = PackageInfo(),
                                                              path = it,
                                                              isRaw = true), "json_viewer")
                                 }
+
                                 it.endsWith(".md") -> {
                                     openFragmentSlide(
                                             Markdown.newInstance(packageInfo = PackageInfo(),
@@ -220,6 +232,8 @@ class Batch : ScopedFragment() {
                             }
 
                             batchViewModel.clearGeneratedAppsDataLiveData()
+                        } else {
+                            hideLoader()
                         }
                     }
                 }
@@ -261,9 +275,11 @@ class Batch : ScopedFragment() {
             BatchPreferences.moveSelectionTop -> {
                 adapterBatch?.moveSelectedItemsToTheTop()
             }
+
             BatchPreferences.highlightSelected -> {
                 adapterBatch?.updateSelectionsHighlights(BatchPreferences.isSelectedBatchHighlighted())
             }
+
             BatchPreferences.isSortingReversed,
             BatchPreferences.listAppsCategory,
             BatchPreferences.sortStyle,
