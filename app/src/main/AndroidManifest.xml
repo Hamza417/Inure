@@ -784,7 +784,7 @@
         <receiver
             android:name=".receivers.AppUninstalledBroadcastReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />

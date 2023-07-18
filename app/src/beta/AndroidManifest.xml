@@ -447,7 +447,7 @@
             android:documentLaunchMode="intoExisting"
             android:exported="true"
             android:icon="@mipmap/ic_audio_player"
-            android:label="Inure Mini Player"
+            android:label="@string/audio_player"
             android:roundIcon="@mipmap/ic_audio_player_round"
             android:theme="@style/Inure.Transparent"
             android:windowSoftInputMode="adjustResize">

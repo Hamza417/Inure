@@ -297,7 +297,7 @@ class MainActivity : BaseActivity() {
         val expiryDate = Calendar.getInstance()
 
         expiryDate.clear()
-        expiryDate.set(2023, Calendar.JULY, 6)
+        expiryDate.set(2023, Calendar.JULY, 20)
         expiryDate.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
 
         if (CalendarUtils.isToday(expiryDate)) {
@@ -308,7 +308,6 @@ class MainActivity : BaseActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d("MainActivity", "onConfigurationChanged")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_DARK ||
                 AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_LIGHT) {

@@ -162,21 +162,4 @@ object StringUtils {
         }
         return false
     }
-
-    /**
-     * Check if a string ends with any of the given strings.
-     * @param strings The strings to check.
-     * @param ignoreCase Whether to ignore case when comparing strings.
-     * @return True if the string ends with any of the given strings.
-     * @see String.endsWith
-     * @see String.endsWithAny
-     */
-    fun String.endsWithAny(strings: Array<String>, ignoreCase: Boolean = true): Boolean {
-        for (string in strings) {
-            if (endsWith(string, ignoreCase)) {
-                return true
-            }
-        }
-        return false
-    }
 }

@@ -82,7 +82,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         PackageData.makePackageFolder(applicationContext())
 
         if (file != null && file.exists()) {
-            if (file.name.endsWithAny(splitApkExtensions)) {
+            if (file.name.endsWithAny(*splitApkExtensions)) {
                 ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
                 files = File(file.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
             } else if (file.name.endsWith(".apk")) {
@@ -103,7 +103,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     }
                 }
 
-                if (documentFile.name!!.endsWithAny(splitApkExtensions)) {
+                if (documentFile.name!!.endsWithAny(*splitApkExtensions)) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                 } else if (documentFile.name!!.endsWith(".apk")) {
