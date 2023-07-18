@@ -176,11 +176,12 @@ class Batch : ScopedFragment() {
                             if (requireContext().checkStoragePermission()) {
                                 childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
                             } else {
-                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
-                                    override fun onStoragePermissionGranted() {
-                                        childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
-                                    }
-                                })
+                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(
+                                        object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                            override fun onStoragePermissionGranted() {
+                                                childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                                            }
+                                        })
                             }
                         }
                     })

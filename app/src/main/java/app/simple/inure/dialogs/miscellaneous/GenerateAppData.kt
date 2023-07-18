@@ -47,7 +47,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         generateButtonState()
 
         requiredChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
-            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
+            var sourceFlags = GeneratedDataPreferences.getGeneratorFlags()
 
             sourceFlags = if (checkedIds.contains(R.id.name)) {
                 FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.NAME)
@@ -65,7 +65,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         }
 
         optionalChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
-            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
+            var sourceFlags = GeneratedDataPreferences.getGeneratorFlags()
 
             sourceFlags = if (checkedIds.contains(R.id.version)) {
                 FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.VERSION)
@@ -107,7 +107,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         }
 
         linkChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
-            var sourceFlags = GeneratedDataPreferences.DEFAULT_FLAGS
+            var sourceFlags = GeneratedDataPreferences.getGeneratorFlags()
 
             sourceFlags = if (checkedIds.contains(R.id.play_store)) {
                 FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.PLAY_STORE)
