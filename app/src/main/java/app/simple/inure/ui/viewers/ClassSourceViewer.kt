@@ -1,4 +1,4 @@
-package app.simple.inure.ui.subviewers
+package app.simple.inure.ui.viewers
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -75,9 +75,7 @@ class ClassSourceViewer : ScopedFragment() {
         }
 
         options.setOnClickListener {
-            val popupXmlViewer = PopupXmlViewer(it)
-
-            popupXmlViewer.setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
+            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
@@ -85,7 +83,8 @@ class ClassSourceViewer : ScopedFragment() {
                             val clip = ClipData.newPlainText("tracker_source", text.text.toString())
                             clipboard?.setPrimaryClip(clip)
                         }
-                        getString(R.string.save) -> {
+
+                        getString(R.string.export) -> {
                             val fileName: String = packageInfo.packageName + "_" + name.text
                             exportText.launch(fileName)
                         }

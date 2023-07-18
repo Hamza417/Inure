@@ -35,7 +35,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var files: ArrayList<File>? = null
     private var splitApkFiles: ArrayList<File>? = null
     private var baseApk: File? = null
-    private val splitApkExtensions = arrayOf(".apk", ".apks", ".apkm", ".xapk")
+    private val splitApkExtensions = arrayOf(".zip", ".apks", ".apkm", ".xapk")
 
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {

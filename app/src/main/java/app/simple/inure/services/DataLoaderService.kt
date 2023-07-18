@@ -78,21 +78,13 @@ class DataLoaderService : Service() {
             override fun onAppReplaced(packageName: String?) {
                 Log.d("AppUninstalled", "onAppReplaced: $packageName")
             }
-
         })
 
         registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        CoroutineScope(Dispatchers.Default).launch {
-            startLoading()
-
-            withContext(Dispatchers.Main) {
-                LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
-            }
-        }
-
+        startLoading()
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -106,7 +98,6 @@ class DataLoaderService : Service() {
             @Suppress("UNCHECKED_CAST")
             return apps.clone() as ArrayList<PackageInfo>
         } else {
-            Log.d("PackageUtilsViewModel", "getInstalledApps: apps is null or empty, reloading")
             apps = loadInstalledApps() as ArrayList<PackageInfo>
             return getInstalledApps()
         }
@@ -135,12 +126,11 @@ class DataLoaderService : Service() {
                     loadUninstalledApps()
                 }
 
-                onAppsLoaded(apps.toArrayList())
-                onUninstalledAppsLoaded(uninstalledApps.toArrayList())
+                // onAppsLoaded(apps.toArrayList())
+                // onUninstalledAppsLoaded(uninstalledApps.toArrayList())
 
                 withContext(Dispatchers.Main) {
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
-                    Log.d(tag, "startLoading: apps loaded")
                     isLoading = false
                 }
             }

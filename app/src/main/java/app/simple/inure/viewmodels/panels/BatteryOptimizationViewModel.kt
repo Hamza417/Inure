@@ -281,11 +281,13 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
     }
 
     override fun onShizukuCreated() {
+        super.onShizukuCreated()
         loadBatteryOptimizationShizuku()
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
+        Log.d("BatteryOptimizationViewModel", "onAppsLoaded: ${apps.size}")
         initializeCoreFramework()
     }
 

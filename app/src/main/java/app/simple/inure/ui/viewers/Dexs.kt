@@ -15,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DexClassesPreferences
-import app.simple.inure.ui.subviewers.ClassSourceViewer
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class Dexs : SearchBarScopedFragment() {
