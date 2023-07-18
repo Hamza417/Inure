@@ -54,6 +54,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
+
                 SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
@@ -143,6 +144,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
+
                 SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
@@ -152,7 +154,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
             kotlin.runCatching {
                 ShizukuUtils.execInternal(Command("dumpsys deviceidle whitelist"), null).let { result ->
-                    Log.d("BatteryOptimizationShizukuViewModel", "loadBatteryOptimizationShizuku: ${result.out}")
+                    Log.d("BatteryOptimizationShizukuViewModel", "loadBatteryOptimizationShizuku:\n${result.out}")
                     apps.forEach { packageInfo ->
                         kotlin.runCatching {
                             val outData = result.out.split("\n").find { out ->
@@ -216,7 +218,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                     batteryOptimizationData.postValue(filtered)
                 }
             }.getOrElse {
-                postError(it)
+                batteryOptimizationData.postValue(arrayListOf())
+                postWarning("ERR: ${it.message ?: "Unknown shizuku error while loading battery optimization data"}}")
             }
         }
     }
