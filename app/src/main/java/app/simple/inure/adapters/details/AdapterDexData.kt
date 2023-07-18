@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.util.AdapterUtils
 
-class AdapterDexData(private val dexs: ArrayList<String>) : RecyclerView.Adapter<AdapterDexData.Holder>() {
+class AdapterDexData(private val dexs: ArrayList<String>, val keyword: String) : RecyclerView.Adapter<AdapterDexData.Holder>() {
 
     var onDetailsClicked: ((String) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -17,6 +18,7 @@ class AdapterDexData(private val dexs: ArrayList<String>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = dexs[position]
+        AdapterUtils.searchHighlighter(holder.name, keyword, ignoreCasing = true)
 
         //        holder.packageName.text = dexs[position].packageName
         //        holder.superClass.text = dexs[position].superClass

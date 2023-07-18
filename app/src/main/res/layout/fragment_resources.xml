@@ -42,16 +42,6 @@
             app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/resources_option_btn"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_more_vert"
-            android:tint="?attr/colorAppAccent"
-            android:visibility="gone" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/resources_search_btn"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"

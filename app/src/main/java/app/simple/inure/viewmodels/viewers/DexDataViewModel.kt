@@ -52,4 +52,16 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
 
         return classes
     }
+
+    fun filterClasses(query: String) {
+        val filteredClasses = ArrayList<String>()
+
+        for (className in classes) {
+            if (className.contains(query, true)) {
+                filteredClasses.add(className)
+            }
+        }
+
+        dexData.postValue(filteredClasses)
+    }
 }
