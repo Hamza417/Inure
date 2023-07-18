@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.TransactionTooLargeException
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -88,7 +87,6 @@ class HtmlViewer : ScopedFragment() {
 
         textViewerViewModel.getText().observe(viewLifecycleOwner) {
             runCatching {
-                Log.d("HtmlViewer", it)
                 val encodedHtml: String = Base64.encodeToString(it.encodeToByteArray(), Base64.NO_PADDING)
                 htmlTxt = encodedHtml
                 html.loadData(encodedHtml, MimeConstants.htmlType, "base64")

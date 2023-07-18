@@ -3,6 +3,7 @@ package app.simple.inure.ui.panels
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -192,49 +193,7 @@ class Batch : ScopedFragment() {
                         showLoader(manualOverride = true)
                         adapterBatch?.getCurrentAppsList()?.let {
                             batchViewModel.generateAppsData(it)
-                        }
-                    }
-
-                    batchViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
-                        if (it.isNotNull()) {
-                            hideLoader()
-                            when {
-                                it.endsWith(".xml") ||
-                                        it.endsWith(".txt") ||
-                                        it.endsWith(".csv") -> {
-                                    openFragmentSlide(
-                                            XMLViewerTextView
-                                                .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                             isManifest = false,
-                                                             pathToXml = it,
-                                                             isRaw = true), "xml_viewer")
-                                }
-
-                                it.endsWith(".html") -> {
-                                    openFragmentSlide(
-                                            HtmlViewer
-                                                .newInstance(packageInfo = PackageInfo(), it,
-                                                             isRaw = true), "web_page")
-                                }
-
-                                it.endsWith(".json") -> {
-                                    openFragmentSlide(
-                                            JSON.newInstance(packageInfo = PackageInfo(),
-                                                             path = it,
-                                                             isRaw = true), "json_viewer")
-                                }
-
-                                it.endsWith(".md") -> {
-                                    openFragmentSlide(
-                                            Markdown.newInstance(packageInfo = PackageInfo(),
-                                                                 path = it,
-                                                                 isRaw = true), "markdown_viewer")
-                                }
-                            }
-
-                            batchViewModel.clearGeneratedAppsDataLiveData()
-                        } else {
-                            hideLoader()
+                            Log.d("Batch", "Generating data for ${it.size} apps")
                         }
                     }
                 }
@@ -257,6 +216,50 @@ class Batch : ScopedFragment() {
                         childFragmentManager.showBatchForceStop(adapterBatch?.getCurrentAppsList()!!)
                     }
                 }
+            }
+        }
+
+        batchViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
+            if (it.isNotNull()) {
+                Log.d("Batch", "Generated data path: $it")
+                hideLoader()
+                when {
+                    it.endsWith(".xml") ||
+                            it.endsWith(".txt") ||
+                            it.endsWith(".csv") -> {
+                        openFragmentSlide(
+                                XMLViewerTextView
+                                    .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                 isManifest = false,
+                                                 pathToXml = it,
+                                                 isRaw = true), "xml_viewer")
+                    }
+
+                    it.endsWith(".html") -> {
+                        openFragmentSlide(
+                                HtmlViewer
+                                    .newInstance(packageInfo = PackageInfo(), it,
+                                                 isRaw = true), "web_page")
+                    }
+
+                    it.endsWith(".json") -> {
+                        openFragmentSlide(
+                                JSON.newInstance(packageInfo = PackageInfo(),
+                                                 path = it,
+                                                 isRaw = true), "json_viewer")
+                    }
+
+                    it.endsWith(".md") -> {
+                        openFragmentSlide(
+                                Markdown.newInstance(packageInfo = PackageInfo(),
+                                                     path = it,
+                                                     isRaw = true), "markdown_viewer")
+                    }
+                }
+
+                batchViewModel.clearGeneratedAppsDataLiveData()
+            } else {
+                hideLoader()
             }
         }
     }

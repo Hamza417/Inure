@@ -87,53 +87,60 @@ class Apps : ScopedFragment() {
                                 showLoader(manualOverride = true)
                                 appsViewModel.generateAppsData(it)
                             }
-
-                            appsViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
-                                if (it.isNotNull()) {
-                                    hideLoader()
-                                    when {
-                                        it.endsWith(".xml") ||
-                                                it.endsWith(".txt") ||
-                                                it.endsWith(".csv") -> {
-                                            openFragmentSlide(
-                                                    XMLViewerTextView
-                                                        .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                                     isManifest = false,
-                                                                     pathToXml = it,
-                                                                     isRaw = true), "xml_viewer")
-                                        }
-                                        it.endsWith(".html") -> {
-                                            openFragmentSlide(HtmlViewer
-                                                                  .newInstance(packageInfo = PackageInfo(), it,
-                                                                               isRaw = true), "web_page")
-                                        }
-                                        it.endsWith(".json") -> {
-                                            openFragmentSlide(
-                                                    JSON.newInstance(packageInfo = PackageInfo(),
-                                                                     path = it,
-                                                                     isRaw = true), "json_viewer")
-                                        }
-                                        it.endsWith(".md") -> {
-                                            openFragmentSlide(
-                                                    Markdown.newInstance(packageInfo = PackageInfo(),
-                                                                         path = it,
-                                                                         isRaw = true), "markdown_viewer")
-                                        }
-                                    }
-
-                                    appsViewModel.clearGeneratedAppsDataLiveData()
-                                }
-                            }
                         }
                     }
+
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), "search")
                     }
+
                     R.drawable.ic_refresh -> {
                         showLoader(manualOverride = true)
                         appsViewModel.refreshPackageData()
                     }
                 }
+            }
+        }
+
+        appsViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
+            if (it.isNotNull()) {
+                hideLoader()
+                when {
+                    it.endsWith(".xml") ||
+                            it.endsWith(".txt") ||
+                            it.endsWith(".csv") -> {
+                        openFragmentSlide(
+                                XMLViewerTextView
+                                    .newInstance(packageInfo = PackageInfo(), /* Empty package info */
+                                                 isManifest = false,
+                                                 pathToXml = it,
+                                                 isRaw = true), "xml_viewer")
+                    }
+
+                    it.endsWith(".html") -> {
+                        openFragmentSlide(HtmlViewer
+                                              .newInstance(packageInfo = PackageInfo(), it,
+                                                           isRaw = true), "web_page")
+                    }
+
+                    it.endsWith(".json") -> {
+                        openFragmentSlide(
+                                JSON.newInstance(packageInfo = PackageInfo(),
+                                                 path = it,
+                                                 isRaw = true), "json_viewer")
+                    }
+
+                    it.endsWith(".md") -> {
+                        openFragmentSlide(
+                                Markdown.newInstance(packageInfo = PackageInfo(),
+                                                     path = it,
+                                                     isRaw = true), "markdown_viewer")
+                    }
+                }
+
+                appsViewModel.clearGeneratedAppsDataLiveData()
+            } else {
+                hideLoader()
             }
         }
 
