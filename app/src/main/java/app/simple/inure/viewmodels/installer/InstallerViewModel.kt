@@ -22,6 +22,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.getLength
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.StringUtils.endsWithAny
 import com.anggrayudi.storage.file.baseName
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var files: ArrayList<File>? = null
     private var splitApkFiles: ArrayList<File>? = null
     private var baseApk: File? = null
+    private val splitApkExtensions = arrayOf(".apk", ".apks", ".apkm", ".xapk")
 
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
@@ -80,7 +82,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         PackageData.makePackageFolder(applicationContext())
 
         if (file != null && file.exists()) {
-            if (file.name.endsWith(".zip") || file.name.endsWith(".apkm") || file.name.endsWith(".apks") || file.name.endsWith(".xapk")) {
+            if (file.name.endsWithAny(splitApkExtensions)) {
                 ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
                 files = File(file.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
             } else if (file.name.endsWith(".apk")) {
@@ -101,7 +103,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     }
                 }
 
-                if (documentFile.name!!.endsWith(".zip") || documentFile.name!!.endsWith(".apkm") || documentFile.name!!.endsWith(".apks") || documentFile.name!!.endsWith(".xapk")) {
+                if (documentFile.name!!.endsWithAny(splitApkExtensions)) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
                     files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                 } else if (documentFile.name!!.endsWith(".apk")) {
@@ -185,7 +187,11 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d("Installer", "Split name: $splitName")
                         val idx = files?.indexOf(file)
                         Log.d("Installer", "Index: $idx")
-                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+
+                        val path = file.absolutePath
+                            .replace(" ", "\\ ")
+                            .replace("(", "\\(")
+                            .replace(")", "\\)")
                         Log.d("Installer", "Path: $path")
 
                         Shell.cmd("pm install-write -S $size $sessionId $idx $path").exec().let {
@@ -226,7 +232,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             try {
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
-                val sessionId = with(ShizukuUtils.execInternal(Command("pm install-create -S $totalSizeOfAllApks"), null)) {
+                val sessionId = with(ShizukuUtils.execInternal(
+                        Command("pm install-create -S $totalSizeOfAllApks"), null)) {
                     Log.d("Installer", "Output: $out")
                     with(out) {
                         if (isNotEmpty()) {
@@ -241,8 +248,11 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 /**
                  * Install base apk
                  */
-                context.contentResolver.openInputStream(FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", baseApk!!)).use { inputStream ->
-                    ShizukuUtils.execInternal(Command("pm install-write -S ${baseApk?.length()} $sessionId base-"), inputStream).let {
+                context.contentResolver.openInputStream(
+                        FileProvider.getUriForFile(applicationContext(),
+                                                   "${applicationContext().packageName}.provider", baseApk!!)).use { inputStream ->
+                    ShizukuUtils.execInternal(
+                            Command("pm install-write -S ${baseApk?.length()} $sessionId base-"), inputStream).let {
                         Log.d("Installer", "Output: ${it.out}")
                         Log.d("Installer", "Error: ${it.err}")
                     }
@@ -257,17 +267,22 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d("Installer", "Split name: $splitName")
                         val idx = splitApkFiles?.indexOf(file)
                         Log.d("Installer", "Index: $idx")
-                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+                        val path = file.absolutePath
+                            .replace(" ", "\\ ")
+                            .replace("(", "\\(")
+                            .replace(")", "\\)")
                         Log.d("Installer", "Path: $path")
 
                         // create uri from file
-                        val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+                        val uri = FileProvider.getUriForFile(applicationContext(),
+                                                             "${applicationContext().packageName}.provider", file)
 
                         /**
                          * Install split apks
                          */
                         context.contentResolver.openInputStream(uri).use { inputStream ->
-                            ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId $splitName-"), inputStream).let {
+                            ShizukuUtils.execInternal(
+                                    Command("pm install-write -S $size $sessionId $splitName-"), inputStream).let {
                                 Log.d("Installer", "Output: ${it.out}")
                                 Log.d("Installer", "Error: ${it.err}")
                             }
@@ -275,14 +290,19 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     } else { // Not a split apk
                         val size = file.length()
                         Log.d("Installer", "Size of ${file.name}: $size")
-                        val path = file.absolutePath.replace(" ", "\\ ").replace("(", "\\(").replace(")", "\\)")
+                        val path = file.absolutePath
+                            .replace(" ", "\\ ")
+                            .replace("(", "\\(")
+                            .replace(")", "\\)")
                         Log.d("Installer", "Path: $path")
 
                         // create uri from file
-                        val uri = FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+                        val uri = FileProvider.getUriForFile(applicationContext(),
+                                                             "${applicationContext().packageName}.provider", file)
 
                         context.contentResolver.openInputStream(uri).use { inputStream ->
-                            ShizukuUtils.execInternal(Command("pm install-write -S $size $sessionId base-"), inputStream).let {
+                            ShizukuUtils.execInternal(
+                                    Command("pm install-write -S $size $sessionId base-"), inputStream).let {
                                 Log.d("Installer", "Output: ${it.out}")
                                 Log.d("Installer", "Error: ${it.err}")
                             }

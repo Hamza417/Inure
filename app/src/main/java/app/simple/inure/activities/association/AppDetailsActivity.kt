@@ -3,8 +3,6 @@ package app.simple.inure.activities.association
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
@@ -51,12 +49,7 @@ class AppDetailsActivity : BaseActivity() {
 
                         when {
                             sourceFile.absolutePath.lowercase().endsWith(".apk") -> { // Single APK
-                                packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
-                                } else {
-                                    @Suppress("DEPRECATION")
-                                    packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
-                                }
+                                packageInfo = packageManager.getPackageArchiveInfo(sourceFile.absolutePath)!!
 
                                 packageInfo.applicationInfo.publicSourceDir = sourceFile.absolutePath
                                 packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
