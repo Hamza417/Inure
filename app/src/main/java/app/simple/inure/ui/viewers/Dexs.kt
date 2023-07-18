@@ -12,6 +12,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.ui.subviewers.ClassSourceViewer
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class Dexs : ScopedFragment() {
@@ -38,6 +39,13 @@ class Dexs : ScopedFragment() {
 
         dexDataViewModel.getDexClasses().observe(viewLifecycleOwner) {
             val adapter = AdapterDexData(it)
+
+            adapter.onDetailsClicked = { dexClass ->
+                openFragmentSlide(
+                        ClassSourceViewer.newInstance(dexClass, packageInfo),
+                        "class_source_viewer")
+            }
+
             recyclerView.adapter = adapter
         }
 

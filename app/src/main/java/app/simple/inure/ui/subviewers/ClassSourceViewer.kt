@@ -19,19 +19,19 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.subpanels.TrackerSourceViewModelFactory
+import app.simple.inure.factories.subpanels.ClassSourceViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
-import app.simple.inure.viewmodels.subviewers.TrackerSourceViewModel
+import app.simple.inure.viewmodels.subviewers.ClassSourceViewModel
 import java.io.IOException
 
-class TrackerSourceViewer : ScopedFragment() {
+class ClassSourceViewer : ScopedFragment() {
 
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var text: TypeFaceEditText
 
-    private lateinit var trackerSourceViewModelFactory: TrackerSourceViewModelFactory
-    private lateinit var trackerSourceViewModel: TrackerSourceViewModel
+    private lateinit var classSourceViewModelFactory: ClassSourceViewModelFactory
+    private lateinit var classSourceViewModel: ClassSourceViewModel
 
     private val exportText = registerForActivityResult(ActivityResultContracts.CreateDocument(MimeConstants.javaType)) { uri: Uri? ->
         if (uri == null) {
@@ -58,8 +58,8 @@ class TrackerSourceViewer : ScopedFragment() {
         options = view.findViewById(R.id.tracker_viewer_options)
         text = view.findViewById(R.id.tracker_viewer)
 
-        trackerSourceViewModelFactory = TrackerSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!, packageInfo)
-        trackerSourceViewModel = ViewModelProvider(this, trackerSourceViewModelFactory)[TrackerSourceViewModel::class.java]
+        classSourceViewModelFactory = ClassSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!, packageInfo)
+        classSourceViewModel = ViewModelProvider(this, classSourceViewModelFactory)[ClassSourceViewModel::class.java]
 
         return view
     }
@@ -70,7 +70,7 @@ class TrackerSourceViewer : ScopedFragment() {
 
         name.text = requireArguments().getString(BundleConstants.className) ?: getString(R.string.not_available)
 
-        trackerSourceViewModel.getSourceData().observe(viewLifecycleOwner) {
+        classSourceViewModel.getSourceData().observe(viewLifecycleOwner) {
             text.setText(it)
         }
 
@@ -96,11 +96,11 @@ class TrackerSourceViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(className: String, packageInfo: PackageInfo): TrackerSourceViewer {
+        fun newInstance(className: String, packageInfo: PackageInfo): ClassSourceViewer {
             val args = Bundle()
             args.putString(BundleConstants.className, className)
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = TrackerSourceViewer()
+            val fragment = ClassSourceViewer()
             fragment.arguments = args
             return fragment
         }

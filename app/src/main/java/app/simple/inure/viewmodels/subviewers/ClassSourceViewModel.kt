@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.InputStream
 
-class TrackerSourceViewModel(application: Application, val className: String, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ClassSourceViewModel(application: Application, val className: String, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val sourceData: MutableLiveData<Spannable> by lazy {
         MutableLiveData<Spannable>().also {
@@ -50,7 +50,7 @@ class TrackerSourceViewModel(application: Application, val className: String, va
 
             reflector.generateClassData()
 
-            sourceData.postValue(reflector.toString().highlightJava())
+            sourceData.postValue(reflector.toString().trimStart().highlightJava())
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {

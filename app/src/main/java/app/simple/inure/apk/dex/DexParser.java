@@ -69,6 +69,7 @@ public class DexParser {
         DexClass[] dexClasses = new DexClass[dexClassStructs.length];
         for (int i = 0; i < dexClassStructs.length; i++) {
             DexClassStruct dexClassStruct = dexClassStructs[i];
+    
             String superClass = null;
             if (dexClassStruct.getSuperclassIdx() != NO_INDEX) {
                 superClass = types[dexClassStruct.getSuperclassIdx()];
