@@ -1,0 +1,4 @@
+- Fixed plenty of issues
+- Major changes and improvements
+
+For full list of changes, see the changelogs in the app.
