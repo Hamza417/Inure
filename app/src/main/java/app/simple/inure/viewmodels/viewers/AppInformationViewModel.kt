@@ -331,9 +331,9 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         var count = 0
         val method = kotlin.runCatching {
             val dexClasses = try {
-                packageInfo.applicationInfo.sourceDir.toFile().getDexData()!!
+                packageInfo.applicationInfo.sourceDir.toFile().getDexData()
             } catch (e: DexClassesNotFoundException) {
-                packageInfo.applicationInfo.publicSourceDir.toFile().getDexData()!!
+                packageInfo.applicationInfo.publicSourceDir.toFile().getDexData()
             }
 
             for (clazz in dexClasses) {
@@ -489,7 +489,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             }
         }
 
-        if (packageInfo.providers != null) {
+        if (packageInfo.receivers != null) {
             for (receiver in packageInfo.receivers) {
                 for (tracker in trackers) {
                     if (receiver.name.lowercase().contains(tracker.lowercase())) {
