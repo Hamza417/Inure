@@ -122,6 +122,7 @@ class APKs : ScopedFragment() {
                                         adapterApks.paths.removeAt(position)
                                         adapterApks.notifyItemRemoved(position.plus(1))
                                         adapterApks.notifyItemChanged(0) // Update the header
+                                        apkBrowserViewModel.delete(adapterApks.paths[position])
                                     }
                                 }
                             })

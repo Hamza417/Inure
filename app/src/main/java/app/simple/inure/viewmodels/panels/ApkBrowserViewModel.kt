@@ -181,12 +181,10 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 val mediaPaths = ArrayList<ApkFile>()
 
                 for (file in filteredPaths) {
-                    println("Time taken: " + measureTimeMillis {
-                        if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
-                            mediaPaths.add(file)
-                            Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
-                        }
-                    })
+                    if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
+                        mediaPaths.add(file)
+                        Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
+                    }
                 }
 
                 filteredPaths.clear()
@@ -268,8 +266,39 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                         it.file.absolutePath.contains(keyword, true) ||
                         it.file.extension.contains(keyword, true) ||
                         it.file.lastModified().toDate().contains(keyword, true)) {
-                        filteredPaths.add(it)
+                        if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APK) && it.file.extension == "apk") {
+                            filteredPaths.add(it)
+                        }
+
+                        if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKS) && it.file.extension == "apks") {
+                            filteredPaths.add(it)
+                        }
+
+                        if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_APKM) && it.file.extension == "apkm") {
+                            filteredPaths.add(it)
+                        }
+
+                        if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_XAPK) && it.file.extension == "xapk") {
+                            filteredPaths.add(it)
+                        }
                     }
+                }
+            }
+
+            if (FlagUtils.isFlagSet(ApkBrowserPreferences.getApkFilter(), SortConstant.APKS_HIDDEN).invert()) {
+                val mediaPaths = ArrayList<ApkFile>()
+
+                for (file in filteredPaths) {
+                    if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
+                        mediaPaths.add(file)
+                        Log.d("ApkBrowserViewModel", "loadApkPaths: ${file.file.absolutePath} : is not nomedia file")
+                    }
+                }
+
+                filteredPaths.clear()
+
+                for (file in mediaPaths) {
+                    filteredPaths.add(file)
                 }
             }
 
@@ -278,5 +307,9 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
             @Suppress("UNCHECKED_CAST")
             searchData.postValue(filteredPaths.clone() as ArrayList<ApkFile>)
         }
+    }
+
+    fun delete(file: ApkFile) {
+        files.remove(file)
     }
 }
