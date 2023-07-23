@@ -85,11 +85,19 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
         return if (isInstalled) {
-            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_SERVICES)!!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                packageManager.getPackageInfo(packageInfo.packageName,
+                                              PackageManager.GET_SERVICES or PackageManager.MATCH_DISABLED_COMPONENTS)!!
+            } else {
+                packageManager.getPackageInfo(packageInfo.packageName,
+                                              PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS)!!
+            }
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_SERVICES)!!
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir,
+                                                 PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS)!!
         }
     }
 }

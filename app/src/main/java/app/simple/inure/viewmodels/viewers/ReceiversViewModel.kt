@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -82,11 +83,19 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
         return if (isInstalled) {
-            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_RECEIVERS)!!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                packageManager.getPackageInfo(packageInfo.packageName,
+                                              PackageManager.GET_RECEIVERS or PackageManager.MATCH_DISABLED_COMPONENTS)!!
+            } else {
+                packageManager.getPackageInfo(packageInfo.packageName,
+                                              PackageManager.GET_RECEIVERS or PackageManager.GET_DISABLED_COMPONENTS)!!
+            }
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_RECEIVERS)!!
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir,
+                                                 PackageManager.GET_RECEIVERS or PackageManager.GET_DISABLED_COMPONENTS)!!
         }
     }
 }

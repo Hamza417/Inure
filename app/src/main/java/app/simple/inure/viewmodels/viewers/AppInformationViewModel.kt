@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.text.Spannable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -65,15 +64,12 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                 val zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
                 val file = applicationContext().getInstallerDir("temp")
 
-                Log.d("AppInformationViewModel", "loadInformation: ${file.absolutePath}")
-
                 file.deleteRecursively()
                 file.mkdirs()
                 zipFile.extractAll(file.path)
 
                 for (apkFile in file.listFiles()!!) {
                     if (apkFile.absolutePath.endsWith(".apk", ignoreCase = true)) {
-                        Log.d("AppInformationViewModel", "loadInformation: ${apkFile.absolutePath}")
                         packageInfo = packageManager.getPackageArchiveInfo(apkFile.absolutePath)!!
                         packageInfo.applicationInfo.sourceDir = apkFile.absolutePath
                         packageInfo.applicationInfo.publicSourceDir = apkFile.absolutePath
@@ -303,6 +299,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     is ApkMeta -> {
                         "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
                     }
+
                     else -> {
                         getString(R.string.not_available)
                     }
