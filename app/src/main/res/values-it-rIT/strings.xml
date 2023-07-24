@@ -614,6 +614,7 @@
     <string name="bottom_menu_context_desc">Aggiungi etichette sotto le icone del menu inferiore per rendere chiara la loro funzione e il contesto.</string>
     <string name="clear">Cancella</string>
     <string name="uninstall_updates">Disinstalla aggiornamenti</string>
+    <string name="trackers_count">%1$d tracker</string>
     <string name="inure_has_been_updated">Inure è stato aggiornato, vuoi vedere il registro modifiche?</string>
     <string name="refetching_data">Ricarica dati</string>
     <string name="changes_are_not_saved_continue">Le modifiche non sono salvate, continuare?</string>
@@ -685,4 +686,15 @@
     <string name="selected">Selezionati</string>
     <string name="package_type">Tipo Pacchetto</string>
     <string name="info_visibility_customization_desc">Personalizza la striscia di informazioni degli elenchi dei pannelli di alcune applicazioni principali.</string>
+    <string name="group">Gruppo</string>
+    <string name="channel">Canale</string>
+    <string name="rate_reminder">Hai avviato Inure %1$d volte dal %2$s, ti piacerebbe scrivere una recensione e farmi sapere la tua esperienza?</string>
+    <string name="create_shortcut">Crea collegamento</string>
+    <string name="block">Blocca</string>
+    <string name="unblock">Sblocca</string>
+    <string name="undo">Annulla</string>
+    <string name="redo">Ripeti</string>
+    <string name="external_storage">Memoria esterna</string>
+    <string name="external_storage_desc">Includi anche la memoria esterna durante la scansione.</string>
+    <string name="public_key_type">Tipo chiave pubblica</string>
 </resources>
