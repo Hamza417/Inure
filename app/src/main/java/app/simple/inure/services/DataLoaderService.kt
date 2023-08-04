@@ -80,17 +80,12 @@ class DataLoaderService : Service() {
             }
         })
 
-        registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
+        // registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         startLoading()
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(appUninstalledBroadcastReceiver)
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
