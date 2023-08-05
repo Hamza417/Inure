@@ -74,7 +74,7 @@
     <string name="screen">Tela</string>
     <string name="keep_screen_on">Manter tela ligada</string>
     <string name="keep_screen_on_desc">Impede que o dispositivo entre em suspensão enquanto o aplicativo estiver visível.</string>
-    <string name="signature_or_system">Assinatura</string>
+    <string name="signature_or_system">Assinatura ou Sistema</string>
     <string name="signature">Assinatura</string>
     <string name="normal">Normal</string>
     <string name="dangerous">Perigoso</string>
@@ -554,7 +554,7 @@
     <string name="transition_type">Tipo de Transição</string>
     <string name="transition_type_desc">Tipo de transição a ser exibida quando o painel é alterado.</string>
     <string name="arc_type">Tipo de Arco</string>
-    <string name="arc_type_desc">O tipo de arco a ser utilizado no painel é alterado.</string>
+    <string name="arc_type_desc">Tipo de arco a ser usado quando o painel é alterado.</string>
     <string name="usage_statistics_engine">Mecanismo de Estatísticas de Uso</string>
     <string name="legacy">Legado</string>
     <string name="screen_time">Tempo de Tela</string>
