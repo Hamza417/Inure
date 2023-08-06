@@ -48,7 +48,6 @@ import app.simple.inure.ui.panels.Uninstalled
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
-import app.simple.inure.util.CalendarUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.Logger
@@ -295,14 +294,20 @@ class MainActivity : BaseActivity() {
 
     private fun setExpiryStamp() {
         val expiryDate = Calendar.getInstance()
+        val today = Calendar.getInstance()
 
         expiryDate.clear()
-        expiryDate.set(2023, Calendar.JULY, 20)
+        expiryDate.set(2023, Calendar.AUGUST, 20)
         expiryDate.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
 
-        if (CalendarUtils.isToday(expiryDate)) {
+        today.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
+
+        if (today.after(expiryDate) || today == expiryDate) {
             Toast.makeText(applicationContext, "Application Expired!", Toast.LENGTH_SHORT).show()
             finish()
+        } else {
+            val daysLeft = expiryDate.get(Calendar.DAY_OF_YEAR) - today.get(Calendar.DAY_OF_YEAR)
+            Toast.makeText(applicationContext, "Application expires in $daysLeft days", Toast.LENGTH_SHORT).show()
         }
     }
 
