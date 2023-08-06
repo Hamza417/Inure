@@ -74,7 +74,7 @@
     <string name="screen">Screen</string>
     <string name="keep_screen_on">保持屏幕常亮​​​​​​​​</string>
     <string name="keep_screen_on_desc">在应用程序可见时阻止设备休眠.</string>
-    <string name="signature_or_system">签名相同或系统级</string>
+    <string name="signature_or_system">签名或系统</string>
     <string name="signature">签名</string>
     <string name="normal">标准</string>
     <string name="dangerous">危险</string>
@@ -554,7 +554,7 @@
     <string name="transition_type">过渡类型</string>
     <string name="transition_type_desc">切换面板时中播放的过渡类型。</string>
     <string name="arc_type">弧类型</string>
-    <string name="arc_type_desc">切换要使用的弧动画类型。</string>
+    <string name="arc_type_desc">切换面板时使用的弧动画类型</string>
     <string name="usage_statistics_engine">使用情况统计引擎</string>
     <string name="legacy">传统</string>
     <string name="screen_time">屏幕开启时间：</string>
@@ -696,4 +696,5 @@
     <string name="redo">重做</string>
     <string name="external_storage">外部存储</string>
     <string name="external_storage_desc">同时扫描外部存储</string>
+    <string name="public_key_type">公钥类型</string>
 </resources>
