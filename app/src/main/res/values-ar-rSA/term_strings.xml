@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">نافذة جديده</string>
+    <string name="close_window">إغلاق النافذة</string>
+    <string name="window_list">النوافذ</string>
+    <string name="prev_window">النافذة السابقة</string>
+    <string name="next_window">النافذة التالية</string>
+    <string name="special_keys">مفاتيح خاصة</string>
+    <string name="toggle_soft_keyboard">تبديل لوحة المفاتيح الناعمُ</string>
+    <string name="reset_toast_notification">تم استعادة الحالة الافتراضية لهذه النافذة.</string>
+    <string name="enable_wakelock">تمكين WakeLock</string>
+    <string name="disable_wakelock">تعطيل WakeLock</string>
+    <string name="enable_wifilock">تمكين WifiLock</string>
+    <string name="disable_wifilock">تعطيل WifiLock</string>
+    <string name="select_text">تحديد نص</string>
+    <string name="copy_all">نسخ الكل</string>
+    <string name="paste">لصق</string>
+    <string name="send_control_key">إرسال مفتاح التحكم</string>
+    <string name="send_fn_key">إرسال مفتاح الدالة</string>
+    <string name="window_title">النافذة %1$d</string>
+    <string name="service_notify_text">الطرفية قيد التشغيل</string>
+    <string name="process_exit_message">جَلسَة الطرفية تم إنهاءها</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">الشاشة</string>
+    <string name="title_cursorblink_preference">مؤشر وامض</string>
+    <string name="summary_cursorblink_preference">وميض المؤشر بشكل متكرر في نوافذِ الطرفية.</string>
+    <string name="text_preferences">النص</string>
+    <string name="title_utf8_by_default_preference">جعل UTF-8 افتراضي</string>
+    <string name="summary_utf8_by_default_preference">إذا كنت تريد وضع UTF-8 للنص مفعل بشكل افتراضي.</string>
+    <string name="title_fontsize_preference">حجم الخط</string>
+    <string name="summary_fontsize_preference">اختر حجم الخط بالنقاط.</string>
+    <string name="dialog_title_fontsize_preference">حجم الخط</string>
+    <string name="title_color_preference">الألوان</string>
+    <string name="summary_color_preference">اختر لونَ الخط.</string>
+    <string name="dialog_title_color_preference">لون الخط</string>
+    <string name="keyboard_preferences">لوحة المفاتيح</string>
+    <string name="title_backaction_preference">وظيفة زر الرجوع</string>
+    <string name="summary_backaction_preference">اختر ماذا يحدث عند الضغط على زر الرجوع.</string>
+    <string name="title_controlkey_preference">مفتاح التحكم</string>
+    <string name="summary_controlkey_preference">اختر تعين أزار المفتاح مثلا زر رفع الصوت.</string>
+    <string name="title_fnkey_preference">مفتاح الدالة</string>
+    <string name="summary_fnkey_preference">تعين المفتاح مثلا زر خفض الصوت.</string>
+    <string name="title_ime_preference">طريقة الإدخال</string>
+    <string name="summary_ime_preference">اختر طريقة الإدخال للوحة مفاتيح المس.</string>
+    <string name="title_shell_preference">سطر الأوامر</string>
+    <string name="summary_shell_preference">حدد سطر أوامر \"الـsh shell\".</string>
+    <string name="title_initialcommand_preference">أمر عند البَدْءِ</string>
+    <string name="summary_initialcommand_preference">سيتم إرسال الأمر عند تشغيل الطرفية.</string>
+    <string name="title_termtype_preference">نوع الطرفية</string>
+    <string name="summary_termtype_preference">ما نوع الطرفية التي ستعمل بها \"الـshell\".</string>
+    <string name="title_close_window_on_process_exit_preference">إغلاق النافذة عند الخروج</string>
+    <string name="summary_close_window_on_process_exit_preference">إذا أردت إغلاق النافذة عند كتابة \"exit\" والخروج من \"الـshell\".</string>
+    <string name="title_verify_path_preference">التحقق إدخالات المسار</string>
+    <string name="summary_verify_path_preference">إذا أرت إزالة الدلائل التي يتعذر الوصول لمسارها الصحيح.</string>
+    <string name="title_do_path_extensions_preference">السماح بملحقات المسار</string>
+    <string name="summary_do_path_extensions_preference">إذا أردتَ السماح للتطبيقات الأخرى بتوفير أوامر إضافية (وإضافتها إلى المسار).</string>
+    <string name="title_allow_prepend_path_preference">السماح المسبق للمسار</string>
+    <string name="summary_allow_prepend_path_preference">إذا أردت السماح للتطبيقات الأخرى بتجاوز الأوامر الموجودة (وأضف إلى بداية المسار).</string>
+    <string name="title_home_path_preference">المجلد الرئيسيّ</string>
+    <string name="summary_home_path_preference">مسار قابل للكتابة لإستخدامه كمسار رئيسي للتطبيق.</string>
+    <string name="control_key_dialog_title">مفاتيح التحكم والدالة</string>
+    <string name="control_key_dialog_control_disabled_text">تعطيل مفتاح التحكم.</string>
+    <string name="control_key_dialog_fn_disabled_text">تعطيل مفتاح الدالة.</string>
+    <string name="confirm_window_close_message">إغلاق هذه النافذة؟</string>
+    <string name="perm_run_script">تشغيل الأوامر التعسفية في محاكي الطرفية</string>
+    <string name="permdesc_run_script">السماح للتطبيق بفتح نوافذ جديدة في محاكي الطرفية
+لنظام \"Android\" وتشغيل الأوامر في تلك النوافذ مع جميع أُذونات ، محاكي الطرفية بما في ذلك الوصول إلى الإنترنت وبطاقة SD الخاصة بك.</string>
+    <string name="perm_append_to_path">إضافة أوامر إلى محاكي الطرفية</string>
+    <string name="permdesc_append_to_path">السماح للتطبيق بتوفير أوامر إضافية (وإضافة أدلة إلى المسار) لمحاكي الطرفية.</string>
+    <string name="perm_prepend_to_path">تجاوز الأوامر في محاكي الطرفية</string>
+    <string name="permdesc_prepend_to_path">السماح للتطبيق بتجاوز الأوامر الموجودة مع إصداراتها الخاصة (وإلحاق الدلائل مسبقاً بالمسار) في محاكي الطرفية.</string>
+    <string name="email_transcript_chooser_title">نسخ البريد باستخدام:</string>
+    <string name="email_transcript_no_email_activity_found">تعذر اختيار نشاط البريد إلكتروني لإرسال النص.</string>
+    <string name="alt_sends_esc">استخدم مفتاح \"Alt\" لإرسال \"ESC\"</string>
+    <string name="title_mouse_tracking_preference">إرسال إدخالات الفأرة</string>
+    <string name="summary_mouse_tracking_preference">إذا أردت إرسال أحداث النقر والتمرير كتسلسل للمرور إلى الطرفية.</string>
+    <string name="title_use_rish">استخدام ريش</string>
+    <string name="summary_use_rish">إذا أردت استخدام \"شيزوكو ريش\" (مضيف الشل التفاعلي عن بعد) \n\n. الوصول إلى شيزوكو مطلوب.</string>
+    <string name="title_use_keyboard_shortcuts">استخدام اختصارات لوحة المفاتيح</string>
+    <string name="use_keyboard_shortcuts_summary_on">:Ctrl-Tab التنقل عبر النوافذ  Ctrl-Shift-N: \n نافذة جديدة \n :Ctrl-Shift-V لصق.</string>
+    <string name="help">مساعدة</string>
+    <string name="activity_term_here_title">المدة هنا</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">اختصار للمدة</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">الأمر</string>
+    <string name="addshortcut_button_find_command">بحث عن أمر</string>
+    <string name="addshortcut_navigator_title">حدد هدف الاختصار</string>
+    <string name="addshortcut_command_window_instructions">تتطلب نافذة الأوامر مسارا كاملا، دون وسيطات. بالنسبة للأوامر الأخرى، استخدم نافذة الوسيط (على سبيل المثال: cd/sdcard).</string>
+    <string name="addshortcut_arguments_label">الوسيطات</string>
+    <string name="addshortcut_shortcut_label">تسمية الاختصار</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">قُفْل</string>
+    <string name="colorvalue_icon_text_entry_hint">أدخل نص الأيقونة</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
