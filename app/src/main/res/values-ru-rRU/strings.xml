@@ -74,7 +74,7 @@
     <string name="screen">Экран</string>
     <string name="keep_screen_on">Оставить экран включённым</string>
     <string name="keep_screen_on_desc">Предотвращает спящий режим, когда приложение видимо.</string>
-    <string name="signature_or_system">Система подписей</string>
+    <string name="signature_or_system">Подпись или Система</string>
     <string name="signature">Подпись</string>
     <string name="normal">По умолчанию</string>
     <string name="dangerous">Опасный</string>
@@ -557,7 +557,7 @@
     <string name="transition_type">Тип перехода</string>
     <string name="transition_type_desc">Тип перехода при переключении панели.</string>
     <string name="arc_type">Тип дуги</string>
-    <string name="arc_type_desc">Тип используемой дуги на панели переключения.</string>
+    <string name="arc_type_desc">Тип дуги, используемой при переключении панели.</string>
     <string name="usage_statistics_engine">Движок статистики использования</string>
     <string name="legacy">Legacy</string>
     <string name="screen_time">Время работы экрана</string>
@@ -617,6 +617,7 @@
     <string name="bottom_menu_context_desc">Добавление меток под значками нижнего меню, чтобы прояснить их назначение и контекст.</string>
     <string name="clear">Очистить</string>
     <string name="uninstall_updates">Удалить обновления</string>
+    <string name="trackers_count">%1$d трекер/ов</string>
     <string name="inure_has_been_updated">Inure был обновлён, вы хотели бы видеть список изменений?</string>
     <string name="refetching_data">Извлечение данных</string>
     <string name="changes_are_not_saved_continue">Изменения не сохранены. Продолжить?</string>
@@ -691,4 +692,12 @@
     <string name="group">Группа</string>
     <string name="channel">Канал</string>
     <string name="rate_reminder">Вы запустили Inure %1$d начиная с %2$s, хотите написать отзыв и поделиться своим опытом?</string>
+    <string name="create_shortcut">Создать ярлык</string>
+    <string name="block">Заблокировать</string>
+    <string name="unblock">Разблокировать</string>
+    <string name="undo">Отменить</string>
+    <string name="redo">Повторить</string>
+    <string name="external_storage">Внешнее хранилище</string>
+    <string name="external_storage_desc">Также включать внешний накопитель во время сканирования.</string>
+    <string name="public_key_type">Тип публичного ключа</string>
 </resources>
