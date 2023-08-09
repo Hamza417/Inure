@@ -45,6 +45,7 @@ import app.simple.inure.dialogs.action.Uninstaller
 import app.simple.inure.dialogs.action.UpdatesUninstaller
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -484,7 +485,7 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.fdroid -> {
-                            MarketUtils.openAppOnFdroid(requireContext(), packageInfo.packageName)
+                            childFragmentManager.showFdroidStores(packageInfo)
                         }
 
                         R.string.galaxy_store -> {

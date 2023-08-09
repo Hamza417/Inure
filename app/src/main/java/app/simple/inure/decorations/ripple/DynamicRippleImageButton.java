@@ -33,8 +33,11 @@ public class DynamicRippleImageButton extends ThemeButton {
         setBackgroundColor(Color.TRANSPARENT);
     
         setOnLongClickListener(view -> {
-            if (getContentDescription() != null || !getContentDescription().toString().isEmpty()) {
-                new PopupTooltip(view);
+            try {
+                if (getContentDescription() != null || !getContentDescription().toString().isEmpty()) {
+                    new PopupTooltip(view);
+                }
+            } catch (NullPointerException ignored) {
             }
             return false;
         });

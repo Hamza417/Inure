@@ -164,6 +164,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             list.add(Pair(R.drawable.ic_downloading, R.string.extract))
             list.add(Pair(R.drawable.ic_play_store, R.string.play_store))
             list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
+            list.add(Pair(R.drawable.ic_fdroid, R.string.izzyondroid))
             list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
             list.add(Pair(R.drawable.ic_galaxy_appstore, R.string.galaxy_store))
 
