@@ -137,6 +137,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t<fdroid_link>https://f-droid.org/en/packages/${app.packageName}</fdroid_link>\n")
 
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                stringBuilder.append("\t\t<izzyondroid_link>https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}</izzyondroid_link>\n")
+
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                 stringBuilder.append("\t\t<amazon_store_link>https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}</amazon_store_link>\n")
 
@@ -191,6 +194,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("https://f-droid.org/en/packages/${apps[i].packageName}\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                stringBuilder.append("https://apt.izzysoft.de/fdroid/index/apk/${apps[i].packageName}\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                 stringBuilder.append("https://www.amazon.com/gp/mas/dl/android?p=${apps[i].packageName}\n")
@@ -250,6 +256,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                     stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\"")
 
+                if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                    stringBuilder.append("\n\t\t\t\"izzyondroid_link\": \"https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}\"")
+
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                     stringBuilder.append("\n\t\t\t\"amazon_store_link\": \"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\"")
 
@@ -304,6 +313,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\"F-Droid Link,\"")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+            stringBuilder.append("\"IzzyOnDroid Link,\"")
+
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
             stringBuilder.append("\"Amazon Store Link,\"")
 
@@ -344,6 +356,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\"https://f-droid.org/en/packages/${app.packageName}\",")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                stringBuilder.append("\"https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}\",")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                 stringBuilder.append("\"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\",")
@@ -448,6 +463,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append("\t\t\t<th>F-Droid Link</th>\r\n")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+            stringBuilder.append("\t\t\t<th>IzzyOnDroid Link</th>\r\n")
+
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
             stringBuilder.append("\t\t\t<th>Amazon Store Link</th>\r\n")
 
@@ -493,6 +511,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append("\t\t\t<td><a href=\"https://f-droid.org/en/packages/${app.packageName}\">F-Droid</a></td>\r\n")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                stringBuilder.append("\t\t\t<td><a href=\"https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}\">IzzyOnDroid</a></td>\r\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                 stringBuilder.append("\t\t\t<td><a href=\"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\">Amazon Store</a></td>\r\n")
@@ -555,6 +576,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
             stringBuilder.append(" F-Droid Link |")
 
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+            stringBuilder.append(" IzzyOnDroid Link |")
+
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
             stringBuilder.append(" Amazon Store Link |")
 
@@ -595,6 +619,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             stringBuilder.append(" --- |")
 
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
+            stringBuilder.append(" --- |")
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
             stringBuilder.append(" --- |")
 
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
@@ -642,6 +669,9 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
                 stringBuilder.append(" [F-Droid](https://f-droid.org/en/packages/${app.packageName}) |")
+
+            if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
+                stringBuilder.append(" [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}) |")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
                 stringBuilder.append(" [Amazon Store](https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}) |")

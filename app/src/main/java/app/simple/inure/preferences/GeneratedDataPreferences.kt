@@ -17,6 +17,7 @@ object GeneratedDataPreferences {
     const val FDROID = 1L shl 10
     const val AMAZON_STORE = 1L shl 11
     const val GALAXY_STORE = 1L shl 12
+    const val IZZYONDROID = 1L shl 13
 
     private const val DEFAULT_FLAGS = NAME or
             PACKAGE_NAME or

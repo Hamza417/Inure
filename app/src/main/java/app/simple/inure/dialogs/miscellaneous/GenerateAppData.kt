@@ -121,6 +121,12 @@ class GenerateAppData : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
             }
 
+            sourceFlags = if (checkedIds.contains(R.id.izzyondroid)) {
+                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
+            }
+
             sourceFlags = if (checkedIds.contains(R.id.amazon)) {
                 FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
             } else {
