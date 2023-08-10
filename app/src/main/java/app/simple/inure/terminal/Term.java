@@ -16,6 +16,7 @@
 
 package app.simple.inure.terminal;
 
+import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -94,6 +95,7 @@ import app.simple.inure.util.NullSafety;
 /**
  * A terminal emulator activity.
  */
+@SuppressWarnings ("FieldCanBeLocal")
 public class Term extends BaseActivity implements UpdateCallback,
                                                   SharedPreferences.OnSharedPreferenceChangeListener,
                                                   ThemeChangedListener {
@@ -107,6 +109,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private DynamicRippleImageButton options;
     private DynamicRippleTextView currentWindow;
     private PopupTerminalWindows popupTerminalWindows;
+    @SuppressWarnings ("unused")
     private ImageView icon;
     private FrameLayout content;
     
@@ -120,8 +123,8 @@ public class Term extends BaseActivity implements UpdateCallback,
     private final static int SEND_CONTROL_KEY_ID = 3;
     private final static int SEND_FN_KEY_ID = 4;
     
-    private boolean mAlreadyStarted = false;
-    private boolean mStopServiceOnFinish = false;
+    private boolean alreadyStarted = false;
+    private boolean stopServiceOnFinish = false;
     
     private Intent TSIntent;
     
@@ -135,7 +138,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     // Available on API 12 and later
     private static final int WIFI_MODE_FULL_HIGH_PERF = 3;
     
-    private boolean mBackKeyPressed;
+    private boolean backKeyPressed;
     
     private static final String ACTION_CLOSE = "inure.terminal.close";
     private static final String ACTION_PATH_BROADCAST = "inure.terminal.broadcast.APPEND_TO_PATH";
@@ -157,7 +160,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 settings.setAppendPath(path);
             }
             pendingPathBroadcasts--;
-            
+    
             if (pendingPathBroadcasts <= 0 && termService != null) {
                 populateViewFlipper();
                 populateWindowList();
@@ -167,7 +170,71 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
+    @SuppressWarnings ("unused")
+    private ActionBarCompat mActionBar;
     
+    private void populateViewFlipper() {
+        if (termService != null) {
+            termSessions = termService.getSessions();
+            onResumeSelectWindow = termService.getWindowId();
+            
+            if (termSessions.size() == 0) {
+                try {
+                    termSessions.add(createTermSession(null));
+                } catch (IOException e) {
+                    Toast.makeText(this, "Failed to start terminal session", Toast.LENGTH_LONG).show();
+                    supportFinishAfterTransition();
+                    return;
+                }
+            }
+            
+            termSessions.addCallback(this);
+            
+            for (TermSession session : termSessions) {
+                EmulatorView view = createEmulatorView(session);
+                viewFlipper.addView(view);
+            }
+            
+            updatePrefs();
+            
+            if (onResumeSelectWindow >= 0) {
+                viewFlipper.setDisplayedChild(onResumeSelectWindow);
+                onResumeSelectWindow = -1;
+            }
+            
+            viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
+                if (adapterWindows != null && !termSessions.isEmpty()) {
+                    currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
+                    termService.setWindowId(index);
+                }
+            });
+            
+            viewFlipper.onResume();
+        }
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        settings.readPrefs(sharedPreferences);
+    }
+    
+    private ServiceConnection TSConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            Log.i(TermDebug.LOG_TAG, "Bound to TermService");
+            TermService.TSBinder binder = (TermService.TSBinder) service;
+            termService = binder.getService();
+            if (pendingPathBroadcasts <= 0) {
+                populateViewFlipper();
+                populateWindowList();
+            }
+        }
+        
+        public void onServiceDisconnected(ComponentName arg0) {
+            termService = null;
+        }
+    };
+    
+    @SuppressWarnings ("RedundantLabeledSwitchRuleCodeBlock")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,32 +242,32 @@ public class Term extends BaseActivity implements UpdateCallback,
         getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         
         fullVersionCheck();
-    
+        
         privateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
         
         if (savedInstanceState == null) {
             onNewIntent(getIntent());
         }
-    
+        
         final SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = new TermSettings(getResources(), mPrefs);
         mPrefs.registerOnSharedPreferenceChangeListener(this);
-    
+        
         Intent broadcast = new Intent(ACTION_PATH_BROADCAST);
         broadcast.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-    
+        
         pendingPathBroadcasts++;
         sendOrderedBroadcast(broadcast, PERMISSION_PATH_BROADCAST, pathReceiver, null, RESULT_OK, null, null);
-    
+        
         broadcast = new Intent(broadcast);
         broadcast.setAction(ACTION_PATH_PREPEND_BROADCAST);
-    
+        
         pendingPathBroadcasts++;
         sendOrderedBroadcast(broadcast, PERMISSION_PATH_PREPEND_BROADCAST, pathReceiver, null, RESULT_OK, null, null);
-    
+        
         TSIntent = new Intent(this, TermService.class);
         startService(TSIntent);
-    
+        
         if (AndroidCompat.SDK >= 11) {
             int actionBarMode = settings.actionBarMode();
             this.actionBarMode = actionBarMode;
@@ -213,7 +280,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         } else {
             actionBarMode = TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE;
         }
-    
+        
         setContentView(R.layout.activity_terminal);
         viewFlipper = findViewById(R.id.view_flipper);
         add = findViewById(R.id.add);
@@ -222,14 +289,14 @@ public class Term extends BaseActivity implements UpdateCallback,
         currentWindow = findViewById(R.id.current_window);
         icon = findViewById(R.id.terminal_icon);
         content = findViewById(android.R.id.content);
-    
+        
         content.setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
-    
+        
         add.setOnClickListener(v -> doCreateNewWindow());
         close.setOnClickListener(v -> confirmCloseWindow());
         options.setOnClickListener(v -> {
             TerminalMainMenu terminalMainMenu = TerminalMainMenu.Companion.newInstance(wakeLock.isHeld(), wifiLock.isHeld());
-    
+            
             terminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
                     case 0 -> {
@@ -262,10 +329,10 @@ public class Term extends BaseActivity implements UpdateCallback,
                     }
                 }
             });
-    
+            
             terminalMainMenu.show(getSupportFragmentManager(), "terminal_menu");
         });
-    
+        
         currentWindow.setOnClickListener(v -> {
             try {
                 popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows);
@@ -273,7 +340,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 e.printStackTrace();
             }
         });
-    
+        
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Inure Terminal:" + TermDebug.LOG_TAG);
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -281,12 +348,12 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (AndroidCompat.SDK >= 12) {
             wifiLockMode = WIFI_MODE_FULL_HIGH_PERF;
         }
-    
+        
         wifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
         mHaveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
         
         updatePrefs();
-        mAlreadyStarted = true;
+        alreadyStarted = true;
         
         closeBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -302,69 +369,6 @@ public class Term extends BaseActivity implements UpdateCallback,
             }
         };
     }
-    
-    private void populateViewFlipper() {
-        if (termService != null) {
-            termSessions = termService.getSessions();
-            onResumeSelectWindow = termService.getWindowId();
-    
-            if (termSessions.size() == 0) {
-                try {
-                    termSessions.add(createTermSession(null));
-                } catch (IOException e) {
-                    Toast.makeText(this, "Failed to start terminal session", Toast.LENGTH_LONG).show();
-                    supportFinishAfterTransition();
-                    return;
-                }
-            }
-    
-            termSessions.addCallback(this);
-    
-            for (TermSession session : termSessions) {
-                EmulatorView view = createEmulatorView(session);
-                viewFlipper.addView(view);
-            }
-    
-            updatePrefs();
-    
-            if (onResumeSelectWindow >= 0) {
-                viewFlipper.setDisplayedChild(onResumeSelectWindow);
-                onResumeSelectWindow = -1;
-            }
-    
-            viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
-                if (adapterWindows != null && !termSessions.isEmpty()) {
-                    currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
-                    termService.setWindowId(index);
-                }
-            });
-    
-            viewFlipper.onResume();
-        }
-    }
-    
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        settings.readPrefs(sharedPreferences);
-    }
-    
-    private ServiceConnection TSConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            Log.i(TermDebug.LOG_TAG, "Bound to TermService");
-            TermService.TSBinder binder = (TermService.TSBinder) service;
-            termService = binder.getService();
-            if (pendingPathBroadcasts <= 0) {
-                populateViewFlipper();
-                populateWindowList();
-            }
-        }
-        
-        public void onServiceDisconnected(ComponentName arg0) {
-            termService = null;
-        }
-    };
-    
-    private ActionBarCompat mActionBar;
     
     private void populateWindowList() {
         if (termSessions != null) {
@@ -424,8 +428,8 @@ public class Term extends BaseActivity implements UpdateCallback,
         pathReceiver = null;
         
         super.onDestroy();
-        
-        if (mStopServiceOnFinish) {
+    
+        if (stopServiceOnFinish) {
             stopService(TSIntent);
         }
         
@@ -591,11 +595,12 @@ public class Term extends BaseActivity implements UpdateCallback,
             o = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
         } else if (orientation == 1) {
             o = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        } else if (orientation == 2) {
-            o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        } else {
-            /* Shouldn't be happened. */
-        }
+        } else //noinspection StatementWithEmptyBody
+            if (orientation == 2) {
+                o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            } else {
+                /* Shouldn't be happened. */
+            }
         setRequestedOrientation(o);
     }
     
@@ -746,6 +751,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }.start();
     }
     
+    @SuppressLint ("GestureBackNavigation")
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -756,7 +762,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
                 switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
                     case TermSettings.BACK_KEY_STOPS_SERVICE:
-                        mStopServiceOnFinish = true;
+                        stopServiceOnFinish = true;
                     case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
                         supportFinishAfterTransition();
                         return true;
@@ -841,21 +847,16 @@ public class Term extends BaseActivity implements UpdateCallback,
         
         terminalContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
             switch (source) {
-                case SELECT_TEXT_ID:
-                    getCurrentEmulatorView().toggleSelectingText();
-                    break;
-                case COPY_ALL_ID:
-                    doCopyAll();
-                    break;
-                case PASTE_ID:
-                    doPaste();
-                    break;
-                case SEND_CONTROL_KEY_ID:
-                    doSendControlKey();
-                    break;
-                case SEND_FN_KEY_ID:
-                    doSendFnKey();
-                    break;
+                case SELECT_TEXT_ID ->
+                        getCurrentEmulatorView().toggleSelectingText();
+                case COPY_ALL_ID ->
+                        doCopyAll();
+                case PASTE_ID ->
+                        doPaste();
+                case SEND_CONTROL_KEY_ID ->
+                        doSendControlKey();
+                case SEND_FN_KEY_ID ->
+                        doSendFnKey();
             }
         });
         
@@ -870,7 +871,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
         
         if (sessions.size() == 0) {
-            mStopServiceOnFinish = true;
+            stopServiceOnFinish = true;
             supportFinishAfterTransition();
         } else if (sessions.size() < viewFlipper.getChildCount()) {
             for (int i = 0; i < viewFlipper.getChildCount(); ++i) {
@@ -925,7 +926,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 // Close the activity if user closed all sessions
                 // TODO the left path will be invoked when nothing happened, but this Activity was destroyed!
                 if (termSessions == null || termSessions.size() == 0) {
-                    mStopServiceOnFinish = true;
+                    stopServiceOnFinish = true;
                     supportFinishAfterTransition();
                 }
             }
@@ -942,13 +943,14 @@ public class Term extends BaseActivity implements UpdateCallback,
                down event delivered to an activity above us in the back stack
                could be succeeded by a back key up event to us, so we need to
                keep track of our own back key presses */
-            mBackKeyPressed = true;
+            backKeyPressed = true;
             return true;
         } else {
             return super.onKeyDown(keyCode, event);
         }
     }
     
+    @SuppressWarnings ("unused")
     private void doUIToggle(int x, int y, int width, int height) {
         switch (actionBarMode) {
             case TermSettings.ACTION_BAR_MODE_NONE:
@@ -973,6 +975,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
                 break;
         }
+        
         getCurrentEmulatorView().requestFocus();
     }
     

@@ -13,7 +13,6 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
-import app.simple.inure.util.ColorUtils;
 
 public class LayoutBackground {
     
@@ -50,8 +49,10 @@ public class LayoutBackground {
                     .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                     .build();
         }
-        
+    
         viewGroup.setBackground(new MaterialShapeDrawable(shapeAppearanceModel));
+    
+        theme.recycle();
     }
     
     public static void setBackground(Context context, View viewGroup, AttributeSet attrs, float factor) {
@@ -89,10 +90,12 @@ public class LayoutBackground {
         MaterialShapeDrawable materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
     
         if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
-            materialShapeDrawable.setStroke(strokeWidth, ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+            materialShapeDrawable.setStroke(strokeWidth, AppearancePreferences.INSTANCE.getAccentColor());
         }
     
         viewGroup.setBackground(materialShapeDrawable);
+    
+        theme.recycle();
     }
     
     public static void setBackground(Context context, View view, AttributeSet attrs) {
@@ -130,10 +133,12 @@ public class LayoutBackground {
         MaterialShapeDrawable materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
     
         if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
-            materialShapeDrawable.setStroke(strokeWidth, ColorUtils.INSTANCE.resolveAttrColor(context, R.attr.colorAppAccent));
+            materialShapeDrawable.setStroke(strokeWidth, AppearancePreferences.INSTANCE.getAccentColor());
         }
     
         view.setBackground(materialShapeDrawable);
+    
+        theme.recycle();
     }
     
     public static void setBackground(View view) {

@@ -4,8 +4,8 @@ import app.simple.inure.constants.Colors
 
 object AccessibilityPreferences {
 
-    private const val isHighlightMode = "is_highlight_mode"
-    private const val isHighlightStroke = "is_highlight_stroke_enabled"
+    const val isHighlightMode = "is_highlight_mode"
+    const val isHighlightStroke = "is_highlight_stroke_enabled"
     private const val isDividerEnabled = "is_divider_enabled"
     private const val reduceAnimations = "reduce_animations"
     private const val bottomMenuContext = "bottom_menu_context"
