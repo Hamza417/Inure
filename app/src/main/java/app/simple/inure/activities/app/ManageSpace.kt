@@ -1,6 +1,7 @@
 package app.simple.inure.activities.app
 
 import android.app.ActivityManager
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,10 +19,15 @@ import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.loaders.AppDataLoader.exportAppData
+import app.simple.inure.loaders.AppDataLoader.importAppData
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.activity.ManageSpaceViewModel
+import com.anggrayudi.storage.extension.openInputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,7 +46,9 @@ class ManageSpace : BaseActivity() {
     private lateinit var export: DynamicRippleTextView
 
     private lateinit var manageSpaceViewModel: ManageSpaceViewModel
+
     private var filePath: String? = null
+    private val requestCode = 199
 
     private val exportData = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
         if (uri == null) {
@@ -57,6 +65,33 @@ class ManageSpace : BaseActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
             Toast.makeText(applicationContext, R.string.failed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val pickedFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri == null) {
+            // Back button pressed.
+            return@registerForActivityResult
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            uri.openInputStream(applicationContext).use {
+                val file: File = (applicationContext.filesDir.absolutePath + "/rstr.inrbkp").toFile()
+
+                if (file.exists()) {
+                    file.delete()
+                }
+
+                file.createNewFile()
+                file.writeBytes(it?.readBytes()!!)
+                filePath = file.absolutePath
+
+                applicationContext.importAppData(filePath!!)
+
+                withContext(Dispatchers.Main) {
+                    appDataLoader.gone(animate = true)
+                }
+            }
         }
     }
 
@@ -82,7 +117,8 @@ class ManageSpace : BaseActivity() {
         }
 
         import.setOnClickListener {
-            // TODO - implement this
+            appDataLoader.visible(animate = true)
+            pickedFile.launch("application/*")
         }
 
         export.setOnClickListener {
@@ -174,5 +210,14 @@ class ManageSpace : BaseActivity() {
             }
         })
         p.show(supportFragmentManager, "sure")
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            AppearancePreferences.theme -> {
+                ThemeUtils.setAppTheme(resources)
+            }
+        }
     }
 }

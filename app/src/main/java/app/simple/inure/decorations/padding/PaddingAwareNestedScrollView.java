@@ -46,8 +46,11 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView imp
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
-            updatePadding();
+        try {
+            if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
+                updatePadding();
+            }
+        } catch (Exception ignored) {
         }
     }
     

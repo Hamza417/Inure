@@ -69,8 +69,12 @@ public class PaddingAwareLinearLayout extends ThemeLinearLayout implements Share
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
-            updatePadding();
+        try {
+            if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
+                updatePadding();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
     

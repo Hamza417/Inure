@@ -22,6 +22,10 @@ object SharedPreferences {
         }
     }
 
+    fun SharedPreferences.nullify() {
+        sharedPreferences = null
+    }
+
     fun initEncrypted(context: Context) {
         kotlin.runCatching {
             if (encryptedSharedPreferences.isNull()) {
