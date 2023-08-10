@@ -696,4 +696,6 @@
     <string name="external_storage">External Storage</string>
     <string name="external_storage_desc">Also include external storage while scanning.</string>
     <string name="public_key_type">Public Key Type</string>
+    <string name="backup_and_restore_desc">Backup and Restore app\'s data.</string>
+    <string name="import_">Import</string>
 </resources>

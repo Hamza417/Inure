@@ -17,6 +17,10 @@ abstract class QuickAppsDatabase : RoomDatabase() {
         private var instance: QuickAppsDatabase? = null
         private const val db_name = "quickapps.db"
 
+        fun getQuickAppsDataPath(context: Context): String {
+            return getInstance(context)!!.openHelper.writableDatabase.path!!
+        }
+
         @Synchronized
         fun getInstance(context: Context): QuickAppsDatabase? {
             instance = if (instance.isNull()) {

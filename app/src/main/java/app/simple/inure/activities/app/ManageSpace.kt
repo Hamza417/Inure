@@ -1,9 +1,12 @@
 package app.simple.inure.activities.app
 
 import android.app.ActivityManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
@@ -14,6 +17,7 @@ import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.loaders.AppDataLoader.exportAppData
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -22,18 +26,39 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.IOException
 
 class ManageSpace : BaseActivity() {
 
     private lateinit var clearData: DynamicRippleTextView
     private lateinit var clearImagesData: DynamicRippleTextView
-
     private lateinit var imagesSize: TypeFaceTextView
-
     private lateinit var clearAppDataLoader: CustomProgressBar
     private lateinit var imagesLoader: CustomProgressBar
+    private lateinit var appDataLoader: CustomProgressBar
+    private lateinit var import: DynamicRippleTextView
+    private lateinit var export: DynamicRippleTextView
 
     private lateinit var manageSpaceViewModel: ManageSpaceViewModel
+    private var filePath: String? = null
+
+    private val exportData = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
+        if (uri == null) {
+            // Back button pressed.
+            return@registerForActivityResult
+        }
+        try {
+            applicationContext.contentResolver.openOutputStream(uri).use { outputStream ->
+                if (outputStream == null) throw IOException()
+                outputStream.write(filePath?.let { File(it).readBytes() })
+                outputStream.flush()
+                Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(applicationContext, R.string.failed, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +70,32 @@ class ManageSpace : BaseActivity() {
         clearImagesData = findViewById(R.id.clear_image_data)
         imagesSize = findViewById(R.id.image_cache_size)
         imagesLoader = findViewById(R.id.image_cache_loader)
+        appDataLoader = findViewById(R.id.app_data_loader)
+        import = findViewById(R.id.import_app_data)
+        export = findViewById(R.id.export_app_data)
 
         clearImagesData.gone(animate = false)
         imagesSize.gone(animate = false)
 
         clearData.setOnClickListener {
             clearAppData()
+        }
+
+        import.setOnClickListener {
+            // TODO - implement this
+        }
+
+        export.setOnClickListener {
+            appDataLoader.visible(animate = true)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val exportPath = applicationContext.exportAppData()
+
+                withContext(Dispatchers.Main) {
+                    filePath = exportPath
+                    exportData.launch(exportPath.substringAfterLast("/"))
+                    appDataLoader.gone(animate = true)
+                }
+            }
         }
 
         manageSpaceViewModel.imagesCacheSize.observe(this) {

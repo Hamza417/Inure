@@ -16,6 +16,10 @@ abstract class NotesDatabase : RoomDatabase() {
         private var instance: NotesDatabase? = null
         private const val db_name = "notes_data.db"
 
+        fun getNotesDataPath(context: Context): String {
+            return getInstance(context)!!.openHelper.writableDatabase.path!!
+        }
+
         @Synchronized
         fun getInstance(context: Context): NotesDatabase? {
             instance = if (instance.isNull()) {

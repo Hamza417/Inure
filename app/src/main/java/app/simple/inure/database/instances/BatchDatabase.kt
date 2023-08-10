@@ -16,6 +16,10 @@ abstract class BatchDatabase : RoomDatabase() {
         private var instance: BatchDatabase? = null
         private const val db_name = "batch_data.db"
 
+        fun getBatchDataPath(context: Context): String {
+            return getInstance(context)!!.openHelper.writableDatabase.path!!
+        }
+
         @Synchronized
         fun getInstance(context: Context): BatchDatabase? {
             kotlin.runCatching {

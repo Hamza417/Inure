@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/app_container"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="100dp"
                 android:text="@string/clear_app_data_desc"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="regular"
+                app:appFontStyle="medium"
                 app:textColorStyle="primary" />
 
             <LinearLayout
@@ -93,7 +93,7 @@
                 android:layout_marginEnd="100dp"
                 android:text="@string/clear_images_data_title"
                 android:textSize="@dimen/popup_text_size"
-                app:appFontStyle="regular"
+                app:appFontStyle="medium"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -137,6 +137,55 @@
                     android:layout_gravity="end"
                     android:padding="@dimen/button_padding"
                     android:text="@string/clear_images_cache"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="100dp"
+                android:text="@string/backup_and_restore_desc"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="medium"
+                app:textColorStyle="primary" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.views.CustomProgressBar
+                    android:id="@+id/app_data_loader"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="@dimen/loader_size"
+                    android:layout_height="@dimen/loader_size"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:visibility="gone" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/import_app_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/popup_item_gap_length"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/import_"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/export_app_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/export"
                     app:appFontStyle="bold"
                     app:textColorStyle="accent" />
 

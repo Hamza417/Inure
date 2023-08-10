@@ -17,6 +17,10 @@ abstract class StackTraceDatabase : RoomDatabase() {
         private var instance: StackTraceDatabase? = null
         private const val db_name = "stacktrace.db"
 
+        fun getStackTraceDataPath(context: Context): String {
+            return getInstance(context)!!.openHelper.writableDatabase.path!!
+        }
+
         @Synchronized
         fun init(context: Context) {
             kotlin.runCatching {

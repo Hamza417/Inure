@@ -42,6 +42,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import java.io.File
 import java.io.IOException
+import kotlin.math.abs
 
 class ImageViewer : ScopedFragment() {
 
@@ -105,7 +106,7 @@ class ImageViewer : ScopedFragment() {
             if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
                 if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
                     setPadding(paddingLeft,
-                               Math.abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
+                               abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
                                paddingRight,
                                paddingBottom)
                 }

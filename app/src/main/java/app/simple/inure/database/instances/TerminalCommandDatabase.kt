@@ -17,6 +17,10 @@ abstract class TerminalCommandDatabase : RoomDatabase() {
         private var instance: TerminalCommandDatabase? = null
         private const val db_name = "terminal_commands.db"
 
+        fun getTerminalCommandDataPath(context: Context): String {
+            return getInstance(context)!!.openHelper.writableDatabase.path!!
+        }
+
         @Synchronized
         fun getInstance(context: Context): TerminalCommandDatabase? {
             kotlin.runCatching {
