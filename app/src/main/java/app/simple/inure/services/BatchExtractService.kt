@@ -193,7 +193,7 @@ class BatchExtractService : Service() {
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
-            val length = source.length()
+            // val length = source.length()
 
             inputStream = FileInputStream(source)
             outputStream = FileOutputStream(dest)

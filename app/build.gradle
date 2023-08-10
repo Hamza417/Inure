@@ -1,14 +1,15 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'project-report'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+    id 'kotlin-kapt'
 }
 
 android {
 
-    compileSdkVersion 34
+    compileSdk 34
 
     buildFeatures {
         viewBinding false
@@ -33,8 +34,9 @@ android {
         }
 
         javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            // Migrate the above block to KSP
+            ksp {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
             }
         }
     }
@@ -109,7 +111,7 @@ android {
     ndkVersion '25.2.9519653'
     namespace 'app.simple.inure'
 
-    task generateVersionTxt {
+    tasks.register('generateVersionTxt') {
         doLast {
             file("./version.txt").text = android.defaultConfig.versionName
         }
@@ -138,13 +140,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
     implementation 'androidx.activity:activity-ktx:1.7.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
-    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
     implementation 'androidx.webkit:webkit:1.7.0'
     implementation 'androidx.documentfile:documentfile:1.0.1'
@@ -192,9 +194,9 @@ dependencies {
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
     // Room
-    implementation "androidx.room:room-ktx:2.5.2"
-    kapt "androidx.room:room-compiler:2.5.2"
-    androidTestImplementation "androidx.room:room-testing:2.5.2"
+    implementation 'androidx.room:room-ktx:2.5.2'
+    ksp 'androidx.room:room-compiler:2.5.2'
+    androidTestImplementation 'androidx.room:room-testing:2.5.2'
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'

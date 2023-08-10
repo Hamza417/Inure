@@ -74,15 +74,17 @@ class Statistics : ScopedFragment() {
 
             recyclerView.adapter = adapterUsageStats
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, view ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_filter -> {
                         childFragmentManager.showUsageStatsSort()
                     }
+
                     R.drawable.ic_settings -> {
                         UsageStatsMenu.newInstance()
                             .show(childFragmentManager, "menu")
                     }
+
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), "search")
                     }
