@@ -696,4 +696,6 @@
     <string name="external_storage">Armazenamento Externo</string>
     <string name="external_storage_desc">Inclua também o armazenamento externo durante o escaneamento.</string>
     <string name="public_key_type">Tipo de Chave Pública</string>
+    <string name="backup_and_restore_desc">Fazer backup e restaurar os dados do aplicativo.</string>
+    <string name="import_">Importar</string>
 </resources>
