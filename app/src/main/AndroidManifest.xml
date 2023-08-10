@@ -161,7 +161,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activities.association.AppDetailsActivity"
+            android:name=".activities.association.AppInformationActivity"
             android:enabled="true"
             android:exported="true"
             android:label="@string/app_info">
@@ -217,7 +217,7 @@
         </activity>
 
         <activity
-            android:name=".activities.association.AppInfoActivity"
+            android:name=".activities.association.InformationActivity"
             android:enabled="false"
             android:exported="true"
             android:label="@string/information">

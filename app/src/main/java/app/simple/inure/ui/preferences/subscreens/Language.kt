@@ -1,6 +1,5 @@
 package app.simple.inure.ui.preferences.subscreens
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterLanguage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.ConfigurationPreferences
 
 class Language : ScopedFragment() {
 
@@ -28,14 +26,6 @@ class Language : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         recyclerView.adapter = adapterLanguage
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            ConfigurationPreferences.language -> {
-                requireActivity().recreate() // update the language in context wrapper
-            }
-        }
     }
 
     companion object {

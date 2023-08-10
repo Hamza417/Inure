@@ -32,6 +32,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         intentFilter.addAction(DataLoaderService.APPS_LOADED)
         intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
         intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.RELOAD_APPS)
 
         @Suppress("UNCHECKED_CAST")
         serviceConnection = object : ServiceConnection {
@@ -64,20 +65,28 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                         onAppsLoaded(apps)
                         onUninstalledAppsLoaded(uninstalledApps)
                     }
+
                     DataLoaderService.UNINSTALLED_APPS_LOADED -> {
                         uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
                         onUninstalledAppsLoaded(uninstalledApps)
                     }
+
                     DataLoaderService.INSTALLED_APPS_LOADED -> {
                         apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
                         onAppsLoaded(apps)
+                    }
+
+                    DataLoaderService.RELOAD_APPS -> {
+                        Log.d("DataLoaderService", "Reloading apps")
+                        dataLoaderService!!.refresh()
                     }
                 }
             }
         }
 
         LocalBroadcastManager.getInstance(applicationContext()).registerReceiver(broadcastReceiver!!, intentFilter)
-        applicationContext().bindService(Intent(applicationContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
+        applicationContext().bindService(
+                Intent(applicationContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {

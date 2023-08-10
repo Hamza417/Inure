@@ -32,6 +32,7 @@ class DataLoaderService : Service() {
         const val UNINSTALLED_APPS_LOADED = "uninstalled_apps_loaded"
         const val INSTALLED_APPS_LOADED = "installed_apps_loaded"
         const val APPS_LOADED = "apps_loaded"
+        const val RELOAD_APPS = "reload_apps"
     }
 
     private val tag: String = "DataLoaderService"

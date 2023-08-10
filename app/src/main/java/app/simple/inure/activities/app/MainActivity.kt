@@ -22,6 +22,7 @@ import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.MusicPreferences
@@ -336,6 +337,10 @@ class MainActivity : BaseActivity() {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                     CrashReporter(applicationContext).initialize()
                 }
+            }
+
+            ConfigurationPreferences.language -> {
+                recreate() // update the language in context wrapper
             }
         }
     }

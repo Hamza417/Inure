@@ -6,7 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.activities.association.*
+import app.simple.inure.activities.association.ApkInstallerActivity
+import app.simple.inure.activities.association.AppInformationActivity
+import app.simple.inure.activities.association.AudioPlayerActivity
+import app.simple.inure.activities.association.BashAssociation
+import app.simple.inure.activities.association.ImageActivity
+import app.simple.inure.activities.association.InformationActivity
+import app.simple.inure.activities.association.ManifestAssociationActivity
+import app.simple.inure.activities.association.TTFViewerActivity
+import app.simple.inure.activities.association.TextViewerActivity
 import app.simple.inure.adapters.preferences.AdapterComponentManager
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -35,8 +43,8 @@ class ComponentManager : ScopedFragment() {
                     Triple(R.mipmap.ic_launcher, R.string.image_viewer, ImageActivity::class.java),
                     Triple(R.mipmap.ic_audio_player, R.string.audio_player, AudioPlayerActivity::class.java),
                     // Triple(R.mipmap.ic_terminal, R.string.terminal, TerminalAlias::class.java),
-                    Triple(R.mipmap.ic_launcher, R.string.information, AppInfoActivity::class.java),
-                    Triple(R.mipmap.ic_launcher, R.string.app_information, AppDetailsActivity::class.java),
+                    Triple(R.mipmap.ic_launcher, R.string.information, InformationActivity::class.java),
+                    Triple(R.mipmap.ic_launcher, R.string.app_information, AppInformationActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.installer, ApkInstallerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.manifest, ManifestAssociationActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.text_viewer, TextViewerActivity::class.java),

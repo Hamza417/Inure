@@ -1,7 +1,18 @@
 package app.simple.inure.loaders
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
+import app.simple.inure.activities.association.ApkInstallerActivity
+import app.simple.inure.activities.association.AppInformationActivity
+import app.simple.inure.activities.association.AudioPlayerActivity
+import app.simple.inure.activities.association.BashAssociation
+import app.simple.inure.activities.association.ImageActivity
+import app.simple.inure.activities.association.InformationActivity
+import app.simple.inure.activities.association.ManifestAssociationActivity
+import app.simple.inure.activities.association.TTFViewerActivity
+import app.simple.inure.activities.association.TextViewerActivity
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.database.instances.QuickAppsDatabase
@@ -23,27 +34,74 @@ object AppDataLoader {
     private const val filename = "inure_data_@date.inrbkp"
     private const val preferences = "prefs_bkp"
 
-    fun Context.exportAppData(): String {
-        val paths = mutableListOf(
-                saveSharedPreferencesToFile(this).toFile(),
-                BatchDatabase.getBatchDataPath(this).toFile(),
-                NotesDatabase.getNotesDataPath(this).toFile(),
-                QuickAppsDatabase.getQuickAppsDataPath(this).toFile(),
-                StackTraceDatabase.getStackTraceDataPath(this).toFile(),
-                TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile()
-        )
+    private val components = arrayListOf<String>(
+            AppInformationActivity::class.java.name,
+            AudioPlayerActivity::class.java.name,
+            BashAssociation::class.java.name,
+            ImageActivity::class.java.name,
+            InformationActivity::class.java.name,
+            ApkInstallerActivity::class.java.name,
+            ManifestAssociationActivity::class.java.name,
+            TTFViewerActivity::class.java.name,
+            TextViewerActivity::class.java.name
+    )
 
-        if (File(filesDir.path + "/backups").exists().not()) {
-            File(filesDir.path + "/backups").mkdir()
+    fun Context.exportAppData(): String {
+        val paths = mutableListOf<File>()
+
+        saveSharedPreferencesToFile(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        BatchDatabase.getBatchDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        NotesDatabase.getNotesDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        QuickAppsDatabase.getQuickAppsDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        StackTraceDatabase.getStackTraceDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        exportComponentState().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
+        if (File(filesDir.path + "/backup").exists().not()) {
+            File(filesDir.path + "/backup").mkdir()
         } else {
-            File(filesDir.path + "/backups").listFiles()?.forEach {
+            File(filesDir.path + "/backup").listFiles()?.forEach {
                 if (it.name.endsWith(".inrbkp")) {
                     it.delete()
                 }
             }
         }
 
-        val zipPath = filesDir.path + "/backups/" +
+        val zipPath = filesDir.path + "/backup/" +
                 "/${filename.replace("@date", System.currentTimeMillis().toString())}"
         ZipFile(zipPath).addFiles(paths)
 
@@ -52,12 +110,13 @@ object AppDataLoader {
 
     fun Context.importAppData(dataPath: String) {
         val paths = mutableListOf(
-                (filesDir.path + "/shared_prefs/" + preferences).toFile(),
+                (filesDir.path + "/backup/" + preferences).toFile(),
                 BatchDatabase.getBatchDataPath(this).toFile(),
                 NotesDatabase.getNotesDataPath(this).toFile(),
                 QuickAppsDatabase.getQuickAppsDataPath(this).toFile(),
                 StackTraceDatabase.getStackTraceDataPath(this).toFile(),
-                TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile()
+                TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile(),
+                (filesDir.path + "/backup/component").toFile()
         )
 
         BatchDatabase.getInstance(this)?.close()
@@ -79,6 +138,9 @@ object AppDataLoader {
                         if (path.name.equals(preferences)) {
                             it.extractFile(file.fileName, path.parent)
                             loadSharedPreferencesFromFile(path)
+                        } else if (path.name.equals("component")) {
+                            it.extractFile(file.fileName, path.parent)
+                            loadComponentState(path)
                         } else {
                             it.extractFile(file.fileName, path.parent)
                         }
@@ -97,7 +159,7 @@ object AppDataLoader {
 
     private fun saveSharedPreferencesToFile(context: Context): String {
         var output: ObjectOutputStream? = null
-        val path = (context.filesDir.path + "/shared_prefs/" + preferences).toFile()
+        val path = (context.filesDir.path + "/backup/" + preferences).toFile()
 
         if (path.exists()) {
             path.delete()
@@ -169,5 +231,51 @@ object AppDataLoader {
         }
 
         return result
+    }
+
+    private fun Context.exportComponentState(): File {
+        val string = buildString {
+            for (component in components) {
+                append(component)
+                append(" ")
+                append(packageManager.getComponentEnabledSetting(
+                        ComponentName(this@exportComponentState, Class.forName(component))))
+                append("\n")
+            }
+        }
+
+        val path = (filesDir.path + "/backup/component").toFile()
+
+        if (path.exists()) {
+            path.delete()
+        } else {
+            path.parentFile?.mkdirs()
+            path.createNewFile()
+        }
+
+        path.writeText(string.trim())
+
+        return path
+    }
+
+    private fun Context.loadComponentState(path: File) {
+        // val path = (filesDir.path + "/backup/component").toFile()
+
+        if (path.exists()) {
+            val lines = path.readLines()
+            val componentState = mutableMapOf<String, Int>()
+
+            for (line in lines) {
+                val split = line.split(" ")
+                componentState[split[0]] = split[1].toInt()
+            }
+
+            for (component in components) {
+                packageManager.setComponentEnabledSetting(
+                        ComponentName(this, Class.forName(component)),
+                        componentState[component]
+                            ?: PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP)
+            }
+        }
     }
 }

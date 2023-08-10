@@ -1,21 +1,46 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.database.instances.QuickAppsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.QuickApp
+import app.simple.inure.services.DataLoaderService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class QuickAppsViewModel(application: Application) : WrappedViewModel(application) {
 
     private var db: QuickAppsDatabase? = null
+    private var broadcastReceiver: BroadcastReceiver? = null
+    private var intentFilter: IntentFilter? = null
+
+    init {
+        intentFilter = IntentFilter()
+        intentFilter?.addAction(DataLoaderService.RELOAD_APPS)
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == DataLoaderService.RELOAD_APPS) {
+                    loadQuickApps()
+                    loadSimpleQuickAppsData()
+                }
+            }
+        }
+
+        LocalBroadcastManager.getInstance(application.applicationContext)
+            .registerReceiver(broadcastReceiver!!, intentFilter!!)
+    }
 
     private val quickApps: MutableLiveData<MutableList<PackageInfo>> by lazy {
         MutableLiveData<MutableList<PackageInfo>>().also {
@@ -92,5 +117,7 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
     override fun onCleared() {
         super.onCleared()
         db?.close()
+        LocalBroadcastManager.getInstance(application.applicationContext)
+            .unregisterReceiver(broadcastReceiver!!)
     }
 }
