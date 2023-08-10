@@ -394,7 +394,6 @@
     <string name="lists">Списки</string>
     <string name="dividers">Разделители</string>
     <string name="desc_dividers">Использовать разделители между элементами каждого прокручиваемого списка в приложении.</string>
-    <string name="faq">ЧАВО</string>
     <string name="shared_libs">Общие библиотеки</string>
     <string name="copy_package_name">Скопировать имя пакета</string>
     <string name="batch">Пакетная обработка</string>

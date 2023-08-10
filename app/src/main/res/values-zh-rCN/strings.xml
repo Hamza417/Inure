@@ -394,7 +394,6 @@
     <string name="lists">列表</string>
     <string name="dividers">分隔线</string>
     <string name="desc_dividers">在整个应用程序的每个滚动列表的项目之间使用分隔线.</string>
-    <string name="faq">常问问题</string>
     <string name="shared_libs">共享库</string>
     <string name="copy_package_name">复制包名</string>
     <string name="batch">批处理</string>
