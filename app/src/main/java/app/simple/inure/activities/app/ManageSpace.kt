@@ -48,7 +48,6 @@ class ManageSpace : BaseActivity() {
     private lateinit var manageSpaceViewModel: ManageSpaceViewModel
 
     private var filePath: String? = null
-    private val requestCode = 199
 
     private val exportData = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
         if (uri == null) {
@@ -60,7 +59,7 @@ class ManageSpace : BaseActivity() {
                 if (outputStream == null) throw IOException()
                 outputStream.write(filePath?.let { File(it).readBytes() })
                 outputStream.flush()
-                Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+                showWarning(R.string.saved_successfully, goBack = false)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -76,20 +75,32 @@ class ManageSpace : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             uri.openInputStream(applicationContext).use {
-                val file: File = (applicationContext.filesDir.absolutePath + "/rstr.inrbkp").toFile()
+                kotlin.runCatching {
+                    val file: File = (applicationContext.filesDir.absolutePath + "/rstr.inrbkp").toFile()
 
-                if (file.exists()) {
-                    file.delete()
+                    if (file.exists()) {
+                        file.delete()
+                    }
+
+                    file.createNewFile()
+                    file.writeBytes(it?.readBytes()!!)
+                    filePath = file.absolutePath
+
+                    applicationContext.importAppData(filePath!!)
+
+                    withContext(Dispatchers.Main) {
+                        appDataLoader.gone(animate = true)
+                    }
                 }
-
-                file.createNewFile()
-                file.writeBytes(it?.readBytes()!!)
-                filePath = file.absolutePath
-
-                applicationContext.importAppData(filePath!!)
-
+            }.onFailure {
                 withContext(Dispatchers.Main) {
                     appDataLoader.gone(animate = true)
+                    showWarning(it.message ?: "Unknown error", false)
+                }
+            }.onSuccess {
+                withContext(Dispatchers.Main) {
+                    appDataLoader.gone(animate = true)
+                    showWarning(R.string.done, goBack = false)
                 }
             }
         }
@@ -117,19 +128,31 @@ class ManageSpace : BaseActivity() {
         }
 
         import.setOnClickListener {
-            appDataLoader.visible(animate = true)
-            pickedFile.launch("application/*")
+            kotlin.runCatching {
+                appDataLoader.visible(animate = true)
+                pickedFile.launch("application/*")
+            }.onFailure {
+                appDataLoader.gone(animate = true)
+                showWarning(it.message ?: "Unknown error", false)
+            }
         }
 
         export.setOnClickListener {
             appDataLoader.visible(animate = true)
             lifecycleScope.launch(Dispatchers.IO) {
-                val exportPath = applicationContext.exportAppData()
+                kotlin.runCatching {
+                    val exportPath = applicationContext.exportAppData()
 
-                withContext(Dispatchers.Main) {
-                    filePath = exportPath
-                    exportData.launch(exportPath.substringAfterLast("/"))
-                    appDataLoader.gone(animate = true)
+                    withContext(Dispatchers.Main) {
+                        filePath = exportPath
+                        exportData.launch(exportPath.substringAfterLast("/"))
+                        appDataLoader.gone(animate = true)
+                    }
+                }.onFailure {
+                    withContext(Dispatchers.Main) {
+                        appDataLoader.gone(animate = true)
+                        showWarning(it.message ?: "Unknown error", false)
+                    }
                 }
             }
         }

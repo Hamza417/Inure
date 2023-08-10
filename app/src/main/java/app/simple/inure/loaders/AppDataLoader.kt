@@ -43,14 +43,6 @@ object AppDataLoader {
             }
         }
 
-        val pathsTxt = File(filesDir.path + "/backups/paths.txt")
-
-        for (path in paths) {
-            pathsTxt.appendText(path.path + "\n")
-        }
-
-        paths.add(pathsTxt)
-
         val zipPath = filesDir.path + "/backups/" +
                 "/${filename.replace("@date", System.currentTimeMillis().toString())}"
         ZipFile(zipPath).addFiles(paths)
