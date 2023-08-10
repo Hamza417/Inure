@@ -34,9 +34,9 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/music"
+            android:transitionName="@string/music"
             app:srcCompat="@drawable/ic_music_note"
-            app:tintType="accent"
-            android:transitionName="@string/music" />
+            app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/header_title"
@@ -65,33 +65,20 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/total"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_margin="@dimen/header_item_margin"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:drawablePadding="5dp"
+        android:paddingHorizontal="5dp"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:drawableStartCompat="@drawable/ic_numbers_textview"
+        app:drawableTintStyle="accent" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:drawablePadding="5dp"
-            android:layout_marginStart="5dp"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_numbers_textview"
-            app:drawableTintStyle="accent" />
-
-        <app.simple.inure.decorations.theme.ThemeDivider
-            android:layout_width="0dp"
-            android:layout_height="1px"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="2dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
 
 </LinearLayout>
