@@ -241,6 +241,10 @@ class ApksSearch : KeyboardScopedFragment() {
 
             clearButtonState()
         }
+
+        clear.setOnClickListener {
+            searchBox.setText("")
+        }
     }
 
     private fun clearButtonState() {

@@ -206,6 +206,10 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE)) {
             linkChipGroup.check(R.id.galaxy_store)
         }
+
+        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID)) {
+            linkChipGroup.check(R.id.izzyondroid)
+        }
     }
 
     private fun setDataFormat() {

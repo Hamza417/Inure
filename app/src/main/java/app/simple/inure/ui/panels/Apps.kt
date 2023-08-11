@@ -81,11 +81,21 @@ class Apps : ScopedFragment() {
                     R.drawable.ic_filter -> {
                         childFragmentManager.showAppsSortDialog()
                     }
+
                     R.drawable.ic_settings -> {
                         childFragmentManager.newAppsMenuInstance().setOnGenerateListClicked {
-                            childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
-                                showLoader(manualOverride = true)
-                                appsViewModel.generateAppsData(it)
+                            if ((appsViewModel.getAppData().value ?: it).isNotEmpty()) {
+                                childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
+                                    showLoader(manualOverride = true)
+                                    kotlin.runCatching {
+                                        appsViewModel.generateAppsData(appsViewModel.getAppData().value ?: it)
+
+                                    }.onFailure {
+                                        showWarning(it.message ?: "Failed to generate data", goBack = false)
+                                    }
+                                }
+                            } else {
+                                showWarning("ERR: empty list", goBack = false)
                             }
                         }
                     }
