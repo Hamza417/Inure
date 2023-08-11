@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
@@ -26,7 +28,12 @@ import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
-import app.simple.inure.preferences.*
+import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.HomePreferences
+import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.gone
@@ -49,9 +56,19 @@ class Home : ScopedFragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
+    private var headerAnimator: ValueAnimator? = null
+    private var mainIconAnimator: ValueAnimator? = null
+
+    private fun getHomeLayout(): Int {
+        return if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleHomePanel)) {
+            R.layout.fragment_home
+        } else {
+            R.layout.fragment_home_new
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(getHomeLayout(), container, false)
 
         scrollView = view.findViewById(R.id.home_scroll_view)
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
@@ -100,6 +117,7 @@ class Home : ScopedFragment() {
 
                     navigationRecyclerView.layoutManager = gridLayoutManager
                 }
+
                 PopupMenuLayout.VERTICAL -> {
                     navigationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
                 }
@@ -113,9 +131,11 @@ class Home : ScopedFragment() {
                         R.string.apps -> {
                             openFragmentArc(Apps.newInstance(), icon, "apps")
                         }
+
                         R.string.analytics -> {
                             openFragmentArc(Analytics.newInstance(), icon, "analytics")
                         }
+
                         R.string.terminal -> {
                             val intent = Intent(requireActivity(), Term::class.java)
                             if (BehaviourPreferences.isArcAnimationOn()) {
@@ -125,9 +145,11 @@ class Home : ScopedFragment() {
                                 startActivity(intent)
                             }
                         }
+
                         R.string.usage_statistics -> {
                             openFragmentArc(Statistics.newInstance(), icon, "stats")
                         }
+
                         R.string.device_info -> {
                             openFragmentArc(DeviceInfo.newInstance(), icon, "info")
                         }
@@ -137,12 +159,15 @@ class Home : ScopedFragment() {
                         R.string.batch -> {
                             openFragmentArc(Batch.newInstance(), icon, "batch")
                         }
+
                         R.string.notes -> {
                             openFragmentArc(Notes.newInstance(), icon, "notes")
                         }
+
                         R.string.music -> {
                             openFragmentArc(Music.newInstance(), icon, "music")
                         }
+
                         R.string.recently_installed -> {
                             openFragmentArc(RecentlyInstalled.newInstance(), icon, "recently_installed")
                         }
@@ -154,18 +179,23 @@ class Home : ScopedFragment() {
                         R.string.most_used -> {
                             openFragmentArc(MostUsed.newInstance(), icon, "most_used")
                         }
+
                         R.string.uninstalled -> {
                             openFragmentArc(Uninstalled.newInstance(), icon, "uninstalled")
                         }
+
                         R.string.disabled -> {
                             openFragmentArc(Disabled.newInstance(), icon, "disabled")
                         }
+
                         R.string.hidden -> {
                             openFragmentArc(Hidden.newInstance(), icon, "hidden")
                         }
+
                         R.string.crash_report -> {
                             openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
                         }
+
                         R.string.battery_optimization -> {
                             if (ConfigurationPreferences.isUsingRoot()) {
                                 openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
@@ -180,12 +210,15 @@ class Home : ScopedFragment() {
                                     openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
                                 }
                         }
+
                         R.string.boot_manager -> {
                             openFragmentArc(BootManager.newInstance(), icon, "boot_manager")
                         }
+
                         R.string.saved_commands -> {
                             openFragmentArc(TerminalCommands.newInstance(), icon, "saved_commands")
                         }
+
                         R.string.APKs -> {
                             openFragmentArc(APKs.newInstance(), icon, "apks")
                         }
@@ -250,6 +283,28 @@ class Home : ScopedFragment() {
 
         purchase.setOnClickListener {
             openFragmentSlide(Trial.newInstance(), "trial")
+        }
+
+        scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                headerAnimator?.cancel()
+
+                headerAnimator = ValueAnimator.ofFloat(header.elevation, 10F)
+                headerAnimator?.addUpdateListener {
+                    header.elevation = it.animatedValue as Float
+                }
+                headerAnimator?.interpolator = DecelerateInterpolator()
+                headerAnimator?.start()
+            } else if (scrollY <= 0) {
+                headerAnimator?.cancel()
+
+                headerAnimator = ValueAnimator.ofFloat(header.elevation, 0F)
+                headerAnimator?.addUpdateListener {
+                    header.elevation = it.animatedValue as Float
+                }
+                headerAnimator?.interpolator = DecelerateInterpolator()
+                headerAnimator?.start()
+            }
         }
     }
 

@@ -28,6 +28,7 @@ object DevelopmentPreferences {
     const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
     const val showCompleteAppSize = "is_complete_app_size_shown"
     const val removeStrokeFromChips = "is_stroke_removed_from_chips"
+    const val oldStyleHomePanel = "is_old_style_home_panel_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -154,6 +155,11 @@ object DevelopmentPreferences {
                                             "Remove stroke from chips in the app's sorting GUI.",
                                             removeStrokeFromChips,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Use Old Style Home Panel",
+                                            "Use old style home panel instead of the current one.",
+                                            oldStyleHomePanel,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
         }
