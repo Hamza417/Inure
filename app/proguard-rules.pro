@@ -20,28 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#-dontobfuscate
+-dontobfuscate
 -optimizationpasses 5
-#-dontusemixedcaseclassnames
-#-dontskipnonpubliclibraryclasses
-#-dontpreverify
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
 
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
-
-# Please add these rules to your existing keep rules in order to suppress warnings.
-# This is generated automatically by the Android Gradle plugin.
--dontwarn javax.annotation.Nonnull
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.concurrent.GuardedBy
--dontwarn org.bouncycastle.cert.X509CertificateHolder
--dontwarn org.bouncycastle.cert.jcajce.JcaX509CertificateConverter
--dontwarn org.bouncycastle.cms.CMSException
--dontwarn org.bouncycastle.cms.CMSSignedData
--dontwarn org.bouncycastle.cms.SignerId
--dontwarn org.bouncycastle.cms.SignerInformation
--dontwarn org.bouncycastle.cms.SignerInformationStore
--dontwarn org.bouncycastle.jce.provider.BouncyCastleProvider
--dontwarn org.bouncycastle.util.Selector
--dontwarn org.bouncycastle.util.Store
--dontwarn org.conscrypt.Conscrypt
--dontwarn org.conscrypt.OpenSSLProvider
