@@ -73,6 +73,13 @@ object MainPreferences {
         getSharedPreferences().edit().remove(unlockerWarningCount).apply()
     }
 
+    fun addLegacyPreferences() {
+        getSharedPreferences().edit().putLong(firstLaunchDate, TrialPreferences.getFirstLaunchDate()).apply()
+        getSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, TrialPreferences.isAppFullVersionEnabled()).apply()
+        getSharedPreferences().edit().putInt(unlockerWarningCount, TrialPreferences.getUnlockerWarningCount()).apply()
+        TrialPreferences.setLegacyMigrated(value = false)
+    }
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setChangeLogReminder(value: Int) {

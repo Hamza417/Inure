@@ -16,6 +16,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.extensions.activities.BaseActivity
@@ -23,6 +24,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.loaders.AppDataLoader.exportAppData
 import app.simple.inure.loaders.AppDataLoader.importAppData
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ConditionUtils.invert
@@ -55,6 +57,7 @@ class ManageSpace : BaseActivity() {
     private val exportData = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
+            appDataLoader.gone(animate = true)
             return@registerForActivityResult
         }
         try {
@@ -73,6 +76,7 @@ class ManageSpace : BaseActivity() {
     private val pickedFile = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
+            appDataLoader.gone(animate = true)
             return@registerForActivityResult
         }
 
@@ -138,32 +142,40 @@ class ManageSpace : BaseActivity() {
         }
 
         import.setOnClickListener {
-            kotlin.runCatching {
-                appDataLoader.visible(animate = true)
-                pickedFile.launch("application/*")
-            }.onFailure {
-                appDataLoader.gone(animate = true)
-                showWarning(it.message ?: "Unknown error", false)
+            if (TrialPreferences.isFullVersion()) {
+                kotlin.runCatching {
+                    appDataLoader.visible(animate = true)
+                    pickedFile.launch("application/*")
+                }.onFailure {
+                    appDataLoader.gone(animate = true)
+                    showWarning(it.message ?: "Unknown error", false)
+                }
+            } else {
+                supportFragmentManager.showFullVersion()
             }
         }
 
         export.setOnClickListener {
-            appDataLoader.visible(animate = true)
-            lifecycleScope.launch(Dispatchers.IO) {
-                kotlin.runCatching {
-                    val exportPath = applicationContext.exportAppData()
+            if (TrialPreferences.isFullVersion()) {
+                appDataLoader.visible(animate = true)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    kotlin.runCatching {
+                        val exportPath = applicationContext.exportAppData()
 
-                    withContext(Dispatchers.Main) {
-                        filePath = exportPath
-                        exportData.launch(exportPath.substringAfterLast("/"))
-                        appDataLoader.gone(animate = true)
-                    }
-                }.onFailure {
-                    withContext(Dispatchers.Main) {
-                        appDataLoader.gone(animate = true)
-                        showWarning(it.message ?: "Unknown error", false)
+                        withContext(Dispatchers.Main) {
+                            filePath = exportPath
+                            exportData.launch(exportPath.substringAfterLast("/"))
+                            appDataLoader.gone(animate = true)
+                        }
+                    }.onFailure {
+                        withContext(Dispatchers.Main) {
+                            appDataLoader.gone(animate = true)
+                            showWarning(it.message ?: "Unknown error", false)
+                        }
                     }
                 }
+            } else {
+                supportFragmentManager.showFullVersion()
             }
         }
 

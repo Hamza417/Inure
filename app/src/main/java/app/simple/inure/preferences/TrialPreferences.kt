@@ -2,7 +2,7 @@ package app.simple.inure.preferences
 
 import app.simple.inure.preferences.SharedPreferences.getEncryptedSharedPreferences
 import app.simple.inure.util.CalendarUtils
-import java.util.*
+import java.util.Date
 
 object TrialPreferences {
 
@@ -85,13 +85,23 @@ object TrialPreferences {
     }
 
     fun migrateLegacy() {
-        if (!getEncryptedSharedPreferences().getBoolean(isLegacyMigrated, false)) {
+        if (!isLegacyMigrated()) {
             setFirstLaunchDate(MainPreferences.getFirstLaunchDateLegacy())
             setUnlockerWarningCount(MainPreferences.getUnlockerWarningCountLegacy())
             setFullVersion(MainPreferences.isFullVersionEnabledLegacy())
 
-            getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, true).apply()
+            setLegacyMigrated(true)
             MainPreferences.removeLegacyPreferences()
         }
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLegacyMigrated(value: Boolean) {
+        getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, value).apply()
+    }
+
+    fun isLegacyMigrated(): Boolean {
+        return getEncryptedSharedPreferences().getBoolean(isLegacyMigrated, false)
     }
 }

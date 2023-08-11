@@ -129,7 +129,10 @@ open class BaseActivity : AppCompatActivity(),
         //        }
 
         AppearancePreferences.maxIconSize = resources.getDimensionPixelSize(R.dimen.app_icon_dimension) / 4
-        Log.d("BaseActivity", "Max icon size: ${AppearancePreferences.maxIconSize}")
+
+        if (TrialPreferences.getFirstLaunchDate() == -1L) {
+            TrialPreferences.setFirstLaunchDate(packageManager.getPackageInfo(packageName, 0).firstInstallTime)
+        }
 
         setTheme()
         setContentView(R.layout.activity_main)

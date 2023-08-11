@@ -50,7 +50,6 @@ import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.Logger
 import app.simple.inure.util.NullSafety.isNull
 import com.topjohnwu.superuser.ipc.RootService
@@ -80,12 +79,7 @@ class MainActivity : BaseActivity() {
         }
 
         if (savedInstanceState.isNull()) {
-            if (MainPreferences.getLaunchCount().isZero()) {
-                TrialPreferences.setFirstLaunchDate(System.currentTimeMillis())
-            }
-
             MainPreferences.incrementLaunchCount()
-            Log.d("MainActivity", "Launch count: ${MainPreferences.getLaunchCount()}")
 
             when (intent.action) {
                 ShortcutConstants.ANALYTICS_ACTION -> {
