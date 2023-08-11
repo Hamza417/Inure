@@ -1,6 +1,7 @@
 package app.simple.inure.preferences
 
 import app.simple.inure.preferences.SharedPreferences.getEncryptedSharedPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
 import java.util.Date
 
@@ -56,7 +57,8 @@ object TrialPreferences {
 
     fun isAppFullVersionEnabled(): Boolean {
         return getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
-                CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
+                CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS ||
+                AppUtils.isBetaFlavor()
     }
 
     fun isWithinTrialPeriod(): Boolean {
@@ -69,7 +71,8 @@ object TrialPreferences {
     }
 
     fun isFullVersion(): Boolean {
-        return getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
+        return getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
+                AppUtils.isBetaFlavor()
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

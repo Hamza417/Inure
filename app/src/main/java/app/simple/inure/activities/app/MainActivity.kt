@@ -292,7 +292,7 @@ class MainActivity : BaseActivity() {
         val today = Calendar.getInstance()
 
         expiryDate.clear()
-        expiryDate.set(2023, Calendar.AUGUST, 20)
+        expiryDate.set(2023, Calendar.AUGUST, 17)
         expiryDate.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
 
         today.timeZone = TimeZone.getTimeZone(ZonedDateTime.now().zone.id)
@@ -300,9 +300,6 @@ class MainActivity : BaseActivity() {
         if (today.after(expiryDate) || today == expiryDate) {
             Toast.makeText(applicationContext, "Application Expired!", Toast.LENGTH_SHORT).show()
             finish()
-        } else {
-            val daysLeft = expiryDate.get(Calendar.DAY_OF_YEAR) - today.get(Calendar.DAY_OF_YEAR)
-            Toast.makeText(applicationContext, "Application expires in $daysLeft days", Toast.LENGTH_SHORT).show()
         }
     }
 
