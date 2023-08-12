@@ -224,7 +224,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/pie_chart_height" />
 
-        <app.simple.inure.decorations.views.FlexBoxRecyclerView
+        <app.simple.inure.decorations.views.LegendRecyclerView
             android:id="@+id/stats_legend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

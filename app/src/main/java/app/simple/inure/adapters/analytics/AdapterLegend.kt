@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
-import app.simple.inure.decorations.ripple.Utils
+import app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ColorUtils
 import com.github.mikephil.charting.data.PieEntry
@@ -26,9 +25,8 @@ class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
         holder.color.backgroundTintList = ColorStateList.valueOf(colors[position])
         holder.label.text = pieEntries[position].label
 
-        holder.container.background =
-            Utils.getCustomRippleDrawable(holder.container.background,
-                                          ColorUtils.lightenColor(colors[position], 0.25F))
+        holder.container.setRippleColor(
+                ColorUtils.lightenColor(colors[position], 0.2F))
 
         holder.container.setOnClickListener {
             function?.invoke(pieEntries[position], false)
@@ -47,7 +45,7 @@ class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val color: DynamicCornerAccentColor = itemView.findViewById(R.id.legend_color)
         val label: TypeFaceTextView = itemView.findViewById(R.id.legend_text)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
+        val container: DynamicRippleLegendLinearLayout = itemView.findViewById(R.id.container)
     }
 
     companion object {

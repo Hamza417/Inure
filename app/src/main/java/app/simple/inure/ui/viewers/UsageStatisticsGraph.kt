@@ -14,7 +14,7 @@ import app.simple.inure.decorations.theme.ThemeBarChart
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.decorations.views.FlexBoxRecyclerView
+import app.simple.inure.decorations.views.LegendRecyclerView
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
@@ -51,7 +51,7 @@ class UsageStatisticsGraph : ScopedFragment() {
     private lateinit var wifiData: TypeFaceTextView
     private lateinit var barChart: ThemeBarChart
     private lateinit var pieChart: ThemePieChart
-    private lateinit var pieChartLegend: FlexBoxRecyclerView
+    private lateinit var pieChartLegend: LegendRecyclerView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var loader: CustomProgressBar
 

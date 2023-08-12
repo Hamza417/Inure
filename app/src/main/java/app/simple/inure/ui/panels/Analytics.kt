@@ -13,7 +13,7 @@ import app.simple.inure.adapters.analytics.AdapterLegend
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.FlexBoxRecyclerView
+import app.simple.inure.decorations.views.LegendRecyclerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
@@ -40,10 +40,10 @@ class Analytics : ScopedFragment() {
     private lateinit var targetOsPie: ThemePieChart
     private lateinit var installLocationPie: ThemePieChart
     private lateinit var packageTypePie: ThemePieChart
-    private lateinit var minimumOsLegend: FlexBoxRecyclerView
-    private lateinit var targetOsLegend: FlexBoxRecyclerView
-    private lateinit var installLocationLegend: FlexBoxRecyclerView
-    private lateinit var packageTypeLegend: FlexBoxRecyclerView
+    private lateinit var minimumOsLegend: LegendRecyclerView
+    private lateinit var targetOsLegend: LegendRecyclerView
+    private lateinit var installLocationLegend: LegendRecyclerView
+    private lateinit var packageTypeLegend: LegendRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 

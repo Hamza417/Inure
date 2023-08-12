@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
-            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+            <app.simple.inure.decorations.views.LegendRecyclerView
                 android:id="@+id/minimum_os_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
-            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+            <app.simple.inure.decorations.views.LegendRecyclerView
                 android:id="@+id/target_os_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -167,7 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
-            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+            <app.simple.inure.decorations.views.LegendRecyclerView
                 android:id="@+id/install_location_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -189,7 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
-            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+            <app.simple.inure.decorations.views.LegendRecyclerView
                 android:id="@+id/package_type_legend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

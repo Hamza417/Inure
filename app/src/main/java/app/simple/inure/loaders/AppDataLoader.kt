@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import app.simple.inure.activities.alias.TerminalAlias
 import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.AppInformationActivity
 import app.simple.inure.activities.association.AudioPlayerActivity
@@ -45,7 +46,8 @@ object AppDataLoader {
             ApkInstallerActivity::class.java.name,
             ManifestAssociationActivity::class.java.name,
             TTFViewerActivity::class.java.name,
-            TextViewerActivity::class.java.name
+            TextViewerActivity::class.java.name,
+            TerminalAlias::class.java.name
     )
 
     fun Context.exportAppData(): String {

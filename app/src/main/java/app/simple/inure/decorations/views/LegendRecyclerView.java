@@ -11,18 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FlexBoxRecyclerView extends RecyclerView {
-    public FlexBoxRecyclerView(@NonNull Context context) {
+public class LegendRecyclerView extends RecyclerView {
+    public LegendRecyclerView(@NonNull Context context) {
         super(context);
         init();
     }
     
-    public FlexBoxRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public LegendRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
     
-    public FlexBoxRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LegendRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
