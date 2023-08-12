@@ -60,10 +60,10 @@ class Home : ScopedFragment() {
     private var mainIconAnimator: ValueAnimator? = null
 
     private fun getHomeLayout(): Int {
-        return if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleHomePanel)) {
-            R.layout.fragment_home
-        } else {
+        return if (DevelopmentPreferences.get(DevelopmentPreferences.alternateHomePanel)) {
             R.layout.fragment_home_new
+        } else {
+            R.layout.fragment_home
         }
     }
 

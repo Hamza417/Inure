@@ -48,7 +48,7 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_sell_black"
+            android:src="@drawable/ic_sell"
             android:transitionName="adapter_search_icon"
             app:buttonTintType="accent" />
 

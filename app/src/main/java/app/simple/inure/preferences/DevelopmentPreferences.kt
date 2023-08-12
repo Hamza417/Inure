@@ -28,7 +28,7 @@ object DevelopmentPreferences {
     const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
     const val showCompleteAppSize = "is_complete_app_size_shown"
     const val removeStrokeFromChips = "is_stroke_removed_from_chips"
-    const val oldStyleHomePanel = "is_old_style_home_panel_enabled"
+    const val alternateHomePanel = "is_old_style_home_panel_enabled"
     const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
@@ -157,9 +157,9 @@ object DevelopmentPreferences {
                                             removeStrokeFromChips,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-                DevelopmentPreferencesModel("Use Old Style Home Panel",
-                                            "Use old style home panel instead of the current one.",
-                                            oldStyleHomePanel,
+                DevelopmentPreferencesModel("Use Alternate Home Panel",
+                                            "Use alternate home panel UI instead of the current one.",
+                                            alternateHomePanel,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Padding Less Popup Menus",
