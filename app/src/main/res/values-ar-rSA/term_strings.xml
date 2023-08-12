@@ -23,9 +23,9 @@
     <string name="special_keys">مفاتيح خاصة</string>
     <string name="toggle_soft_keyboard">تبديل لوحة المفاتيح الناعمة</string>
     <string name="reset_toast_notification">تمت إعادة تعيين الحالة الطرفية لهذه النافذة.</string>
-    <string name="enable_wakelock">تمكين وضع اللاستيقاظ</string>
+    <string name="enable_wakelock">تمكين وضع الاستيقاظ</string>
     <string name="disable_wakelock">تعطيل وضع اللاستيقاظ</string>
-    <string name="enable_wifilock">خذ قفل واي فاي</string>
+    <string name="enable_wifilock">تمكين قفل واي فاي</string>
     <string name="disable_wifilock">إسقاط قفل واي فاي</string>
     <string name="select_text">تحديد نص</string>
     <string name="copy_all">نسخ الكل</string>
