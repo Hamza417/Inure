@@ -22,6 +22,7 @@ import app.simple.inure.util.*
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.SortBatch.getSortedList
 import java.util.*
 import java.util.stream.Collectors
 
@@ -42,10 +43,12 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                                .inflate(R.layout.adapter_header_batch, parent, false))
                 }
             }
+
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
                            .inflate(R.layout.adapter_batch, parent, false))
             }
+
             else -> {
                 throw IllegalArgumentException("there is no type that matches the type $viewType, make sure your using types correctly")
             }
@@ -73,7 +76,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 holder.container.setDefaultBackground(false)
             }
 
-            holder.checkBox.setOnCheckedChangeListener {
+            holder.checkBox.setOnCheckedChangeListener { it ->
                 apps[position].isSelected = it
                 apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
                 adapterCallbacks?.onBatchChanged(apps[position])
@@ -92,11 +95,22 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
                 if (BatchPreferences.isSelectionOnTop() && it) {
                     if (headerEnabled) {
-                        apps.move(holder.bindingAdapterPosition.minus(1), 0)
-                        // Collections.swap(apps, holder.bindingAdapterPosition.minus(1), 0)
-                        notifyItemMoved(holder.bindingAdapterPosition, 1)
+                        val selectedApps: ArrayList<BatchPackageInfo> = apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+                        var index = 0
+
+                        selectedApps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
+
+                        for (i in selectedApps.indices) {
+                            if (selectedApps[i].packageInfo.packageName == apps[position].packageInfo.packageName) {
+                                index = i
+                                break
+                            }
+                        }
+
+                        apps.move(holder.bindingAdapterPosition.minus(1), index)
+                        notifyItemMoved(holder.bindingAdapterPosition, index.plus(1))
                         notifyItemChanged(holder.bindingAdapterPosition)
-                        notifyItemChanged(1)
+                        notifyItemChanged(index.plus(1))
                         notifyItemRangeChanged(0, apps.size.plus(1))
                     } else {
                         apps.move(holder.bindingAdapterPosition, 0)
@@ -105,7 +119,9 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                     }
                 }
 
-                if (headerEnabled) notifyItemChanged(0)
+                if (headerEnabled) {
+                    notifyItemChanged(0)
+                }
             }
 
             if (apps[position].isSelected) {
@@ -135,9 +151,11 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 SortConstant.USER -> {
                     holder.getString(R.string.user)
                 }
+
                 SortConstant.SYSTEM -> {
                     holder.getString(R.string.system)
                 }
+
                 SortConstant.BOTH -> {
                     with(StringBuilder()) {
                         append(holder.getString(R.string.user))
@@ -145,6 +163,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                         append(holder.getString(R.string.system))
                     }
                 }
+
                 else -> {
                     holder.getString(R.string.unknown)
                 }
@@ -154,24 +173,31 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 Sort.NAME -> {
                     holder.getString(R.string.name)
                 }
+
                 Sort.PACKAGE_NAME -> {
                     holder.getString(R.string.package_name)
                 }
+
                 Sort.INSTALL_DATE -> {
                     holder.getString(R.string.install_date)
                 }
+
                 Sort.SIZE -> {
                     holder.getString(R.string.app_size)
                 }
+
                 Sort.UPDATE_DATE -> {
                     holder.getString(R.string.update_date)
                 }
+
                 Sort.TARGET_SDK -> {
                     holder.getString(R.string.target_sdk)
                 }
+
                 Sort.MIN_SDK -> {
                     holder.getString(R.string.minimum_sdk)
                 }
+
                 else -> {
                     holder.getString(R.string.unknown)
                 }
