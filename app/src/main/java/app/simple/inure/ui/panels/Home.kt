@@ -285,7 +285,7 @@ class Home : ScopedFragment() {
             openFragmentSlide(Trial.newInstance(), "trial")
         }
 
-        scrollView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
                 headerAnimator?.cancel()
 

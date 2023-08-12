@@ -383,32 +383,36 @@ class SplashScreen : ScopedFragment() {
             }
         }
 
-        if (TrialPreferences.isTrialWithoutFull()) {
-            if (TrialPreferences.isFullVersion()) {
-                daysLeft.gone()
-                TrialPreferences.resetUnlockerWarningCount()
-            } else {
-                daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
-                TrialPreferences.resetUnlockerWarningCount()
-            }
-        } else if (TrialPreferences.isFullVersion()) {
-            if (requirePackageManager().isPackageInstalled(AppUtils.unlockerPackageName)) {
-                daysLeft.gone()
-            } else {
-                if (TrialPreferences.getUnlockerWarningCount() < 3) {
-                    showWarning(R.string.unlocker_not_installed, goBack = false)
-                    TrialPreferences.incrementUnlockerWarningCount()
+        if (AppUtils.isBetaFlavor().invert()) {
+            if (TrialPreferences.isTrialWithoutFull()) {
+                if (TrialPreferences.isFullVersion()) {
+                    daysLeft.gone()
+                    TrialPreferences.resetUnlockerWarningCount()
+                } else {
+                    daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                    TrialPreferences.resetUnlockerWarningCount()
+                }
+            } else if (TrialPreferences.isFullVersion()) {
+                if (requirePackageManager().isPackageInstalled(AppUtils.unlockerPackageName)) {
                     daysLeft.gone()
                 } else {
-                    showWarning(R.string.full_version_deactivated, goBack = false)
-                    TrialPreferences.setFullVersion(false)
-                    TrialPreferences.resetUnlockerWarningCount()
-                    daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                    if (TrialPreferences.getUnlockerWarningCount() < 3) {
+                        showWarning(R.string.unlocker_not_installed, goBack = false)
+                        TrialPreferences.incrementUnlockerWarningCount()
+                        daysLeft.gone()
+                    } else {
+                        showWarning(R.string.full_version_deactivated, goBack = false)
+                        TrialPreferences.setFullVersion(false)
+                        TrialPreferences.resetUnlockerWarningCount()
+                        daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                    }
                 }
+            } else {
+                // Should always be 0
+                daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
             }
         } else {
-            // Should always be 0
-            daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+            daysLeft.gone()
         }
     }
 
