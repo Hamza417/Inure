@@ -97,7 +97,7 @@
                 android:text="@string/components"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_view_array_tiny"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
