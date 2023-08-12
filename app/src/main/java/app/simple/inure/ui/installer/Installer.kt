@@ -1,5 +1,6 @@
 package app.simple.inure.ui.installer
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -126,6 +127,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         loader.visible(animate = true)
 
         broadcastReceiver = object : BroadcastReceiver() {
+            @SuppressLint("UnsafeIntentLaunch")
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
                     PackageInstaller.STATUS_PENDING_USER_ACTION -> {
@@ -144,18 +146,22 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                             }
                         }
                     }
+
                     PackageInstaller.STATUS_SUCCESS -> {
                         success()
                     }
+
                     PackageInstaller.STATUS_FAILURE_ABORTED -> {
                         showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
                     }
+
                     PackageInstaller.STATUS_FAILURE_BLOCKED,
                     PackageInstaller.STATUS_FAILURE_CONFLICT -> {
                         showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!! +
                                             " -> " +
                                             intent.extras!!.getString(PackageInstaller.EXTRA_PACKAGE_NAME)!!)
                     }
+
                     PackageInstaller.STATUS_FAILURE_INCOMPATIBLE,
                     PackageInstaller.STATUS_FAILURE_INVALID,
                     PackageInstaller.STATUS_FAILURE_STORAGE -> {

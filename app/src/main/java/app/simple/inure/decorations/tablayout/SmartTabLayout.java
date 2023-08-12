@@ -338,7 +338,6 @@ public class SmartTabLayout extends HorizontalScrollView {
     
         // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
         textView.setAllCaps(tabViewTextAllCaps);
-    
         textView.setPadding(tabViewTextHorizontalPadding, 0, tabViewTextHorizontalPadding, 0);
     
         if (tabViewTextMinWidth > 0) {
@@ -367,7 +366,8 @@ public class SmartTabLayout extends HorizontalScrollView {
             if (internalTabClickListener != null) {
                 tabView.setOnClickListener(internalTabClickListener);
             }
-            
+    
+            tabStrip.setGravity(Gravity.CENTER_VERTICAL);
             tabStrip.addView(tabView);
             
             if (i == viewPager.getCurrentItem()) {
@@ -545,6 +545,8 @@ public class SmartTabLayout extends HorizontalScrollView {
     
             if (tabTitleView != null) {
                 tabTitleView.setText(adapter.getPageTitle(position));
+                tabTitleView.setGravity(Gravity.CENTER_VERTICAL);
+                tabView.requestLayout();
             }
     
             return tabView;

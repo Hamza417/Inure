@@ -25,6 +25,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.ui.panels.Components
 import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
@@ -47,6 +48,7 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var send: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
+    private lateinit var components: DynamicRippleTextView
     private lateinit var deepSearchKeyword: TypeFaceTextView
     private lateinit var permissions: DynamicRippleTextView
     private lateinit var activities: DynamicRippleTextView
@@ -75,6 +77,7 @@ class AppsMenu : ScopedDialogFragment() {
         appInformation = view.findViewById(R.id.app_information)
         send = view.findViewById(R.id.send)
         usageStatistics = view.findViewById(R.id.usage_stats)
+        components = view.findViewById(R.id.components)
         deepSearchKeyword = view.findViewById(R.id.deep_search_keyword)
         permissions = view.findViewById(R.id.permissions)
         activities = view.findViewById(R.id.activities)
@@ -163,24 +166,33 @@ class AppsMenu : ScopedDialogFragment() {
             openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), "usage_stats")
         }
 
+        components.setOnClickListener {
+            openFragmentSlide(Components.newInstance(packageInfo), "components")
+        }
+
         permissions.setOnClickListener {
-            openFragmentSlide(Permissions.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "permissions")
+            openFragmentSlide(Permissions.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "permissions")
         }
 
         activities.setOnClickListener {
-            openFragmentSlide(Activities.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "activities")
+            openFragmentSlide(Activities.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "activities")
         }
 
         services.setOnClickListener {
-            openFragmentSlide(Services.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "services")
+            openFragmentSlide(Services.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "services")
         }
 
         receivers.setOnClickListener {
-            openFragmentSlide(Receivers.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "receivers")
+            openFragmentSlide(Receivers.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "receivers")
         }
 
         providers.setOnClickListener {
-            openFragmentSlide(Providers.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "providers")
+            openFragmentSlide(Providers.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "providers")
         }
 
         trackers.setOnClickListener {
@@ -188,14 +200,17 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         resources.setOnClickListener {
-            openFragmentSlide(Resources.newInstance(packageInfo, requireArguments().getString(BundleConstants.keywords)), "resources")
+            openFragmentSlide(Resources.newInstance(
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "resources")
         }
 
         manifest.setOnClickListener {
             if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), "xml")
+                openFragmentSlide(XMLViewerWebView.newInstance(
+                        packageInfo, true, "AndroidManifest.xml"), "xml")
             } else {
-                openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), "xml")
+                openFragmentSlide(XMLViewerTextView.newInstance(
+                        packageInfo, true, "AndroidManifest.xml"), "xml")
             }
         }
 

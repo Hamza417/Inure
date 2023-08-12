@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+    <app.simple.inure.decorations.theme.ThemeFrameLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:clipChildren="false"
+        android:elevation="@dimen/app_views_elevation"
+        android:layout_height="45dp">
+
+        <app.simple.inure.decorations.tablayout.SmartTabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/small_button_size"
+            android:layout_gravity="bottom"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            app:appFontStyle="bold"
+            app:defaultTabBackground="@android:color/transparent"
+            app:defaultTabTextAllCaps="false"
+            app:dividerThickness="0dp"
+            app:indicatorGravity="center"
+            app:indicatorThickness="@dimen/small_button_size"
+            app:indicatorWithoutPadding="false"
+            app:underlineThickness="0dp" />
+
+    </app.simple.inure.decorations.theme.ThemeFrameLayout>
+
+</LinearLayout>
