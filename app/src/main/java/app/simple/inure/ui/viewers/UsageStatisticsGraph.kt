@@ -7,17 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.analytics.AdapterLegend
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeBarChart
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.decorations.views.FlexBoxRecyclerView
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
 import app.simple.inure.popups.charts.PopupChartEntry
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
 import app.simple.inure.util.ViewUtils
@@ -48,6 +51,7 @@ class UsageStatisticsGraph : ScopedFragment() {
     private lateinit var wifiData: TypeFaceTextView
     private lateinit var barChart: ThemeBarChart
     private lateinit var pieChart: ThemePieChart
+    private lateinit var pieChartLegend: FlexBoxRecyclerView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var loader: CustomProgressBar
 
@@ -65,6 +69,7 @@ class UsageStatisticsGraph : ScopedFragment() {
         wifiData = view.findViewById(R.id.wifi_data)
         barChart = view.findViewById(R.id.bar_chart)
         pieChart = view.findViewById(R.id.pie_chart)
+        pieChartLegend = view.findViewById(R.id.stats_legend)
         back = view.findViewById(R.id.app_info_back_button)
         loader = view.findViewById(R.id.loader)
 
@@ -232,11 +237,22 @@ class UsageStatisticsGraph : ScopedFragment() {
                         }
                     }
                 })
+
+                val adapter = AdapterLegend(it, BAR_COLORS.reversed().toArrayList()) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        // openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
+                    } else {
+                        pieChart.highlightValue(Highlight(
+                                it.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                pieChartLegend.adapter = adapter
             }
 
             pieChart.setUsePercentValues(true)
             pieChart.setAnimation(false)
-            pieChart.notifyDataSetChanged()
             pieChart.notifyDataSetChanged()
             pieChart.invalidate()
         }

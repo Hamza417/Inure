@@ -224,6 +224,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/pie_chart_height" />
 
+        <app.simple.inure.decorations.views.FlexBoxRecyclerView
+            android:id="@+id/stats_legend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
 </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>

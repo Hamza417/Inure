@@ -72,10 +72,27 @@ public class Utils {
         ShapeDrawable mask = new ShapeDrawable(shape);
         
         ColorStateList stateList = ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor());
-    
+        
         RippleDrawable rippleDrawable = new RippleDrawable(stateList, backgroundDrawable, mask);
         rippleDrawable.setAlpha(alpha);
+        
+        return rippleDrawable;
+    }
     
+    public static RippleDrawable getCustomRippleDrawable(Drawable backgroundDrawable, int color) {
+        float[] outerRadii = new float[8];
+        float[] innerRadii = new float[8];
+        Arrays.fill(outerRadii, AppearancePreferences.INSTANCE.getCornerRadius());
+        Arrays.fill(innerRadii, AppearancePreferences.INSTANCE.getCornerRadius());
+        
+        RoundRectShape shape = new RoundRectShape(outerRadii, null, innerRadii);
+        ShapeDrawable mask = new ShapeDrawable(shape);
+        
+        ColorStateList stateList = ColorStateList.valueOf(color);
+        
+        RippleDrawable rippleDrawable = new RippleDrawable(stateList, backgroundDrawable, mask);
+        rippleDrawable.setAlpha(alpha);
+        
         return rippleDrawable;
     }
     

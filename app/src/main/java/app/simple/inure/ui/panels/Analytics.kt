@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.adapters.analytics.AdapterLegend
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.FlexBoxRecyclerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
@@ -19,6 +21,7 @@ import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsPackageType
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.data.Entry
@@ -32,11 +35,15 @@ class Analytics : ScopedFragment() {
 
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var search: DynamicRippleImageButton
+    private lateinit var minSdkHeading: TypeFaceTextView
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
     private lateinit var installLocationPie: ThemePieChart
     private lateinit var packageTypePie: ThemePieChart
-    private lateinit var minSdkHeading: TypeFaceTextView
+    private lateinit var minimumOsLegend: FlexBoxRecyclerView
+    private lateinit var targetOsLegend: FlexBoxRecyclerView
+    private lateinit var installLocationLegend: FlexBoxRecyclerView
+    private lateinit var packageTypeLegend: FlexBoxRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
@@ -45,11 +52,15 @@ class Analytics : ScopedFragment() {
 
         settings = view.findViewById(R.id.configuration_button)
         search = view.findViewById(R.id.search_button)
+        minSdkHeading = view.findViewById(R.id.min_sdk_heading)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
         installLocationPie = view.findViewById(R.id.install_location_pie)
         packageTypePie = view.findViewById(R.id.package_type_pie)
-        minSdkHeading = view.findViewById(R.id.min_sdk_heading)
+        minimumOsLegend = view.findViewById(R.id.minimum_os_legend)
+        targetOsLegend = view.findViewById(R.id.target_os_legend)
+        installLocationLegend = view.findViewById(R.id.install_location_legend)
+        packageTypeLegend = view.findViewById(R.id.package_type_legend)
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             minimumOsPie.gone()
@@ -63,11 +74,11 @@ class Analytics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        analyticsViewModel.getMinimumOsData().observe(viewLifecycleOwner) {
+        analyticsViewModel.getMinimumOsData().observe(viewLifecycleOwner) { pieData ->
             minimumOsPie.apply {
-                PieDataSet(it.first, "").apply {
+                PieDataSet(pieData.first, "").apply {
                     data = PieData(this)
-                    colors = it.second
+                    colors = pieData.second
                     valueTextColor = Color.TRANSPARENT
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
@@ -85,6 +96,18 @@ class Analytics : ScopedFragment() {
                         }
                     }
                 })
+
+                val adapter = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), "sdk")
+                    } else {
+                        minimumOsPie.highlightValue(Highlight(
+                                pieData.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                minimumOsLegend.adapter = adapter
             }
 
             minimumOsPie.setAnimation(true)
@@ -117,6 +140,18 @@ class Analytics : ScopedFragment() {
                         }
                     }
                 })
+
+                val adapter = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), "target_sdk")
+                    } else {
+                        targetOsPie.highlightValue(Highlight(
+                                it.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                targetOsLegend.adapter = adapter
             }
 
             targetOsPie.setAnimation(false)
@@ -146,6 +181,18 @@ class Analytics : ScopedFragment() {
                         }
                     }
                 })
+
+                val adapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        // openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
+                    } else {
+                        installLocationPie.highlightValue(Highlight(
+                                it.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                installLocationLegend.adapter = adapter
             }
 
             installLocationPie.setAnimation(false)
@@ -175,6 +222,18 @@ class Analytics : ScopedFragment() {
                         }
                     }
                 })
+
+                val adapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
+                    } else {
+                        packageTypePie.highlightValue(Highlight(
+                                it.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                packageTypeLegend.adapter = adapter
             }
 
             packageTypePie.setAnimation(false)

@@ -123,6 +123,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
+            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+                android:id="@+id/minimum_os_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,6 +144,11 @@
                 android:id="@+id/target_os_pie"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
+
+            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+                android:id="@+id/target_os_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
@@ -157,6 +167,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
 
+            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+                android:id="@+id/install_location_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,6 +188,11 @@
                 android:id="@+id/package_type_pie"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pie_chart_height" />
+
+            <app.simple.inure.decorations.views.FlexBoxRecyclerView
+                android:id="@+id/package_type_legend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

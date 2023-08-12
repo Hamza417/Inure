@@ -15,22 +15,22 @@ class PopupChartEntry(view: View, entry: Entry?, function: ((PieEntry) -> Unit)?
     private val textEntry: DynamicRippleTextView
 
     init {
+        val container = PopupLinearLayout(view.context).apply {
+            setPadding(0, 0, 0, 0)
+        }
+
         val contentView = LayoutInflater.from(view.context)
-            .inflate(R.layout.popup_chart,
-                     PopupLinearLayout(view.context).apply {
-                         setPadding(0, 0, 0, 0)
-                     },
-                     true)
+            .inflate(R.layout.popup_chart, container, true)
 
         textEntry = contentView.findViewById(R.id.popup_entry)
-
-        init(contentView, view, Misc.xOffset, Misc.yOffset)
-
         textEntry.text = (entry as PieEntry).label
 
         textEntry.setOnClickListener {
             function?.let { it1 -> it1(entry) }
             dismiss()
         }
+
+        container.requestLayout()
+        init(contentView, view, Misc.xOffset, Misc.yOffset)
     }
 }

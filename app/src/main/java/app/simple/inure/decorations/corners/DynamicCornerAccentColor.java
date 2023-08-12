@@ -31,7 +31,9 @@ public class DynamicCornerAccentColor extends FrameLayout implements android.con
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        if (!isInEditMode()) {
+            SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
     }
     
     @Override

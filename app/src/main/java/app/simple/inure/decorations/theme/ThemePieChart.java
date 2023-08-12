@@ -69,7 +69,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         /*
          * Legend's props
          */
-        getLegend().setEnabled(true);
+        getLegend().setEnabled(false);
         getLegend().setFormSize(10F);
         getLegend().setFormToTextSpace(5F);
         getLegend().setForm(Legend.LegendForm.DEFAULT);
@@ -103,9 +103,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (key) {
-            case AnalyticsPreferences.pieHoleRadius: {
-                animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
-            }
+            case AnalyticsPreferences.pieHoleRadius ->
+                    animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
         }
     }
     
