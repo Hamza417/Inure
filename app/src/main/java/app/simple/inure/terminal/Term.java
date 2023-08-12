@@ -16,6 +16,7 @@
 
 package app.simple.inure.terminal;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.BroadcastReceiver;
@@ -58,8 +59,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.WindowCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import app.simple.inure.R;
@@ -168,6 +172,25 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     };
     
+    private final ActivityResultLauncher <String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permission is granted.
+                    Log.d(TAG, "Permission granted");
+                    
+                    try {
+                        if (termService != null) {
+                            termService.reshowNotification();
+                        }
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Failed to show notification");
+                    }
+                } else {
+                    Log.d(TAG, "Permission denied");
+                }
+            });
+    
     // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
     @SuppressWarnings ("unused")
@@ -240,15 +263,22 @@ public class Term extends BaseActivity implements UpdateCallback,
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
-        
+    
         fullVersionCheck();
-        
+    
+        // Request notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    
         privateAlias = new ComponentName(this, RemoteInterface.PRIVACT_ACTIVITY_ALIAS);
-        
+    
         if (savedInstanceState == null) {
             onNewIntent(getIntent());
         }
-        
+    
         final SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         settings = new TermSettings(getResources(), mPrefs);
         mPrefs.registerOnSharedPreferenceChangeListener(this);

@@ -47,6 +47,10 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     private int windowId = -1;
     
+    public void reshowNotification() {
+        showPersistentNotification();
+    }
+    
     public class TSBinder extends Binder {
         TermService getService() {
             Log.i("TermService", "Activity binding to service");
@@ -88,8 +92,14 @@ public class TermService extends Service implements TermSession.FinishCallback {
         createNotificationChannel();
         serviceForegroundCompat = new ServiceForegroundCompat(this);
         mTermSessions = new SessionList();
-    
+        
         /* Put the service in the foreground. */
+        showPersistentNotification();
+        
+        Log.d(TermDebug.LOG_TAG, "TermService started");
+    }
+    
+    private void showPersistentNotification() {
         Intent notifyIntent = new Intent(this, Term.class);
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, PendingIntent.FLAG_IMMUTABLE);
@@ -106,8 +116,6 @@ public class TermService extends Service implements TermSession.FinishCallback {
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_ONGOING_EVENT;
         serviceForegroundCompat.startForeground(RUNNING_NOTIFICATION, notification);
-        
-        Log.d(TermDebug.LOG_TAG, "TermService started");
     }
     
     @Override
@@ -177,7 +185,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
             
             final PackageManager pm = getPackageManager();
             final String[] packages = pm.getPackagesForUid(getCallingUid());
-            if (packages == null || packages.length == 0) {
+            if (packages == null) {
                 return null;
             }
             
