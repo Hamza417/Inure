@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="unknown">غير معروف</string>
-    <string name="not_available">غير متوفر</string>
+    <string name="unknown">غَير معروف</string>
+    <string name="not_available">غَير متوفر</string>
     <string name="app_information">معلومات التطبيق</string>
     <string name="launch">فتح</string>
     <string name="uninstall">إلغاء التثبيت</string>
@@ -124,7 +124,7 @@
     <string name="ram">ذاكرة الوصول العشوائي</string>
     <string name="total_available">المجموع المتاح</string>
     <string name="total_used">إجمالي المستخدمة</string>
-    <string name="apps_heading">تطبيقات</string>
+    <string name="apps_heading">التطبيقات</string>
     <string name="total_user_apps">إجمالي تطبيقات المستخدم</string>
     <string name="total_system_apps">إجمالي تطبيقات النظام</string>
     <string name="graphics">الرسومات</string>
@@ -132,7 +132,7 @@
     <string name="text_viewer">عارض النص</string>
     <string name="extras">اضافات</string>
     <string name="refresh">تحديث</string>
-    <string name="sensors">اجهزه الاستشعار</string>
+    <string name="sensors">أجهزه الاستشعار</string>
     <string name="exported">تصدير</string>
     <string name="not_exported">غير صادر</string>
     <string name="n_enabled">%d تفعيل</string>
@@ -696,6 +696,6 @@
     <string name="external_storage">وحدة تخزين خارجية</string>
     <string name="external_storage_desc">قم أيضا بتضمين وحدة تخزين خارجية أثناء الفحص.</string>
     <string name="public_key_type">نوع المفتاح العام</string>
-    <string name="backup_and_restore_desc">نسخ و استعادة بيانات التطبيقات.</string>
+    <string name="backup_and_restore_desc">نسخ و استعادة بيانات التطبيق.</string>
     <string name="import_">استيراد</string>
 </resources>
