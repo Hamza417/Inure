@@ -14,6 +14,10 @@
         android:clipChildren="false"
         android:clipToPadding="false" />
 
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
     <app.simple.inure.decorations.theme.ThemeFrameLayout
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
