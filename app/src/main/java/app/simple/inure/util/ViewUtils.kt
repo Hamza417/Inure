@@ -8,7 +8,11 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.TypedValue
-import android.view.*
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
@@ -35,7 +39,7 @@ object ViewUtils {
      * because this is when container's parent is
      * initialized
      */
-    fun dimBehind(contentView: View) {
+    fun dimBehind(contentView: View, blur: Boolean = true) {
         val container = contentView.rootView
         val windowManager = contentView.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val layoutParams = container.layoutParams as WindowManager.LayoutParams
@@ -45,7 +49,7 @@ object ViewUtils {
             layoutParams.dimAmount = getDimValue(contentView.context)
         }
 
-        if (BehaviourPreferences.isBlurringOn()) {
+        if (BehaviourPreferences.isBlurringOn() && blur) {
             layoutParams.flags = layoutParams.flags or WindowManager.LayoutParams.FLAG_BLUR_BEHIND
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 layoutParams.blurBehindRadius = Misc.blurRadius.toInt()

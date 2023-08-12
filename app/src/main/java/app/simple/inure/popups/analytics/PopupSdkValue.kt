@@ -16,6 +16,7 @@ class PopupSdkValue(view: View) : BasePopupWindow() {
     private val name: DynamicRippleTextView
 
     init {
+        isBlurEnabled = false
         val contentView = LayoutInflater.from(view.context).inflate(R.layout.popup_sdk_value, PopupLinearLayout(view.context))
 
         code = contentView.findViewById(R.id.version_code)

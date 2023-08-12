@@ -22,6 +22,8 @@ open class BasePopupWindow : PopupWindow() {
 
     private var valueAnimator: ValueAnimator? = null
 
+    protected var isBlurEnabled: Boolean = true
+
     fun init(contentView: View, viewGroup: ViewGroup, xOff: Float, yOff: Float) {
         setContentView(contentView)
         init()
@@ -69,19 +71,19 @@ open class BasePopupWindow : PopupWindow() {
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {
         super.showAsDropDown(anchor, xoff, yoff, gravity)
         valueAnimator = animateElevation(20F)
-        dimBehind(contentView)
+        dimBehind(contentView, isBlurEnabled)
     }
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int) {
         super.showAsDropDown(anchor, xoff, yoff)
         valueAnimator = animateElevation(20F)
-        dimBehind(contentView)
+        dimBehind(contentView, isBlurEnabled)
     }
 
     override fun showAsDropDown(anchor: View?) {
         super.showAsDropDown(anchor)
         valueAnimator = animateElevation(20F)
-        dimBehind(contentView)
+        dimBehind(contentView, isBlurEnabled)
     }
 
     override fun dismiss() {

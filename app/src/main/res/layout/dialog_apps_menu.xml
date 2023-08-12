@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/menu_text_button_padding"
+                android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:text="@string/send"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"

@@ -13,6 +13,7 @@ class PopupTooltip(view: View) : BasePopupWindow() {
     private val handler = Handler(Looper.getMainLooper())
 
     init {
+        isBlurEnabled = false
         val contentView: DynamicCornerTextView = View.inflate(view.context, R.layout.popup_tooltip, null) as DynamicCornerTextView
 
         contentView.text = view.contentDescription
