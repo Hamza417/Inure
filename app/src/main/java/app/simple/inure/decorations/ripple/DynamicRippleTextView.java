@@ -19,6 +19,7 @@ import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.typeface.TypeFaceTextView;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.ViewUtils;
@@ -145,7 +146,11 @@ public class DynamicRippleTextView extends TypeFaceTextView {
             setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
             setBackground(null);
-            setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
+                setBackground(Utils.getRippleDrawable(getBackground()));
+            } else {
+                setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+            }
         }
     }
     

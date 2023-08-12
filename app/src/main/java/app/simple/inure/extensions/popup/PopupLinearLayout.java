@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import app.simple.inure.R;
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout;
 import app.simple.inure.preferences.AccessibilityPreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 
 public class PopupLinearLayout extends DynamicCornerLinearLayout {
     public PopupLinearLayout(Context context) {
@@ -22,8 +23,10 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
     private void init() {
         setClipToPadding(false);
         setClipChildren(false);
-        int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
-        setPadding(p, p, p, p);
+        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
+            int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
+            setPadding(p, p, p, p);
+        }
         setOrientation(LinearLayout.VERTICAL);
         animateChildren();
     }
@@ -39,18 +42,18 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
         if (!isInEditMode()) {
             if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
                 setScaleY(0);
-            
+    
                 animate()
                         .scaleY(1)
                         .setDuration(200)
                         .setInterpolator(new DecelerateInterpolator(1.5F))
                         .start();
-            
+    
                 post(() -> {
                     for (int i = 0; i < getChildCount(); i++) {
                         getChildAt(i).setAlpha(0);
                         getChildAt(i).setTranslationY(-8);
-                    
+    
                         getChildAt(i).animate()
                                 .translationY(0)
                                 .alpha(1)

@@ -29,6 +29,7 @@ object DevelopmentPreferences {
     const val showCompleteAppSize = "is_complete_app_size_shown"
     const val removeStrokeFromChips = "is_stroke_removed_from_chips"
     const val oldStyleHomePanel = "is_old_style_home_panel_enabled"
+    const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -159,6 +160,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Old Style Home Panel",
                                             "Use old style home panel instead of the current one.",
                                             oldStyleHomePanel,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Padding Less Popup Menus",
+                                            "Remove padding from popup menus.",
+                                            paddingLessPopupMenus,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

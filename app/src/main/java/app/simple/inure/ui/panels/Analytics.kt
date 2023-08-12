@@ -12,9 +12,9 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.ChartMarkerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.popups.charts.PopupChartEntry
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsPackageType
@@ -78,7 +78,11 @@ class Analytics : ScopedFragment() {
                     }
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
-                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(e), "sdk")
+                        PopupChartEntry(view, e) {
+                            openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
+                        }.setOnDismissListener {
+                            minimumOsPie.highlightValues(null)
+                        }
                     }
                 })
             }
@@ -86,7 +90,9 @@ class Analytics : ScopedFragment() {
             minimumOsPie.setAnimation(true)
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.invalidate()
-            minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
+            //            minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view) {
+            //                openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
+            //            }
         }
 
         analyticsViewModel.getTargetSDKData().observe(viewLifecycleOwner) {
@@ -104,7 +110,11 @@ class Analytics : ScopedFragment() {
                     }
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
-                        openFragmentSlide(AnalyticsTargetSDK.newInstance(e), "target_sdk")
+                        PopupChartEntry(view, e) {
+                            openFragmentSlide(AnalyticsTargetSDK.newInstance(it), "target_sdk")
+                        }.setOnDismissListener {
+                            targetOsPie.highlightValues(null)
+                        }
                     }
                 })
             }
@@ -112,7 +122,6 @@ class Analytics : ScopedFragment() {
             targetOsPie.setAnimation(false)
             targetOsPie.notifyDataSetChanged()
             targetOsPie.invalidate()
-            targetOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         analyticsViewModel.getInstallLocationData().observe(viewLifecycleOwner) {
@@ -123,12 +132,25 @@ class Analytics : ScopedFragment() {
                     valueTextColor = Color.TRANSPARENT
                     setEntryLabelColor(Color.TRANSPARENT)
                 }
+
+                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        PopupChartEntry(view, e) {
+                            // openFragmentSlide(AnalyticsPackageType.newInstance(it), "package_type")
+                        }.setOnDismissListener {
+                            installLocationPie.highlightValues(null)
+                        }
+                    }
+                })
             }
 
             installLocationPie.setAnimation(false)
             installLocationPie.notifyDataSetChanged()
             installLocationPie.invalidate()
-            installLocationPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         analyticsViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
@@ -146,7 +168,11 @@ class Analytics : ScopedFragment() {
                     }
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
-                        openFragmentSlide(AnalyticsPackageType.newInstance(e), "package_type")
+                        PopupChartEntry(view, e) {
+                            openFragmentSlide(AnalyticsPackageType.newInstance(it), "package_type")
+                        }.setOnDismissListener {
+                            packageTypePie.highlightValues(null)
+                        }
                     }
                 })
             }
@@ -154,7 +180,6 @@ class Analytics : ScopedFragment() {
             packageTypePie.setAnimation(false)
             packageTypePie.notifyDataSetChanged()
             packageTypePie.invalidate()
-            packageTypePie.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         settings.setOnClickListener {

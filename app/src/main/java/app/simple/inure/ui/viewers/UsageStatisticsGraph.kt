@@ -12,11 +12,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeBarChart
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.ChartMarkerView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.UsageStatsPermission
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.AppStatisticsViewModelFactory
+import app.simple.inure.popups.charts.PopupChartEntry
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.TypeFace
@@ -26,9 +26,16 @@ import app.simple.inure.viewmodels.viewers.AppStatisticsGraphViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.LegendEntry
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
 import java.util.concurrent.TimeUnit
 
@@ -103,15 +110,18 @@ class UsageStatisticsGraph : ScopedFragment() {
                                     this.context.getString(R.string.used_for_seconds,
                                                            TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
                                 }
+
                                 TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
                                     this.context.getString(R.string.used_for_short,
                                                            TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
                                 }
+
                                 TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
                                     this.context.getString(R.string.used_for_long,
                                                            TimeUnit.MILLISECONDS.toHours(this@with).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
+
                                 else -> {
                                     this.context.getString(R.string.used_for_days,
                                                            TimeUnit.MILLISECONDS.toDays(this@with).toString(),
@@ -132,15 +142,18 @@ class UsageStatisticsGraph : ScopedFragment() {
                                     this.context.getString(R.string.last_used_seconds,
                                                            TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
                                 }
+
                                 TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
                                     this.context.getString(R.string.last_used_short,
                                                            TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
                                 }
+
                                 TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
                                     this.context.getString(R.string.last_used_long,
                                                            TimeUnit.MILLISECONDS.toHours(this@with).toString(),
                                                            (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
                                 }
+
                                 else -> {
                                     this.context.getString(R.string.last_used_days,
                                                            TimeUnit.MILLISECONDS.toDays(this@with).toString(),
@@ -207,6 +220,18 @@ class UsageStatisticsGraph : ScopedFragment() {
                 }
 
                 animateXY(1000, 500, Easing.EaseOutCubic)
+
+                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        PopupChartEntry(view!!, e).setOnDismissListener {
+                            pieChart.highlightValues(null)
+                        }
+                    }
+                })
             }
 
             pieChart.setUsePercentValues(true)
@@ -214,7 +239,6 @@ class UsageStatisticsGraph : ScopedFragment() {
             pieChart.notifyDataSetChanged()
             pieChart.notifyDataSetChanged()
             pieChart.invalidate()
-            pieChart.marker = ChartMarkerView(requireContext(), R.layout.marker_view)
         }
 
         appStatisticsGraphViewModel.getError().observe(viewLifecycleOwner) {
@@ -235,15 +259,18 @@ class UsageStatisticsGraph : ScopedFragment() {
                     getString(R.string.for_seconds,
                               TimeUnit.MILLISECONDS.toSeconds(barEntry.y.toLong()).toString())
                 }
+
                 TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) < 60 -> {
                     getString(R.string.for_short,
                               TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()).toString())
                 }
+
                 TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()) < 24 -> {
                     getString(R.string.for_long,
                               TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()).toString(),
                               (TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) % 60).toString())
                 }
+
                 else -> {
                     getString(R.string.for_days,
                               TimeUnit.MILLISECONDS.toDays(barEntry.y.toLong()).toString(),
