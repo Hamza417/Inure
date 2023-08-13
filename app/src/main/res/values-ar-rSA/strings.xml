@@ -114,7 +114,7 @@
     <string name="activity_status">%1$s | %2$s</string>
     <string name="device_info">معلومات الجهاز</string>
     <string name="terminal">الطرفية</string>
-    <string name="usage_statistics">إحصائية الاستخدامs</string>
+    <string name="usage_statistics">إحصائية الاستخدام</string>
     <string name="close">اغلاق</string>
     <string name="analytics">تحليلات</string>
     <string name="device">الجهاز</string>
@@ -457,7 +457,7 @@
     <string name="saved_commands">الأوامر المحفوظة</string>
     <string name="pin_to_home_panel">تثبيت على اللوحة الرئيسية</string>
     <string name="remove_from_home_screen">إزالة من اللوحة الرئيسية</string>
-    <string name="limit_stats_to_hours">تحديد الإحصائيات إلى ساعات</string>
+    <string name="limit_stats_to_hours">تحديد الإحصائيات بالساعات</string>
     <string name="sure">بالتأكيد</string>
     <string name="editor">محرر</string>
     <string name="ignore_case">تجاهل حالة الأحرف</string>
