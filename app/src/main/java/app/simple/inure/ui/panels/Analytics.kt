@@ -113,6 +113,7 @@ class Analytics : ScopedFragment() {
             minimumOsPie.setAnimation(true)
             minimumOsPie.notifyDataSetChanged()
             minimumOsPie.invalidate()
+            minimumOsPie.startAnimation()
             //            minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view) {
             //                openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
             //            }

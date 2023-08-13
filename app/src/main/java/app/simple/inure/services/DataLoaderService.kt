@@ -8,7 +8,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -43,13 +42,6 @@ class DataLoaderService : Service() {
     private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
 
     private var isLoading = false
-
-    private var flags = PackageManager.GET_META_DATA or
-            PackageManager.GET_PERMISSIONS or
-            PackageManager.GET_ACTIVITIES or
-            PackageManager.GET_SERVICES or
-            PackageManager.GET_RECEIVERS or
-            PackageManager.GET_PROVIDERS
 
     inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
@@ -157,21 +149,15 @@ class DataLoaderService : Service() {
     }
 
     private fun loadUninstalledApps() {
-        if (uninstalledApps.isEmpty()) {
-            uninstalledApps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                packageManager.getInstalledPackages(PackageManager.PackageInfoFlags
-                                                        .of((PackageManager.GET_META_DATA
-                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.getInstalledPackages(PackageManager.GET_META_DATA
-                                                                or PackageManager.GET_UNINSTALLED_PACKAGES).loadPackageNames()
-                }
-            }.stream().filter { packageInfo: PackageInfo ->
+        if (apps.isNotEmpty()) {
+            if (uninstalledApps.isEmpty()) {
+                @Suppress("UNCHECKED_CAST")
+                uninstalledApps = (apps.clone() as ArrayList<PackageInfo>).stream().filter { packageInfo: PackageInfo ->
+                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                }.collect(Collectors.toList()).toArrayList()
+            }
+        } else {
+            uninstalledApps = packageManager.getInstalledPackages().stream().filter { packageInfo: PackageInfo ->
                 packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
             }.collect(Collectors.toList()).toArrayList()
         }

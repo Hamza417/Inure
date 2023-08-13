@@ -33,7 +33,8 @@ object PackageUtils {
                 PackageManager.GET_CONFIGURATIONS or
                 PackageManager.GET_SIGNING_CERTIFICATES or
                 PackageManager.GET_SHARED_LIBRARY_FILES or
-                PackageManager.MATCH_DISABLED_COMPONENTS).toLong()
+                PackageManager.MATCH_DISABLED_COMPONENTS or
+                PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()
     } else {
         @Suppress("DEPRECATION")
         (PackageManager.GET_META_DATA or
@@ -45,7 +46,8 @@ object PackageUtils {
                 PackageManager.GET_SIGNATURES or
                 PackageManager.GET_CONFIGURATIONS or
                 PackageManager.GET_SHARED_LIBRARY_FILES or
-                PackageManager.GET_DISABLED_COMPONENTS).toLong()
+                PackageManager.GET_DISABLED_COMPONENTS or
+                PackageManager.GET_UNINSTALLED_PACKAGES).toLong()
     }
 
     private const val PRIVATE_FLAG_HIDDEN = 1 shl 0

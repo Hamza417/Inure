@@ -79,10 +79,14 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     fun initiateSearch(keywords: String) {
         thread?.interrupt()
         thread = thread(priority = 10, name = keywords) {
-            if (SearchPreferences.isDeepSearchEnabled()) {
-                loadDeepSearchData(keywords)
-            } else {
-                loadSearchData(keywords)
+            try {
+                if (SearchPreferences.isDeepSearchEnabled()) {
+                    loadDeepSearchData(keywords)
+                } else {
+                    loadSearchData(keywords)
+                }
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
             }
         }
     }
@@ -366,5 +370,18 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
         initiateSearch(SearchPreferences.getLastSearchKeyword())
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        try {
+            thread?.interrupt()
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun clearSearch() {
+        initiateSearch("")
     }
 }

@@ -12,6 +12,7 @@ import com.github.mikephil.charting.components.Legend;
 
 import androidx.annotation.NonNull;
 import app.simple.inure.R;
+import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AnalyticsPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
@@ -96,7 +97,9 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     }
     
     public void startAnimation() {
-        animateXY(1000, 500, Easing.EaseOutCubic);
+        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            animateXY(1000, 500, Easing.EaseOutCubic);
+        }
     }
     
     @Override

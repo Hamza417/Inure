@@ -653,7 +653,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         postDelayed(500, action)
     }
 
-    protected fun removeCallbacks() {
+    protected fun removeHandlerCallbacks() {
         handler.removeCallbacksAndMessages(null)
     }
 }

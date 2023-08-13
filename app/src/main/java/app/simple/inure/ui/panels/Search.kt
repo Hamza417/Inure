@@ -2,7 +2,6 @@ package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +29,6 @@ import app.simple.inure.ui.viewers.Receivers
 import app.simple.inure.ui.viewers.Resources
 import app.simple.inure.ui.viewers.Services
 import app.simple.inure.viewmodels.panels.SearchViewModel
-import com.google.android.material.transition.MaterialContainerTransform
 
 class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -59,12 +57,6 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // super.onViewCreated(view, savedInstanceState)
-
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.animation_duration).toLong()
-            setAllContainerColors(Color.TRANSPARENT)
-            scrimColor = Color.TRANSPARENT
-        }
 
         postponeEnterTransition()
 
@@ -179,7 +171,15 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
-                searchViewModel.setSearchKeywords(keywords)
+                removeHandlerCallbacks()
+
+                if (keywords.isNotEmpty()) {
+                    postDelayed(1000L) {
+                        searchViewModel.initiateSearch(keywords)
+                    }
+                } else {
+                    searchViewModel.clearSearch()
+                }
             }
 
             override fun onSearchRefreshPressed(button: View?) {
@@ -197,6 +197,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             SearchPreferences.appsFilter -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
+
             SearchPreferences.ignoreCasing -> {
                 if (SearchPreferences.isDeepSearchEnabled()) {
                     adapterDeepSearch.ignoreCasing = SearchPreferences.isCasingIgnored()

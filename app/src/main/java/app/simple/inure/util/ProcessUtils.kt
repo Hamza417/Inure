@@ -18,4 +18,8 @@ object ProcessUtils {
 
         return block()
     }
+
+    suspend fun transitionDelay() {
+        kotlinx.coroutines.delay(450L)
+    }
 }

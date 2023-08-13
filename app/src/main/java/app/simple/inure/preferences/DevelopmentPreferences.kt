@@ -165,7 +165,7 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Padding Less Popup Menus",
                                             "Remove padding from popup menus.",
                                             paddingLessPopupMenus,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
         ).sortedBy {
             it.title
         }

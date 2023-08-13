@@ -107,7 +107,10 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             searchViewEventListener.onSearchRefreshPressed(button);
         });
     
-        clear.setOnClickListener(button -> editText.getText().clear());
+        clear.setOnClickListener(button -> {
+            editText.getText().clear();
+            setNewNumber(0);
+        });
     }
     
     @Override

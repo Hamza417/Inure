@@ -265,19 +265,11 @@ class Home : ScopedFragment() {
         }
 
         search.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .addSharedElement(it, it.transitionName)
-                .replace(R.id.app_container, Search.newInstance(firstLaunch = true))
-                .addToBackStack("search")
-                .commit()
+            openFragmentLinear(Search.newInstance(firstLaunch = true), it, "search")
         }
 
         settings.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .addSharedElement(it, it.transitionName)
-                .replace(R.id.app_container, Preferences.newInstance())
-                .addToBackStack("preferences")
-                .commit()
+            openFragmentLinear(Preferences.newInstance(), it, "preferences")
         }
 
         purchase.setOnClickListener {

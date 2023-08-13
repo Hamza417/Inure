@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.animation.AnimationUtils;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -10,6 +11,8 @@ import com.google.android.flexbox.JustifyContent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import app.simple.inure.R;
+import app.simple.inure.preferences.AccessibilityPreferences;
 
 public class LegendRecyclerView extends RecyclerView {
     public LegendRecyclerView(@NonNull Context context) {
@@ -35,5 +38,15 @@ public class LegendRecyclerView extends RecyclerView {
         layoutManager.setFlexDirection(FlexDirection.ROW);
         layoutManager.setJustifyContent(JustifyContent.CENTER);
         setLayoutManager(layoutManager);
+        
+        setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_pop_in_animation_controller));
+    }
+    
+    @Override
+    public void setAdapter(@Nullable Adapter adapter) {
+        super.setAdapter(adapter);
+        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            scheduleLayoutAnimation();
+        }
     }
 }

@@ -7,7 +7,6 @@
     android:background="@android:color/white"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:transitionName="@string/preferences"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
@@ -30,6 +29,7 @@
             android:padding="5dp"
             app:srcCompat="@drawable/ic_app_icon_settings"
             app:tintType="accent"
+            android:transitionName="@string/preferences"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
