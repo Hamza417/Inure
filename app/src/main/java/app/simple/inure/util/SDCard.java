@@ -151,7 +151,7 @@ public class SDCard {
             
             // Iterate over each line of the mounts listing.
             while ((lineRead = bufferedReader.readLine()) != null) {
-                Log.d(TAG, "\nMounts line: " + lineRead);
+                log("\nMounts line: " + lineRead);
                 mountFields = lineRead.split(" ");
                 
                 // columns: device, mountpoint, fs type, options... Example:
@@ -207,12 +207,12 @@ public class SDCard {
         // so we want the great-great-grandparent folder.
         
         // This may be non-removable.
-        Log.d(TAG, "Environment.getExternalStorageDirectory():");
+        log("Environment.getExternalStorageDirectory():");
         addPath(null, ancestor(Environment.getExternalStorageDirectory()), candidatePaths);
         
         // Context.getExternalFilesDirs() is only available from API level 19. You can use
         // ContextCompat.getExternalFilesDirs() on earlier APIs, but it only returns one dir anyway.
-        Log.d(TAG, "context.getExternalFilesDir(null):");
+        log("context.getExternalFilesDir(null):");
         addPath(null, ancestor(context.getExternalFilesDir(null)), candidatePaths);
         
         // "Returns absolute paths to application-specific directories on all external storage
@@ -220,10 +220,10 @@ public class SDCard {
         // We might be able to use these to deduce a higher-level folder that isn't app-specific.
         // Also, we apparently have to call getExternalFilesDir[s](), at least in KITKAT+, in order to ensure that the
         // "external files" directory exists and is available.
-        Log.d(TAG, "ContextCompat.getExternalFilesDirs(context, null):");
+        log("ContextCompat.getExternalFilesDirs(context, null):");
         addAncestors(candidatePaths, ContextCompat.getExternalFilesDirs(context, null));
         // Very similar results:
-        Log.d(TAG, "ContextCompat.getExternalCacheDirs(context):");
+        log("ContextCompat.getExternalCacheDirs(context):");
         addAncestors(candidatePaths, ContextCompat.getExternalCacheDirs(context));
         
         // TODO maybe: use getExternalStorageState(File path), with and without an argument, when
@@ -243,10 +243,10 @@ public class SDCard {
         }
         
         if (candidatePaths.isEmpty()) {
-            Log.w(TAG, "No removable microSD card found.");
+            log("No removable microSD card found.");
             return null;
         } else {
-            Log.i(TAG, "\nFound potential removable storage locations: " + candidatePaths);
+            log("\nFound potential removable storage locations: " + candidatePaths);
         }
         
         // Accept or eliminate candidate paths if we can determine whether they're removable storage.
@@ -259,39 +259,39 @@ public class SDCard {
                 if (Environment.isExternalStorageRemovable(dir)
                     // && containsKnownFile(dir)
                 ) {
-                    Log.i(TAG, dir.getPath() + " is removable external storage");
+                    log(dir.getPath() + " is removable external storage");
                     return dir;
                 } else if (Environment.isExternalStorageEmulated(dir)) {
-                    Log.d(TAG, "Removing emulated external storage dir " + dir);
+                    log("Removing emulated external storage dir " + dir);
                     itf.remove();
                 }
             } catch (IllegalArgumentException e) {
-                Log.d(TAG, "isRemovable(" + dir.getPath() + "): not a valid storage device.", e);
+                log("isRemovable(" + dir.getPath() + "): not a valid storage device.", e);
             }
         }
         
         // Continue trying to accept or eliminate candidate paths based on whether they're removable storage.
         // On pre-Lollipop, we only have singular externalStorage. Check whether it's removable.
         File externalStorage = Environment.getExternalStorageDirectory();
-        Log.d(TAG, String.format(Locale.ROOT, "findSDCardPath: getExternalStorageDirectory = %s", externalStorage.getPath()));
+        log(String.format(Locale.ROOT, "findSDCardPath: getExternalStorageDirectory = %s", externalStorage.getPath()));
         if (Environment.isExternalStorageRemovable()) {
             // Make sure this is a candidate.
             // TODO: Does this contains() work? Should we be canonicalizing paths before comparing?
             if (candidatePaths.contains(externalStorage)
                 // && containsKnownFile(externalStorage)
             ) {
-                Log.d(TAG, "Using externalStorage dir " + externalStorage);
+                log("Using externalStorage dir " + externalStorage);
                 return externalStorage;
             }
         } else if (Environment.isExternalStorageEmulated()) {
-            Log.d(TAG, "Removing emulated external storage dir " + externalStorage);
+            log("Removing emulated external storage dir " + externalStorage);
             candidatePaths.remove(externalStorage);
         }
         
         // If any directory contains our special test file, consider that the microSD card.
         if (KNOWNFILE != null) {
             for (File dir : candidatePaths) {
-                Log.d(TAG, String.format(Locale.ROOT, "findSdCardPath: Looking for known file in candidate path, %s", dir));
+                log(String.format(Locale.ROOT, "findSdCardPath: Looking for known file in candidate path, %s", dir));
                 if (containsKnownFile(dir)) {
                     return dir;
                 }
@@ -300,7 +300,7 @@ public class SDCard {
         
         // If we don't find the known file, still try taking the first candidate.
         if (!candidatePaths.isEmpty()) {
-            Log.d(TAG, "No definitive path to SD card; taking the first realistic candidate.");
+            log("No definitive path to SD card; taking the first realistic candidate.");
             return candidatePaths.iterator().next();
         }
         
@@ -351,10 +351,10 @@ public class SDCard {
             
             // Eliminate candidate if not a directory or not fully accessible.
             if (fileNew.exists() && fileNew.isDirectory() && fileNew.canExecute()) {
-                Log.d(TAG, "  Adding candidate path " + strNew);
+                log("  Adding candidate path " + strNew);
                 paths.add(fileNew);
             } else {
-                Log.d(TAG, String.format(Locale.ROOT, "  Invalid path %s: exists: %b isDir: %b canExec: %b canRead: %b",
+                log(String.format(Locale.ROOT, "  Invalid path %s: exists: %b isDir: %b canExec: %b canRead: %b",
                         strNew, fileNew.exists(), fileNew.isDirectory(), fileNew.canExecute(), fileNew.canRead()));
             }
         }
@@ -385,8 +385,18 @@ public class SDCard {
         if (KNOWNFILE == null) {
             return false;
         }
-        
+    
         File knownFile = new File(dir, KNOWNFILE);
         return knownFile.exists();
+    }
+    
+    private static void log(Object... args) {
+        if (false) { // Enable it if needed
+            StringBuilder sb = new StringBuilder();
+            for (Object arg : args) {
+                sb.append(arg);
+            }
+            Log.d(TAG, sb.toString());
+        }
     }
 }

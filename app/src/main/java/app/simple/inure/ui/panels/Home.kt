@@ -57,7 +57,6 @@ class Home : ScopedFragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
     private var headerAnimator: ValueAnimator? = null
-    private var mainIconAnimator: ValueAnimator? = null
 
     private fun getHomeLayout(): Int {
         return if (DevelopmentPreferences.get(DevelopmentPreferences.alternateHomePanel)) {

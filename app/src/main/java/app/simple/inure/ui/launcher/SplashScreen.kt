@@ -371,6 +371,7 @@ class SplashScreen : ScopedFragment() {
                         if (TrialPreferences.setFullVersion(value = true)) {
                             showWarning(R.string.full_version_activated, goBack = false)
                             TrialPreferences.resetUnlockerWarningCount()
+                            daysLeft.gone()
                         }
                     }.getOrElse {
                         it.printStackTrace()

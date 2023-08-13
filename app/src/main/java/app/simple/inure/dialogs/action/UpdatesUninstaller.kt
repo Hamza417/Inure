@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.uninstallThisPackage
 import app.simple.inure.constants.BundleConstants
@@ -25,7 +26,7 @@ class UpdatesUninstaller : ScopedBottomSheetFragment() {
 
     lateinit var appUninstallObserver: ActivityResultLauncher<Intent>
 
-    var listener: (() -> Unit)? = null
+    private var listener: (() -> Unit)? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_uninstaller, container, false)
@@ -77,6 +78,12 @@ class UpdatesUninstaller : ScopedBottomSheetFragment() {
             val fragment = UpdatesUninstaller()
             fragment.arguments = args
             return fragment
+        }
+
+        fun FragmentManager.showUpdatesUninstaller(packageInfo: PackageInfo, listener: (() -> Unit)? = null) {
+            newInstance(packageInfo).apply {
+                this.listener = listener
+            }.show(this, UpdatesUninstaller::class.java.simpleName)
         }
     }
 }

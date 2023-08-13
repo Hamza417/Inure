@@ -23,6 +23,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -359,5 +360,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     private fun isNotThisApp(): Boolean {
         return packageInfo.packageName != application.packageName
+    }
+
+    fun unsetUpdateFlag() {
+        FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
     }
 }

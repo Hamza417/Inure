@@ -18,7 +18,6 @@ import app.simple.inure.util.SortApks.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import kotlin.system.measureTimeMillis
 
 class ApkBrowserViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -93,11 +92,9 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
                 val mediaPaths = ArrayList<ApkFile>()
 
                 for (file in apkPaths) {
-                    println("Time taken: " + measureTimeMillis {
-                        if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
-                            mediaPaths.add(file)
-                        }
-                    })
+                    if (file.file.absolutePath.split("/").any { it.startsWith(".") }.invert()) {
+                        mediaPaths.add(file)
+                    }
                 }
 
                 apkPaths.clear()

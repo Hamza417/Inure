@@ -2,14 +2,12 @@ package app.simple.inure.ui.panels
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.NameNotFoundException
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +39,8 @@ import app.simple.inure.dialogs.action.Reinstaller.Companion.showReinstaller
 import app.simple.inure.dialogs.action.Send
 import app.simple.inure.dialogs.action.SplitApkSelector.Companion.showSplitApkSelector
 import app.simple.inure.dialogs.action.State.Companion.showState
-import app.simple.inure.dialogs.action.Uninstaller
-import app.simple.inure.dialogs.action.UpdatesUninstaller
-import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
+import app.simple.inure.dialogs.action.UpdatesUninstaller.Companion.showUpdatesUninstaller
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
@@ -79,7 +76,6 @@ import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PackageListUtils.getAppInfo
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
@@ -163,6 +159,7 @@ class AppInfo : ScopedFragment() {
                     meta.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                     metaLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     meta.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
                     metaLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
@@ -194,51 +191,67 @@ class AppInfo : ScopedFragment() {
                                 openFragmentArc(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
+
                         R.string.services -> {
                             openFragmentArc(Services.newInstance(packageInfo), icon, "services")
                         }
+
                         R.string.activities -> {
                             openFragmentArc(Activities.newInstance(packageInfo), icon, "activities")
                         }
+
                         R.string.providers -> {
                             openFragmentArc(Providers.newInstance(packageInfo), icon, "providers")
                         }
+
                         R.string.permissions -> {
                             openFragmentArc(Permissions.newInstance(packageInfo), icon, "permissions")
                         }
+
                         R.string.certificate -> {
                             openFragmentArc(Certificate.newInstance(packageInfo, null), icon, "certificate")
                         }
+
                         R.string.receivers -> {
                             openFragmentArc(Receivers.newInstance(packageInfo), icon, "broadcasts")
                         }
+
                         R.string.resources -> {
                             openFragmentArc(Resources.newInstance(packageInfo), icon, "resources")
                         }
+
                         R.string.uses_feature -> {
                             openFragmentArc(Features.newInstance(packageInfo), icon, "uses_feature")
                         }
+
                         R.string.graphics -> {
                             openFragmentArc(Graphics.newInstance(packageInfo), icon, "graphics")
                         }
+
                         R.string.extras -> {
                             openFragmentArc(Extras.newInstance(packageInfo), icon, "extras")
                         }
+
                         R.string.shared_libs -> {
                             openFragmentArc(SharedLibs.newInstance(packageInfo), icon, "shared_libs")
                         }
+
                         R.string.dex_classes -> {
                             openFragmentArc(Dexs.newInstance(packageInfo), icon, "dexs")
                         }
+
                         R.string.trackers -> {
                             openFragmentArc(Trackers.newInstance(packageInfo), icon, "trackers")
                         }
+
                         R.string.operations -> {
                             openFragmentArc(Operations.newInstance(packageInfo), icon, "ops")
                         }
+
                         R.string.boot -> {
                             openFragmentArc(Boot.newInstance(packageInfo), icon, "boot")
                         }
+
                         R.string.shared_prefs -> {
                             openFragmentArc(app.simple.inure.ui.viewers.SharedPreferences.newInstance(packageInfo), icon, "shared_prefs")
                         }
@@ -254,6 +267,7 @@ class AppInfo : ScopedFragment() {
                     actions.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                     actionsLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     actions.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
                     actionsLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
@@ -279,54 +293,44 @@ class AppInfo : ScopedFragment() {
                                 showWarning(e.message ?: getString(R.string.error))
                             }
                         }
+
                         R.string.uninstall -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    val uninstaller = Uninstaller.newInstance(packageInfo)
-
-                                    uninstaller.listener = {
+                                    childFragmentManager.uninstallPackage(packageInfo) {
                                         requireActivity().supportFragmentManager.popBackStackImmediate()
                                     }
-
-                                    uninstaller.show(childFragmentManager, "uninstaller")
                                 }
                             })
                         }
+
                         R.string.uninstall_updates -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    val updatesUninstaller = UpdatesUninstaller.newInstance(packageInfo)
-
-                                    updatesUninstaller.listener = {
-                                        if (FlagUtils.isFlagSet(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) {
-                                            FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
-                                        }
-
+                                    childFragmentManager.showUpdatesUninstaller(packageInfo) {
+                                        componentsViewModel.unsetUpdateFlag()
                                         componentsViewModel.loadActionOptions()
                                     }
-
-                                    updatesUninstaller.show(childFragmentManager, "uninstaller")
                                 }
                             })
                         }
+
                         R.string.reinstall -> {
                             val wasAppInstalled = requirePackageManager().isPackageInstalledAndEnabled(packageInfo.packageName)
 
-                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                                override fun onSure() {
-                                    childFragmentManager.showReinstaller(packageInfo).setReinstallerCallbacks(object : Reinstaller.Companion.ReinstallerCallbacks {
-                                        override fun onReinstallSuccess() {
-                                            if (wasAppInstalled.invert()) {
-                                                icon.loadAppIcon(packageInfo.packageName, enabled = true)
-                                                componentsViewModel.loadActionOptions()
-                                            }
+                            onSure {
+                                childFragmentManager.showReinstaller(packageInfo).setReinstallerCallbacks(object : Reinstaller.Companion.ReinstallerCallbacks {
+                                    override fun onReinstallSuccess() {
+                                        if (wasAppInstalled.invert()) {
+                                            icon.loadAppIcon(packageInfo.packageName, enabled = true)
+                                            componentsViewModel.loadActionOptions()
                                         }
-                                    })
-                                }
-                            })
+                                    }
+                                })
+                            }
                         }
+
                         R.string.install -> {
-                            Log.d("AppInfo", "onAppInfoMenuClicked: ${packageInfo.applicationInfo.sourceDir.toFile()}")
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
@@ -334,29 +338,23 @@ class AppInfo : ScopedFragment() {
 
                             openFragmentArc(Installer.newInstance(uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, "installer")
                         }
+
                         R.string.send -> {
                             Send.newInstance(packageInfo).show(childFragmentManager, "prepare_send_files")
                         }
+
                         R.string.clear_data -> {
-                            val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : SureCallbacks {
-                                override fun onSure() {
-                                    ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
-                                }
-                            })
-
-                            p.show(childFragmentManager, "sure")
+                            onSure {
+                                ClearData.newInstance(packageInfo).show(parentFragmentManager, "shell_executor")
+                            }
                         }
+
                         R.string.clear_cache -> {
-                            val p = Sure.newInstance()
-                            p.setOnSureCallbackListener(object : SureCallbacks {
-                                override fun onSure() {
-                                    ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
-                                }
-                            })
-
-                            p.show(childFragmentManager, "sure")
+                            onSure {
+                                ClearCache.newInstance(packageInfo).show(parentFragmentManager, "clear_cache")
+                            }
                         }
+
                         R.string.force_stop -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
@@ -364,6 +362,7 @@ class AppInfo : ScopedFragment() {
                                 }
                             })
                         }
+
                         R.string.disable, R.string.enable -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
@@ -373,6 +372,7 @@ class AppInfo : ScopedFragment() {
                                 }
                             })
                         }
+
                         R.string.visible, R.string.hidden -> {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
@@ -382,6 +382,7 @@ class AppInfo : ScopedFragment() {
                                 }
                             })
                         }
+
                         R.string.open_in_settings -> {
                             try {
                                 startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -391,15 +392,19 @@ class AppInfo : ScopedFragment() {
                                 showWarning(e.message ?: getString(R.string.error))
                             }
                         }
+
                         R.string.change_logs -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "change_logs")
                         }
+
                         R.string.credits -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.credits)), "credits")
                         }
+
                         R.string.translate -> {
                             openFragmentSlide(WebPage.newInstance(getString(R.string.translate)), "translate")
                         }
+
                         R.string.preferences -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if (packageInfo.packageName == requireContext().packageName) {
@@ -444,6 +449,7 @@ class AppInfo : ScopedFragment() {
                     miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                     miscellaneousLayoutButton.setImageResource(R.drawable.ic_list_horizontal_16dp)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     miscellaneous.layoutManager = GridLayoutManager(requireContext(), getInteger(R.integer.span_count))
                     miscellaneousLayoutButton.setImageResource(R.drawable.ic_grid_2_16dp)
@@ -544,6 +550,7 @@ class AppInfo : ScopedFragment() {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     AppInformationPreferences.setMetaMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     AppInformationPreferences.setMetaMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
                 }
@@ -555,6 +562,7 @@ class AppInfo : ScopedFragment() {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     AppInformationPreferences.setActionMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     AppInformationPreferences.setActionMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
                 }
@@ -566,6 +574,7 @@ class AppInfo : ScopedFragment() {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     AppInformationPreferences.setMiscMenuLayout(AppInformationPreferences.MENU_LAYOUT_GRID)
                 }
+
                 AppInformationPreferences.MENU_LAYOUT_GRID -> {
                     AppInformationPreferences.setMiscMenuLayout(AppInformationPreferences.MENU_LAYOUT_HORIZONTAL)
                 }
@@ -612,14 +621,17 @@ class AppInfo : ScopedFragment() {
                 metaMenuState()
                 componentsViewModel.loadMetaOptions()
             }
+
             AppInformationPreferences.actionMenuState -> {
                 actionMenuState()
                 componentsViewModel.loadActionOptions()
             }
+
             AppInformationPreferences.miscMenuState -> {
                 miscMenuState()
                 componentsViewModel.loadMiscellaneousItems()
             }
+
             AppInformationPreferences.menuLayout -> {
                 /**
                  * Load all the menus back again
@@ -628,12 +640,15 @@ class AppInfo : ScopedFragment() {
                 componentsViewModel.loadMetaOptions()
                 componentsViewModel.loadActionOptions()
             }
+
             AppInformationPreferences.metaMenuLayout -> {
                 componentsViewModel.loadMetaOptions()
             }
+
             AppInformationPreferences.actionMenuLayout -> {
                 componentsViewModel.loadActionOptions()
             }
+
             AppInformationPreferences.miscMenuLayout -> {
                 componentsViewModel.loadMiscellaneousItems()
             }
