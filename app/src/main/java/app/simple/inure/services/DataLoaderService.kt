@@ -13,6 +13,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.interfaces.receivers.AppUninstallCallbacks
 import app.simple.inure.receivers.AppUninstalledBroadcastReceiver
@@ -42,6 +43,13 @@ class DataLoaderService : Service() {
     private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
 
     private var isLoading = false
+
+    private var flags = PackageManager.GET_META_DATA or
+            PackageManager.GET_PERMISSIONS or
+            PackageManager.GET_ACTIVITIES or
+            PackageManager.GET_SERVICES or
+            PackageManager.GET_RECEIVERS or
+            PackageManager.GET_PROVIDERS
 
     inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
@@ -145,12 +153,7 @@ class DataLoaderService : Service() {
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            packageManager.getInstalledPackages(PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong())).loadPackageNames()
-        } else {
-            @Suppress("DEPRECATION")
-            packageManager.getInstalledPackages(PackageManager.GET_META_DATA).loadPackageNames()
-        }
+        return packageManager.getInstalledPackages().loadPackageNames()
     }
 
     private fun loadUninstalledApps() {
@@ -161,7 +164,6 @@ class DataLoaderService : Service() {
                                                                 or PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong())).loadPackageNames()
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    @Suppress("DEPRECATION")
                     packageManager.getInstalledPackages(PackageManager.GET_META_DATA
                                                                 or PackageManager.MATCH_UNINSTALLED_PACKAGES).loadPackageNames()
                 } else {

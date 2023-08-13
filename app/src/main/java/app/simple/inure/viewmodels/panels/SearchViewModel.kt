@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.SortConstant
@@ -18,13 +17,13 @@ import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.stream.Collectors
+import kotlin.concurrent.thread
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
+    private var thread: Thread? = null
 
     @Suppress("DEPRECATION")
     private var flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -78,7 +77,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     fun initiateSearch(keywords: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        thread?.interrupt()
+        thread = thread(priority = 10, name = keywords) {
             if (SearchPreferences.isDeepSearchEnabled()) {
                 loadDeepSearchData(keywords)
             } else {
@@ -87,12 +87,10 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    fun reload() {
-        viewModelScope.launch(Dispatchers.IO) {
-            apps.clear()
-            refreshPackageData()
-            initiateSearch(searchKeywords.value!!)
-        }
+    fun reload() { // These two fun already runs in their own threads
+        apps.clear()
+        refreshPackageData()
+        initiateSearch(searchKeywords.value!!)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -213,7 +211,9 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        searchData.postValue(filteredList)
+        if (Thread.currentThread().name == thread?.name) {
+            searchData.postValue(filteredList)
+        }
     }
 
     private fun loadDeepSearchData(keywords: String) {
@@ -260,7 +260,9 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                     it.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
         } as ArrayList<SearchModel>
 
-        deepSearchData.postValue(list)
+        if (Thread.currentThread().name == thread?.name) {
+            deepSearchData.postValue(list)
+        }
     }
 
     private fun getPermissionCount(keyword: String, app: PackageInfo): Int {

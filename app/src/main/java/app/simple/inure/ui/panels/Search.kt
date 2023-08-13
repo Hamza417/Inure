@@ -23,7 +23,12 @@ import app.simple.inure.dialogs.menus.SearchMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
-import app.simple.inure.ui.viewers.*
+import app.simple.inure.ui.viewers.Activities
+import app.simple.inure.ui.viewers.Permissions
+import app.simple.inure.ui.viewers.Providers
+import app.simple.inure.ui.viewers.Receivers
+import app.simple.inure.ui.viewers.Resources
+import app.simple.inure.ui.viewers.Services
 import app.simple.inure.viewmodels.panels.SearchViewModel
 import com.google.android.material.transition.MaterialContainerTransform
 
@@ -174,15 +179,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
-                removeCallbacks()
-
-                if (keywords.isNotEmpty()) {
-                    postDelayed(1000) {
-                        searchViewModel.setSearchKeywords(keywords)
-                    }
-                } else {
-                    searchViewModel.setSearchKeywords(keywords)
-                }
+                searchViewModel.setSearchKeywords(keywords)
             }
 
             override fun onSearchRefreshPressed(button: View?) {
