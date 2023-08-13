@@ -345,7 +345,8 @@ object ThemeUtils {
                     // Ignore
                 } else {
                     setTheme(R.style.Inure)
-                    AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, R.color.inure))
+                    AppearancePreferences.setAccentColor(
+                            ContextCompat.getColor(baseContext, R.color.inure))
                 }
             }
         }
