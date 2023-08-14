@@ -272,7 +272,7 @@
     <string name="single_user">مستخدم واحد</string>
     <string name="no_flags">لا علامات</string>
     <string name="icons">الرموز</string>
-    <string name="icon_shadows">رمز\'s تأثير الظل</string>
+    <string name="icon_shadows">رمز تأثير الظل</string>
     <string name="icon_shadow_desc">قم بتمكين أو تعطيل تأثيرات الظل/الارتفاع من أيقونات التطبيق في جميع أنحاء التطبيق.\n\nسيؤدي تعطيل هذا الخيار إلى جعل الرموز تبدو مسطحة.</string>
     <string name="highlight_extensions">تسليط الضوء على الإضافات</string>
     <string name="launch_mode">وضع التشغيل</string>
