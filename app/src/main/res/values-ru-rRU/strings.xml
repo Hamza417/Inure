@@ -699,4 +699,6 @@
     <string name="external_storage">Внешнее хранилище</string>
     <string name="external_storage_desc">Также включать внешний накопитель во время сканирования.</string>
     <string name="public_key_type">Тип публичного ключа</string>
+    <string name="backup_and_restore_desc">Резервное копирование и восстановление данных приложения.</string>
+    <string name="import_">Импорт</string>
 </resources>
