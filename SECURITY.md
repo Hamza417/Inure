@@ -11,16 +11,21 @@ you to report it to me confidentially. To report a security vulnerability, pleas
 1. **Do Not Disclose Publicly:** Please do not share potential vulnerabilities publicly until I have
 had a chance to address them.
 
-2. **Email Notification:** Send an email to [Hamza Rizwan](mailto:hamzarizwan243@gmail.com) describing 
-the potential vulnerability. Please include the following details in your report:
+2. **Email Notification:** Send an email to [Hamza Rizwan](mailto:hamzarizwan243@gmail.com)
+   describing
+   the potential vulnerability. Please include the following details in your report:
 
     - Description of the vulnerability and the potential impact.
     - Steps to reproduce the vulnerability.
     - Any relevant technical details that could assist in reproducing or understanding the issue.
 
-3. **Wait for Response:** You should receive an acknowledgment of your report within a few hours. I will work with you to understand and verify the issue.
+3. **Wait for Response:** You should receive an acknowledgment of your report within a few hours. I
+   will work
+   with you to understand and verify the issue.
 
-4. **Cooperation:** I appreciate your cooperation in keeping the details of the vulnerability confidential until we've resolved the issue.
+4. **Cooperation:** I appreciate your cooperation in keeping the details of the vulnerability
+   confidential
+   until we've resolved the issue.
 
 ## Responsible Disclosure Guidelines
 

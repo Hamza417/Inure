@@ -9,7 +9,6 @@ import app.simple.inure.R
 import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.AppInformationActivity
 import app.simple.inure.activities.association.AudioPlayerActivity
-import app.simple.inure.activities.association.BashAssociation
 import app.simple.inure.activities.association.ImageActivity
 import app.simple.inure.activities.association.InformationActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
@@ -49,7 +48,7 @@ class ComponentManager : ScopedFragment() {
                     Triple(R.mipmap.ic_launcher, R.string.manifest, ManifestAssociationActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.text_viewer, TextViewerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.ttf_viewer, TTFViewerActivity::class.java),
-                    Triple(R.mipmap.ic_terminal, R.string.execute, BashAssociation::class.java),
+                    // Triple(R.mipmap.ic_terminal, R.string.execute, BashAssociation::class.java),
             )
 
             list.sortBy {

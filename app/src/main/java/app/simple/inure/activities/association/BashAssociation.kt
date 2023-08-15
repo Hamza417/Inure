@@ -13,6 +13,11 @@ class BashAssociation : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        showWarning("ERR: This is not supported anymore, kindly use the terminal app to run scripts")
+
+        return
+
+        @Suppress("UNREACHABLE_CODE")
         intent.data?.let {
             contentResolver.openInputStream(it)?.use { inputStream ->
                 val file = File(applicationContext.cacheDir?.path + "/" + DocumentFile.fromSingleUri(applicationContext, it)!!.name)
