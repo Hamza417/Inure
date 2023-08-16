@@ -10,8 +10,8 @@
 
     <app.simple.inure.decorations.corners.DynamicCornerAccentColor
         android:id="@+id/adapter_palette_color"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_margin="10dp"
         android:elevation="5dp" />
 

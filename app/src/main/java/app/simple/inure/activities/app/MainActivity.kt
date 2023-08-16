@@ -132,7 +132,7 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.TERMINAL_ACTION -> {
                 openHome(isNewIntent)
                 startActivity(Intent(this, Term::class.java))
-                finish() // TODO - should not finish
+                // finish() // should not finish
             }
 
             ShortcutConstants.UNINSTALLED_ACTION -> {
