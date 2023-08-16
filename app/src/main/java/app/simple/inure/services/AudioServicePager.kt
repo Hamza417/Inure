@@ -108,18 +108,23 @@ class AudioServicePager : Service(),
                 ServiceConstants.actionPlayPager -> {
                     play()
                 }
+
                 ServiceConstants.actionPausePager -> {
                     pause()
                 }
+
                 ServiceConstants.actionTogglePausePager -> {
                     changePlayerState()
                 }
+
                 ServiceConstants.actionNextPager -> {
                     playNext()
                 }
+
                 ServiceConstants.actionPreviousPager -> {
                     playPrevious()
                 }
+
                 ServiceConstants.actionQuitMusicServicePager -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE)
@@ -182,6 +187,7 @@ class AudioServicePager : Service(),
                     pause()
                 }
             }
+
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
                 if (mediaPlayer.isPlaying) {
                     mediaPlayer.setVolume(.1f, .1f)
@@ -219,12 +225,15 @@ class AudioServicePager : Service(),
                 MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK -> {
                     throw InureMediaEngineException("MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK & extra ${ServiceConstants.getMediaErrorString(extra)}")
                 }
+
                 MediaPlayer.MEDIA_ERROR_SERVER_DIED -> {
                     throw InureMediaEngineException("MEDIA_ERROR_SERVER_DIED & extra ${ServiceConstants.getMediaErrorString(extra)}")
                 }
+
                 MediaPlayer.MEDIA_ERROR_UNKNOWN -> {
                     throw InureMediaEngineException("MEDIA_ERROR_UNKNOWN & extra ${ServiceConstants.getMediaErrorString(extra)}")
                 }
+
                 else -> {
                     /* no-op */
                 }
@@ -371,7 +380,7 @@ class AudioServicePager : Service(),
     }
 
     private fun initAudioPlayer() {
-        try {
+        kotlin.runCatching {
             mediaPlayer.reset()
             mediaPlayer.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
             mediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
@@ -382,11 +391,11 @@ class AudioServicePager : Service(),
             mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
             mediaPlayer.prepareAsync()
             MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
-            Log.d("AudioServicePager", "initAudioPlayer: ${audioModels!![currentPosition].fileUri}")
-        } catch (e: IllegalStateException) {
+        }.onFailure {
             // Unknown error maybe?
-            e.printStackTrace()
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, e.stackTraceToString())
+            it.printStackTrace()
+            IntentHelper.sendLocalBroadcastIntent(
+                    ServiceConstants.actionMediaErrorPager, applicationContext, it.message ?: "Unknown error")
             playNext()
         }
     }

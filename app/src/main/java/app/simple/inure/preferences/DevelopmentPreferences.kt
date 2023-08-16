@@ -30,6 +30,7 @@ object DevelopmentPreferences {
     const val removeStrokeFromChips = "is_stroke_removed_from_chips"
     const val alternateHomePanel = "is_old_style_home_panel_enabled"
     const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
+    const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -166,6 +167,11 @@ object DevelopmentPreferences {
                                             "Remove padding from popup menus.",
                                             paddingLessPopupMenus,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Hide Divider On Navigation Bar",
+                                            "Hide divider on navigation bar in the app (Android Version >= P 9.0).",
+                                            dividerOnNavigationBar,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
         }

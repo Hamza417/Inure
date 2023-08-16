@@ -337,7 +337,11 @@ open class BaseActivity : AppCompatActivity(),
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = Color.TRANSPARENT
+            if (DevelopmentPreferences.get(DevelopmentPreferences.dividerOnNavigationBar)) {
+                window.navigationBarDividerColor = Color.TRANSPARENT
+            } else {
+                window.navigationBarDividerColor = ThemeManager.theme.viewGroupTheme.dividerBackground
+            }
         }
     }
 
@@ -413,10 +417,6 @@ open class BaseActivity : AppCompatActivity(),
             window.navigationBarColor = animation.animatedValue as Int
         }
         valueAnimator.start()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.navigationBarDividerColor = ThemeManager.theme.viewGroupTheme.dividerBackground
-        }
 
         ThemeUtils.updateNavAndStatusColors(resources, window)
     }
@@ -574,16 +574,13 @@ open class BaseActivity : AppCompatActivity(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
         when (key) {
-            DevelopmentPreferences.disableTransparentStatus -> {
+            DevelopmentPreferences.disableTransparentStatus,
+            DevelopmentPreferences.dividerOnNavigationBar -> {
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }
 
-            AppearancePreferences.accentColor -> {
-                Log.d("BaseActivity", "Accent color changed")
-                setNavColor(accent = true)
-            }
-
+            AppearancePreferences.accentColor,
             AppearancePreferences.accentOnNav -> {
                 Log.d("BaseActivity", "Accent color changed")
                 setNavColor()
