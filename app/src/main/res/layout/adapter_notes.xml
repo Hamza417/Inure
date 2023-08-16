@@ -83,7 +83,7 @@
             android:textSize="@dimen/desc_text_size"
             app:appFontStyle="regular"
             app:drawableTintStyle="accent"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:id="@+id/themeDivider"

@@ -89,6 +89,7 @@ class MainActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        Log.d("MainActivity", "onNewIntent ${intent?.action}")
         openPanel(intent, isNewIntent = true)
     }
 
@@ -203,14 +204,20 @@ class MainActivity : BaseActivity() {
             }
 
             else -> {
-                if (AppUtils.isBetaFlavor()) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                        .commit()
-                } else {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                        .commit()
+                /**
+                 * We don't want to open the splash screen if the app was opened from launcher
+                 * and the app is already running in background.
+                 */
+                if (isNewIntent.invert()) { // Maybe the app was opened from launcher, need more checks?
+                    if (AppUtils.isBetaFlavor()) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
+                    } else {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
+                    }
                 }
             }
         }
