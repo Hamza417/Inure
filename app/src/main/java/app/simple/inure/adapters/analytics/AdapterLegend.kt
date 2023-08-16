@@ -18,7 +18,7 @@ class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                          .inflate(R.layout.adapter_pie_legend, parent, false))
+                          .inflate(R.layout.adapter_legend, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {

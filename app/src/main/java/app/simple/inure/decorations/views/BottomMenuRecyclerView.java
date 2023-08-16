@@ -1,6 +1,9 @@
 package app.simple.inure.decorations.views;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
 import app.simple.inure.adapters.menus.AdapterBottomMenu;
@@ -35,6 +39,31 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     private boolean isInitialized = false;
     private boolean isBottomMenuVisible = true;
     
+    public static final String ACTION_CLOSE_BOTTOM_MENU = "app.simple.inure.ACTION_CLOSE_BOTTOM_MENU";
+    public static final String ACTION_OPEN_BOTTOM_MENU = "app.simple.inure.ACTION_OPEN_BOTTOM_MENU";
+    
+    private final IntentFilter intentFilter = new IntentFilter();
+    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null) {
+                if (intent.getAction().equals(ACTION_CLOSE_BOTTOM_MENU)) {
+                    animate()
+                            .translationY(containerHeight)
+                            .setDuration(250)
+                            .setInterpolator(new AccelerateInterpolator())
+                            .start();
+                } else if (intent.getAction().equals(ACTION_OPEN_BOTTOM_MENU)) {
+                    animate()
+                            .translationY(0)
+                            .setDuration(250)
+                            .setInterpolator(new DecelerateInterpolator())
+                            .start();
+                }
+            }
+        }
+    };
+    
     public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
@@ -52,6 +81,11 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         ViewUtils.INSTANCE.addShadow(this);
         setClipToPadding(false);
         setClipChildren(true);
+        
+        intentFilter.addAction(ACTION_CLOSE_BOTTOM_MENU);
+        intentFilter.addAction(ACTION_OPEN_BOTTOM_MENU);
+        
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, intentFilter);
     }
     
     public void initBottomMenu(ArrayList <Pair <Integer, Integer>> bottomMenuItems, BottomMenuCallbacks bottomMenuCallbacks) {
@@ -193,6 +227,12 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         if (visibility == VISIBLE) {
             scheduleLayoutAnimation();
         }
+    }
+    
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(broadcastReceiver);
     }
     
     public void setContainerVisibility(int dy, boolean animate) {

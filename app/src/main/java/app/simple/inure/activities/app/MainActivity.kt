@@ -89,7 +89,6 @@ class MainActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        Log.d("MainActivity", "onNewIntent ${intent?.action}")
         openPanel(intent, isNewIntent = true)
     }
 
@@ -339,7 +338,6 @@ class MainActivity : BaseActivity() {
         ThemeManager.removeListener(this)
 
         try {
-            Logger.postVerboseLog("MainActivity destroyed")
             RootService.stop(Intent(this, RootService::class.java))
             Logger.postVerboseLog("RootService stopped")
         } catch (e: IllegalStateException) {

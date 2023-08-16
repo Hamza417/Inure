@@ -690,6 +690,7 @@
             android:name=".activities.association.FelicityPlayerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
+            android:enabled="false"
             android:icon="@mipmap/ic_audio_player"
             android:label="Felicity Mini Player"
             android:launchMode="singleTop" />

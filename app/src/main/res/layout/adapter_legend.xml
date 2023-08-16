@@ -12,6 +12,7 @@
     <app.simple.inure.decorations.corners.DynamicCornerAccentColor
         android:id="@+id/legend_color"
         android:layout_width="10dp"
+        android:layout_marginStart="2dp"
         android:layout_gravity="center_vertical"
         android:layout_height="10dp" />
 
@@ -19,7 +20,8 @@
         android:id="@+id/legend_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="3dp"
         android:layout_gravity="center_vertical"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="medium"

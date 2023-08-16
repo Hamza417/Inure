@@ -1,6 +1,7 @@
 package app.simple.inure.decorations.fastscroll;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -21,7 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.math.MathUtils;
 import androidx.core.util.Consumer;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import app.simple.inure.R;
+import app.simple.inure.decorations.views.BottomMenuRecyclerView;
 
 public class FastScroller {
     
@@ -114,8 +117,7 @@ public class FastScroller {
     private Rect getPadding() {
         if (mUserPadding != null) {
             mTempRect.set(mUserPadding);
-        }
-        else {
+        } else {
             mTempRect.set(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(),
                     view.getPaddingBottom());
         }
@@ -131,8 +133,7 @@ public class FastScroller {
                 mUserPadding = new Rect();
             }
             mUserPadding.set(padding);
-        }
-        else {
+        } else {
             mUserPadding = null;
         }
         view.invalidate();
@@ -286,7 +287,7 @@ public class FastScroller {
                         mDragStartThumbOffset = (int) (eventY - padding.top - mThumbHeight / 2f);
                         scrollToThumbOffset(mDragStartThumbOffset);
                     }
-            
+    
                     setDragging(true);
                 }
     
@@ -304,7 +305,7 @@ public class FastScroller {
                         .setInterpolator(new DecelerateInterpolator(1.5F))
                         .setDuration(thumbView.getContext().getResources().getInteger(R.integer.animation_duration))
                         .start();
-        
+    
                 setDragging(false);
                 break;
         }
@@ -383,9 +384,20 @@ public class FastScroller {
         //            Glide.with(mView.getContext()).resumeRequests();
         //        }
     
+        Intent intent;
+    
+        if (dragging) {
+            intent = new Intent(BottomMenuRecyclerView.ACTION_CLOSE_BOTTOM_MENU);
+        } else {
+            intent = new Intent(BottomMenuRecyclerView.ACTION_OPEN_BOTTOM_MENU);
+        }
+    
+        LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
+    
         if (this.dragging == dragging) {
             return;
         }
+    
         this.dragging = dragging;
     
         if (this.dragging) {

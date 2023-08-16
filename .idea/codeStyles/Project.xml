@@ -33,6 +33,7 @@
       <option name="MULTI_CATCH_TYPES_WRAP" value="0" />
     </JavaCodeStyleSettings>
     <JetCodeStyleSettings>
+      <option name="LINE_BREAK_AFTER_MULTILINE_WHEN_ENTRY" value="false" />
       <option name="CONTINUATION_INDENT_IN_PARAMETER_LISTS" value="true" />
       <option name="CONTINUATION_INDENT_IN_ARGUMENT_LISTS" value="true" />
       <option name="CONTINUATION_INDENT_IN_SUPERTYPE_LISTS" value="true" />
