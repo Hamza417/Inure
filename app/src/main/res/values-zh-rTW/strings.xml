@@ -34,7 +34,7 @@
     <string name="color">色彩</string>
     <string name="accent_colors">輔色</string>
     <string name="accent_color_desc">與應用程式的各種元素 (如圖示或觸控效果) 一併出現的次要色彩。</string>
-    <string name="behaviour">行為</string>
+    <string name="behavior">行為</string>
     <string name="dim_windows_desc">彈出式視窗出現在螢幕上時，調暗基礎視窗。\n\n關閉它可以協助提升陰影更加突出，但會降低對比度，反之亦然。</string>
     <string name="dim_windows">變暗視窗</string>
     <string name="blur_windows">模糊視窗</string>

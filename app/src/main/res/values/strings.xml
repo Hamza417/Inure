@@ -33,7 +33,7 @@
     <string name="color">Color</string>
     <string name="accent_colors">Accent Colors</string>
     <string name="accent_color_desc">Secondary color that appears along with various elements of the app such as icons or touch effects.</string>
-    <string name="behaviour">Behaviour</string>
+    <string name="behavior">Behavior</string>
     <string name="dim_windows_desc">Dim underlying windows when a popup appears on the screen.\n\nTurning it off can help elevation shadows to standout more but reduces the contrast and vice-versa.</string>
     <string name="dim_windows">Dim Windows</string>
     <string name="blur_windows">Blur Windows</string>

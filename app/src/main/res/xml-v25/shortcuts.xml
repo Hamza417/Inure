@@ -33,6 +33,8 @@
             android:action="open_terminal"
             android:targetClass="app.simple.inure.terminal.Term"
             android:targetPackage="app.simple.inure" />
+
+
     </shortcut>
 
     <shortcut

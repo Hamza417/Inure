@@ -34,7 +34,7 @@
     <string name="color">色彩</string>
     <string name="accent_colors">强调色</string>
     <string name="accent_color_desc">与应用程序的各种元素(例如图标或触摸效果）一起出现的辅助颜色.</string>
-    <string name="behaviour">行为</string>
+    <string name="behavior">行为</string>
     <string name="dim_windows_desc">当屏幕上出现弹出窗口时，底层窗口变暗.\n\n关闭它可以帮助上层阴影更加突出，但会降低对比度，反之亦然.</string>
     <string name="dim_windows">暗色窗口</string>
     <string name="blur_windows">窗口模糊</string>

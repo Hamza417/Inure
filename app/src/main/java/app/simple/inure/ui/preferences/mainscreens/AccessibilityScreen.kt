@@ -51,7 +51,7 @@ class AccessibilityScreen : ScopedFragment() {
 
         strokeContainer = view.findViewById(R.id.stroke_container)
         reduceAnimationsDesc = view.findViewById(R.id.reduce_animation_desc)
-        reduceAnimationsDesc.text = getString(R.string.desc_reduce_animations, getString(R.string.behaviour))
+        reduceAnimationsDesc.text = getString(R.string.desc_reduce_animations, getString(R.string.behavior))
 
         startPostponedEnterTransition()
 
@@ -131,7 +131,7 @@ class AccessibilityScreen : ScopedFragment() {
             AccessibilityPreferences.setAppElementsContext(it)
         }
 
-        reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behaviour), object : View.OnClickListener {
+        reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behavior), object : View.OnClickListener {
             override fun onClick(v: View) {
                 openFragmentSlide(BehaviourScreen.newInstance(), "behavior_screen")
             }

@@ -34,7 +34,7 @@
     <string name="color">Colore</string>
     <string name="accent_colors">Colore accento</string>
     <string name="accent_color_desc">Colore secondario che appare insieme a vari elementi dell\'app come icone o effetti touch.</string>
-    <string name="behaviour">Comportamento</string>
+    <string name="behavior">Comportamento</string>
     <string name="dim_windows_desc">Oscura le finestre sottostanti quando appare un popup sullo schermo.\n\nSpegnendolo può aiutare le ombre dei popup a distinguersi di più, ma riduce il contrasto e viceversa.</string>
     <string name="dim_windows">Oscura finestre</string>
     <string name="blur_windows">Sfoca finestre</string>

@@ -110,7 +110,7 @@ object AudioCoverUtil {
     fun ImageView.loadFromUri(uri: Uri) {
         GlideApp.with(this)
             .asBitmap()
-            .transform(RoundedCorners(AppearancePreferences.getCornerRadius().div(2).toInt()),
+            .transform(RoundedCorners(AppearancePreferences.getCornerRadius().div(2).toInt().coerceAtLeast(1)),
                        Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
                        BlurShadow(context)
                            .setElevation(25F)

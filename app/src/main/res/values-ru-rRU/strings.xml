@@ -34,7 +34,7 @@
     <string name="color">Цвет</string>
     <string name="accent_colors">Цвет акцента</string>
     <string name="accent_color_desc">Дополнительный цвет, который отображается вместе с различными элементами приложения, такими как значки или эффекты прикосновений.</string>
-    <string name="behaviour">Поведение</string>
+    <string name="behavior">Поведение</string>
     <string name="dim_windows_desc">Затемнить основные окна при появлении всплывающего окна на экране.\n\nОтключение этого параметра может сделать тени на возвышении более заметными, но снижает контрастность и наоборот.</string>
     <string name="dim_windows">Затемнение окон</string>
     <string name="blur_windows">Размытие окон</string>

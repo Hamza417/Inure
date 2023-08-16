@@ -34,7 +34,7 @@
     <string name="color">Color</string>
     <string name="accent_colors">Colores de acento</string>
     <string name="accent_color_desc">Color secundario que aparece junto con varios elementos de la aplicación como iconos o efectos táctiles.</string>
-    <string name="behaviour">Comportamiento</string>
+    <string name="behavior">Comportamiento</string>
     <string name="dim_windows_desc">Atenuar las ventanas subyacentes cuando aparece una ventana en la pantalla.\n\nDesactivarlo puede ayudar a que las sombras de elevación se resalten más pero reduce el contraste y viceversa.</string>
     <string name="dim_windows">Ventanas atenuadas</string>
     <string name="blur_windows">Ventanas desenfocadas</string>

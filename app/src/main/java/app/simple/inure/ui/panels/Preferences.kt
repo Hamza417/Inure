@@ -111,7 +111,7 @@ class Preferences : SearchBarScopedFragment() {
                             openFragmentLinear(AppearanceScreen.newInstance(), imageView, "appearance_prefs", duration)
                         }
 
-                        R.string.behaviour -> {
+                        R.string.behavior -> {
                             openFragmentLinear(BehaviourScreen.newInstance(), imageView, "behaviour_prefs", duration)
                         }
 
@@ -199,7 +199,7 @@ class Preferences : SearchBarScopedFragment() {
                             }
                         }
 
-                        R.string.behaviour -> {
+                        R.string.behavior -> {
                             when (preferenceModel.title) {
                                 R.string.transition_type -> {
                                     PopupTransitionType(view)

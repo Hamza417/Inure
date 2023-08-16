@@ -19,7 +19,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
-import app.simple.inure.activities.association.FelicityPlayerActivity
+import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.exceptions.InureMediaEngineException
@@ -614,8 +614,8 @@ class AudioServicePager : Service(),
     private fun showNotification(action: NotificationCompat.Action) {
         notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-        val notificationClick = with(Intent(this, FelicityPlayerActivity::class.java)) {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val notificationClick = with(Intent(this, MainActivity::class.java)) {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             this.action = ShortcutConstants.AUDIO_PLAYER_ACTION
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }

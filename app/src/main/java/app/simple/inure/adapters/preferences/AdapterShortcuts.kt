@@ -59,7 +59,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>,
 
             holder.checkBox.setOnCheckedChangeListener {
                 val intent = Intent(holder.context, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 intent.action = list[position].action
 
                 val shortcut = ShortcutInfoCompat.Builder(holder.context, list[position].id)
@@ -82,7 +82,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>,
 
             holder.container.setOnLongClickListener {
                 val intent = Intent(holder.context, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 intent.action = list[position].action
 
                 val shortcut = ShortcutInfoCompat.Builder(holder.context, list[position].id)

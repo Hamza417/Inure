@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
@@ -80,211 +81,164 @@ class MainActivity : BaseActivity() {
 
         if (savedInstanceState.isNull()) {
             MainPreferences.incrementLaunchCount()
+            openPanel(intent, isNewIntent = false)
+        } else {
+            Log.d("MainActivity", "savedInstanceState not null")
+        }
+    }
 
-            when (intent.action) {
-                ShortcutConstants.ANALYTICS_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Analytics.newInstance(), "analytics")
-                        .addToBackStack("analytics")
-                        .commit()
-                }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        openPanel(intent, isNewIntent = true)
+    }
 
-                ShortcutConstants.APPS_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Apps.newInstance(loading = true), "apps")
-                        .addToBackStack("apps")
-                        .commit()
-                }
+    private fun openPanel(intent: Intent?, isNewIntent: Boolean = false) {
+        when (intent?.action) {
+            ShortcutConstants.ANALYTICS_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Analytics.newInstance(), "analytics")
+            }
 
-                ShortcutConstants.BATCH_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Batch.newInstance(loading = true), "batch")
-                        .addToBackStack("batch")
-                        .commit()
-                }
+            ShortcutConstants.APPS_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Apps.newInstance(loading = true), "apps")
+            }
 
-                ShortcutConstants.MOST_USED_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, MostUsed.newInstance(loader = true), "most_used")
-                        .addToBackStack("most_used")
-                        .commit()
-                }
+            ShortcutConstants.BATCH_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Batch.newInstance(loading = true), "batch")
+            }
 
-                ShortcutConstants.NOTES_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Notes.newInstance(), "notes")
-                        .addToBackStack("notes")
-                        .commit()
-                }
+            ShortcutConstants.MOST_USED_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(MostUsed.newInstance(loader = true), "most_used")
+            }
 
-                ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, RecentlyInstalled.newInstance(loading = true), "recently_installed")
-                        .addToBackStack("recently_installed")
-                        .commit()
-                }
+            ShortcutConstants.NOTES_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Notes.newInstance(), "notes")
+            }
 
-                ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, RecentlyUpdated.newInstance(loading = true), "recently_updated")
-                        .addToBackStack("recently_updated")
-                        .commit()
-                }
+            ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(RecentlyInstalled.newInstance(loading = true), "recently_installed")
+            }
 
-                ShortcutConstants.TERMINAL_ACTION -> {
-                    openHome()
-                    startActivity(Intent(this, Term::class.java))
-                    finish()
-                }
+            ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(RecentlyUpdated.newInstance(loading = true), "recently_updated")
+            }
 
-                ShortcutConstants.UNINSTALLED_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Uninstalled.newInstance(), "uninstalled")
-                        .addToBackStack("uninstalled")
-                        .commit()
-                }
+            ShortcutConstants.TERMINAL_ACTION -> {
+                openHome(isNewIntent)
+                startActivity(Intent(this, Term::class.java))
+                finish() // TODO - should not finish
+            }
 
-                ShortcutConstants.USAGE_STATS_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Statistics.newInstance(loading = true), "stats")
-                        .addToBackStack("stats")
-                        .commit()
-                }
+            ShortcutConstants.UNINSTALLED_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Uninstalled.newInstance(), "uninstalled")
+            }
 
-                ShortcutConstants.PREFERENCES_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Preferences.newInstance(), "preferences")
-                        .addToBackStack("preferences")
-                        .commit()
-                }
+            ShortcutConstants.USAGE_STATS_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Statistics.newInstance(loading = true), "statistics")
+            }
 
-                ShortcutConstants.SEARCH_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Search.newInstance(true), "search")
-                        .addToBackStack("search")
-                        .commit()
-                }
+            ShortcutConstants.PREFERENCES_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Preferences.newInstance(), "preferences")
+            }
 
-                ShortcutConstants.MUSIC_ACTION -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Music.newInstance(), "music")
-                        .addToBackStack("music")
-                        .commit()
-                }
+            ShortcutConstants.SEARCH_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Search.newInstance(firstLaunch = true), "search")
+            }
 
-                ShortcutConstants.AUDIO_PLAYER_ACTION -> {
-                    if (supportFragmentManager.findFragmentByTag("audio_player_pager") == null) {
+            ShortcutConstants.MUSIC_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Music.newInstance(), "music")
+            }
+
+            ShortcutConstants.AUDIO_PLAYER_ACTION -> {
+                openFragment(AudioPlayerPager.newInstance(MusicPreferences.getMusicPosition()), "audio_player_pager")
+            }
+
+            "open_device_info" -> {
+                openHome(isNewIntent)
+                openFragment(DeviceInfo.newInstance(), "device_info")
+            }
+
+            IntentConstants.ACTION_UNLOCK -> {
+                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                    if (TrialPreferences.isFullVersion()) {
+                        showWarning(R.string.full_version_already_activated, goBack = false)
+
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container,
-                                     AudioPlayerPager.newInstance(
-                                             MusicPreferences.getMusicPosition(),
-                                             MusicPreferences.getFromSearch()), "audio_player_pager")
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                             .commit()
                     } else {
-                        Log.d("MainActivity", "Music player already open")
-                        // Remove the fragment if it already exists
-                        supportFragmentManager.beginTransaction()
-                            .remove(supportFragmentManager.findFragmentByTag("audio_player_pager")!!)
-                            .commitNowAllowingStateLoss()
-
-                        // Add the fragment again
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container,
-                                     AudioPlayerPager.newInstance(
-                                             MusicPreferences.getMusicPosition(),
-                                             MusicPreferences.getFromSearch()), "audio_player_pager")
-                            .commit()
-                    }
-                }
-
-                "open_device_info" -> {
-                    openHome()
-                    supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, DeviceInfo.newInstance(), "device_info")
-                        .addToBackStack("device_info")
-                        .commit()
-                }
-
-                IntentConstants.ACTION_UNLOCK -> {
-                    if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                        if (TrialPreferences.isFullVersion()) {
-                            showWarning(R.string.full_version_already_activated, goBack = false)
+                        if (TrialPreferences.setFullVersion(value = true)) {
+                            showWarning(R.string.full_version_activated, goBack = false)
+                            TrialPreferences.resetUnlockerWarningCount()
 
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                                 .commit()
                         } else {
-                            if (TrialPreferences.setFullVersion(value = true)) {
-                                showWarning(R.string.full_version_activated, goBack = false)
-                                TrialPreferences.resetUnlockerWarningCount()
+                            showWarning(R.string.failed_to_activate_full_version, goBack = false)
 
-                                supportFragmentManager.beginTransaction()
-                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                    .commit()
-                            } else {
-                                showWarning(R.string.failed_to_activate_full_version, goBack = false)
-
-                                supportFragmentManager.beginTransaction()
-                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                    .commit()
-                            }
+                            supportFragmentManager.beginTransaction()
+                                .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                .commit()
                         }
-                    } else {
-                        showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
-
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                            .commit()
                     }
+                } else {
+                    showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
+
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                        .commit()
                 }
+            }
 
-                else -> {
-                    if (AppUtils.isBetaFlavor()) {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                            .commit()
-                    } else {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                            .commit()
-                    }
+            else -> {
+                if (AppUtils.isBetaFlavor()) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                        .commit()
+                } else {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                        .commit()
                 }
             }
         }
     }
 
-    private fun openHome() {
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-            .replace(R.id.app_container, Home.newInstance(), "home")
-            .commit()
+    private fun openHome(isNewIntent: Boolean) {
+        if (isNewIntent.invert()) {
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.app_container, Home.newInstance(), "home")
+                .commit()
 
-        supportFragmentManager.executePendingTransactions()
+            supportFragmentManager.executePendingTransactions()
+        }
+    }
+
+    private fun openFragment(fragment: Fragment, tag: String) {
+        if (supportFragmentManager.findFragmentByTag(tag) == null) {
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                .replace(R.id.app_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+                .show(supportFragmentManager.findFragmentByTag(tag)!!)
+                .commit()
+        }
     }
 
     private fun setExpiryStamp() {

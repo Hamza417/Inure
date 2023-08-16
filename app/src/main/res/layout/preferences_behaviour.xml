@@ -18,7 +18,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
             android:src="@drawable/ic_behaviour"
-            android:transitionName="@string/behaviour"
+            android:transitionName="@string/behavior"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
 
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/behaviour"
+            android:text="@string/behavior"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />

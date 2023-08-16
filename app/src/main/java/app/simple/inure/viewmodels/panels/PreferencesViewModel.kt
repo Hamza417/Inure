@@ -41,7 +41,7 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
         viewModelScope.launch(Dispatchers.Default) {
             val list = arrayListOf(
                     Pair(R.drawable.ic_appearance, R.string.appearance),
-                    Pair(R.drawable.ic_behaviour, R.string.behaviour),
+                    Pair(R.drawable.ic_behaviour, R.string.behavior),
                     Pair(R.drawable.ic_app_settings, R.string.configuration),
                     Pair(R.drawable.ic_formatting, R.string.formatting),
                     Pair(R.drawable.ic_accessibility, R.string.accessibility),

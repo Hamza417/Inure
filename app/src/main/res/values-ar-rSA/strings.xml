@@ -34,7 +34,7 @@
     <string name="color">اللون</string>
     <string name="accent_colors">ألوان مميزة</string>
     <string name="accent_color_desc">اللون الثانوي الذي يظهر جنبا إلى جنب مع عناصر مختلفة من التطبيق مثل الرموز أو تأثيرات اللمس.</string>
-    <string name="behaviour">سلوك</string>
+    <string name="behavior">سلوك</string>
     <string name="dim_windows_desc">قم بتعتيم النوافذ الأساسية عند ظهور نافذة منبثقة على الشاشة.\n\nيمكن أن يساعد إيقاف تشغيله في رفع الظلال لتبرز أكثر ولكنه يقلل من التباين والعكس صحيح.</string>
     <string name="dim_windows">نوافذ معتمة</string>
     <string name="blur_windows">طمس النوافذ</string>

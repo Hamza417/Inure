@@ -43,7 +43,7 @@ object PreferencesSearchConstants {
 
     // Panel
     private const val appearance = R.string.appearance
-    private const val behaviour = R.string.behaviour
+    private const val behaviour = R.string.behavior
     private const val configuration = R.string.configuration
     private const val formatting = R.string.formatting
     private const val accessibility = R.string.accessibility
