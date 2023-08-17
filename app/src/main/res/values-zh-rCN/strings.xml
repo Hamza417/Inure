@@ -696,4 +696,6 @@
     <string name="external_storage">外部存储</string>
     <string name="external_storage_desc">同时扫描外部存储</string>
     <string name="public_key_type">公钥类型</string>
+    <string name="backup_and_restore_desc">备份和恢复应用数据</string>
+    <string name="import_">导入</string>
 </resources>
