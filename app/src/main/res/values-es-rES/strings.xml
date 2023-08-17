@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="unknown">Desconocido</string>
     <string name="not_available">N/A</string>
-    <string name="app_information">Información de la aplicación</string>
+    <string name="app_information">Información de la app</string>
     <string name="launch">Abrir</string>
     <string name="uninstall">Desinstalar</string>
     <string name="search">Buscar</string>
