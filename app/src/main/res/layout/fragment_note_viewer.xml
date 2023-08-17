@@ -54,7 +54,7 @@
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="primary" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 </app.simple.inure.decorations.theme.ThemeNestedScrollView>

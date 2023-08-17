@@ -53,6 +53,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.viewers.Activities
 import app.simple.inure.ui.viewers.Boot

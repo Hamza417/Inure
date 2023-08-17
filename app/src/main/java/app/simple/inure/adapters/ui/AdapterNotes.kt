@@ -57,11 +57,11 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
         if (holder is Holder) {
             // holder.icon.transitionName = notes[position].packageInfo.packageName
 
-            holder.container.transitionName = notes[position].packageInfo.packageName
+            holder.icon.transitionName = notes[position].packageInfo.packageName
             holder.icon.loadAppIcon(notes[position].packageInfo.packageName, notes[position].packageInfo.applicationInfo.enabled)
             holder.name.text = notes[position].packageInfo.applicationInfo.name
             holder.packageId.text = notes[position].packageInfo.packageName
-            holder.note.text = notes[position].note
+            holder.note.text = notes[position].note.subSequence(0, notes[position].note.length.coerceAtMost(1000))
 
             // holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
 
@@ -80,7 +80,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             }
 
             holder.container.setOnClickListener {
-                adapterCallbacks?.onNoteClicked(notes[position], it)
+                adapterCallbacks?.onNoteClicked(notes[position], holder.icon)
             }
 
             holder.container.setOnLongClickListener {

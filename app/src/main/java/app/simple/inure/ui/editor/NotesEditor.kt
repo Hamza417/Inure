@@ -1,15 +1,20 @@
-package app.simple.inure.ui.panels
+package app.simple.inure.ui.editor
 
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.text.style.*
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.BackgroundColorSpan
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.SubscriptSpan
+import android.text.style.SuperscriptSpan
+import android.text.style.UnderlineSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -57,7 +62,6 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
-import com.google.android.material.transition.MaterialContainerTransform
 
 class NotesEditor : KeyboardScopedFragment() {
 
@@ -117,14 +121,14 @@ class NotesEditor : KeyboardScopedFragment() {
         notesEditorViewModel = ViewModelProvider(this, factory)[NotesEditorViewModel::class.java]
         notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
         customTextWatcher = CustomTextWatcher(this)
-        this.container.transitionName = packageInfo.packageName
+        this.icon.transitionName = packageInfo.packageName
 
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.animation_duration).toLong()
-            setAllContainerColors(Color.TRANSPARENT)
-            scrimColor = Color.TRANSPARENT
-            isElevationShadowEnabled = false
-        }
+        //        sharedElementEnterTransition = MaterialContainerTransform().apply {
+        //            duration = resources.getInteger(R.integer.animation_duration).toLong()
+        //            setAllContainerColors(Color.TRANSPARENT)
+        //            scrimColor = Color.TRANSPARENT
+        //            isElevationShadowEnabled = false
+        //        }
 
         startPostponedEnterTransition()
 

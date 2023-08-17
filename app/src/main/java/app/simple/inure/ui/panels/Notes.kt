@@ -23,9 +23,9 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.popups.notes.PopupNotesMenu
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.viewers.Note
 import app.simple.inure.viewmodels.panels.NotesViewModel
-import com.google.android.material.transition.MaterialElevationScale
 
 class Notes : ScopedFragment() {
 
@@ -55,14 +55,16 @@ class Notes : ScopedFragment() {
 
             adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onNoteClicked(notesPackageInfo: NotesPackageInfo, view: View) {
-                    exitTransition = MaterialElevationScale(false)
-                    reenterTransition = MaterialElevationScale(true)
+                    //                    exitTransition = MaterialElevationScale(false)
+                    //                    reenterTransition = MaterialElevationScale(true)
+                    //
+                    //                    requireActivity().supportFragmentManager.beginTransaction()
+                    //                        .addSharedElement(view, notesPackageInfo.packageInfo.packageName)
+                    //                        .replace(R.id.app_container, NotesEditor.newInstance(notesPackageInfo.packageInfo))
+                    //                        .addToBackStack("notes_editor")
+                    //                        .commit()
 
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .addSharedElement(view, notesPackageInfo.packageInfo.packageName)
-                        .replace(R.id.app_container, NotesEditor.newInstance(notesPackageInfo.packageInfo))
-                        .addToBackStack("notes_editor")
-                        .commit()
+                    openFragmentArc(NotesEditor.newInstance(notesPackageInfo.packageInfo), view, "notes_editor")
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {

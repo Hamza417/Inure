@@ -25,8 +25,8 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.panels.Components
-import app.simple.inure.ui.panels.NotesEditor
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero

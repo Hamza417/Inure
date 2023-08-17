@@ -16,7 +16,7 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.NotesModel
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.text.SpannableSerializer
-import app.simple.inure.ui.panels.NotesEditor
+import app.simple.inure.ui.editor.NotesEditor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
