@@ -34,7 +34,7 @@
     <string name="color">Cor</string>
     <string name="accent_colors">Cor de Destaque</string>
     <string name="accent_color_desc">Cor secundária que aparece juntamente com vários elementos do aplicativo, como ícones ou efeitos de toque.</string>
-    <string name="behavior">Comportamento</string>
+    <string name="behavior">Comportamentos</string>
     <string name="dim_windows_desc">Escurecer as janelas subjacentes quando um pop-up aparece na tela.\n\nDesligá-lo pode ajudar a elevação de sombras a se destacarem mais, mas reduz o contraste e vice-versa.</string>
     <string name="dim_windows">Escurecer Janelas</string>
     <string name="blur_windows">Desfocar Janelas</string>
