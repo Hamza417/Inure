@@ -91,8 +91,8 @@
     <string name="copy">Copiar</string>
     <string name="saved_successfully">Guardado con éxito</string>
     <string name="failed">Se falló</string>
-    <string name="app_info">Información de la app</string>
-    <string name="uses_feature">Usa las características</string>
+    <string name="app_info">Información de la aplicación</string>
+    <string name="uses_feature">Usa características</string>
     <string name="gles_version">Versión GLES</string>
     <string name="error">Error</string>
     <string name="required">Requerido</string>
@@ -386,7 +386,7 @@
     <string name="accent_for_nav">Color de acento en la barra de navegación</string>
     <string name="desc_accent_on_nav">Aplica el color de acento en la Barra de navegación en lugar de usar fondos específicos del sistema.</string>
     <string name="static_backgrounds">Fondos estáticos</string>
-    <string name="desc_static_backgrounds">Reemplaza los efectos de ondulación de todos los iconos y botones cliqueables en toda la app con fondos estáticos y feedback de clic alternativos.</string>
+    <string name="desc_static_backgrounds">Reemplaza los efectos de ondulación de todos los iconos y botones cliqueables en toda la app con fondos estáticos y feedback de clica alternativos.</string>
     <string name="accessibility">Accesibilidad</string>
     <string name="label_type">Tipo de etiqueta</string>
     <string name="id">ID</string>
@@ -394,7 +394,7 @@
     <string name="lists">Listas</string>
     <string name="dividers">Divisores</string>
     <string name="desc_dividers">Usa divisores entre los items de cualquier lista deslizable en toda la app.</string>
-    <string name="shared_libs">Bibliotecas compartidas</string>
+    <string name="shared_libs">Librerías compartidas</string>
     <string name="copy_package_name">Copiar Nombre del paquete</string>
     <string name="batch">Conjunto</string>
     <string name="verifying_license">Verificando licencia</string>
