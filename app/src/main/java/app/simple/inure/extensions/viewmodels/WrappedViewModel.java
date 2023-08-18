@@ -5,6 +5,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
     public final ErrorLiveData error = new ErrorLiveData();
     public final MutableLiveData <String> warning = new MutableLiveData <>();
     public final MutableLiveData <Integer> notFound = new MutableLiveData <>();
+    protected final Handler handler = new Handler(Looper.getMainLooper());
     
     public WrappedViewModel(@NonNull Application application) {
         super(application);
@@ -89,10 +92,19 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
         }
     
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+        handler.removeCallbacksAndMessages(null);
     }
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String s) {
     
+    }
+    
+    protected void postDelayed(long delay, Runnable runnable) {
+        handler.postDelayed(runnable, delay);
+    }
+    
+    protected void removeCallbacks() {
+        handler.removeCallbacksAndMessages(null);
     }
 }

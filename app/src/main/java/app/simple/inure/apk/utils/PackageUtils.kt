@@ -452,7 +452,6 @@ object PackageUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             packageInfoList.addAll(getInstalledPackages(PackageManager.PackageInfoFlags.of(flags)))
         } else {
-            @Suppress("DEPRECATION")
             packageInfoList.addAll(getInstalledPackages(flags.toInt()))
         }
         return ArrayUtils.deepCopy(packageInfoList)

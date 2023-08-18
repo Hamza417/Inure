@@ -42,4 +42,9 @@ object Warnings {
      * Unable to verify the integrity of the unlocker package
      */
     fun getUnableToVerifyUnlockerWarning(): String = "0x008: Unable to verify the integrity of the unlocker package"
+
+    /**
+     * Root service is taking too long to respond
+     */
+    fun getRootServiceTimeoutWarning(): String = "0x009: Root service is taking too long to respond, try restarting the app."
 }

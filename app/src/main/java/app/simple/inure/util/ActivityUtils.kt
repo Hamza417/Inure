@@ -94,7 +94,6 @@ object ActivityUtils {
                                                 PackageManager.PackageInfoFlags.of(
                                                         (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
                         } else {
-                            @Suppress("DEPRECATION")
                             context.packageManager
                                 .getPackageInfo(packageName,
                                                 PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
@@ -135,7 +134,6 @@ object ActivityUtils {
                                                 PackageManager.PackageInfoFlags.of(
                                                         (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
                         } else {
-                            @Suppress("DEPRECATION")
                             context.packageManager
                                 .getPackageInfo(packageName,
                                                 PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)

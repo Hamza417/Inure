@@ -6,7 +6,7 @@ import android.os.Process
 import android.util.Log
 import app.simple.inure.libsu.IRootService
 import com.topjohnwu.superuser.nio.FileSystemManager
-import java.util.*
+import java.util.UUID
 
 class RootService : com.topjohnwu.superuser.ipc.RootService() {
 
@@ -22,6 +22,8 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
             if (Process.myUid() == 0) {
                 System.loadLibrary("inure_su")
                 Log.d("RootService", "Loaded native library")
+            } else {
+                Log.d("RootService", "Not root process, native library not loaded")
             }
         }
 

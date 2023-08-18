@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.os.RemoteException
 import android.util.Log
 import app.simple.inure.BuildConfig
+import app.simple.inure.constants.Warnings
 import app.simple.inure.libsu.IRootService
 import app.simple.inure.services.RootService
 import app.simple.inure.util.ConditionUtils.invert
@@ -25,8 +26,14 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
 
     protected fun initRootProc() {
         Log.d(tag, "Root proc init")
-        val intent = Intent(application, RootService::class.java)
+        val intent = Intent(application.applicationContext, RootService::class.java)
         bind(intent, AIDLConnection(isDaemon = false))
+
+        postDelayed(10000) {
+            if (aidlConnection == null) {
+                postWarning(Warnings.getRootServiceTimeoutWarning())
+            }
+        }
     }
 
     abstract fun runRootProcess(fileSystemManager: FileSystemManager?)
@@ -42,6 +49,8 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
     inner class AIDLConnection(private val isDaemon: Boolean) : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             Log.d(tag, "AIDL onServiceConnected")
+            removeCallbacks()
+
             if (isDaemon) {
                 daemonConnection = this
             } else {
@@ -84,7 +93,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
                 fileSystemManager = null
             }
 
-            stop(Intent(application, RootService::class.java))
+            stop(Intent(application.applicationContext, RootService::class.java))
         }
     }
 
