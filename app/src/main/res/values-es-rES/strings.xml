@@ -2,12 +2,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="unknown">Desconocido</string>
     <string name="not_available">N/A</string>
-    <string name="app_information">Información de la aplicación</string>
+    <string name="app_information">Información de la app</string>
     <string name="launch">Abrir</string>
     <string name="uninstall">Desinstalar</string>
     <string name="search">Buscar</string>
     <string name="name">Nombre</string>
-    <string name="package_name">Nombre de Paquete</string>
+    <string name="package_name">Nombre del paquete</string>
     <string name="app_size">Tamaño de la aplicación</string>
     <string name="reversed">Invertido</string>
     <string name="apps_category">Categoría de la Aplicación</string>
@@ -57,7 +57,7 @@
     <string name="version">Versión</string>
     <string name="version_code">Código de versión</string>
     <string name="version_name">Nombre de la versión</string>
-    <string name="install_location">Ubicación de instalaciones</string>
+    <string name="install_location">Ubicación de la instalación</string>
     <string name="minimum_sdk">SDK Mínimo</string>
     <string name="target_sdk">Destino a SDK</string>
     <string name="uid">UID</string>
@@ -91,8 +91,8 @@
     <string name="copy">Copiar</string>
     <string name="saved_successfully">Guardado con éxito</string>
     <string name="failed">Se falló</string>
-    <string name="app_info">Información de la aplicación</string>
-    <string name="uses_feature">Usa características</string>
+    <string name="app_info">Información de la app</string>
+    <string name="uses_feature">Usa las características</string>
     <string name="gles_version">Versión GLES</string>
     <string name="error">Error</string>
     <string name="required">Requerido</string>
@@ -105,7 +105,7 @@
     <string name="bouncy_desc">Valor de la cantidad a la que debe rebotar la lista antes de establecerse después de que la lista termine.</string>
     <string name="root">Root</string>
     <string name="use_root_methods">Usar métodos Root</string>
-    <string name="root_desc">Utilice métodos root en lugar de usar API nativas de Android y Libs para realizar algunas funciones.\n\nEsta opción es recomendada ya que puede hacer que la experiencia del usuario sea más streamlined.\n\nSe requiere un dispositivo con acceso Root.</string>
+    <string name="root_desc">Utiliza métodos root en lugar de usar APIs nativas de Android y Libs para realizar algunas funciones.\n\nEsta opción es recomendada ya que puede hacer que la experiencia del usuario sea más eficiente.\n\nSe requiere un dispositivo con acceso Root.</string>
     <string name="back_button">Atrás</string>
     <string name="files">Archivos</string>
     <string name="method_count">Contador de métodos</string>
@@ -125,7 +125,7 @@
     <string name="total_available">Total Disponible</string>
     <string name="total_used">Total utilizado</string>
     <string name="apps_heading">Aplicaciones</string>
-    <string name="total_user_apps">Total de aplicaciones de usuario</string>
+    <string name="total_user_apps">Total de Aplicaciones del usuario</string>
     <string name="total_system_apps">Total de Aplicaciones del Sistema</string>
     <string name="graphics">Gráficas</string>
     <string name="send">Enviar</string>
@@ -135,8 +135,8 @@
     <string name="sensors">Sensores</string>
     <string name="exported">Exportado</string>
     <string name="not_exported">No Exportado</string>
-    <string name="n_enabled">%d Habilitado</string>
-    <string name="n_disabled">%d Deshabilitado</string>
+    <string name="n_enabled">%d Activado</string>
+    <string name="n_disabled">%d Desactivado</string>
     <string name="enabled">Activado</string>
     <string name="disabled">Desactivado</string>
     <string name="enable">Activar</string>
@@ -144,20 +144,20 @@
     <string name="desc_not_available">No hay descripción disponible.</string>
     <string name="permission_info_not_available">Información de permisos no disponible.</string>
     <string name="loading">Cargando</string>
-    <string name="total">Total %d</string>
+    <string name="total">En total %d</string>
     <string name="split_apk_detected">APK múltiple dividida detectada</string>
     <string name="creating_split_package">Crear paquete ZIP dividido</string>
     <string name="preparing_apk_file">Preparando archivo APK</string>
     <string name="done">¡Hecho!</string>
     <string name="clear_data">Borrar datos</string>
-    <string name="clear_cache">Borrar cache</string>
+    <string name="clear_cache">Borrar caché</string>
     <string name="use_binary_format">Usar formato binario</string>
     <string name="desc_binary_format">Utilizar el formato binario para mostrar el tamaño de los archivos en lugar de utilizar el formato SI convencional.\n\nPor ejemplo, 1024 kB = 1 mB</string>
     <string name="not_granted">No concedido, haga clic en Permitir</string>
     <string name="usage_access_permission">Permiso de Acceso de uso</string>
     <string name="grant_storage_access_permission">Conceder permisos de acceso al almacenamiento</string>
     <string name="desc_usage_access">Esta aplicación utiliza el permiso PACKAGE_USAGE_STATS para obtener y calcular los distintos datos de uso de aplicaciones disponibles en el dispositivo.</string>
-    <string name="desc_storage_permission">Se requiere permiso de almacenamiento y se usa para realizar varias acciones de la aplicación, como compartir la aplicación, hacer copias de seguridad de los archivos o asociarlos con archivos disponibles en el almacenamiento externo.</string>
+    <string name="desc_storage_permission">Se requiere el permiso de almacenamiento y se utiliza para realizar varias acciones de la aplicación, como compartir la aplicación, hacer copias de seguridad de los archivos o asociarlos con archivos disponibles en el almacenamiento externo.</string>
     <string name="granted">Concedido</string>
     <string name="rejected">Rechazado</string>
     <string name="desc_setup">Antes de seguir adelante se recomienda realizar las acciones necesarias para asegurarse de que todas las características de la aplicación funcionan.</string>
@@ -348,7 +348,7 @@
     <string name="mandatory">Obligatorio</string>
     <string name="optional">Opcional</string>
     <string name="extract">Extraer</string>
-    <string name="launched">Lanzado</string>
+    <string name="launched">Abierto</string>
     <string name="launching">Lanzamiento</string>
     <string name="date_format">Formato de fecha</string>
     <string name="desc_date_format">Formato de las fechas mostradas en toda la aplicación.</string>
@@ -386,7 +386,7 @@
     <string name="accent_for_nav">Color de acento en la barra de navegación</string>
     <string name="desc_accent_on_nav">Aplica el color de acento en la Barra de navegación en lugar de usar fondos específicos del sistema.</string>
     <string name="static_backgrounds">Fondos estáticos</string>
-    <string name="desc_static_backgrounds">Reemplaza los efectos de ondulación de todos los iconos y botones cliqueables en toda la app con fondos estáticos y feedback de clica alternativos.</string>
+    <string name="desc_static_backgrounds">Reemplaza los efectos de ondulación de todos los iconos y botones cliqueables en toda la app con fondos estáticos y feedback de clic alternativos.</string>
     <string name="accessibility">Accesibilidad</string>
     <string name="label_type">Tipo de etiqueta</string>
     <string name="id">ID</string>
@@ -394,7 +394,7 @@
     <string name="lists">Listas</string>
     <string name="dividers">Divisores</string>
     <string name="desc_dividers">Usa divisores entre los items de cualquier lista deslizable en toda la app.</string>
-    <string name="shared_libs">Librerías compartidas</string>
+    <string name="shared_libs">Bibliotecas compartidas</string>
     <string name="copy_package_name">Copiar Nombre del paquete</string>
     <string name="batch">Conjunto</string>
     <string name="verifying_license">Verificando licencia</string>
