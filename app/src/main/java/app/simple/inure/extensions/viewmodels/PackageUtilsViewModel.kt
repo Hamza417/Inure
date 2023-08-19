@@ -207,6 +207,14 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         }
     }
 
+    protected fun ArrayList<PackageInfo>.loadPackageNames(): ArrayList<PackageInfo> {
+        forEach {
+            it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
+        }
+
+        return this
+    }
+
     open fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
         // Log.d("PackageUtilsViewModel", "onUninstalledAppsLoaded: ${uninstalledApps.size}")
     }

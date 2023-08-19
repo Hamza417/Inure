@@ -407,9 +407,9 @@ class NotesEditor : KeyboardScopedFragment() {
             /* no-op */
         }
 
-        fun callOnTextChanged(editable: Editable, b: Boolean) {
-            onTextChanged(editable, 0, 0, 0)
-        }
+        //        fun callOnTextChanged(editable: Editable, b: Boolean) {
+        //            onTextChanged(editable, 0, 0, 0)
+        //        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

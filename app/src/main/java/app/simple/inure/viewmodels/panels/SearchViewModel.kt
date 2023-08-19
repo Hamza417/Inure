@@ -23,6 +23,7 @@ import kotlin.concurrent.thread
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
+    private var deepApps: ArrayList<PackageInfo> = arrayListOf()
     private var thread: Thread? = null
 
     @Suppress("DEPRECATION")
@@ -33,7 +34,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 PackageManager.GET_SERVICES or
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PROVIDERS or
-                PackageManager.MATCH_UNINSTALLED_PACKAGES
+                PackageManager.MATCH_UNINSTALLED_PACKAGES or
+                PackageManager.MATCH_DISABLED_COMPONENTS
     } else {
         PackageManager.GET_META_DATA or
                 PackageManager.GET_PERMISSIONS or
@@ -41,7 +43,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 PackageManager.GET_SERVICES or
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PROVIDERS or
-                PackageManager.GET_UNINSTALLED_PACKAGES
+                PackageManager.GET_UNINSTALLED_PACKAGES or
+                PackageManager.GET_DISABLED_COMPONENTS
     }
 
     private val searchKeywords: MutableLiveData<String> by lazy {
@@ -93,6 +96,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     fun reload() { // These two fun already runs in their own threads
         apps.clear()
+        deepApps.clear()
         refreshPackageData()
         initiateSearch(searchKeywords.value!!)
     }
@@ -222,12 +226,19 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     private fun loadDeepSearchData(keywords: String) {
         var list = arrayListOf<SearchModel>()
-        var apps = getInstalledApps()
+        var apps: ArrayList<PackageInfo>
 
         if (keywords.isEmpty()) {
             deepSearchData.postValue(arrayListOf())
             return
         }
+
+        if (deepApps.isEmpty()) {
+            deepApps = packageManager.getInstalledPackages(flags.toLong()).loadPackageNames()
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        apps = deepApps.clone() as ArrayList<PackageInfo>
 
         when (SearchPreferences.getAppsCategory()) {
             SortConstant.SYSTEM -> {
@@ -258,8 +269,11 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             list.add(searchModel)
         }
 
+        // Filter out apps with no results
+
         list = list.filter {
-            it.permissions > 0 || it.activities > 0 || it.services > 0 || it.receivers > 0 || it.providers > 0 || it.resources > 0 ||
+            it.permissions > 0 || it.activities > 0 || it.services > 0 ||
+                    it.receivers > 0 || it.providers > 0 || it.resources > 0 ||
                     it.packageInfo.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
                     it.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
         } as ArrayList<SearchModel>
@@ -276,7 +290,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             if (app.requestedPermissions != null) {
                 for (permission in app.requestedPermissions) {
                     if (permission.lowercase().contains(keyword.lowercase())
-                        || permission.getPermissionInfo(application)?.loadLabel(application.packageManager).toString().lowercase().contains(keyword.lowercase())) {
+                        || permission.getPermissionInfo(application)?.loadLabel(application.packageManager)
+                            .toString().lowercase().contains(keyword.lowercase())) {
                         count = count.inc()
                     }
                 }

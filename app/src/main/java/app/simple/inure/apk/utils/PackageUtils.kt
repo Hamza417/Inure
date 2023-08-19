@@ -30,9 +30,6 @@ object PackageUtils {
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PERMISSIONS or
                 PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_CONFIGURATIONS or
-                PackageManager.GET_SIGNING_CERTIFICATES or
-                PackageManager.GET_SHARED_LIBRARY_FILES or
                 PackageManager.MATCH_DISABLED_COMPONENTS or
                 PackageManager.MATCH_UNINSTALLED_PACKAGES).toLong()
     } else {
@@ -43,9 +40,6 @@ object PackageUtils {
                 PackageManager.GET_RECEIVERS or
                 PackageManager.GET_PERMISSIONS or
                 PackageManager.GET_ACTIVITIES or
-                PackageManager.GET_SIGNATURES or
-                PackageManager.GET_CONFIGURATIONS or
-                PackageManager.GET_SHARED_LIBRARY_FILES or
                 PackageManager.GET_DISABLED_COMPONENTS or
                 PackageManager.GET_UNINSTALLED_PACKAGES).toLong()
     }

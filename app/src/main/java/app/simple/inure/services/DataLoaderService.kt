@@ -8,11 +8,11 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getInstalledPackages
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.interfaces.receivers.AppUninstallCallbacks
 import app.simple.inure.receivers.AppUninstalledBroadcastReceiver
@@ -42,6 +42,8 @@ class DataLoaderService : Service() {
     private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
 
     private var isLoading = false
+
+    private var flags = PackageManager.GET_META_DATA
 
     inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
@@ -145,21 +147,21 @@ class DataLoaderService : Service() {
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return packageManager.getInstalledPackages().loadPackageNames()
+        return packageManager.getInstalledPackages(flags).loadPackageNames()
     }
 
     private fun loadUninstalledApps() {
-        if (apps.isNotEmpty()) {
-            if (uninstalledApps.isEmpty()) {
-                @Suppress("UNCHECKED_CAST")
-                uninstalledApps = (apps.clone() as ArrayList<PackageInfo>).stream().filter { packageInfo: PackageInfo ->
-                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                }.collect(Collectors.toList()).toArrayList()
+        if (uninstalledApps.isEmpty()) {
+            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
+            } else {
+                @Suppress("DEPRECATION")
+                PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
             }
-        } else {
-            uninstalledApps = packageManager.getInstalledPackages().stream().filter { packageInfo: PackageInfo ->
+
+            uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
                 packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-            }.collect(Collectors.toList()).toArrayList()
+            }.collect(Collectors.toList()).loadPackageNames().toArrayList()
         }
     }
 
