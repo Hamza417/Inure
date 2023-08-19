@@ -31,6 +31,7 @@ object DevelopmentPreferences {
     const val alternateHomePanel = "is_old_style_home_panel_enabled"
     const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
     const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
+    const val pauseImageLoader = "is_image_loader_paused"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -171,6 +172,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Hide Divider On Navigation Bar",
                                             "Hide divider on navigation bar in the app (Android Version >= P 9.0).",
                                             dividerOnNavigationBar,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Pause Image Loader",
+                                            "Pause image loader in the app when fast scroller is being dragged to improve list performance.",
+                                            pauseImageLoader,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

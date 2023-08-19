@@ -15,6 +15,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import androidx.core.util.Consumer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import app.simple.inure.R;
 import app.simple.inure.decorations.views.BottomMenuRecyclerView;
+import app.simple.inure.preferences.DevelopmentPreferences;
 
 public class FastScroller {
     
@@ -378,11 +381,13 @@ public class FastScroller {
          * is being dragged to allow room for smoother scrolling
          * and not load unnecessary resources.
          */
-        //        if (dragging) {
-        //            Glide.with(mView.getContext()).pauseRequests();
-        //        } else {
-        //            Glide.with(mView.getContext()).resumeRequests();
-        //        }
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.pauseImageLoader)) {
+            if (dragging) {
+                Glide.with(view.getContext()).pauseRequests();
+            } else {
+                Glide.with(view.getContext()).resumeRequests();
+            }
+        }
     
         Intent intent;
     
