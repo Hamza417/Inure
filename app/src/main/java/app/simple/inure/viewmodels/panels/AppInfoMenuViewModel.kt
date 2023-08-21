@@ -140,7 +140,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             list.add(Pair(R.drawable.ic_graphics, R.string.graphics))
             list.add(Pair(R.drawable.ic_extras, R.string.extras))
             list.add(Pair(R.drawable.ic_shared_libs, R.string.shared_libs))
-            list.add(Pair(R.drawable.ic_code, R.string.dex_classes))
+            if (isInstalled) {
+                list.add(Pair(R.drawable.ic_code, R.string.dex_classes))
+            }
             list.add(Pair(R.drawable.ic_radiation_nuclear, R.string.trackers))
 
             if (isInstalled) {

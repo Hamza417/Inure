@@ -8,7 +8,6 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -36,18 +35,14 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
 
     @Suppress("DEPRECATION") // Why is Android so hard to work with? :(
     private fun getClassesOfPackage(packageName: String): ArrayList<String> {
-        try {
-            val appContext = applicationContext().createPackageContext(packageName, 0)
-            val packageCodePath: String = appContext.packageCodePath
-            val df = DexFile(packageCodePath)
-            val iter = df.entries()
+        val appContext = applicationContext().createPackageContext(packageName, 0)
+        val packageCodePath: String = appContext.packageCodePath
+        val df = DexFile(packageCodePath)
+        val iter = df.entries()
 
-            while (iter.hasMoreElements()) {
-                val className = iter.nextElement()
-                classes.add(className)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
+        while (iter.hasMoreElements()) {
+            val className = iter.nextElement()
+            classes.add(className)
         }
 
         return classes
