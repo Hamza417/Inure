@@ -23,9 +23,6 @@ interface TagDao {
 
     /**
      * Get tag where package exists in [Tag.packages]
-     *
-     * The packages are stored in a string separated
-     * by a comma
      */
     @Query("SELECT * FROM tags WHERE packages LIKE '%' || :packageName || '%'")
     fun getTagByPackage(packageName: String): Tag

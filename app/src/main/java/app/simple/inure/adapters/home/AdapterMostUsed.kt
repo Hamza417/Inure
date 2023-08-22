@@ -17,7 +17,7 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.util.RecyclerViewUtils
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class AdapterFrequentlyUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageStats>()
     private lateinit var adapterCallbacks: AdapterCallbacks

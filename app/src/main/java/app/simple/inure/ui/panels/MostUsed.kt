@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.home.AdapterFrequentlyUsed
+import app.simple.inure.adapters.home.AdapterMostUsed
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -24,7 +24,7 @@ import app.simple.inure.viewmodels.panels.HomeViewModel
 class MostUsed : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var adapterFrequentlyUsed: AdapterFrequentlyUsed
+    private lateinit var adapterFrequentlyUsed: AdapterMostUsed
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -32,7 +32,7 @@ class MostUsed : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_most_used, container, false)
 
         recyclerView = view.findViewById(R.id.most_used_recycler_view)
-        adapterFrequentlyUsed = AdapterFrequentlyUsed()
+        adapterFrequentlyUsed = AdapterMostUsed()
 
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
