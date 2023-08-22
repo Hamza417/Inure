@@ -24,7 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
-class HomeViewModel(application: Application) : PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
+class HomeViewModel(application: Application) :
+        PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Suppress("PrivatePropertyName")
     private val PRIVATE_FLAG_HIDDEN = 1 shl 0
@@ -120,7 +121,10 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun loadRecentlyUpdatedAppData() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
-                .filter { it.lastUpdateTime > System.currentTimeMillis() - oneMonth && it.firstInstallTime < it.lastUpdateTime }
+                .filter {
+                    it.lastUpdateTime > System.currentTimeMillis() -
+                            oneMonth && it.firstInstallTime < it.lastUpdateTime
+                }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             apps.sortByDescending {
@@ -230,6 +234,7 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }
 
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
+            list.add(Pair(R.drawable.ic_style, R.string.tags))
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableDeviceInfo)) {
                 list.add(Pair(R.drawable.ic_memory, R.string.device_info))
@@ -283,7 +288,8 @@ class HomeViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 }
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible) && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible)
+                && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                 list.add(Pair(R.drawable.ic_stacktrace, R.string.crash_report))
             }
 
