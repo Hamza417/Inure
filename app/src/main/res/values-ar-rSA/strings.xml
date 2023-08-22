@@ -137,8 +137,8 @@
     <string name="not_exported">غير صادر</string>
     <string name="n_enabled">%d تفعيل</string>
     <string name="n_disabled">%d تعطيل</string>
-    <string name="enabled">تفعيل</string>
-    <string name="disabled">تعطيل</string>
+    <string name="enabled">مفعلة</string>
+    <string name="disabled">معطَّلة</string>
     <string name="enable">تمكين</string>
     <string name="disable">تعطيل</string>
     <string name="desc_not_available">الوصف غير متوفر.</string>
@@ -698,5 +698,5 @@
     <string name="public_key_type">نوع المفتاح العام</string>
     <string name="backup_and_restore_desc">نسخ و استعادة بيانات التطبيق.</string>
     <string name="import_">استيراد</string>
-    <string name="tags">البطاقات</string>
+    <string name="tags">العلامات</string>
 </resources>
