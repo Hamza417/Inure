@@ -90,7 +90,7 @@
     <string name="save">Guardar</string>
     <string name="copy">Copiar</string>
     <string name="saved_successfully">Guardado con éxito</string>
-    <string name="failed">Se falló</string>
+    <string name="failed">Error</string>
     <string name="app_info">Información de la aplicación</string>
     <string name="uses_feature">Usa características</string>
     <string name="gles_version">Versión GLES</string>
@@ -698,4 +698,5 @@
     <string name="public_key_type">Tipo de clave pública</string>
     <string name="backup_and_restore_desc">Copia de seguridad y restauración de datos de la aplicación.</string>
     <string name="import_">Importar</string>
+    <string name="tags">Etiquetas</string>
 </resources>
