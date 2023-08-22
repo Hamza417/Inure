@@ -3,6 +3,7 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -23,13 +24,14 @@ public class Tag implements Parcelable {
     };
     @PrimaryKey
     @ColumnInfo (name = "tag")
+    @NonNull
     private String tag;
     @ColumnInfo (name = "packages")
     private String packages;
     @ColumnInfo (name = "icon")
     private int icon;
     
-    public Tag(String tag, String packages, int icon) {
+    public Tag(@NonNull String tag, String packages, int icon) {
         this.tag = tag;
         this.packages = packages;
         this.icon = icon;

@@ -1,0 +1,46 @@
+{
+    "formatVersion": 1,
+    "database": {
+        "version": 1,
+        "identityHash": "6abc291d8550f4945604ab256c3e1133",
+        "entities": [
+            {
+                "tableName": "tags",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tag` TEXT NOT NULL, `packages` TEXT, `icon` INTEGER NOT NULL, PRIMARY KEY(`tag`))",
+                "fields": [
+                    {
+                        "fieldPath": "tag",
+                        "columnName": "tag",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "packages",
+                        "columnName": "packages",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "icon",
+                        "columnName": "icon",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "autoGenerate": false,
+                    "columnNames": [
+                        "tag"
+                    ]
+                },
+                "indices": [],
+                "foreignKeys": []
+            }
+        ],
+        "views": [],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6abc291d8550f4945604ab256c3e1133')"
+        ]
+    }
+}
