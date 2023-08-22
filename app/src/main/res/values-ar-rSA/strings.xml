@@ -698,4 +698,5 @@
     <string name="public_key_type">نوع المفتاح العام</string>
     <string name="backup_and_restore_desc">نسخ و استعادة بيانات التطبيق.</string>
     <string name="import_">استيراد</string>
+    <string name="tags">البطاقات</string>
 </resources>
