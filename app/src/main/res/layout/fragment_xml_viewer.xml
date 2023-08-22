@@ -63,6 +63,7 @@
     <app.simple.inure.decorations.theme.ThemeLinearLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
+        android:layoutDirection="ltr"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:orientation="horizontal">
@@ -89,6 +90,7 @@
             android:hint="@string/search"
             android:imeOptions="actionSearch"
             android:importantForAutofill="no"
+            android:layoutDirection="locale"
             android:inputType="text"
             android:maxLines="1"
             android:paddingStart="10dp"

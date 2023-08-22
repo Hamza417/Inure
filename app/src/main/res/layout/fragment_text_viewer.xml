@@ -103,6 +103,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:paddingHorizontal="8dp"
+        android:layoutDirection="ltr"
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.theme.ThemeIcon
@@ -128,6 +129,7 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1"
+            android:layoutDirection="locale"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
             android:textCursorDrawable="@drawable/text_cursor"
