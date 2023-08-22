@@ -11,17 +11,18 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "tags")
 public class Tag implements Parcelable {
     
-    public static final Creator <Tag> CREATOR = new Creator <Tag>() {
+    public static final Creator <Tag> CREATOR = new Creator <>() {
         @Override
         public Tag createFromParcel(Parcel in) {
             return new Tag(in);
         }
-        
+    
         @Override
         public Tag[] newArray(int size) {
             return new Tag[size];
         }
     };
+    
     @PrimaryKey
     @ColumnInfo (name = "tag")
     @NonNull
@@ -55,11 +56,12 @@ public class Tag implements Parcelable {
         return 0;
     }
     
+    @NonNull
     public String getTag() {
         return tag;
     }
     
-    public void setTag(String tag) {
+    public void setTag(@NonNull String tag) {
         this.tag = tag;
     }
     

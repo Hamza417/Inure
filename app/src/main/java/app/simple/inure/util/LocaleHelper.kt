@@ -68,7 +68,7 @@ object LocaleHelper {
             // Spanish (Spain)
             Locales("Español (Spanish)", "es-ES"),
             // Arabic
-            Locales("العربية (Arabic)", "ar"),
+            Locales("العربية (Arabic)", "ar-rSA"),
     )
 
     fun getAppLocale(): Locale {
