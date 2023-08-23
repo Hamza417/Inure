@@ -447,7 +447,12 @@ class AudioServicePager : Service(),
     }
 
     internal fun getDuration(): Int {
-        return mediaPlayer.duration
+        return try {
+            mediaPlayer.duration
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+            0
+        }
     }
 
     internal fun seek(to: Int) {

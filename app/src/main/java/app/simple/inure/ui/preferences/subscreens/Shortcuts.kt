@@ -34,7 +34,7 @@ class Shortcuts : ScopedFragment() {
         shortcutsViewModel.getShortcuts().observe(viewLifecycleOwner) {
             val shortcuts = ShortcutManagerCompat.getDynamicShortcuts(requireContext())
             val adapterShortcuts = AdapterShortcuts(it, shortcuts) { shortcutInfoCompat, view ->
-                PopupShortcuts(view) {
+                PopupShortcuts(requireView()) {
                     createShortcut(shortcutInfoCompat)
                 }
             }

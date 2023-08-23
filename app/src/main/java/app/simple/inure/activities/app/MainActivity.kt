@@ -239,10 +239,12 @@ class MainActivity : BaseActivity() {
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                 .replace(R.id.app_container, fragment, tag)
                 .addToBackStack(tag)
+                .setReorderingAllowed(true)
                 .commit()
         } else {
             supportFragmentManager.beginTransaction()
                 .show(supportFragmentManager.findFragmentByTag(tag)!!)
+                .setReorderingAllowed(true)
                 .commit()
         }
     }

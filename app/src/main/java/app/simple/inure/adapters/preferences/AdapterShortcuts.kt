@@ -17,7 +17,10 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.ShortcutModel
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.HtmlHelper
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterShortcuts(private val list: List<ShortcutModel>,
@@ -45,8 +48,20 @@ class AdapterShortcuts(private val list: List<ShortcutModel>,
         if (holder is Holder) {
             holder.icon.setImageResource(list[position].icon)
             holder.name.setText(list[position].name)
-            holder.id.text = list[position].id
-            holder.action.text = list[position].action
+
+            holder.id.text = HtmlHelper.fromHtml(buildString {
+                append("id: ")
+                append("<font color=\"${AppearancePreferences.getAccentColor().toHexColor()}\">")
+                append(list[position].id)
+                append("</font>")
+            })
+
+            holder.action.text = HtmlHelper.fromHtml(buildString {
+                append("action: ")
+                append("<font color=\"${AppearancePreferences.getAccentColor().toHexColor()}\">")
+                append(list[position].action)
+                append("</font>")
+            })
 
             for (shortcut in shortcuts) {
                 if (list[position].id == shortcut.id) {
