@@ -51,17 +51,18 @@ class BootManager : ScopedFragment() {
 
             adapterBootManager?.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onBootComponentClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
-                    childFragmentManager.showBootComponentSelector(bootManagerModel).setBootComponentSelectorCallbacks(object : BootComponentSelector.Companion.BootComponentSelectorCallbacks {
-                        override fun onBootSelected(selectedSet: Set<String>, enable: Boolean) {
-                            showLoader(manualOverride = true).also {
-                                if (enable) {
-                                    bootManagerViewModel?.enableComponents(selectedSet, bootManagerModel.copy(), position)
-                                } else {
-                                    bootManagerViewModel?.disableComponents(selectedSet, bootManagerModel.copy(), position)
+                    childFragmentManager.showBootComponentSelector(bootManagerModel)
+                        .setBootComponentSelectorCallbacks(object : BootComponentSelector.Companion.BootComponentSelectorCallbacks {
+                            override fun onBootSelected(selectedSet: Set<String>, enable: Boolean) {
+                                showLoader(manualOverride = true).also {
+                                    if (enable) {
+                                        bootManagerViewModel?.enableComponents(selectedSet, bootManagerModel.copy(), position)
+                                    } else {
+                                        bootManagerViewModel?.disableComponents(selectedSet, bootManagerModel.copy(), position)
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
                 }
 
                 override fun onBootComponentLongClicked(view: View, bootManagerModel: BootManagerModel, position: Int, icon: ImageView) {
@@ -79,7 +80,10 @@ class BootManager : ScopedFragment() {
                         }
 
                         override fun onOpenClicked() {
-                            openFragmentArc(AppInfo.newInstance(requirePackageManager().getPackageInfo(bootManagerModel.packageInfo.packageName)!!), icon, "app_info")
+                            openFragmentArc(
+                                    AppInfo.newInstance(
+                                            requirePackageManager()
+                                                .getPackageInfo(bootManagerModel.packageInfo.packageName)!!), icon, "app_info")
                         }
                     })
                 }

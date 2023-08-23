@@ -19,6 +19,7 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var enable: DynamicRippleTextView
     private lateinit var disable: DynamicRippleTextView
+    private lateinit var close: DynamicRippleTextView
 
     private val selectedSet: MutableSet<String> = mutableSetOf()
     private val mutableList: MutableList<Pair<String, Boolean>> by lazy {
@@ -46,6 +47,7 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
         enable = view.findViewById(R.id.enable)
         disable = view.findViewById(R.id.disable)
+        close = view.findViewById(R.id.close)
 
         return view
     }
@@ -66,6 +68,8 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
             }
         })
 
+        recyclerView.adapter = adapterBootSelector
+
         enable.setOnClickListener {
             bootComponentSelectorCallbacks?.onBootSelected(selectedSet, true)
             dismiss()
@@ -76,7 +80,9 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
             dismiss()
         }
 
-        recyclerView.adapter = adapterBootSelector
+        close.setOnClickListener {
+            dismiss()
+        }
     }
 
     fun setBootComponentSelectorCallbacks(bootComponentSelectorCallbacks: BootComponentSelectorCallbacks) {
