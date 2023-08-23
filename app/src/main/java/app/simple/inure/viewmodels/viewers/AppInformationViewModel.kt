@@ -147,7 +147,8 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             null
         }
 
-        return Pair(R.string.apk_base_package, apkPath?.applySecondaryTextColor() ?: getString(R.string.not_available).applySecondaryTextColor())
+        return Pair(R.string.apk_base_package, apkPath?.applySecondaryTextColor()
+            ?: getString(R.string.not_available).applySecondaryTextColor())
     }
 
     private fun getState(): Pair<Int, Spannable> {
@@ -245,7 +246,8 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getGlesVersion(): Pair<Int, Spannable> {
         val glesVersion = kotlin.runCatching {
-            File(packageInfo.applicationInfo.sourceDir).getGlEsVersion().ifEmpty { getString(R.string.not_available) }
+            File(packageInfo.applicationInfo.sourceDir)
+                .getGlEsVersion().ifEmpty { getString(R.string.not_available) }
         }.getOrElse {
             getString(R.string.not_available)
         }
@@ -256,12 +258,14 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getArchitecture(): Pair<Int, Spannable> {
         return Pair(R.string.architecture,
-                    packageInfo.applicationInfo.sourceDir.toFile().getApkArchitecture(context).toString().applyAccentColor())
+                    packageInfo.applicationInfo.sourceDir.toFile()
+                        .getApkArchitecture(context).toString().applyAccentColor())
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         return Pair(R.string.native_libraries,
-                    packageInfo.applicationInfo.sourceDir.toFile().getNativeLibraries(context).toString().applySecondaryTextColor())
+                    packageInfo.applicationInfo.sourceDir.toFile()
+                        .getNativeLibraries(context).toString().applySecondaryTextColor())
     }
 
     private fun getNativeLibsDir(): Pair<Int, Spannable> {
@@ -272,7 +276,8 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         }
 
         return Pair(R.string.native_libraries_dir,
-                    nativeLibsDir?.applySecondaryTextColor() ?: getString(R.string.not_available).applySecondaryTextColor())
+                    nativeLibsDir?.applySecondaryTextColor()
+                        ?: getString(R.string.not_available).applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<Int, Spannable> {

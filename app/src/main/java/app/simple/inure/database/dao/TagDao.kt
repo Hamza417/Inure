@@ -22,10 +22,10 @@ interface TagDao {
     fun getTag(tag: String): Tag
 
     /**
-     * Get tag where package exists in [Tag.packages]
+     * Get all tags where [Tag.packages] contains [packageName]
      */
-    @Query("SELECT * FROM tags WHERE packages LIKE '%' || :packageName || '%'")
-    fun getTagByPackage(packageName: String): Tag
+    @Query("SELECT tag FROM tags WHERE packages LIKE '%' || :packageName || '%'")
+    fun getTagsByPackage(packageName: String): MutableList<String>
 
     /**
      * Delete a [Tag] item

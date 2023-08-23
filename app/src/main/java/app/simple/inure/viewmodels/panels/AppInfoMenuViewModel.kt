@@ -18,9 +18,11 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
+import app.simple.inure.database.instances.TagDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.FlagUtils
@@ -54,6 +56,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
+    private val tags: MutableLiveData<ArrayList<String>> by lazy {
+        MutableLiveData<ArrayList<String>>().also {
+            loadTags()
+        }
+    }
+
     fun getComponentsOptions(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
@@ -68,6 +76,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun getTrackers(): LiveData<Int> {
         return trackers
+    }
+
+    fun getTags(): LiveData<ArrayList<String>> {
+        return tags
     }
 
     fun loadActionOptions() {
@@ -356,6 +368,19 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 this@AppInfoMenuViewModel.trackers.postValue(count)
             }.getOrElse {
                 this@AppInfoMenuViewModel.trackers.postValue(0)
+            }
+        }
+    }
+
+    private fun loadTags() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tagDataBase = TagDatabase.getInstance(application.applicationContext)
+            val tags = tagDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
+
+            if (tags.isNullOrEmpty().invert()) {
+                this@AppInfoMenuViewModel.tags.postValue(tags)
+            } else {
+                this@AppInfoMenuViewModel.tags.postValue(arrayListOf())
             }
         }
     }

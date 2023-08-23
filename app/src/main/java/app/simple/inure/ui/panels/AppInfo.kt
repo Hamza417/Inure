@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterTags
 import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
@@ -29,6 +30,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.GridRecyclerView
+import app.simple.inure.decorations.views.TagsRecyclerView
 import app.simple.inure.dialogs.action.ClearCache
 import app.simple.inure.dialogs.action.ClearData
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
@@ -94,6 +96,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
+    private lateinit var tagsRecyclerView: TagsRecyclerView
     private lateinit var meta: GridRecyclerView
     private lateinit var actions: GridRecyclerView
     private lateinit var miscellaneous: GridRecyclerView
@@ -122,6 +125,7 @@ class AppInfo : ScopedFragment() {
         appInformation = view.findViewById(R.id.app_info_information_tv)
         usageStatistics = view.findViewById(R.id.app_info_storage_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
+        tagsRecyclerView = view.findViewById(R.id.tags_recycler_view)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
         miscellaneous = view.findViewById(R.id.app_info_miscellaneous)
@@ -153,6 +157,10 @@ class AppInfo : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        componentsViewModel.getTags().observe(viewLifecycleOwner) {
+            tagsRecyclerView.adapter = AdapterTags(it)
+        }
 
         componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
             when (AppInformationPreferences.getMetaMenuLayout()) {

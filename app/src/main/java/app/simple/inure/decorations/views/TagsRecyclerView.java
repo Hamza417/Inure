@@ -32,7 +32,6 @@ public class TagsRecyclerView extends RecyclerView {
     
     private void init() {
         setNestedScrollingEnabled(false);
-        setPadding(getPaddingLeft() + 100, getPaddingTop(), getPaddingRight() + 100, getPaddingBottom());
         
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(getContext());
         layoutManager.setFlexDirection(FlexDirection.ROW);

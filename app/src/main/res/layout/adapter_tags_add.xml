@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginEnd="2dp"
+    android:padding="5dp"
+    android:orientation="horizontal">
+
+    <app.simple.inure.decorations.theme.ThemeIcon
+        android:id="@+id/tag_icon"
+        android:layout_width="10dp"
+        android:layout_marginStart="2dp"
+        android:src="@drawable/ic_add"
+        android:layout_gravity="center_vertical"
+        android:layout_height="10dp" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/tag_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="3dp"
+        android:text="@string/add_tag"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="medium"
+        app:textColorStyle="secondary" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout>
