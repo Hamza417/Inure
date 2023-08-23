@@ -3,10 +3,10 @@ package app.simple.inure.popups.viewers
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
@@ -22,6 +22,6 @@ class PopupInformation(anchor: View, string: String) : BasePopupWindow() {
             dismiss()
         }
 
-        init(contentView, anchor, Gravity.END)
+        init(contentView, anchor, Misc.xOffset, Misc.yOffset)
     }
 }

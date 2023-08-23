@@ -46,7 +46,7 @@ class Information : ScopedFragment() {
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {
                 override fun onInformationClicked(view: View, string: String) {
-                    PopupInformation(view, string)
+                    PopupInformation(requireView(), string)
                 }
             })
 
