@@ -4,8 +4,10 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.text.Spannable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -36,7 +38,6 @@ import app.simple.inure.util.StringUtils.endsWithAny
 import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.lingala.zip4j.ZipFile
 import java.io.File
@@ -84,11 +85,18 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                 isPackageInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
             } else {
                 try {
-                    packageInfo = packageManager.getPackageInfo(packageInfo.packageName)!!
+                    packageInfo = packageManager.getPackageInfo(packageInfo.packageName) ?: throw NullPointerException()
                     isPackageInstalled = true
                 } catch (e: java.lang.NullPointerException) {
+                    /**
+                     * Activity should have already sent a prepared
+                     * [PackageInfo] object to this ViewModel for
+                     * processing. If it is null, then the there's
+                     * some error on the activity side.
+                     */
                     isPackageInstalled = false
-                    packageInfo = packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!
+                } catch (e: NameNotFoundException) {
+                    isPackageInstalled = false
                 }
             }
         }.getOrElse {
@@ -98,6 +106,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         }
 
         kotlin.runCatching {
+            Log.d("TAG", "loadInformation: ${packageInfo.applicationInfo.sourceDir}")
             information.postValue(arrayListOf(
                     getPackageName(),
                     getVersion(),
@@ -193,29 +202,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getVersion(): Pair<Int, Spannable> {
-        return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
-            Pair(R.string.version,
-                 PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
-        } else {
-            val versionCode = ApkFile(packageInfo.applicationInfo.sourceDir).use {
-                it.apkMeta.versionName
-            }
-
-            Pair(R.string.version, versionCode.toString().applySecondaryTextColor())
-        }
+        return Pair(R.string.version,
+                    PackageUtils.getApplicationVersion(context, packageInfo).applySecondaryTextColor())
     }
 
     private fun getVersionCode(): Pair<Int, Spannable> {
-        return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
-            Pair(R.string.version_code,
-                 PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
-        } else {
-            val versionCode = ApkFile(packageInfo.applicationInfo.sourceDir).use {
-                it.apkMeta.versionCode
-            }
-
-            Pair(R.string.version_code, versionCode.toString().applySecondaryTextColor())
-        }
+        return Pair(R.string.version_code,
+                    PackageUtils.getApplicationVersionCode(context, packageInfo).applySecondaryTextColor())
     }
 
     private fun getInstallLocation(): Pair<Int, Spannable> {
@@ -430,7 +423,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         } catch (e: NullPointerException) {
             e.printStackTrace()
             permissions.append(getString(R.string.no_permissions_required))
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             permissions.append(getString(R.string.app_not_installed, packageInfo.packageName))
         }
 
@@ -547,7 +540,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         } catch (e: NullPointerException) {
             e.printStackTrace()
             features.append(getString(R.string.not_available))
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (e: NameNotFoundException) {
             features.append(getString(R.string.app_not_installed), packageInfo.packageName)
         }
 

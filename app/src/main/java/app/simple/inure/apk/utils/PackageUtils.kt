@@ -211,9 +211,31 @@ object PackageUtils {
                 context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionCode.toString()
             }
         } catch (e: NameNotFoundException) {
-            context.getString(R.string.unknown)
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.longVersionCode.toString()
+                } else {
+                    @Suppress("deprecation")
+                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionCode.toString()
+                }
+            } catch (e: NameNotFoundException) {
+                context.getString(R.string.unknown)
+            } catch (e: NullPointerException) {
+                context.getString(R.string.unknown)
+            }
         } catch (e: NullPointerException) {
-            context.getString(R.string.unknown)
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.longVersionCode.toString()
+                } else {
+                    @Suppress("deprecation")
+                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionCode.toString()
+                }
+            } catch (e: NameNotFoundException) {
+                context.getString(R.string.unknown)
+            } catch (e: NullPointerException) {
+                context.getString(R.string.unknown)
+            }
         }
     }
 
