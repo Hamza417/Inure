@@ -228,6 +228,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
+    fun setFOSSIcon(isFOSS: Boolean) {
+        if (isFOSS) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_open_source_12dp, 0)
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+        drawableTintMode = 0
+        setDrawableTint(false)
+    }
+
     fun setDangerousPermissionIcon(isDangerous: Boolean) {
         if (isDangerous) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_skull_12dp, 0)

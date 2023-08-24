@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -37,6 +38,7 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
         holder.packageId.text = apps[position].packageName
 
         holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
+        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
         holder.info.setAppInfo(apps[position])
 
         holder.container.setOnClickListener {

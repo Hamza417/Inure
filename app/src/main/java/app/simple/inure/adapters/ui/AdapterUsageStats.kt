@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -26,7 +27,7 @@ import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.visible
 import java.util.concurrent.TimeUnit
 
-class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
     private var adapterCallbacks: AdapterCallbacks? = null
     private var isLimitedToHours = StatisticsPreferences.isLimitToHours()
@@ -61,17 +62,18 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
         val position = position_ - 1
 
         if (holder is Holder) {
-            holder.icon.transitionName = list[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(list[position].packageInfo!!.packageName, list[position].packageInfo!!.applicationInfo.enabled)
-            holder.name.text = list[position].packageInfo!!.applicationInfo.name
-            holder.dataUp.text = list[position].mobileData?.tx?.toSize()
-            holder.dataDown.text = list[position].mobileData?.rx?.toSize()
-            holder.wifiUp.text = list[position].wifiData?.tx?.toSize()
-            holder.wifiDown.text = list[position].wifiData?.rx?.toSize()
+            holder.icon.transitionName = apps[position].packageInfo?.packageName
+            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
+            holder.name.text = apps[position].packageInfo!!.applicationInfo.name
+            holder.dataUp.text = apps[position].mobileData?.tx?.toSize()
+            holder.dataDown.text = apps[position].mobileData?.rx?.toSize()
+            holder.wifiUp.text = apps[position].wifiData?.tx?.toSize()
+            holder.wifiDown.text = apps[position].wifiData?.rx?.toSize()
 
-            holder.name.setStrikeThru(list[position].packageInfo?.applicationInfo?.enabled ?: false)
+            holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo?.packageName))
 
-            with(list[position].totalTimeUsed) {
+            with(apps[position].totalTimeUsed) {
                 holder.time.apply {
                     this.text = buildString {
                         append(
@@ -104,22 +106,22 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
                                 })
 
                         append(" | ")
-                        append(list[position].appSize.toSize())
+                        append(apps[position].appSize.toSize())
                     }
                 }
             }
 
             holder.container.setOnClickListener {
-                adapterCallbacks?.onAppClicked(list[position].packageInfo!!, holder.icon)
+                adapterCallbacks?.onAppClicked(apps[position].packageInfo!!, holder.icon)
             }
 
             holder.container.setOnLongClickListener {
-                adapterCallbacks?.onAppLongPressed(list[position].packageInfo!!, holder.icon)
+                adapterCallbacks?.onAppLongPressed(apps[position].packageInfo!!, holder.icon)
                 true
             }
 
         } else if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), list.size)
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
 
             holder.category.text = when (StatisticsPreferences.getAppsCategory()) {
                 SortConstant.USER -> {
@@ -187,7 +189,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return list.size + 1
+        return apps.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -204,7 +206,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
     }
 
     override fun getPopupText(position: Int): String {
-        return list[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
+        return apps[position].packageInfo?.applicationInfo?.name?.substring(0, 1) ?: ""
     }
 
     fun setOnStatsCallbackListener(adapterCallbacks: AdapterCallbacks) {
@@ -213,7 +215,7 @@ class AdapterUsageStats(private val list: ArrayList<PackageStats>) : RecyclerVie
 
     fun notifyAllData() {
         isLimitedToHours = StatisticsPreferences.isLimitToHours()
-        for (i in list.indices) {
+        for (i in apps.indices) {
             notifyItemChanged(i.plus(1))
         }
     }

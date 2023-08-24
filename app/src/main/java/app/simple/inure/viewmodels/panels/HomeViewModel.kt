@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.models.VisibilityCustomizationModel
@@ -56,6 +57,10 @@ class HomeViewModel(application: Application) :
         MutableLiveData<ArrayList<PackageInfo>>()
     }
 
+    private val foss: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>()
+    }
+
     private val hidden: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>()
     }
@@ -90,6 +95,10 @@ class HomeViewModel(application: Application) :
 
     fun getDisabledApps(): LiveData<ArrayList<PackageInfo>> {
         return disabled
+    }
+
+    fun getFossApps(): LiveData<ArrayList<PackageInfo>> {
+        return foss
     }
 
     fun getHiddenApps(): LiveData<ArrayList<PackageInfo>> {
@@ -197,6 +206,22 @@ class HomeViewModel(application: Application) :
         }
     }
 
+    private fun loadFossApps() {
+        viewModelScope.launch(Dispatchers.IO) {
+            FOSSParser.init(application.applicationContext)
+
+            val apps = getInstalledApps().stream()
+                .filter { FOSSParser.isPackageFOSS(it.packageName) }
+                .collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+            apps.sortBy {
+                it.applicationInfo.name
+            }
+
+            foss.postValue(apps)
+        }
+    }
+
     private fun loadHiddenApps() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
@@ -259,6 +284,8 @@ class HomeViewModel(application: Application) :
             if (HomePreferences.isPanelVisible(HomePreferences.isDisabledVisible)) {
                 list.add(Pair(R.drawable.ic_disable, R.string.disabled))
             }
+
+            list.add(Pair(R.drawable.ic_open_source, R.string.foss)) // Divider
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
@@ -330,6 +357,7 @@ class HomeViewModel(application: Application) :
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
         loadHiddenApps()
+        loadFossApps()
     }
 
     override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {

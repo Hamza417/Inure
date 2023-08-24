@@ -15,10 +15,11 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.util.PackageListUtils.setRecentlyInstalledInfo
+import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     var apps = arrayListOf<PackageInfo>()
     private lateinit var adapterCallbacks: AdapterCallbacks
@@ -27,7 +28,7 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_recently_installed, parent, false))
+                           .inflate(R.layout.adapter_header_foss, parent, false))
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
@@ -45,12 +46,12 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageName
-            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
+            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled, apps[position].applicationInfo.sourceDir.toFile())
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
-            holder.date.setRecentlyInstalledInfo(apps[position])
+            holder.date.setAppInfo(apps[position])
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onAppClicked(apps[position], holder.icon)

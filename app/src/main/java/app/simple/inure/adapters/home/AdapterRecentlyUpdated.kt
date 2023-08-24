@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -48,6 +49,7 @@ class AdapterRecentlyUpdated : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
             holder.date.setRecentlyUpdatedInfo(apps[position])
 
             holder.container.setOnClickListener {

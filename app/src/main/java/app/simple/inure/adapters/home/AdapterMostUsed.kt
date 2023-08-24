@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -49,6 +50,7 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.packageId.text = apps[position].packageInfo?.packageName
 
             holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo?.packageName))
 
             with(apps[position].totalTimeUsed) {
                 holder.date.apply {

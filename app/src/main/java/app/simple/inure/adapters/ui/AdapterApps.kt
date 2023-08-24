@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -69,6 +70,8 @@ class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextPro
             }
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+
             holder.info.setAppInfo(apps[position])
 
             holder.container.setOnClickListener {

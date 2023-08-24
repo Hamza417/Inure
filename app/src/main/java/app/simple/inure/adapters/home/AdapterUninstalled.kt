@@ -2,12 +2,12 @@ package app.simple.inure.adapters.home
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
-import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -50,11 +50,8 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
 
-            if (apps[position].applicationInfo.enabled) {
-                holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            } else {
-                holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
+            holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
 
             holder.date.setUninstalledAppInfo(apps[position])
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -54,6 +55,7 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
             holder.name.text = components[position].packageInfo.applicationInfo.name
             holder.packageId.text = components[position].packageInfo.packageName
             holder.name.setStrikeThru(components[position].isEnabled)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(components[position].packageInfo.packageName))
 
             holder.data.text = with(StringBuilder()) {
                 append(holder.context.getString(R.string.total, components[position].enabledComponents.size + components[position].disabledComponents.size))

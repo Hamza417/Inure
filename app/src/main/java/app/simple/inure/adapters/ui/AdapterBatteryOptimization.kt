@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -57,6 +58,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo.packageName))
 
             holder.data.text = with(StringBuilder()) {
                 append(holder.getString(getAppType(apps[position].type)))
