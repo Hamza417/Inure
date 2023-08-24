@@ -4,7 +4,8 @@ import xml.etree.ElementTree as elementTree
 import requests
 
 # URL of the F-Droid repository XML metadata file
-repo_url = "https://f-droid.org/repo/index.xml"
+fdroid_repo_url = "https://f-droid.org/repo/index.xml"
+izzyondroid_repo_url = "https://apt.izzysoft.de/fdroid/repo/index.xml"
 
 # Directory where the downloaded repository will be saved
 download_dir = ""  # specify the directory here
@@ -13,56 +14,64 @@ download_dir = ""  # specify the directory here
 try:
     os.makedirs(download_dir, exist_ok=True)
 except FileNotFoundError:
-    print("Invalid download directory.")
+    print("Directory not specified... Using the current directory.")
 
-# Ask to re-download the repository XML metadata file
-# if it already exists
-print("Checking if repository metadata already exists...")
-if os.path.exists(os.path.join(download_dir, "index.xml")):
-    should_redownload = input("Repository metadata already downloaded. Re-download? (y/n): ")
-    if should_redownload.lower() == "y":
-        os.remove(os.path.join(download_dir, "index.xml"))
 
-# Download the repository XML metadata file
-if os.path.exists(os.path.join(download_dir, "index.xml")):
-    print("Repository metadata already downloaded.")
-    # exit(0)
-else:
-    print("Downloading repository metadata...")
+# Download and parse F-Droid repository XML metadata
+def download_parse_repo(repo_url, repo_name):
     response = requests.get(repo_url)
-
-    # Print file size
-    file_size = int(response.headers.get("content-length", 0))
-    print(f"File size: {file_size / 1024 / 1024:.2f} MB")
-
     if response.status_code == 200:
-        xml_content = response.content
-        with open(os.path.join(download_dir, "index.xml"), "wb") as xml_file:
-            xml_file.write(xml_content)
+        xml_content_ = response.content
+        with open(os.path.join(download_dir, f"{repo_name}_index.xml"), "wb") as xml_file_:
+            xml_file_.write(xml_content_)
+        return xml_content_
     else:
-        print("Failed to download repository metadata.")
+        print(f"Failed to download {repo_name} repository metadata.")
         exit(1)
 
-# Parse the downloaded XML metadata file
-tree = elementTree.parse(os.path.join(download_dir, "index.xml"))
-root = tree.getroot()
+
+print("Downloading repository metadata...", end="\n\n")
+fdroid_xml_content = download_parse_repo(fdroid_repo_url, "fdroid")
+izzyondroid_xml_content = download_parse_repo(izzyondroid_repo_url, "izzyondroid")
+
+# Parse F-Droid repository XML metadata
+fdroid_tree = elementTree.ElementTree(elementTree.fromstring(fdroid_xml_content))
+fdroid_root = fdroid_tree.getroot()
+
+# Parse IzzyOnDroid repository XML metadata
+izzyondroid_tree = elementTree.ElementTree(elementTree.fromstring(izzyondroid_xml_content))
+izzyondroid_root = izzyondroid_tree.getroot()
 
 # Create a string to store the XML content
 xml_content = '<?xml version="1.0" encoding="utf-8"?>\n'
 xml_content += '<resources>\n'
+count = 0
+
+
+# Function to parse XML and populate xml_content
+def parse_xml(root):
+    for application in root.findall(".//application"):
+        app_id = application.get("id")
+        version_code = application.find(".//versioncode").text
+
+        # Check for duplicates before adding to the xml_content
+        global xml_content  # use the global xml_content variable
+        if f'{app_id}' not in xml_content:
+            xml_content += f'    <string name="{app_id}" translatable="false">{version_code}</string>\n'
+            global count  # use the global count variable
+            count += 1
+
 
 # Iterate through the applications in the XML
 # and get the package name and version code
-count = 0
-for application in root.findall(".//application"):
-    app_id = application.get("id")
-    version_code = application.find(".//versioncode").text
+print("Parsing F-Droid repository XML metadata...")
+parse_xml(fdroid_root)
 
-    xml_content += f'    <string name="{app_id}" translatable="false">{version_code}</string>\n'
-    count += 1
+print("Parsing IzzyOnDroid repository XML metadata...", end="\n\n")
+parse_xml(izzyondroid_root)
 
 xml_content += '</resources>\n'
-print(f"Total applications added: {count}")
+print(f"Total applications added: {count}", end="\n\n")
 
 # Write the package versions to an Android XML resource file
 with open(os.path.join(download_dir, "package_versions.xml"), "w") as xml_file:
@@ -84,16 +93,17 @@ if decision.lower() == "y":
     except FileNotFoundError:
         pass
 
-    # Copy the file to the values directory
+    # Move the file to the values directory
     os.rename(os.path.join(download_dir, "package_versions.xml"),
               f"../../app/src/main/res/values/package_versions.xml")
 
-    print("File copied successfully.")
+    print("File moved successfully.", end="\n\n")
 
 # Delete the downloaded repository XML metadata file
 should_delete = input("Do you want to delete the repository metadata file? (y/n): ")
 if should_delete.lower() == "y":
-    os.remove(os.path.join(download_dir, "index.xml"))
-    print("Repository metadata file deleted successfully.")
+    os.remove(os.path.join(download_dir, "fdroid_index.xml"))
+    os.remove(os.path.join(download_dir, "izzyondroid_index.xml"))
+    print("Repository metadata files deleted successfully.")
 else:
-    print("Repository metadata file not deleted.")
+    print("Repository metadata files not deleted.")
