@@ -1,6 +1,9 @@
 package app.simple.inure.activities.app
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
@@ -11,7 +14,9 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
@@ -21,6 +26,7 @@ import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
+import app.simple.inure.dialogs.app.InstallUpdate.Companion.showInstallUpdate
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -28,6 +34,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.services.DataLoaderService
 import app.simple.inure.terminal.Term
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
@@ -53,7 +60,9 @@ import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.Logger
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ParcelUtils.serializable
 import com.topjohnwu.superuser.ipc.RootService
+import java.io.File
 import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.TimeZone
@@ -62,6 +71,9 @@ class MainActivity : BaseActivity() {
 
     private lateinit var container: ThemeCoordinatorLayout
     private lateinit var content: FrameLayout
+
+    private lateinit var broadcastReceiver: BroadcastReceiver
+    private val intentFilter = IntentFilter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +97,42 @@ class MainActivity : BaseActivity() {
         } else {
             Log.d("MainActivity", "savedInstanceState not null")
         }
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == DataLoaderService.UPDATE_DOWNLOADED) {
+                    if (intent.extras?.serializable<File>(DataLoaderService.UPDATE) != null) {
+                        val update = intent.extras?.serializable<File>(DataLoaderService.UPDATE)
+                        if (update?.exists() == true) {
+                            try {
+                                supportFragmentManager.showInstallUpdate(update).setOnInstallCallbackListener {
+                                    val intent1 = Intent(Intent.ACTION_VIEW)
+                                    intent1.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                    intent1.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    intent1.setDataAndType(
+                                            FileProvider.getUriForFile(
+                                                    applicationContext,
+                                                    applicationContext.packageName + ".provider",
+                                                    update
+                                            ), "application/vnd.android.package-archive"
+                                    )
+                                    startActivity(intent1)
+                                }
+                            } catch (e: java.lang.IllegalStateException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        intentFilter.addAction(DataLoaderService.UPDATE_DOWNLOADED)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(applicationContext).registerReceiver(broadcastReceiver, intentFilter)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -319,7 +367,6 @@ class MainActivity : BaseActivity() {
             when (keyCode) {
                 KeyEvent.KEYCODE_FORWARD -> {
                     Log.d("Inure", "KEYCODE_FORWARD")
-                    println(getTopFragment()?.javaClass?.simpleName)
                     if (getTopFragment() is Home) {
                         Log.d("Inure", "KEYCODE_FORWARD: Home")
                         //                        supportFragmentManager.beginTransaction()
@@ -338,6 +385,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         ThemeManager.removeListener(this)
+        LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(broadcastReceiver)
 
         try {
             RootService.stop(Intent(this, RootService::class.java))

@@ -15,7 +15,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.interfaces.receivers.AppUninstallCallbacks
+import app.simple.inure.loaders.GitHubReleaseChecker
 import app.simple.inure.receivers.AppUninstalledBroadcastReceiver
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -33,6 +35,8 @@ class DataLoaderService : Service() {
         const val INSTALLED_APPS_LOADED = "installed_apps_loaded"
         const val APPS_LOADED = "apps_loaded"
         const val RELOAD_APPS = "reload_apps"
+        const val UPDATE_DOWNLOADED = "update_downloaded"
+        const val UPDATE = "update"
     }
 
     private val tag: String = "DataLoaderService"
@@ -40,6 +44,7 @@ class DataLoaderService : Service() {
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
     private var intentFilter = IntentFilter()
     private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
+    private var downloaderThread: Thread? = null
 
     private var isLoading = false
 
@@ -67,7 +72,6 @@ class DataLoaderService : Service() {
         appUninstalledBroadcastReceiver.setAppUninstallCallbacks(object : AppUninstallCallbacks {
             override fun onAppUninstalled(packageName: String?) {
                 Log.d("AppUninstalled", "onAppUninstalled: $packageName")
-
             }
 
             override fun onAppInstalled(packageName: String?) {
@@ -84,11 +88,34 @@ class DataLoaderService : Service() {
         })
 
         // registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
+
+        if (AppUtils.isGithubFlavor()) {
+            downloaderThread = Thread {
+                GitHubReleaseChecker().checkAndDownloadNewRelease(applicationContext) {
+                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(UPDATE_DOWNLOADED).apply {
+                        putExtra(UPDATE, it)
+                    })
+                }
+            }
+
+            downloaderThread!!.priority = Thread.MIN_PRIORITY
+            downloaderThread!!.name = "GitHubReleaseChecker"
+            downloaderThread!!.start()
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         startLoading()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            downloaderThread?.interrupt()
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
