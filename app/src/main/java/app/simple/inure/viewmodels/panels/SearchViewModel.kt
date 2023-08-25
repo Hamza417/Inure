@@ -98,7 +98,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         apps.clear()
         deepApps.clear()
         refreshPackageData()
-        initiateSearch(searchKeywords.value!!)
+        initiateSearch(searchKeywords.value ?: "")
     }
 
     @Suppress("UNCHECKED_CAST")

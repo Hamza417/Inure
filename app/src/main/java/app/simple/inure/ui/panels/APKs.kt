@@ -118,11 +118,15 @@ class APKs : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    if (adapterApks.paths[position].file.delete()) {
-                                        adapterApks.paths.removeAt(position)
-                                        adapterApks.notifyItemRemoved(position.plus(1))
-                                        adapterApks.notifyItemChanged(0) // Update the header
-                                        apkBrowserViewModel.delete(adapterApks.paths[position])
+                                    try {
+                                        if (adapterApks.paths[position].file.delete()) {
+                                            adapterApks.paths.removeAt(position)
+                                            adapterApks.notifyItemRemoved(position.plus(1))
+                                            adapterApks.notifyItemChanged(0) // Update the header
+                                            apkBrowserViewModel.delete(adapterApks.paths[position])
+                                        }
+                                    } catch (e: IndexOutOfBoundsException) {
+                                        showWarning("Failed to delete ${adapterApks.paths[position].file.name}", false)
                                     }
                                 }
                             })

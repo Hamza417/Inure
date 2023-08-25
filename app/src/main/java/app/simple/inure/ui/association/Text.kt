@@ -149,12 +149,21 @@ class Text : KeyboardScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.export) -> {
-                            val name = with(path.text.toString()) {
-                                substring(lastIndexOf("/") + 1, length)
-                            }
+                            try {
+                                val name = with(path.text.toString()) {
+                                    substring(lastIndexOf("/") + 1, length)
+                                }
 
-                            val fileName: String = packageInfo.packageName + "_" + name
-                            exportText.launch(fileName)
+                                val fileName: String = packageInfo.packageName + "_" + name
+                                exportText.launch(fileName)
+                            } catch (e: UninitializedPropertyAccessException) {
+                                val name = with(path.text.toString()) {
+                                    substring(lastIndexOf("/") + 1, length)
+                                }
+
+                                val fileName: String = name
+                                exportText.launch(fileName)
+                            }
                         }
                     }
                 }

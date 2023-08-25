@@ -3,7 +3,6 @@ package app.simple.inure.services
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -12,11 +11,9 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
-import app.simple.inure.constants.IntentConstants
-import app.simple.inure.interfaces.receivers.AppUninstallCallbacks
 import app.simple.inure.loaders.GitHubReleaseChecker
-import app.simple.inure.receivers.AppUninstalledBroadcastReceiver
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
@@ -42,8 +39,6 @@ class DataLoaderService : Service() {
     private val tag: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
-    private var intentFilter = IntentFilter()
-    private var appUninstalledBroadcastReceiver = AppUninstalledBroadcastReceiver()
     private var downloaderThread: Thread? = null
 
     private var isLoading = false
@@ -63,44 +58,23 @@ class DataLoaderService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REPLACED)
-        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED)
-        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED)
-        intentFilter.addAction(Intent.ACTION_PACKAGE_FULLY_REMOVED)
-        intentFilter.addAction(IntentConstants.ACTION_APP_UNINSTALLED)
-
-        appUninstalledBroadcastReceiver.setAppUninstallCallbacks(object : AppUninstallCallbacks {
-            override fun onAppUninstalled(packageName: String?) {
-                Log.d("AppUninstalled", "onAppUninstalled: $packageName")
-            }
-
-            override fun onAppInstalled(packageName: String?) {
-                Log.d("AppUninstalled", "onAppInstalled: $packageName")
-            }
-
-            override fun onAppUpdated(packageName: String?) {
-                Log.d("AppUninstalled", "onAppUpdated: $packageName")
-            }
-
-            override fun onAppReplaced(packageName: String?) {
-                Log.d("AppUninstalled", "onAppReplaced: $packageName")
-            }
-        })
-
-        // registerReceiver(appUninstalledBroadcastReceiver, intentFilter)
-
-        if (AppUtils.isGithubFlavor()) {
-            downloaderThread = Thread {
-                GitHubReleaseChecker().checkAndDownloadNewRelease(applicationContext) {
-                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(UPDATE_DOWNLOADED).apply {
-                        putExtra(UPDATE, it)
-                    })
+        if (BuildConfig.DEBUG.invert()) {
+            if (AppUtils.isGithubFlavor()) {
+                downloaderThread = Thread {
+                    GitHubReleaseChecker().checkAndDownloadNewRelease(applicationContext) {
+                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(UPDATE_DOWNLOADED).apply {
+                            putExtra(UPDATE, it)
+                        })
+                    }
                 }
-            }
 
-            downloaderThread!!.priority = Thread.MIN_PRIORITY
-            downloaderThread!!.name = "GitHubReleaseChecker"
-            downloaderThread!!.start()
+                downloaderThread!!.priority = Thread.MIN_PRIORITY
+                downloaderThread!!.name = "GitHubReleaseChecker"
+                downloaderThread!!.start()
+                Log.d(tag, "onCreate: GitHubReleaseChecker started")
+            }
+        } else {
+            Log.d(tag, "onCreate: GitHubReleaseChecker not started")
         }
     }
 

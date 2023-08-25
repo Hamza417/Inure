@@ -317,22 +317,27 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     }
 
     private fun checkLaunchStatus() {
-        if (requirePackageManager().isPackageInstalled(packageInfo.packageName) &&
-            PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
-            launch.visible(animate = false)
+        try {
+            if (requirePackageManager().isPackageInstalled(packageInfo.packageName) &&
+                PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
+                launch.visible(animate = false)
 
-            launch.setOnClickListener {
-                kotlin.runCatching {
-                    PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
-                    if (requireActivity() is ApkInstallerActivity) {
-                        requireActivity().finish()
+                launch.setOnClickListener {
+                    kotlin.runCatching {
+                        PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
+                        if (requireActivity() is ApkInstallerActivity) {
+                            requireActivity().finish()
+                        }
+                    }.onFailure {
+                        showError(it.stackTraceToString())
                     }
-                }.onFailure {
-                    showError(it.stackTraceToString())
                 }
+            } else {
+                launch.gone(animate = false)
             }
-        } else {
+        } catch (e: UninitializedPropertyAccessException) {
             launch.gone(animate = false)
+            showWarning(e.message ?: "Err: 0x000788")
         }
     }
 
