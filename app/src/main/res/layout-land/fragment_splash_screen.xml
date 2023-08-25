@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         android:padding="@dimen/header_padding"
         android:src="@drawable/ic_main_app_icon_big"
-        android:transitionName="main_app_icon"
+        android:transitionName="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.29"

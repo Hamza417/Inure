@@ -1,6 +1,5 @@
 package app.simple.inure.ui.panels
 
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -8,35 +7,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.menus.AdapterHomeMenu
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -46,24 +39,14 @@ import rikka.shizuku.Shizuku
 class Home : ScopedFragment() {
 
     private lateinit var scrollView: EdgeEffectNestedScrollView
-    private lateinit var header: PaddingAwareLinearLayout
-    private lateinit var navigationRecyclerView: RecyclerView
+    private lateinit var navigationRecyclerView: GridRecyclerView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
-    private lateinit var icon: DynamicRippleImageButton
-    private lateinit var search: DynamicRippleImageButton
-    private lateinit var settings: DynamicRippleImageButton
-    private lateinit var purchase: DynamicRippleImageButton
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
-    private var headerAnimator: ValueAnimator? = null
 
     private fun getHomeLayout(): Int {
-        return if (DevelopmentPreferences.get(DevelopmentPreferences.alternateHomePanel)) {
-            R.layout.fragment_home_new
-        } else {
-            R.layout.fragment_home
-        }
+        return R.layout.fragment_home
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,12 +56,6 @@ class Home : ScopedFragment() {
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
 
-        header = view.findViewById(R.id.home_header)
-        icon = view.findViewById(R.id.header_icon)
-        search = view.findViewById(R.id.home_header_search_button)
-        settings = view.findViewById(R.id.home_header_pref_button)
-        purchase = view.findViewById(R.id.home_purchase)
-
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         quickAppViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
 
@@ -87,10 +64,6 @@ class Home : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (TrialPreferences.isFullVersion()) {
-            purchase.gone(animate = false)
-        }
 
         if (MainPreferences.shouldShowChangeLogReminder()) {
             ChangesReminder.newInstance()
@@ -106,7 +79,7 @@ class Home : ScopedFragment() {
 
                     gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                         override fun getSpanSize(position: Int): Int {
-                            return if (it[position].first.isZero()) {
+                            return if (it[position].first.isZero() || it[position].first == 1) {
                                 getInteger(R.integer.span_count)
                             } else {
                                 1
@@ -225,6 +198,24 @@ class Home : ScopedFragment() {
                         R.string.APKs -> {
                             openFragmentArc(APKs.newInstance(), icon, "apks")
                         }
+
+                        // Header
+
+                        R.string.app_name -> {
+                            openWebPage(getString(R.string.credits))
+                        }
+
+                        R.string.search -> {
+                            openFragmentArc(Search.newInstance(firstLaunch = true), icon, "search")
+                        }
+
+                        R.string.preferences -> {
+                            openFragmentArc(Preferences.newInstance(), icon, "preferences")
+                        }
+
+                        R.string.purchase -> {
+                            openFragmentSlide(Trial.newInstance(), "trial")
+                        }
                     }
                 }
             })
@@ -257,49 +248,6 @@ class Home : ScopedFragment() {
             })
 
             quickAppsRecyclerView.adapter = adapterQuickApps
-        }
-
-        icon.setOnClickListener {
-            openWebPage(getString(R.string.credits))
-        }
-
-        icon.setOnLongClickListener {
-            openWebPage(getString(R.string.change_logs))
-            true
-        }
-
-        search.setOnClickListener {
-            openFragmentLinear(Search.newInstance(firstLaunch = true), it, "search")
-        }
-
-        settings.setOnClickListener {
-            openFragmentLinear(Preferences.newInstance(), it, "preferences")
-        }
-
-        purchase.setOnClickListener {
-            openFragmentSlide(Trial.newInstance(), "trial")
-        }
-
-        scrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-            if (scrollY > oldScrollY) {
-                headerAnimator?.cancel()
-
-                headerAnimator = ValueAnimator.ofFloat(header.elevation, 10F)
-                headerAnimator?.addUpdateListener {
-                    header.elevation = it.animatedValue as Float
-                }
-                headerAnimator?.interpolator = DecelerateInterpolator()
-                headerAnimator?.start()
-            } else if (scrollY <= 0) {
-                headerAnimator?.cancel()
-
-                headerAnimator = ValueAnimator.ofFloat(header.elevation, 0F)
-                headerAnimator?.addUpdateListener {
-                    header.elevation = it.animatedValue as Float
-                }
-                headerAnimator?.interpolator = DecelerateInterpolator()
-                headerAnimator?.start()
-            }
         }
     }
 

@@ -240,6 +240,9 @@ class HomeViewModel(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf<Pair<Int, Int>>()
 
+            list.add(Pair(1, 1)) // Header
+            list.add(Pair(0, 0)) // Divider
+
             list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
 
             if (HomePreferences.isPanelVisible(HomePreferences.isTerminalVisible)) {

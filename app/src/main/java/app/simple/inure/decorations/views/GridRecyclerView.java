@@ -11,7 +11,6 @@ import android.view.animation.LayoutAnimationController;
 import androidx.annotation.AnimRes;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import app.simple.inure.R;
 
 /**
  * An extension of RecyclerView, focused more on resembling a GridView.
@@ -58,8 +57,7 @@ public class GridRecyclerView extends RecyclerView {
             animationParams.column = columns - 1 - (invertedIndex % columns);
             animationParams.row = animationParams.rowsCount - 1 - invertedIndex / columns;
         } else {
-            setLayoutControllerAnimation(R.anim.list_pop_in_animation_controller);
-            super.attachLayoutAnimationParameters(child, params, index, count);
+            throw new IllegalStateException("GridRecyclerView must have a GridLayoutManager");
         }
     }
     

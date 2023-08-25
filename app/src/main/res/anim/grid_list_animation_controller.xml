@@ -2,7 +2,7 @@
 <gridLayoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
     android:animation="@anim/grid_list_animation"
     android:animationOrder="normal"
-    android:columnDelay="15%"
+    android:columnDelay="12%"
+    android:rowDelay="12%"
     android:delay="7.5%"
-    android:direction="top_to_bottom|left_to_right"
-    android:rowDelay="15%" />
+    android:direction="top_to_bottom|left_to_right" />

@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.HomePreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -40,6 +42,9 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
             RecyclerViewUtils.TYPE_DIVIDER -> {
                 Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_preferences, parent, false))
             }
+            RecyclerViewUtils.TYPE_HEADER -> {
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_home, parent, false))
+            }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
             }
@@ -64,6 +69,28 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
             holder.container.setOnClickListener {
                 adapterHomeMenuCallbacks.onMenuItemClicked(list[position].second, holder.icon)
             }
+        } else if (holder is Header) {
+            if (TrialPreferences.isFullVersion()) {
+                holder.trial.visibility = View.GONE
+            } else {
+                holder.trial.visibility = View.VISIBLE
+            }
+
+            holder.appIcon.setOnClickListener {
+                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.app_name, holder.appIcon)
+            }
+
+            holder.trial.setOnClickListener {
+                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.purchase, holder.trial)
+            }
+
+            holder.search.setOnClickListener {
+                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.search, holder.search)
+            }
+
+            holder.settings.setOnClickListener {
+                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.preferences, holder.settings)
+            }
         }
     }
 
@@ -72,10 +99,14 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].first.isZero()) {
-            RecyclerViewUtils.TYPE_DIVIDER
+        return if (list[position].first == 1) {
+            RecyclerViewUtils.TYPE_HEADER
         } else {
-            RecyclerViewUtils.TYPE_ITEM
+            if (list[position].first.isZero()) {
+                RecyclerViewUtils.TYPE_DIVIDER
+            } else {
+                RecyclerViewUtils.TYPE_ITEM
+            }
         }
     }
 
@@ -94,6 +125,13 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
     }
 
     inner class Divider(itemView: View) : VerticalListViewHolder(itemView)
+
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        val appIcon: DynamicRippleImageButton = itemView.findViewById(R.id.app_icon)
+        val trial: DynamicRippleImageButton = itemView.findViewById(R.id.home_purchase)
+        val search: DynamicRippleImageButton = itemView.findViewById(R.id.search)
+        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.settings)
+    }
 
     fun setOnAppInfoMenuCallback(adapterHomeMenuCallbacks: AdapterHomeMenuCallbacks) {
         this.adapterHomeMenuCallbacks = adapterHomeMenuCallbacks
