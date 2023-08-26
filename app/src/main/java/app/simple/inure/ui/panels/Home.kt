@@ -24,11 +24,13 @@ import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.terminal.Term
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
@@ -221,7 +223,10 @@ class Home : ScopedFragment() {
             })
 
             navigationRecyclerView.adapter = adapter
-            navigationRecyclerView.scheduleLayoutAnimation()
+
+            if (AccessibilityPreferences.isAnimationReduced().invert()) {
+                navigationRecyclerView.scheduleLayoutAnimation()
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

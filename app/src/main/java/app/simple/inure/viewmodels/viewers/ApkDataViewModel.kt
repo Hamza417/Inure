@@ -82,9 +82,9 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private fun getPackageInfo(isInstalled: Boolean): PackageInfo {
         return if (isInstalled) {
-            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)!!
+            packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_CONFIGURATIONS)!!
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_META_DATA)!!
+            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_CONFIGURATIONS)!!
         }
     }
 }
