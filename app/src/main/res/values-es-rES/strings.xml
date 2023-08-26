@@ -699,4 +699,6 @@
     <string name="backup_and_restore_desc">Copia de seguridad y restauración de datos de la aplicación.</string>
     <string name="import_">Importar</string>
     <string name="tags">Etiquetas</string>
+    <string name="add_tag">Añadir una nueva etiqueta</string>
+    <string name="new_update_available">Nueva actualización disponible</string>
 </resources>
