@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.theme.ThemeMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -13,15 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/tag"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/home_heading_text_size"
-            android:layout_marginBottom="2dp"
-            android:layout_height="wrap_content"
-            app:appFontStyle="regular"
-            app:textColorStyle="primary" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -38,6 +29,15 @@
             android:layout_marginBottom="8dp" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/tag"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/home_heading_text_size"
+            android:layout_marginBottom="2dp"
+            android:layout_height="wrap_content"
+            app:appFontStyle="regular"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/date_updated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,4 +50,4 @@
 
     </LinearLayout>
 
-</app.simple.inure.decorations.theme.ThemeMaterialCardView>
+</app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView>

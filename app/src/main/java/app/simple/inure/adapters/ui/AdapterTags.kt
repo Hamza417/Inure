@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.tags.AdapterTaggedIcons
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Tag
 import app.simple.inure.util.ConditionUtils.isZero
@@ -40,6 +41,10 @@ class AdapterTags(val tags: ArrayList<Tag>) : RecyclerView.Adapter<VerticalListV
                 holder.tag.text = tags[position - 1].tag
                 holder.recyclerView.adapter = AdapterTaggedIcons(tags[position - 1].packages.split(","))
                 holder.date.text = tags[position - 1].dateAdded.toDate()
+
+                holder.container.setOnClickListener {
+
+                }
             }
         }
     }
@@ -60,6 +65,7 @@ class AdapterTags(val tags: ArrayList<Tag>) : RecyclerView.Adapter<VerticalListV
         val tag: TypeFaceTextView = itemView.findViewById(R.id.tag)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.recycler_view)
         val date: TypeFaceTextView = itemView.findViewById(R.id.date_updated)
+        val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
 
         init {
             recyclerView.setHasFixedSize(true)

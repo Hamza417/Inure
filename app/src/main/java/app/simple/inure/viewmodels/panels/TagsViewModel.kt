@@ -54,6 +54,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             withContext(Dispatchers.Main) {
                 function()
+                loadTags()
             }
         }
     }
@@ -79,6 +80,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             withContext(Dispatchers.Main) {
                 function()
+                loadTags()
             }
         }
     }
