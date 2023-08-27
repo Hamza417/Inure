@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterTags
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -35,6 +36,11 @@ class Tags : ScopedFragment() {
 
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) {
             val adapter = AdapterTags(it)
+
+            recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            }
+
             recyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {

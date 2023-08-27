@@ -18,6 +18,7 @@ import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.database.instances.QuickAppsDatabase
 import app.simple.inure.database.instances.StackTraceDatabase
+import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.database.instances.TerminalCommandDatabase
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -90,6 +91,12 @@ object AppDataLoader {
             }
         }
 
+        TagsDatabase.getTagDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
         exportComponentState().let {
             if (it.exists()) {
                 paths.add(it)
@@ -121,6 +128,7 @@ object AppDataLoader {
                 QuickAppsDatabase.getQuickAppsDataPath(this).toFile(),
                 StackTraceDatabase.getStackTraceDataPath(this).toFile(),
                 TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile(),
+                TagsDatabase.getTagDataPath(this).toFile(),
                 (filesDir.path + "/backup/component").toFile()
         )
 
@@ -129,6 +137,7 @@ object AppDataLoader {
         QuickAppsDatabase.getInstance(this)?.close()
         StackTraceDatabase.getInstance(this)?.close()
         TerminalCommandDatabase.getInstance(this)?.close()
+        TagsDatabase.getInstance(this)?.close()
 
         for (path in paths) {
             if (path.exists()) {
@@ -160,6 +169,7 @@ object AppDataLoader {
         QuickAppsDatabase.getInstance(this)
         StackTraceDatabase.getInstance(this)
         TerminalCommandDatabase.getInstance(this)
+        TagsDatabase.getInstance(this)
         TrialPreferences.migrateLegacy()
     }
 

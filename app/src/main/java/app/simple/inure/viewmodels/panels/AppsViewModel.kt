@@ -148,12 +148,15 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             var filteredList = arrayListOf<PackageInfo>()
 
             /**
-             * We'll treat uninstalled as a separate app state other than disabled and enabled, so we'll invert the enabled flag
-             * if the app is not installed to have it filtered out in case [SortConstant.UNINSTALLED] flag is not set.
+             * We'll treat uninstalled as a separate app state other than disabled
+             * and enabled, so we'll invert the enabled flag, if the app is not
+             * installed to have it filtered out in case [SortConstant.UNINSTALLED]
+             * flag is not set.
              *
-             * Combined flags should check for both enabled and disabled apps, if the app is not installed, it should be filtered out
+             * Combined flags should check for both enabled and disabled apps, if the
+             * app is not installed, it should be filtered out
              */
-            if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
+            if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
                 filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { packageInfo ->
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
