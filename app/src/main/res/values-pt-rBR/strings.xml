@@ -21,6 +21,7 @@
     <string name="total_apps">%1$s Aplicativos</string>
     <string name="total_sensors">%1$s Sensores</string>
     <string name="total_notes">%1$s anotações</string>
+    <string name="total_tags">Marcadores %1$d</string>
     <string name="apps">Aplicativos</string>
     <string name="sorting_style">Estilo de Classificação</string>
     <string name="open_application_settings">Abrir as configurações do aplicativo…</string>
