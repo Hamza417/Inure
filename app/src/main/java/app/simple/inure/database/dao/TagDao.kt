@@ -3,7 +3,9 @@ package app.simple.inure.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import app.simple.inure.models.Tag
 
 @Dao
@@ -38,8 +40,15 @@ interface TagDao {
      * Insert a new [Tag] item
      * into the table
      */
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTag(tag: Tag)
+
+    /**
+     * Update a [Tag] item
+     * from the table
+     */
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTag(tag: Tag)
 
     /**
      * Delete the entire table

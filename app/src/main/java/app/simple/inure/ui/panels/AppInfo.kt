@@ -47,6 +47,7 @@ import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
+import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
@@ -85,6 +86,7 @@ import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
+import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class AppInfo : ScopedFragment() {
 
@@ -109,6 +111,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var foldMiscMenu: DynamicRippleImageButton
 
     private lateinit var componentsViewModel: AppInfoMenuViewModel
+    private lateinit var tagsViewModel: TagsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
     private var metaAdapter: AdapterMenu? = null
@@ -145,6 +148,7 @@ class AppInfo : ScopedFragment() {
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoMenuViewModel::class.java]
+        tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         metaMenuState()
         actionMenuState()
@@ -158,8 +162,26 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentsViewModel.getTags().observe(viewLifecycleOwner) {
-            tagsRecyclerView.adapter = AdapterTags(it)
+        componentsViewModel.getTags().observe(viewLifecycleOwner) { list ->
+            tagsRecyclerView.adapter = AdapterTags(list).apply {
+                setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
+                    override fun onTagClicked(tag: String) {
+                        if (fullVersionCheck(goBack = false)) {
+
+                        }
+                    }
+
+                    override fun onAddClicked() {
+                        if (fullVersionCheck(goBack = false)) {
+                            childFragmentManager.showAddTagDialog().onTag = {
+                                tagsViewModel.addTag(it, packageInfo) {
+                                    componentsViewModel.loadTags()
+                                }
+                            }
+                        }
+                    }
+                })
+            }
         }
 
         componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
@@ -195,9 +217,11 @@ class AppInfo : ScopedFragment() {
                     when (source) {
                         R.string.manifest -> {
                             if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                                openFragmentArc(XMLViewerWebView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
+                                openFragmentArc(XMLViewerWebView.newInstance(
+                                        packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             } else {
-                                openFragmentArc(XMLViewerTextView.newInstance(packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
+                                openFragmentArc(XMLViewerTextView.newInstance(
+                                        packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }
 
@@ -328,14 +352,15 @@ class AppInfo : ScopedFragment() {
                             val wasAppInstalled = requirePackageManager().isPackageInstalledAndEnabled(packageInfo.packageName)
 
                             onSure {
-                                childFragmentManager.showReinstaller(packageInfo).setReinstallerCallbacks(object : Reinstaller.Companion.ReinstallerCallbacks {
-                                    override fun onReinstallSuccess() {
-                                        if (wasAppInstalled.invert()) {
-                                            icon.loadAppIcon(packageInfo.packageName, enabled = true)
-                                            componentsViewModel.loadActionOptions()
+                                childFragmentManager.showReinstaller(packageInfo)
+                                    .setReinstallerCallbacks(object : Reinstaller.Companion.ReinstallerCallbacks {
+                                        override fun onReinstallSuccess() {
+                                            if (wasAppInstalled.invert()) {
+                                                icon.loadAppIcon(packageInfo.packageName, enabled = true)
+                                                componentsViewModel.loadActionOptions()
+                                            }
                                         }
-                                    }
-                                })
+                                    })
                             }
                         }
 
@@ -345,7 +370,8 @@ class AppInfo : ScopedFragment() {
                                     /* authority = */ "${requireContext().packageName}.provider",
                                     /* file = */ packageInfo.applicationInfo.sourceDir.toFile())
 
-                            openFragmentArc(Installer.newInstance(uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, "installer")
+                            openFragmentArc(Installer.newInstance(
+                                    uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, "installer")
                         }
 
                         R.string.send -> {
@@ -420,13 +446,14 @@ class AppInfo : ScopedFragment() {
                                     openFragmentArc(Preferences.newInstance(), icon, "preferences")
                                 } else {
                                     try {
-                                        requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0).forEach {
-                                            if (it.activityInfo.packageName == packageInfo.packageName) {
-                                                startActivity(Intent(Intent.ACTION_APPLICATION_PREFERENCES).apply {
-                                                    setClassName(packageInfo.packageName, it.activityInfo.name)
-                                                })
+                                        requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0)
+                                            .forEach {
+                                                if (it.activityInfo.packageName == packageInfo.packageName) {
+                                                    startActivity(Intent(Intent.ACTION_APPLICATION_PREFERENCES).apply {
+                                                        setClassName(packageInfo.packageName, it.activityInfo.name)
+                                                    })
+                                                }
                                             }
-                                        }
                                     } catch (e: SecurityException) {
                                         showWarning(e.message ?: getString(R.string.error), goBack = false)
                                     }
@@ -483,11 +510,12 @@ class AppInfo : ScopedFragment() {
                                     childFragmentManager.launchExtract(packageInfo, emptySet())
                                 }
                             } else {
-                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
-                                    override fun onStoragePermissionGranted() {
-                                        childFragmentManager.launchExtract(packageInfo, emptySet())
-                                    }
-                                })
+                                childFragmentManager.showStoragePermissionDialog()
+                                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                        override fun onStoragePermissionGranted() {
+                                            childFragmentManager.launchExtract(packageInfo, emptySet())
+                                        }
+                                    })
                             }
                         }
 
@@ -518,7 +546,9 @@ class AppInfo : ScopedFragment() {
         icon.transitionName = packageInfo.packageName
 
         try {
-            icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
+            icon.loadAppIcon(packageInfo.packageName,
+                             packageInfo.applicationInfo.enabled,
+                             packageInfo.applicationInfo.sourceDir.toFile())
         } catch (e: NullPointerException) {
             icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
         }

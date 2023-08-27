@@ -5,5 +5,6 @@
     android:layout_width="wrap_content"
     android:checkable="false"
     android:textSize="@dimen/desc_text_size"
+    android:layout_marginHorizontal="2dp"
     android:layout_height="wrap_content"
     app:chipIconVisible="true" />

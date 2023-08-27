@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.util.AttributeSet;
 
 import com.google.android.material.chip.Chip;
@@ -38,7 +39,6 @@ public class TagChip extends Chip {
         
         setChipIconSize(getResources().getDimensionPixelSize(R.dimen.chip_icon_size));
         setChipIconTint(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor()));
-        setChipStartPadding(25F);
         
         setChipBackgroundColor(new ColorStateList(new int[][] {
                 new int[] {
@@ -57,13 +57,34 @@ public class TagChip extends Chip {
                 .toBuilder()
                 .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                 .build());
-        
+    
         ViewUtils.INSTANCE.addShadow(this);
         setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
-        
+    
         if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
-            setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
-            setChipStrokeWidth(1);
+            // setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
+            // setChipStrokeWidth(1);
+        }
+    }
+    
+    public void setChipColor(int color, boolean whiteText) {
+        setChipBackgroundColor(new ColorStateList(new int[][] {
+                new int[] {
+                        android.R.attr.state_checked
+                },
+                new int[] {
+                
+                }},
+                new int[] {
+                        color, // Ripple color
+                        color // Background color
+                }
+        ));
+        
+        if (whiteText) {
+            setTextColor(ColorStateList.valueOf(Color.WHITE));
+        } else {
+            setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getSecondaryTextColor()));
         }
     }
 }

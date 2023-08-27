@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.views.TagChip
 
 class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<AdapterTags.Holder>() {
@@ -15,7 +16,7 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
         return when (viewType) {
             TYPE_TAG -> {
                 Holder(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_tags, parent, false))
+                           .inflate(R.layout.adapter_tags_add, parent, false))
             }
             TYPE_ADD -> {
                 Holder(LayoutInflater.from(parent.context)
@@ -28,19 +29,27 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        if (tags.size == 0) {
+        if (tags.size == 0 || position == tags.size) {
             holder.tag.text = holder.itemView.context.getString(R.string.add_tag)
             holder.tag.setChipIconResource(R.drawable.ic_add)
+            holder.tag.chipStartPadding = 25F
 
             holder.tag.setOnClickListener {
                 callback?.onAddClicked()
             }
         } else {
             holder.tag.text = tags[position]
+            holder.tag.isChipIconVisible = false
 
             holder.tag.setOnClickListener {
                 callback?.onTagClicked(tags[position])
             }
+        }
+
+        try {
+            holder.tag.setChipColor(Colors.getColors()[position], true)
+        } catch (e: IndexOutOfBoundsException) {
+            holder.tag.setChipColor(Colors.getColors()[position - Colors.getColors().size], true)
         }
     }
 

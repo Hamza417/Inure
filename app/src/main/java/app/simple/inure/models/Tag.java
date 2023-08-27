@@ -11,19 +11,6 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "tags")
 public class Tag implements Parcelable {
     
-    public static final Creator <Tag> CREATOR = new Creator <>() {
-        @Override
-        public Tag createFromParcel(Parcel in) {
-            return new Tag(in);
-        }
-    
-        @Override
-        public Tag[] newArray(int size) {
-            return new Tag[size];
-        }
-    };
-    
-    @PrimaryKey
     @ColumnInfo (name = "tag")
     @NonNull
     private String tag;
@@ -32,28 +19,47 @@ public class Tag implements Parcelable {
     @ColumnInfo (name = "icon")
     private int icon;
     
+    public static final Creator <Tag> CREATOR = new Creator <Tag>() {
+        @Override
+        public Tag createFromParcel(Parcel in) {
+            return new Tag(in);
+        }
+        
+        @Override
+        public Tag[] newArray(int size) {
+            return new Tag[size];
+        }
+    };
+    @PrimaryKey
+    @ColumnInfo (name = "date_added")
+    private long dateAdded;
+    
     public Tag(@NonNull String tag, String packages, int icon) {
         this.tag = tag;
         this.packages = packages;
         this.icon = icon;
+        this.dateAdded = System.currentTimeMillis();
     }
     
     protected Tag(Parcel in) {
         tag = in.readString();
         packages = in.readString();
         icon = in.readInt();
-    }
-    
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(tag);
-        dest.writeString(packages);
-        dest.writeInt(icon);
+        dateAdded = in.readLong();
     }
     
     @Override
     public int describeContents() {
         return 0;
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        
+        dest.writeString(tag);
+        dest.writeString(packages);
+        dest.writeInt(icon);
+        dest.writeLong(dateAdded);
     }
     
     @NonNull
@@ -79,5 +85,13 @@ public class Tag implements Parcelable {
     
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+    
+    public long getDateAdded() {
+        return dateAdded;
+    }
+    
+    public void setDateAdded(long dateAdded) {
+        this.dateAdded = dateAdded;
     }
 }
