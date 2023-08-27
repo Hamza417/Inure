@@ -8,7 +8,7 @@ import app.simple.inure.database.dao.TagDao
 import app.simple.inure.models.Tag
 import app.simple.inure.util.ConditionUtils.isNull
 
-@Database(entities = [Tag::class], exportSchema = true, version = 2)
+@Database(entities = [Tag::class], exportSchema = true, version = 3)
 abstract class TagsDatabase : RoomDatabase() {
 
     abstract fun getTagDao(): TagDao?

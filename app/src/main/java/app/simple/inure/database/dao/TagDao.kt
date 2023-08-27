@@ -18,6 +18,12 @@ interface TagDao {
     fun getTags(): MutableList<Tag>
 
     /**
+     * Get all tags but name only
+     */
+    @Query("SELECT DISTINCT tag FROM tags ORDER BY tag COLLATE nocase")
+    fun getTagsNameOnly(): MutableList<String>
+
+    /**
      * Get tag where [Tag.tag] is equal to [tag]
      */
     @Query("SELECT * FROM tags WHERE tag = :tag")

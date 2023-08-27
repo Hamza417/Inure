@@ -62,8 +62,8 @@ public class TagChip extends Chip {
         setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
     
         if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
-            // setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
-            // setChipStrokeWidth(1);
+            setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
+            setChipStrokeWidth(1);
         }
     }
     

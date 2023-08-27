@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "tags")
 public class Tag implements Parcelable {
     
+    @PrimaryKey
     @ColumnInfo (name = "tag")
     @NonNull
     private String tag;
@@ -30,7 +31,7 @@ public class Tag implements Parcelable {
             return new Tag[size];
         }
     };
-    @PrimaryKey
+    
     @ColumnInfo (name = "date_added")
     private long dateAdded;
     
@@ -93,5 +94,16 @@ public class Tag implements Parcelable {
     
     public void setDateAdded(long dateAdded) {
         this.dateAdded = dateAdded;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tag='" + tag + '\'' +
+                ", packages='" + packages + '\'' +
+                ", icon=" + icon +
+                ", dateAdded=" + dateAdded +
+                '}';
     }
 }

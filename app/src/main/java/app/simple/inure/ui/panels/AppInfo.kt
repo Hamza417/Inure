@@ -175,7 +175,7 @@ class AppInfo : ScopedFragment() {
                     override fun onTagLongClicked(tag: String) {
                         PopupTagsMenu(requireView(), object : PopupTagsMenu.Companion.TagsMenuCallback {
                             override fun onDeleteClicked() {
-                                componentsViewModel.removeTag(tag, packageInfo) {
+                                tagsViewModel.removeTag(tag, packageInfo) {
                                     this@apply.removeTag(tag)
                                 }
                             }
