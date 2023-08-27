@@ -5,10 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout
-import app.simple.inure.decorations.theme.ThemeIcon
-import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.decorations.views.TagChip
 
 class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<AdapterTags.Holder>() {
 
@@ -32,15 +29,16 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         if (tags.size == 0) {
-            holder.container.setRippleColor(AppearancePreferences.getAccentColor())
+            holder.tag.text = holder.itemView.context.getString(R.string.add_tag)
+            holder.tag.setChipIconResource(R.drawable.ic_add)
 
-            holder.container.setOnClickListener {
+            holder.tag.setOnClickListener {
                 callback?.onAddClicked()
             }
         } else {
             holder.tag.text = tags[position]
 
-            holder.container.setOnClickListener {
+            holder.tag.setOnClickListener {
                 callback?.onTagClicked(tags[position])
             }
         }
@@ -67,9 +65,7 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tag: TypeFaceTextView = itemView.findViewById(R.id.tag_label)
-        val icon: ThemeIcon = itemView.findViewById(R.id.tag_icon)
-        val container: DynamicRippleLegendLinearLayout = itemView.findViewById(R.id.container)
+        val tag: TagChip = itemView.findViewById(R.id.tag_chip)
     }
 
     fun addTag(tag: String) {

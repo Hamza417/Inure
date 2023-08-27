@@ -96,7 +96,7 @@ public class Utils {
         return rippleDrawable;
     }
     
-    static MaterialShapeDrawable getRoundedBackground(float divisiveFactor) {
+    public static MaterialShapeDrawable getRoundedBackground(float divisiveFactor) {
         return new MaterialShapeDrawable(new ShapeAppearanceModel()
                 .toBuilder()
                 .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / divisiveFactor)
