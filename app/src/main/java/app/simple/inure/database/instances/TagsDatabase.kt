@@ -9,12 +9,12 @@ import app.simple.inure.models.Tag
 import app.simple.inure.util.ConditionUtils.isNull
 
 @Database(entities = [Tag::class], exportSchema = true, version = 1)
-abstract class TagDatabase : RoomDatabase() {
+abstract class TagsDatabase : RoomDatabase() {
 
     abstract fun getTagDao(): TagDao?
 
     companion object {
-        private var instance: TagDatabase? = null
+        private var instance: TagsDatabase? = null
         private const val db_name = "tag_data.db"
 
         fun getTagDataPath(context: Context): String {
@@ -22,16 +22,16 @@ abstract class TagDatabase : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): TagDatabase? {
+        fun getInstance(context: Context): TagsDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, TagDatabase::class.java, db_name)
+                Room.databaseBuilder(context, TagsDatabase::class.java, db_name)
                     .fallbackToDestructiveMigration()
                     .build()
             } else {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, TagDatabase::class.java, db_name)
+                    Room.databaseBuilder(context, TagsDatabase::class.java, db_name)
                         .fallbackToDestructiveMigration()
                         .build()
                 }

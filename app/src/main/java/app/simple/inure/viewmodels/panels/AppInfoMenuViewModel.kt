@@ -18,7 +18,7 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
-import app.simple.inure.database.instances.TagDatabase
+import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -374,8 +374,8 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     private fun loadTags() {
         viewModelScope.launch(Dispatchers.IO) {
-            val tagDataBase = TagDatabase.getInstance(application.applicationContext)
-            val tags = tagDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
+            val tagsDataBase = TagsDatabase.getInstance(application.applicationContext)
+            val tags = tagsDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
 
             if (tags.isNullOrEmpty().invert()) {
                 this@AppInfoMenuViewModel.tags.postValue(tags)

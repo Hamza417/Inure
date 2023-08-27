@@ -262,7 +262,7 @@ class HomeViewModel(application: Application) :
             }
 
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
-            list.add(Pair(R.drawable.ic_style, R.string.tags))
+            list.add(Pair(R.drawable.ic_tags, R.string.tags))
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableDeviceInfo)) {
                 list.add(Pair(R.drawable.ic_memory, R.string.device_info))
