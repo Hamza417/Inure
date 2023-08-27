@@ -37,24 +37,20 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     fun addTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
-            val tags = database?.getTagDao()?.getTagsByPackage(packageInfo.packageName)
+            val tags = database?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toSet()
 
             if (tags.isNullOrEmpty().invert()) {
-                tags?.forEach {
-                    if (it == tag) {
-                        database.getTagDao()!!.getTag(tag).apply {
-                            packages = packages.plus("," + packageInfo.packageName)
-                            database.getTagDao()!!.updateTag(this)
-                        }
-                    } else {
-                        database.getTagDao()!!.insertTag(Tag(tag, packageInfo.packageName, -1))
+                if (tags!!.contains(tag)) {
+                    database.getTagDao()!!.getTag(tag).apply {
+                        packages = packages.plus("," + packageInfo.packageName)
+                        database.getTagDao()!!.updateTag(this)
                     }
+                } else {
+                    database.getTagDao()!!.insertTag(Tag(tag, packageInfo.packageName, -1))
                 }
             } else {
                 database?.getTagDao()!!.insertTag(Tag(tag, packageInfo.packageName, -1))
             }
-
-            loadTags()
 
             withContext(Dispatchers.Main) {
                 function()

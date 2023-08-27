@@ -53,6 +53,7 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.popups.tags.PopupTagsMenu
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -171,11 +172,21 @@ class AppInfo : ScopedFragment() {
                         }
                     }
 
+                    override fun onTagLongClicked(tag: String) {
+                        PopupTagsMenu(requireView(), object : PopupTagsMenu.Companion.TagsMenuCallback {
+                            override fun onDeleteClicked() {
+                                componentsViewModel.removeTag(tag, packageInfo) {
+                                    this@apply.removeTag(tag)
+                                }
+                            }
+                        })
+                    }
+
                     override fun onAddClicked() {
                         if (fullVersionCheck(goBack = false)) {
                             childFragmentManager.showAddTagDialog().onTag = {
                                 tagsViewModel.addTag(it, packageInfo) {
-                                    componentsViewModel.loadTags()
+                                    this@apply.addTag(it)
                                 }
                             }
                         }

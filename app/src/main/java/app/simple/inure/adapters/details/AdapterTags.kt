@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.views.TagChip
+import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.util.ConditionUtils.invert
 
 class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<AdapterTags.Holder>() {
 
@@ -44,12 +46,21 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
             holder.tag.setOnClickListener {
                 callback?.onTagClicked(tags[position])
             }
+
+            holder.tag.setOnLongClickListener {
+                callback?.onTagLongClicked(tags[position])
+                true
+            }
         }
 
-        try {
-            holder.tag.setChipColor(Colors.getColors()[position], true)
-        } catch (e: IndexOutOfBoundsException) {
-            holder.tag.setChipColor(Colors.getColors()[position - Colors.getColors().size], true)
+        if (AccessibilityPreferences.isColorfulIcons()) {
+            try {
+                holder.tag.setChipColor(Colors.getColors()[position], true)
+            } catch (e: IndexOutOfBoundsException) {
+                holder.tag.setChipColor(
+                        Colors.getColors()[position - Colors.getColors().size], true
+                )
+            }
         }
     }
 
@@ -78,14 +89,17 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
     }
 
     fun addTag(tag: String) {
-        tags.add(tag)
-        notifyItemInserted(tags.size)
+        if (tags.contains(tag).invert()) {
+            tags.add(tag)
+            notifyItemInserted(tags.size)
+        }
     }
 
     fun removeTag(tag: String) {
         val index = tags.indexOf(tag)
         tags.remove(tag)
         notifyItemRemoved(index)
+        notifyItemRangeChanged(0, tags.size)
     }
 
     fun setOnTagCallbackListener(callback: TagsCallback) {
@@ -99,6 +113,7 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
 
         interface TagsCallback {
             fun onTagClicked(tag: String)
+            fun onTagLongClicked(tag: String)
             fun onAddClicked()
         }
     }

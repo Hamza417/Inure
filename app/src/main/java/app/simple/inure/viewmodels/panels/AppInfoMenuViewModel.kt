@@ -30,6 +30,7 @@ import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.TrackerUtils.getTrackerSignatures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -396,5 +397,30 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun unsetUpdateFlag() {
         FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+    }
+
+    fun removeTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val database = TagsDatabase.getInstance(application.applicationContext)
+            val tags = database?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toSet()
+
+            if (tags.isNullOrEmpty().invert()) {
+                if (tags!!.contains(tag)) {
+                    database.getTagDao()!!.getTag(tag).apply {
+                        packages = if (packages.contains("," + packageInfo.packageName)) {
+                            packages.replace("," + packageInfo.packageName, "")
+                        } else {
+                            packages.replace(packageInfo.packageName, "")
+                        }
+
+                        database.getTagDao()!!.updateTag(this)
+                    }
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                function()
+            }
+        }
     }
 }

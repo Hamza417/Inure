@@ -29,7 +29,7 @@
             android:hint="@string/name"
             android:importantForAutofill="no"
             android:maxLength="30"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-"
             android:inputType="textNoSuggestions"
             android:maxLines="1"
             android:paddingHorizontal="@dimen/dialog_padding"
