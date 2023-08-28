@@ -59,6 +59,7 @@ import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.installer.Installer
+import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.Activities
 import app.simple.inure.ui.viewers.Boot
 import app.simple.inure.ui.viewers.Certificate
@@ -167,7 +168,7 @@ class AppInfo : ScopedFragment() {
             tagsRecyclerView.adapter = AdapterTags(list).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {
-
+                        openFragmentSlide(TaggedApps.newInstance(tag), "tagged_apps")
                     }
 
                     override fun onTagLongClicked(tag: String) {

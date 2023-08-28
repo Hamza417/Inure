@@ -84,7 +84,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         if (file != null && file.exists()) {
             if (file.name.endsWithAny(*splitApkExtensions)) {
                 ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
-                files = File(file.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                files = File(file.path.substringBeforeLast("."))
+                    .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
             } else if (file.name.endsWith(".apk")) {
                 files = arrayListOf(file)
             }
@@ -105,7 +106,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
                 if (documentFile.name!!.endsWithAny(*splitApkExtensions)) {
                     ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
-                    files = File(sourceFile.path.substringBeforeLast(".")).listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                    files = File(sourceFile.path.substringBeforeLast("."))
+                        .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
                 } else if (documentFile.name!!.endsWith(".apk")) {
                     files = arrayListOf(sourceFile)
                 }
@@ -146,7 +148,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             break
         }
 
-        if (packageInfo.isNull()) throw Exception("Unable to get package info")
+        if (packageInfo.isNull()) {
+            throw Exception("ERR: unable to get package info")
+        }
     }
 
     private fun packageManagerInstall() {
@@ -201,15 +205,25 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     }
                 }
 
-                Shell.cmd("pm install-commit $sessionId").exec().let {
-                    if (it.isSuccess) {
-                        Log.d("Installer", "Output: ${it.out}")
-                        Log.d("Installer", "Error: ${it.err}")
+                Shell.cmd("pm install-commit $sessionId").exec().let { result ->
+                    if (result.isSuccess) {
+                        Log.d("Installer", "Output: ${result.out}")
+                        Log.d("Installer", "Error: ${result.err}")
                         success.postValue((0..50).random())
+
+                        Log.d("Installer", "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                        Shell.cmd("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}").exec().let {
+                            if (it.isSuccess) {
+                                Log.d("Installer", "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                            } else {
+                                Log.d("Installer", "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                Log.e("Installer", "Output: ${it.out}")
+                            }
+                        }
                     } else {
-                        Log.d("Installer", "Output: ${it.out}")
-                        Log.d("Installer", "Error: ${it.err}")
-                        postWarning(it.out.joinToString())
+                        Log.d("Installer", "Output: ${result.out}")
+                        Log.d("Installer", "Error: ${result.err}")
+                        postWarning(result.out.joinToString())
                     }
                 }
             } catch (e: java.lang.NullPointerException) {
@@ -249,10 +263,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                  * Install base apk
                  */
                 context.contentResolver.openInputStream(
-                        FileProvider.getUriForFile(applicationContext(),
-                                                   "${applicationContext().packageName}.provider", baseApk!!)).use { inputStream ->
-                    ShizukuUtils.execInternal(
-                            Command("pm install-write -S ${baseApk?.length()} $sessionId base-"), inputStream).let {
+                        FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", baseApk!!)).use { inputStream ->
+                    ShizukuUtils.execInternal(Command("pm install-write -S ${baseApk?.length()} $sessionId base-"), inputStream).let {
                         Log.d("Installer", "Output: ${it.out}")
                         Log.d("Installer", "Error: ${it.err}")
                     }
@@ -310,15 +322,26 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     }
                 }
 
-                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null).let {
-                    if (it.isSuccessful) {
-                        Log.d("Installer", "Output: ${it.out}")
-                        Log.d("Installer", "Error: ${it.err}")
+                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null).let { result ->
+                    if (result.isSuccessful) {
+                        Log.d("Installer", "Output: ${result.out}")
+                        Log.d("Installer", "Error: ${result.err}")
                         success.postValue((0..50).random())
+
+                        Log.d("Installer", "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                        ShizukuUtils.execInternal(Command("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}"), null)
+                            .let {
+                                if (it.isSuccessful) {
+                                    Log.d("Installer", "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                } else {
+                                    Log.d("Installer", "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                    Log.e("Installer", "Output: ${it.out}")
+                                }
+                            }
                     } else {
-                        Log.d("Installer", "Output: ${it.out}")
-                        Log.d("Installer", "Error: ${it.err}")
-                        postWarning(it.out)
+                        Log.d("Installer", "Output: ${result.out}")
+                        Log.d("Installer", "Error: ${result.err}")
+                        postWarning(result.out)
                     }
                 }
             } catch (e: Exception) {
