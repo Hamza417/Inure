@@ -8,11 +8,21 @@ import app.simple.inure.R
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.views.TagChip
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.invert
 
-class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<AdapterTags.Holder>() {
+class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: Boolean = true)
+    : RecyclerView.Adapter<AdapterTags.Holder>() {
 
     private var callback: TagsCallback? = null
+
+    var highlightedTag: String? = null
+        set(value) {
+            notifyItemChanged(tags.indexOf(field))
+            field = value
+            val idx = tags.indexOf(value)
+            notifyItemChanged(idx)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return when (viewType) {
@@ -43,6 +53,12 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
             holder.tag.text = tags[position]
             holder.tag.isChipIconVisible = false
 
+            if (tags[position] == highlightedTag) {
+                holder.tag.setChipColor(AppearancePreferences.getAccentColor(), true)
+            } else {
+                holder.tag.setDefaultChipColor()
+            }
+
             holder.tag.setOnClickListener {
                 callback?.onTagClicked(tags[position])
             }
@@ -68,7 +84,11 @@ class AdapterTags(private val tags: ArrayList<String>) : RecyclerView.Adapter<Ad
         return if (tags.size == 0) {
             1
         } else {
-            tags.size.plus(1)
+            if (showNewTag) {
+                tags.size.plus(1)
+            } else {
+                tags.size
+            }
         }
     }
 

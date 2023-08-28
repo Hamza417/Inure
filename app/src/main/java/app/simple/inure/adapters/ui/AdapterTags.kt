@@ -17,15 +17,18 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Unit) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Unit)
+    : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_tags, parent, false))
+                Header(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_header_tags, parent, false))
             }
             RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_tags, parent, false))
+                Holder(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_tags, parent, false))
             }
             else -> {
                 throw IllegalArgumentException("Invalid view type")

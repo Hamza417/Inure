@@ -699,6 +699,6 @@
     <string name="backup_and_restore_desc">Backup and Restore app\'s data.</string>
     <string name="import_">Import</string>
     <string name="tags">Tags</string>
-    <string name="add_tag">Add a New Tag</string>
+    <string name="add_tag">Assign a Tag</string>
     <string name="new_update_available">New update available</string>
 </resources>

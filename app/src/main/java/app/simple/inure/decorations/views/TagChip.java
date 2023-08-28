@@ -80,11 +80,28 @@ public class TagChip extends Chip {
                         color // Background color
                 }
         ));
-        
+    
         if (whiteText) {
             setTextColor(ColorStateList.valueOf(Color.WHITE));
         } else {
-            setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getSecondaryTextColor()));
+            setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
         }
+    }
+    
+    public void setDefaultChipColor() {
+        setChipBackgroundColor(new ColorStateList(new int[][] {
+                new int[] {
+                        android.R.attr.state_checked
+                },
+                new int[] {
+                
+                }},
+                new int[] {
+                        AppearancePreferences.INSTANCE.getAccentColor(), // Ripple color
+                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground() // Background color
+                }
+        ));
+        
+        setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
     }
 }

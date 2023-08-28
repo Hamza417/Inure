@@ -7,22 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterTags
 import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.TagsRecyclerView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
+import app.simple.inure.popups.tags.PopupTagsMenu
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.TextViewUtils.doOnTextChanged
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
+import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class AddTag : ScopedDialogFragment() {
 
     private lateinit var count: TypeFaceTextView
     private lateinit var editText: DynamicCornerEditText
+    private lateinit var existingTags: TagsRecyclerView
     private lateinit var close: DynamicRippleTextView
     private lateinit var add: DynamicRippleTextView
+
+    private var tagsViewModel: TagsViewModel? = null
+    private var adapterTags: AdapterTags? = null
 
     var onTag: ((String) -> Unit)? = null
 
@@ -31,8 +40,11 @@ class AddTag : ScopedDialogFragment() {
 
         count = view.findViewById(R.id.count)
         editText = view.findViewById(R.id.edit_text)
+        existingTags = view.findViewById(R.id.existing_tags)
         close = view.findViewById(R.id.close)
         add = view.findViewById(R.id.add)
+
+        tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         return view
     }
@@ -55,10 +67,40 @@ class AddTag : ScopedDialogFragment() {
             }
         }
 
+        tagsViewModel!!.getTagNames().observe(viewLifecycleOwner) {
+            existingTags.visible(animate = false)
+            adapterTags = AdapterTags(it, false).apply {
+                setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
+                    override fun onTagClicked(tag: String) {
+                        editText.setText(tag)
+                        editText.setSelection(tag.length)
+                    }
+
+                    override fun onTagLongClicked(tag: String) {
+                        PopupTagsMenu(requireView(), object : PopupTagsMenu.Companion.TagsMenuCallback {
+                            override fun onDeleteClicked() {
+                                tagsViewModel?.removeTag(tag, packageInfo) {
+                                    this@apply.removeTag(tag)
+                                }
+                            }
+                        })
+                    }
+
+                    override fun onAddClicked() {
+                        editText.text!!.clear()
+                        editText.showInput()
+                    }
+                })
+            }
+
+            existingTags.adapter = adapterTags
+        }
+
         editText.doOnTextChanged { text, _, _, _ ->
             count.text = String.format("%d/30", text!!.length)
             if (text.isNotEmpty()) {
                 if (text.length > 2) {
+                    adapterTags?.highlightedTag = text.toString()
                     add.visible(animate = true)
                     count.setTextColor(ColorStateList.valueOf(
                             ThemeManager.theme.textViewTheme.secondaryTextColor))

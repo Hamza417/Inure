@@ -167,9 +167,7 @@ class AppInfo : ScopedFragment() {
             tagsRecyclerView.adapter = AdapterTags(list).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {
-                        if (fullVersionCheck(goBack = false)) {
 
-                        }
                     }
 
                     override fun onTagLongClicked(tag: String) {

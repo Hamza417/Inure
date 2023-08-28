@@ -50,6 +50,13 @@
 
     </FrameLayout>
 
+    <app.simple.inure.decorations.views.TagsRecyclerView
+        android:id="@+id/existing_tags"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dialog_padding"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
