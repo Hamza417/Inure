@@ -1,18 +1,18 @@
-package app.simple.inure.factories.viewers
+package app.simple.inure.factories.subpanels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.viewers.ImageViewerViewModel
+import app.simple.inure.viewmodels.subviewers.TagsListViewModel
 
-class ImageViewerViewModelFactory(private val pathToImage: String, private val pathToApk: String) : ViewModelProvider.Factory {
+class TaggedAppsViewModelFactory(private val tag: String) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
 
         when {
-            modelClass.isAssignableFrom(ImageViewerViewModel::class.java) -> {
-                return ImageViewerViewModel(application, pathToImage, pathToApk) as T
+            modelClass.isAssignableFrom(TagsListViewModel::class.java) -> {
+                return TagsListViewModel(application, tag) as T
             }
             else -> {
                 throw IllegalArgumentException("Nope, Wrong Viewmodel!!")

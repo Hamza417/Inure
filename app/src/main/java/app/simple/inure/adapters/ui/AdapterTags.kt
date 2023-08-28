@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.ui
 
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +17,7 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterTags(val tags: ArrayList<Tag>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Unit) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -43,7 +44,7 @@ class AdapterTags(val tags: ArrayList<Tag>) : RecyclerView.Adapter<VerticalListV
                 holder.date.text = tags[position - 1].dateAdded.toDate()
 
                 holder.container.setOnClickListener {
-
+                    function(tags[position - 1].tag)
                 }
             }
         }
@@ -70,6 +71,12 @@ class AdapterTags(val tags: ArrayList<Tag>) : RecyclerView.Adapter<VerticalListV
         init {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = GridLayoutManager(itemView.context, 4)
+            recyclerView.suppressLayout(true)
+            recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
+                override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                    return true
+                }
+            })
         }
     }
 

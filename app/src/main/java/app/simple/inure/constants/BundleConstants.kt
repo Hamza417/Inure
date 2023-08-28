@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val tag = "tag"
     const val skip = "skip"
     const val state = "state"
     const val size = "size"

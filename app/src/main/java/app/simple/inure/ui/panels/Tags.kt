@@ -11,6 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterTags
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class Tags : ScopedFragment() {
@@ -35,7 +36,9 @@ class Tags : ScopedFragment() {
         postponeEnterTransition()
 
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) {
-            val adapter = AdapterTags(it)
+            val adapter = AdapterTags(it) {
+                openFragmentSlide(TaggedApps.newInstance(it), "tagged_apps")
+            }
 
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
