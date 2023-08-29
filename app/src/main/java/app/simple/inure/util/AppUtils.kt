@@ -32,4 +32,11 @@ object AppUtils {
     fun isBetaFlavor(): Boolean {
         return BuildConfig.FLAVOR == "beta"
     }
+
+    /**
+     * Returns true if DEBUG
+     */
+    fun isDebug(): Boolean {
+        return BuildConfig.DEBUG
+    }
 }

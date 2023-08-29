@@ -248,6 +248,15 @@
 
                 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
 
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:text="@string/root"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/configuration_root_container"
                     android:layout_width="match_parent"
@@ -302,6 +311,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingHorizontal="@dimen/panel_item_padding"
+                    android:text="@string/shizuku"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="accent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

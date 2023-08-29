@@ -268,7 +268,7 @@ class MainActivity : BaseActivity() {
                  * and the app is already running in background.
                  */
                 if (isNewIntent.invert()) { // Maybe the app was opened from launcher, need more checks?
-                    if (AppUtils.isBetaFlavor()) {
+                    if (AppUtils.isDebug()) {
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                             .commit()
