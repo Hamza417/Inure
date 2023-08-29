@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
+import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -73,6 +74,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             withContext(Dispatchers.Main) {
                 function()
                 loadTags()
+                loadTagNames()
             }
         }
     }
@@ -99,6 +101,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             withContext(Dispatchers.Main) {
                 function()
                 loadTags()
+                loadTagNames()
             }
         }
     }
@@ -113,6 +116,43 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             database?.getTagDao()?.deleteTag(tag)
             tags.value?.remove(tag)
             withContext(Dispatchers.Main) {
+                function()
+                loadTagNames()
+            }
+        }
+    }
+
+    fun addMultipleAppsToTag(currentAppsList: java.util.ArrayList<BatchPackageInfo>, it: String, function: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val database = TagsDatabase.getInstance(application.applicationContext)
+            val tags = database?.getTagDao()?.getTagsNameOnly()
+
+            if (tags.isNullOrEmpty().invert()) {
+                if (tags!!.contains(it)) {
+                    database.getTagDao()!!.getTag(it).apply {
+                        packages = packages.plus("," + currentAppsList.joinToString(",") {
+                            it.packageInfo.packageName
+                        })
+
+                        // Remove duplicates
+                        packages = packages.split(",").distinct().joinToString(",")
+
+                        database.getTagDao()!!.updateTag(this)
+                    }
+                } else {
+                    database.getTagDao()!!.insertTag(Tag(it, currentAppsList.joinToString(",") {
+                        it.packageInfo.packageName
+                    }, -1))
+                }
+            } else {
+                database?.getTagDao()!!.insertTag(Tag(it, currentAppsList.joinToString(",") {
+                    it.packageInfo.packageName
+                }, -1))
+            }
+
+            withContext(Dispatchers.Main) {
+                loadTags()
+                loadTagNames()
                 function()
             }
         }

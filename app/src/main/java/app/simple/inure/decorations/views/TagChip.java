@@ -35,11 +35,13 @@ public class TagChip extends Chip {
     
     private void init() {
         setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
-        setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
-        
+        setTextColor(ColorStateList
+                .valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
+    
         setChipIconSize(getResources().getDimensionPixelSize(R.dimen.chip_icon_size));
-        setChipIconTint(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor()));
-        
+        setChipIconTint(ColorStateList
+                .valueOf(ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor()));
+    
         setChipBackgroundColor(new ColorStateList(new int[][] {
                 new int[] {
                         android.R.attr.state_checked
@@ -52,17 +54,19 @@ public class TagChip extends Chip {
                         ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground() // Background color
                 }
         ));
-        
+    
         setShapeAppearanceModel(new ShapeAppearanceModel()
                 .toBuilder()
                 .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                 .build());
     
         ViewUtils.INSTANCE.addShadow(this);
-        setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
+        setRippleColor(ColorStateList
+                .valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
     
         if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
-            setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
+            setChipStrokeColor(ColorStateList
+                    .valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
             setChipStrokeWidth(1);
         }
     }
@@ -73,7 +77,7 @@ public class TagChip extends Chip {
                         android.R.attr.state_checked
                 },
                 new int[] {
-                
+            
                 }},
                 new int[] {
                         color, // Ripple color
@@ -81,10 +85,14 @@ public class TagChip extends Chip {
                 }
         ));
     
+        setRippleColor(ColorStateList.valueOf(color));
+    
         if (whiteText) {
             setTextColor(ColorStateList.valueOf(Color.WHITE));
         } else {
-            setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
+            setTextColor(ColorStateList
+                    .valueOf(ThemeManager.INSTANCE.getTheme()
+                            .getTextViewTheme().getPrimaryTextColor()));
         }
     }
     
@@ -94,14 +102,17 @@ public class TagChip extends Chip {
                         android.R.attr.state_checked
                 },
                 new int[] {
-                
+            
                 }},
                 new int[] {
                         AppearancePreferences.INSTANCE.getAccentColor(), // Ripple color
-                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground() // Background color
+                        ThemeManager.INSTANCE.getTheme()
+                                .getViewGroupTheme().getViewerBackground() // Background color
                 }
         ));
-        
-        setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
+    
+        setTextColor(ColorStateList
+                .valueOf(ThemeManager.INSTANCE.getTheme()
+                        .getTextViewTheme().getPrimaryTextColor()));
     }
 }

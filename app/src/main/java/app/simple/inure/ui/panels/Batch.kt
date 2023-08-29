@@ -27,6 +27,7 @@ import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
+import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -41,6 +42,7 @@ import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
+import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class Batch : ScopedFragment() {
 
@@ -48,12 +50,14 @@ class Batch : ScopedFragment() {
 
     private var adapterBatch: AdapterBatch? = null
     private lateinit var batchViewModel: BatchViewModel
+    private lateinit var tagsViewModel: TagsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_batch, container, false)
 
         recyclerView = view.findViewById(R.id.batch_recycler_view)
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
+        tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         return view
     }
@@ -177,12 +181,12 @@ class Batch : ScopedFragment() {
                             if (requireContext().checkStoragePermission()) {
                                 childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
                             } else {
-                                childFragmentManager.showStoragePermissionDialog().setStoragePermissionCallbacks(
-                                        object : StoragePermission.Companion.StoragePermissionCallbacks {
-                                            override fun onStoragePermissionGranted() {
-                                                childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
-                                            }
-                                        })
+                                childFragmentManager.showStoragePermissionDialog()
+                                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                        override fun onStoragePermissionGranted() {
+                                            childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                                        }
+                                    })
                             }
                         }
                     })
@@ -194,6 +198,16 @@ class Batch : ScopedFragment() {
                         adapterBatch?.getCurrentAppsList()?.let {
                             batchViewModel.generateAppsData(it)
                             Log.d("Batch", "Generating data for ${it.size} apps")
+                        }
+                    }
+                }
+
+                R.drawable.ic_tags -> {
+                    childFragmentManager.showAddTagDialog().onTag = {
+                        tagsViewModel.addMultipleAppsToTag(adapterBatch?.getCurrentAppsList()!!, it) {
+                            postDelayed {
+                                showWarning(R.string.done, goBack = false)
+                            }
                         }
                     }
                 }
