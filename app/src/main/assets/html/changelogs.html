@@ -17,62 +17,85 @@
 
 <!-- Write change logs here -->
 
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added Open Source logo on the apps that are FOSS in nature or was FOSS somewhere in the
-        past.
-        <br>
-        <small>This will use F-Droid and IzzyOnDroid repo data to identify and validate in runtime
-               if the app is FOSS or not. Any other repo isn't supported and likely won't be
-               supported in the future.</small>
-    </li>
-    <li>Added self app updater for auto downloading latest update builds.
-        <br>
-        <small>For GitHub releases only, Play releases are Play Store dependent and Play API is not
-               open source.</small>
-    </li>
-    <li>Updated <b>Home</b> panel UI to make it consistent with the app's design language.</li>
-    <li>Added <b>Tags</b> to assign indefinite tags to any app and create a personalized app groups.
-    </li>
-    <li>Added <i>Tags</i> filter in <b>Search</b> panel.
-        <br>
-        <small>Use <b>#</b> before any keyword to enable tag search mode.</small>
-    </li>
-    <li>Added <i>Tags</i> strip in <b>Search</b> panel.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed an issue that's crashing the app info loader for non-installed apps.</li>
-    <li>Fixed a few random crashes.</li>
-    <li>Fixed no data issue in <b>Uses Features</b> panel.</li>
-</ul>
-
-<h4>Improvement</h4>
-
-<ul>
-    <li>Improved layouts and animations for Arabic locale.</li>
-    <li>Updated <b>Shortcuts</b> panel interface.</li>
-    <li>Some improvements in animations framework.</li>
-    <li>Further improvements in communication between bottom menu and fast scroller.</li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed <b>Dex Classes</b> for non-installed apps.</li>
-</ul>
-
-<h4>Changes</h4>
-
-<ul>
-    <li>Put a limit on search for up to 3 characters to prevent unnecessary search triggers.</li>
+    <li>Fixed <b>Tags</b> crashing on opening after a tag is deleted.</li>
 </ul>
 
 <br>
 <br>
+<div class="wrap-collapsible">
+    <input class="toggle" id="build_91" type="checkbox">
+    <label class="lbl-toggle" for="build_91">Build91</label>
+    <div class="collapsible-content">
+        <div class="content-inner">
+            <h4>User Interface</h4>
+
+            <ul>
+                <li>Added Open Source logo on the apps that are FOSS in nature or was FOSS somewhere
+                    in the
+                    past.
+                    <br>
+                    <small>This will use F-Droid and IzzyOnDroid repo data to identify and validate
+                           in runtime
+                           if the app is FOSS or not. Any other repo isn't supported and likely
+                           won't be
+                           supported in the future.</small>
+                </li>
+                <li>Added self app updater for auto downloading latest update builds.
+                    <br>
+                    <small>For GitHub releases only, Play releases are Play Store dependent and Play
+                           API is not
+                           open source.</small>
+                </li>
+                <li>Updated <b>Home</b> panel UI to make it consistent with the app's design
+                    language.
+                </li>
+                <li>Added <b>Tags</b> to assign indefinite tags to any app and create a personalized
+                    app groups.
+                </li>
+                <li>Added <i>Tags</i> filter in <b>Search</b> panel.
+                    <br>
+                    <small>Use <b>#</b> before any keyword to enable tag search mode.</small>
+                </li>
+                <li>Added <i>Tags</i> strip in <b>Search</b> panel.</li>
+            </ul>
+
+            <h4>Bug Fixes</h4>
+
+            <ul>
+                <li>Fixed an issue that's crashing the app info loader for non-installed apps.</li>
+                <li>Fixed a few random crashes.</li>
+                <li>Fixed no data issue in <b>Uses Features</b> panel.</li>
+            </ul>
+
+            <h4>Improvement</h4>
+
+            <ul>
+                <li>Improved layouts and animations for Arabic locale.</li>
+                <li>Updated <b>Shortcuts</b> panel interface.</li>
+                <li>Some improvements in animations framework.</li>
+                <li>Further improvements in communication between bottom menu and fast scroller.
+                </li>
+            </ul>
+
+            <h4>Removed</h4>
+
+            <ul>
+                <li>Removed <b>Dex Classes</b> for non-installed apps.</li>
+            </ul>
+
+            <h4>Changes</h4>
+
+            <ul>
+                <li>Put a limit on search for up to 3 characters to prevent unnecessary search
+                    triggers.
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 <br>
 <p>
     Build90 was skipped.

@@ -42,16 +42,16 @@ class AdapterTags(val tags: ArrayList<Tag>, private val tagsCallback: TagsCallba
                 holder.total.text = holder.itemView.context.getString(R.string.total_tags, tags.size)
             }
             is Holder -> {
-                holder.tag.text = tags[position - 1].tag
-                holder.recyclerView.adapter = AdapterTaggedIcons(tags[position - 1].packages.split(","))
-                holder.date.text = tags[position - 1].dateAdded.toDate()
+                holder.tag.text = tags[holder.bindingAdapterPosition.minus(1)].tag
+                holder.recyclerView.adapter = AdapterTaggedIcons(tags[holder.bindingAdapterPosition.minus(1)].packages.split(","))
+                holder.date.text = tags[holder.bindingAdapterPosition.minus(1)].dateAdded.toDate()
 
                 holder.container.setOnClickListener {
-                    tagsCallback.onTagClicked(tags[position - 1])
+                    tagsCallback.onTagClicked(tags[holder.bindingAdapterPosition.minus(1)])
                 }
 
                 holder.container.setOnLongClickListener {
-                    tagsCallback.onTagLongClicked(tags[position - 1])
+                    tagsCallback.onTagLongClicked(tags[holder.bindingAdapterPosition.minus(1)])
                     true
                 }
             }
