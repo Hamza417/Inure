@@ -8,22 +8,15 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 
-class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupWindow() {
+class PopupTagMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupWindow() {
 
-    private val open: DynamicRippleTextView
     private val delete: DynamicRippleTextView
 
     init {
         val containerView = LayoutInflater.from(view.context)
-            .inflate(R.layout.popup_tags_menu, PopupLinearLayout(view.context), true)
+            .inflate(R.layout.popup_tag_menu, PopupLinearLayout(view.context), true)
 
-        open = containerView.findViewById(R.id.open)
         delete = containerView.findViewById(R.id.delete)
-
-        open.setOnClickListener {
-            tagsMenuCallback.onOpenClicked()
-            dismiss()
-        }
 
         delete.setOnClickListener {
             tagsMenuCallback.onDeleteClicked()
@@ -35,7 +28,6 @@ class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupW
 
     companion object {
         interface TagsMenuCallback {
-            fun onOpenClicked()
             fun onDeleteClicked()
         }
     }

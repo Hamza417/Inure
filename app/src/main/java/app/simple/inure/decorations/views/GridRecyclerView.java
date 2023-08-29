@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -57,7 +58,8 @@ public class GridRecyclerView extends RecyclerView {
             animationParams.column = columns - 1 - (invertedIndex % columns);
             animationParams.row = animationParams.rowsCount - 1 - invertedIndex / columns;
         } else {
-            throw new IllegalStateException("GridRecyclerView must have a GridLayoutManager");
+            // throw new IllegalStateException("GridRecyclerView must have a GridLayoutManager");
+            Log.e("GridRecyclerView", "attachLayoutAnimationParameters: GridRecyclerView must have a GridLayoutManager");
         }
     }
     

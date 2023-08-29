@@ -17,7 +17,7 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Unit)
+class AdapterTags(val tags: ArrayList<Tag>, private val tagsCallback: TagsCallback)
     : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -47,7 +47,12 @@ class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Un
                 holder.date.text = tags[position - 1].dateAdded.toDate()
 
                 holder.container.setOnClickListener {
-                    function(tags[position - 1].tag)
+                    tagsCallback.onTagClicked(tags[position - 1])
+                }
+
+                holder.container.setOnLongClickListener {
+                    tagsCallback.onTagLongClicked(tags[position - 1])
+                    true
                 }
             }
         }
@@ -63,6 +68,14 @@ class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Un
         } else {
             RecyclerViewUtils.TYPE_ITEM
         }
+    }
+
+    fun removeTag(tag: Tag) {
+        val idx = tags.indexOf(tag)
+        tags.remove(tag)
+        notifyItemRemoved(idx + 1)
+        notifyItemRangeChanged(0, tags.size)
+        notifyItemChanged(0) // Update header
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -88,6 +101,13 @@ class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Un
         init {
             val params = itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
             params.isFullSpan = true
+        }
+    }
+
+    companion object {
+        interface TagsCallback {
+            fun onTagClicked(tag: Tag)
+            fun onTagLongClicked(tag: Tag)
         }
     }
 }
