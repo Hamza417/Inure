@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.SortConstant
@@ -18,6 +19,8 @@ import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 import kotlin.concurrent.thread
 
@@ -62,6 +65,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         MutableLiveData<ArrayList<SearchModel>>()
     }
 
+    private val tags: MutableLiveData<ArrayList<String>> by lazy {
+        MutableLiveData<ArrayList<String>>().also {
+            loadTags()
+        }
+    }
+
     fun getSearchKeywords(): LiveData<String> {
         return searchKeywords
     }
@@ -78,6 +87,10 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     fun getDeepSearchData(): LiveData<ArrayList<SearchModel>> {
         return deepSearchData
+    }
+
+    fun getTags(): LiveData<ArrayList<String>> {
+        return tags
     }
 
     fun initiateSearch(keywords: String) {
@@ -386,6 +399,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         if (Thread.currentThread().name == thread?.name) {
             deepSearchData.postValue(list)
+        }
+    }
+
+    private fun loadTags() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tagsDatabase = TagsDatabase.getInstance(application.applicationContext)
+            tags.postValue(tagsDatabase?.getTagDao()?.getTagsNameOnly()?.toArrayList() ?: arrayListOf())
         }
     }
 

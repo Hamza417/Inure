@@ -5,12 +5,22 @@
     android:layout_height="match_parent"
     android:transitionName="search_transition"
     android:background="@android:color/white"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <app.simple.inure.decorations.searchview.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+        android:id="@+id/tags_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingHorizontal="8dp"
+        android:layout_marginBottom="@dimen/popup_padding"
+        app:statusBarPaddingRequired="false" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"

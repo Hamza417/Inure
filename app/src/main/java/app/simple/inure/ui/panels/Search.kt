@@ -10,9 +10,11 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterTags
 import app.simple.inure.adapters.ui.AdapterDeepSearch
 import app.simple.inure.adapters.ui.AdapterSearch
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
@@ -28,11 +30,14 @@ import app.simple.inure.ui.viewers.Providers
 import app.simple.inure.ui.viewers.Receivers
 import app.simple.inure.ui.viewers.Resources
 import app.simple.inure.ui.viewers.Services
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.SearchViewModel
 
 class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var searchView: SearchView
+    private lateinit var tags: CustomHorizontalRecyclerView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var appsAdapterSearchSmall: AdapterSearch
     private lateinit var adapterDeepSearch: AdapterDeepSearch
@@ -44,6 +49,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_recycler_view)
+        tags = view.findViewById(R.id.tags_recycler_view)
 
         if (requireArguments().getBoolean(BundleConstants.firstLaunch)) {
             startPostponedEnterTransition()
@@ -109,37 +115,49 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 adapterDeepSearch.setOnItemClickListener(object : AdapterDeepSearch.Companion.AdapterDeepSearchCallbacks {
                     override fun onPermissionsClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Permissions.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "permission")
+                            openFragmentSlide(
+                                    Permissions.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "permission")
                         }
                     }
 
                     override fun onActivitiesClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Activities.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "activities")
+                            openFragmentSlide(
+                                    Activities.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "activities")
                         }
                     }
 
                     override fun onServicesClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Services.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "services")
+                            openFragmentSlide(
+                                    Services.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "services")
                         }
                     }
 
                     override fun onReceiversClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Receivers.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "receivers")
+                            openFragmentSlide(
+                                    Receivers.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "receivers")
                         }
                     }
 
                     override fun onProvidersClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Providers.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "providers")
+                            openFragmentSlide(
+                                    Providers.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "providers")
                         }
                     }
 
                     override fun onResourcesClicked(packageInfo: PackageInfo) {
                         if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(Resources.newInstance(packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "resources")
+                            openFragmentSlide(
+                                    Resources.newInstance(
+                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "resources")
                         }
                     }
 
@@ -164,6 +182,33 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
         }
 
+        searchViewModel.getTags().observe(viewLifecycleOwner) {
+            tags.adapter = AdapterTags(it, showNewTag = false).apply {
+                setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
+                    override fun onTagClicked(tag: String) {
+                        searchView.editText.setText(buildString {
+                            append("#")
+                            append(tag)
+                        })
+
+                        searchView.editText.text?.length?.let { it1 ->
+                            searchView.editText.setSelection(it1)
+                        }
+                    }
+
+                    override fun onTagLongClicked(tag: String) {
+                        /* no-op */
+                    }
+
+                    override fun onAddClicked() {
+                        /* no-op */
+                    }
+                })
+            }
+
+            setTagsStripState(SearchPreferences.getLastSearchKeyword())
+        }
+
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
                 SearchMenu.newInstance()
@@ -180,6 +225,8 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 } else {
                     searchViewModel.clearSearch()
                 }
+
+                setTagsStripState(keywords)
             }
 
             override fun onSearchRefreshPressed(button: View?) {
@@ -188,14 +235,34 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         })
     }
 
+    private fun setTagsStripState(keywords: String) {
+        kotlin.runCatching {
+            (tags.adapter as? AdapterTags)?.highlightedTag = keywords.removePrefix("#")
+        }
+
+        if (SearchPreferences.isDeepSearchEnabled()) {
+            tags.gone(animate = false)
+        } else {
+            if (keywords.startsWith("#")) {
+                tags.visible(animate = false)
+            } else {
+                tags.gone(animate = false)
+            }
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             SearchPreferences.sortStyle,
             SearchPreferences.isSortingReversed,
             SearchPreferences.listAppsCategory,
-            SearchPreferences.deepSearch,
             SearchPreferences.appsFilter -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
+            }
+
+            SearchPreferences.deepSearch -> {
+                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
+                setTagsStripState(SearchPreferences.getLastSearchKeyword())
             }
 
             SearchPreferences.ignoreCasing -> {

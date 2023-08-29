@@ -51,7 +51,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     }
     
     private void setProperties() {
-        setElevation(5);
+        // setElevation(5);
         setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         setOrientation(LinearLayout.HORIZONTAL);
         setLayoutTransition(new LayoutTransition());
@@ -99,7 +99,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         
             SearchPreferences.INSTANCE.setLastSearchKeyword(s.toString().trim());
         
-            if (count > 0 || !s.toString().isBlank()) {
+            if (s.toString().replace("#", "").length() > 2) {
                 ViewUtils.INSTANCE.visible(clear, true);
                 ViewUtils.INSTANCE.visible(refresh, true);
             } else {
@@ -204,7 +204,8 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             editText.setHint(R.string.search);
             if (editText.getText().toString().trim().startsWith("#")) {
                 editText.getText().setSpan(
-                        new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
+                        new ForegroundColorSpan(
+                                AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
             }
         }
     }
