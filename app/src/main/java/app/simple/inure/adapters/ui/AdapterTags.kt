@@ -43,7 +43,8 @@ class AdapterTags(val tags: ArrayList<Tag>, private val tagsCallback: TagsCallba
             }
             is Holder -> {
                 holder.tag.text = tags[holder.bindingAdapterPosition.minus(1)].tag
-                holder.recyclerView.adapter = AdapterTaggedIcons(tags[holder.bindingAdapterPosition.minus(1)].packages.split(","))
+                holder.recyclerView.adapter = AdapterTaggedIcons(
+                        tags[holder.bindingAdapterPosition.minus(1)].packages.split(","))
                 holder.date.text = tags[holder.bindingAdapterPosition.minus(1)].dateAdded.toDate()
 
                 holder.container.setOnClickListener {

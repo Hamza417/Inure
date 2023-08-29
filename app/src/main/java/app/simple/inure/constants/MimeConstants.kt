@@ -45,6 +45,7 @@ object MimeConstants {
     const val opusType = "audio/opus"
     const val spxType = "audio/spx"
     const val xspfType = "audio/xspf"
+    const val ttfType = "font/ttf"
     const val zipType = "application/zip"
     const val rarType = "application/x-rar-compressed"
     const val tarType = "application/x-tar"

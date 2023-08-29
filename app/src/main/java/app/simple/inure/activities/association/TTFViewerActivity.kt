@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
+import app.simple.inure.constants.MimeConstants
 import app.simple.inure.constants.Quotes
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ColorUtils.resolveAttrColor
@@ -41,15 +42,19 @@ class TTFViewerActivity : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                val typeFace = TTFHelper.getTTFFile(contentResolver.openInputStream(intent.data!!)!!,
-                                                    applicationContext,
-                                                    DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)!!.name!!)
+                if (intent?.type == MimeConstants.ttfType && DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)?.name!!.endsWith(".ttf")) {
+                    val typeFace = TTFHelper.getTTFFile(contentResolver.openInputStream(intent.data!!)!!,
+                                                        applicationContext,
+                                                        DocumentFile.fromSingleUri(applicationContext, intent!!.data!!)!!.name!!)
 
-                withContext(Dispatchers.Main) {
-                    fontEditText.setTypeface(typeFace, Typeface.NORMAL)
-                    fontName.setTypeface(typeFace, Typeface.NORMAL)
-                    fontEditText.setText(Quotes.quotes.random().replace("%%%", color!!.toHexColor()).toHtmlSpanned())
-                    fontEditText.visible(true)
+                    withContext(Dispatchers.Main) {
+                        fontEditText.setTypeface(typeFace, Typeface.NORMAL)
+                        fontName.setTypeface(typeFace, Typeface.NORMAL)
+                        fontEditText.setText(Quotes.quotes.random().replace("%%%", color!!.toHexColor()).toHtmlSpanned())
+                        fontEditText.visible(true)
+                    }
+                } else {
+                    showWarning("ERR: invalid file type ${intent?.type!!}")
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
