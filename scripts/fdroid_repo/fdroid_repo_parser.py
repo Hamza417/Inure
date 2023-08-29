@@ -86,16 +86,16 @@ print("Android XML resource file created successfully.")
 decision = input("Do you want to copy the file to Inure? (y/n): ")
 if decision.lower() == "y":
     try:
-        open(f"../../app/src/main/res/values/package_versions.xml", "r")
-        print("File already exists at: ..\\..\\app\\src\\main\\res\\values\\package_versions.xml")
+        open(f"../../app/src/main/res/xml/package_versions.xml", "r")
+        print("File already exists at: ..\\..\\app\\src\\main\\res\\xml\\package_versions.xml")
         print("Deleting..")
-        os.remove(f"../../app/src/main/res/values/package_versions.xml")
+        os.remove(f"../../app/src/main/res/xml/package_versions.xml")
     except FileNotFoundError:
         pass
 
     # Move the file to the values directory
     os.rename(os.path.join(download_dir, "package_versions.xml"),
-              f"../../app/src/main/res/values/package_versions.xml")
+              f"../../app/src/main/res/xml/package_versions.xml")
 
     print("File moved successfully.", end="\n\n")
 
