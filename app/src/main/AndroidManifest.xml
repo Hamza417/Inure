@@ -76,6 +76,7 @@
         android:theme="@style/Inure"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="AllowBackup"
+        android:taskAffinity="app.simple.inure"
         tools:targetApi="tiramisu">
 
         <profileable android:shell="true" />
@@ -107,7 +108,6 @@
             android:exported="true"
             android:label="@string/terminal"
             android:launchMode="singleTask"
-            android:taskAffinity="app.simple.inure"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
