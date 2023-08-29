@@ -85,14 +85,21 @@ public class TagChip extends Chip {
                 }
         ));
     
-        setRippleColor(ColorStateList.valueOf(color));
-    
         if (whiteText) {
             setTextColor(ColorStateList.valueOf(Color.WHITE));
+            setChipIconTint(ColorStateList.valueOf(Color.WHITE));
+            setRippleColor(ColorStateList.valueOf(Color.WHITE));
         } else {
             setTextColor(ColorStateList
                     .valueOf(ThemeManager.INSTANCE.getTheme()
                             .getTextViewTheme().getPrimaryTextColor()));
+    
+            setChipIconTint(ColorStateList
+                    .valueOf(ThemeManager.INSTANCE.getTheme()
+                            .getIconTheme().getRegularIconColor()));
+    
+            setRippleColor(ColorStateList
+                    .valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
         }
     }
     
@@ -114,5 +121,12 @@ public class TagChip extends Chip {
         setTextColor(ColorStateList
                 .valueOf(ThemeManager.INSTANCE.getTheme()
                         .getTextViewTheme().getPrimaryTextColor()));
+    
+        setChipIconTint(ColorStateList
+                .valueOf(ThemeManager.INSTANCE.getTheme()
+                        .getIconTheme().getRegularIconColor()));
+    
+        setRippleColor(ColorStateList
+                .valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
     }
 }
