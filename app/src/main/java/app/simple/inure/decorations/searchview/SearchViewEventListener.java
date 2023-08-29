@@ -29,4 +29,6 @@ public interface SearchViewEventListener {
     void onSearchTextChanged(@NotNull String keywords, int count);
     
     void onSearchRefreshPressed(View button);
+    
+    void onClear(View button);
 }

@@ -60,6 +60,7 @@ class SplashScreen : ScopedFragment() {
     private var isFrequentlyUsedLoaded = false
     private var isBatteryOptimizationLoaded = false
     private var isBootManagerLoaded = false
+    private var isTagsLoaded = false
 
     private val launcherViewModel: LauncherViewModel by viewModels()
 
@@ -172,6 +173,7 @@ class SplashScreen : ScopedFragment() {
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
         val notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
         val apkBrowserViewModel = ViewModelProvider(requireActivity())[ApkBrowserViewModel::class.java]
+        val tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         val batteryOptimizationViewModel = if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
             ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
@@ -267,6 +269,12 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
+        tagsViewModel.getTags().observe(viewLifecycleOwner) {
+            Log.d(TAG, "Tags data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+            isTagsLoaded = true
+            openApp()
+        }
+
         /**
          * One shell warning is enough, I guess!!
          * Skip the boot manager ones if the user has already seen the warning
@@ -340,7 +348,8 @@ class SplashScreen : ScopedFragment() {
                 isBatteryOptimizationLoaded &&
                 isBatchLoaded &&
                 isBootManagerLoaded &&
-                isNotesLoaded
+                isNotesLoaded &&
+                isTagsLoaded
     }
 
     private fun checkForPermission(): Boolean {

@@ -41,7 +41,7 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        if (tags.size == 0 || position == tags.size) {
+        if (position == tags.size && showNewTag) {
             holder.tag.text = holder.itemView.context.getString(R.string.add_tag)
             holder.tag.setChipIconResource(R.drawable.ic_add)
             holder.tag.chipStartPadding = 25F
@@ -81,14 +81,10 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
     }
 
     override fun getItemCount(): Int {
-        return if (tags.size == 0) {
-            1
+        return if (showNewTag) {
+            tags.size.plus(1)
         } else {
-            if (showNewTag) {
-                tags.size.plus(1)
-            } else {
-                tags.size
-            }
+            tags.size
         }
     }
 

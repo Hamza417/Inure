@@ -232,6 +232,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             override fun onSearchRefreshPressed(button: View?) {
                 searchViewModel.reload()
             }
+
+            override fun onClear(button: View?) {
+                setTagsStripState("")
+            }
         })
     }
 
