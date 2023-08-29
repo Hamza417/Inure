@@ -106,11 +106,18 @@ public class GitHubReleaseChecker {
                                 File outputFile = new File(context.getExternalFilesDir(null), tagName + ".apk");
                                 
                                 if (outputFile.exists()) {
-                                    Log.d("TAG", "onResponse: File already exists: " + outputFile.getName());
-                                    listener.onDownloadComplete(outputFile);
-                                    client.dispatcher().cancelAll();
-                                    response.close();
-                                    return;
+                                    if (outputFile.length() == response.body().contentLength()) {
+                                        Log.d("TAG", "onResponse: File already exists: " + outputFile.getName());
+                                        listener.onDownloadComplete(outputFile);
+                                        client.dispatcher().cancelAll();
+                                        response.close();
+                                        return;
+                                    } else {
+                                        Log.d("TAG", "onResponse: File already exists: " + outputFile.getName() + " but size differs");
+                                        if (outputFile.delete()) {
+                                            Log.d("TAG", "onResponse: deleted file: " + outputFile.getName());
+                                        }
+                                    }
                                 } else {
                                     Log.d("TAG", "Downloading file: " + outputFile.getName());
                                 }

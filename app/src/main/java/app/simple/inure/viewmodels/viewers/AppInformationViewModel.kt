@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.text.Spannable
@@ -17,6 +16,7 @@ import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
@@ -127,6 +127,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
                     getUpdateDate(),
                     getMinSDK(),
                     getTargetSDK(),
+                    getFOSS(),
                     getMethodCount(),
                     getApex(),
                     getApplicationType(),
@@ -313,13 +314,22 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
-            "${packageInfo.applicationInfo.targetSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.applicationInfo.targetSdkVersion)}"
+            "${packageInfo.applicationInfo.targetSdkVersion}, " +
+                    SDKHelper.getSdkTitle(packageInfo.applicationInfo.targetSdkVersion)
         }.getOrElse {
             it.message!!
         }
 
         return Pair(R.string.target_sdk,
                     targetSdk.applyAccentColor())
+    }
+
+    private fun getFOSS(): Pair<Int, Spannable> {
+        FOSSParser.init(application)
+        val isFOSS = FOSSParser.isPackageFOSS(packageInfo.packageName)
+        return Pair(R.string.foss,
+                    (if (isFOSS) getString(R.string.yes) else getString(R.string.no))
+                        .applySecondaryTextColor())
     }
 
     private fun getMethodCount(): Pair<Int, Spannable> {

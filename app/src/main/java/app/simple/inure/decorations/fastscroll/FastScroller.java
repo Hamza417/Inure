@@ -389,16 +389,6 @@ public class FastScroller {
             }
         }
     
-        Intent intent;
-    
-        if (dragging) {
-            intent = new Intent(BottomMenuRecyclerView.ACTION_CLOSE_BOTTOM_MENU);
-        } else {
-            intent = new Intent(BottomMenuRecyclerView.ACTION_OPEN_BOTTOM_MENU);
-        }
-    
-        LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
-    
         if (this.dragging == dragging) {
             return;
         }
@@ -416,9 +406,13 @@ public class FastScroller {
             cancelAutoHideScrollbar();
             animationHelper.showScrollbar(trackView, thumbView);
             animationHelper.showPopup(popupView);
+            Intent intent = new Intent(BottomMenuRecyclerView.ACTION_CLOSE_BOTTOM_MENU);
+            LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
         } else {
             postAutoHideScrollbar();
             animationHelper.hidePopup(popupView);
+            Intent intent = new Intent(BottomMenuRecyclerView.ACTION_OPEN_BOTTOM_MENU);
+            LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
         }
     }
     
