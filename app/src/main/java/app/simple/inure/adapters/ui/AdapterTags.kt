@@ -72,7 +72,6 @@ class AdapterTags(val tags: ArrayList<Tag>, private val function: (String) -> Un
         val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
 
         init {
-            recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = GridLayoutManager(itemView.context, 4)
             recyclerView.suppressLayout(true)
             recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
