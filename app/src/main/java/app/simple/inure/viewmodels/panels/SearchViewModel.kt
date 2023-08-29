@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.constants.SortConstant
+import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.SearchModel
 import app.simple.inure.preferences.SearchPreferences
@@ -81,16 +82,21 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     fun initiateSearch(keywords: String) {
         thread?.interrupt()
-        thread = thread(priority = 10, name = keywords) {
-            try {
-                if (SearchPreferences.isDeepSearchEnabled()) {
-                    loadDeepSearchData(keywords)
-                } else {
-                    loadSearchData(keywords)
+        if (keywords.replace("#", "").length > 2) {
+            thread = thread(priority = 10, name = keywords) {
+                try {
+                    if (SearchPreferences.isDeepSearchEnabled()) {
+                        loadDeepSearchData(keywords)
+                    } else {
+                        loadSearchData(keywords)
+                    }
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
                 }
-            } catch (e: IllegalStateException) {
-                e.printStackTrace()
             }
+        } else {
+            searchData.postValue(arrayListOf())
+            deepSearchData.postValue(arrayListOf())
         }
     }
 
@@ -110,10 +116,20 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             return
         }
 
-        apps = apps.stream().filter { p ->
-            p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
-                    || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
-        }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+        apps = if (keywords.startsWith("#")) {
+            val tagsDatabase = TagsDatabase.getInstance(application.applicationContext)
+            val tag = keywords.substring(1)
+            val tagApps = tagsDatabase?.getTagDao()?.getTag(tag)?.packages?.split(",")
+
+            apps.stream().filter { p ->
+                tagApps?.contains(p.packageName) ?: false
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+        } else {
+            apps.stream().filter { p ->
+                p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
+                        || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+        }
 
         when (SearchPreferences.getAppsCategory()) {
             SortConstant.SYSTEM -> {
@@ -253,9 +269,99 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
         }
 
-        apps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+        var filteredList = arrayListOf<PackageInfo>()
 
-        for (app in apps) {
+        if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
+            @Suppress("UNCHECKED_CAST")
+            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                        true
+                    } else {
+                        p.applicationInfo.enabled.invert()
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                        true
+                    } else {
+                        p.applicationInfo.enabled
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                        true
+                    } else {
+                        p.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                        true
+                    } else {
+                        p.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                    }
+                } else {
+                    true
+                } && if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    p.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                } else {
+                    true
+                }
+            }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
+        } else {
+            for (app in apps) {
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (app.applicationInfo.enabled.invert()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (app.applicationInfo.enabled) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (app.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    if (app.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                        if (!filteredList.contains(app)) {
+                            filteredList.add(app)
+                        }
+                    }
+                }
+            }
+
+            // Remove duplicate elements
+            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+        }
+
+        filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+
+        for (app in filteredList) {
             val searchModel = SearchModel()
 
             searchModel.packageInfo = app

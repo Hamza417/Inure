@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,13 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 ViewUtils.INSTANCE.visible(clear, true);
                 ViewUtils.INSTANCE.visible(refresh, true);
                 editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
+    
+                if (SearchPreferences.INSTANCE.getLastSearchKeyword().startsWith("#")) {
+                    if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
+                        editText.getText().setSpan(
+                                new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
+                    }
+                }
             } else {
                 ViewUtils.INSTANCE.gone(clear, true);
                 ViewUtils.INSTANCE.gone(refresh, true);
@@ -88,7 +96,9 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
             }
-    
+        
+            SearchPreferences.INSTANCE.setLastSearchKeyword(s.toString().trim());
+        
             if (count > 0 || !s.toString().isBlank()) {
                 ViewUtils.INSTANCE.visible(clear, true);
                 ViewUtils.INSTANCE.visible(refresh, true);
@@ -96,7 +106,16 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 ViewUtils.INSTANCE.gone(clear, true);
                 ViewUtils.INSTANCE.gone(refresh, true);
             }
-    
+        
+            if (s.toString().trim().startsWith("#")) {
+                if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
+                    editText.getText().setSpan(
+                            new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
+                }
+            } else {
+                editText.getText().removeSpan(new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()));
+            }
+        
             return Unit.INSTANCE;
         });
     
@@ -179,9 +198,14 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         if (SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
             iconAnimator = ViewUtils.INSTANCE.animateTint(icon, AppearancePreferences.INSTANCE.getAccentColor());
             editText.setHint(R.string.deep_search);
+            editText.getText().clearSpans();
         } else {
             iconAnimator = ViewUtils.INSTANCE.animateTint(icon, ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor());
             editText.setHint(R.string.search);
+            if (editText.getText().toString().trim().startsWith("#")) {
+                editText.getText().setSpan(
+                        new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
+            }
         }
     }
     
