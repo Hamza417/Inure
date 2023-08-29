@@ -34,7 +34,10 @@
             android:textSize="@dimen/home_heading_text_size"
             android:layout_marginBottom="2dp"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             app:appFontStyle="regular"
+            app:drawableEndCompat="@drawable/ic_arrow_right"
+            app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

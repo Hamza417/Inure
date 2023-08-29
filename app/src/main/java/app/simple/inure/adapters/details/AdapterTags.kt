@@ -56,7 +56,17 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
             if (tags[position] == highlightedTag) {
                 holder.tag.setChipColor(AppearancePreferences.getAccentColor(), true)
             } else {
-                holder.tag.setDefaultChipColor()
+                if (AccessibilityPreferences.isColorfulIcons()) {
+                    try {
+                        holder.tag.setChipColor(Colors.getColors()[position], true)
+                    } catch (e: IndexOutOfBoundsException) {
+                        holder.tag.setChipColor(
+                                Colors.getColors()[position - Colors.getColors().size], true
+                        )
+                    }
+                } else {
+                    holder.tag.setDefaultChipColor()
+                }
             }
 
             holder.tag.setOnClickListener {
@@ -66,16 +76,6 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
             holder.tag.setOnLongClickListener {
                 callback?.onTagLongClicked(tags[position])
                 true
-            }
-        }
-
-        if (AccessibilityPreferences.isColorfulIcons()) {
-            try {
-                holder.tag.setChipColor(Colors.getColors()[position], true)
-            } catch (e: IndexOutOfBoundsException) {
-                holder.tag.setChipColor(
-                        Colors.getColors()[position - Colors.getColors().size], true
-                )
             }
         }
     }

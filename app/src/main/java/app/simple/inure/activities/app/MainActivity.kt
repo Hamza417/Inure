@@ -44,6 +44,7 @@ import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Apps
 import app.simple.inure.ui.panels.Batch
 import app.simple.inure.ui.panels.DeviceInfo
+import app.simple.inure.ui.panels.FOSS
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.MostUsed
 import app.simple.inure.ui.panels.Music
@@ -53,6 +54,7 @@ import app.simple.inure.ui.panels.RecentlyInstalled
 import app.simple.inure.ui.panels.RecentlyUpdated
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
+import app.simple.inure.ui.panels.Tags
 import app.simple.inure.ui.panels.Uninstalled
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
@@ -201,6 +203,16 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.SEARCH_ACTION -> {
                 openHome(isNewIntent)
                 openFragment(Search.newInstance(firstLaunch = true), "search")
+            }
+
+            ShortcutConstants.TAGS_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Tags.newInstance(), "tags")
+            }
+
+            ShortcutConstants.FOSS_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(FOSS.newInstance(), "foss")
             }
 
             ShortcutConstants.MUSIC_ACTION -> {

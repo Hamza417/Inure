@@ -12,6 +12,8 @@ import app.simple.inure.constants.ShortcutConstants.APPS_ACTION
 import app.simple.inure.constants.ShortcutConstants.APPS_ID
 import app.simple.inure.constants.ShortcutConstants.BATCH_ACTION
 import app.simple.inure.constants.ShortcutConstants.BATCH_ID
+import app.simple.inure.constants.ShortcutConstants.FOSS_ACTION
+import app.simple.inure.constants.ShortcutConstants.FOSS_ID
 import app.simple.inure.constants.ShortcutConstants.MOST_USED_ACTION
 import app.simple.inure.constants.ShortcutConstants.MOST_USED_ID
 import app.simple.inure.constants.ShortcutConstants.MUSIC_ACTION
@@ -26,6 +28,8 @@ import app.simple.inure.constants.ShortcutConstants.RECENTLY_UPDATED_ACTION
 import app.simple.inure.constants.ShortcutConstants.RECENTLY_UPDATED_ID
 import app.simple.inure.constants.ShortcutConstants.SEARCH_ACTION
 import app.simple.inure.constants.ShortcutConstants.SEARCH_ID
+import app.simple.inure.constants.ShortcutConstants.TAGS_ACTION
+import app.simple.inure.constants.ShortcutConstants.TAGS_ID
 import app.simple.inure.constants.ShortcutConstants.TERMINAL_ACTION
 import app.simple.inure.constants.ShortcutConstants.TERMINAL_ID
 import app.simple.inure.constants.ShortcutConstants.UNINSTALLED_ACTION
@@ -64,7 +68,9 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
                     ShortcutModel(R.drawable.sc_most_used, MOST_USED_ID, MOST_USED_ACTION, R.string.most_used),
                     ShortcutModel(R.drawable.sc_uninstalled, UNINSTALLED_ID, UNINSTALLED_ACTION, R.string.uninstalled),
                     ShortcutModel(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, R.string.preferences),
-                    ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search)
+                    ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search),
+                    ShortcutModel(R.drawable.sc_tags, TAGS_ID, TAGS_ACTION, R.string.tags),
+                    ShortcutModel(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss)
             )
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
