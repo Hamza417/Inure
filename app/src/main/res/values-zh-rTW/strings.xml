@@ -105,7 +105,7 @@
     <string name="none">無</string>
     <string name="bouncy_desc">清單結束後到穩定前的反彈大小值。</string>
     <string name="root">Root</string>
-    <string name="use_root_methods">使用 Root 方式</string>
+    <string name="use_root_methods">Root 模式</string>
     <string name="root_desc">使用 Root 方式，而非使用原生 Android API 和程式庫來執行功能。\n\n建議使用這個選項，因為它可以簡化使用者體驗。\n\n裝置需要 Root。</string>
     <string name="back_button">返回</string>
     <string name="files">檔案</string>
@@ -633,7 +633,7 @@
     <string name="date">日期</string>
     <string name="trial_info">試用資訊</string>
     <string name="desc_trial">Inure App 管理員提供 15 天免費的應用程式完整存取。之後，這些功能將需要解鎖器的啟用。</string>
-    <string name="use_shizuku">使用 Shizuku</string>
+    <string name="use_shizuku">Shizuku 模式</string>
     <string name="shizuku_desc">使用 Shizuku API 而非原生 Android API 和程式庫來處理一些功能。\n\n此選項建議非 Root 使用者開啟。\n\n需要 Shizuku 存取權。</string>
     <string name="shizuku_alert">若授予 Root 存取權並在應用程式中切換至 Root 模式，則 Root 模式將優先於 Shizuku。</string>
     <string name="disclaimer">免責聲明</string>
