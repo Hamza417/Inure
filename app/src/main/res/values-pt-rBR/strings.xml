@@ -105,7 +105,7 @@
     <string name="none">Nenhum</string>
     <string name="bouncy_desc">Valor para o quanto a lista deve ser devolvida e dividida antes de ser liquidada depois que a lista terminar.</string>
     <string name="root">Root</string>
-    <string name="use_root_methods">Usar Métodos Root</string>
+    <string name="use_root_methods">Modo Root</string>
     <string name="root_desc">Use métodos raiz em vez de usar APIs nativas do Android e Libs para executar algumas funções.\n\nEsta opção é recomendada pois pode tornar a experiência do usuário mais racionalizada.\n\nDispositivo com root é necessário.</string>
     <string name="back_button">Voltar</string>
     <string name="files">Arquivos</string>
@@ -633,7 +633,7 @@
     <string name="date">Data</string>
     <string name="trial_info">Informação sobre o período de teste</string>
     <string name="desc_trial">O Gerenciador de Aplicativos Inure oferece total acesso gratuito ao aplicativo por 15 dias. Depois disso, estes recursos exigirão que o Unlocker seja ativado.</string>
-    <string name="use_shizuku">Use Shizuku</string>
+    <string name="use_shizuku">Modo Shizuku</string>
     <string name="shizuku_desc">Use Shizuku API em vez de usar APIs nativas do Android e Libs para executar algumas funções.\n\nEsta opção é recomendada para usuários que não usam root.\n\nÉ necessário o acesso Shizuku.</string>
     <string name="shizuku_alert">Se o acesso root for concedido e o modo root for alternado no aplicativo, então o modo root será preferido sobre Shizuku.</string>
     <string name="disclaimer">Aviso Legal</string>
@@ -700,6 +700,6 @@
     <string name="backup_and_restore_desc">Fazer backup e restaurar os dados do aplicativo.</string>
     <string name="import_">Importar</string>
     <string name="tags">Marcadores</string>
-    <string name="add_tag">Atribuir um Marcador</string>
+    <string name="add_tag">Adicionar um Novo Marcador</string>
     <string name="new_update_available">Nova atualização disponível</string>
 </resources>
