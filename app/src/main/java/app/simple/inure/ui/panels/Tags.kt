@@ -51,8 +51,10 @@ class Tags : ScopedFragment() {
                         }
 
                         override fun onDeleteClicked() {
-                            tagsViewModel?.deleteTag(tag) {
-                                (recyclerView.adapter as AdapterTags).removeTag(tag)
+                            onSure {
+                                tagsViewModel?.deleteTag(tag) {
+                                    (recyclerView.adapter as AdapterTags).removeTag(tag)
+                                }
                             }
                         }
                     })

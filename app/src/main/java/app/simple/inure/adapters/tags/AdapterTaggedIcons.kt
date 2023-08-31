@@ -19,7 +19,7 @@ class AdapterTaggedIcons(private val packageNames: List<String>) : RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        return packageNames.size
+        return packageNames.size.coerceAtMost(4 * 6) // Four rows and six columns
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
