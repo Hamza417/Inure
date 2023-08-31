@@ -15,7 +15,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.TagsRecyclerView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
-import app.simple.inure.popups.tags.PopupTagMenu
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.TextViewUtils.doOnTextChanged
 import app.simple.inure.util.ViewUtils.gone
@@ -77,13 +76,13 @@ class AddTag : ScopedDialogFragment() {
                     }
 
                     override fun onTagLongClicked(tag: String) {
-                        PopupTagMenu(requireView(), object : PopupTagMenu.Companion.TagsMenuCallback {
-                            override fun onDeleteClicked() {
-                                tagsViewModel?.removeTag(tag, packageInfo) {
-                                    this@apply.removeTag(tag)
-                                }
-                            }
-                        })
+                        //                        PopupTagMenu(requireView(), object : PopupTagMenu.Companion.TagsMenuCallback {
+                        //                            override fun onDeleteClicked() {
+                        //                                tagsViewModel?.removeTag(tag, packageInfo) {
+                        //                                    this@apply.removeTag(tag)
+                        //                                }
+                        //                            }
+                        //                        })
                     }
 
                     override fun onAddClicked() {
