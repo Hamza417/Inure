@@ -59,7 +59,7 @@ class FOSS : ScopedFragment() {
                 }
             })
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getUninstalledBottomMenuItems(), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "prefs_screen")
