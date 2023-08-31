@@ -105,7 +105,7 @@
     <string name="none">Ninguno</string>
     <string name="bouncy_desc">Valor de la cantidad a la que debe rebotar la lista antes de establecerse después de que la lista termine.</string>
     <string name="root">Root</string>
-    <string name="use_root_methods">Usar métodos Root</string>
+    <string name="use_root_methods">Modo Root</string>
     <string name="root_desc">Utiliza métodos root en lugar de usar APIs nativas de Android y Libs para realizar algunas funciones.\n\nEsta opción es recomendada ya que puede hacer que la experiencia del usuario sea más eficiente.\n\nSe requiere un dispositivo con acceso Root.</string>
     <string name="back_button">Atrás</string>
     <string name="files">Archivos</string>
@@ -633,7 +633,7 @@
     <string name="date">Fecha</string>
     <string name="trial_info">Información de prueba</string>
     <string name="desc_trial">Inure App Manager ofrece acceso gratuito completo a la aplicación durante 15 días. Después de eso, estas características requerirán el Desbloqueador para ser activadas.</string>
-    <string name="use_shizuku">Utilizar Shizuku</string>
+    <string name="use_shizuku">Modo Shizuku</string>
     <string name="shizuku_desc">Utilizar la API de Shizuku en lugar de usar APIs nativas de Android y Libs para realizar algunas funciones.\n\nEsta opción es recomendada para usuarios no root.\n\nSe requiere el acceso a Shizuku.</string>
     <string name="shizuku_alert">Si se concede el acceso root y el modo root se activa en la aplicación, entonces el modo root será preferido sobre Shizuku.</string>
     <string name="disclaimer">Descargo de responsabilidad</string>
