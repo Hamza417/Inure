@@ -30,9 +30,6 @@ An elegant Android app manager.
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GitHub%20Sponsors)-Purchase-ffffff?logo=github)](https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253)
 [![](https://img.shields.io/badge/Full%20Unlocker%20(Ko--Fi)-Purchase-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/s/c1f0cb960f)
 
-_**NOTE:**_ From 25th to 31st Aug 2023, Use code **MNSN50** on checkout page to get 50% off on the Unlocker on Gumroad and Ko-Fi. Play Store
-version can be purchased directly at a discounted price.
-
 ## Featured
 
 - [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
