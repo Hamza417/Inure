@@ -237,7 +237,8 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
     }
 
     fun getCurrentAppsList(): ArrayList<BatchPackageInfo> {
-        return apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+        return apps.stream().filter { it.isSelected }
+            .collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
     }
 
     @Suppress("unused")

@@ -28,6 +28,7 @@ import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGene
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
+import app.simple.inure.dialogs.tags.AddedTag.Companion.showAddedApps
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -205,8 +206,10 @@ class Batch : ScopedFragment() {
                 R.drawable.ic_tags -> {
                     childFragmentManager.showAddTagDialog().onTag = {
                         tagsViewModel.addMultipleAppsToTag(adapterBatch?.getCurrentAppsList()!!, it) {
+                            showLoader(manualOverride = true)
                             postDelayed {
-                                showWarning(R.string.done, goBack = false)
+                                hideLoader()
+                                childFragmentManager.showAddedApps(it)
                             }
                         }
                     }
