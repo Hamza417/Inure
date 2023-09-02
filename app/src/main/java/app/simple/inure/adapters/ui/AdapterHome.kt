@@ -1,4 +1,4 @@
-package app.simple.inure.adapters.menus
+package app.simple.inure.adapters.ui
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
@@ -15,12 +15,13 @@ import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterHome(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private lateinit var adapterHomeMenuCallbacks: AdapterHomeMenuCallbacks
 
@@ -29,21 +30,30 @@ class AdapterHomeMenu(private val list: List<Pair<Int, Int>>) : RecyclerView.Ada
             RecyclerViewUtils.TYPE_ITEM -> {
                 when (HomePreferences.getMenuLayout()) {
                     PopupMenuLayout.VERTICAL -> {
-                        Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu_vertical, parent, false))
+                        Holder(LayoutInflater.from(parent.context)
+                                   .inflate(R.layout.adapter_home_menu_vertical, parent, false))
                     }
                     PopupMenuLayout.GRID -> {
-                        Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_menu, parent, false))
+                        Holder(LayoutInflater.from(parent.context)
+                                   .inflate(R.layout.adapter_home_menu, parent, false))
                     }
                     else -> {
-                        throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
+                        throw IllegalArgumentException("Invalid menu layout")
                     }
                 }
             }
             RecyclerViewUtils.TYPE_DIVIDER -> {
-                Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_preferences, parent, false))
+                Divider(LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_divider_preferences, parent, false))
             }
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_home, parent, false))
+                if (DevelopmentPreferences.get(DevelopmentPreferences.expandHomeHeader)) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_home_expanded, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_home, parent, false))
+                }
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")

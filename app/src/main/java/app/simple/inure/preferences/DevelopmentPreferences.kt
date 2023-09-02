@@ -31,6 +31,7 @@ object DevelopmentPreferences {
     const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
     const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
     const val pauseImageLoader = "is_image_loader_paused"
+    const val expandHomeHeader = "is_home_header_expanded"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -171,6 +172,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Pause Image Loader",
                                             "Pause image loader in the app when fast scroller is being dragged to improve list performance.",
                                             pauseImageLoader,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Expand Home Header",
+                                            "Expand home header in the app.",
+                                            expandHomeHeader,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title

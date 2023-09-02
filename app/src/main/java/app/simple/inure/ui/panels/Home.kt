@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
-import app.simple.inure.adapters.menus.AdapterHomeMenu
+import app.simple.inure.adapters.ui.AdapterHome
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
@@ -97,9 +97,9 @@ class Home : ScopedFragment() {
                 }
             }
 
-            val adapter = AdapterHomeMenu(it)
+            val adapter = AdapterHome(it)
 
-            adapter.setOnAppInfoMenuCallback(object : AdapterHomeMenu.AdapterHomeMenuCallbacks {
+            adapter.setOnAppInfoMenuCallback(object : AdapterHome.AdapterHomeMenuCallbacks {
                 override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.apps -> {
