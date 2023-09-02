@@ -18,9 +18,7 @@ import kotlinx.coroutines.withContext
 class TagsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private val tags: MutableLiveData<ArrayList<Tag>> by lazy {
-        MutableLiveData<ArrayList<Tag>>().apply {
-            loadTags()
-        }
+        MutableLiveData<ArrayList<Tag>>()
     }
 
     private val tagNames: MutableLiveData<ArrayList<String>> by lazy {
@@ -37,11 +35,24 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         return tagNames
     }
 
+    override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        super.onAppsLoaded(apps)
+        loadTags()
+    }
+
     private fun loadTags() {
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
             val tags = database?.getTagDao()?.getTags()
-            this@TagsViewModel.tags.postValue(tags?.toArrayList() ?: ArrayList())
+            val apps = getInstalledApps() + getUninstalledApps()
+
+            this@TagsViewModel.tags.postValue(tags?.toArrayList()?.filter {
+                it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
+                    apps.any { app ->
+                        app.packageName == packageName
+                    }
+                }
+            }?.toArrayList() ?: ArrayList())
         }
     }
 
@@ -61,7 +72,12 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             if (tags.isNullOrEmpty().invert()) {
                 if (tags!!.contains(tag)) {
                     database.getTagDao()!!.getTag(tag).apply {
-                        packages = packages.plus("," + packageInfo.packageName)
+                        packages = if (packages.isNullOrEmpty()) {
+                            packageInfo.packageName
+                        } else {
+                            packages.plus("," + packageInfo.packageName)
+                        }
+
                         database.getTagDao()!!.updateTag(this)
                     }
                 } else {
@@ -107,7 +123,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     fun refresh() {
-        loadTags()
+        refreshPackageData()
     }
 
     fun deleteTag(tag: Tag, function: () -> Unit) {

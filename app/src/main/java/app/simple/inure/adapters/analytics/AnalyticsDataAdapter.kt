@@ -47,6 +47,16 @@ class AnalyticsDataAdapter(private val packageInfo: ArrayList<PackageInfo>) : Re
         this.adapterCallbacks = adapterCallbacks
     }
 
+    fun getPackageInfo(position: Int): PackageInfo {
+        return packageInfo[position]
+    }
+
+    fun removeItem(position: Int) {
+        packageInfo.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(0, packageInfo.size)
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)

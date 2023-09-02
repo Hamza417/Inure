@@ -9,6 +9,7 @@ import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TagsListViewModel(application: Application, private val tag: String) : PackageUtilsViewModel(application) {
 
@@ -40,6 +41,20 @@ class TagsListViewModel(application: Application, private val tag: String) : Pac
             }
 
             taggedApps.postValue(apps)
+        }
+    }
+
+    fun deleteTaggedApp(position: String, packageInfo: String, function: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val tag = TagsDatabase.getInstance(application.applicationContext)?.getTagDao()?.getTag(position)
+            val packages = tag?.packages?.split(",")?.toMutableList()
+            packages?.remove(packageInfo)
+            tag?.packages = packages?.joinToString(",")
+            TagsDatabase.getInstance(application.applicationContext)?.getTagDao()?.updateTag(tag!!)
+
+            withContext(Dispatchers.Main) {
+                function()
+            }
         }
     }
 }

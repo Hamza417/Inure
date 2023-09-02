@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AnalyticsDataAdapter
 import app.simple.inure.constants.BundleConstants
@@ -20,6 +22,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.TaggedAppsViewModelFactory
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.viewmodels.subviewers.TagsListViewModel
 
 class TaggedApps : ScopedFragment() {
@@ -29,7 +32,8 @@ class TaggedApps : ScopedFragment() {
     private lateinit var loader: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
-    private lateinit var taggedAppsViewModel: TagsListViewModel
+    private lateinit var tagsListViewModel: TagsListViewModel
+    private lateinit var tagsViewModel: TagsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_tagged_apps, container, false)
@@ -40,7 +44,8 @@ class TaggedApps : ScopedFragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
 
         val taggedAppsViewModelFactory = TaggedAppsViewModelFactory(requireArguments().getString(BundleConstants.tag)!!)
-        taggedAppsViewModel = ViewModelProvider(this, taggedAppsViewModelFactory)[TagsListViewModel::class.java]
+        tagsListViewModel = ViewModelProvider(this, taggedAppsViewModelFactory)[TagsListViewModel::class.java]
+        tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         return view
     }
@@ -50,13 +55,13 @@ class TaggedApps : ScopedFragment() {
 
         title.text = requireArguments().getString(BundleConstants.tag)!!
 
-        if (taggedAppsViewModel.getTaggedApps().value != null) {
+        if (tagsListViewModel.getTaggedApps().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
         }
 
-        taggedAppsViewModel.getTaggedApps().observe(viewLifecycleOwner) {
+        tagsListViewModel.getTaggedApps().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             val taggedAppsAdapter = AnalyticsDataAdapter(it)
 
@@ -72,6 +77,7 @@ class TaggedApps : ScopedFragment() {
             })
 
             recyclerView.adapter = taggedAppsAdapter
+            ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView)
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -80,6 +86,25 @@ class TaggedApps : ScopedFragment() {
 
         back.setOnClickListener {
             popBackStack()
+        }
+    }
+
+    private val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object
+        : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+            // Remove swiped item from list and notify the RecyclerView
+            val position = viewHolder.bindingAdapterPosition
+            val packageName = (recyclerView.adapter as AnalyticsDataAdapter).getPackageInfo(position).packageName
+            (recyclerView.adapter as AnalyticsDataAdapter).removeItem(position)
+
+            tagsListViewModel.deleteTaggedApp(requireArguments().getString(BundleConstants.tag)!!, packageName) {
+                tagsViewModel.refresh()
+            }
         }
     }
 
