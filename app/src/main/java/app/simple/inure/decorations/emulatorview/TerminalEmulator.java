@@ -62,8 +62,8 @@ class TerminalEmulator {
      * Stores the characters that appear on the screen of the emulated terminal.
      */
     private final TranscriptScreen mMainBuffer;
-    private TranscriptScreen mAltBuffer;
-    private TranscriptScreen mScreen;
+    private TranscriptScreen altBuffer;
+    private TranscriptScreen screen;
     
     /**
      * The terminal session this emulator is bound to.
@@ -418,14 +418,14 @@ class TerminalEmulator {
     public TerminalEmulator(TermSession session, TranscriptScreen screen, int columns, int rows, ColorScheme scheme) {
         mSession = session;
         mMainBuffer = screen;
-        mScreen = mMainBuffer;
-        mAltBuffer = new TranscriptScreen(columns, rows, rows, scheme);
+        this.screen = mMainBuffer;
+        altBuffer = new TranscriptScreen(columns, rows, rows, scheme);
         mRows = rows;
         mColumns = columns;
         mTabStop = new boolean[mColumns];
-        
+    
         setColorScheme(scheme);
-        
+    
         mUTF8ByteBuffer = ByteBuffer.allocate(4);
         mInputCharBuffer = CharBuffer.allocate(2);
         mUTF8Decoder = StandardCharsets.UTF_8.newDecoder();
@@ -436,7 +436,7 @@ class TerminalEmulator {
     }
     
     public TranscriptScreen getScreen() {
-        return mScreen;
+        return screen;
     }
     
     public void updateSize(int columns, int rows) {
@@ -450,13 +450,13 @@ class TerminalEmulator {
         if (rows <= 0) {
             throw new IllegalArgumentException("rows:" + rows);
         }
-        
-        TranscriptScreen screen = mScreen;
+    
+        TranscriptScreen screen = this.screen;
         TranscriptScreen altScreen;
         if (screen != mMainBuffer) {
             altScreen = mMainBuffer;
         } else {
-            altScreen = mAltBuffer;
+            altScreen = altBuffer;
         }
         
         // Try to resize the screen without getting the transcript
@@ -512,7 +512,7 @@ class TerminalEmulator {
             boolean wasAboutToAutoWrap = mAboutToAutoWrap;
             
             // Restore the contents of the inactive screen's buffer
-            mScreen = altScreen;
+            this.screen = altScreen;
             mCursorRow = 0;
             mCursorCol = 0;
             mAboutToAutoWrap = false;
@@ -538,8 +538,8 @@ class TerminalEmulator {
                     emit(c, style);
                 }
             }
-            
-            mScreen = screen;
+    
+            this.screen = screen;
             mAboutToAutoWrap = wasAboutToAutoWrap;
         }
         
@@ -935,8 +935,8 @@ class TerminalEmulator {
                     case 47:
                     case 1047:
                     case 1049:
-                        if (mAltBuffer != null) {
-                            mScreen = mAltBuffer;
+                        if (altBuffer != null) {
+                            screen = altBuffer;
                         }
                         break;
                 }
@@ -954,7 +954,7 @@ class TerminalEmulator {
                     case 47:
                     case 1047:
                     case 1049:
-                        mScreen = mMainBuffer;
+                        screen = mMainBuffer;
                         break;
                 }
                 if (arg >= 1000 && arg <= 1003) {
@@ -1062,15 +1062,11 @@ class TerminalEmulator {
     }
     
     private void doEscPound(byte b) {
-        switch (b) {
-            case '8': // Esc # 8 - DECALN alignment test
-                mScreen.blockSet(0, 0, mColumns, mRows, 'E',
-                        getStyle());
-                break;
-            
-            default:
-                unknownSequence(b);
-                break;
+        if (b == '8') { // Esc # 8 - DECALN alignment test
+            screen.blockSet(0, 0, mColumns, mRows, 'E',
+                    getStyle());
+        } else {
+            unknownSequence(b);
         }
     }
     
@@ -1121,7 +1117,7 @@ class TerminalEmulator {
             
             case 'M': // Reverse index
                 if (mCursorRow <= mTopMargin) {
-                    mScreen.blockCopy(0, mTopMargin, mColumns, mBottomMargin
+                    screen.blockCopy(0, mTopMargin, mColumns, mBottomMargin
                             - (mTopMargin + 1), 0, mTopMargin + 1);
                     blockClear(0, mTopMargin, mColumns);
                 } else {
@@ -1177,7 +1173,7 @@ class TerminalEmulator {
                 int charsAfterCursor = mColumns - mCursorCol;
                 int charsToInsert = Math.min(getArg0(1), charsAfterCursor);
                 int charsToMove = charsAfterCursor - charsToInsert;
-                mScreen.blockCopy(mCursorCol, mCursorRow, charsToMove, 1,
+                screen.blockCopy(mCursorCol, mCursorRow, charsToMove, 1,
                         mCursorCol + charsToInsert, mCursorRow);
                 blockClear(mCursorCol, mCursorRow, charsToInsert);
             }
@@ -1256,7 +1252,7 @@ class TerminalEmulator {
                 int linesAfterCursor = mBottomMargin - mCursorRow;
                 int linesToInsert = Math.min(getArg0(1), linesAfterCursor);
                 int linesToMove = linesAfterCursor - linesToInsert;
-                mScreen.blockCopy(0, mCursorRow, mColumns, linesToMove, 0,
+                screen.blockCopy(0, mCursorRow, mColumns, linesToMove, 0,
                         mCursorRow + linesToInsert);
                 blockClear(0, mCursorRow, mColumns, linesToInsert);
             }
@@ -1267,7 +1263,7 @@ class TerminalEmulator {
                 int linesAfterCursor = mBottomMargin - mCursorRow;
                 int linesToDelete = Math.min(getArg0(1), linesAfterCursor);
                 int linesToMove = linesAfterCursor - linesToDelete;
-                mScreen.blockCopy(0, mCursorRow + linesToDelete, mColumns,
+                screen.blockCopy(0, mCursorRow + linesToDelete, mColumns,
                         linesToMove, 0, mCursorRow);
                 blockClear(0, mCursorRow + linesToMove, mColumns, linesToDelete);
             }
@@ -1278,7 +1274,7 @@ class TerminalEmulator {
                 int charsAfterCursor = mColumns - mCursorCol;
                 int charsToDelete = Math.min(getArg0(1), charsAfterCursor);
                 int charsToMove = charsAfterCursor - charsToDelete;
-                mScreen.blockCopy(mCursorCol + charsToDelete, mCursorRow,
+                screen.blockCopy(mCursorCol + charsToDelete, mCursorRow,
                         charsToMove, 1, mCursorCol, mCursorRow);
                 blockClear(mCursorCol + charsToMove, mCursorRow, charsToDelete);
             }
@@ -1507,18 +1503,13 @@ class TerminalEmulator {
     }
     
     private void doEscRightSquareBracketEsc(byte b) {
-        switch (b) {
-            case '\\':
-                doOSC();
-                break;
-            
-            default:
-                // The ESC character was not followed by a \, so insert the ESC and
-                // the current character in arg buffer.
-                collectOSCArgs((byte) 0x1b);
-                collectOSCArgs(b);
-                continueSequence(ESC_RIGHT_SQUARE_BRACKET);
-                break;
+        if (b == '\\') {
+            doOSC();
+        } else {// The ESC character was not followed by a \, so insert the ESC and
+            // the current character in arg buffer.
+            collectOSCArgs((byte) 0x1b);
+            collectOSCArgs(b);
+            continueSequence(ESC_RIGHT_SQUARE_BRACKET);
         }
     }
     
@@ -1549,7 +1540,7 @@ class TerminalEmulator {
     }
     
     private void blockClear(int sx, int sy, int w, int h) {
-        mScreen.blockSet(sx, sy, w, h, ' ', getStyle());
+        screen.blockSet(sx, sy, w, h, ' ', getStyle());
     }
     
     private int getForeColor() {
@@ -1570,14 +1561,10 @@ class TerminalEmulator {
     
     private void doSetMode(boolean newValue) {
         int modeBit = getArg0(0);
-        switch (modeBit) {
-            case 4:
-                mInsertMode = newValue;
-                break;
-            
-            default:
-                unknownParameter(modeBit);
-                break;
+        if (modeBit == 4) {
+            mInsertMode = newValue;
+        } else {
+            unknownParameter(modeBit);
         }
     }
     
@@ -1631,7 +1618,7 @@ class TerminalEmulator {
     private void scroll() {
         //System.out.println("Scroll(): mTopMargin " + mTopMargin + " mBottomMargin " + mBottomMargin);
         mScrollCounter++;
-        mScreen.scroll(mTopMargin, mBottomMargin, getStyle());
+        screen.scroll(mTopMargin, mBottomMargin, getStyle());
     }
     
     /**
@@ -1747,10 +1734,9 @@ class TerminalEmulator {
     
     private void unknownParameter(int parameter) {
         if (EmulatorDebug.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
-            StringBuilder buf = new StringBuilder();
-            buf.append("Unknown parameter");
-            buf.append(parameter);
-            logError(buf.toString());
+            String buf = "Unknown parameter" +
+                    parameter;
+            logError(buf);
         }
     }
     
@@ -1809,7 +1795,7 @@ class TerminalEmulator {
         
         if (autoWrap) {
             if (mCursorCol == mColumns - 1 && (mAboutToAutoWrap || width == 2)) {
-                mScreen.setLineWrap(mCursorRow);
+                screen.setLineWrap(mCursorRow);
                 mCursorCol = 0;
                 mJustWrapped = true;
                 if (mCursorRow + 1 < mBottomMargin) {
@@ -1823,7 +1809,7 @@ class TerminalEmulator {
         if (mInsertMode & width != 0) { // Move character to right one space
             int destCol = mCursorCol + width;
             if (destCol < mColumns) {
-                mScreen.blockCopy(mCursorCol, mCursorRow, mColumns - destCol,
+                screen.blockCopy(mCursorCol, mCursorRow, mColumns - destCol,
                         1, destCol, mCursorRow);
             }
         }
@@ -1831,12 +1817,12 @@ class TerminalEmulator {
         if (width == 0) {
             // Combining character -- store along with character it modifies
             if (mJustWrapped) {
-                mScreen.set(mColumns - mLastEmittedCharWidth, mCursorRow - 1, c, style);
+                screen.set(mColumns - mLastEmittedCharWidth, mCursorRow - 1, c, style);
             } else {
-                mScreen.set(mCursorCol - mLastEmittedCharWidth, mCursorRow, c, style);
+                screen.set(mCursorCol - mLastEmittedCharWidth, mCursorRow, c, style);
             }
         } else {
-            mScreen.set(mCursorCol, mCursorRow, c, style);
+            screen.set(mCursorCol, mCursorRow, c, style);
             mJustWrapped = false;
         }
         
@@ -1845,7 +1831,7 @@ class TerminalEmulator {
             
             //Force line-wrap flag to trigger even for lines being typed
             if (mAboutToAutoWrap) {
-                mScreen.setLineWrap(mCursorRow);
+                screen.setLineWrap(mCursorRow);
             }
         }
         
@@ -1995,19 +1981,19 @@ class TerminalEmulator {
         mDefaultForeColor = TextStyle.ciForeground;
         mDefaultBackColor = TextStyle.ciBackground;
         mMainBuffer.setColorScheme(scheme);
-        if (mAltBuffer != null) {
-            mAltBuffer.setColorScheme(scheme);
+        if (altBuffer != null) {
+            altBuffer.setColorScheme(scheme);
         }
     }
     
     public String getSelectedText(int x1, int y1, int x2, int y2) {
-        return mScreen.getSelectedText(x1, y1, x2, y2);
+        return screen.getSelectedText(x1, y1, x2, y2);
     }
     
     public void finish() {
-        if (mAltBuffer != null) {
-            mAltBuffer.finish();
-            mAltBuffer = null;
+        if (altBuffer != null) {
+            altBuffer.finish();
+            altBuffer = null;
         }
     }
 }

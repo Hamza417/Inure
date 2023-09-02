@@ -19,7 +19,11 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:textSize="@dimen/popup_text_size"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            app:drawableEndCompat="@drawable/ic_warning_tiny"
             app:appFontStyle="bold"
+            app:drawableTintStyle="warning"
             app:textColorStyle="primary" />
 
         <LinearLayout

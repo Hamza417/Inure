@@ -45,7 +45,7 @@ public class RemoteInterface extends BaseActivity {
     
     private TermSettings mSettings;
     
-    private TermService mTermService;
+    private TermService termService;
     private Intent mTSIntent;
     
     /**
@@ -109,19 +109,6 @@ public class RemoteInterface extends BaseActivity {
         }
     }
     
-    private ServiceConnection terminalServiceConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            TermService.TSBinder binder = (TermService.TSBinder) service;
-            mTermService = binder.getService();
-            Log.d(TermDebug.LOG_TAG, "RemoteInterface connected to service");
-            handleIntent();
-        }
-        
-        public void onServiceDisconnected(ComponentName className) {
-            mTermService = null;
-        }
-    };
-    
     @Override
     public void finish() {
         ServiceConnection conn = terminalServiceConnection;
@@ -129,23 +116,36 @@ public class RemoteInterface extends BaseActivity {
             unbindService(conn);
             
             // Stop the service if no terminal sessions are running
-            TermService service = mTermService;
+            TermService service = termService;
             if (service != null) {
                 SessionList sessions = service.getSessions();
                 if (sessions == null || sessions.size() == 0) {
                     stopService(mTSIntent);
                 }
             }
-            
+    
             terminalServiceConnection = null;
-            mTermService = null;
+            termService = null;
         }
         super.finish();
-    }
+    }    private ServiceConnection terminalServiceConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            TermService.TSBinder binder = (TermService.TSBinder) service;
+            termService = binder.getService();
+            Log.d(TermDebug.LOG_TAG, "RemoteInterface connected to service");
+            handleIntent();
+        }
+        
+        public void onServiceDisconnected(ComponentName className) {
+            termService = null;
+        }
+    };
     
     protected TermService getTermService() {
-        return mTermService;
+        return termService;
     }
+    
+
     
     protected String openNewWindow(String iInitialCommand) {
         TermService service = getTermService();

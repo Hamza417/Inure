@@ -57,6 +57,8 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
                 loadSearched(MusicPreferences.getSearchKeyword())
             } catch (e: SQLiteException) {
                 postWarning(e.message ?: "Unknown error occurred")
+            } catch (e: IllegalArgumentException) {
+                postWarning(e.message ?: "Unknown error occurred")
             }
         }
     }
@@ -66,7 +68,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
      */
     @Suppress("SameParameterValue")
     @SuppressLint("Range", "InlinedApi")
-    @Throws(SQLiteException::class)
+    @Throws(SQLiteException::class, IllegalArgumentException::class)
     private fun getAllAudioFiles(contentLocation: Uri): ArrayList<AudioModel> {
         val allAudioModel = ArrayList<AudioModel>()
 

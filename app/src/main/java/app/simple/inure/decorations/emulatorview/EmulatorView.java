@@ -124,7 +124,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     /**
      * Our terminal emulator.
      */
-    private TerminalEmulator mEmulator;
+    private TerminalEmulator emulator;
     
     /**
      * The number of rows of text to display.
@@ -159,14 +159,27 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     private boolean mCursorVisible = true;
     
     private boolean mIsSelectingText = false;
-    
-    private boolean mBackKeySendsCharacter = false;
-    private int mControlKeyCode;
-    private int mFnKeyCode;
-    private boolean mIsControlKeySent = false;
+    /**
+     * Called by the TermSession when the contents of the view need updating
+     */
+    private final UpdateCallback mUpdateNotify = new UpdateCallback() {
+        public void onUpdate() {
+            if (mIsSelectingText) {
+                int rowShift = emulator.getScrollCounter();
+                mSelY1 -= rowShift;
+                mSelY2 -= rowShift;
+                mSelYAnchor -= rowShift;
+            }
+            emulator.clearScrollCounter();
+            ensureCursorVisible();
+            invalidate();
+        }
+    };
+    private boolean backKeySendsCharacter = false;
+    private int controlKeyCode;
+    private int fnKeyCode;
     private boolean mIsFnKeySent = false;
-    
-    private boolean mMouseTracking;
+    private boolean isControlKeySent = false;
     
     private float mDensity;
     
@@ -260,6 +273,61 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     private static final MatchFilter sHttpMatchFilter = new HttpMatchFilter();
+    private boolean mouseTracking;
+    
+    /**
+     * Sends mouse wheel codes to terminal in response to fling.
+     */
+    private class MouseTrackingFlingRunner implements Runnable {
+        private Scroller mScroller;
+        private int mLastY;
+        private MotionEvent mMotionEvent;
+        
+        public void fling(MotionEvent e, float velocityX, float velocityY) {
+            float SCALE = 0.15f;
+            mScroller.fling(0, 0,
+                    -(int) (velocityX * SCALE), -(int) (velocityY * SCALE),
+                    0, 0, -100, 100);
+            mLastY = 0;
+            mMotionEvent = e;
+            post(this);
+        }
+        
+        public void run() {
+            if (mScroller.isFinished()) {
+                return;
+            }
+            // Check whether mouse tracking was turned off during fling.
+            if (!isMouseTrackingActive()) {
+                return;
+            }
+            
+            boolean more = mScroller.computeScrollOffset();
+            int newY = mScroller.getCurrY();
+            for (; mLastY < newY; mLastY++) {
+                sendMouseEventCode(mMotionEvent, 65);
+            }
+            for (; mLastY > newY; mLastY--) {
+                sendMouseEventCode(mMotionEvent, 64);
+            }
+            
+            if (more) {
+                post(this);
+            }
+        }
+    }
+    
+    private final MouseTrackingFlingRunner mMouseTrackingFlingRunner = new MouseTrackingFlingRunner();
+    
+    private float mScrollRemainder;
+    private TermKeyListener keyListener;
+    
+    private String mImeBuffer = "";
+    
+    /**
+     * Our message handler class. Implements a periodic callback.
+     */
+    private final Handler mHandler = new Handler();
     
     /**
      * Convert any URLs in the current row into a URLSpan,
@@ -269,7 +337,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * @return The number of lines in a multi-line-wrap set of links
      */
     private int createLinks(int row) {
-        TranscriptScreen transcriptScreen = mEmulator.getScreen();
+        TranscriptScreen transcriptScreen = emulator.getScreen();
         char[] line = transcriptScreen.getScriptLine(row);
         int lineCount = 1;
         
@@ -418,77 +486,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     /**
-     * Sends mouse wheel codes to terminal in response to fling.
-     */
-    private class MouseTrackingFlingRunner implements Runnable {
-        private Scroller mScroller;
-        private int mLastY;
-        private MotionEvent mMotionEvent;
-        
-        public void fling(MotionEvent e, float velocityX, float velocityY) {
-            float SCALE = 0.15f;
-            mScroller.fling(0, 0,
-                    -(int) (velocityX * SCALE), -(int) (velocityY * SCALE),
-                    0, 0, -100, 100);
-            mLastY = 0;
-            mMotionEvent = e;
-            post(this);
-        }
-        
-        public void run() {
-            if (mScroller.isFinished()) {
-                return;
-            }
-            // Check whether mouse tracking was turned off during fling.
-            if (!isMouseTrackingActive()) {
-                return;
-            }
-            
-            boolean more = mScroller.computeScrollOffset();
-            int newY = mScroller.getCurrY();
-            for (; mLastY < newY; mLastY++) {
-                sendMouseEventCode(mMotionEvent, 65);
-            }
-            for (; mLastY > newY; mLastY--) {
-                sendMouseEventCode(mMotionEvent, 64);
-            }
-            
-            if (more) {
-                post(this);
-            }
-        }
-    }
-    
-    private final MouseTrackingFlingRunner mMouseTrackingFlingRunner = new MouseTrackingFlingRunner();
-    
-    private float mScrollRemainder;
-    private TermKeyListener mKeyListener;
-    
-    private String mImeBuffer = "";
-    
-    /**
-     * Our message handler class. Implements a periodic callback.
-     */
-    private final Handler mHandler = new Handler();
-    
-    /**
-     * Called by the TermSession when the contents of the view need updating
-     */
-    private final UpdateCallback mUpdateNotify = new UpdateCallback() {
-        public void onUpdate() {
-            if (mIsSelectingText) {
-                int rowShift = mEmulator.getScrollCounter();
-                mSelY1 -= rowShift;
-                mSelY2 -= rowShift;
-                mSelYAnchor -= rowShift;
-            }
-            mEmulator.clearScrollCounter();
-            ensureCursorVisible();
-            invalidate();
-        }
-    };
-    
-    /**
      * Create an <code>EmulatorView</code> for a {@link TermSession}.
      *
      * @param context The {@link Context} for the view.
@@ -550,12 +547,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         setVerticalScrollBarEnabled(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        
+    
         mTermSession = session;
-        
-        mKeyListener = new TermKeyListener(session);
-        session.setKeyListener(mKeyListener);
-        
+    
+        keyListener = new TermKeyListener(session);
+        session.setKeyListener(keyListener);
+    
         // Do init now if it was deferred until a TermSession was attached
         if (mDeferInit) {
             mDeferInit = false;
@@ -586,8 +583,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         if (cursorBlink) {
             mHandler.postDelayed(mBlinkCursor, CURSOR_BLINK_PERIOD);
         }
-        if (mKeyListener != null) {
-            mKeyListener.onResume();
+        if (keyListener != null) {
+            keyListener.onResume();
         }
     }
     
@@ -598,8 +595,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         if (cursorBlink) {
             mHandler.removeCallbacks(mBlinkCursor);
         }
-        if (mKeyListener != null) {
-            mKeyListener.onPause();
+        if (keyListener != null) {
+            keyListener.onPause();
         }
     }
     
@@ -665,11 +662,11 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             }
             
             private void mapAndSend(int c) throws IOException {
-                int result = mKeyListener.mapControlChar(c);
+                int result = keyListener.mapControlChar(c);
                 if (result < TermKeyListener.KEYCODE_OFFSET) {
                     mTermSession.write(result);
                 } else {
-                    mKeyListener.handleKeyCode(result - TermKeyListener.KEYCODE_OFFSET, null, getKeypadApplicationMode());
+                    keyListener.handleKeyCode(result - TermKeyListener.KEYCODE_OFFSET, null, getKeypadApplicationMode());
                 }
                 clearSpecialKeyStatus();
             }
@@ -927,7 +924,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Get the terminal emulator's keypad application mode.
      */
     public boolean getKeypadApplicationMode() {
-        return mEmulator.getKeypadApplicationMode();
+        return emulator.getKeypadApplicationMode();
     }
     
     /**
@@ -950,7 +947,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     @Override
     protected int computeVerticalScrollRange() {
-        return mEmulator.getScreen().getActiveRows();
+        return emulator.getScreen().getActiveRows();
     }
     
     /**
@@ -970,7 +967,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     @Override
     protected int computeVerticalScrollOffset() {
-        return mEmulator.getScreen().getActiveRows() + mTopRow - mRows;
+        return emulator.getScreen().getActiveRows() + mTopRow - mRows;
     }
     
     /**
@@ -980,8 +977,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         TermSession session = mTermSession;
         
         updateText();
-        
-        mEmulator = session.getTerminalEmulator();
+    
+        emulator = session.getTerminalEmulator();
         session.setUpdateCallback(mUpdateNotify);
         
         requestFocus();
@@ -1042,7 +1039,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     public void page(int delta) {
         mTopRow =
-                Math.min(0, Math.max(-(mEmulator.getScreen()
+                Math.min(0, Math.max(-(emulator.getScreen()
                         .getActiveTranscriptRows()), mTopRow + mRows * delta));
         invalidate();
     }
@@ -1083,7 +1080,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Returns true if mouse events are being sent as escape sequences to the terminal.
      */
     public boolean isMouseTrackingActive() {
-        return mEmulator.getMouseTrackingMode() != 0 && mMouseTracking;
+        return emulator.getMouseTrackingMode() != 0 && mouseTracking;
     }
     
     /**
@@ -1155,7 +1152,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         }
         
         mTopRow =
-                Math.min(0, Math.max(-(mEmulator.getScreen()
+                Math.min(0, Math.max(-(emulator.getScreen()
                         .getActiveTranscriptRows()), mTopRow + deltaRows));
         invalidate();
         
@@ -1174,7 +1171,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     
     public boolean onJumpTapUp(MotionEvent e1, MotionEvent e2) {
         // Scroll to top
-        mTopRow = -mEmulator.getScreen().getActiveTranscriptRows();
+        mTopRow = -emulator.getScreen().getActiveTranscriptRows();
         invalidate();
         return true;
     }
@@ -1193,7 +1190,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             mScroller.fling(0, mTopRow,
                     -(int) (velocityX * SCALE), -(int) (velocityY * SCALE),
                     0, 0,
-                    -mEmulator.getScreen().getActiveTranscriptRows(), 0);
+                    -emulator.getScreen().getActiveTranscriptRows(), 0);
             // onScroll(e1, e2, 0.1f * velocityX, -0.1f * velocityY);
             post(mFlingRunner);
         }
@@ -1292,12 +1289,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         // Translate the keyCode into an ASCII character.
         
         try {
-            int oldCombiningAccent = mKeyListener.getCombiningAccent();
-            int oldCursorMode = mKeyListener.getCursorMode();
-            mKeyListener.keyDown(keyCode, event, getKeypadApplicationMode(),
+            int oldCombiningAccent = keyListener.getCombiningAccent();
+            int oldCursorMode = keyListener.getCursorMode();
+            keyListener.keyDown(keyCode, event, getKeypadApplicationMode(),
                     TermKeyListener.isEventFromToggleDevice(event));
-            if (mKeyListener.getCombiningAccent() != oldCombiningAccent
-                    || mKeyListener.getCursorMode() != oldCursorMode) {
+            if (keyListener.getCombiningAccent() != oldCombiningAccent
+                    || keyListener.getCursorMode() != oldCursorMode) {
                 invalidate();
             }
         } catch (IOException e) {
@@ -1310,7 +1307,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Do we want to intercept this system key?
      */
     private boolean isInterceptedSystemKey(int keyCode) {
-        return keyCode == KeyEvent.KEYCODE_BACK && mBackKeySendsCharacter;
+        return keyCode == KeyEvent.KEYCODE_BACK && backKeySendsCharacter;
     }
     
     /**
@@ -1335,8 +1332,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 return super.onKeyUp(keyCode, event);
             }
         }
-        
-        mKeyListener.keyUp(keyCode, event);
+    
+        keyListener.keyUp(keyCode, event);
         clearSpecialKeyStatus();
         return true;
     }
@@ -1344,12 +1341,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (sTrapAltAndMeta) {
-            boolean altEsc = mKeyListener.getAltSendsEsc();
+            boolean altEsc = keyListener.getAltSendsEsc();
             boolean altOn = (event.getMetaState() & KeyEvent.META_ALT_ON) != 0;
             boolean metaOn = (event.getMetaState() & KeyEvent.META_META_ON) != 0;
             boolean altPressed = (keyCode == KeyEvent.KEYCODE_ALT_LEFT)
                     || (keyCode == KeyEvent.KEYCODE_ALT_RIGHT);
-            boolean altActive = mKeyListener.isAltActive();
+            boolean altActive = keyListener.isAltActive();
             if (altEsc && (altOn || altPressed || altActive || metaOn)) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     return onKeyDown(keyCode, event);
@@ -1362,8 +1359,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         if (handleHardwareControlKey(keyCode, event)) {
             return true;
         }
-        
-        if (mKeyListener.isCtrlActive()) {
+    
+        if (keyListener.isCtrlActive()) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 return onKeyDown(keyCode, event);
             } else {
@@ -1375,11 +1372,11 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     private boolean handleControlKey(int keyCode, boolean down) {
-        if (keyCode == mControlKeyCode) {
+        if (keyCode == controlKeyCode) {
             if (LOG_KEY_EVENTS) {
                 Log.w(TAG, "handleControlKey " + keyCode);
             }
-            mKeyListener.handleControlKey(down);
+            keyListener.handleControlKey(down);
             invalidate();
             return true;
         }
@@ -1393,7 +1390,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 Log.w(TAG, "handleHardwareControlKey " + keyCode);
             }
             boolean down = event.getAction() == KeyEvent.ACTION_DOWN;
-            mKeyListener.handleHardwareControlKey(down);
+            keyListener.handleHardwareControlKey(down);
             invalidate();
             return true;
         }
@@ -1401,11 +1398,11 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     private boolean handleFnKey(int keyCode, boolean down) {
-        if (keyCode == mFnKeyCode) {
+        if (keyCode == fnKeyCode) {
             if (LOG_KEY_EVENTS) {
                 Log.w(TAG, "handleFnKey " + keyCode);
             }
-            mKeyListener.handleFnKey(down);
+            keyListener.handleFnKey(down);
             invalidate();
             return true;
         }
@@ -1417,14 +1414,14 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     }
     
     private void clearSpecialKeyStatus() {
-        if (mIsControlKeySent) {
-            mIsControlKeySent = false;
-            mKeyListener.handleControlKey(false);
+        if (isControlKeySent) {
+            isControlKeySent = false;
+            keyListener.handleControlKey(false);
             invalidate();
         }
         if (mIsFnKeySent) {
             mIsFnKeySent = false;
-            mKeyListener.handleFnKey(false);
+            keyListener.handleFnKey(false);
             invalidate();
         }
     }
@@ -1511,36 +1508,36 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     @Override
     protected void onDraw(Canvas canvas) {
         updateSize(false);
-        
-        if (mEmulator == null) {
+    
+        if (emulator == null) {
             // Not ready yet
             return;
         }
         
         int w = getWidth();
         int h = getHeight();
-        
-        boolean reverseVideo = mEmulator.getReverseVideo();
+    
+        boolean reverseVideo = emulator.getReverseVideo();
         mTextRenderer.setReverseVideo(reverseVideo);
-        
+    
         Paint backgroundPaint =
                 reverseVideo ? mForegroundPaint : mBackgroundPaint;
         canvas.drawRect(0, 0, w, h, backgroundPaint);
         float x = -mLeftColumn * mCharacterWidth;
         float y = mCharacterHeight + mTopOfScreenMargin;
         int endLine = mTopRow + mRows;
-        int cx = mEmulator.getCursorCol();
-        int cy = mEmulator.getCursorRow();
-        boolean cursorVisible = mCursorVisible && mEmulator.getShowCursor();
+        int cx = emulator.getCursorCol();
+        int cy = emulator.getCursorRow();
+        boolean cursorVisible = mCursorVisible && emulator.getShowCursor();
         String effectiveImeBuffer = mImeBuffer;
-        int combiningAccent = mKeyListener.getCombiningAccent();
+        int combiningAccent = keyListener.getCombiningAccent();
         if (combiningAccent != 0) {
             effectiveImeBuffer += String.valueOf((char) combiningAccent);
         }
-        int cursorStyle = mKeyListener.getCursorMode();
-        
+        int cursorStyle = keyListener.getCursorMode();
+    
         int linkLinesToSkip = 0; //for multi-line links
-        
+    
         for (int i = mTopRow; i < endLine; i++) {
             int cursorX = -1;
             if (i == cy && cursorVisible) {
@@ -1558,7 +1555,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                     selx2 = mColumns;
                 }
             }
-            mEmulator.getScreen().drawText(i, canvas, x, y, mTextRenderer, cursorX, selx1, selx2, effectiveImeBuffer, cursorStyle);
+            emulator.getScreen().drawText(i, canvas, x, y, mTextRenderer, cursorX, selx1, selx2, effectiveImeBuffer, cursorStyle);
             y += mCharacterHeight;
             //if no lines to skip, create links for the line being drawn
             if (linkLinesToSkip == 0) {
@@ -1573,8 +1570,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     private void ensureCursorVisible() {
         mTopRow = 0;
         if (mVisibleColumns > 0) {
-            int cx = mEmulator.getCursorCol();
-            int visibleCursorX = mEmulator.getCursorCol() - mLeftColumn;
+            int cx = emulator.getCursorCol();
+            int visibleCursorX = emulator.getCursorCol() - mLeftColumn;
             if (visibleCursorX < 0) {
                 mLeftColumn = cx;
             } else if (visibleCursorX >= mVisibleColumns) {
@@ -1610,15 +1607,15 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * @return A {@link String} with the selected text.
      */
     public String getSelectedText() {
-        return mEmulator.getSelectedText(mSelX1, mSelY1, mSelX2, mSelY2);
+        return emulator.getSelectedText(mSelX1, mSelY1, mSelX2, mSelY2);
     }
     
     /**
      * Send a Ctrl key event to the terminal.
      */
     public void sendControlKey() {
-        mIsControlKeySent = true;
-        mKeyListener.handleControlKey(true);
+        isControlKeySent = true;
+        keyListener.handleControlKey(true);
         invalidate();
     }
     
@@ -1628,7 +1625,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     public void sendFnKey() {
         mIsFnKeySent = true;
-        mKeyListener.handleFnKey(true);
+        keyListener.handleFnKey(true);
         invalidate();
     }
     
@@ -1636,43 +1633,43 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Set the key code to be sent when the Back key is pressed.
      */
     public void setBackKeyCharacter(int keyCode) {
-        mKeyListener.setBackKeyCharacter(keyCode);
-        mBackKeySendsCharacter = (keyCode != 0);
+        keyListener.setBackKeyCharacter(keyCode);
+        backKeySendsCharacter = (keyCode != 0);
     }
     
     /**
      * Set whether to prepend the ESC keycode to the character when when pressing
      * the ALT Key.
      *
-     * @param flag
+     * @param flag Whether ALT should send ESC+keycode.
      */
     public void setAltSendsEsc(boolean flag) {
-        mKeyListener.setAltSendsEsc(flag);
+        keyListener.setAltSendsEsc(flag);
     }
     
     /**
      * Set the keycode corresponding to the Ctrl key.
      */
     public void setControlKeyCode(int keyCode) {
-        mControlKeyCode = keyCode;
+        controlKeyCode = keyCode;
     }
     
     /**
      * Set the keycode corresponding to the Fn key.
      */
     public void setFnKeyCode(int keyCode) {
-        mFnKeyCode = keyCode;
+        fnKeyCode = keyCode;
     }
     
     public void setTermType(String termType) {
-        mKeyListener.setTermType(termType);
+        keyListener.setTermType(termType);
     }
     
     /**
      * Set whether mouse events should be sent to the terminal as escape codes.
      */
     public void setMouseTracking(boolean flag) {
-        mMouseTracking = flag;
+        mouseTracking = flag;
     }
     
     /**

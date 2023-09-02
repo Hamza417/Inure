@@ -104,7 +104,7 @@ object TrialPreferences {
         getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, value).apply()
     }
 
-    fun isLegacyMigrated(): Boolean {
+    private fun isLegacyMigrated(): Boolean {
         return getEncryptedSharedPreferences().getBoolean(isLegacyMigrated, false)
     }
 }

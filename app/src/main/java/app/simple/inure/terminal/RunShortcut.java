@@ -37,9 +37,16 @@ public final class RunShortcut extends RemoteInterface {
             finish();
             return;
         }
-        
+    
         Intent myIntent = getIntent();
         String action = myIntent.getAction();
+    
+        if (action == null) {
+            Log.e(TermDebug.LOG_TAG, "No action specified for intent");
+            finish();
+            return;
+        }
+    
         if (action.equals(ACTION_RUN_SHORTCUT)) {
             String encCommand = myIntent.getStringExtra(EXTRA_SHORTCUT_COMMAND);
             if (encCommand == null) {
@@ -47,7 +54,7 @@ public final class RunShortcut extends RemoteInterface {
                 finish();
                 return;
             }
-            
+        
             // Decrypt and verify the command
             ShortcutEncryption.Keys keys = ShortcutEncryption.getKeys(this);
             if (keys == null) {

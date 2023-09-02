@@ -175,7 +175,7 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Expand Home Header",
-                                            "Expand home header in the app.",
+                                            "Expand header in the home screen of the app.",
                                             expandHomeHeader,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
