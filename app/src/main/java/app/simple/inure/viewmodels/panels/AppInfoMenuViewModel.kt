@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -377,10 +376,6 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         viewModelScope.launch(Dispatchers.IO) {
             val tagsDataBase = TagsDatabase.getInstance(application.applicationContext)
             val tags = tagsDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
-
-            tagsDataBase?.getTagDao()?.getTags()?.forEach {
-                Log.d("TAG", it.toString())
-            }
 
             if (tags.isNullOrEmpty().invert()) {
                 this@AppInfoMenuViewModel.tags.postValue(tags)

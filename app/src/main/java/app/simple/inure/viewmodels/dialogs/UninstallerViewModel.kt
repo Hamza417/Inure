@@ -75,7 +75,7 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
 
     private fun formUninstallCommand(): String {
         return if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
-            "pm uninstall -k --user 0 ${packageInfo.packageName}"
+            "pm uninstall --user current ${packageInfo.packageName}"
         } else {
             "pm uninstall ${packageInfo.packageName}"
         }
