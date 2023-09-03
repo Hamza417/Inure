@@ -13,6 +13,7 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Tag
+import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
@@ -44,7 +45,11 @@ class AdapterTags(val tags: ArrayList<Tag>, private val tagsCallback: TagsCallba
             is Holder -> {
                 holder.tag.text = tags[holder.bindingAdapterPosition.minus(1)].tag
                 holder.recyclerView.adapter = AdapterTaggedIcons(
-                        tags[holder.bindingAdapterPosition.minus(1)].packages.split(","))
+                        tags[holder.bindingAdapterPosition.minus(1)]
+                            .packages.split(",").filter {
+                                it.isNotEmpty()
+                            }.toArrayList())
+
                 holder.date.text = tags[holder.bindingAdapterPosition.minus(1)].dateAdded.toDate()
 
                 holder.container.setOnClickListener {

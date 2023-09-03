@@ -15,6 +15,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Tag
 import app.simple.inure.popups.tags.PopupTagsMenu
 import app.simple.inure.ui.subpanels.TaggedApps
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class Tags : ScopedFragment() {
@@ -61,7 +62,13 @@ class Tags : ScopedFragment() {
                 }
             })
 
-            recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+            val spanCount = if (StatusBarHeight.isLandscape(requireContext())) {
+                3
+            } else {
+                2
+            }
+
+            recyclerView.layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL).apply {
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
             }
 
