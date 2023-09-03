@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterTags
 import app.simple.inure.adapters.menus.AdapterMenu
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
@@ -563,7 +564,10 @@ class AppInfo : ScopedFragment() {
             icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
         }
 
-        name.text = packageInfo.applicationInfo.name
+        name.apply {
+            text = packageInfo.applicationInfo.name
+            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo.packageName))
+        }
         packageId.text = packageInfo.packageName
 
         appInformation.setOnClickListener {

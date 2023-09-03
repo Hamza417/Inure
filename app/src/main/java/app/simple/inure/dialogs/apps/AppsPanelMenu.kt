@@ -13,7 +13,7 @@ import app.simple.inure.dialogs.apps.AppsSort.Companion.showAppsSortDialog
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.dialog.AllAppsMenuCallbacks
 
-class AllAppsMenu : ScopedBottomSheetFragment() {
+class AppsPanelMenu : ScopedBottomSheetFragment() {
 
     private lateinit var generateList: DynamicRippleLinearLayoutWithFactor
     private lateinit var openSettings: DynamicRippleTextView
@@ -55,14 +55,14 @@ class AllAppsMenu : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(): AllAppsMenu {
-            return AllAppsMenu()
+        fun newInstance(): AppsPanelMenu {
+            return AppsPanelMenu()
         }
 
-        fun FragmentManager.newAppsMenuInstance(): AllAppsMenu {
-            val allAppsMenu = AllAppsMenu()
-            allAppsMenu.show(this, TAG)
-            return allAppsMenu
+        fun FragmentManager.newAppsMenuInstance(): AppsPanelMenu {
+            val appsPanelMenu = AppsPanelMenu()
+            appsPanelMenu.show(this, TAG)
+            return appsPanelMenu
         }
 
         private const val TAG = "AllAppsMenu"

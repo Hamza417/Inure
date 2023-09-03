@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -133,7 +134,11 @@ class AppsMenu : ScopedDialogFragment() {
         SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
 
-        name.text = packageInfo.applicationInfo.name
+        name.apply {
+            text = packageInfo.applicationInfo.name
+            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo.packageName))
+        }
+
         packageName.text = packageInfo.packageName
 
         copyPackageName.setOnClickListener {
