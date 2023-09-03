@@ -126,13 +126,12 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         refreshPackageData()
     }
 
-    fun deleteTag(tag: Tag, function: () -> Unit) {
+    fun deleteTag(tag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
             database?.getTagDao()?.deleteTag(tag)
             tags.value?.remove(tag)
             withContext(Dispatchers.Main) {
-                function()
                 loadTagNames()
             }
         }
