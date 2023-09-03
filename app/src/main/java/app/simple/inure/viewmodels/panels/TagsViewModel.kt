@@ -123,7 +123,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     fun refresh() {
-        refreshPackageData()
+        loadTags()
     }
 
     fun deleteTag(tag: Tag) {
