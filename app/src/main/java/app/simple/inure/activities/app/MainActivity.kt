@@ -366,6 +366,7 @@ class MainActivity : BaseActivity() {
             Misc.xOffset = ev.rawX
             Misc.yOffset = ev.rawY
         }
+
         return super.dispatchTouchEvent(ev)
     }
 
@@ -387,6 +388,41 @@ class MainActivity : BaseActivity() {
                     }
 
                     return true
+                }
+                /**
+                 * If keycode is any letter, then it's a search query
+                 * Open search panel
+                 */
+                in KeyEvent.KEYCODE_A..KeyEvent.KEYCODE_Z -> {
+                    supportFragmentManager.fragments.forEach {
+                        if (it is Home) {
+                            if (it.isVisible) {
+                                Log.d("Inure", "KEYCODE_A..KEYCODE_Z: Home")
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.app_container, Search.newInstance(firstLaunch = true), "search")
+                                    .addToBackStack("search")
+                                    .commit()
+                            } else {
+                                Log.d("Inure", "KEYCODE_A..KEYCODE_Z: Not Home")
+                            }
+                        }
+                    }
+
+                    return super.onKeyDown(keyCode, event)
+                }
+                KeyEvent.KEYCODE_ESCAPE -> {
+                    supportFragmentManager.fragments.forEach {
+                        if (it is Search) {
+                            if (it.isVisible) {
+                                Log.d("Inure", "KEYCODE_ESCAPE: Search")
+                                supportFragmentManager.popBackStack()
+                            } else {
+                                Log.d("Inure", "KEYCODE_ESCAPE: Not Search")
+                            }
+                        }
+                    }
+
+                    return super.onKeyDown(keyCode, event)
                 }
             }
         }
