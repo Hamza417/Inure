@@ -12,6 +12,7 @@ class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupW
 
     private val open: DynamicRippleTextView
     private val delete: DynamicRippleTextView
+    private val createShortcut: DynamicRippleTextView
 
     init {
         val containerView = LayoutInflater.from(view.context)
@@ -19,6 +20,7 @@ class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupW
 
         open = containerView.findViewById(R.id.open)
         delete = containerView.findViewById(R.id.delete)
+        createShortcut = containerView.findViewById(R.id.create_shortcut)
 
         open.setOnClickListener {
             tagsMenuCallback.onOpenClicked()
@@ -30,6 +32,11 @@ class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupW
             dismiss()
         }
 
+        createShortcut.setOnClickListener {
+            tagsMenuCallback.onCreateShortcutClicked()
+            dismiss()
+        }
+
         init(containerView, view, Misc.xOffset, Misc.yOffset)
     }
 
@@ -37,6 +44,7 @@ class PopupTagsMenu(view: View, tagsMenuCallback: TagsMenuCallback) : BasePopupW
         interface TagsMenuCallback {
             fun onOpenClicked()
             fun onDeleteClicked()
+            fun onCreateShortcutClicked()
         }
     }
 }

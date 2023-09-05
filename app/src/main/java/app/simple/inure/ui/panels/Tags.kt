@@ -1,15 +1,22 @@
 package app.simple.inure.ui.panels
 
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
+import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.adapters.ui.AdapterTags
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Tag
@@ -56,6 +63,23 @@ class Tags : ScopedFragment() {
                                 (recyclerView.adapter as AdapterTags).removeTag(tag)
                                 tagsViewModel?.deleteTag(tag)
                             }
+                        }
+
+                        override fun onCreateShortcutClicked() {
+                            val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                                action = ShortcutConstants.TAGGED_APPS_ACTION
+                                putExtra(ShortcutConstants.TAGGED_APPS_EXTRA, tag.tag)
+                                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            }
+
+                            val shortcut = ShortcutInfoCompat.Builder(requireContext(), tag.tag)
+                                .setShortLabel(tag.tag)
+                                .setActivity(ComponentName(requireContext(), MainActivity::class.java))
+                                .setIcon(IconCompat.createWithResource(requireContext(), R.drawable.sc_tags))
+                                .setIntent(intent)
+                                .build()
+
+                            ShortcutManagerCompat.requestPinShortcut(requireContext(), shortcut, null)
                         }
                     })
                 }

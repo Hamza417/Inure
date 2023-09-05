@@ -39,4 +39,20 @@
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
+    <app.simple.inure.decorations.ripple.DynamicRippleTextView
+        android:id="@+id/create_shortcut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:focusable="true"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="1"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
+        android:text="@string/create_shortcut"
+        android:textSize="@dimen/popup_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
 </merge>

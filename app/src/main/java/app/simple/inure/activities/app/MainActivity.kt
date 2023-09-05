@@ -56,6 +56,7 @@ import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Tags
 import app.simple.inure.ui.panels.Uninstalled
+import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
@@ -208,6 +209,19 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.TAGS_ACTION -> {
                 openHome(isNewIntent)
                 openFragment(Tags.newInstance(), "tags")
+            }
+
+            ShortcutConstants.TAGGED_APPS_ACTION -> {
+                openHome(isNewIntent)
+                try {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.app_container, TaggedApps.newInstance(
+                                intent.getStringExtra(ShortcutConstants.TAGGED_APPS_EXTRA)!!), "tagged_apps")
+                        .addToBackStack("tagged_apps")
+                        .commit()
+                } catch (e: NullPointerException) {
+                    showWarning("ERR: invalid tag constraint definition found", goBack = true)
+                }
             }
 
             ShortcutConstants.FOSS_ACTION -> {
