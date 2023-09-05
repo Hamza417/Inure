@@ -219,13 +219,18 @@
             android:layout_width="match_parent"
             android:layout_height="350dp" />
 
+        <app.simple.inure.decorations.views.LegendRecyclerView
+            android:id="@+id/stats_legend_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <app.simple.inure.decorations.theme.ThemePieChart
             android:id="@+id/pie_chart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/pie_chart_height" />
 
         <app.simple.inure.decorations.views.LegendRecyclerView
-            android:id="@+id/stats_legend"
+            android:id="@+id/stats_legend_pie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -63,7 +63,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     if (this.appUsage?.size?.isNotZero() == true) {
                         packageStats.postValue(this)
                         loadPieChartData(this)
-                        loadChartData(this)
+                        loadBarChartData(this)
                     } else {
                         warning.postValue(getString(R.string.usage_data_does_not_exist_for_this_app))
                     }
@@ -153,7 +153,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
         }
     }
 
-    private fun loadChartData(packageStats: PackageStats) {
+    private fun loadBarChartData(packageStats: PackageStats) {
         viewModelScope.launch(Dispatchers.Default) {
             val barEntries = arrayListOf(
                     BarEntry(0f, 0f, getDayString(LocalDate.now())),
