@@ -11,10 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
-import app.simple.inure.loaders.GitHubReleaseChecker
-import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -57,25 +54,7 @@ class DataLoaderService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-
-        if (BuildConfig.DEBUG.invert()) {
-            if (AppUtils.isGithubFlavor()) {
-                downloaderThread = Thread {
-                    GitHubReleaseChecker().checkAndDownloadNewRelease(applicationContext) {
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(UPDATE_DOWNLOADED).apply {
-                            putExtra(UPDATE, it)
-                        })
-                    }
-                }
-
-                downloaderThread!!.priority = Thread.MIN_PRIORITY
-                downloaderThread!!.name = "GitHubReleaseChecker"
-                downloaderThread!!.start()
-                Log.d(tag, "onCreate: GitHubReleaseChecker started")
-            }
-        } else {
-            Log.d(tag, "onCreate: GitHubReleaseChecker not started")
-        }
+        Log.d(tag, "onCreate: Dataloader service created")
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
