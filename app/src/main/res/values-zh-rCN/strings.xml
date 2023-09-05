@@ -701,5 +701,4 @@
     <string name="import_">导入</string>
     <string name="tags">标签</string>
     <string name="add_tag">添加新标签</string>
-    <string name="new_update_available">发现新版本</string>
 </resources>
