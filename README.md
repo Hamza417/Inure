@@ -23,6 +23,9 @@ An elegant Android app manager.
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/badge/F--Droid-1976D2?logo=fdroid)](https://f-droid.org/en/packages/app.simple.inure/)
 
+**Update:** Inure was suspended by Google on 5 Sept, 2023 due to some policy violation. Kindly, I'm working on having it restored, meanwhile 
+use GitHub to update your version.
+
 ## Buy (Full Version)
 
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-Purchase-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
