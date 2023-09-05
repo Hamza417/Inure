@@ -68,6 +68,7 @@ android {
         }
         play { // Play Store build
             dimension "version"
+            applicationIdSuffix ".play"
             // versionNameSuffix "-play"
         }
         beta {
