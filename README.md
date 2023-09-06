@@ -19,9 +19,11 @@ An elegant Android app manager.
 
 ## Download
 
-[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure)
+[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure.play)
 [![](https://img.shields.io/badge/GitHub%20Releases-181717?logo=github)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/badge/F--Droid-1976D2?logo=fdroid)](https://f-droid.org/en/packages/app.simple.inure/)
+
+**Update:** A new build is live on Play Store with a new package ID. The previous build could not be restored anymore.
 
 **Update:** Inure was suspended by Google on 5 Sept, 2023 due to some policy violation. I'm working on having it restored, in the meantime
 use GitHub to update your version.
