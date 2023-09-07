@@ -61,7 +61,7 @@ effects and click interactions for tablet and PC users.
 Along with it own UI perks, Inure also supports dynamic Material You colors with split accent and
 theme color modes.
 
-See the [concise list of features of the app here](./FEATURES).
+See the [concise list of features of the app here](./FEATURES.md).
 
 The app is in stable testing stage. You can join
 app's [Telegram Group](https://t.me/inure_app_manager)
