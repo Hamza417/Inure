@@ -107,7 +107,8 @@ object ImageLoader {
     fun ImageView.loadDrawable(@DrawableRes res: Int) {
         GlideApp.with(this)
             .asBitmap()
-            .transform(RoundedCorners(AppearancePreferences.getCornerRadius().toInt().coerceAtLeast(1)),
+            .transform(RoundedCorners(AppearancePreferences.getCornerRadius()
+                                          .toInt().coerceAtLeast(1)),
                        Padding(BlurShadow.DEFAULT_SHADOW_SIZE.toInt()),
                        BlurShadow(context)
                            .setElevation(25F)
