@@ -1,8 +1,10 @@
 package app.simple.inure.services
 
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -29,6 +31,8 @@ class DataLoaderService : Service() {
         const val INSTALLED_APPS_LOADED = "installed_apps_loaded"
         const val APPS_LOADED = "apps_loaded"
         const val RELOAD_APPS = "reload_apps"
+        const val RELOAD_QUICK_APPS = "reload_quick_apps"
+        const val REFRESH = "refresh"
     }
 
     private val tag: String = "DataLoaderService"
@@ -37,8 +41,10 @@ class DataLoaderService : Service() {
     private var downloaderThread: Thread? = null
 
     private var isLoading = false
-
     private var flags = PackageManager.GET_META_DATA
+
+    private var broadcastReceiver: BroadcastReceiver? = null
+    private var intentFilter: IntentFilter = IntentFilter()
 
     inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
@@ -53,6 +59,20 @@ class DataLoaderService : Service() {
     override fun onCreate() {
         super.onCreate()
         Log.d(tag, "onCreate: Dataloader service created")
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    REFRESH -> {
+                        refresh()
+                    }
+                }
+            }
+        }
+
+        intentFilter.addAction(REFRESH)
+
+        LocalBroadcastManager.getInstance(applicationContext).registerReceiver(broadcastReceiver!!, intentFilter)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -62,6 +82,9 @@ class DataLoaderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(tag, "onDestroy: Dataloader service destroyed")
+        LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(broadcastReceiver!!)
+
         try {
             downloaderThread?.interrupt()
         } catch (e: IllegalStateException) {

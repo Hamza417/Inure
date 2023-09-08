@@ -100,8 +100,14 @@ class ManageSpace : BaseActivity() {
                         Log.d("ManageSpace", "onActivityResult: broadcast sent")
                         LocalBroadcastManager.getInstance(applicationContext)
                             .sendBroadcast(Intent().apply {
-                                action = DataLoaderService.RELOAD_APPS
+                                action = DataLoaderService.REFRESH
                             })
+
+                        LocalBroadcastManager.getInstance(applicationContext)
+                            .sendBroadcast(Intent().apply {
+                                action = DataLoaderService.RELOAD_QUICK_APPS
+                            })
+
                         recreate()
                     }
                 }

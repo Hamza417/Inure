@@ -23,6 +23,7 @@ import app.simple.inure.database.instances.TerminalCommandDatabase
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.FileUtils.toFile
 import net.lingala.zip4j.ZipFile
 import java.io.File
@@ -283,7 +284,26 @@ object AppDataLoader {
 
             for (line in lines) {
                 val split = line.split(" ")
-                componentState[split[0]] = split[1].toInt()
+                // componentState[split[0]] = split[1].toInt()
+
+                when {
+                    AppUtils.isPlayFlavor() -> {
+                        if (split[0].contains("app.simple.inure.play")) {
+                            componentState[split[0]] = split[1].toInt()
+                        } else {
+                            componentState[split[0]
+                                .replace("app.simple.inure", "app.simple.inure.play")] = split[1].toInt()
+                        }
+                    }
+                    AppUtils.isPlayFlavor().not() -> {
+                        if (split[0].contains("app.simple.inure.play")) {
+                            componentState[split[0]
+                                .replace("app.simple.inure.play", "app.simple.inure")] = split[1].toInt()
+                        } else {
+                            componentState[split[0]] = split[1].toInt()
+                        }
+                    }
+                }
             }
 
             for (component in components) {

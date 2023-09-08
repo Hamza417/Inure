@@ -27,11 +27,11 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
     init {
         intentFilter = IntentFilter()
-        intentFilter?.addAction(DataLoaderService.RELOAD_APPS)
+        intentFilter?.addAction(DataLoaderService.RELOAD_QUICK_APPS)
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                if (intent?.action == DataLoaderService.RELOAD_APPS) {
+                if (intent?.action == DataLoaderService.RELOAD_QUICK_APPS) {
                     loadQuickApps()
                     loadSimpleQuickAppsData()
                 }
