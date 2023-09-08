@@ -58,52 +58,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/header_item_margin"
-                    android:orientation="horizontal">
-
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:id="@+id/adapter_total_apps"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:textSize="16sp"
-                        app:appFontStyle="bold"
-                        app:textColorStyle="primary" />
-
-                    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                        android:id="@+id/configuration_button"
-                        android:layout_width="@dimen/button_size"
-                        android:layout_height="@dimen/button_size"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_settings"
-                        app:buttonTintType="regular" />
-
-                    <app.simple.inure.decorations.theme.ThemeDivider
-                        android:layout_width="1px"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="4dp" />
-
-                    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-                        android:id="@+id/search_button"
-                        android:layout_width="@dimen/button_size"
-                        android:layout_height="@dimen/button_size"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_search"
-                        android:transitionName="adapter_search_icon"
-                        app:buttonTintType="regular" />
-
-                </LinearLayout>
-
             </LinearLayout>
-
-            <app.simple.inure.decorations.theme.ThemeDivider
-                android:layout_width="match_parent"
-                android:layout_height="1px" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/min_sdk_heading"
@@ -112,6 +67,7 @@
                 android:drawablePadding="@dimen/panel_item_padding"
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/minimum_sdk"
+                android:layout_marginHorizontal="@dimen/popup_padding"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
                 app:drawableStartCompat="@drawable/ic_dot_tiny"
@@ -135,6 +91,7 @@
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/target_sdk"
                 android:textSize="@dimen/info_text_large"
+                android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
                 app:drawableStartCompat="@drawable/ic_dot_tiny"
                 app:drawableTintStyle="accent"
@@ -157,6 +114,7 @@
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/install_location"
                 android:textSize="@dimen/info_text_large"
+                android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
                 app:drawableStartCompat="@drawable/ic_dot_tiny"
                 app:drawableTintStyle="accent"
@@ -179,6 +137,7 @@
                 android:padding="@dimen/panel_item_padding"
                 android:text="@string/package_type"
                 android:textSize="@dimen/info_text_large"
+                android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
                 app:drawableStartCompat="@drawable/ic_dot_tiny"
                 app:drawableTintStyle="accent"
@@ -196,4 +155,12 @@
 
         </LinearLayout>
     </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+
+    <app.simple.inure.decorations.views.BottomMenuRecyclerView
+        android:id="@+id/bottom_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/popup_padding" />
+
 </app.simple.inure.decorations.theme.ThemeCoordinatorLayout>

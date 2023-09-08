@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
@@ -214,6 +215,49 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                 }
             }
     
+            isInitialized = true;
+        }
+    }
+    
+    public void initBottomMenuWithScrollView(ArrayList <Pair <Integer,
+            Integer>> bottomMenuItems, NestedScrollView scrollView, BottomMenuCallbacks bottomMenuCallbacks) {
+        if (isInitialized) {
+            return;
+        }
+        
+        initBottomMenu(bottomMenuItems, bottomMenuCallbacks);
+        
+        /*
+         * Rather than clearing all scroll listeners at once, which will break other
+         * features of the app such as Fast Scroller, we will use a boolean to check
+         * if the scroll listener has been added or not and then add it. This should
+         * be valid till the lifecycle of the BottomMenuRecyclerView.
+         */
+        // scrollView.clearOnScrollListeners();
+        
+        if (scrollView != null) {
+            if (!isScrollListenerAdded) {
+                scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                    if (scrollY > oldScrollY && isBottomMenuVisible) {
+                        animate()
+                                .translationY(containerHeight)
+                                .setDuration(250)
+                                .setInterpolator(new AccelerateInterpolator())
+                                .start();
+                        isBottomMenuVisible = false;
+                    } else if (scrollY < oldScrollY && !isBottomMenuVisible) {
+                        animate()
+                                .translationY(0)
+                                .setDuration(250)
+                                .setInterpolator(new DecelerateInterpolator())
+                                .start();
+                        isBottomMenuVisible = true;
+                    }
+                });
+                
+                isScrollListenerAdded = true;
+            }
+            
             isInitialized = true;
         }
     }

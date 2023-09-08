@@ -10,7 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AdapterLegend
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LegendRecyclerView
@@ -33,8 +34,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 
 class Analytics : ScopedFragment() {
 
-    private lateinit var settings: DynamicRippleImageButton
-    private lateinit var search: DynamicRippleImageButton
+    private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var minSdkHeading: TypeFaceTextView
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
@@ -50,8 +50,7 @@ class Analytics : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
 
-        settings = view.findViewById(R.id.configuration_button)
-        search = view.findViewById(R.id.search_button)
+        scrollView = view.findViewById(R.id.scroll_view)
         minSdkHeading = view.findViewById(R.id.min_sdk_heading)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
@@ -74,7 +73,25 @@ class Analytics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
+        bottomRightCornerMenu?.initBottomMenuWithScrollView(BottomMenuConstants.getGenericBottomMenuItems(), scrollView) { id, _ ->
+            when (id) {
+                R.drawable.ic_settings -> {
+                    AnalyticsMenu.newInstance()
+                        .show(childFragmentManager, "analytics_menu")
+                }
+                R.drawable.ic_search -> {
+                    openFragmentSlide(Search.newInstance(true), "search")
+                }
+                R.drawable.ic_refresh -> {
+                    showLoader(manualOverride = true)
+                    analyticsViewModel.refreshPackageData()
+                }
+            }
+        }
+
         analyticsViewModel.getMinimumOsData().observe(viewLifecycleOwner) { pieData ->
+            hideLoader()
+
             minimumOsPie.apply {
                 PieDataSet(pieData.first, "").apply {
                     data = PieData(this)
@@ -111,8 +128,6 @@ class Analytics : ScopedFragment() {
             }
 
             minimumOsPie.setAnimation(true)
-            minimumOsPie.notifyDataSetChanged()
-            minimumOsPie.invalidate()
             minimumOsPie.startAnimation()
             //            minimumOsPie.marker = ChartMarkerView(requireContext(), R.layout.marker_view) {
             //                openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
@@ -120,6 +135,8 @@ class Analytics : ScopedFragment() {
         }
 
         analyticsViewModel.getTargetSDKData().observe(viewLifecycleOwner) {
+            hideLoader()
+
             targetOsPie.apply {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
@@ -156,11 +173,12 @@ class Analytics : ScopedFragment() {
             }
 
             targetOsPie.setAnimation(false)
-            targetOsPie.notifyDataSetChanged()
             targetOsPie.invalidate()
         }
 
         analyticsViewModel.getInstallLocationData().observe(viewLifecycleOwner) {
+            hideLoader()
+
             installLocationPie.apply {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
@@ -202,6 +220,8 @@ class Analytics : ScopedFragment() {
         }
 
         analyticsViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
+            hideLoader()
+
             packageTypePie.apply {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
@@ -240,15 +260,6 @@ class Analytics : ScopedFragment() {
             packageTypePie.setAnimation(false)
             packageTypePie.notifyDataSetChanged()
             packageTypePie.invalidate()
-        }
-
-        settings.setOnClickListener {
-            AnalyticsMenu.newInstance()
-                .show(childFragmentManager, "analytics_menu")
-        }
-
-        search.setOnClickListener {
-            openFragmentSlide(Search.newInstance(true), "preferences_screen")
         }
     }
 
