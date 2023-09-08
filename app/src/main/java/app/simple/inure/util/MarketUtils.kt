@@ -93,7 +93,6 @@ object MarketUtils {
         val otherApps: List<ResolveInfo> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.packageManager.queryIntentActivities(rateIntent, PackageManager.ResolveInfoFlags.of(0))
         } else {
-            @Suppress("DEPRECATION")
             context.packageManager.queryIntentActivities(rateIntent, 0)
         }
 
