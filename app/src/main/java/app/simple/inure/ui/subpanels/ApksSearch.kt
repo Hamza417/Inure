@@ -150,9 +150,9 @@ class ApksSearch : KeyboardScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     if (adapterApksSearch.paths[position].file.delete()) {
+                                        apkBrowserViewModel.delete(adapterApksSearch.paths[position])
                                         adapterApksSearch.paths.removeAt(position)
-                                        adapterApksSearch.notifyItemRemoved(position.plus(1))
-                                        adapterApksSearch.notifyItemChanged(0) // Update the header
+                                        adapterApksSearch.notifyItemRemoved(position)
                                     }
                                 }
                             })
@@ -186,10 +186,12 @@ class ApksSearch : KeyboardScopedFragment() {
                             kotlin.runCatching {
                                 if (adapterApksSearch.paths[position].file.absolutePath.endsWith(".apk")) {
                                     packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
+                                        requirePackageManager().getPackageArchiveInfo(
+                                                adapterApksSearch.paths[position]
+                                                    .file.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                     } else {
-                                        @Suppress("DEPRECATION")
-                                        requirePackageManager().getPackageArchiveInfo(adapterApksSearch.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
+                                        requirePackageManager().getPackageArchiveInfo(
+                                                adapterApksSearch.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                     }
 
                                     packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
@@ -210,7 +212,10 @@ class ApksSearch : KeyboardScopedFragment() {
                                     openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
                                 }
                             }.onFailure {
-                                showWarning("Failed to open apk : ${adapterApksSearch.paths[position].file.absolutePath.substringAfterLast("/")}", false)
+                                showWarning("Failed to open apk : ${
+                                    adapterApksSearch
+                                        .paths[position].file.absolutePath.substringAfterLast("/")
+                                }", false)
                             }
                         }
 

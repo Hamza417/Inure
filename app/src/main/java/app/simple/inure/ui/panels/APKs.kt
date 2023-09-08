@@ -120,10 +120,10 @@ class APKs : ScopedFragment() {
                                 override fun onSure() {
                                     try {
                                         if (adapterApks.paths[position].file.delete()) {
+                                            apkBrowserViewModel.delete(adapterApks.paths[position])
                                             adapterApks.paths.removeAt(position)
                                             adapterApks.notifyItemRemoved(position.plus(1))
                                             adapterApks.notifyItemChanged(0) // Update the header
-                                            apkBrowserViewModel.delete(adapterApks.paths[position])
                                         }
                                     } catch (e: IndexOutOfBoundsException) {
                                         showWarning("Failed to delete ${adapterApks.paths[position].file.name}", false)
