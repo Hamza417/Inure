@@ -95,21 +95,16 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     fun initiateSearch(keywords: String) {
         thread?.interrupt()
-        if (keywords.replace("#", "").length > 2) {
-            thread = thread(priority = 10, name = keywords) {
-                try {
-                    if (SearchPreferences.isDeepSearchEnabled()) {
-                        loadDeepSearchData(keywords)
-                    } else {
-                        loadSearchData(keywords)
-                    }
-                } catch (e: IllegalStateException) {
-                    e.printStackTrace()
+        thread = thread(priority = 10, name = keywords) {
+            try {
+                if (SearchPreferences.isDeepSearchEnabled()) {
+                    loadDeepSearchData(keywords)
+                } else {
+                    loadSearchData(keywords)
                 }
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
             }
-        } else {
-            searchData.postValue(arrayListOf())
-            deepSearchData.postValue(arrayListOf())
         }
     }
 

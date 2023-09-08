@@ -90,7 +90,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
     
         TextViewUtils.INSTANCE.doOnTextChanged(editText, (s, start, before, count) -> {
-            boolean isValidCount = s.toString().trim().replace("#", "").length() > 2;
+            boolean isValidCount = s.toString().trim().replace("#", "").length() > 0;
         
             if (editText.isFocused()) {
                 if (!s.toString().trim().equals(SearchPreferences.INSTANCE.getLastSearchKeyword())) {
