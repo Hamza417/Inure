@@ -46,6 +46,21 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             val tags = database?.getTagDao()?.getTags()
             val apps = getInstalledApps() + getUninstalledApps()
 
+            /**
+             * Filter all uninstalled apps from [Tag.packages]
+             */
+            tags?.forEach { tag ->
+                tag.packages = tag.packages.split(",").filter { packageName ->
+                    apps.any { app ->
+                        app.packageName == packageName
+                    }
+                }.joinToString(",")
+            }
+
+            /**
+             * Make sure at least one app is installed from the [Tag.packages]
+             * This is to prevent empty tags from showing up
+             */
             this@TagsViewModel.tags.postValue(tags?.toArrayList()?.filter {
                 it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
                     apps.any { app ->
