@@ -219,7 +219,12 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                 }
             }.getOrElse {
                 batteryOptimizationData.postValue(arrayListOf())
-                postWarning("ERR: ${it.message ?: "Unknown shizuku error while loading battery optimization data"}}")
+
+                if (it is ClassCastException) {
+                    postWarning("ERR: Shizuku didn't respond properly for battery optimization data fetch request, try restarting your device.")
+                } else {
+                    postWarning("ERR: ${it.message ?: "Unknown shizuku error while loading battery optimization data"}}")
+                }
             }
         }
     }
