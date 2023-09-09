@@ -66,10 +66,6 @@ class AboutScreen : ScopedFragment() {
             version.append("-trial (${TrialPreferences.getDaysLeft()} days left)")
         }
 
-        if (AppUtils.isPlayFlavor()) {
-            github.visibility = View.GONE
-        }
-
         credits.setOnClickListener {
             openWebPage(getString(R.string.credits))
         }
