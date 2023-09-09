@@ -33,6 +33,7 @@ import app.simple.inure.ui.viewers.Services
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.SearchViewModel
+import app.simple.inure.viewmodels.panels.TagsViewModel
 
 class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -43,6 +44,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     private lateinit var adapterDeepSearch: AdapterDeepSearch
 
     private lateinit var searchViewModel: SearchViewModel
+    private lateinit var tagsViewModel: TagsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_search, container, false)
@@ -57,6 +59,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         }
 
         searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
+        tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         return view
     }
@@ -182,7 +185,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
         }
 
-        searchViewModel.getTags().observe(viewLifecycleOwner) {
+        tagsViewModel.getTagNames().observe(viewLifecycleOwner) {
             tags.adapter = AdapterTags(it, showNewTag = false).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {

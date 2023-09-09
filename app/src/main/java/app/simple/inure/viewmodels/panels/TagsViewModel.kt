@@ -74,8 +74,17 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun loadTagNames() {
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
-            val tags = database?.getTagDao()?.getTagsNameOnly()
-            tagNames.postValue(tags?.toArrayList() ?: ArrayList())
+            val tags = database?.getTagDao()?.getTags()
+
+            tagNames.postValue(tags?.toArrayList()?.filter {
+                it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
+                    getInstalledApps().any { app ->
+                        app.packageName == packageName
+                    }
+                }
+            }?.map {
+                it.tag
+            }?.toArrayList() ?: ArrayList())
         }
     }
 
@@ -104,8 +113,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             withContext(Dispatchers.Main) {
                 function()
-                loadTags()
-                loadTagNames()
+                refresh()
             }
         }
     }
@@ -131,14 +139,14 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
             withContext(Dispatchers.Main) {
                 function()
-                loadTags()
-                loadTagNames()
+                refresh()
             }
         }
     }
 
     fun refresh() {
         loadTags()
+        loadTagNames()
     }
 
     fun deleteTag(tag: Tag) {
@@ -147,7 +155,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             database?.getTagDao()?.deleteTag(tag)
             tags.value?.remove(tag)
             withContext(Dispatchers.Main) {
-                loadTagNames()
+                refresh()
             }
         }
     }
@@ -181,8 +189,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }
 
             withContext(Dispatchers.Main) {
-                loadTags()
-                loadTagNames()
+                refresh()
                 function()
             }
         }
