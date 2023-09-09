@@ -1,9 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="file:///android_asset/css/html_decoration.css" rel="stylesheet">
+
 </head>
 <body>
+
+<script>
+        // Define a JavaScript interface using the window object
+        window.CssLoader = {
+            loadLightCss: function() {
+                // JavaScript code to load the light CSS
+                loadCss('file:///android_asset/css/html_decoration_light.css');
+            },
+            loadDarkCss: function() {
+                // JavaScript code to load the dark CSS
+                loadCss('file:///android_asset/css/html_decoration_dark.css');
+            }
+        };
+
+        function loadCss(cssFile) {
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = cssFile;
+            document.head.appendChild(link);
+        }
+
+
+</script>
 
 <h1>Change Logs</h1>
 <p>
@@ -31,6 +55,10 @@
     <li>Fixed visibility of uninstalled apps from tags.</li>
     <li>Fixed empty tags showing up in various places in the app.</li>
     <li>Fixed Arabic privacy policy not opening on Arabic locale.</li>
+    <li>Fixed webview loading dark pages in dark mode.
+        <br>
+        <small>Still needs work.</small>
+    </li>
 </ul>
 
 <h4>Improved</h4>

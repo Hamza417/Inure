@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="file:///android_asset/css/gpl_style.css" rel="stylesheet">
+
 </head>
 
 <img src="file:///android_asset/icons/gpl_icon.png">
 
 <body>
 
+<script>
+        // Define a JavaScript interface using the window object
+        window.CssLoader = {
+            loadLightCss: function() {
+                // JavaScript code to load the light CSS
+                loadCss('file:///android_asset/css/gpl_style_light.css');
+            },
+            loadDarkCss: function() {
+                // JavaScript code to load the dark CSS
+                loadCss('file:///android_asset/css/gpl_style_dark.css');
+            }
+        };
+
+        function loadCss(cssFile) {
+            var link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.type = "text/css";
+            link.href = cssFile;
+            document.head.appendChild(link);
+        }
+
+
+</script>
+
 <h2 style="text-align: center;">GNU GENERAL PUBLIC LICENSE</h2>
 <p style="text-align: center;">Version 3, 29 June 2007</p>
 
 <p>Copyright © 2007 Free Software Foundation, Inc.
-    &lt;<a href="https://fsf.org/">https://fsf.org/</a>&gt;</p>
+   &lt;<a href="https://fsf.org/">https://fsf.org/</a>&gt;</p>
 <p>
     Everyone is permitted to copy and distribute verbatim copies
     of this license document, but changing it is not allowed.</p>

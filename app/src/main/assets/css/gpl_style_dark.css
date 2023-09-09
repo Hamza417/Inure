@@ -1,0 +1,84 @@
+@font-face {
+	font-family: main_font;
+	src: url(file:///android_asset/fonts/jost.ttf);
+}
+
+@keyframes in {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.0;
+    }
+    100% {
+        transform: scale(1.0);
+        opacity: 1.0;
+    }
+}
+
+:root {
+    --main_heading_color: rgb(255, 110, 64);
+}
+
+body {
+	font-family: 'main_font', Helvetica, Arial, sans-serif;
+	padding: 2em;
+	text-align: center;
+	text-justify: values;
+	color: rgb(228, 228, 228);
+}
+
+h1 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+	text-align: center;
+}
+
+h2 {
+	color: var(--main_heading_color);
+	font-family: 'main_font';
+}
+
+h3 {
+	color: rgb(240, 240, 240);
+}
+
+h4 {
+	color: rgb(240, 240, 240);
+}
+
+h5 {
+	color: rgb(240, 240, 240);
+}
+
+h6 {
+	color: rgb(240, 240, 240);
+}
+
+p {
+    color: rgb(228, 228, 228);
+    text-align: justify;
+    text-justify: values;
+}
+
+li::marker {
+	color: var(--main_heading_color);
+}
+
+li {
+	color: rgb(54, 54, 54);
+	text-align: justify;
+	text-justify: values;
+}
+
+a:link {
+	color: rgb(100, 152, 219);
+	text-decoration: none;
+	background-color: transparent;
+}
+
+img {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    animation: in ease-out;
+    animation-duration: 1s;
+}

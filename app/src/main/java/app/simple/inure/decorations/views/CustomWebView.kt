@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.AttributeSet
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -13,6 +14,8 @@ import androidx.webkit.WebViewFeature
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils.toHexColor
+import app.simple.inure.util.ViewUtils.invisible
+import app.simple.inure.util.ViewUtils.visible
 
 @SuppressLint("SetJavaScriptEnabled")
 open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
@@ -24,6 +27,9 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         settings.allowFileAccess = true
         settings.setSupportZoom(true)
         settings.javaScriptEnabled = true
+        webChromeClient = WebChromeClient()
+
+        invisible(animate = false)
 
         // TODO - Calling non-final function setBackgroundColor in constructor
         setBackgroundColor(0)
@@ -32,7 +38,7 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
-                WebSettingsCompat.setAlgorithmicDarkeningAllowed(this.settings, ThemeUtils.isNightMode(resources))
+                WebSettingsCompat.setAlgorithmicDarkeningAllowed(this.settings, true)
             } else if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
                 if (ThemeUtils.isNightMode(resources)) {
                     @Suppress("DEPRECATION")
@@ -50,7 +56,18 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
+                super.onPageFinished(view, url)
+                if (ThemeUtils.isNightMode(resources)) {
+                    view.evaluateJavascript("CssLoader.loadDarkCss()") {
+                        view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
+                        visible(animate = false)
+                    }
+                } else {
+                    view.evaluateJavascript("CssLoader.loadLightCss()") {
+                        view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
+                        visible(animate = false)
+                    }
+                }
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
