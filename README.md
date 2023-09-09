@@ -191,7 +191,7 @@ and appreciate the project.. 😄
 
 ## License
 
-**Inure App Manager** Copyright © 2022 - Hamza Rizwan
+**Inure App Manager** Copyright © 2023 - Hamza Rizwan
 
 **Inure App Manager** is released as open source software under
 the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)

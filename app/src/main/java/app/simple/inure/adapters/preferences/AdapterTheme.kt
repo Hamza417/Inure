@@ -28,14 +28,14 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                 ThemeConstants.SOAPSTONE,
                 ThemeConstants.MATERIAL_YOU_LIGHT,
                 ThemeConstants.HIGH_CONTRAST_LIGHT,
-                -2, // Dark
+                -1, // Dark
                 ThemeConstants.DARK_THEME,
                 ThemeConstants.MATERIAL_YOU_DARK,
                 ThemeConstants.AMOLED,
                 ThemeConstants.SLATE,
                 ThemeConstants.OIL,
                 ThemeConstants.HIGH_CONTRAST,
-                -3, // Auto
+                -1, // Auto
                 ThemeConstants.FOLLOW_SYSTEM,
                 ThemeConstants.DAY_NIGHT,
         )
@@ -45,13 +45,13 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
                 ThemeConstants.LIGHT_THEME,
                 ThemeConstants.SOAPSTONE,
                 ThemeConstants.HIGH_CONTRAST_LIGHT,
-                -2, // Dark
+                -1, // Dark
                 ThemeConstants.DARK_THEME,
                 ThemeConstants.AMOLED,
                 ThemeConstants.SLATE,
                 ThemeConstants.OIL,
                 ThemeConstants.HIGH_CONTRAST,
-                -3, // Auto
+                -1, // Auto
                 ThemeConstants.FOLLOW_SYSTEM,
                 ThemeConstants.DAY_NIGHT,
         )
@@ -60,13 +60,16 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_theme, parent, false))
+                Holder(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_theme, parent, false))
             }
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_app_theme, parent, false))
+                Header(LayoutInflater.from(parent.context)
+                           .inflate(R.layout.adapter_header_app_theme, parent, false))
             }
             RecyclerViewUtils.TYPE_DIVIDER -> {
-                Divider(LayoutInflater.from(parent.context).inflate(R.layout.adapter_divider_app_theme, parent, false))
+                Divider(LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_divider_app_theme, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
@@ -120,7 +123,7 @@ class AdapterTheme : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
             is Header -> {
                 holder.title.text = holder.itemView.context.getString(R.string.application_theme)
-                holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+                holder.total.text = holder.itemView.context.getString(R.string.total, list.count { it > 0 })
             }
         }
     }
