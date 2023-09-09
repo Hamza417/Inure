@@ -22,9 +22,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private val tagNames: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().apply {
-            loadTagNames()
-        }
+        MutableLiveData<ArrayList<String>>()
     }
 
     fun getTags(): LiveData<ArrayList<Tag>> {
@@ -37,7 +35,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
-        loadTags()
+        refresh()
     }
 
     private fun loadTags() {
@@ -75,10 +73,11 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
             val tags = database?.getTagDao()?.getTags()
+            val apps = getInstalledApps() + getUninstalledApps()
 
             tagNames.postValue(tags?.toArrayList()?.filter {
                 it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
-                    getInstalledApps().any { app ->
+                    apps.any { app ->
                         app.packageName == packageName
                     }
                 }
