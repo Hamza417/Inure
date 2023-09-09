@@ -1,7 +1,6 @@
 package app.simple.inure.ui.panels
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.isNull
+import app.simple.inure.util.LocaleHelper
 
 class WebPage : ScopedFragment() {
 
@@ -49,8 +48,7 @@ class WebPage : ScopedFragment() {
                     webView.loadUrl("file:///android_asset/html/gpl.html")
                 }
                 getString(R.string.privacy_policy) -> {
-                    Log.d("WebPage", "onViewCreated: ${ConfigurationPreferences.getAppLanguage()}")
-                    when (ConfigurationPreferences.getAppLanguage()) {
+                    when (LocaleHelper.getAppLocale().language) {
                         "ar",
                         "ar-rSA" -> {
                             webView.loadUrl("file:///android_asset/l10n_html/ar/privacy.html")
