@@ -1,26 +1,47 @@
-name: FOSS Package Update
+name: Update Package Versions
 
 on:
-  workflow_dispatch:  # This event allows manual triggering
+  workflow_dispatch:  # Allow manual triggering
+  schedule:
+    - cron: "0 0 * * 0"  # Schedule to run every Sunday at midnight UTC (optional)
 
 jobs:
-  run-python:
+  run-python-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the code
+    - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Specify the Python version you want to use
+        python-version: 3.10  # Specify the Python version you want to use
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+        # Add any other dependencies here if needed
 
     - name: Run Python Script
-      run: python scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
-
-    - name: Commit and Push Changes
       run: |
-        git add .
-        git commit -m "Run weekly Python job"
-        git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git
+        python scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
+      working-directory: scripts/fdroid_repo/  # Specify the directory where your script is located
+
+    - name: Copy file to repository
+      run: |
+        mkdir -p ../../app/src/main/res/xml/
+        cp package_versions.xml ../../app/src/main/res/xml/
+      working-directory: scripts/fdroid_repo  # Specify the directory where your script is located
+
+    - name: Commit and push changes
+      run: |
+        git add ../../app/src/main/res/xml/package_versions.xml
+        git commit -m "Update package versions"
+        git push https://${{ secrets.TOKEN }}@github.com/Hamza417/Inure.git
+
+    - name: Delete repository metadata files
+      run: |
+        rm -f fdroid_index.xml
+        rm -f izzyondroid_index.xml
+      working-directory: scripts/fdroid_repo/  # Specify the directory where your script is located
