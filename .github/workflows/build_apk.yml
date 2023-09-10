@@ -1,0 +1,52 @@
+name: Build APK
+
+on:
+  workflow_dispatch:  # Allow manual triggering
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'fastlane/**'
+      - 'scripts/**'
+      - '.idea/**'
+      - '.github/**'
+      - 'assets/**'
+      - '*.md'
+      - '*.yml'
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      #      - name: Set up Android
+      #        uses: actions/setup-android@v2
+      #        with:
+      #          sdk-platform: 34   # Specify the desired Android SDK platform version
+      #          ndk-version: '25.2.9519653'  # Specify the desired NDK version
+
+      - name: Build APK
+        run: | # Use 'bundleRelease' to build the release bundle
+          chmod +x ./gradlew
+          ./gradlew clean assembleGithubDebug 
+
+      - name: List Files
+        run: ls -R
+
+      - name: Archive APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-github-debug
+          path: app/**/*.apk
+
