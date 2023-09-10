@@ -17,7 +17,7 @@ jobs:
         python-version: 3.x  # Specify the Python version you want to use
 
     - name: Run Python Script
-      run: python /scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
+      run: python scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
 
     - name: Commit and Push Changes
       run: |
