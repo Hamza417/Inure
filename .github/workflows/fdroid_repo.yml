@@ -24,7 +24,10 @@ jobs:
         # Add any other dependencies here if needed
 
     - name: Make script executable
-      run: chmod +x scripts/fdroid_repo/fdroid_repo_parser.py
+      run: |
+        cd scripts/fdroid_repo/
+        ls  # List the contents of the directory to verify the presence of the script
+        chmod +x fdroid_repo_parser.py
       working-directory: scripts/fdroid_repo/
 
 
