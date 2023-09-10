@@ -23,6 +23,11 @@ jobs:
         pip install requests
         # Add any other dependencies here if needed
 
+    - name: Make script executable
+      run: chmod +x scripts/fdroid_repo/fdroid_repo_parser.py
+      working-directory: scripts/fdroid_repo/
+
+
     - name: Run Python Script
       run: |
         python scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
