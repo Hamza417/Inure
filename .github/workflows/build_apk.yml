@@ -39,7 +39,7 @@ jobs:
       - name: Build APK
         run: | # Use 'bundleRelease' to build the release bundle
           chmod +x ./gradlew
-          ./gradlew clean assembleGithubDebug 
+          ./gradlew clean assembleBetaDebug 
 
       - name: List Files
         run: ls -R
@@ -47,6 +47,6 @@ jobs:
       - name: Archive APK
         uses: actions/upload-artifact@v3
         with:
-          name: app-github-debug
+          name: Beta APK (Debug)
           path: app/**/*.apk
 
