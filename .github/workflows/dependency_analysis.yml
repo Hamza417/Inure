@@ -1,6 +1,18 @@
 name: "Dependency Analysis"
 
-on: [push, pull_request]
+# Run only when build.gradle file is changed
+on:
+  push:
+    paths:
+      - '**/build.gradle'
+      - '**/build.gradle.kts'
+      - '**/gradle.properties'
+      - '**/gradle.properties.kts'
+      - '**/gradle-wrapper.properties'
+      - '**/gradle-wrapper.properties.kts'
+      - '**/settings.gradle'
+      - '**/settings.gradle.kts'
+      - '**/settings.gradle.kts'
 
 jobs:
 
