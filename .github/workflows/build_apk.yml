@@ -30,6 +30,13 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/key.jks'
+          encodedString: ${{ secrets.SIGN_KEY }}
+
       #      - name: Set up Android
       #        uses: actions/setup-android@v2
       #        with:
@@ -39,7 +46,11 @@ jobs:
       - name: Build APK
         run: | # Use 'bundleRelease' to build the release bundle
           chmod +x ./gradlew
-          ./gradlew clean assembleBetaDebug 
+          ./gradlew clean assembleBetaRelease
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
       - name: List Files
         run: ls -R
