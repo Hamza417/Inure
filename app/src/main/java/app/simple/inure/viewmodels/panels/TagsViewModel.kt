@@ -95,11 +95,10 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             if (tags.isNullOrEmpty().invert()) {
                 if (tags!!.contains(tag)) {
                     database.getTagDao()!!.getTag(tag).apply {
-                        packages = if (packages.isNullOrEmpty()) {
-                            packageInfo.packageName
-                        } else {
-                            packages.plus("," + packageInfo.packageName)
-                        }
+                        packages = packages.split(",")
+                            .plus(packageInfo.packageName)
+                            .distinct()
+                            .joinToString(",")
 
                         database.getTagDao()!!.updateTag(this)
                     }
