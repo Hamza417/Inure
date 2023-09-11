@@ -33,22 +33,22 @@ jobs:
 
       - name: Make script executable
         run: |
-          cd scripts/fdroid_repo/
+          cd ./scripts/fdroid_repo/
           ls  # List the contents of the directory to verify the presence of the script
           chmod +x fdroid_repo_parser.py
-        working-directory: scripts/fdroid_repo/
+        working-directory: ./scripts/fdroid_repo/
 
 
       - name: Run Python Script
         run: |
-          python scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
-        working-directory: scripts/fdroid_repo/  # Specify the directory where your script is located
+          python ./scripts/fdroid_repo/fdroid_repo_parser.py  # Replace 'your_script.py' with the actual filename
+        working-directory: ./scripts/fdroid_repo/  # Specify the directory where your script is located
 
       - name: Copy file to repository
         run: |
           mkdir -p ../../app/src/main/res/xml/
           cp package_versions.xml ../../app/src/main/res/xml/
-        working-directory: scripts/fdroid_repo  # Specify the directory where your script is located
+        working-directory: ./scripts/fdroid_repo  # Specify the directory where your script is located
 
       - name: Commit and push changes
         run: |
@@ -60,4 +60,4 @@ jobs:
         run: |
           rm -f fdroid_index.xml
           rm -f izzyondroid_index.xml
-        working-directory: scripts/fdroid_repo/  # Specify the directory where your script is located
+        working-directory: ./scripts/fdroid_repo/  # Specify the directory where your script is located
