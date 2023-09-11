@@ -79,7 +79,7 @@ class MainActivity : BaseActivity() {
         ThemeUtils.setAppTheme(resources)
 
         if (AppUtils.isBetaFlavor()) {
-            setExpiryStamp()
+            // setExpiryStamp()
         }
 
         if (savedInstanceState.isNull()) {
