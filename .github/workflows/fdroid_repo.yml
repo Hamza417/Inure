@@ -33,11 +33,10 @@ jobs:
 
       - name: Make script executable
         run: |
-          cd ./scripts/fdroid_repo/
+          cd ./scripts/fdroid_repo
           ls  # List the contents of the directory to verify the presence of the script
           chmod +x fdroid_repo_parser.py
-        working-directory: ./scripts/fdroid_repo/
-
+        working-directory: ./scripts/fdroid_repo
 
       - name: Run Python Script
         run: |
