@@ -28,15 +28,16 @@ jobs:
           import xml.etree.ElementTree as ET
 
           def parse_and_write_xml(file_path):
-          tree = ET.parse(file_path)
-          root = tree.getroot()
-          for application in root.findall('.//application'):
-            app_id = application.get('id')
-            version_code = application.find('.//versioncode').text
-            print(f'    <string name=\"{app_id}\" translatable=\"false\">{version_code}</string>')
+            tree = ET.parse(file_path)
+            root = tree.getroot()
+            for application in root.findall('.//application'):
+              app_id = application.get('id')
+              version_code = application.find('.//versioncode').text
+              print(f'    <string name=\"{app_id}\" translatable=\"false\">{version_code}</string>')
           
           parse_and_write_xml('fdroid_index.xml')
           parse_and_write_xml('izzyondroid_index.xml')
+          
           " >> package_versions.xml
           echo '</resources>' >> package_versions.xml
 
