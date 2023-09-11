@@ -13,6 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: List .txt files
+        run: |
+          # Use the find command to list all .txt files
+          find . -type f -name "*.py" > file_paths.txt
+          
+          # Display the content of the file_paths.txt for verification
+          cat file_paths.txt
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
