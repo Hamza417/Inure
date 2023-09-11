@@ -47,4 +47,4 @@ jobs:
 
       - name: Move Android resource file
         run: |
-          mv xml_files/package_versions.xml ../app/src/main/res/xml/
+          mv xml_files/package_versions.xml ./app/src/main/res/xml/
