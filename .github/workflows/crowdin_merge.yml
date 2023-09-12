@@ -12,10 +12,10 @@ jobs:
       - name: Check if PR is from Crowdin
         id: check-crowdin-pr
         run: |
-          echo "::set-output name=is_crowdin_pr::$(echo "${{ github.event.pull_request.title }}" | grep -q 'New Crowdin updates' && echo true || echo false)"
+          echo "IS_CROWDIN_PR=$(echo "${{ github.event.pull_request.title }}" | grep -q 'New Crowdin updates' && echo true || echo false)" >> $GITHUB_ENV
 
       - name: Merge Crowdin PR
-        if: steps.check-crowdin-pr.outputs.is_crowdin_pr == true
+        if: env.IS_CROWDIN_PR == 'true'
         run: |
           # Replace with your GitHub token and repository information
           GITHUB_TOKEN=${{ secrets.TOKEN }}
