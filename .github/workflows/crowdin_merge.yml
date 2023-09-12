@@ -18,7 +18,7 @@ jobs:
         if: env.IS_CROWDIN_PR == 'true'
         run: |
           # Replace with your GitHub token and repository information
-          GITHUB_TOKEN=${{ secrets.TOKEN }}
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
 
           # Merge the pull request
           curl -X PUT -H "Authorization: token $GITHUB_TOKEN" \
