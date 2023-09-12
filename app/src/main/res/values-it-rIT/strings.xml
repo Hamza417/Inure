@@ -21,6 +21,7 @@
     <string name="total_apps">%1$s app</string>
     <string name="total_sensors">%1$s sensori</string>
     <string name="total_notes">%1$s note</string>
+    <string name="total_tags">Tag %1$d</string>
     <string name="apps">App</string>
     <string name="sorting_style">Stile ordinamento</string>
     <string name="open_application_settings">Apri impostazioni principali</string>
@@ -104,7 +105,7 @@
     <string name="none">Nessuno</string>
     <string name="bouncy_desc">Valore per quanto la lista dovrebbe rimbalzare prima di fermarsi dopo che finisce.</string>
     <string name="root">Root</string>
-    <string name="use_root_methods">Usa metodi root</string>
+    <string name="use_root_methods">Modalità Root</string>
     <string name="root_desc">Usa metodi root al posto delle API e Librerie Android native per eseguire alcune funzioni.\n\nQuesta opzione è consigliata in quanto può rendere l\'esperienza utente più semplificata.\n\nUn dispositivo rootato è necessario.</string>
     <string name="back_button">Pulsante indietro</string>
     <string name="files">File</string>
@@ -632,7 +633,7 @@
     <string name="date">Data</string>
     <string name="trial_info">Informazioni sulla versione di prova gratuita</string>
     <string name="desc_trial">Inure App Manager offre l\'accesso completo all\'app gratuitamente per 15 giorni. Dopo di che queste funzioni richiederanno l\'Unlocker per essere attivate.</string>
-    <string name="use_shizuku">Usa Shizuku</string>
+    <string name="use_shizuku">Modalità Shizuku</string>
     <string name="shizuku_desc">Usa l\'API Shizuku al posto delle API e librerie Android native per eseguire alcune funzioni.\n\nQuesta opzione è consigliata per gli utenti senza root.\n\nL\'accesso a Shizuku è richiesto.</string>
     <string name="shizuku_alert">Se i permessi di root sono consentiti e la modalità root è attivata nell\'app, la modalità root sarà preferita rispetto a Shizuku.</string>
     <string name="disclaimer">Avviso</string>
@@ -696,4 +697,8 @@
     <string name="external_storage">Memoria esterna</string>
     <string name="external_storage_desc">Includi anche la memoria esterna durante la scansione.</string>
     <string name="public_key_type">Tipo chiave pubblica</string>
+    <string name="backup_and_restore_desc">Backup e ripristino dei dati dell\'app.</string>
+    <string name="import_">Importa</string>
+    <string name="tags">Tag</string>
+    <string name="add_tag">Aggiungi un nuovo tag</string>
 </resources>
