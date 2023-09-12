@@ -2,19 +2,19 @@ name: Auto Merge Crowdin Pull Requests
 on:
   pull_request:
     types:
-      - labeled
+      - opened
 
 jobs:
   merge:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if PR has Crowdin label
-        id: check-crowdin-label
-        run: echo "::set-output name=has_crowdin_label::$(jq -r '.label.name' <<< ${{ toJson(github.event.pull_request.labels) }} | grep -q 'New Crowdin updates' && echo true || echo false)"
+      - name: Check if PR is from Crowdin
+        id: check-crowdin-pr
+        run: echo "::set-output name=is_crowdin_pr::$(echo "${{ github.event.pull_request.title }}" | grep -q 'New Crowdin updates' && echo true || echo false)"
 
       - name: Merge Crowdin PR
-        if: steps.check-crowdin-label.outputs.has_crowdin_label == "true"
+        if: steps.check-crowdin-pr.outputs.is_crowdin_pr == "true"
         run: |
           # Replace with your GitHub token and repository information
           GITHUB_TOKEN=${{ secrets.TOKEN }}
