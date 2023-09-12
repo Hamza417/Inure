@@ -1,0 +1,26 @@
+name: Auto Merge Crowdin Pull Requests
+on:
+  pull_request:
+    types:
+      - labeled
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if PR has Crowdin label
+        id: check-crowdin-label
+        run: echo "::set-output name=has_crowdin_label::$(jq -r '.label.name' <<< ${{ toJson(github.event.pull_request.labels) }} | grep -q 'New Crowdin updates' && echo true || echo false)"
+
+      - name: Merge Crowdin PR
+        if: steps.check-crowdin-label.outputs.has_crowdin_label == "true"
+        run: |
+          # Replace with your GitHub token and repository information
+          GITHUB_TOKEN=${{ secrets.TOKEN }}
+
+          # Merge the pull request
+          curl -X PUT -H "Authorization: token $GITHUB_TOKEN" \
+            -d '{
+              "merge_method": "merge"
+            }' "$GITHUB_API_URL/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge"
