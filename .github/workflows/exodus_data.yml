@@ -90,3 +90,7 @@ jobs:
           git add .
           git commit -m "Automated Exodus data update"
           git push origin master
+
+notifications:
+  email:
+    on: [ none ]  # Disable email notifications for this workflow
