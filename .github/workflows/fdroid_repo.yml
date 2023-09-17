@@ -1,66 +1,66 @@
 name: XML Parser Workflow
 
 on:
-  workflow_dispatch:  # Allow manual triggering
-  schedule:
-    - cron: "0 0 * * 0"  # Schedule to run every Sunday at midnight UTC (optional)
+    workflow_dispatch:  # Allow manual triggering
+    schedule:
+        -   cron: "0 0 * * 0"  # Schedule to run every Sunday at midnight UTC (optional)
 
 jobs:
-  xml_parser:
-    runs-on: ubuntu-latest
+    xml_parser:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
 
-      - name: Download XML files
-        run: |
-          mkdir -p xml_files
-          wget -O xml_files/fdroid_index.xml https://f-droid.org/repo/index.xml
-          wget -O xml_files/izzyondroid_index.xml https://apt.izzysoft.de/fdroid/repo/index.xml
+            -   name: Download XML files
+                run: |
+                    mkdir -p xml_files
+                    wget -O xml_files/fdroid_index.xml https://f-droid.org/repo/index.xml
+                    wget -O xml_files/izzyondroid_index.xml https://apt.izzysoft.de/fdroid/repo/index.xml
 
-      - name: Parse XML and create Android resource file
-        run: |
-          cd xml_files
-          echo '<?xml version="1.0" encoding="utf-8"?>' > package_versions.xml
-          echo '<resources>' >> package_versions.xml
-          python -c "
-          import xml.etree.ElementTree as ET
+            -   name: Parse XML and create Android resource file
+                run: |
+                    cd xml_files
+                    echo '<?xml version="1.0" encoding="utf-8"?>' > package_versions.xml
+                    echo '<resources>' >> package_versions.xml
+                    python -c "
+                    import xml.etree.ElementTree as ET
+                    
+                    def parse_and_write_xml(file_path):
+                      tree = ET.parse(file_path)
+                      root = tree.getroot()
+                      for application in root.findall('.//application'):
+                        app_id = application.get('id')
+                        version_code = application.find('.//versioncode').text
+                        print(f'    <string name=\"{app_id}\" translatable=\"false\">{version_code}</string>')
+                    
+                    parse_and_write_xml('fdroid_index.xml')
+                    parse_and_write_xml('izzyondroid_index.xml')
+                    
+                    " >> package_versions.xml
+                    echo '</resources>' >> package_versions.xml
 
-          def parse_and_write_xml(file_path):
-            tree = ET.parse(file_path)
-            root = tree.getroot()
-            for application in root.findall('.//application'):
-              app_id = application.get('id')
-              version_code = application.find('.//versioncode').text
-              print(f'    <string name=\"{app_id}\" translatable=\"false\">{version_code}</string>')
-          
-          parse_and_write_xml('fdroid_index.xml')
-          parse_and_write_xml('izzyondroid_index.xml')
-          
-          " >> package_versions.xml
-          echo '</resources>' >> package_versions.xml
+            -   name: Display Android resource file content
+                run: |
+                    cat xml_files/package_versions.xml
 
-      - name: Display Android resource file content
-        run: |
-          cat xml_files/package_versions.xml
+            -   name: Move Android resource file
+                run: |
+                    mv xml_files/package_versions.xml ./app/src/main/res/xml/
 
-      - name: Move Android resource file
-        run: |
-          mv xml_files/package_versions.xml ./app/src/main/res/xml/
+            -   name: Cleanup
+                run: |
+                    rm -rf xml_files  # Delete the unnecessary XML files
 
-      - name: Cleanup
-        run: |
-          rm -rf xml_files  # Delete the unnecessary XML files
-
-      - name: Commit changes
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Automated F-Droid repo update"
-          git push origin master
+            -   name: Commit changes
+                run: |
+                    git config --global user.email "actions@github.com"
+                    git config --global user.name "GitHub Actions"
+                    git add .
+                    git commit -m "Automated F-Droid repo update"
+                    git push origin master
 
 notifications:
-  email:
-    on: [ none ]  # Disable email notifications for this workflow
+    email:
+        on: [ none ]  # Disable email notifications for this workflow
