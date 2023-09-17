@@ -1,4 +1,4 @@
-name: XML Parser Workflow
+name: Update F-Droid Repo Data
 
 on:
     workflow_dispatch:  # Allow manual triggering
