@@ -200,5 +200,10 @@
       <option name="METHOD_CALL_CHAIN_WRAP" value="0" />
       <option name="ASSIGNMENT_WRAP" value="0" />
     </codeStyleSettings>
+    <codeStyleSettings language="yaml">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="4" />
+      </indentOptions>
+    </codeStyleSettings>
   </code_scheme>
 </component>
