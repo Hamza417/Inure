@@ -28,20 +28,23 @@ jobs:
             echo "PR author is not the repository owner. Exiting..."
             exit 0
           fi
-
+          
           # Add more checks as needed
           # Example: Check for specific files, changes, or other criteria
+          
+          # The above checks have passed so this is a Crowdin PR
+          # otherwise the job would have exited
+          # Set an environment variable to indicate this
+          echo "IS_CROWDIN_PR=true" >> $GITHUB_ENV
 
       - name: Merge Crowdin PR
-        if: steps.check-crowdin-pr.outputs.is_crowdin_pr == "true"
+        if: env.IS_CROWDIN_PR == 'true'
         run: |
-          # Use the default GITHUB_TOKEN for authentication
-          # This token is automatically provided by GitHub Actions
-          # and should have the necessary permissions.
-          # No need to manually configure it.
-          
+          # Replace with your GitHub token and repository information
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+
           # Merge the pull request
-          curl -X PUT -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          curl -X PUT -H "Authorization: token $GITHUB_TOKEN" \
             -d '{
               "merge_method": "merge"
             }' "$GITHUB_API_URL/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge"
