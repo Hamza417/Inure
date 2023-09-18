@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -49,7 +48,6 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() != null) {
-                Log.d(TAG, "onReceive: " + intent.getAction());
                 if (intent.getAction().equals(ACTION_CLOSE_BOTTOM_MENU)) {
                     animate()
                             .translationY(containerHeight)

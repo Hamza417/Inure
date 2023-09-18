@@ -60,12 +60,16 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                 if (ThemeUtils.isNightMode(resources)) {
                     view.evaluateJavascript("CssLoader.loadDarkCss()") {
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
-                        visible(animate = false)
+                        post {
+                            visible(animate = false)
+                        }
                     }
                 } else {
                     view.evaluateJavascript("CssLoader.loadLightCss()") {
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
-                        visible(animate = false)
+                        post {
+                            visible(animate = false)
+                        }
                     }
                 }
             }
