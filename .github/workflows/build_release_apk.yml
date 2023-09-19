@@ -50,7 +50,7 @@ jobs:
                 run: |
                     RELEASE_NOTES=$(cat assets/release.html | base64)
                     echo "RELEASE_NOTES=${RELEASE_NOTES}" >> $GITHUB_ENV
-                    echo "Release Notes: ${{ env.RELEASE_NOTES | base64 -d }}" # Print release notes to console
+                    echo "Release Notes: ${{ env.RELEASE_NOTES }}" # Print release notes to console
 
             -   name: Build GitHub Release APK
                 run: |
