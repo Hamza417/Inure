@@ -2,6 +2,8 @@ name: "Dependency Analysis"
 
 # Run only when build.gradle file is changed
 on:
+    workflow_dispatch:
+    # Allow manual triggering
     push:
         paths:
             - '**/build.gradle'
@@ -22,7 +24,7 @@ jobs:
         name: "Validation"
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
 
             -   name: Gradle Wrapper validation
                 uses: gradle/wrapper-validation-action@v1
@@ -35,7 +37,7 @@ jobs:
         needs: validation
 
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
 
             -   name: Make gradlew executable
                 run: chmod +x ./gradlew
@@ -51,7 +53,7 @@ jobs:
                 run: ./gradlew buildHealth
 
             -   name: Upload advice
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v3
                 with:
                     name: dependency-advice
                     path: ./build/reports/dependency-analysis/
