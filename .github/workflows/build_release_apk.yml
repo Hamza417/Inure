@@ -52,19 +52,10 @@ jobs:
                 env:
                     RELEASE_NOTES_FILE: release.html
 
-            -   name: Build GitHub Release APK
+            -   name: Build GitHub Release and Play Release APKs
                 run: |
                     chmod +x ./gradlew
-                    ./gradlew clean assembleGithubRelease
-                env:
-                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
-                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-
-            -   name: Build Play Release APK
-                run: |
-                    chmod +x ./gradlew
-                    ./gradlew clean assemblePlayRelease
+                    ./gradlew clean assembleGithubRelease assemblePlayRelease --parallel
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
