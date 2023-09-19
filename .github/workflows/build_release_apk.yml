@@ -27,7 +27,7 @@ jobs:
                     encodedString: ${{ secrets.SIGN_KEY }}
 
             -   name: Build APK
-                run: | # Use 'bundleRelease' to build the release bundle
+                run: |
                     chmod +x ./gradlew
                     ./gradlew clean assembleGithubRelease
                 env:
@@ -60,11 +60,25 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
+            -   name: Download Release Notes
+                id: download_release_notes
+                uses: actions/download-artifact@v3
+                with:
+                    name: ReleaseNotes
+                    path: assets/release.html
+
+            -   name: Read Release Notes
+                id: read_release_notes
+                run: |
+                    RELEASE_NOTES=$(cat assets/release.html)
+                    echo "RELEASE_NOTES=${RELEASE_NOTES}" >> $GITHUB_ENV
+
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v1
                 with:
                     files: app/**/*.apk
-                    name: ${{ env.VERSION_NAME }}
-                    tag_name: ${{ env.TAG }}
+                    name: ${{ env.VERSION_NAME }} # Use the original case for the release name
+                    tag_name: ${{ env.TAG }} # Use lowercase for the tag
+                    body: ${{ env.RELEASE_NOTES }} # Use the release notes from Release.txt
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
