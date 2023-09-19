@@ -78,7 +78,7 @@ open class BaseActivity : AppCompatActivity(),
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
-    @androidx.annotation.OptIn(BuildCompat.PrereleaseSdkCheck::class)
+    @OptIn(BuildCompat.PrereleaseSdkCheck::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent).invert()) {
             AppearancePreferences.setCustomColor(false)
