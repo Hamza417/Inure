@@ -47,10 +47,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/header_padding"
             android:layout_weight="1"
             android:textSize="@dimen/header_name_text_size"
             app:appFontStyle="bold"
             app:textColorStyle="white" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/bg_mode"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_marginEnd="5dp"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_dark_mode"
+            app:buttonTintType="white"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

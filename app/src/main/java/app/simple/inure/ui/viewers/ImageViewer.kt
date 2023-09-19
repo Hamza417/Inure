@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.drawable.GradientDrawable
@@ -29,6 +30,7 @@ import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.ImageViewerViewModelFactory
 import app.simple.inure.popups.viewers.PopupImageViewer
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
@@ -50,13 +52,17 @@ class ImageViewer : ScopedFragment() {
     private lateinit var gif: ZoomImageView
     private lateinit var back: DynamicRippleImageButton
     private lateinit var name: TypeFaceTextView
+    private lateinit var backgroundMode: DynamicRippleImageButton
     private lateinit var options: DynamicRippleImageButton
     private lateinit var header: LinearLayout
     private lateinit var background: FrameLayout
 
     private val imageViewerViewModel: ImageViewerViewModel by lazy {
-        val p0 = ImageViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToImage)!!, requireArguments().getString(BundleConstants.pathToApk)!!)
-        ViewModelProvider(this, p0)[ImageViewerViewModel::class.java]
+        val imageViewerViewModelFactory = ImageViewerViewModelFactory(
+                requireArguments().getString(BundleConstants.pathToImage)!!,
+                requireArguments().getString(BundleConstants.pathToApk)!!)
+
+        ViewModelProvider(this, imageViewerViewModelFactory)[ImageViewerViewModel::class.java]
     }
 
     private val exportImage = registerForActivityResult(ActivityResultContracts.CreateDocument("*/*")) { uri: Uri? ->
@@ -87,6 +93,7 @@ class ImageViewer : ScopedFragment() {
         gif = view.findViewById(R.id.gif_viewer)
         back = view.findViewById(R.id.image_viewer_back_button)
         name = view.findViewById(R.id.image_name)
+        backgroundMode = view.findViewById(R.id.bg_mode)
         options = view.findViewById(R.id.image_viewer_option)
         header = view.findViewById(R.id.header)
         background = view.findViewById(R.id.image_viewer_container)
@@ -101,6 +108,7 @@ class ImageViewer : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView).isAppearanceLightStatusBars = false
+        setBackgroundColor(animate = false)
 
         with(header) {
             if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
@@ -116,13 +124,6 @@ class ImageViewer : ScopedFragment() {
                            paddingRight,
                            paddingBottom)
             }
-
-            background = GradientDrawable().apply {
-                colors = intArrayOf(Color.BLACK, Color.TRANSPARENT)
-                orientation = GradientDrawable.Orientation.TOP_BOTTOM
-                gradientType = GradientDrawable.LINEAR_GRADIENT
-                shape = GradientDrawable.RECTANGLE
-            }
         }
 
         imageViewerViewModel.getBitmap().observe(viewLifecycleOwner) {
@@ -130,10 +131,14 @@ class ImageViewer : ScopedFragment() {
             gif.gone()
             if (savedInstanceState.isNotNull()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center", PointF::class.java)!!)
+                    image.setScaleAndCenter(
+                            savedInstanceState!!.getFloat("scale"),
+                            savedInstanceState.getParcelable("center", PointF::class.java)!!)
                 } else {
                     @Suppress("DEPRECATION")
-                    image.setScaleAndCenter(savedInstanceState!!.getFloat("scale"), savedInstanceState.getParcelable("center")!!)
+                    image.setScaleAndCenter(
+                            savedInstanceState!!.getFloat("scale"),
+                            savedInstanceState.getParcelable("center")!!)
                 }
             }
         }
@@ -168,6 +173,11 @@ class ImageViewer : ScopedFragment() {
 
         gif.setOnClickListener {
             image.callOnClick()
+        }
+
+        backgroundMode.setOnClickListener {
+            ImageViewerPreferences.setBackgroundMode(
+                    !ImageViewerPreferences.isBackgroundDark())
         }
 
         options.setOnClickListener { it ->
@@ -216,6 +226,7 @@ class ImageViewer : ScopedFragment() {
         }.getOrElse {
             outState.putFloat("zoom", 1F)
         }
+
         super.onSaveInstanceState(outState)
     }
 
@@ -235,16 +246,55 @@ class ImageViewer : ScopedFragment() {
         }
     }
 
-    private fun setBackgroundColor() {
-        val colorAnim = if (ImageViewerPreferences.isBackgroundDark()) {
-            ValueAnimator.ofObject(ArgbEvaluatorCompat(), ThemeManager.theme.viewGroupTheme.viewerBackground, Color.BLACK)
+    private fun setBackgroundColor(animate: Boolean = true) {
+        if (animate) {
+            val colorAnim = if (ImageViewerPreferences.isBackgroundDark()) {
+                ValueAnimator.ofObject(ArgbEvaluatorCompat(), ThemeManager.theme.viewGroupTheme.background, Color.BLACK)
+            } else {
+                ValueAnimator.ofObject(ArgbEvaluatorCompat(), Color.BLACK, ThemeManager.theme.viewGroupTheme.background)
+            }
+
+            colorAnim.duration = resources.getInteger(R.integer.animation_duration).toLong()
+            colorAnim.interpolator = LinearOutSlowInInterpolator()
+            colorAnim.addUpdateListener { animation -> image.setBackgroundColor(animation.animatedValue as Int) }
+            colorAnim.start()
         } else {
-            ValueAnimator.ofObject(ArgbEvaluatorCompat(), Color.BLACK, ThemeManager.theme.viewGroupTheme.viewerBackground)
+            if (ImageViewerPreferences.isBackgroundDark()) {
+                image.setBackgroundColor(Color.BLACK)
+            } else {
+                image.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
+            }
         }
-        colorAnim.duration = 1000
-        colorAnim.interpolator = LinearOutSlowInInterpolator()
-        colorAnim.addUpdateListener { animation -> image.setBackgroundColor(animation.animatedValue as Int) }
-        colorAnim.start()
+
+        if (ImageViewerPreferences.isBackgroundDark()) {
+            backgroundMode.setImageResource(R.drawable.ic_light_mode)
+            backgroundMode.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            name.setTextColor(Color.WHITE)
+            options.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            back.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            ThemeUtils.manualBarColors(light = false, requireActivity().window)
+
+            header.background = GradientDrawable().apply {
+                colors = intArrayOf(Color.BLACK, Color.TRANSPARENT)
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+                shape = GradientDrawable.RECTANGLE
+            }
+        } else {
+            backgroundMode.setImageResource(R.drawable.ic_dark_mode)
+            backgroundMode.imageTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            name.setTextColor(AppearancePreferences.getAccentColor())
+            options.imageTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            back.imageTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            ThemeUtils.manualBarColors(light = true, requireActivity().window)
+
+            header.background = GradientDrawable().apply {
+                colors = intArrayOf(Color.WHITE, Color.TRANSPARENT)
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM
+                gradientType = GradientDrawable.LINEAR_GRADIENT
+                shape = GradientDrawable.RECTANGLE
+            }
+        }
     }
 
     override fun onDestroy() {

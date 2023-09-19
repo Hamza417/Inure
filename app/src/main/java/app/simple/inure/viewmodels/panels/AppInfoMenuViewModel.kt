@@ -22,7 +22,6 @@ import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
@@ -179,12 +178,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
             list.add(Pair(R.drawable.ic_downloading, R.string.extract))
             list.add(Pair(R.drawable.ic_play_store, R.string.play_store))
-
-            if (AppUtils.isPlayFlavor().invert()) {
-                list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
-                list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
-                list.add(Pair(R.drawable.ic_galaxy_appstore, R.string.galaxy_store))
-            }
+            list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
+            list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
+            list.add(Pair(R.drawable.ic_galaxy_appstore, R.string.galaxy_store))
 
             miscellaneousItems.postValue(list)
         }

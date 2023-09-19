@@ -50,6 +50,16 @@
             app:textColorStyle="white" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/bg_mode"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_marginEnd="5dp"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_dark_mode"
+            app:buttonTintType="white"
+            tools:ignore="ContentDescription" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/image_viewer_option"
             android:layout_width="@dimen/header_icon_size"
             android:layout_height="@dimen/header_icon_size"

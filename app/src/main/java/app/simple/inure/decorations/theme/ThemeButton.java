@@ -36,9 +36,11 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
         if (isInEditMode()) {
             return;
         }
+        //noinspection resource
         TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ThemeButton, 0, 0);
         tintMode = typedArray.getInteger(R.styleable.ThemeButton_buttonTintType, 0);
         setTint(getTintColor(tintMode), false);
+        typedArray.recycle();
     }
     
     private void setTint(int endColor, boolean animate) {
@@ -55,19 +57,19 @@ public class ThemeButton extends AppCompatImageButton implements ThemeChangedLis
     
     private int getTintColor(int tintMode) {
         switch (tintMode) {
-            case 0: {
+            case 0 -> {
                 return ThemeManager.INSTANCE.getTheme().getIconTheme().getRegularIconColor();
             }
-            case 1: {
+            case 1 -> {
                 return ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor();
             }
-            case 2: {
+            case 2 -> {
                 return AppearancePreferences.INSTANCE.getAccentColor();
             }
-            case 3: {
+            case 3 -> {
                 return Color.WHITE;
             }
-            case 4: {
+            case 4 -> {
                 return Color.GRAY;
             }
         }

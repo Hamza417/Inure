@@ -14,6 +14,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.util.CalendarUtils
 
+@Suppress("unused")
 object ThemeUtils {
     fun setAppTheme(resources: Resources) {
         when (AppearancePreferences.getTheme()) {
@@ -171,6 +172,14 @@ object ThemeUtils {
                     darkBars(window)
                 }
             }
+        }
+    }
+
+    fun manualBarColors(light: Boolean, window: Window) {
+        if (light) {
+            lightBars(window)
+        } else {
+            darkBars(window)
         }
     }
 

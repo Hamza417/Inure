@@ -57,7 +57,7 @@ Features available for Shizuku users.
 
 UI feature of Inure that makes it stand out.
 
-- Fresh and modern interface design with fluid motion.
+- Fresh and modern interface design with customizable fluid motion animations.
 - Customize app with various font styles and accent colors.
 - Varius dark and light mode themes.
 - Adjust corner radius to remove or add rounded corners to all UI elements in the app.
