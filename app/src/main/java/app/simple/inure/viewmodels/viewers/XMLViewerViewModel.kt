@@ -17,7 +17,6 @@ import app.simple.inure.util.XMLUtils.formatXML
 import app.simple.inure.util.XMLUtils.getPrettyXML
 import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.ApkFile
 import java.io.File
@@ -96,8 +95,6 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
 
     private fun getStringXml() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(500) // Lets the animations finish first
-
             kotlin.runCatching {
                 val code = if (isManifest) {
                     packageInfo.applicationInfo.extractManifest()!!

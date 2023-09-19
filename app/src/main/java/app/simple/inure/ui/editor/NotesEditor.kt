@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
+import android.text.PrecomputedText
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.AbsoluteSizeSpan
@@ -24,6 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -62,6 +64,9 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
+import com.anggrayudi.storage.extension.launchOnUiThread
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotesEditor : KeyboardScopedFragment() {
 
@@ -202,9 +207,16 @@ class NotesEditor : KeyboardScopedFragment() {
             notesPackageInfo = it
             originalText = SpannableStringBuilder(it.note)
 
-            noteEditText.setText(it.note, TextView.BufferType.SPANNABLE)
-            textViewUndoRedo?.clearHistory()
-            textViewUndoRedo = TextViewUndoRedo(noteEditText)
+            val params = noteEditText.textMetricsParams
+
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                val precomputedText = PrecomputedText.create(it.note, params)
+                launchOnUiThread {
+                    noteEditText.setText(precomputedText, TextView.BufferType.SPANNABLE)
+                    textViewUndoRedo?.clearHistory()
+                    textViewUndoRedo = TextViewUndoRedo(noteEditText)
+                }
+            }
         }
 
         bold.setOnClickListener {

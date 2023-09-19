@@ -14,9 +14,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.MimeConstants
@@ -38,6 +41,8 @@ import app.simple.inure.text.EditTextHelper.findMatches
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 class XMLViewerTextView : KeyboardScopedFragment() {
@@ -99,7 +104,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         clear = view.findViewById(R.id.clear)
         count = view.findViewById(R.id.count)
 
-        name.text = requireArguments().getString("path_to_xml")!!
+        name.text = requireArguments().getString(BundleConstants.pathToXml)!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
                                                            requireArguments().getBoolean(BundleConstants.isManifest),
@@ -128,17 +133,36 @@ class XMLViewerTextView : KeyboardScopedFragment() {
             if (it.length > FormattingPreferences.getLargeStringLimit()) {
                 childFragmentManager.showLargeStringDialog(it.length) {
                     postDelayed {
-                        text.setText(it)
+                        val params = TextViewCompat.getTextMetricsParams(text)
+
+                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                            val precomputedText = PrecomputedTextCompat.create(it, params)
+                            launch(Dispatchers.Main) {
+                                TextViewCompat.setPrecomputedText(text, precomputedText)
+                                progress.gone()
+                                options.visible(true)
+                                settings.visible(true)
+                                search.visible(animate = true)
+                            }
+                        }
                     }
                 }
             } else {
-                text.setText(it)
-            }
+                postDelayed {
+                    val params = TextViewCompat.getTextMetricsParams(text)
 
-            progress.gone()
-            options.visible(true)
-            settings.visible(true)
-            search.visible(animate = true)
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                        val precomputedText = PrecomputedTextCompat.create(it, params)
+                        launch(Dispatchers.Main) {
+                            TextViewCompat.setPrecomputedText(text, precomputedText)
+                            progress.gone()
+                            options.visible(true)
+                            settings.visible(true)
+                            search.visible(animate = true)
+                        }
+                    }
+                }
+            }
         }
 
         componentsViewModel.getError().observe(viewLifecycleOwner) {

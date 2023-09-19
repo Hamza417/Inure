@@ -32,6 +32,7 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
         invisible(animate = false)
 
         // TODO - Calling non-final function setBackgroundColor in constructor
+        @Suppress("LeakingThis")
         setBackgroundColor(0)
 
         color = AppearancePreferences.getAccentColor().toHexColor()
