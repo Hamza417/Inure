@@ -48,13 +48,9 @@ jobs:
             -   name: Read Release Notes and Encode
                 id: read_release_notes
                 run: |
-                    RELEASE_NOTES=$(cat assets/release.html | base64)
+                    RELEASE_NOTES=$(cat assets/release.txt)
                     echo "RELEASE_NOTES=${RELEASE_NOTES}" >> $GITHUB_ENV
                     echo "Release Notes: ${{ env.RELEASE_NOTES }}" # Print release notes to console
-
-            -   name: Decode Release Notes
-                run: |
-                    echo ${{ env.RELEASE_NOTES }} | base64 -d
 
             -   name: Build GitHub Release APK
                 run: |
