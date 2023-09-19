@@ -17,6 +17,14 @@ An elegant Android app manager.
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 [![Telegram Channel](https://img.shields.io/badge/Telegram%20Channel-blue?logo=telegram)](https://t.me/inure_app_manager)
 
+#### Workflows
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Fbuild_apk.yml?label=Build%20(Beta))
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Fbuild_release_apk.yml?label=Build%20(Release))
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Ffdroid_repo.yml?label=F-Droid%20Repo%20Update)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Fexodus_data.yml?label=Exodus%20Trackers%20List)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Fcrowdin_merge.yml?logo=crowdin&label=Crowdin%20Translations)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Hamza417/Inure/.github%2Fworkflows%2Fdependency_analysis.yml?logo=gradle&label=Dependency%20Analysis)
+
 ## Download
 
 [![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure.play)
