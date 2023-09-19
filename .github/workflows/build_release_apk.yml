@@ -52,6 +52,10 @@ jobs:
                     echo "RELEASE_NOTES=${RELEASE_NOTES}" >> $GITHUB_ENV
                     echo "Release Notes: ${{ env.RELEASE_NOTES }}" # Print release notes to console
 
+            -   name: Decode Release Notes
+                run: |
+                    echo ${{ env.RELEASE_NOTES }} | base64 -d
+
             -   name: Build GitHub Release APK
                 run: |
                     chmod +x ./gradlew
@@ -84,6 +88,6 @@ jobs:
                     files: app/**/*.apk
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: ${{ env.RELEASE_NOTES | base64 -d }} # Decode the base64-encoded release notes
+                    body: ${{ env.RELEASE_NOTES }} # Use the release notes from release.txt
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
