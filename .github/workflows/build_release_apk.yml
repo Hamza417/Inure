@@ -45,12 +45,12 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
-            -   name: Read Release Notes and Encode
+            -   name: Read and Store Release Notes
                 id: read_release_notes
                 run: |
-                    RELEASE_NOTES=$(cat assets/release.txt)
-                    echo "RELEASE_NOTES=${RELEASE_NOTES}" >> $GITHUB_ENV
-                    echo "Release Notes: ${{ env.RELEASE_NOTES }}" # Print release notes to console
+                    cat assets/release.html > release.html
+                env:
+                    RELEASE_NOTES_FILE: release.html
 
             -   name: Build GitHub Release APK
                 run: |
@@ -84,6 +84,6 @@ jobs:
                     files: app/**/*.apk
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: ${{ env.RELEASE_NOTES }} # Use the release notes from release.txt
+                    body: ${{ env.RELEASE_NOTES_FILE }}
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

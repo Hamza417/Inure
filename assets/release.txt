@@ -1,5 +1,0 @@
-#### Bug Fixes
-- Fixed apps getting added multiple times in a tag.
-
-#### Improvements
-- Optimized text loader frameworks for better text rendering.
