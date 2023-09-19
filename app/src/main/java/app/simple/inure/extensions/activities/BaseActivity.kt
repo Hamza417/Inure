@@ -268,7 +268,7 @@ open class BaseActivity : AppCompatActivity(),
         }
     }
 
-    @Suppress("unused")
+    @Suppress("unused", "KotlinConstantConditions")
     private fun setArc() {
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
 
