@@ -10,7 +10,7 @@
 
     <app.simple.inure.decorations.corners.DynamicCornerAccentColor
         android:id="@+id/adapter_palette_color"
-        android:layout_width="75dp"
+        android:layout_width="100dp"
         android:layout_height="75dp"
         android:layout_margin="10dp"
         android:elevation="5dp" />
@@ -19,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="10dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -27,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
@@ -37,11 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
             app:textColorStyle="tertiary" />
+
     </LinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeIcon
