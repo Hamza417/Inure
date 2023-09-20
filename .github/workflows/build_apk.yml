@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK (Beta)
 
 on:
     workflow_dispatch:  # Allow manual triggering
@@ -15,6 +15,17 @@ on:
             - '*.yml'
 
 jobs:
+    validation:
+        # Skip if head commit contains 'skip build apk'
+        if: "!contains(github.event.head_commit.message, 'skip build apk')"
+        name: "Validation"
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: Gradle Wrapper validation
+                uses: gradle/wrapper-validation-action@v1
+
     build:
         name: Build APK
         runs-on: ubuntu-latest
