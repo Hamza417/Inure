@@ -70,7 +70,7 @@
                 android:layout_marginVertical="5dp"
                 android:gravity="center"
                 android:text="@string/progress"
-                android:textSize="@dimen/info_text_medium"
+                android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
