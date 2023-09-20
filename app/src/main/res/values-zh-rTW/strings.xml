@@ -701,4 +701,5 @@
     <string name="import_">匯入</string>
     <string name="tags">標籤</string>
     <string name="add_tag">新增標籤</string>
+    <string name="tinted_shadows">濃淡陰影</string>
 </resources>
