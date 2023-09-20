@@ -48,3 +48,7 @@ jobs:
                       -d '{
                         "merge_method": "merge"
                       }' "$GITHUB_API_URL/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/merge"
+
+notifications:
+    email:
+        on: [ none ]  # Disable email notifications for this workflow
