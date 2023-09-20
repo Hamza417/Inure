@@ -47,7 +47,9 @@ class BatchExtractService : Service() {
     private lateinit var notification: Notification
 
     private val notificationId = 123
-    private var maxSize = 0L
+    internal var maxSize = 0L
+    internal var position = 0
+    internal var apkType = 0
     private var progress = 0L
 
     private var channelId = "inure_batch_extract"
@@ -102,10 +104,8 @@ class BatchExtractService : Service() {
             measureTotalSize()
 
             launchOnUiThread {
-                createNotification(maxSize)
+                createNotification()
             }
-
-            var position = 0
 
             try {
                 for (app in appsList) {
@@ -121,9 +121,11 @@ class BatchExtractService : Service() {
 
                         if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                             sendApkTypeBroadcast(APK_TYPE_SPLIT)
+                            apkType = APK_TYPE_SPLIT
                             extractBundle(packageInfo = app.packageInfo)
                         } else { // For APK files
                             sendApkTypeBroadcast(APK_TYPE_FILE)
+                            apkType = APK_TYPE_FILE
                             extractApk(packageInfo = app.packageInfo)
                         }
 
@@ -202,7 +204,6 @@ class BatchExtractService : Service() {
             notificationBuilder.setContentText(packageInfo.applicationInfo.name)
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
-            // val length = source.length()
 
             inputStream = FileInputStream(source)
             outputStream = FileOutputStream(dest)
@@ -327,7 +328,7 @@ class BatchExtractService : Service() {
 
     /* ----------------------------------------------------------------------------------------------------- */
 
-    private fun createNotification(maxProgress: Long) {
+    private fun createNotification() {
         createNotificationChannel()
 
         // Create an explicit intent for an Activity in your app
@@ -337,17 +338,18 @@ class BatchExtractService : Service() {
             PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }
 
-        notificationBuilder.setContentTitle(getString(R.string.extract))
-            .setContentText("Extracting apps")
+        notificationBuilder.setContentTitle(getString(R.string.extracting))
             .setSmallIcon(R.drawable.ic_downloading)
             .setCategory(Notification.CATEGORY_SERVICE)
             .setShowWhen(true)
             .setSilent(true)
+            .setOngoing(true)
             .setContentIntent(pendingIntent)
             .addAction(generateAction(R.drawable.ic_close, getString(R.string.cancel), ServiceConstants.actionBatchCancel))
             .setProgress(100, 0, false)
 
         notification = notificationBuilder.build()
+        notification.flags = notification.flags or Notification.FLAG_ONGOING_EVENT
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
@@ -400,6 +402,8 @@ class BatchExtractService : Service() {
     companion object {
         const val APK_TYPE_SPLIT = 1
         const val APK_TYPE_FILE = 2
+
+        @Suppress("unused")
         const val CREATING_SPLIT_PACKAGE = 3
 
         const val APK_TYPE_EXTRA = "APK_TYPE_EXTRA"

@@ -21,6 +21,7 @@ import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
+import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -77,10 +78,6 @@ class MainActivity : BaseActivity() {
 
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
         ThemeUtils.setAppTheme(resources)
-
-        if (AppUtils.isBetaFlavor()) {
-            // setExpiryStamp()
-        }
 
         if (savedInstanceState.isNull()) {
             MainPreferences.incrementLaunchCount()
@@ -228,6 +225,11 @@ class MainActivity : BaseActivity() {
                 }
             }
 
+            ShortcutConstants.BATCH_EXTRACT_ACTION -> {
+                openHome(isNewIntent)
+                supportFragmentManager.showBatchExtract(null)
+            }
+
             else -> {
                 /**
                  * We don't want to open the splash screen if the app was opened from launcher
@@ -275,6 +277,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @Suppress("unused")
     private fun setExpiryStamp() {
         val expiryDate = Calendar.getInstance()
         val today = Calendar.getInstance()

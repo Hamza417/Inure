@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
@@ -52,12 +51,10 @@ import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDCard
 import com.google.android.material.transition.platform.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
-import java.io.File
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(),
@@ -185,13 +182,6 @@ open class BaseActivity : AppCompatActivity(),
                         Log.d("BaseActivity", "External storage found")
                     }
                 }
-            }
-        }
-
-        CoroutineScope(Dispatchers.IO).launch {
-            // Clean app directory
-            if (File(Environment.getExternalStorageDirectory().absolutePath + "/" + ConfigurationPreferences.getAppPath()).exists()) {
-                File(Environment.getExternalStorageDirectory().absolutePath + "/" + ConfigurationPreferences.getAppPath()).deleteRecursively()
             }
         }
     }

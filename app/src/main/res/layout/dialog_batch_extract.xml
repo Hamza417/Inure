@@ -16,20 +16,35 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_count"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:drawablePadding="@dimen/dialog_padding"
-            android:gravity="center_vertical"
-            android:text="@string/extract"
-            android:textSize="@dimen/info_text_large"
-            app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_downloading"
-            app:drawableTintStyle="accent"
-            app:textColorStyle="accent" />
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress_count"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:drawablePadding="@dimen/dialog_padding"
+                android:gravity="center_vertical"
+                android:text="@string/extract"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_downloading"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/hide"
+                android:layout_width="@dimen/button_size"
+                android:src="@drawable/ic_south_west"
+                android:layout_height="@dimen/button_size"
+                app:buttonTintType="regular" />
+
+        </LinearLayout>
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/name"

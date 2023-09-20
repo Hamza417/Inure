@@ -701,4 +701,5 @@
     <string name="tags">Tags</string>
     <string name="add_tag">Add a New Tag</string>
     <string name="tinted_shadows">Tinted Shadow</string>
+    <string name="extracting">Extracting</string>
 </resources>
