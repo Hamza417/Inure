@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentManager
@@ -18,14 +19,16 @@ import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.math.Extensions.percentOf
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.services.BatchExtractService
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.launch
 
 class BatchExtract : ScopedBottomSheetFragment() {
@@ -46,25 +49,26 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private lateinit var count: TypeFaceTextView
     private lateinit var name: TypeFaceTextView
     private lateinit var progressStatus: TypeFaceTextView
-    private lateinit var progress: CustomProgressBar
+    private lateinit var progress: LinearProgressIndicator
     private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
 
-    private val requestPermissionLauncher = registerForActivityResult<String, Boolean>(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-        if (isGranted) {
-            // Permission is granted.
-            try {
-                if (batchExtractService != null) {
-                    batchExtractService?.reshowNotification()
-                    Log.d(TAG, "Notification is reshowed")
+    private val requestPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                // Permission is granted.
+                try {
+                    if (batchExtractService != null) {
+                        batchExtractService?.reshowNotification()
+                        Log.d(TAG, "Notification is reshowed")
+                    }
+                } catch (e: IllegalStateException) {
+                    Log.e(TAG, "IllegalStateException: failed to reshow notification")
                 }
-            } catch (e: IllegalStateException) {
-                Log.e(TAG, "IllegalStateException: failed to reshow notification")
+            } else {
+                Log.d(TAG, "Permission is denied.")
             }
-        } else {
-            Log.d(TAG, "Permission is denied.")
         }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_extract, container, false)
@@ -93,6 +97,10 @@ class BatchExtract : ScopedBottomSheetFragment() {
             @Suppress("DEPRECATION")
             vibrator = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         }
+
+        progress.setIndicatorColor(AppearancePreferences.getAccentColor())
+        progress.trackColor = ThemeManager.theme.viewGroupTheme.viewerBackground
+        progress.trackCornerRadius = AppearancePreferences.getCornerRadius().toInt()
 
         return view
     }
@@ -134,7 +142,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                     }
                     ServiceConstants.actionCopyProgress -> {
                         val percent = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!.percentOf(maxLength)
-                        progress.animateProgress(percent.toInt())
+                        progress.setProgressCompat(percent.toInt(), true)
                         percentage.text = getString(R.string.progress, percent.toInt())
                     }
                     ServiceConstants.actionBatchApkType -> {
@@ -155,7 +163,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                     }
                     ServiceConstants.actionExtractDone -> {
                         progressStatus.setText(R.string.done)
-                        progress.animateProgress(progress.max)
+                        progress.setProgressCompat(100, true)
 
                         viewLifecycleOwner.lifecycleScope.launch {
                             cancel.callOnClick()
