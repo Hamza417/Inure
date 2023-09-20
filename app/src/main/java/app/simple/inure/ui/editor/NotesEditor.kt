@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
-import android.text.PrecomputedText
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.AbsoluteSizeSpan
@@ -24,6 +23,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -207,10 +208,10 @@ class NotesEditor : KeyboardScopedFragment() {
             notesPackageInfo = it
             originalText = SpannableStringBuilder(it.note)
 
-            val params = noteEditText.textMetricsParams
+            val params = TextViewCompat.getTextMetricsParams(noteEditText)
 
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                val precomputedText = PrecomputedText.create(it.note, params)
+                val precomputedText = PrecomputedTextCompat.create(it.note, params)
                 launchOnUiThread {
                     noteEditText.setText(precomputedText, TextView.BufferType.SPANNABLE)
                     textViewUndoRedo?.clearHistory()
@@ -289,8 +290,12 @@ class NotesEditor : KeyboardScopedFragment() {
             // Insert today's date
             val selectionStart = noteEditText.selectionStart.coerceAtLeast(0)
             val selectionEnd = noteEditText.selectionEnd.coerceAtLeast(0)
-            noteEditText.text?.replace(selectionStart.coerceAtMost(selectionEnd), selectionStart.coerceAtLeast(selectionEnd),
-                                       DateUtils.getTodayDate(), 0, DateUtils.getTodayDate().length)
+            noteEditText.text?.replace(
+                    selectionStart.coerceAtMost(selectionEnd),
+                    selectionStart.coerceAtLeast(selectionEnd),
+                    DateUtils.getTodayDate(),
+                    0,
+                    DateUtils.getTodayDate().length)
         }
 
         // TODO - There was a unique bug where the bottom menu was not showing up when the user was in the notes editor fragment

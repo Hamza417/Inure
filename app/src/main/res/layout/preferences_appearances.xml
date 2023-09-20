@@ -413,6 +413,73 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/appearance_app_icons_shadows_colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/colored_shadows_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_colorize"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/colored_shadows_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
+                        android:text="@string/tinted_shadows"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toTopOf="@+id/colored_shadows_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/colored_icons_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/colored_shadows_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/colored_shadows_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="@string/colored_shadows_desc"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/colored_icons_switch"
+                        app:layout_constraintStart_toEndOf="@+id/colored_shadows_icon"
+                        app:layout_constraintTop_toBottomOf="@id/colored_shadows_title"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.switchview.SwitchView
+                        android:id="@+id/colored_icons_switch"
+                        android:layout_width="@dimen/switch_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/appearance_icon_size"
                     android:layout_width="match_parent"
@@ -458,73 +525,6 @@
                         app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/appearance_app_icons_shadows_colored"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:padding="15dp">
-
-                    <app.simple.inure.decorations.theme.ThemeIcon
-                        android:id="@+id/colored_shadows_icon"
-                        android:layout_width="@dimen/preference_icon_size"
-                        android:layout_height="@dimen/preference_icon_size"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_colorize"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tintType="secondary"
-                        tools:ignore="ContentDescription" />
-
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:id="@+id/colored_shadows_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:drawablePadding="5dp"
-                        android:text="@string/colorful_icons"
-                        android:textSize="@dimen/preferences_title_text_size"
-                        app:appFontStyle="bold"
-                        app:drawableTintStyle="accent"
-                        app:layout_constraintBottom_toTopOf="@+id/colored_shadows_desc"
-                        app:layout_constraintEnd_toStartOf="@+id/colored_icons_switch"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/colored_shadows_icon"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:textColorStyle="primary" />
-
-                    <app.simple.inure.decorations.typeface.TypeFaceTextView
-                        android:id="@+id/colored_shadows_desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
-                        android:text="@string/colored_shadows_desc"
-                        android:textSize="@dimen/preferences_description_text_size"
-                        app:appFontStyle="regular"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/colored_icons_switch"
-                        app:layout_constraintStart_toEndOf="@+id/colored_shadows_icon"
-                        app:layout_constraintTop_toBottomOf="@id/colored_shadows_title"
-                        app:textColorStyle="tertiary" />
-
-                    <app.simple.inure.decorations.switchview.SwitchView
-                        android:id="@+id/colored_icons_switch"
-                        android:layout_width="@dimen/switch_width"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

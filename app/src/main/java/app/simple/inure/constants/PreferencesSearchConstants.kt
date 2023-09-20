@@ -62,7 +62,7 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_rounded_corner, R.string.corner_radius, R.string.corner_radius_desc, popup, layouts, appearance),
             PreferenceModel(R.drawable.ic_light_shadow, R.string.icon_shadows, R.string.icon_shadow_desc, toggleable, icons, appearance),
             PreferenceModel(R.drawable.ic_ruler, R.string.icon_size, R.string.icon_size_desc, popup, icons, appearance),
-            PreferenceModel(R.drawable.ic_colorize, R.string.colored_shadows, R.string.colored_shadows_desc, toggleable, icons, appearance)
+            PreferenceModel(R.drawable.ic_colorize, R.string.tinted_shadows, R.string.colored_shadows_desc, toggleable, icons, appearance)
     )
 
     private val behaviourData = arrayListOf(
