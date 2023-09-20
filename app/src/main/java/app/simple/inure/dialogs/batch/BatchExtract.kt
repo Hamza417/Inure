@@ -1,11 +1,14 @@
 package app.simple.inure.dialogs.batch
 
+import android.Manifest
 import android.content.*
 import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -17,10 +20,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.math.Extensions.percentOf
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import kotlinx.coroutines.launch
 
 class BatchExtract : ScopedBottomSheetFragment() {
@@ -45,6 +50,22 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
 
+    private val requestPermissionLauncher = registerForActivityResult<String, Boolean>(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission is granted.
+            try {
+                if (batchExtractService != null) {
+                    batchExtractService?.reshowNotification()
+                    Log.d(TAG, "Notification is reshowed")
+                }
+            } catch (e: IllegalStateException) {
+                Log.e(TAG, "IllegalStateException: failed to reshow notification")
+            }
+        } else {
+            Log.d(TAG, "Permission is denied.")
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_extract, container, false)
 
@@ -55,8 +76,6 @@ class BatchExtract : ScopedBottomSheetFragment() {
         percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
 
-        progress.max = 100
-
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchCopyStart)
         batchExtractIntentFilter.addAction(ServiceConstants.actionBatchApkType)
         batchExtractIntentFilter.addAction(ServiceConstants.actionQuitExtractService)
@@ -65,14 +84,9 @@ class BatchExtract : ScopedBottomSheetFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionExtractDone)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgressMax)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps, BatchPackageInfo::class.java)!!
-        } else {
-            @Suppress("DEPRECATION")
-            appList = requireArguments().getParcelableArrayList(BundleConstants.selectedBatchApps)!!
-        }
+        appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!
 
-        if (Build.VERSION.SDK_INT >= 31) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             vibratorManager = requireActivity().getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibrator = vibratorManager?.defaultVibrator
         } else {
@@ -85,6 +99,13 @@ class BatchExtract : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Request notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
 
         extractBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -112,11 +133,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionCopyProgress -> {
-                        val percent = intent.extras?.getLong(IntentHelper.INT_EXTRA)!! / maxLength.toDouble() * 100.0
-
-                        Log.d("BatchExtract", "Progress: ${intent.extras?.getLong(IntentHelper.INT_EXTRA)!!} / $maxLength")
-                        Log.d("BatchExtract", "Progress: ${percent.toInt()}")
-
+                        val percent = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!.percentOf(maxLength)
                         progress.animateProgress(percent.toInt())
                         percentage.text = getString(R.string.progress, percent.toInt())
                     }
@@ -134,11 +151,13 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionCopyFinished -> {
-                        progressStatus.setText(R.string.done)
-                        progress.animateProgress(progress.max)
+                        Log.d(TAG, "Copy finished")
                     }
                     ServiceConstants.actionExtractDone -> {
-                        viewLifecycleOwner.lifecycleScope.launch { // Unnecessary scope, too lazy to clean
+                        progressStatus.setText(R.string.done)
+                        progress.animateProgress(progress.max)
+
+                        viewLifecycleOwner.lifecycleScope.launch {
                             cancel.callOnClick()
                             if (Build.VERSION.SDK_INT >= 26) {
                                 vibrator?.vibrate(VibrationEffect.createWaveform(vibratePattern, disableRepeat))
@@ -146,8 +165,9 @@ class BatchExtract : ScopedBottomSheetFragment() {
                                 @Suppress("DEPRECATION")
                                 vibrator?.vibrate(vibratePattern, disableRepeat)
                             }
-                            dismiss()
                         }
+
+                        unbindService()
                     }
                     ServiceConstants.actionCopyProgressMax -> {
                         maxLength = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!
@@ -171,21 +191,17 @@ class BatchExtract : ScopedBottomSheetFragment() {
 
             override fun onServiceDisconnected(name: ComponentName?) {
                 serviceBound = false
+                stopService()
+                dismiss()
             }
         }
 
         cancel.setOnClickListener {
-            unbindService()
-            stopService()
+            batchExtractService?.interruptCopying()
             dismiss()
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        val intent = Intent(requireActivity(), BatchExtractService::class.java)
-        requireContext().startService(intent)
-        serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
+        bindService()
     }
 
     override fun onResume() {
@@ -199,10 +215,24 @@ class BatchExtract : ScopedBottomSheetFragment() {
         super.onDestroy()
     }
 
+    private fun bindService() {
+        kotlin.runCatching {
+            if (!serviceBound) {
+                val intent = Intent(requireActivity(), BatchExtractService::class.java)
+                serviceConnection?.let { requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE) }
+            }
+        }.getOrElse {
+            it.printStackTrace()
+        }
+    }
+
     private fun unbindService() {
         kotlin.runCatching {
             if (serviceBound) {
                 requireContext().unbindService(serviceConnection!!)
+            } else {
+                stopService()
+                dismiss()
             }
         }.getOrElse {
             it.printStackTrace()
@@ -227,5 +257,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
             fragment.show(this, "BatchExtract")
             return fragment
         }
+
+        const val TAG = "BatchExtract"
     }
 }

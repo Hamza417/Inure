@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -16,6 +17,8 @@ import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.constants.ShortcutConstants
+import app.simple.inure.math.Extensions.percentOf
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.util.BatchUtils
@@ -126,6 +129,10 @@ class BatchExtractService : Service() {
 
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
                         position++
+
+                        if (Thread.currentThread().isInterrupted) {
+                            throw InterruptedException("Thread interrupted")
+                        }
                     } catch (e: SecurityException) {
                         /**
                          * Terminate the process since the permission is
@@ -152,7 +159,7 @@ class BatchExtractService : Service() {
                  */
                 e.printStackTrace()
 
-                if (appsList[position - 1].packageInfo.applicationInfo.sourceDir.isNotNull()) {
+                if (appsList[position].packageInfo.applicationInfo.sourceDir.isNotNull()) {
                     File(applicationContext.getBundlePathAndFileName(appsList[position].packageInfo)).delete()
                 } else {
                     File(BatchUtils.getApkPathAndFileName(appsList[position].packageInfo)).delete()
@@ -166,6 +173,7 @@ class BatchExtractService : Service() {
                         @Suppress("DEPRECATION")
                         stopForeground(true)
                     }
+
                     stopSelf()
                 }
             }
@@ -191,6 +199,7 @@ class BatchExtractService : Service() {
 
     private fun extractApk(packageInfo: PackageInfo) {
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
+            notificationBuilder.setContentText(packageInfo.applicationInfo.name)
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
             // val length = source.length()
@@ -215,35 +224,36 @@ class BatchExtractService : Service() {
                 if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                     return@launchOnUiThread
                 }
-                notificationManager.notify(notificationId, notification)
+                notificationManager.notify(notificationId, notificationBuilder.build())
             }
 
             val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
             val progressMonitor = zipFile.progressMonitor
-            val length = (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L) + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
             var oldProgress = 0L
 
             zipFile.isRunInThread = true
             zipFile.addFiles(createSplitApkFiles(packageInfo))
 
             while (!progressMonitor.state.equals(ProgressMonitor.State.READY)) {
-                progress += (length * (progressMonitor.percentDone / 100.0)).toLong() - oldProgress
-                notificationBuilder.setProgress(maxSize.toInt(), progress.toInt(), false)
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    return
-                }
-                notificationManager.notify(notificationId, notification)
-                sendProgressBroadcast(progress)
-                oldProgress = (length * (progressMonitor.percentDone / 100.0)).toLong()
-                Thread.sleep(100)
-            }
+                // Calculate progress and show it on notification
+                val newProgress = progressMonitor.workCompleted
+                progress += newProgress - oldProgress
+                oldProgress = newProgress
 
-            if (progressMonitor.result.equals(ProgressMonitor.Result.ERROR)) {
-                println("Error")
-                // error.postValue(progressMonitor.exception.stackTraceToString())
-            } else if (progressMonitor.result.equals(ProgressMonitor.Result.CANCELLED)) {
-                println("Cancelled")
-                // status.postValue(getString(R.string.cancelled))
+                launchOnUiThread {
+                    notificationBuilder.setProgress(100, progress.percentOf(maxSize).toInt(), false)
+                    if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                        notificationManager.notify(notificationId, notificationBuilder.build())
+                    }
+                    sendProgressBroadcast(progress)
+                }
+
+                /**
+                 * This will cause a lot of progress updates, but it's ok
+                 * Not keeping this will make the progress bar stuck at 0%
+                 * for a long time
+                 */
+                Thread.sleep(100)
             }
         } else {
             progress += (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
@@ -271,7 +281,13 @@ class BatchExtractService : Service() {
         while (from.read(buf).also { len = it.toLong() } > 0) {
             to.write(buf, 0, len.toInt())
             progress += len
-            sendProgressBroadcast(progress)
+            launchOnUiThread {
+                notificationBuilder.setProgress(100, (progress.toDouble() / maxSize.toDouble() * 100).toInt(), false)
+                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    notificationManager.notify(notificationId, notificationBuilder.build())
+                }
+                sendProgressBroadcast(progress)
+            }
         }
     }
 
@@ -315,11 +331,11 @@ class BatchExtractService : Service() {
         createNotificationChannel()
 
         // Create an explicit intent for an Activity in your app
-        val intent = Intent(applicationContext, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val pendingIntent = with(Intent(this, MainActivity::class.java)) {
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            this.action = ShortcutConstants.BATCH_EXTRACT_ACTION
+            PendingIntent.getActivity(applicationContext, 111, this, PendingIntent.FLAG_IMMUTABLE)
         }
-
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         notificationBuilder.setContentTitle(getString(R.string.extract))
             .setContentText("Extracting apps")
@@ -329,12 +345,14 @@ class BatchExtractService : Service() {
             .setSilent(true)
             .setContentIntent(pendingIntent)
             .addAction(generateAction(R.drawable.ic_close, getString(R.string.cancel), ServiceConstants.actionBatchCancel))
-            .setProgress(maxProgress.toInt(), 0, false)
+            .setProgress(100, 0, false)
 
         notification = notificationBuilder.build()
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
         }
+
         notificationManager.notify(notificationId, notification)
         startForeground(notificationId, notification)
     }
@@ -349,11 +367,28 @@ class BatchExtractService : Service() {
         }
     }
 
+    @Suppress("SameParameterValue")
     private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {
         val intent = Intent(this, BatchExtractService::class.java)
         intent.action = action
-        val close = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        return NotificationCompat.Action.Builder(icon, title, close).build()
+        val pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Action.Builder(icon, title, pendingIntent).build()
+    }
+
+    fun reshowNotification() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+
+        notificationManager.notify(notificationId, notification)
+    }
+
+    fun interruptCopying() {
+        try {
+            copyThread.interrupt()
+        } catch (e: IllegalStateException) {
+            Log.e("BatchExtractService", "Thread is not running")
+        }
     }
 
     inner class BatchCopyBinder : Binder() {

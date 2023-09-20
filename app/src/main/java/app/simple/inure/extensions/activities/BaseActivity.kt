@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
@@ -51,10 +52,12 @@ import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDCard
 import com.google.android.material.transition.platform.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
+import java.io.File
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity(),
@@ -185,26 +188,12 @@ open class BaseActivity : AppCompatActivity(),
             }
         }
 
-        //        if (BuildCompat.isAtLeastT()) {
-        //            val callback = object : OnBackPressedCallback(true) {
-        //                override fun handleOnBackPressed() {
-        //                    Log.d("BaseActivity", supportFragmentManager.backStackEntryCount.toString() + " back stack entries")
-        //                    if (supportFragmentManager.backStackEntryCount > 0) {
-        //                        supportFragmentManager.popBackStack()
-        //                        if (supportFragmentManager.executePendingTransactions()) {
-        //                            Log.d("BaseActivity", "Popped back stack")
-        //                        } else {
-        //                            Log.d("BaseActivity", "Couldn't pop back stack")
-        //                        }
-        //                    } else {
-        //                        Log.d("BaseActivity", "No back stack entries")
-        //                        onBackPressedDispatcher.onBackPressed()
-        //                    }
-        //                }
-        //            }
-        //
-        //            onBackPressedDispatcher.addCallback(this, callback)
-        //        }
+        CoroutineScope(Dispatchers.IO).launch {
+            // Clean app directory
+            if (File(Environment.getExternalStorageDirectory().absolutePath + "/" + ConfigurationPreferences.getAppPath()).exists()) {
+                File(Environment.getExternalStorageDirectory().absolutePath + "/" + ConfigurationPreferences.getAppPath()).deleteRecursively()
+            }
+        }
     }
 
     override fun onResume() {

@@ -10,4 +10,6 @@ object Extensions {
     fun Float.round2(): Float = (this * 100.0).roundToLong() / 100.0f
 
     fun Double.round2(): Double = (this * 100.0).roundToLong() / 100.0
+
+    fun Long.percentOf(total: Long): Float = (this * 100.0 / total).toFloat()
 }
