@@ -60,7 +60,8 @@ UI APIs developed to be used only in this app with its own native theme engine, 
 renderer and a beautiful animation framework. There's also an implementation for PC like mouse hover
 effects and click interactions for tablet and PC users.
 
-Along with it own UI perks, Inure also supports dynamic Material You colors with split accent and
+Along with it own UI perks, Inure also supports dynamic Material You colors with dedicated accent
+and
 theme color modes.
 
 See the [concise list of features of the app here](./FEATURES.md).

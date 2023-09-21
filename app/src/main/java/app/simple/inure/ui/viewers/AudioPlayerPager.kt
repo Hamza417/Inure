@@ -126,6 +126,12 @@ class AudioPlayerPager : ScopedFragment() {
         audioIntentFilter.addAction(ServiceConstants.actionPreviousPager)
         audioIntentFilter.addAction(ServiceConstants.actionMediaErrorPager)
 
+        if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+            artPager.orientation = ViewPager2.ORIENTATION_VERTICAL
+        } else {
+            artPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        }
+
         return view
     }
 
