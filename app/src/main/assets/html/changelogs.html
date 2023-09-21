@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-
 <html>
-<head>
-</head>
+<head></head>
 <body>
 <script src="file:///android_asset/js/themeLoaderChangelogs.js"></script>
 <h1>Change Logs</h1>
@@ -35,10 +33,20 @@
                              is closed
     </li>
 </ul>
+
+<h4>Cleaning</h4>
+
+<ul>
+    <li>Cleaned up change logs file and removed collapsible elements for consistent page
+        rendering.
+    </li>
+</ul>
 <br/>
-<hr>
-<h5 style="text-align: center;">Older Versions</h5>
+<hr/>
+<h4 style="text-align: center;">Older Versions</h4>
 <br/>
+
+
 <h2>Build93</h2>
 <div class="content-inner">
     <h4>User Interface</h4>
@@ -52,7 +60,8 @@
         <li>Fixed visibility of uninstalled apps from tags.</li>
         <li>Fixed empty tags showing up in various places in the app.</li>
         <li>Fixed Arabic privacy policy not opening on Arabic locale.</li>
-        <li>Fixed webview loading dark pages in dark mode.
+        <li>
+            Fixed webview loading dark pages in dark mode.
             <br/>
             <small>Still needs work.</small>
         </li>
@@ -60,7 +69,8 @@
     </ul>
     <h4>Improved</h4>
     <ul>
-        <li>Improved back and restore framework.
+        <li>
+            Improved back and restore framework.
             <br/>
             <small>
                 This build should automatically convert play backups to github builds.
@@ -84,7 +94,8 @@
         <li>Added collapsed header layout for <b>Home</b> panel.</li>
         <li>Added swipe to delete apps from tag.</li>
         <li>Added option to create home screen shortcuts for tags.</li>
-        <li>Pressing any alphabet key on <b>Home</b> panel should open <b>Search</b>
+        <li>
+            Pressing any alphabet key on <b>Home</b> panel should open <b>Search</b>
             automatically.
             <br/>
             <small>
@@ -105,13 +116,12 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved communication between bar and pie chart in the <b>Graph Usage Stats</b>
-            panel for
-            better data highlighting between the charts
+        <li>
+            Improved communication between bar and pie chart in the <b>Graph Usage Stats</b>
+            panel for better data highlighting between the charts
             <br/>
             <small>
-                Highlighting any entry in one chart will also highlight the same entry in
-                the other.
+                Highlighting any entry in one chart will also highlight the same entry in the other.
             </small>
         </li>
     </ul>
@@ -122,10 +132,12 @@
     </ul>
     <h4>Security</h4>
     <ul>
-        <li>Patched <i>Exposure of Sensitive Information to an Unauthorized Actor</i>
+        <li>
+            Patched <i>Exposure of Sensitive Information to an Unauthorized Actor</i>
             vulnerability.
         </li>
-        <li>Patched <i>Android Manifest Misconfiguration Leading to Task Hijacking</i>
+        <li>
+            Patched <i>Android Manifest Misconfiguration Leading to Task Hijacking</i>
             vulnerability.
         </li>
     </ul>
@@ -135,29 +147,26 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added Open Source logo on the apps that are FOSS in nature or was FOSS somewhere
-            in the
+        <li>
+            Added Open Source logo on the apps that are FOSS in nature or was FOSS somewhere in the
             past.
             <br/>
-            <small>This will use F-Droid and IzzyOnDroid repo data to identify and validate
-                   in runtime
-                   if the app is FOSS or not. Any other repo isn't supported and likely
-                   won't be
-                   supported in the future.</small>
+            <small>This will use F-Droid and IzzyOnDroid repo data to identify and validate in
+                   runtime if the app is FOSS or not. Any other repo isn't supported and likely
+                   won't be supported in the future.</small>
         </li>
-        <li>Added self app updater for auto downloading latest update builds.
+        <li>
+            Added self app updater for auto downloading latest update builds.
             <br/>
-            <small>For GitHub releases only, Play releases are Play Store dependent and Play
-                   API is not
-                   open source.</small>
+            <small>For GitHub releases only, Play releases are Play Store dependent and Play API is
+                   not open source.</small>
         </li>
-        <li>Updated <b>Home</b> panel UI to make it consistent with the app's design
-            language.
+        <li>Updated <b>Home</b> panel UI to make it consistent with the app's design language.</li>
+        <li>Added <b>Tags</b> to assign indefinite tags to any app and create a personalized app
+            groups.
         </li>
-        <li>Added <b>Tags</b> to assign indefinite tags to any app and create a personalized
-            app groups.
-        </li>
-        <li>Added <i>Tags</i> filter in <b>Search</b> panel.
+        <li>
+            Added <i>Tags</i> filter in <b>Search</b> panel.
             <br/>
             <small>Use <b>#</b> before any keyword to enable tag search mode.</small>
         </li>
@@ -174,8 +183,7 @@
         <li>Improved layouts and animations for Arabic locale.</li>
         <li>Updated <b>Shortcuts</b> panel interface.</li>
         <li>Some improvements in animations framework.</li>
-        <li>Further improvements in communication between bottom menu and fast scroller.
-        </li>
+        <li>Further improvements in communication between bottom menu and fast scroller.</li>
     </ul>
     <h4>Removed</h4>
     <ul>
@@ -183,23 +191,23 @@
     </ul>
     <h4>Changes</h4>
     <ul>
-        <li>Put a limit on search for up to 3 characters to prevent unnecessary search
-            triggers.
+        <li>Put a limit on search for up to 3 characters to prevent unnecessary search triggers.
         </li>
     </ul>
 </div>
 <br/>
-<p>
+<hr>
+<h5>
     Build90 was skipped.
-</p>
+</h5>
 <br/>
 <h2>Build89</h2>
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to pause image loader when list is scrolled to improve list
-            performance in some
-            devices.
+        <li>
+            Added option to pause image loader when list is scrolled to improve list performance in
+            some devices.
             <br/>
             <small>Can be toggled from <b>Development Preferences</b>.</small>
         </li>
@@ -215,21 +223,18 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to back up and restore Inure's data in <b>Manage Space</b> panel.
-        </li>
+        <li>Added option to back up and restore Inure's data in <b>Manage Space</b> panel.</li>
         <li>Added <i>IzzyOnDroid</i> link support.</li>
-        <li>Updated <b>Home</b> panel UI.
+        <li>
+            Updated <b>Home</b> panel UI.
             <br/>
-            <small>Toggle the old style UI from <b>Development Preferences</b> to revert to
-                   old
-                   UI.</small>
+            <small>Toggle the old style UI from <b>Development Preferences</b> to revert to old UI.</small>
         </li>
         <li>Added option to enable padding-less popup menus.</li>
         <li>Updated pie charts' marker popup menu style to be more streamlined with click
             interface.
         </li>
-        <li>Added custom legend framework to make legends' values clickable in
-            <b>Analytics</b>.
+        <li>Added custom legend framework to make legends' values clickable in <b>Analytics</b>.
         </li>
         <li>Added seamless components' browser in <b>Apps Menu</b>.</li>
     </ul>
@@ -250,9 +255,9 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Shortcuts won't be treated as a new activity, rather as a component in the app
-            letting the
-            app launch multiple shortcuts in a single app instance all the time.
+        <li>
+            Shortcuts won't be treated as a new activity, rather as a component in the app letting
+            the app launch multiple shortcuts in a single app instance all the time.
             <br/>
             <small>
                 Should be more streamlined with Android 13's back button behavior.
@@ -262,17 +267,14 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed search and preferences button animations to maintain style
-            consistency.
-        </li>
+        <li>Removed search and preferences button animations to maintain style consistency.</li>
         <li>Removed <i>Notes</i> panel animations due to optimization issues.</li>
     </ul>
     <h4>Security</h4>
     <ul>
         <li>Fixed a few issues with unlocker detection.</li>
         <li>Internal code protection.</li>
-        <li>Disabled support for execute as Android default FS model doesn't allow efficient
-            file
+        <li>Disabled support for execute as Android default FS model doesn't allow efficient file
             parsing and using this also poses a major security risk.
         </li>
         <li>Patched <i>Missing Authorization</i> vulnerability.</li>
@@ -316,11 +318,11 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed pausing image loader when list is fast scrolled because it added very
-            minimal
+        <li>Removed pausing image loader when list is fast scrolled because it added very minimal
             performance gain in modern devices.
         </li>
-        <li><b>Dex Classes</b> framework.
+        <li>
+            <b>Dex Classes</b> framework.
             <br/>
             <small>It didn't allow viewing of the classes file.</small>
         </li>
@@ -333,8 +335,7 @@
     <ul>
         <li>Added new animation in various panel.</li>
         <li>Added app icon in <b>Notes Editor</b> panel.</li>
-        <li><b>App Info</b> grid layout can be now be adjusted separately for each layouts.
-        </li>
+        <li><b>App Info</b> grid layout can be now be adjusted separately for each layouts.</li>
         <li>Added option to change text size in <b>Notes Editor</b>.</li>
         <li>Added <i>Share</i> in <b>Notes</b> panel.</li>
         <li>Added tooltips popup on various buttons of the app.</li>
@@ -356,22 +357,22 @@
         <li>Removed JSON spans option from <b>Notes Editor</b>.</li>
     </ul>
 </div>
+<br/>
 <h2>Build85</h2>
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
         <li>Added selection count in <b>Batch</b> panel.</li>
-        <li>Added option to change app's state in <b>Batch</b> panel.
+        <li>Added option to change app's state in <b>Batch</b> panel.</li>
         <li>Added option to install apps in <b>App Information</b> panel.</li>
         <li><b>Image Viewer</b> now has a static dark interface.</li>
         <li>Added Telegram group and channel dialog.</li>
         <li>Added <b>Rate</b> panel.</li>
-        <li>Added switch in <b>Permissions</b> panel to grant or deny permissions on the
-            fly.
-        </li>
+        <li>Added switch in <b>Permissions</b> panel to grant or deny permissions on the fly.</li>
         <li>Added option to find text in various editor panels.</li>
         <li>Added trackers count in <b>App Information</b> panel.</li>
-        <li>Added option to create shortcuts in <b>Activities</b> and <b>Shortcuts</b>
+        <li>
+            Added option to create shortcuts in <b>Activities</b> and <b>Shortcuts</b>
             panel.
         </li>
         <li>Added <i>Package Type</i> chart in <b>Analytics</b> panel.</li>
@@ -381,8 +382,7 @@
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed few issues with <b>Analytics</b> panel.</li>
-        <li>Fixed corrupted data issue in <b>Batch</b> when <i>Move Selection to Top</i> is
-            toggles.
+        <li>Fixed corrupted data issue in <b>Batch</b> when <i>Move Selection to Top</i> is toggles.
         </li>
         <li>Notes will now be updated from changes made outside the app as well.</li>
         <li>Fixed invalid F-Droid URL.</li>
@@ -401,8 +401,7 @@
         <li>Improved loader for smoother data loading in <b>Analytics</b> panel.</li>
         <li>Improved <b>Notes Editor</b> actions framework.</li>
         <li>Improved <b>Certificates</b> parser to support DSA keys.</li>
-        <li>Improved <b>Bottom Menu</b> framework for better compatibility with the
-            scrolling views.
+        <li>Improved <b>Bottom Menu</b> framework for better compatibility with the scrolling views.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -413,25 +412,24 @@
     </ul>
 </div>
 <br/>
-<p>
+<hr>
+<h5>
     Build84 was skipped.
-</p>
+</h5>
 <br/>
 <h2>Build83 (Quick Fix)</h2>
 <div class="content-inner">
     <h4>Bug Fixes</h4>
     <ul>
-        <li style="color: red;">Fixed a critical issue that's causing app stuck on loading
-                                and automatically rebooting some
-                                devices.
+        <li style="color: red;">Fixed a critical issue that's causing app stuck on loading and
+                                automatically rebooting some devices.
         </li>
         <li>Fixed filter buttons can all be deselected issue.</li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Added an improved loader framework re-addressing the DeadObject error and faster
-            loading in
-            the app.
+        <li>Added an improved loader framework re-addressing the DeadObject error and faster loading
+            in the app.
         </li>
         <li>Optimized filter framework to use less memory.</li>
     </ul>
@@ -441,9 +439,10 @@
     </ul>
 </div>
 <br/>
-<p>
+<hr>
+<h5>
     Build81 and 82 is skipped/removed due to a serious issue in production.
-</p>
+</h5>
 <br/>
 <h2>Build80</h2>
 <div class="content-inner">
@@ -468,11 +467,13 @@
         <li>Added option to execute <i>.sh</i> files using Inure Terminal.</li>
         <li>Added selection framework for <b>APKs</b> panel.</li>
         <li>Added complete app size in <b>Usage Stats</b> panel.</li>
-        <li>Added option to toggle complete app size in various panels of the app in
+        <li>
+            Added option to toggle complete app size in various panels of the app in
             <b>Development</b>
             preferences.
         </li>
-        <li>Added option to toggle stroke on chips of sorting GUI in <b>Development</b>
+        <li>
+            Added option to toggle stroke on chips of sorting GUI in <b>Development</b>
             preferences.
         </li>
         <li>Added size info after cache has been cleared.</li>
@@ -504,7 +505,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to enable colorful navigation menu icons in <b>Accessibility</b>
+        <li>
+            Added option to enable colorful navigation menu icons in <b>Accessibility</b>
             panel.
         </li>
         <li>Added cache size in <b>App Information</b> panel.</li>
@@ -517,8 +519,7 @@
         <li>Fixed white borders on album art in <b>Audio Player</b>.</li>
         <li>Fixed heavy lag in <b>Audio Player</b> on landscape orientation.</li>
         <li>Fixed <b>Deep Search</b> not counting permissions' label matches.</li>
-        <li>Fixed only one instance of match showing in various search panels in texts that
-            have
+        <li>Fixed only one instance of match showing in various search panels in texts that have
             multiple matches.
         </li>
         <li>Fixed some rare memory leaks.</li>
@@ -545,7 +546,8 @@
         <li>Added dedicated search for <b>APKs</b> panel.</li>
         <li>Added seekbar based <i>Stiffness</i> and <i>Damping Ratio</i> dialog.</li>
         <li>Updated <b>Saved Commands</b> icon.</li>
-        <li>Deep search details can now be clicked to expand the deep search data in <b>Deep
+        <li>
+            Deep search details can now be clicked to expand the deep search data in <b>Deep
                                                                                         Search</b>
             panel.
         </li>
@@ -561,8 +563,7 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved various <b>APKs</b> to <b>Installer</b> framework connection pipelines
-            adding
+        <li>Improved various <b>APKs</b> to <b>Installer</b> framework connection pipelines adding
             better animations and fixing various lags.
         </li>
     </ul>
@@ -572,18 +573,17 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added selectable text layouts in various details panels.
+        <li>
+            Added selectable text layouts in various details panels.
             <br/>
-            <small>Can be toggled from <i>Development Preferences</i> and kept a development
-                   feature
+            <small>Can be toggled from <i>Development Preferences</i> and kept a development feature
                    because it's introducing various bugs in the app.</small>
         </li>
         <li>Added refresh button in various panels.</li>
         <li>Added my socials in <b>About</b> panel.</li>
         <li>Dropped <i>apkm</i> format, apks will be used instead.</li>
-        <li>Added <i>Deep Search</i> and <i>Search</i> keywords forwarding to details panel
-            from <b>Apps
-                    Menu</b>.
+        <li>Added <i>Deep Search</i> and <i>Search</i> keywords forwarding to details panel from <b>Apps
+                                                                                                    Menu</b>.
         </li>
         <li>Search keywords in <b>Apps Menu</b></li>
     </ul>
@@ -593,9 +593,8 @@
         <li>Fixed dex count issue.</li>
         <li>Fixed various crashes reported in <i>Build74</i> and <i>Build75</i></li>
         <li>Fixed <b>Deep Search</b> not showing any results due to an unknown bug.</li>
-        <li>Various core optimizations in data loader framework fixing more crashes and
-            issues caused
-            while loading data.
+        <li>Various core optimizations in data loader framework fixing more crashes and issues
+            caused while loading data.
         </li>
     </ul>
     <h4>Improvements</h4>
@@ -604,10 +603,9 @@
     </ul>
     <h4>Terminal</h4>
     <ul>
-        <li>Integrated native Shizuku RISH shell environment into the <b>Terminal
-                                                                         (Shell)</b>.
-        </li>
-        <li>Added greetings in <b>Terminal</b>.
+        <li>Integrated native Shizuku RISH shell environment into the <b>Terminal (Shell)</b>.</li>
+        <li>
+            Added greetings in <b>Terminal</b>.
             <br/>
             <small>Disabled by default.</small>
         </li>
@@ -619,11 +617,11 @@
     <h4>User Interface</h4>
     <ul>
         <li>Added validity in <b>Trial</b> panel.</li>
-        <li>Added loader interface in <b>Installer</b> panel to show loader indicator when
-            data is being
-            loaded.
+        <li>Added loader interface in <b>Installer</b> panel to show loader indicator when data is
+            being loaded.
         </li>
-        <li>Added three new typefaces.
+        <li>
+            Added three new typefaces.
             <ul>
                 <li>Teko</li>
                 <li>Titillium</li>
@@ -636,8 +634,7 @@
     <ul>
         <li>Fixed various album art issue.</li>
         <li>Possibly fixed the rare DeadObject error on app startup.</li>
-        <li>Fixed app restarting its current state when a panel is launched from shortcut.
-        </li>
+        <li>Fixed app restarting its current state when a panel is launched from shortcut.</li>
         <li>Fixed broken Shizuku installer framework.</li>
     </ul>
     <h4>Improvements</h4>
@@ -653,8 +650,7 @@
     <ul>
         <li>Various UI scaling adjustments.</li>
         <li>Various font size tweaks and adjustments.</li>
-        <li>Added option to enable custom color picker interface in <b>Accent Colors</b>.
-        </li>
+        <li>Added option to enable custom color picker interface in <b>Accent Colors</b>.</li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
@@ -702,31 +698,30 @@
     </ul>
     <h4>Changes</h4>
     <ul>
-        <li>Changed click behavior of <b>APKs</b> panel.
+        <li>
+            Changed click behavior of <b>APKs</b> panel.
             <br/>
             <small>Clicking an apk will now open <b>Installer</b> panel.</small>
         </li>
     </ul>
     <h4>Improved</h4>
     <ul>
-        <li>Improved <b>Notes Editor</b> panel formatting strip framework.
+        <li>
+            Improved <b>Notes Editor</b> panel formatting strip framework.
             <ul>
                 <li>Removed unnecessary animations for better UX.</li>
-                <li>Added span highlight, moving cursor will simultaneously highlight the
-                    applied span
-                    icon as well.
+                <li>Added span highlight, moving cursor will simultaneously highlight the applied
+                    span icon as well.
                 </li>
-                <li>All spans are now inclusive, meaning can be toggled instead of applying
-                    as it was
-                    before.
+                <li>All spans are now inclusive, meaning can be toggled instead of applying as it
+                    was before.
                 </li>
             </ul>
         </li>
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed unnecessary animations that were overloading the <b>Analytics</b> panel.
-        </li>
+        <li>Removed unnecessary animations that were overloading the <b>Analytics</b> panel.</li>
     </ul>
 </div>
 <br/>
@@ -738,20 +733,19 @@
         <li>Added <i>Target OS</i> panel for <b>Analytics</b> panel.</li>
         <li>Renamed <i>Stacktraces</i> to <i>Crash Report</i>.</li>
         <li>Updated notes editor formatting strip interface.</li>
-        <li>Added option to enable notch area in the app in <i>Development Preferences</i>.
-        </li>
+        <li>Added option to enable notch area in the app in <i>Development Preferences</i>.</li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed a bug where <i>Battery Optimization</i> is not opening when both root and
-            Shizuku is
-            on.
+        <li>Fixed a bug where <i>Battery Optimization</i> is not opening when both root and Shizuku
+            is on.
         </li>
         <li>Fixed missing permission details in <b>Information</b> panel.</li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved app icon framework.
+        <li>
+            Improved app icon framework.
             <br/>
             <small>Icon quality won't be degraded anymore upon resizing.</small>
         </li>
@@ -765,16 +759,19 @@
     </ul>
     <h4>Installer</h4>
     <ul>
-        <li>Added option to block/unblock trackers from installer panel as well.
+        <li>
+            Added option to block/unblock trackers from installer panel as well.
             <br/>
             <small>This will also work with apps that are not yet installed as well.</small>
         </li>
         <li>Added option to customize <b>Installer</b> panels' visibility.</li>
-        <li>Added <b>Changes</b> panel in <i>Installer</i>.
+        <li>
+            Added <b>Changes</b> panel in <i>Installer</i>.
             <br/>
             <small>It will show the changes between the updates during installation.</small>
         </li>
-        <li>Added <i>Version Name</i> in the <i>Installer</i>.
+        <li>
+            Added <i>Version Name</i> in the <i>Installer</i>.
             <br/>
             <small>It will also show an arrow icon to the next version if an update is being
                    installed.</small>
@@ -801,11 +798,11 @@
     <h4>Trackers</h4>
     <ul>
         <li>Improved <i>Trackers</i> framework.</li>
-        <li>Added Shizuku support for trackers blocking.
+        <li>
+            Added Shizuku support for trackers blocking.
             <br/>
-            <small>
-                It's a development feature and need to be enabled from set <b>Development
-                                                                              Preferences</b>.
+            <small> It's a development feature and need to be enabled from set <b>Development
+                                                                                  Preferences</b>.
             </small>
         </li>
     </ul>
@@ -822,17 +819,19 @@
     <ul>
         <li>Fixed webpages links not opening in browser.</li>
         <li>Fixed <i>Split APK Selector</i> selection issue.</li>
-        <li>Fixed <!--suppress XmlDeprecatedElement -->
-            <tt>InvalidProtocolBufferException</tt> error on app startup in some
-            devices
-            mainly running Google services.
+        <li>
+            Fixed
+            <!--suppress XmlDeprecatedElement -->
+            <tt>InvalidProtocolBufferException</tt> error on app startup in some devices mainly
+            running Google services.
         </li>
     </ul>
     <h4>Improvements</h4>
     <ul>
         <li>Improved popup animations.</li>
         <li>Improved <b>APKs</b> panel framework.</li>
-        <li>Improved app's icon loader framework.
+        <li>
+            Improved app's icon loader framework.
             <br/>
             <small>Uninstalled apps icons should now be visible.</small>
         </li>
@@ -840,7 +839,8 @@
     <h4>Removed</h4>
     <ul>
         <li>Removed <i>Trackers</i> from <b>Preferences</b>.</li>
-        <li>Removed option to clear trackers data from app's memory manager.
+        <li>
+            Removed option to clear trackers data from app's memory manager.
             <br/>
             <small>It has gon obsolete after the recent implementation of new tracker
                    framework.</small>
@@ -882,7 +882,8 @@
         <li>Added separate <i>Material You</i> light and dark theme.</li>
         <li>Added <i>High Contrast</i> light theme.</li>
         <li>Added indicators for last selected themes for <i>Auto</i> theme modes.</li>
-        <li>Added option to enable loading of split APK icons in <b>APKs</b> panel.
+        <li>
+            Added option to enable loading of split APK icons in <b>APKs</b> panel.
             <br/>
             <sub>Keep this option off.</sub>
         </li>
@@ -892,9 +893,7 @@
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed permission's state getting changed when permission state dialog is
-            opened.
-        </li>
+        <li>Fixed permission's state getting changed when permission state dialog is opened.</li>
         <li>Fixed permission dialog close button not working.</li>
         <li>Fixed app icon size issues throughout the app.</li>
         <li>Fixed a few crashes.</li>
@@ -922,19 +921,17 @@
         <li>Added option to change application's default data directory in <b>Configuration
                                                                               Preferences</b>.
         </li>
-        <li>Added <b>APK Browser</b> panel to list APK files available in the internal
-            storage.
-        </li>
-        <li><i>Accent on Navigation Bar</i> toggle and <i>Accent Color</i> will now smoothly
-                                            animate the
-                                            color change the navigation bar color.
+        <li>Added <b>APK Browser</b> panel to list APK files available in the internal storage.</li>
+        <li>
+            <i>Accent on Navigation Bar</i> toggle and <i>Accent Color</i> will now smoothly animate
+                                            the color change the navigation bar color.
             <br/>
             <sub>It looks really neat ;)</sub>
         </li>
         <li>Implemented <b>APK Info</b> file association panel.</li>
         <li>Implemented <b>APK Info</b> panel.</li>
-        <li>Added back <i>Disable Transparent Status</i> preferences, can be toggled from
-            <i>Development</i> preferences.
+        <li>Added back <i>Disable Transparent Status</i> preferences, can be toggled from <i>Development</i>
+            preferences.
         </li>
         <li>Added <i>Manifest Viewer</i> for external apk files.</li>
         <li>Added multi-app battery optimization switch in <b>Batch</b> panel.</li>
@@ -944,8 +941,7 @@
         <li>Corrected locale name.</li>
         <li>Fixed album art animation not working in <b>Music</b> panel.</li>
         <li>Fixed list scroll position issue on <b>Music</b> panel.</li>
-        <li>Fixed <i>Installer</i> crashing due to missing package info for installed apps.
-        </li>
+        <li>Fixed <i>Installer</i> crashing due to missing package info for installed apps.</li>
         <li>Fixed <i>Accent of Navigation Bar</i> color not updating issue.</li>
     </ul>
 </div>
@@ -960,9 +956,7 @@
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed <i>Uninstaller</i> not using Android Package Manager APIs on Shizuku
-            failure.
-        </li>
+        <li>Fixed <i>Uninstaller</i> not using Android Package Manager APIs on Shizuku failure.</li>
         <li>Fixed rare crash in <b>Usage Stats</b> panel.</li>
         <li>Fixed crashes on component state change while Using Shizuku.</li>
     </ul>
@@ -1042,10 +1036,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to enable <b>Device Info</b> in <b>Development Preferences</b>.
-        </li>
-        <li>Added option to edit and save shared preferences of other apps in <b>Shared
-                                                                                 Preferences
+        <li>Added option to enable <b>Device Info</b> in <b>Development Preferences</b>.</li>
+        <li>Added option to edit and save shared preferences of other apps in <b>Shared Preferences
                                                                                  Viewer</b>.
         </li>
         <li>Added option to delete shared preferences of other apps.</li>
@@ -1102,13 +1094,12 @@
     <ul>
         <li>Fixed metadata issue in <i>Audio Player</i>.</li>
         <li>Fixed few issues</li>
-        <li>Removed internal bitmap processing from due to it causing huge lag in SystemUI
-            and rendering
-            it unusable for a few seconds.
+        <li>
+            Removed internal bitmap processing from due to it causing huge lag in SystemUI and
+            rendering it unusable for a few seconds.
             <br/>
-            <small>It's an Android API bug and should be treated as such. If you're using
-                   lock screen
-                   album art like feature, it won't work anymore.</small>
+            <small>It's an Android API bug and should be treated as such. If you're using lock
+                   screen album art like feature, it won't work anymore.</small>
         </li>
         <li>Fixed notifications on older Android versions.</li>
         <li>Changed AudioFocus property.</li>
@@ -1119,7 +1110,8 @@
     <ul>
         <li>Redesigned <i>Add Shortcut</i> dialog based on Inure design.</li>
         <li>Fixed shortcut command not working on shortcut launch.</li>
-        <li>Disabled <i>FSNavigator</i> activity from <b>Terminal</b> framework.
+        <li>
+            Disabled <i>FSNavigator</i> activity from <b>Terminal</b> framework.
             <br/>
             <small>
                 I don't think we'll ever need it, if you do, enable the activity from
@@ -1128,16 +1120,16 @@
             </small>
         </li>
         <li>Fixed crashes on changing terminal windows.</li>
-        <li>Added a new dialog to specify window titles.
+        <li>
+            Added a new dialog to specify window titles.
             <br/>
-            <small>If you leave the text box empty and hit create, it will use the default
-                   name
+            <small>If you leave the text box empty and hit create, it will use the default name
                    convention.</small>
         </li>
-        <li>Fixed windows losing position state when <i>Terminal</i> activity is recreated.
+        <li>
+            Fixed windows losing position state when <i>Terminal</i> activity is recreated.
             <br/>
-            <small>It should now work even when the app is closed and terminal is reopened
-                   from the
+            <small>It should now work even when the app is closed and terminal is reopened from the
                    notification.</small>
         </li>
         <li>Fixed <i>Paste</i> button state.</li>
@@ -1146,10 +1138,9 @@
     <ul>
         <li>Redesigned whole panel's interface.</li>
         <li>Added bar chart based data organization.</li>
-        <li>Added pie chart representation to analyze percentage of app usage on daily
-            basis.
-        </li>
-        <li>Removed raw data based <i>Usage Stats</i> panel.
+        <li>Added pie chart representation to analyze percentage of app usage on daily basis.</li>
+        <li>
+            Removed raw data based <i>Usage Stats</i> panel.
             <br/>
             <small>If you still need it, you can enable it from <b>Development
                                                                    Preferences</b>.</small>
@@ -1159,7 +1150,8 @@
     <h4>Unlocker</h4>
     <ul>
         <li>Added offline unlocker integrity test.</li>
-        <li>Revisited which feature needs to be in Premium version.
+        <li>
+            Revisited which feature needs to be in Premium version.
             <br/>
             <small>This updated limits some more features in the free version.</small>
         </li>
@@ -1177,44 +1169,45 @@
     <ul>
         <li>New cool interface redesign.</li>
         <li>Added fluid animations between app and music panel.</li>
-        <li>Embedded music right into the app and won't require a new activity to run the
-            music from the
-            app.
+        <li>Embedded music right into the app and won't require a new activity to run the music from
+            the app.
         </li>
         <li>Fixed many issues with <i>Audio Player</i>.</li>
-        <li>Default the option to load art using Media Store.
+        <li>
+            Default the option to load art using Media Store.
             <br/>
             <small>
-                This will simply load the cached album arts from the device, causing
-                significant
+                This will simply load the cached album arts from the device, causing significant
                 performance boost.
             </small>
         </li>
-        <li>Added pager based <i>Audio Player</i>.
-            <br/>
-            <small>Now you can swipe to change the music when audio is played from
-                <b>Music</b>
-                   panel.</small>
-        </li>
-        <li>Separated association and app audio players to make the development easier.</li>
-        <li>Added LRC file support.
+        <li>
+            Added pager based <i>Audio Player</i>.
             <br/>
             <small>
-                I had the API ready in a different app, I just copied and pasted it and
-                Inure now has a
-                another feature.
+                Now you can swipe to change the music when audio is played from
+                <b>Music</b>
+                panel.
             </small>
         </li>
-        <li>Added a really smooth animation framework for <i>Music</i>.
+        <li>Separated association and app audio players to make the development easier.</li>
+        <li>
+            Added LRC file support.
             <br/>
             <small>
-                I have been learning about this animation for years, and finally I have
-                implemented it,
-                it was really difficult to implement, but I did it. The animation will now
-                map to
-                elements changed to other panel and will be adjusted and reanimated back on
-                a different
-                element than what was used earlier. It's really cool and completely dynamic.
+                I had the API ready in a different app, I just copied and pasted it and Inure now
+                has a another feature.
+            </small>
+        </li>
+        <li>
+            Added a really smooth animation framework for <i>Music</i>.
+            <br/>
+            <small>
+                I have been learning about this animation for years, and finally I have implemented
+                it, it was really difficult to implement, but I did it. The animation will now map
+                to elements changed to other panel and will be
+                adjusted and reanimated back on a different element than what was used earlier. It's
+                really cool and completely dynamic.
             </small>
         </li>
         <li>Fixed all <i>Audio Player</i> notification buttons.</li>
@@ -1226,27 +1219,21 @@
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed change logs reminder popup not closing on cancel click.</li>
-        <li>Workaround an issue where webpages continues to appear dark on dark themes
-            causing
+        <li>
+            Workaround an issue where webpages continues to appear dark on dark themes causing
             accessibility issues.
             <br/>
-            <small>The fix may still not work because WebView is only responding to system
-                   theme and
-                   there's no way to set that except setting the theme to the entire app
-                   using Android
-                   APIs. Inure cannot work like that, that's why it's breaking. I added a
-                   few
-                   workarounds
-                   and to some extent, the fix should be fine.
+            <small>
+                The fix may still not work because WebView is only responding to system theme and
+                there's no way to set that except setting the theme to the entire app using Android
+                APIs. Inure cannot work like that, that's why it's
+                breaking. I added a few workarounds and to some extent, the fix should be fine.
                 <br/>
-                   The fix will only work when the whole system is set to dark mode. App
-                   level dark mode
-                   will still break the theme.
+                The fix will only work when the whole system is set to dark mode. App level dark
+                mode will still break the theme.
             </small>
         </li>
-        <li>Fixed <i>Battery Optimization Switcher</i> dialog not setting the state
-            properly.
-        </li>
+        <li>Fixed <i>Battery Optimization Switcher</i> dialog not setting the state properly.</li>
     </ul>
     <h4>Development</h4>
     <ul>
@@ -1266,12 +1253,12 @@
     <h4>User Interface</h4>
     <ul>
         <li>Updated <i>Locales</i> selector panel design.</li>
-        <li>Added selector dialog for <i>Battery Optimization</i> settings.
+        <li>
+            Added selector dialog for <i>Battery Optimization</i> settings.
             <br/>
             <small>
                 If you've had preferred the older popup style, it can still be switched from
-                <i>Development
-                   Preferences</i>
+                <i>Development Preferences</i>
                 by toggling the alternate popup style.
             </small>
         </li>
@@ -1284,17 +1271,17 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved root connection framework.
+        <li>
+            Improved root connection framework.
             <br/>
-            <small>
-                This will/should also fix the <i>0x001</i> warning issue.
-            </small>
+            <small> This will/should also fix the <i>0x001</i> warning issue. </small>
         </li>
         <li>Improved filter mechanism for <i>Recently Updated</i> data.</li>
     </ul>
     <h4>Changes</h4>
     <ul>
-        <li><s>Changed the default button size to <i>50dp</i> from <i>40dp</i>.</s>
+        <li>
+            <s>Changed the default button size to <i>50dp</i> from <i>40dp</i>.</s>
             <br/>
             <small>An option to change button size dynamically will be added later.</small>
         </li>
@@ -1307,9 +1294,8 @@
     <h4>Audio Player</h4>
     <ul>
         <li>Fixed few issues with <i>Audio Player</i>.</li>
-        <li>Added popup menu in <b>Music</b> panel to provide <i>Play</i>, <i>Delete</i>,
-            and
-            <i>Send</i> functions.
+        <li>Added popup menu in <b>Music</b> panel to provide <i>Play</i>, <i>Delete</i>, and <i>Send</i>
+            functions.
         </li>
         <li>Added repeat button.</li>
     </ul>
@@ -1342,53 +1328,48 @@
         <li>Added option to toggle contexts in <i>Bottom Menu</i> in <b>Accessibility
                                                                         Preferences</b>.
         </li>
-        <li>Added option to uninstall only updates for system apps for both root and
-            non-root modes.
+        <li>Added option to uninstall only updates for system apps for both root and non-root
+            modes.
         </li>
-        <li>Added back the option <i>Clear Caches</i> to clear any app's cache data.
+        <li>
+            Added back the option <i>Clear Caches</i> to clear any app's cache data.
             <br/>
             <small>
                 Android's default SDK limits on how much control an app can get over some
-                system-level
-                functions such as clearing an app's cache data. This is why the option was
-                disabled
-                earlier. I tried to add it back and implemented the interface to do that
-                without root.
-                However, the permission <i>CLEAR_APP_CACHE</i> won't be granted to Inure
-                unless it's
-                installed as a system app. So, this option is only available for root users
-                and for
-                users who have installed Inure as a system app.
+                system-level functions such as clearing an app's cache data. This is why the option
+                was disabled earlier. I tried to add it back and
+                implemented the interface to do that without root. However, the permission <i>CLEAR_APP_CACHE</i>
+                won't be granted to Inure unless it's installed as a system app. So, this option is
+                only available for root users and
+                for users who have installed Inure as a system app.
                 <br/>
                 <br/>
-                In case you want to use this feature without root, you can install Inure as
-                a system
-                app or request your ROM maintainer to include Inure into the build of the
-                ROM.
+                In case you want to use this feature without root, you can install Inure as a system
+                app or request your ROM maintainer to include Inure into the build of the ROM.
             </small>
         </li>
-        <li>Added option to enable hover animation feedbacks on all views of the apps.
+        <li>
+            Added option to enable hover animation feedbacks on all views of the apps.
             <br/>
             <small>
                 This feature didn't pass the app's UX test, therefore it's moved to <i>Development
                                                                                        Preferences</i>.
-                The hover effect is still a nice feature to have, if you're using Inure with
-                a mouse or
-                a stylus pen, do give it a try.
+                The hover effect is still a nice feature to have, if you're using Inure with a mouse
+                or a stylus pen, do give it a
+                try.
             </small>
         </li>
-        <li>Added option to center bottom menus in the app in <b>Development Preferences</b>.
-        </li>
+        <li>Added option to center bottom menus in the app in <b>Development Preferences</b>.</li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed various crashes.</li>
-        <li>Fixed crash caused by pressing <i>Close</i> button in <b>Full Version</b>
+        <li>
+            Fixed crash caused by pressing <i>Close</i> button in <b>Full Version</b>
             dialog.
         </li>
-        <li>Fixed an internal error that caused loader to crash during app reload either
-            from low memory
-            state or resumption from hibernated state.
+        <li>Fixed an internal error that caused loader to crash during app reload either from low
+            memory state or resumption from hibernated state.
         </li>
         <li>Fixed few crashes in <b>Audio Player</b>.</li>
         <li>Fixed background task state of the <b>Audio Player</b></li>
@@ -1399,13 +1380,12 @@
     </ul>
     <h4>Changes</h4>
     <ul>
-        <li>Default settings for <i>Blur</i> is now <i>Off</i>.
+        <li>
+            Default settings for <i>Blur</i> is now <i>Off</i>.
             <br/>
             <small>
-                Blurring is expensive, and it is not recommended to use it on low-end
-                devices and
-                keeping
-                it on puts the first app experience at a risk.
+                Blurring is expensive, and it is not recommended to use it on low-end devices and
+                keeping it on puts the first app experience at a risk.
             </small>
         </li>
         <li>Default settings for <i>Transitions</i> is now <i>On</i>.</li>
@@ -1413,13 +1393,12 @@
     </ul>
     <h4>Unlocker</h4>
     <ul>
-        <li>Keeping the unlocker package installed is now a requirement to keep the full
-            version
+        <li>
+            Keeping the unlocker package installed is now a requirement to keep the full version
             activated.
             <br/>
             <small>
-                An option to hide the unlocker from the launcher has also been added in the
-                Unlocker
+                An option to hide the unlocker from the launcher has also been added in the Unlocker
                 settings.
             </small>
         </li>
@@ -1428,20 +1407,17 @@
     <ul>
         <li>Fixed many UI issues with <b>Trackers</b> panel.</li>
         <li>Added <b>Trackers</b> preferences in <b>Preferences</b> panel.</li>
-        <li>Removed <i>No Trackers Found</i> warning.
+        <li>
+            Removed <i>No Trackers Found</i> warning.
             <br/>
             <small>
                 The warning was added to notify users that the Inure is not able to find any
-                trackers in
-                the app. However, it was causing confusion due to how warning UX works in
-                Inure. The app
-                will now always show trackers message and will go back upon dismissing the
-                dialog in
-                case no trackers are found.
+                trackers in the app. However, it was causing confusion due to how warning UX works
+                in Inure. The app will now always show trackers message
+                and will go back upon dismissing the dialog in case no trackers are found.
             </small>
         </li>
-        <li>Removed <i>Show Analytics Automatically</i> option from <i>Trackers Menu</i>.
-        </li>
+        <li>Removed <i>Show Analytics Automatically</i> option from <i>Trackers Menu</i>.</li>
         <li>Fixed trackers not showing in <b>Installer</b> panel.</li>
         <li>Fixed tracker message formatting issues.</li>
     </ul>
@@ -1462,16 +1438,14 @@
     <h4>User Interface</h4>
     <ul>
         <li>Added bottom menu for formatting strip in notes panel.</li>
-        <li>Added improved mouse keys support in Inure Motion Event framework.
+        <li>
+            Added improved mouse keys support in Inure Motion Event framework.
             <br/>
             <small>
-                This feature is useful for people who use their Android devices with a
-                mouse. Using
-                right click on any item will open the context menu and using left click will
-                perform
-                the click action. This will streamline the mouse behaviour with Inure and as
-                used in
-                other OS's.
+                This feature is useful for people who use their Android devices with a mouse. Using
+                right click on any item will open the context menu and using left click will perform
+                the click action. This will streamline the
+                mouse behaviour with Inure and as used in other OS's.
             </small>
         </li>
         <li>Added option to enable debug messages in <b>Development</b> preferences.</li>
@@ -1487,12 +1461,10 @@
         <li>Fixed empty crash report issue after the app had crashed and restarted.</li>
         <li>Fixed a few more instances of DeadObject error.</li>
         <li>Fixed <b>Search</b> panel result issues.</li>
-        <li>Fixed loader stuck on <i>Splash Screen</i> if root is denied while root methods
-            are on in
-            <i>Configuration</i>.
+        <li>Fixed loader stuck on <i>Splash Screen</i> if root is denied while root methods are on
+            in <i>Configuration</i>.
         </li>
-        <li>Fixed some crashes caused by reloading the data when system has triggered low
-            memory.
+        <li>Fixed some crashes caused by reloading the data when system has triggered low memory.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -1502,37 +1474,37 @@
     <h4>Installer</h4>
     <ul>
         <li>Improved checks for split apk files.</li>
-        <li>Removed .XAPK support.
+        <li>
+            Removed .XAPK support.
             <br/>
             <small>
-                .XAPK files aren't split apk files rather a bundle of various apk and data.
-                So, it's not
-                possible to install them at the moment.
+                .XAPK files aren't split apk files rather a bundle of various apk and data. So, it's
+                not possible to install them at the moment.
             </small>
         </li>
         <li>ZIP based split APK file support.</li>
         <li>Improved split APK detection and file verification framework.</li>
-        <li>Added wider intent receiver to support firing installer window from many other
-            places in the
-            device such as browsers, universal intents, etc.
+        <li>Added wider intent receiver to support firing installer window from many other places in
+            the device such as browsers, universal intents, etc.
         </li>
     </ul>
 </div>
 <br/>
-<p>Build54 was retracted due to serious issues in production.</p>
+<hr>
+<h5>Build54 was retracted due to serious issues in production.</h5>
 <br/>
 <h2>Build53</h2>
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added new framework for managing <b>Development</b> preferences.
+        <li>
+            Added new framework for managing <b>Development</b> preferences.
             <br/>
             <small>
-                This should be done for the whole preferences framework of the app but it's
-                a start.
-                Doing so will allow a much robust management and quick implementations for
-                any new
-                preferences and will reduce a significant development time.
+                This should be done for the whole preferences framework of the app but it's a start.
+                Doing so will allow a much robust management and quick implementations for any new
+                preferences and will reduce a significant
+                development time.
             </small>
         </li>
         <li>Added option to disable image caching in <b>Development Preferences</b>.</li>
@@ -1549,20 +1521,17 @@
     <ul>
         <li>Fixed various issues with the <b>Boot Manager</b>.</li>
         <li>Added bottom menu in <b>Boot Manager</b>.</li>
-        <li>Implemented a new framework for boot component that requests for data from
-            system for
-            various matching boot flags replacing the old direct component query approach
-            using system
-            shell.
+        <li>
+            Implemented a new framework for boot component that requests for data from system for
+            various matching boot flags replacing the old direct component query approach using
+            system shell.
             <br/>
             <small>
-                <b>Boot Manager</b> can now show all boot components that are available in
-                                    the system
-                                    without root access however changing their states still
-                                    requires
-                                    root. I'll also be implementing an <i>AppOps</i>
-                                    approach to do the
-                                    same and it should make the framework more robust.
+                <b>Boot Manager</b> can now show all boot components that are available in the
+                                    system without root access however changing their states still
+                                    requires root. I'll also be implementing an <i>AppOps</i>
+                                    approach to do the same and it should make the framework more
+                                    robust.
             </small>
         </li>
     </ul>
@@ -1578,8 +1547,8 @@
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed trial period warning showing unexpectedly on <b>Splash Screen</b> after
-            full version activation.
+        <li>Fixed trial period warning showing unexpectedly on <b>Splash Screen</b> after full
+            version activation.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -1588,35 +1557,31 @@
     </ul>
     <h4>Boot Manager</h4>
     <ul>
-        <li>Added <b>Boot Manager</b> framework to manage auto start apps.
+        <li>
+            Added <b>Boot Manager</b> framework to manage auto start apps.
             <br/>
-            <small>
-                The <b>Boot Manager</b> is currently in beta stage and is not fully
-                functional and
-                therefore it's being removed from production for the time being.
-            </small>
+            <small> The <b>Boot Manager</b> is currently in beta stage and is not fully functional
+                    and therefore it's being removed from production for the time being. </small>
         </li>
     </ul>
     <h4>Batch</h4>
     <ul>
-        <li>Removed unnecessary UI elements from <i>Uninstaller</i> dialog to reduce
-            development
+        <li>Removed unnecessary UI elements from <i>Uninstaller</i> dialog to reduce development
             efforts.
         </li>
-        <li>Removed <i>Send</i> button from <b>Batch</b> panel to reduce development
-            efforts and <i>Send</i>'s development stands postponed for now.
+        <li>Removed <i>Send</i> button from <b>Batch</b> panel to reduce development efforts and <i>Send</i>'s
+            development stands postponed for now.
         </li>
     </ul>
     <h4>Music</h4>
     <ul>
         <li>Added <i>Sort</i> interface in <b>Music</b> panel.</li>
     </ul>
-    <p>
-        <b>NOTE:</b> Batch has been finalized and is now ready for production.
-    </p>
+    <p><b>NOTE:</b> Batch has been finalized and is now ready for production.</p>
 </div>
-<br/>
-<p>The app was moved to beta stage from here.</p>
+<br>
+<hr>
+<h5>The app was moved to beta stage from here.</h5>
 <br/>
 <h2>Build51</h2>
 <div class="content-inner">
@@ -1637,8 +1602,7 @@
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed DeadObject error in various panels caused during relaunch and reload of
-            the app.
+        <li>Fixed DeadObject error in various panels caused during relaunch and reload of the app.
         </li>
         <li>Fixed bottom menu velocity issue when list is refreshed.</li>
         <li>Fixed bottom menu flickering issue when fragment is closing.</li>
@@ -1652,21 +1616,19 @@
     </ul>
     <h4>Other</h4>
     <ul>
-        <li>Added app level uninstaller listener. App should automatically refresh and
-            update all data
-            if any app is uninstalled within or outside the scope of the app.
+        <li>Added app level uninstaller listener. App should automatically refresh and update all
+            data if any app is uninstalled within or outside the scope of the app.
         </li>
     </ul>
     <h4>Trial Version</h4>
-    <p>From this version onwards, this app will add a trial period limit on app uses. The
-       trial
-       period will last until 15 days and will offer access to all app's features can be
-       used and tested
-       within this duration. Once the trial period ends, the app will lock a tiny percentage
-       of its core
-       features which can be purchased if the user deems them necessary otherwise any other
-       app's
-       feature will continue to work as intended even after the trial period has ended.
+    <p>
+        From this version onwards, this app will add a trial period limit on app uses. The trial
+        period will last until 15 days and will offer access to all app's features can be used and
+        tested within this duration. Once the trial
+        period ends, the app will lock a tiny percentage of its core features which can be purchased
+        if the user deems them necessary otherwise any other app's feature will continue to work as
+        intended even after the trial period
+        has ended.
     </p>
 </div>
 <br/>
@@ -1674,8 +1636,7 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Put the header menus at the bottom of the screen in various lists of the app.
-        </li>
+        <li>Put the header menus at the bottom of the screen in various lists of the app.</li>
         <li>Added a new info to the header of the app.</li>
         <li>Added no trackers found warning.</li>
     </ul>
@@ -1700,13 +1661,11 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to export all apps data in TXT and XML format in <b>Apps</b> panel.
-        </li>
+        <li>Added option to export all apps data in TXT and XML format in <b>Apps</b> panel.</li>
         <li>Added more options in <b>Stack Traces</b> panel.</li>
         <li>Added clear button in <b>Search</b> panel.</li>
-        <li>Added <b>Battery Optimisation</b> panel to allow management of battery
-            optimisation of all
-            the apps <i>(Root only)</i>.
+        <li>Added <b>Battery Optimisation</b> panel to allow management of battery optimisation of
+            all the apps <i>(Root only)</i>.
         </li>
     </ul>
     <h4>Bug Fixes</h4>
@@ -1718,12 +1677,14 @@
         <li>Added proper formatted XML preview support.</li>
         <li>Improved <i>Extension highlight</i> framework.</li>
         <li>Disabled apps icons will be gray-scaled to make them easily identifiable.</li>
-        <li>Improved <i>Extras</i> and <i>Graphics</i> file scanner.<br/>
-            <small>Use <b>$</b> to filter out the extensions such as typing <i>$html</i>
-                   will filter in
-                   all the <i>.html</i> files. Similarly, typing <i>drawable$</i> will
-                   filter in all the
-                   files whose parent directory or name starts with <i>drawable</i>.</small>
+        <li>
+            Improved <i>Extras</i> and <i>Graphics</i> file scanner.<br/>
+            <small>
+                Use <b>$</b> to filter out the extensions such as typing <i>$html</i> will filter in
+                all the <i>.html</i> files. Similarly, typing <i>drawable$</i> will filter in all
+                the files whose parent directory or name starts
+                with <i>drawable</i>.
+            </small>
         </li>
     </ul>
     <h4>Removed</h4>
@@ -1736,8 +1697,7 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added proper warning when opening permissions panel of an app that doesn't
-            require any
+        <li>Added proper warning when opening permissions panel of an app that doesn't require any
             instead of showing error stack.
         </li>
         <li>Added <i>Russian</i> translations.</li>
@@ -1754,9 +1714,8 @@
     <ul>
         <li>Added storage permission check dialog before any storage related tasks.</li>
         <li>Added a separate panel for selected batch apps management.</li>
-        <li>Added fade on top of all transparent status bar lists to make the status bar
-            visibility a
-            bit less obtrusive.
+        <li>Added fade on top of all transparent status bar lists to make the status bar visibility
+            a bit less obtrusive.
         </li>
         <li>Added loading indicator in <b>Shared Prefs</b> panel.</li>
     </ul>
@@ -1776,16 +1735,16 @@
         <li>Added animated GIF preview support in <b>Image Viewer</b></li>
         <li>Improved selected batch apps list behaviour.</li>
         <li>Improved search behaviours.</li>
-        <li>Improved app loader framework to optimize overall performance of the app.<br/>
+        <li>
+            Improved app loader framework to optimize overall performance of the app.<br/>
             <sub>(This is a major improvement in the app's performance)</sub>
         </li>
     </ul>
     <h4>Removed</h4>
     <ul>
         <li>Removed copy button from error dialog and replaced with popup menu.</li>
-        <li>Unnecessary apps whose relative info is older than one month will now be kept
-            hidden from
-            secondary home panels.
+        <li>Unnecessary apps whose relative info is older than one month will now be kept hidden
+            from secondary home panels.
         </li>
     </ul>
     <h4>Music</h4>
@@ -1818,9 +1777,7 @@
     <ul>
         <li>Improved app's interaction with system navigation gestures.</li>
         <li>Improved notes' list layout.</li>
-        <li>Improved <i>Permissions</i> panel to load up some missing permissions of the
-            app.
-        </li>
+        <li>Improved <i>Permissions</i> panel to load up some missing permissions of the app.</li>
     </ul>
     <h4>Removed</h4>
     <ul>
@@ -1828,27 +1785,31 @@
         <li>Removed <i>Unpack</i> from <b>App Info</b> panel.</li>
         <li>Removed unnecessary dots from app level <b>Usage Stats</b> panel.</li>
         <li>Removed <i>Delete</i> button from <b>Notes</b> panel.</li>
-        <li>Removed <i>Disable Transparent Status Bar</i> preference option from <b>Appearance</b>
+        <li>
+            Removed <i>Disable Transparent Status Bar</i> preference option from <b>Appearance</b>
             panel.
         </li>
     </ul>
 </div>
 <br/>
-<p>The app was released on GitHub and IzzyOnDroid from here.</p>
+<hr>
+<h5>The app was released on GitHub and IzzyOnDroid from here.</h5>
 <br/>
 <h2>Build43</h2>
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added blur effect on the background when a popup window is showing.<br/>
-            <small>Will work on supported devices only.</small></li>
-        <li>Added option to enable disable blur effect on popup windows <b>Behaviour
-                                                                           Preferences</b>
+        <li>
+            Added blur effect on the background when a popup window is showing.<br/>
+            <small>Will work on supported devices only.</small>
+        </li>
+        <li>
+            Added option to enable disable blur effect on popup windows <b>Behaviour Preferences</b>
             panel.
         </li>
-        <li>Added <i>Shared Preferences</i> viewer panel.<br/>
-            <sub>Due to restrictions imposed by Android 12 data directory of other apps
-                 aren't
+        <li>
+            Added <i>Shared Preferences</i> viewer panel.<br/>
+            <sub>Due to restrictions imposed by Android 12 data directory of other apps aren't
                  accessible anymore even with root access. Android 11 and below should work
                  fine.</sub>
         </li>
@@ -1866,8 +1827,7 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed views intercepting IME movement behaviour for time being due to
-            unexpected
+        <li>Removed views intercepting IME movement behaviour for time being due to unexpected
             behaviour.
         </li>
     </ul>
@@ -1882,14 +1842,14 @@
     </ul>
     <h4>Android 12</h4>
     <ul>
-        <li>Disabled Android 12's stretching effect from the whole app.<br/>
-            <sub>Google added a stretching effect in Android 12 that creates a stretching
-                 effect when
-                 the view is overscrolled. There were few issues with this feature first it
-                 is really
-                 ugly and second it is creating a conflict with app's native overscroll
-                 effect animation
-                 engine creating a glitch effect out of it.</sub>
+        <li>
+            Disabled Android 12's stretching effect from the whole app.<br/>
+            <sub>
+                Google added a stretching effect in Android 12 that creates a stretching effect when
+                the view is overscrolled. There were few issues with this feature first it is really
+                ugly and second it is creating a conflict with
+                app's native overscroll effect animation engine creating a glitch effect out of it.
+            </sub>
         </li>
     </ul>
 </div>
@@ -1902,13 +1862,11 @@
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed app crashing when data is explicitly restored from cloud after factory
-            reset or
+        <li>Fixed app crashing when data is explicitly restored from cloud after factory reset or
             setting up a new device.
         </li>
-        <li>Fixed launching terminal from shortcut launches the app if the app process is
-            active in the
-            memory.
+        <li>Fixed launching terminal from shortcut launches the app if the app process is active in
+            the memory.
         </li>
         <li>Fixed app crashing without any stack trace on many pre Android 13 devices.</li>
         <li>Fixed navigation bar overlapping issue on some views.</li>
@@ -1941,9 +1899,8 @@
     <h4>Installer</h4>
     <ul>
         <li>Updated flow style for better installation procedure.</li>
-        <li>App won't require user action to finish package installation in Android S and
-            higher in some
-            case.
+        <li>App won't require user action to finish package installation in Android S and higher in
+            some case.
         </li>
     </ul>
 </div>
@@ -1952,35 +1909,33 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added new transition animations to add more natural motion to the how things
-            move in the app.
+        <li>Added new transition animations to add more natural motion to the how things move in the
+            app.
         </li>
         <li>Added option to change transition type in <b>Behaviour</b> panel.</li>
         <li>Added option to change arc type in <b>Behaviour</b> panel.</li>
-        <li>Added a native crash handler to record the traces.
-            <sub><b>How it works?</b> -&gt; When the app crashes the crash handler will record
-                                      the trace of the error and will show it to user before
-                                      the app's next launch
-                                      and allow them to send the logs if user deems it
-                                      necessary or close it. It
-                                      won't have any impact on user experience and the
-                                      reports will show over the
-                                      top of the main app so any internal app process won't
-                                      be blocked
-                                      either.</sub>
+        <li>
+            Added a native crash handler to record the traces.
+            <sub>
+                <b>How it works?</b> -&gt; When the app crashes the crash handler will record the
+                                     trace of the error and will show it to user before the app's
+                                     next launch and allow them to send the logs if user deems it
+                                     necessary or
+                                     close it. It won't have any impact on user experience and the
+                                     reports will show over the top of the main app so any internal
+                                     app process won't be blocked either.
+            </sub>
         </li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed list getting loaded two times in <b>Search</b> panel causing animations to
-            break.
+        <li>Fixed list getting loaded two times in <b>Search</b> panel causing animations to break.
         </li>
         <li>Fixed <i>Operations</i> showing in non root mode.</li>
     </ul>
     <h4>Usage Stats</h4>
     <ul>
-        <li>Added two separate usage stats engines for fetching usage stats for the apps.
-        </li>
+        <li>Added two separate usage stats engines for fetching usage stats for the apps.</li>
     </ul>
 </div>
 <br/>
@@ -1993,7 +1948,8 @@
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed <i>.apk</i> file installation error.</li>
-        <li>Fixed app panel transactions getting stuck between <b>Setup</b> and <b>Home</b>
+        <li>
+            Fixed app panel transactions getting stuck between <b>Setup</b> and <b>Home</b>
             panels
         </li>
         <li>Fixed text box background issues in different places of the app.</li>
@@ -2001,15 +1957,13 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved certificate parser to add more certificates support and information.
-        </li>
+        <li>Improved certificate parser to add more certificates support and information.</li>
     </ul>
     <h4>Installer</h4>
     <ul>
         <li>Added <i>Certificate</i> details.</li>
-        <li>Improved <i>Permissions</i> in <b>Installer</b> panel to show permission granted
-            status fro
-            already installed apps and ability to perform permissions actions as well.
+        <li>Improved <i>Permissions</i> in <b>Installer</b> panel to show permission granted status
+            fro already installed apps and ability to perform permissions actions as well.
         </li>
         <li>Added option to launch the app.</li>
         <li>Fixed loading icon for apps that are not yet installed.</li>
@@ -2031,8 +1985,7 @@
     </ul>
     <h4>Improvement</h4>
     <ul>
-        <li>Improved <i>Icon Size</i> framework, changing icon will not lag, get pixelated
-            and will
+        <li>Improved <i>Icon Size</i> framework, changing icon will not lag, get pixelated and will
             truly change its size throughout the app now.
         </li>
         <li>Optimized home panel to use less views and improve overall performance.</li>
@@ -2041,8 +1994,7 @@
     <ul>
         <li>Removed non required views from <b>Development</b> preferences panel.</li>
         <li>Removed few unused strings.</li>
-        <li>Removed Firebase and Play Services APIs (was added by a library without
-            disclosure).
+        <li>Removed Firebase and Play Services APIs (was added by a library without disclosure).
         </li>
     </ul>
     <h4>Batch</h4>
@@ -2053,29 +2005,25 @@
     <h4>Installer</h4>
     <ul>
         <li>Implemented partial installer framework.</li>
-        <li>Implemented separate panel for installation and file association for the app.
-        </li>
+        <li>Implemented separate panel for installation and file association for the app.</li>
         <li>Implemented installer framework.</li>
-        <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps
-            which is
-            a part of the <b>Apk File Info</b> panel framework.
+        <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps which is a
+            part of the <b>Apk File Info</b> panel framework.
         </li>
         <li>Added tab layout in Installer panel.</li>
         <li>Added custom tab layout in Installer panel.</li>
-        <li>Added split apk installation support including <i>.apk, .apks</i> and
-            <i>.xapk</i> packages.
+        <li>Added split apk installation support including <i>.apk, .apks</i> and <i>.xapk</i>
+            packages.
         </li>
     </ul>
     <h4>Apk/App Info</h4>
     <ul>
-        <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps.
-        </li>
-        <li><b>App Info</b> panel has been disabled in favour of <b>App Installer</b> panel.
-                            The <b>Installer</b>
-                            will show most of the app details and having a separate info
-                            panel isn't
-                            required <i>(Further
-                                        input is appreciated)</i>.
+        <li>Implemented a new framework to fetch APK details of <i>not-installed</i> apps.</li>
+        <li>
+            <b>App Info</b> panel has been disabled in favour of <b>App Installer</b> panel. The <b>Installer</b>
+                            will show most of the app details and having a separate info panel isn't
+                            required
+            <i>(Further input is appreciated)</i>.
         </li>
     </ul>
 </div>
@@ -2095,8 +2043,7 @@
         <li>Added <b>Material You</b> system dependent accent color.</li>
         <li>Added option to enable debug or developer only features of the app.</li>
         <li>Added AppOps function in App Info panel backed by root and adb (ADB mode is not
-            implemented
-            yet).
+            implemented yet).
         </li>
     </ul>
     <h4>Bug Fixes</h4>
@@ -2113,8 +2060,7 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed <i>Directories</i> from <b>Package Info</b> panel and any directory
-            related info
+        <li>Removed <i>Directories</i> from <b>Package Info</b> panel and any directory related info
             will now be available in <b>App Information</b> panel.
         </li>
     </ul>
@@ -2128,9 +2074,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Fixed many design issues with <i>Inure Seekbar</i>, also it now supports
-            secondary progress
-            as well.
+        <li>Fixed many design issues with <i>Inure Seekbar</i>, also it now supports secondary
+            progress as well.
         </li>
         <li>Added option to clear trackers cache data in <b>Manage Space</b> activity.</li>
         <li>Added option to clear images cache data in <b>Manage Space</b> activity.</li>
@@ -2143,11 +2088,9 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Information tags in main apps lists have been replaced with default Inure tags
-            style to
-            improve addition of more info and simultaneously reduce performance overhead due
-            to multiple
-            view rendering.
+        <li>Information tags in main apps lists have been replaced with default Inure tags style to
+            improve addition of more info and simultaneously reduce performance overhead due to
+            multiple view rendering.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -2157,8 +2100,7 @@
     <h4>Audio Player</h4>
     <ul>
         <li>Now supports http, https and ftp link playback.</li>
-        <li>Can play shareable intents as well, just click on share for any file and pick
-            Inure Mini
+        <li>Can play shareable intents as well, just click on share for any file and pick Inure Mini
             Player.
         </li>
     </ul>
@@ -2172,8 +2114,7 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>IME's will automatically focus on the text input field if <b>Search</b> panel is
-            opened.
+        <li>IME's will automatically focus on the text input field if <b>Search</b> panel is opened.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -2182,18 +2123,15 @@
     </ul>
     <h4>Application</h4>
     <ul>
-        <li>Added new app icon, the previous icon was originally supposed to be used for
+        <li>
+            Added new app icon, the previous icon was originally supposed to be used for
             <b>Apps</b>
             panel only as demonstrated by <i>Android Dev Notes</i> <a
-                    href="https://twitter.com/androiddevnotes/status/1389111968670179340">here</a>.
-            I
+                href="https://twitter.com/androiddevnotes/status/1389111968670179340">here</a>. I
             hope everyone will like the new icon :).
         </li>
-        <li>Added support for opening app preferences from the system app info panel
-            directly.
-        </li>
-        <li>Added <b>Manage Space</b> activity to support independent data management for
-            the app.
+        <li>Added support for opening app preferences from the system app info panel directly.</li>
+        <li>Added <b>Manage Space</b> activity to support independent data management for the app.
         </li>
     </ul>
 </div>
@@ -2203,17 +2141,15 @@
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed ripples not showing on some clickable fields of the app.</li>
-        <li>Fixed edge color not updating based on accent color in some scrollable views.
-        </li>
+        <li>Fixed edge color not updating based on accent color in some scrollable views.</li>
         <li>Fixed icon colors in <i>Usage Stats</i> panel.</li>
         <li>Restored gradient icon based splash screen.</li>
         <li>Fixed accent color issue causing all icons to disappear from the app.</li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Audio player will show file name instead of <i>Unknown</i> if the audio file
-            does not have a
-            title in metadata.
+        <li>Audio player will show file name instead of <i>Unknown</i> if the audio file does not
+            have a title in metadata.
         </li>
         <li>Improved app animations including search bars and buttons.</li>
     </ul>
@@ -2223,33 +2159,30 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added <a href="file:///android_asset/html/privacy.html">Privacy Policy</a> of
-            the app in <b>About</b>
+        <li>
+            Added <a href="file:///android_asset/html/privacy.html">Privacy Policy</a> of the app in
+            <b>About</b>
             panel.
         </li>
         <li>Updated <b>Preference</b> icon and opening animation.</li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Created a new dynamic seekbar to be updated along with the theme changes and
-            shadows,
+        <li>Created a new dynamic seekbar to be updated along with the theme changes and shadows,
             earlier it had glitches of sorts.
         </li>
-        <li>Implemented <i>Accent Color</i> into app's theme engine, the app won't restart
-            anymore on
-            accent color changes.
+        <li>
+            Implemented <i>Accent Color</i> into app's theme engine, the app won't restart anymore
+            on accent color changes.
             <br/>
-            <sub>There are a few bugs with this implementation at the moment but they will
-                 be fixed soon
-                 as the implementation is improved over time.
+            <sub>
+                There are a few bugs with this implementation at the moment but they will be fixed
+                soon as the implementation is improved over time.
                 <br/>
-                 There's one drawback of this implementation, it made the app colors flat,
-                 there
-                 won't be any gradients in the icon, although it's possible to render
-                 gradients
-                 dynamically but it's expensive process and will be implemented later once
-                 this part is
-                 finalized.
+                There's one drawback of this implementation, it made the app colors flat, there
+                won't be any gradients in the icon, although it's possible to render gradients
+                dynamically but it's expensive process and will be
+                implemented later once this part is finalized.
             </sub>
         </li>
     </ul>
@@ -2273,9 +2206,7 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed circular reveal theme change effect and replaced with fade
-            transitions.
-        </li>
+        <li>Removed circular reveal theme change effect and replaced with fade transitions.</li>
     </ul>
 </div>
 <br/>
@@ -2284,8 +2215,7 @@
     <h4>User Interface</h4>
     <ul>
         <li>Added not found dialog for various viewer panels.</li>
-        <li>Added options to change bounce values for scrolling in <b>Behaviour</b> panel.
-        </li>
+        <li>Added options to change bounce values for scrolling in <b>Behaviour</b> panel.</li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
@@ -2300,11 +2230,9 @@
     </ul>
     <h4>Development</h4>
     <ul>
-        <li>Updated <i>androidx.lifecycle</i> dependencies and updated all lifecycle
-            codebase used
-            inside the app overall improving performance of how viewmodel is being handles
-            inside the
-            app.
+        <li>Updated <i>androidx.lifecycle</i> dependencies and updated all lifecycle codebase used
+            inside the app overall improving performance of how viewmodel is being handles inside
+            the app.
         </li>
     </ul>
 </div>
@@ -2313,8 +2241,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to switch between grid and horizontal layout in <b>App
-                                                                            Information</b>
+        <li>
+            Added option to switch between grid and horizontal layout in <b>App Information</b>
             panel.
         </li>
     </ul>
@@ -2325,19 +2253,19 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved theme engine in some parts where background is having issues setting
-            proper theme based colors.
+        <li>Improved theme engine in some parts where background is having issues setting proper
+            theme based colors.
         </li>
-        <li>Fixed menus loading multiple times causing mild performance issues in <b>App
+        <li>
+            Fixed menus loading multiple times causing mild performance issues in <b>App
                                                                                      Information</b>
             panel.
         </li>
     </ul>
     <h4>Workarounds</h4>
     <ul>
-        <li>Made longer header texts ellipsized to prevent them from splitting into two
-            lines on smaller
-            screens.
+        <li>Made longer header texts ellipsized to prevent them from splitting into two lines on
+            smaller screens.
         </li>
     </ul>
 </div>
@@ -2346,13 +2274,11 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Changed text hyphenation frequency to none to prevent breaking of words in some
-            cases when complete text is larger than the layout specified.
+        <li>Changed text hyphenation frequency to none to prevent breaking of words in some cases
+            when complete text is larger than the layout specified.
         </li>
         <li>Added <i>Preferences</i> shortcut in <b>Shortcuts</b> panel.</li>
-        <li>Added <b>App Memory</b> option in <b>Preferences</b> panel to check app heap
-            size.
-        </li>
+        <li>Added <b>App Memory</b> option in <b>Preferences</b> panel to check app heap size.</li>
         <li>Added <i>Low Memory Device</i> and <i>Background Restriction</i> checks.</li>
         <li>Added checks for PACKAGE_USAGE_STATS permission throughout the app.</li>
         <li>Added popup to redirect to grant page for usage stats permission.</li>
@@ -2363,8 +2289,7 @@
         <li>Fixed <b>Preferences</b> panel icon animation duration issue.</li>
         <li>Fixed flickering of <b>Preferences</b> header.</li>
         <li>Fixed crashes caused when opening large APK files in <b>Tracking</b> panel.</li>
-        <li>Fixed apk <i>mips</i> and <i>armeabi-v7a</i> architecture not being recognized.
-        </li>
+        <li>Fixed apk <i>mips</i> and <i>armeabi-v7a</i> architecture not being recognized.</li>
     </ul>
 </div>
 <br/>
@@ -2378,11 +2303,10 @@
         <li>Redesigned <b>Batch Bottom Menu</b> and hide them if no item is selected.</li>
         <li>Added dividers between app and ui level preferences.</li>
         <li>Added <i>Search</i> option in <b>Preferences</b> panel.</li>
-        <li>Added option to hide preference indicators in <b>Development</b> preference.
-        </li>
+        <li>Added option to hide preference indicators in <b>Development</b> preference.</li>
         <li>Added <i>Trackers</i> options in <b>Apps Menu</b>.</li>
-        <li>Added partial Java syntax highlighter <i>(work in progress)</i> to support
-            tracker code viewing.
+        <li>Added partial Java syntax highlighter <i>(work in progress)</i> to support tracker code
+            viewing.
         </li>
     </ul>
     <h4>Bug Fixes</h4>
@@ -2390,60 +2314,50 @@
         <li>Fixed list state loss in viewer panels when search box is visible/focused.</li>
         <li>Addressed missing Android 12L tag issue in sdk metadata.</li>
         <li>Fixed a delay in saving persistent notes.</li>
-        <li>Added an abstraction for SpellCheckSpan error, although not completely fixed,
-            this won't
-            prevent the notes from saving anymore rather this span will be ignored if it
-            cannot be
-            serialized. (I disabled the spell check for the notes panel :))
+        <li>
+            Added an abstraction for SpellCheckSpan error, although not completely fixed, this won't
+            prevent the notes from saving anymore rather this span will be ignored if it cannot be
+            serialized. (I disabled the spell check for
+            the notes panel :))
         </li>
-        <li>Fixed keyboard not hiding sometimes when panel is changed or search box is
-            collapsed.
+        <li>Fixed keyboard not hiding sometimes when panel is changed or search box is collapsed.
         </li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Fixed leading and trailing whitespace issue for various text fields of the
-            app.
-        </li>
+        <li>Fixed leading and trailing whitespace issue for various text fields of the app.</li>
     </ul>
     <h4>Trackers</h4>
     <ul>
         <li>Added <b>Trackers</b> in <b>Application Information</b> panel.</li>
         <li>Added tracker source parser and viewer.</li>
         <li>Added search option for trackers.</li>
-        <li>Added <b>Trackers Menu</b> and added preference option to keep non-tracking
-            classes in the
-            list.
+        <li>Added <b>Trackers Menu</b> and added preference option to keep non-tracking classes in
+            the list.
         </li>
         <li>Added trackers analytics details.</li>
-        <li>Added option to show tracker analytics automatically after trackers have
-            loaded.
-        </li>
+        <li>Added option to show tracker analytics automatically after trackers have loaded.</li>
     </ul>
     <h4>Batch</h4>
     <ul>
-        <li>Written complete backend for <b>Batch</b> function.
+        <li>
+            Written complete backend for <b>Batch</b> function.
             <br/>
-            <sub>After this update, I will be beginning working on implementing and
-                 finalizing
-                <b>Batch</b> and hopefully they will be available by the next update.</sub>
+            <sub>After this update, I will be beginning working on implementing and finalizing <b>Batch</b>
+                 and hopefully they will be available by the next update.</sub>
         </li>
     </ul>
     <hr/>
     <p>
         <b>Device Info</b> removed from the home and its development won't be carried out as
-                           developing it will take too much of development which could be
-                           spent on refining the
-                           other aspects of the app.
+                           developing it will take too much of development which could be spent on
+                           refining the other aspects of the app.
         <br/>
         <br/>
-                           The codebase is left inside the app so it can still be launched
-                           by using this
-                           command in the terminal emulator or ADB Shell.
+                           The codebase is left inside the app so it can still be launched by using
+                           this command in the terminal emulator or ADB Shell.
         <br/>
-        <code>am start -n
-              app.simple.inure/app.simple.inure.activities.app.MainActivity
-              -a
+        <code>am start -n app.simple.inure/app.simple.inure.activities.app.MainActivity -a
               "open_device_info"</code>
     </p>
 </div>
@@ -2452,23 +2366,20 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li><b>Quick Apps</b> list will be hidden from <b>Home</b> panel if there are no
-                              apps added in
-                              quick apps list.
+        <li><b>Quick Apps</b> list will be hidden from <b>Home</b> panel if there are no apps added
+                              in quick apps list.
         </li>
         <li>Added <b>Delete</b> buttons in <b>Notes</b> list panel.</li>
         <li>Added <i>Notes</i> option in <b>Apps Menu</b>.</li>
-        <li>Added <i>Stroke</i> option in <b>Accessibility</b> preferences panel to add
-            stroke on
+        <li>Added <i>Stroke</i> option in <b>Accessibility</b> preferences panel to add stroke on
             clickable items if <i>Static Backgrounds</i> is toggled.
         </li>
         <li>Added theme state icon.</li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed <i>Remove from Quick Apps</i> option not working in <b>Apps Menu</b> if
-            there are no
-            apps in quick apps.
+        <li>Fixed <i>Remove from Quick Apps</i> option not working in <b>Apps Menu</b> if there are
+            no apps in quick apps.
         </li>
         <li>Fixed crash caused by Quick Apps database closing unexpectedly.</li>
         <li>Fixed icon animation duration not synchronized in <b>Preferences</b> panel.</li>
@@ -2491,29 +2402,30 @@
         <li>Added <b>Superscript</b> and <b>Subscript</b> function.</li>
         <li>Added <b>Highlight</b> function.</li>
         <li>Added <b>Quote</b> function.</li>
-        <li>Adjusted interface to move utility controls such as <i>Save</i>, <i>Undo</i> and
+        <li>
+            Adjusted interface to move utility controls such as <i>Save</i>, <i>Undo</i> and
             <i>Redo</i>
-            on top left corner of the panel and character formatting controls at the bottom
-            strip.
+            on top left corner of the panel and character formatting controls at the bottom strip.
         </li>
         <li>Added <b>Save</b> button on top of <i>Auto Save</i> mechanism.</li>
         <li>Added recycler view based <i>Formatting Strip</i> for <b>Notes Panel</b>.</li>
-        <li>Added <s><i>HTML</i></s> <b>JSON Spans</b> mode to raw edit note spans.</li>
+        <li>
+            Added <s><i>HTML</i></s> <b>JSON Spans</b> mode to raw edit note spans.
+        </li>
         <li>Added option to toggle <i>Auto Save</i> mechanism.</li>
         <li>Added note updated date in <b>Notes</b> panel.</li>
         <li>Added dedicated note viewer.<br/></li>
         <li>
             <b>Known Issues:</b>
             <ul>
-                <li>Sometimes auto saving notes gives error <i>Cannot serialize
+                <li>
+                    Sometimes auto saving notes gives error <i>Cannot serialize
                                                                SpellCheckSpan...</i>
-                    which I am working on it, the reason it cannot be fixed atm is because
-                    the official
-                    Android SDK restricted its access to system framework only. It will be
+                    which I am working on it, the reason it cannot be fixed atm is because the
+                    official Android SDK restricted its access to system framework only. It will be
                     fixed later.
                 </li>
-                <li><i>Undo</i> and <i>Redo</i> does not change span states of the text as
-                                of now.
+                <li><i>Undo</i> and <i>Redo</i> does not change span states of the text as of now.
                 </li>
             </ul>
         </li>
@@ -2532,25 +2444,19 @@
     <ul>
         <li>Fixed a few minor issues with <b>Audio Player</b>.</li>
         <li>Fixed search highlight issue when <i>Ignore Case</i> is on.</li>
-        <li>Fixed <i>Auto</i> option not appearing on top in <b>TypeFace</b> selection
-            panel.
-        </li>
+        <li>Fixed <i>Auto</i> option not appearing on top in <b>TypeFace</b> selection panel.</li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Preloading uninstalled apps to remove slight lag when clicking
-            <b>Uninstalled</b>.
-        </li>
-        <li><i>Pie Hole Radius</i> will animate the change instead of abruptly jumping to
-                                   values.
+        <li>Preloading uninstalled apps to remove slight lag when clicking <b>Uninstalled</b>.</li>
+        <li><i>Pie Hole Radius</i> will animate the change instead of abruptly jumping to values.
         </li>
     </ul>
     <h4>Batch</h4>
     <ul>
         <li>Added application list in batch.</li>
-        <li>Made batch selected items' state persistent meaning any state of the selection
-            will not be
-            lost even if the app is closed or restarted.
+        <li>Made batch selected items' state persistent meaning any state of the selection will not
+            be lost even if the app is closed or restarted.
         </li>
         <li>Added date of selection of the item.</li>
         <li>Added a separate model window for selected batch items.</li>
@@ -2565,13 +2471,12 @@
     </ul>
     <h4>Note:</h4>
     <ul>
-        <li>This build wasn't supposed to be released yet, but college exams are starting
-            next week and
-            I won't be having any development time for about 15-20 days, depending on the
-            schedule,
-            therefore, I am uploading the fixes and any progress I have made so far. I will
-            picking it
-            up back again as I am done with the exams.
+        <li>
+            This build wasn't supposed to be released yet, but college exams are starting next week
+            and I won't be having any development time for about 15-20 days, depending on the
+            schedule, therefore, I am uploading the fixes and
+            any progress I have made so far. I will picking it up back again as I am done with the
+            exams.
         </li>
     </ul>
 </div>
@@ -2588,12 +2493,12 @@
         </li>
         <li>Added option to adjust pie chart radius.</li>
         <li>Added proper <b>Share</b> dialog in <b>About</b> panel.</li>
-        <li>Added option to use <b>Termux</b> app instead of app's native Terminal Emulator.
+        <li>
+            Added option to use <b>Termux</b> app instead of app's native Terminal Emulator.
             <br/>
             <sub>Visible only if Termux is installed and enabled.</sub>
         </li>
-        <li>Added option to reduce some animations of the app in <b>Accessibility</b> panel
-            to avoid
+        <li>Added option to reduce some animations of the app in <b>Accessibility</b> panel to avoid
             motion sickness.
         </li>
         <li>Added info dialog for <b>Uninstalled</b> apps.</li>
@@ -2604,7 +2509,8 @@
         <li>Fixed legend layout not padded properly in <b>Analytics</b> panel.</li>
         <li>Fixed solid center color for Pie charts.</li>
         <li>Fixed status bar turning white when <i>Accent on Nav Bar</i> is toggled.</li>
-        <li>Fixed icon not animating back from <b>Terminal</b> panel.
+        <li>
+            Fixed icon not animating back from <b>Terminal</b> panel.
             <br/>
             <small>Also replaced linear animation with native app's arc animation for icon
                    transition.</small>
@@ -2615,33 +2521,30 @@
         <li>Pie charts' legends type face now follows app's typeface.</li>
         <li>Charts are now included in <i>Inure Theme Engine</i>.</li>
         <li><b>Corner Radius</b> values range expanded from 1 to 99 pixels.</li>
-        <li>Transparent status bar disabled for <b>Terminal</b> panel to avoid keyboard
-            padding issue
-            caused by <i>Android Bug #5497.</i>.
+        <li>
+            Transparent status bar disabled for <b>Terminal</b> panel to avoid keyboard padding
+            issue caused by <i>Android Bug #5497.</i>.
             <br/>
             <small>UI will still feel the same and will work as it is.</small>
         </li>
-        <li><b>Minimum SDK</b> chart is disabled for pre-Nougat devices.
+        <li>
+            <b>Minimum SDK</b> chart is disabled for pre-Nougat devices.
             <br/>
-            <sub>because Android system does not natively provide any <i>minimumSdk</i>
-                 values
-                 up until Android 7.0 and inflating or manually fetching this value from all
-                 APK
-                 files during runtime will overload the system.</sub>
+            <sub>because Android system does not natively provide any <i>minimumSdk</i> values up
+                 until Android 7.0 and inflating or manually fetching this value from all APK files
+                 during runtime will overload the system.</sub>
         </li>
     </ul>
     <h4>Adjustments</h4>
     <ul>
-        <li>Dot size adjustments to make it's margin aligned with other preferences ui
-            structure
+        <li>Dot size adjustments to make it's margin aligned with other preferences ui structure
             indicators.
         </li>
     </ul>
     <h4>Deprecated</h4>
     <ul>
-        <li>WebView XML file viewer is deprecated and it's support won't be carried out. It
-            can still be
-            accessed from <b>Formatting</b> panel.
+        <li>WebView XML file viewer is deprecated and it's support won't be carried out. It can
+            still be accessed from <b>Formatting</b> panel.
         </li>
     </ul>
 </div>
@@ -2651,14 +2554,16 @@
     <h4>User Interface</h4>
     <ul>
         <li>Added two accents colors <i>Horizon</i> and <i>Limed Spruce</i>.</li>
-        <li>Added <i>Minimum SDK</i> pie chart in <b>Analytics</b> panel.
+        <li>
+            Added <i>Minimum SDK</i> pie chart in <b>Analytics</b> panel.
             <br/>
             <sub>Other chart data will be added by the next update.</sub>
         </li>
         <li>Added modal window for <i>Sure</i> prompt dialog replacing the popup menu.</li>
         <li>Added option to perform case sensitive search in <b>Search</b> panel.</li>
         <li>Changed <b>About</b> panel icon.</li>
-        <li>Separated <b>Formatting</b> preferences from <b>Configuration</b> in
+        <li>
+            Separated <b>Formatting</b> preferences from <b>Configuration</b> in
             <b>Preferences</b>
             panel.
         </li>
@@ -2666,32 +2571,27 @@
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed search data loading two times due to keyword based scanning.</li>
-        <li>Fixed animation not executing between panels when they're being switched from a
-            dialog
+        <li>Fixed animation not executing between panels when they're being switched from a dialog
             menu.
         </li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li><b>Audio Player</b> won't lose state if player instance is opened from recents
-                                panel.
+        <li><b>Audio Player</b> won't lose state if player instance is opened from recents panel.
         </li>
-        <li>Added indirect support for video files in <b>Audio Player</b> meaning if video
-            is opened by
-            the app, it will be played as audio.
+        <li>Added indirect support for video files in <b>Audio Player</b> meaning if video is opened
+            by the app, it will be played as audio.
         </li>
-        <li>Offloaded resource loading when dragging the fast scroller to make the scrolling
-            a bit smoother (still needs improvement).
+        <li>Offloaded resource loading when dragging the fast scroller to make the scrolling a bit
+            smoother (still needs improvement).
         </li>
         <li>Reduced delay when loading text files.</li>
         <li>Improved loading a little bit.</li>
-        <li>Optimized popup dialog dimensions in various menus for both landscape and
-            portrait modes.
+        <li>Optimized popup dialog dimensions in various menus for both landscape and portrait
+            modes.
         </li>
-        <li>Enabling/Disabling transparent status bar won't restart application anymore.
-        </li>
-        <li>Enabling/Disabling <i>Accent on Nav Bar</i> won't restart application anymore.
-        </li>
+        <li>Enabling/Disabling transparent status bar won't restart application anymore.</li>
+        <li>Enabling/Disabling <i>Accent on Nav Bar</i> won't restart application anymore.</li>
         <li>Changing corner radius won't restart app anymore.</li>
     </ul>
 </div>
@@ -2700,59 +2600,59 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added <i>Days</i> metric in <b>Usage Stats</b> panel.
+        <li>
+            Added <i>Days</i> metric in <b>Usage Stats</b> panel.
             <br/>
             <sub>Also added option to limit the usage duration to hours only.</sub>
         </li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
-        <li>Fixed a
+        <li>
+            Fixed a
             <mark class="red">critical bug</mark>
-            preventing the app from launching, caused by <i>Database</i> initialization of
-            <b>Quick Apps</b>.
+            preventing the app from launching, caused by <i>Database</i> initialization of <b>Quick
+                                                                                              Apps</b>.
         </li>
         <li>Fixed item gap issue in <b>Apps Menu</b> dialog popup.</li>
-        <li>Fixed sometimes <i>Add/Remove from Quick Apps</i> not working properly and also
-            causing crash sometimes.
+        <li>Fixed sometimes <i>Add/Remove from Quick Apps</i> not working properly and also causing
+            crash sometimes.
         </li>
-        <li>Fixed showing <i>null</i> in <i>Uses Features</i> in <b>App Information</b>
+        <li>
+            Fixed showing <i>null</i> in <i>Uses Features</i> in <b>App Information</b>
             panel.
         </li>
         <li>Fixed small artist icon in <b>Audio Player</b> dialog.</li>
         <li>Fixed crash caused by missing app name in apk file (usually malware or corrupted
             files).
         </li>
-        <li>Fixed crash caused by fast scroller due to reading the text from the app missing
-            the app name string.
+        <li>Fixed crash caused by fast scroller due to reading the text from the app missing the app
+            name string.
         </li>
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Changing app's typeface style won't restart the app anymore and font changing
-            process is now very smooth.
+        <li>Changing app's typeface style won't restart the app anymore and font changing process is
+            now very smooth.
         </li>
-        <li>All preferences selection window's selection are now smooth, earlier it was
-            quick and harsh. <br/>
-            <sub><b>Accent Color</b> will still restart the app but that's how Android works
-                                     and cannot be fixed.</sub>
+        <li>
+            All preferences selection window's selection are now smooth, earlier it was quick and
+            harsh. <br/>
+            <sub><b>Accent Color</b> will still restart the app but that's how Android works and
+                                     cannot be fixed.</sub>
         </li>
         <li>Theme animation won't be executed if the same theme is set again and again.</li>
         <li>
             Using <i>Foreground Service</i> for the <b>Audio Player</b> replacing the old
             implementation based on ViewModel pattern.
             <ul>
-                <li>Allows the use of media style notification, including play and pause
-                    control.
+                <li>Allows the use of media style notification, including play and pause control.
                 </li>
-                <li>Can survive activity restart including theme and orientation changes.
-                </li>
+                <li>Can survive activity restart including theme and orientation changes.</li>
                 <li>Can run independently even if the activity is closed and reopen anywhere
                     directly from the notification.
                 </li>
-                <li>Broadcast it's playback state to any universal audio widget in the
-                    device.
-                </li>
+                <li>Broadcast it's playback state to any universal audio widget in the device.</li>
                 <li>Support play and pause command from headphone button.</li>
             </ul>
         </li>
@@ -2765,38 +2665,39 @@
     <ul>
         <li>Added app's play store id qr code in About section.</li>
         <li>Balanced out margins for checkbox in popup windows.</li>
-        <li>Added bottom sheet dialog based apps menu in all apps list and removed old popup
-            menu due to
-            its design not being modular enough and hard to maintain.
+        <li>Added bottom sheet dialog based apps menu in all apps list and removed old popup menu
+            due to its design not being modular enough and hard to maintain.
         </li>
         <li>
             Revamped the Home panel design. Here are the list of changes and why that was
             necessary...
             <ul>
-                <li><i>Recently Installed, Recently Updated,</i> and <i>Most Used</i> lists
-                                                                 have been removed.
+                <li><i>Recently Installed, Recently Updated,</i> and <i>Most Used</i> lists have
+                                                                 been removed.
                 </li>
-                <li>Added a primary navigation system to improve two things, it will leave a
-                    lot of space to be added new things later. Home panel should be used for
-                    things that are needed quickly and secondary options should be a
+                <li>
+                    Added a primary navigation system to improve two things, it will leave a lot of
+                    space to be added new things later. Home panel should be used for things that
+                    are needed quickly and secondary options should be a
                     substrate of the primary navigation.
                 </li>
-                <li>Removing unnecessary elements from <b>Home</b> panel will improve
-                    startup due to resource optimization.
+                <li>Removing unnecessary elements from <b>Home</b> panel will improve startup due to
+                    resource optimization.
                 </li>
             </ul>
         </li>
         <li>Added dialog based terminal menu.</li>
         <li>Added panel to view uninstalled packages.</li>
         <li>Added panel to view disabled apps.</li>
-        <li>Added <b>Quick Apps</b> section in home panel to add any app as favorite app or
-            quickly accessible app.
+        <li>Added <b>Quick Apps</b> section in home panel to add any app as favorite app or quickly
+            accessible app.
         </li>
     </ul>
     <h4>Bug Fixes</h4>
     <ul>
         <li>Fixed descending checkbox not working in search panel.</li>
-        <li>Handled crash while opening <b>Device</b> information in <b>Device Info</b>
+        <li>
+            Handled crash while opening <b>Device</b> information in <b>Device Info</b>
             panel.
         </li>
         <li>Fixed crash caused by opening <b>Terminal</b> remotely.</li>
@@ -2839,8 +2740,7 @@
         <li>(Beta) Added option to resize icons of the app.</li>
         <li>Added option to disable colored icon shadows.</li>
         <li>Added list based panel junction for device info panel.</li>
-        <li>Added option to skip loading on app launch in <b>Behavior</b> preferences panel.
-        </li>
+        <li>Added option to skip loading on app launch in <b>Behavior</b> preferences panel.</li>
         <li>List interface for <b>App Theme</b>.</li>
     </ul>
     <h4>Bug Fixes</h4>
@@ -2852,23 +2752,20 @@
     <h4>Improvements</h4>
     <ul>
         <li>Added native markdown viewer.</li>
-        <li>Added improved native Terminal Emulator framework.
+        <li>
+            Added improved native Terminal Emulator framework.
             <br/>
             <br/>
             <sub>
-                The main reason this change was needed was the previous implementation of
-                terminal in
-                Inure is faulty and unstable, cannot run multiple instances, cannot kill
-                itself meaning
-                memory leaks are there even if the session is closed, crashes and freezes
-                the app when
-                ran heavy commands such as <i>su logcat</i>.
+                The main reason this change was needed was the previous implementation of terminal
+                in Inure is faulty and unstable, cannot run multiple instances, cannot kill itself
+                meaning memory leaks are there even if the session
+                is closed, crashes and freezes the app when ran heavy commands such as <i>su
+                                                                                          logcat</i>.
                 <br/>
                 <br/>
-                The newer one supports more features, is customizable, runs as a separate
-                app inside the
-                main app and can be used as standalone app if need be and is extremely
-                stable.
+                The newer one supports more features, is customizable, runs as a separate app inside
+                the main app and can be used as standalone app if need be and is extremely stable.
             </sub>
         </li>
     </ul>
@@ -2879,12 +2776,10 @@
         <li>Can run heavy commands effortlessly such as <i>logcat</i></li>
         <li>Supports special keys and physical keys.</li>
         <li>Ability to copy/paste/select text from the terminal.</li>
-        <li>Can be used as a standalone app along with the main app directly from
-            homescreen.
-        </li>
+        <li>Can be used as a standalone app along with the main app directly from homescreen.</li>
         <li>Supports multiple font sizes.</li>
-        <li>Foreground service to keep the terminal running in background without losing
-            process states even if app is closed.
+        <li>Foreground service to keep the terminal running in background without losing process
+            states even if app is closed.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -2912,15 +2807,17 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Improved icon loader framework, now loads current launcher icons of the apps
-            instead of
+        <li>
+            Improved icon loader framework, now loads current launcher icons of the apps instead of
             loading the default launcher icon.
             <br/>
             <br/>
-            <sub>(Useful in cases where an app is dynamically changing app icons and new
-                 icon is the updated recognizing point for the app. Earlier the app loads
-                 default app icon despite the icon being changed by the app itself, this
-                 fixes that problem.)</sub>
+            <sub>
+                (Useful in cases where an app is dynamically changing app icons and new icon is the
+                updated recognizing point for the app. Earlier the app loads default app icon
+                despite the icon being changed by the app itself, this
+                fixes that problem.)
+            </sub>
         </li>
     </ul>
     <h4>Device Info</h4>
@@ -2958,8 +2855,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added native <b>Inure Theme Engine</b> for more control and elegance over how
-            theming
+        <li>
+            Added native <b>Inure Theme Engine</b> for more control and elegance over how theming
             inside the app will/should work.
             <br/>
             <br/>
@@ -2967,19 +2864,18 @@
                 The native theming engine adds support for more theme styles such as <i>AMOLED
                                                                                         Black</i>
                 or
-                <i>Slate Grey</i> and allows robust theme controlling framework
-                from the
-                app's core. It also removes the limitations of restarting the app everytime
-                theme is
-                changed from the app and also adds a really nice animation when the theme is
-                updated.
+                <i>Slate Grey</i> and allows robust theme controlling framework from the app's core.
+                It also removes the limitations of restarting the app everytime theme is changed
+                from the app and also adds a really nice animation
+                when the theme is updated.
                 <br/>
                 <br/>
-                <i>There aren't many changes in this build because coding this theme took
-                   more than 18
-                   hours of non-stop coding, maths and problem solving and by far the most
-                   painful and
-                   exhausting feature ever to implement in this app.</i>
+                <i>
+                    There aren't many changes in this build because coding this theme took more than
+                    18 hours of non-stop coding, maths and problem solving and by far the most
+                    painful and exhausting feature ever to implement in this
+                    app.
+                </i>
             </sub>
         </li>
     </ul>
@@ -2994,13 +2890,13 @@
         <li>Added <i>Permissions</i> in <b>App Information</b> panel.</li>
         <li>Added <i>Split Packages</i> in <b>App Information</b> panel.</li>
         <li>Added <i>Uses Features</i> in <b>App Information</b> panel.</li>
-        <li>Added toggle to disable <i>Transparent Status Bar</i> mode as a workaround for
+        <li>
+            Added toggle to disable <i>Transparent Status Bar</i> mode as a workaround for
             <a href="https://issuetracker.google.com/issues/36911528">AndroidBug #5497</a>
             where opening keyboard does not resize or pan the contents on the screen.
             <br/>
-            <sub><i>It is an Android Bug and cannot be fixed by any means except for fancy
-                    tricks and these tricks do not work on all devices hence the
-                    option.</i></sub>
+            <sub><i>It is an Android Bug and cannot be fixed by any means except for fancy tricks
+                    and these tricks do not work on all devices hence the option.</i></sub>
         </li>
     </ul>
     <h4>Bug Fixes</h4>
@@ -3015,7 +2911,8 @@
 <div class="content-inner">
     <h4>User Interface</h4>
     <ul>
-        <li>Added option to copy information from <b>Certificate</b> and <b>Information</b>
+        <li>
+            Added option to copy information from <b>Certificate</b> and <b>Information</b>
             panel.
         </li>
         <li>Added option to copy package name in long press menu.</li>
@@ -3030,9 +2927,8 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Migrated to Toolkit API to use intrinsic blur after deprecation of RenderScript
-            API. In some
-            devices you may see much smoother scrolling of lists and faster icon rendering.
+        <li>Migrated to Toolkit API to use intrinsic blur after deprecation of RenderScript API. In
+            some devices you may see much smoother scrolling of lists and faster icon rendering.
         </li>
     </ul>
     <h4>Removed</h4>
@@ -3056,11 +2952,8 @@
     </ul>
     <h4>Improvements</h4>
     <ul>
-        <li>Removed separate activity for viewing web pages making navigation more
-            streamlined.
-        </li>
-        <li>Updated WebView framework to force app's accent color on web pages in the app.
-        </li>
+        <li>Removed separate activity for viewing web pages making navigation more streamlined.</li>
+        <li>Updated WebView framework to force app's accent color on web pages in the app.</li>
         <li>Reduce spacing between items in preference panels.</li>
         <li>Added native engine for parsing Dex files.</li>
         <li>Added native engine for parsing XML files.</li>
@@ -3068,8 +2961,7 @@
     </ul>
     <h4>Removed</h4>
     <ul>
-        <li>Removed <i>ApkParse</i> library due to issues with it's BSD 2 clause and app's
-            GPLv3
+        <li>Removed <i>ApkParse</i> library due to issues with it's BSD 2 clause and app's GPLv3
             license.
         </li>
     </ul>
@@ -3081,8 +2973,8 @@
     <ul>
         <li>Added option to use <b>Accent Color</b> on <b>Navigation Bar</b> as well.</li>
         <li>Added <b>Accessibility</b> in <b>Preferences</b> panel.</li>
-        <li>Added indicators on items in <b>Preference</b> panel to hint what they will do
-            upon clicking.
+        <li>Added indicators on items in <b>Preference</b> panel to hint what they will do upon
+            clicking.
         </li>
         <li>Added dialog menu in permissions panel.</li>
         <li>Updated <b>Search Box</b> design</li>
@@ -3111,8 +3003,8 @@
     <ul>
         <li>Improved <b>Text Viewer</b> and added option to save or copy the text.</li>
         <li>Improved setup panel.</li>
-        <li>Improved search panel data loading framework, reduces lag significantly while
-            opening <b>Search</b>.
+        <li>Improved search panel data loading framework, reduces lag significantly while opening
+            <b>Search</b>.
         </li>
     </ul>
     <h4>Adjustments</h4>
@@ -3121,8 +3013,9 @@
     </ul>
 </div>
 <br/>
-<p>Other older builds were released for internal testing without any proper tags and
-   changelogs. In other words <i>Open Testing</i> began after <i>Build12</i>
-</p>
+<hr>
+<br>
+<p>Other older builds were released for internal testing without any proper tags and changelogs. In
+   other words <i>Open Testing</i> began after <i>Build12</i></p>
 </body>
 </html>
