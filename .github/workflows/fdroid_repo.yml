@@ -60,7 +60,3 @@ jobs:
                     git add .
                     git commit -m "Automated F-Droid repo update"
                     git push origin master
-
-notifications:
-    email:
-        on: [ none ]  # Disable email notifications for this workflow
