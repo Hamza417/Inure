@@ -1,13 +1,18 @@
 <component name="ProjectDictionaryState">
   <dictionary name="PC">
     <words>
+      <w>aaaa</w>
       <w>abcdef</w>
+      <w>abcdefghijklmnopqrstuvwxyz</w>
       <w>abdelnour</w>
       <w>accl</w>
+      <w>actionparser</w>
       <w>addshortcut</w>
       <w>adeptus</w>
+      <w>adoptopenjdk</w>
       <w>affero</w>
       <w>albumart</w>
+      <w>alcatel</w>
       <w>aleed</w>
       <w>alignof</w>
       <w>alotaibi</w>
@@ -15,31 +20,41 @@
       <w>amzn</w>
       <w>anddoes</w>
       <w>anggrayudi</w>
+      <w>antipattern</w>
       <w>apk</w>
+      <w>apkinstaller</w>
       <w>apkm</w>
       <w>apks</w>
       <w>appop</w>
       <w>appops</w>
       <w>approver</w>
       <w>arsc</w>
+      <w>asec</w>
       <w>attrib</w>
       <w>autorun</w>
       <w>avif</w>
       <w>backaction</w>
       <w>baseband</w>
+      <w>baybeee</w>
+      <w>bdallhab</w>
       <w>bdsw</w>
+      <w>benjaluth</w>
       <w>bgcolor</w>
       <w>bitset</w>
       <w>bitstream</w>
       <w>blang</w>
       <w>blinenums</w>
       <w>bown</w>
+      <w>bpemmctest</w>
       <w>bprettyprint</w>
       <w>bprettyprinted</w>
       <w>brault</w>
       <w>builtins</w>
       <w>busybox</w>
       <w>candara</w>
+      <w>canonicalizing</w>
+      <w>ceroa</w>
+      <w>changelo</w>
       <w>changelogs</w>
       <w>chbosky</w>
       <w>chillax</w>
@@ -57,29 +72,42 @@
       <w>davemorrissey</w>
       <w>decltype</w>
       <w>deja</w>
+      <w>delims</w>
       <w>demiyrka</w>
       <w>deviceidle</w>
       <w>dexs</w>
+      <w>djava</w>
+      <w>dmask</w>
       <w>doctype</w>
       <w>documenter</w>
       <w>doesn</w>
       <w>doesnt</w>
       <w>dont</w>
       <w>duan</w>
+      <w>duzhe</w>
+      <w>dwhite</w>
       <w>eisu</w>
       <w>elif</w>
       <w>ellipsizing</w>
+      <w>emmc</w>
       <w>endcall</w>
+      <w>enoent</w>
       <w>entaytion</w>
       <w>esac</w>
+      <w>español</w>
       <w>excidle</w>
       <w>extern</w>
+      <w>extsd</w>
+      <w>extsdcard</w>
+      <w>eyjge</w>
       <w>fdroid</w>
       <w>ffda</w>
       <w>ffff</w>
       <w>fffffff</w>
       <w>ffffffff</w>
+      <w>fmask</w>
       <w>fnkey</w>
+      <w>fone</w>
       <w>fontsize</w>
       <w>forkpty</w>
       <w>français</w>
@@ -88,6 +116,9 @@
       <w>furiya</w>
       <w>gles</w>
       <w>gogh</w>
+      <w>gonçalves</w>
+      <w>gormeister</w>
+      <w>grotesk</w>
       <w>gumroad</w>
       <w>halfffff</w>
       <w>hankaku</w>
@@ -99,13 +130,19 @@
       <w>homescreen</w>
       <w>hsiafan</w>
       <w>ime's</w>
+      <w>inari</w>
       <w>indd</w>
       <w>indt</w>
+      <w>infos</w>
       <w>initialcommand</w>
+      <w>inrbkp</w>
       <w>instanceof</w>
       <w>inure's</w>
       <w>inureunlock</w>
+      <w>inureunlocker</w>
+      <w>iocharset</w>
       <w>isnt</w>
+      <w>izzyondroid</w>
       <w>jahoda</w>
       <w>josefin</w>
       <w>jost</w>
@@ -113,8 +150,10 @@
       <w>keyevent</w>
       <w>kislay</w>
       <w>kmgtpe</w>
+      <w>knownfile</w>
       <w>kulinich</w>
       <w>kyoya</w>
+      <w>landroid</w>
       <w>lato</w>
       <w>launchable</w>
       <w>launcheable</w>
@@ -123,28 +162,38 @@
       <w>linenums</w>
       <w>lingala</w>
       <w>logd</w>
+      <w>lrcs</w>
       <w>majeur</w>
+      <w>malgon</w>
       <w>manrope</w>
       <w>mbit</w>
       <w>menlo</w>
       <w>mgtpe</w>
+      <w>microsd</w>
       <w>milis</w>
       <w>mittsu</w>
+      <w>mountpoint</w>
       <w>msie</w>
       <w>msword</w>
+      <w>mtdblock</w>
       <w>muhenkan</w>
       <w>multiwindow</w>
       <w>musenkishi</w>
       <w>mustn</w>
       <w>mxmf</w>
+      <w>mybackuparchives</w>
       <w>nemi</w>
       <w>nicolás</w>
       <w>nmayorga</w>
       <w>nocase</w>
       <w>nocode</w>
+      <w>nodev</w>
+      <w>noexec</w>
       <w>nofollow</w>
       <w>noindex</w>
+      <w>nomedia</w>
       <w>nonlocal</w>
+      <w>nosuid</w>
       <w>nthml</w>
       <w>numpad</w>
       <w>nunito</w>
@@ -164,11 +213,13 @@
       <w>pagedown</w>
       <w>pageup</w>
       <w>palevich</w>
+      <w>parcelization</w>
       <w>patreon</w>
       <w>pema</w>
       <w>permdesc</w>
       <w>pers</w>
       <w>polylines</w>
+      <w>português</w>
       <w>preinstalled</w>
       <w>prettyprint</w>
       <w>prettyprinted</w>
@@ -185,26 +236,38 @@
       <w>ptmx</w>
       <w>ptty</w>
       <w>quickapps</w>
+      <w>qwuark</w>
       <w>rajdhani</w>
       <w>readystatechange</w>
       <w>recents</w>
       <w>rects</w>
+      <w>redownload</w>
+      <w>refetching</w>
       <w>reforma</w>
+      <w>reinstaller</w>
       <w>reparenting</w>
+      <w>reshowed</w>
       <w>rikka</w>
+      <w>rish</w>
       <w>rizwan</w>
+      <w>robobanano</w>
       <w>română</w>
+      <w>rpierson</w>
       <w>rtttl</w>
       <w>rummler</w>
       <w>sbyte</w>
       <w>scaler</w>
       <w>scrollback</w>
       <w>scrollers</w>
+      <w>sdext</w>
       <w>searchbox</w>
       <w>seekbar</w>
       <w>setclock</w>
+      <w>sharedpref</w>
+      <w>shellscript</w>
       <w>shizuku</w>
       <w>sigsev</w>
+      <w>softprops</w>
       <w>solarized</w>
       <w>sonyericsson</w>
       <w>sonymobile</w>
@@ -216,10 +279,13 @@
       <w>stacktraces</w>
       <w>statusbar</w>
       <w>stels</w>
+      <w>substr</w>
       <w>sunilpaulmathew</w>
       <w>svgz</w>
       <w>switchview</w>
       <w>sysrq</w>
+      <w>teko</w>
+      <w>temurin</w>
       <w>termprop</w>
       <w>termtype</w>
       <w>textview</w>
@@ -230,7 +296,9 @@
       <w>thumbr</w>
       <w>tidelift</w>
       <w>timedlock</w>
+      <w>timheuer</w>
       <w>tiocswinsz</w>
+      <w>titillium</w>
       <w>toml</w>
       <w>tommynok</w>
       <w>topjohnwu</w>
@@ -243,15 +311,18 @@
       <w>unhide</w>
       <w>unlocker</w>
       <w>urbanist</w>
+      <w>usebackq</w>
       <w>ushort</w>
       <w>varints</w>
       <w>venezia</w>
       <w>vert</w>
+      <w>vfat</w>
       <w>viewmodel</w>
       <w>viewmodels</w>
       <w>vinci</w>
       <w>vinodel</w>
       <w>vitahabtc</w>
+      <w>vold</w>
       <w>vrifox</w>
       <w>vterm</w>
       <w>vttest</w>
@@ -282,80 +353,9 @@
       <w>أحمد</w>
       <w>البحيري</w>
       <w>العتيبي</w>
-      <w>وليد</w>
-      <w>aaaa</w>
-      <w>abcdefghijklmnopqrstuvwxyz</w>
-      <w>actionparser</w>
-      <w>adoptopenjdk</w>
-      <w>alcatel</w>
-      <w>antipattern</w>
-      <w>apkinstaller</w>
-      <w>asec</w>
-      <w>baybeee</w>
-      <w>bdallhab</w>
-      <w>benjaluth</w>
-      <w>bpemmctest</w>
-      <w>canonicalizing</w>
-      <w>ceroa</w>
-      <w>changelo</w>
-      <w>delims</w>
-      <w>djava</w>
-      <w>dmask</w>
-      <w>duzhe</w>
-      <w>dwhite</w>
-      <w>emmc</w>
-      <w>enoent</w>
-      <w>español</w>
-      <w>extsd</w>
-      <w>extsdcard</w>
-      <w>eyjge</w>
-      <w>fmask</w>
-      <w>fone</w>
-      <w>gonçalves</w>
-      <w>gormeister</w>
-      <w>grotesk</w>
-      <w>inari</w>
-      <w>infos</w>
-      <w>inrbkp</w>
-      <w>inureunlocker</w>
-      <w>iocharset</w>
-      <w>izzyondroid</w>
-      <w>knownfile</w>
-      <w>landroid</w>
-      <w>lrcs</w>
-      <w>malgon</w>
-      <w>microsd</w>
-      <w>mountpoint</w>
-      <w>mtdblock</w>
-      <w>mybackuparchives</w>
-      <w>nodev</w>
-      <w>noexec</w>
-      <w>nomedia</w>
-      <w>nosuid</w>
-      <w>parcelization</w>
-      <w>português</w>
-      <w>qwuark</w>
-      <w>redownload</w>
-      <w>refetching</w>
-      <w>reinstaller</w>
-      <w>reshowed</w>
-      <w>rish</w>
-      <w>robobanano</w>
-      <w>rpierson</w>
-      <w>sdext</w>
-      <w>sharedpref</w>
-      <w>shellscript</w>
-      <w>softprops</w>
-      <w>substr</w>
-      <w>teko</w>
-      <w>temurin</w>
-      <w>timheuer</w>
-      <w>titillium</w>
-      <w>usebackq</w>
-      <w>vfat</w>
-      <w>vold</w>
       <w>العربية</w>
       <w>عبدالله</w>
+      <w>وليد</w>
     </words>
   </dictionary>
 </component>
