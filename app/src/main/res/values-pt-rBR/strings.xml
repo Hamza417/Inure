@@ -702,4 +702,5 @@
     <string name="tags">Marcadores</string>
     <string name="add_tag">Adicionar um Novo Marcador</string>
     <string name="tinted_shadows">Sombra Colorida</string>
+    <string name="extracting">Extraindo</string>
 </resources>
