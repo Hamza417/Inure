@@ -216,7 +216,6 @@ class AudioPlayerPager : ScopedFragment() {
                  * Like this, it works fine here
                  */
                 startPostponedEnterTransition()
-
                 setMetaData(artPager.currentItem)
 
                 artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -355,11 +354,19 @@ class AudioPlayerPager : ScopedFragment() {
         }
 
         next.setOnClickListener {
-            audioServicePager?.playNext()
+            if (artPager.currentItem < audioModels!!.size - 1) {
+                artPager.setCurrentItem(artPager.currentItem + 1, true)
+            } else {
+                artPager.setCurrentItem(0, true)
+            }
         }
 
         previous.setOnClickListener {
-            audioServicePager?.playPrevious()
+            if (artPager.currentItem > 0) {
+                artPager.setCurrentItem(artPager.currentItem - 1, true)
+            } else {
+                artPager.setCurrentItem(audioModels!!.size - 1, true)
+            }
         }
 
         lrcView.setOnPlayIndicatorLineListener { time, _ ->
