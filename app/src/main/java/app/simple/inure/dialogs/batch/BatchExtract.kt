@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
-import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -28,7 +27,6 @@ import app.simple.inure.services.BatchExtractService
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.ParcelUtils.parcelableArrayList
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.launch
 
@@ -90,8 +88,6 @@ class BatchExtract : ScopedBottomSheetFragment() {
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyFinished)
         batchExtractIntentFilter.addAction(ServiceConstants.actionExtractDone)
         batchExtractIntentFilter.addAction(ServiceConstants.actionCopyProgressMax)
-
-        appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             vibratorManager = requireActivity().getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -190,57 +186,41 @@ class BatchExtract : ScopedBottomSheetFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 kotlin.runCatching {
-                    batchExtractService = (service as BatchExtractService.BatchCopyBinder).getService()
+                    batchExtractService = (service as BatchExtractService.BatchExtractServiceBinder).getService()
 
-                    if (batchExtractService?.appsList.isNullOrEmpty()) {
-                        if (appList.isNullOrEmpty()) {
-                            showWarning("ERR: App list is empty")
-                        } else {
-                            batchExtractService?.appsList = appList!!
+                    appList = batchExtractService?.getAppList()
+                    maxLength = batchExtractService?.maxSize!!
+
+                    count.text = buildString {
+                        append(batchExtractService?.position!!)
+                        append("/")
+                        append(appList?.size)
+                    }
+
+                    packageInfo = appList!![batchExtractService?.position!!].packageInfo
+                    val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
+
+                    if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                        this@BatchExtract.name.text = buildString {
+                            append(fileName)
+                            append(Misc.splitApkFormat)
                         }
-                    } else {
-                        /**
-                         * If the service is already running, then the app list is not empty
-                         * and the service is not null then we can safely assume that the service
-                         * is already running and we can continue from where we left off by
-                         * updating the UI
-                         */
-                        run {
-                            appList = batchExtractService?.appsList
-                            maxLength = batchExtractService?.maxSize!!
+                    } else { // For APK files
+                        this@BatchExtract.name.text = buildString {
+                            append(fileName)
+                            append(Misc.apkFormat)
+                        }
+                    }
 
-                            count.text = buildString {
-                                append(batchExtractService?.position!!)
-                                append("/")
-                                append(appList?.size)
-                            }
-
-                            packageInfo = appList!![batchExtractService?.position!!].packageInfo
-                            val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
-
-                            if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
-                                this@BatchExtract.name.text = buildString {
-                                    append(fileName)
-                                    append(Misc.splitApkFormat)
-                                }
-                            } else { // For APK files
-                                this@BatchExtract.name.text = buildString {
-                                    append(fileName)
-                                    append(Misc.apkFormat)
-                                }
-                            }
-
-                            progressStatus.text = when (batchExtractService?.apkType) {
-                                BatchExtractService.APK_TYPE_FILE -> {
-                                    getString(R.string.preparing_apk_file)
-                                }
-                                BatchExtractService.APK_TYPE_SPLIT -> {
-                                    getString(R.string.creating_split_package)
-                                }
-                                else -> {
-                                    getString(R.string.unknown)
-                                }
-                            }
+                    progressStatus.text = when (batchExtractService?.apkType) {
+                        BatchExtractService.APK_TYPE_FILE -> {
+                            getString(R.string.preparing_apk_file)
+                        }
+                        BatchExtractService.APK_TYPE_SPLIT -> {
+                            getString(R.string.creating_split_package)
+                        }
+                        else -> {
+                            getString(R.string.unknown)
                         }
                     }
 
@@ -308,16 +288,15 @@ class BatchExtract : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(arrayList: ArrayList<BatchPackageInfo>?): BatchExtract {
+        fun newInstance(): BatchExtract {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.selectedBatchApps, arrayList)
             val fragment = BatchExtract()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showBatchExtract(arrayList: ArrayList<BatchPackageInfo>?): BatchExtract {
-            val fragment = newInstance(arrayList)
+        fun FragmentManager.showBatchExtract(): BatchExtract {
+            val fragment = newInstance()
             fragment.show(this, "BatchExtract")
             return fragment
         }

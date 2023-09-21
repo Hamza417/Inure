@@ -227,7 +227,7 @@ class MainActivity : BaseActivity() {
 
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {
                 openHome(isNewIntent)
-                supportFragmentManager.showBatchExtract(null)
+                supportFragmentManager.showBatchExtract()
             }
 
             else -> {

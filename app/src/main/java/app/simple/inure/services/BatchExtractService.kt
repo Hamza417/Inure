@@ -2,6 +2,7 @@ package app.simple.inure.services
 
 import android.Manifest
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -36,7 +37,7 @@ import java.io.*
 
 class BatchExtractService : Service() {
 
-    private val batchCopyBinder = BatchCopyBinder()
+    private val batchExtractServiceBinder = BatchExtractServiceBinder()
     private val copyThread = Thread(CopyRunnable())
 
     private var inputStream: FileInputStream? = null
@@ -47,21 +48,17 @@ class BatchExtractService : Service() {
     private lateinit var notification: Notification
 
     private val notificationId = 123
+    private var progress = 0L
+    private var channelId = "inure_batch_extract"
+
     internal var maxSize = 0L
     internal var position = 0
     internal var apkType = 0
-    private var progress = 0L
 
-    private var channelId = "inure_batch_extract"
-
-    var appsList = arrayListOf<BatchPackageInfo>()
-        set(value) {
-            field = value
-            copyThread.start()
-        }
+    private var appsList = arrayListOf<BatchPackageInfo>()
 
     override fun onBind(intent: Intent?): IBinder {
-        return batchCopyBinder
+        return batchExtractServiceBinder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -97,6 +94,17 @@ class BatchExtractService : Service() {
              */
             e.printStackTrace()
         }
+    }
+
+    internal fun startCopying(appsList: ArrayList<BatchPackageInfo>, function: () -> Unit) {
+        Log.d("BatchExtractService", "startCopying: ${appsList.size}")
+        this.appsList.addAll(appsList)
+        copyThread.start()
+        function()
+    }
+
+    fun getAppList(): ArrayList<BatchPackageInfo> {
+        return appsList
     }
 
     inner class CopyRunnable : Runnable {
@@ -393,13 +401,17 @@ class BatchExtractService : Service() {
         }
     }
 
-    inner class BatchCopyBinder : Binder() {
+    inner class BatchExtractServiceBinder : Binder() {
         fun getService(): BatchExtractService {
             return this@BatchExtractService
         }
     }
 
     companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, BatchExtractService::class.java)
+        }
+
         const val APK_TYPE_SPLIT = 1
         const val APK_TYPE_FILE = 2
 

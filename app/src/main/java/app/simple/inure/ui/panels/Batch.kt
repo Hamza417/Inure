@@ -1,5 +1,7 @@
 package app.simple.inure.ui.panels
 
+import android.content.Context
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
@@ -35,6 +37,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.services.BatchExtractService
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
@@ -50,6 +53,11 @@ class Batch : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private var adapterBatch: AdapterBatch? = null
+    private var batchExtractService: BatchExtractService? = null
+    private var batchExtractServiceConnection: ServiceConnection? = null
+
+    private var isServiceBound = false
+
     private lateinit var batchViewModel: BatchViewModel
     private lateinit var tagsViewModel: TagsViewModel
 
@@ -180,12 +188,12 @@ class Batch : ScopedFragment() {
                     childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
                             if (requireContext().checkStoragePermission()) {
-                                childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                                initiateExtractProcess()
                             } else {
                                 childFragmentManager.showStoragePermissionDialog()
                                     .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
                                         override fun onStoragePermissionGranted() {
-                                            childFragmentManager.showBatchExtract(adapterBatch?.getCurrentAppsList()!!)
+                                            initiateExtractProcess()
                                         }
                                     })
                             }
@@ -279,6 +287,20 @@ class Batch : ScopedFragment() {
                 hideLoader()
             }
         }
+
+        batchExtractServiceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: android.content.ComponentName?, service: android.os.IBinder?) {
+                val binder = service as BatchExtractService.BatchExtractServiceBinder
+                batchExtractService = binder.getService()
+                isServiceBound = true
+            }
+
+            override fun onServiceDisconnected(name: android.content.ComponentName?) {
+                isServiceBound = false
+            }
+        }
+
+        bindService()
     }
 
     private fun getBatchMenuItems(): ArrayList<Pair<Int, Int>> {
@@ -289,6 +311,45 @@ class Batch : ScopedFragment() {
         }
 
         return BottomMenuConstants.getBatchUnselectedMenu()
+    }
+
+    private fun initiateExtractProcess() {
+        if (isServiceBound) {
+            try {
+                batchExtractService!!.startCopying(adapterBatch!!.getCurrentAppsList()) {
+                    childFragmentManager.showBatchExtract()
+                }
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
+                showWarning("ERR: ${e.message}", goBack = false)
+            }
+        }
+    }
+
+    private fun bindService() {
+        if (!isServiceBound) {
+            val intent = BatchExtractService.newIntent(requireContext())
+            requireContext().startService(intent)
+            requireContext().bindService(intent, batchExtractServiceConnection!!, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindService()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (isServiceBound) {
+            try {
+                requireContext().unbindService(batchExtractServiceConnection!!)
+            } catch (e: IllegalStateException) {
+                Log.d("Batch", "Service not bound")
+            } catch (e: IllegalArgumentException) {
+                Log.e("Batch", "Service not registered")
+            }
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
