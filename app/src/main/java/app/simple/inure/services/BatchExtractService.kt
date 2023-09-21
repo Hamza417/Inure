@@ -38,7 +38,7 @@ import java.io.*
 class BatchExtractService : Service() {
 
     private val batchExtractServiceBinder = BatchExtractServiceBinder()
-    private val copyThread = Thread(CopyRunnable())
+    private var copyThread = Thread(CopyRunnable())
 
     private var inputStream: FileInputStream? = null
     private var outputStream: FileOutputStream? = null
@@ -50,6 +50,7 @@ class BatchExtractService : Service() {
     private val notificationId = 123
     private var progress = 0L
     private var channelId = "inure_batch_extract"
+    private var isExtracting = false
 
     internal var maxSize = 0L
     internal var position = 0
@@ -94,21 +95,53 @@ class BatchExtractService : Service() {
              */
             e.printStackTrace()
         }
+
+        resetState()
+        isExtracting = false
     }
 
-    internal fun startCopying(appsList: ArrayList<BatchPackageInfo>, function: () -> Unit) {
-        Log.d("BatchExtractService", "startCopying: ${appsList.size}")
-        this.appsList.addAll(appsList)
-        copyThread.start()
-        function()
+    internal fun startCopying() {
+        try {
+            if (isExtracting().invert()) {
+                copyThread.start()
+            }
+        } catch (e: IllegalThreadStateException) {
+            /**
+             * Thread is already running
+             */
+            e.printStackTrace()
+            copyThread.interrupt()
+            resetState()
+            copyThread = Thread(CopyRunnable())
+            copyThread.start()
+        }
     }
 
     fun getAppList(): ArrayList<BatchPackageInfo> {
-        return appsList
+        @Suppress("UNCHECKED_CAST")
+        return appsList.clone() as ArrayList<BatchPackageInfo>
+    }
+
+    internal fun setAppList(appsList: ArrayList<BatchPackageInfo>) {
+        this.appsList.clear()
+        this.appsList.addAll(appsList)
+    }
+
+    fun isExtracting(): Boolean {
+        return copyThread.isAlive && copyThread.isInterrupted.invert()
+    }
+
+    fun resetState() {
+        progress = 0L
+        maxSize = 0L
+        position = 0
+        apkType = 0
     }
 
     inner class CopyRunnable : Runnable {
         override fun run() {
+            isExtracting = true
+
             measureTotalSize()
 
             launchOnUiThread {
@@ -125,6 +158,8 @@ class BatchExtractService : Service() {
                             throw SecurityException("Storage Permission not granted")
                         }
 
+                        Log.d("BatchExtractService", "copying started ${app.packageInfo.applicationInfo.name}")
+
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
 
                         if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
@@ -136,6 +171,8 @@ class BatchExtractService : Service() {
                             apkType = APK_TYPE_FILE
                             extractApk(packageInfo = app.packageInfo)
                         }
+
+                        Log.d("BatchExtractService", "copying finished ${app.packageInfo.applicationInfo.name}")
 
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
                         position++
@@ -168,6 +205,7 @@ class BatchExtractService : Service() {
                  * stop the service
                  */
                 e.printStackTrace()
+                isExtracting = false
 
                 if (appsList[position].packageInfo.applicationInfo.sourceDir.isNotNull()) {
                     File(applicationContext.getBundlePathAndFileName(appsList[position].packageInfo)).delete()
@@ -183,15 +221,17 @@ class BatchExtractService : Service() {
                         @Suppress("DEPRECATION")
                         stopForeground(true)
                     }
-
-                    stopSelf()
                 }
             }
+
+            isExtracting = false
 
             Intent().also { intent ->
                 intent.action = ServiceConstants.actionExtractDone
                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
             }
+
+            resetState()
 
             launchOnUiThread {
                 notificationManager.cancel(notificationId)
@@ -201,9 +241,7 @@ class BatchExtractService : Service() {
                     @Suppress("DEPRECATION")
                     stopForeground(true)
                 }
-                stopSelf()
             }
-            stopSelf()
         }
     }
 
@@ -230,7 +268,8 @@ class BatchExtractService : Service() {
         if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
             launchOnUiThread {
                 notificationBuilder.setContentText(packageInfo.applicationInfo.name)
-                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(
+                            applicationContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                     return@launchOnUiThread
                 }
                 notificationManager.notify(notificationId, notificationBuilder.build())
@@ -251,7 +290,8 @@ class BatchExtractService : Service() {
 
                 launchOnUiThread {
                     notificationBuilder.setProgress(100, progress.percentOf(maxSize).toInt(), false)
-                    if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(
+                                applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                         notificationManager.notify(notificationId, notificationBuilder.build())
                     }
                     sendProgressBroadcast(progress)
@@ -265,7 +305,8 @@ class BatchExtractService : Service() {
                 Thread.sleep(100)
             }
         } else {
-            progress += (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) + packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            progress += (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) +
+                    packageInfo.applicationInfo.sourceDir.getDirectoryLength()
             sendProgressBroadcast(progress)
         }
     }
@@ -292,7 +333,8 @@ class BatchExtractService : Service() {
             progress += len
             launchOnUiThread {
                 notificationBuilder.setProgress(100, (progress.toDouble() / maxSize.toDouble() * 100).toInt(), false)
-                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(
+                            applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                     notificationManager.notify(notificationId, notificationBuilder.build())
                 }
                 sendProgressBroadcast(progress)
@@ -359,7 +401,8 @@ class BatchExtractService : Service() {
         notification = notificationBuilder.build()
         notification.flags = notification.flags or Notification.FLAG_ONGOING_EVENT
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
         }
 
@@ -386,7 +429,8 @@ class BatchExtractService : Service() {
     }
 
     fun reshowNotification() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return
         }
 

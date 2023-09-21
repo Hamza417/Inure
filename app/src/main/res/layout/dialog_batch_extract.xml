@@ -50,8 +50,8 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:textSize="@dimen/app_name_text_size"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/info_text_medium"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
@@ -59,8 +59,8 @@
             android:id="@+id/progress_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:textSize="@dimen/app_package_text_size"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
             app:textColorStyle="secondary" />
 

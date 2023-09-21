@@ -43,6 +43,7 @@ import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
 import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
@@ -185,20 +186,24 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_downloading -> {
-                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                        override fun onSure() {
-                            if (requireContext().checkStoragePermission()) {
-                                initiateExtractProcess()
-                            } else {
-                                childFragmentManager.showStoragePermissionDialog()
-                                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
-                                        override fun onStoragePermissionGranted() {
-                                            initiateExtractProcess()
-                                        }
-                                    })
+                    if (batchExtractService?.isExtracting()?.invert() == true) {
+                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                            override fun onSure() {
+                                if (requireContext().checkStoragePermission()) {
+                                    initiateExtractProcess()
+                                } else {
+                                    childFragmentManager.showStoragePermissionDialog()
+                                        .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                            override fun onStoragePermissionGranted() {
+                                                initiateExtractProcess()
+                                            }
+                                        })
+                                }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        showWarning("ERR: a process is already running", goBack = false)
+                    }
                 }
 
                 R.drawable.ic_text_snippet -> {
@@ -316,9 +321,8 @@ class Batch : ScopedFragment() {
     private fun initiateExtractProcess() {
         if (isServiceBound) {
             try {
-                batchExtractService!!.startCopying(adapterBatch!!.getCurrentAppsList()) {
-                    childFragmentManager.showBatchExtract()
-                }
+                batchExtractService!!.setAppList(adapterBatch!!.getCurrentAppsList())
+                childFragmentManager.showBatchExtract()
             } catch (e: NullPointerException) {
                 e.printStackTrace()
                 showWarning("ERR: ${e.message}", goBack = false)

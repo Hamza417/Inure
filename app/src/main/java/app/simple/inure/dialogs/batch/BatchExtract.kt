@@ -25,6 +25,8 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -138,27 +140,53 @@ class BatchExtract : ScopedBottomSheetFragment() {
                                 append(Misc.apkFormat)
                             }
                         }
+
+                        /**
+                         * Highlight the extension
+                         */
+                        AdapterUtils.searchHighlighter(name, name.text.substring(name.text.lastIndexOf(".")))
                     }
                     ServiceConstants.actionCopyProgress -> {
-                        val percent = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!.percentOf(maxLength)
+                        val copyProgress = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!
+                        val percent = copyProgress.percentOf(maxLength)
                         progress.setProgressCompat(percent.toInt(), true)
                         percentage.text = getString(R.string.progress, percent.toInt())
-                    }
-                    ServiceConstants.actionBatchApkType -> {
-                        progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
-                            BatchExtractService.APK_TYPE_FILE -> {
-                                getString(R.string.preparing_apk_file)
+
+                        progressStatus.text = buildString {
+                            when (batchExtractService?.apkType) {
+                                BatchExtractService.APK_TYPE_FILE -> {
+                                    append(getString(R.string.preparing_apk_file))
+                                }
+                                BatchExtractService.APK_TYPE_SPLIT -> {
+                                    append(getString(R.string.creating_split_package))
+                                }
+                                else -> {
+                                    append(getString(R.string.unknown))
+                                }
                             }
-                            BatchExtractService.APK_TYPE_SPLIT -> {
-                                getString(R.string.creating_split_package)
-                            }
-                            else -> {
-                                getString(R.string.unknown)
-                            }
+
+                            append("\n")
+                            append("~")
+                            append(maxLength.toSize())
+                            append("/")
+                            append(copyProgress.toSize())
                         }
                     }
+                    ServiceConstants.actionBatchApkType -> {
+                        //                        progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
+                        //                            BatchExtractService.APK_TYPE_FILE -> {
+                        //                                getString(R.string.preparing_apk_file)
+                        //                            }
+                        //                            BatchExtractService.APK_TYPE_SPLIT -> {
+                        //                                getString(R.string.creating_split_package)
+                        //                            }
+                        //                            else -> {
+                        //                                getString(R.string.unknown)
+                        //                            }
+                        //                        }
+                    }
                     ServiceConstants.actionCopyFinished -> {
-                        Log.d(TAG, "Copy finished")
+                        /* no-op */
                     }
                     ServiceConstants.actionExtractDone -> {
                         progressStatus.setText(R.string.done)
@@ -188,6 +216,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                 kotlin.runCatching {
                     batchExtractService = (service as BatchExtractService.BatchExtractServiceBinder).getService()
 
+                    appList?.clear()
                     appList = batchExtractService?.getAppList()
                     maxLength = batchExtractService?.maxSize!!
 
@@ -212,6 +241,14 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
 
+                    /**
+                     * Highlight the extension
+                     */
+                    AdapterUtils.searchHighlighter(
+                            this@BatchExtract.name,
+                            this@BatchExtract.name.text.substring(
+                                    this@BatchExtract.name.text.lastIndexOf(".")))
+
                     progressStatus.text = when (batchExtractService?.apkType) {
                         BatchExtractService.APK_TYPE_FILE -> {
                             getString(R.string.preparing_apk_file)
@@ -225,6 +262,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                     }
 
                     LocalBroadcastManager.getInstance(requireContext()).registerReceiver(extractBroadcastReceiver!!, batchExtractIntentFilter)
+                    batchExtractService?.startCopying()
                     serviceBound = true
                 }.getOrElse {
                     it.printStackTrace()
