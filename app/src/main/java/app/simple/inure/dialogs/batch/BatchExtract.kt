@@ -120,31 +120,39 @@ class BatchExtract : ScopedBottomSheetFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionBatchCopyStart -> {
-                        count.text = buildString {
-                            append(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
-                            append("/")
-                            append(appList?.size)
-                        }
+                        try {
+                            val position = batchExtractService?.position?.plus(1) ?: -1
 
-                        packageInfo = appList!![intent.extras?.getInt(IntentHelper.INT_EXTRA)!!].packageInfo
-                        val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
-
-                        if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
-                            name.text = buildString {
-                                append(fileName)
-                                append(Misc.splitApkFormat)
+                            count.text = buildString {
+                                append(position)
+                                append("/")
+                                append(appList?.size)
                             }
-                        } else { // For APK files
-                            name.text = buildString {
-                                append(fileName)
-                                append(Misc.apkFormat)
-                            }
-                        }
 
-                        /**
-                         * Highlight the extension
-                         */
-                        AdapterUtils.searchHighlighter(name, name.text.substring(name.text.lastIndexOf(".")))
+                            packageInfo = appList!![position].packageInfo
+                            val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
+
+                            if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                                name.text = buildString {
+                                    append(fileName)
+                                    append(Misc.splitApkFormat)
+                                }
+                            } else { // For APK files
+                                name.text = buildString {
+                                    append(fileName)
+                                    append(Misc.apkFormat)
+                                }
+                            }
+
+                            /**
+                             * Highlight the extension
+                             */
+                            AdapterUtils.searchHighlighter(name, name.text.substring(name.text.lastIndexOf(".")))
+                        } catch (e: NullPointerException) {
+                            showWarning("ERR: unexpected empty state of service")
+                        } catch (e: IndexOutOfBoundsException) {
+                            showWarning("ERR: unexpected value of position ${batchExtractService?.position}")
+                        }
                     }
                     ServiceConstants.actionCopyProgress -> {
                         val copyProgress = intent.extras?.getLong(IntentHelper.INT_EXTRA)!!
@@ -310,7 +318,6 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private fun unbindService() {
         kotlin.runCatching {
             if (serviceBound) {
-                Log.d(TAG, "Unbinding service")
                 requireContext().unbindService(serviceConnection!!)
             } else {
                 stopService()

@@ -56,7 +56,7 @@ class BatchExtractService : Service() {
     internal var position = 0
     internal var apkType = 0
 
-    private var appsList = arrayListOf<BatchPackageInfo>()
+    private var apps = arrayListOf<BatchPackageInfo>()
 
     override fun onBind(intent: Intent?): IBinder {
         return batchExtractServiceBinder
@@ -75,6 +75,7 @@ class BatchExtractService : Service() {
                 stopSelf()
             }
         }
+
         return START_NOT_STICKY
     }
 
@@ -119,12 +120,12 @@ class BatchExtractService : Service() {
 
     fun getAppList(): ArrayList<BatchPackageInfo> {
         @Suppress("UNCHECKED_CAST")
-        return appsList.clone() as ArrayList<BatchPackageInfo>
+        return apps.clone() as ArrayList<BatchPackageInfo>
     }
 
     internal fun setAppList(appsList: ArrayList<BatchPackageInfo>) {
-        this.appsList.clear()
-        this.appsList.addAll(appsList)
+        this.apps.clear()
+        this.apps.addAll(appsList)
     }
 
     fun isExtracting(): Boolean {
@@ -149,7 +150,7 @@ class BatchExtractService : Service() {
             }
 
             try {
-                for (app in appsList) {
+                for (app in apps) {
                     try {
                         if (applicationContext.areStoragePermissionsGranted()) {
                             PackageData.makePackageFolder(applicationContext)
@@ -157,8 +158,6 @@ class BatchExtractService : Service() {
                             notificationBuilder.setContentText(getString(R.string.grant_storage_access_permission))
                             throw SecurityException("Storage Permission not granted")
                         }
-
-                        Log.d("BatchExtractService", "copying started ${app.packageInfo.applicationInfo.name}")
 
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
 
@@ -171,8 +170,6 @@ class BatchExtractService : Service() {
                             apkType = APK_TYPE_FILE
                             extractApk(packageInfo = app.packageInfo)
                         }
-
-                        Log.d("BatchExtractService", "copying finished ${app.packageInfo.applicationInfo.name}")
 
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionCopyFinished, applicationContext)
                         position++
@@ -207,10 +204,10 @@ class BatchExtractService : Service() {
                 e.printStackTrace()
                 isExtracting = false
 
-                if (appsList[position].packageInfo.applicationInfo.sourceDir.isNotNull()) {
-                    File(applicationContext.getBundlePathAndFileName(appsList[position].packageInfo)).delete()
+                if (apps[position].packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {
+                    File(applicationContext.getBundlePathAndFileName(apps[position].packageInfo)).delete()
                 } else {
-                    File(BatchUtils.getApkPathAndFileName(appsList[position].packageInfo)).delete()
+                    File(BatchUtils.getApkPathAndFileName(apps[position].packageInfo)).delete()
                 }
 
                 launchOnUiThread {
@@ -246,8 +243,9 @@ class BatchExtractService : Service() {
     }
 
     private fun extractApk(packageInfo: PackageInfo) {
+        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.applicationInfo.name}_${packageInfo.versionName}.apk")
+
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
-            notificationBuilder.setContentText(packageInfo.applicationInfo.name)
             val source = File(packageInfo.applicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
 
@@ -259,22 +257,23 @@ class BatchExtractService : Service() {
             inputStream!!.close()
             outputStream!!.close()
         } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                notificationManager.notify(notificationId, notificationBuilder.build())
+            }
+
             progress += File(packageInfo.applicationInfo.sourceDir).length()
             sendProgressBroadcast(progress)
         }
     }
 
     private fun extractBundle(packageInfo: PackageInfo) {
-        if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
-            launchOnUiThread {
-                notificationBuilder.setContentText(packageInfo.applicationInfo.name)
-                if (ActivityCompat.checkSelfPermission(
-                            applicationContext, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    return@launchOnUiThread
-                }
-                notificationManager.notify(notificationId, notificationBuilder.build())
-            }
+        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.applicationInfo.name}_${packageInfo.versionName}.apks")
+        if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(notificationId, notificationBuilder.build())
+        }
 
+        if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
             val zipFile = ZipFile(applicationContext.getBundlePathAndFileName(packageInfo))
             val progressMonitor = zipFile.progressMonitor
             var oldProgress = 0L
@@ -331,19 +330,17 @@ class BatchExtractService : Service() {
         while (from.read(buf).also { len = it.toLong() } > 0) {
             to.write(buf, 0, len.toInt())
             progress += len
-            launchOnUiThread {
-                notificationBuilder.setProgress(100, (progress.toDouble() / maxSize.toDouble() * 100).toInt(), false)
-                if (ActivityCompat.checkSelfPermission(
-                            applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                    notificationManager.notify(notificationId, notificationBuilder.build())
-                }
-                sendProgressBroadcast(progress)
+            notificationBuilder.setProgress(100, (progress.toDouble() / maxSize.toDouble() * 100).toInt(), false)
+            if (ActivityCompat.checkSelfPermission(
+                        applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                notificationManager.notify(notificationId, notificationBuilder.build())
             }
+            sendProgressBroadcast(progress)
         }
     }
 
     private fun measureTotalSize() {
-        for (app in appsList) {
+        for (app in apps) {
             maxSize += File(app.packageInfo.applicationInfo.sourceDir).length()
 
             if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) {

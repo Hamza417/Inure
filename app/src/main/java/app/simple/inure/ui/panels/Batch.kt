@@ -211,7 +211,6 @@ class Batch : ScopedFragment() {
                         showLoader(manualOverride = true)
                         adapterBatch?.getCurrentAppsList()?.let {
                             batchViewModel.generateAppsData(it)
-                            Log.d("Batch", "Generating data for ${it.size} apps")
                         }
                     }
                 }
@@ -251,7 +250,6 @@ class Batch : ScopedFragment() {
 
         batchViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
             if (it.isNotNull()) {
-                Log.d("Batch", "Generated data path: $it")
                 hideLoader()
                 when {
                     it.endsWith(".xml") ||
@@ -349,9 +347,9 @@ class Batch : ScopedFragment() {
             try {
                 requireContext().unbindService(batchExtractServiceConnection!!)
             } catch (e: IllegalStateException) {
-                Log.d("Batch", "Service not bound")
+                Log.d("Batch", "BatchExtractService not bound")
             } catch (e: IllegalArgumentException) {
-                Log.e("Batch", "Service not registered")
+                Log.e("Batch", "BatchExtractService not registered")
             }
         }
     }
