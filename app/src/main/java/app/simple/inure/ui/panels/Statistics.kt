@@ -35,7 +35,6 @@ class Statistics : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_statistics, container, false)
 
         recyclerView = view.findViewById(R.id.usage_rv)
-
         usageStatsViewModel = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
 
         return view
@@ -47,12 +46,13 @@ class Statistics : ScopedFragment() {
         fullVersionCheck()
 
         if (!requireContext().checkForUsageAccessPermission()) {
-            childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
-                override fun onClosedAfterGrant() {
-                    adapterUsageStats?.enableLoader()
-                    usageStatsViewModel.loadAppStats()
-                }
-            })
+            childFragmentManager.showUsageStatsPermissionDialog()
+                .setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+                    override fun onClosedAfterGrant() {
+                        adapterUsageStats?.enableLoader()
+                        usageStatsViewModel.loadAppStats()
+                    }
+                })
         }
 
         usageStatsViewModel.usageData.observe(viewLifecycleOwner) {

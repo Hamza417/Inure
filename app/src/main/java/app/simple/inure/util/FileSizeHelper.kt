@@ -8,7 +8,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.text.CharacterIterator
 import java.text.StringCharacterIterator
-import java.util.*
+import java.util.LinkedList
 import kotlin.math.abs
 
 object FileSizeHelper {
@@ -81,11 +81,11 @@ object FileSizeHelper {
     }
 
     fun Int.toBytes(): Int {
-        return when {
-            FormattingPreferences.getSizeType() == "si" -> {
+        return when (FormattingPreferences.getSizeType()) {
+            "si" -> {
                 this * 1000
             }
-            FormattingPreferences.getSizeType() == "binary" -> {
+            "binary" -> {
                 this * 1024
             }
             else -> {
@@ -99,11 +99,11 @@ object FileSizeHelper {
     }
 
     fun Long.toSize(): String {
-        return when {
-            FormattingPreferences.getSizeType() == "si" -> {
+        return when (FormattingPreferences.getSizeType()) {
+            "si" -> {
                 this.humanReadableByteCountSI()
             }
-            FormattingPreferences.getSizeType() == "binary" -> {
+            "binary" -> {
                 this.humanReadableByteCountBinary()
             }
             else -> {
