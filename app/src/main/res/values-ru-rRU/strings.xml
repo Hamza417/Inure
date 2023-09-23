@@ -704,4 +704,8 @@
     <string name="import_">Импорт</string>
     <string name="tags">Метки</string>
     <string name="add_tag">Добавить новую метку</string>
+    <string name="tinted_shadows">Тонированная тень</string>
+    <string name="extracting">Извлечение</string>
+    <string name="mark_as_foss">Отметить как FOSS</string>
+    <string name="mark_as_non_foss">Отметить как не-FOSS</string>
 </resources>
