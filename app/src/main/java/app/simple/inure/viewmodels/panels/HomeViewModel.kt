@@ -206,7 +206,7 @@ class HomeViewModel(application: Application) :
         }
     }
 
-    private fun loadFossApps() {
+    private fun loadFOSSApps() {
         viewModelScope.launch(Dispatchers.IO) {
             FOSSParser.init(application.applicationContext)
 
@@ -360,7 +360,7 @@ class HomeViewModel(application: Application) :
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
         loadHiddenApps()
-        loadFossApps()
+        loadFOSSApps()
     }
 
     override fun onUninstalledAppsLoaded(uninstalledApps: ArrayList<PackageInfo>) {
@@ -373,6 +373,10 @@ class HomeViewModel(application: Application) :
 
     fun refreshMenuItems() {
         loadItems()
+    }
+
+    fun refreshFossApps() {
+        loadFOSSApps()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

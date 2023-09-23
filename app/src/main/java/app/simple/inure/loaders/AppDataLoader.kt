@@ -15,6 +15,7 @@ import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.activities.association.TTFViewerActivity
 import app.simple.inure.activities.association.TextViewerActivity
 import app.simple.inure.database.instances.BatchDatabase
+import app.simple.inure.database.instances.FOSSDatabase
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.database.instances.QuickAppsDatabase
 import app.simple.inure.database.instances.StackTraceDatabase
@@ -49,7 +50,8 @@ object AppDataLoader {
             ManifestAssociationActivity::class.java.name,
             TTFViewerActivity::class.java.name,
             TextViewerActivity::class.java.name,
-            TerminalAlias::class.java.name
+            TerminalAlias::class.java.name,
+            FOSSDatabase::class.java.name
     )
 
     fun Context.exportAppData(): String {
@@ -98,6 +100,12 @@ object AppDataLoader {
             }
         }
 
+        FOSSDatabase.getFOSSDataPath(this).toFile().let {
+            if (it.exists()) {
+                paths.add(it)
+            }
+        }
+
         exportComponentState().let {
             if (it.exists()) {
                 paths.add(it)
@@ -130,6 +138,7 @@ object AppDataLoader {
                 StackTraceDatabase.getStackTraceDataPath(this).toFile(),
                 TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile(),
                 TagsDatabase.getTagDataPath(this).toFile(),
+                FOSSDatabase.getFOSSDataPath(this).toFile(),
                 (filesDir.path + "/backup/component").toFile()
         )
 
@@ -139,6 +148,7 @@ object AppDataLoader {
         StackTraceDatabase.getInstance(this)?.close()
         TerminalCommandDatabase.getInstance(this)?.close()
         TagsDatabase.getInstance(this)?.close()
+        FOSSDatabase.getInstance(this)?.close()
 
         for (path in paths) {
             if (path.exists()) {
@@ -171,6 +181,7 @@ object AppDataLoader {
         StackTraceDatabase.getInstance(this)
         TerminalCommandDatabase.getInstance(this)
         TagsDatabase.getInstance(this)
+        FOSSDatabase.getInstance(this)
         TrialPreferences.migrateLegacy()
     }
 

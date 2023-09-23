@@ -80,7 +80,9 @@ class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return if (position == 0) {
             RecyclerViewUtils.TYPE_HEADER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     override fun getItemId(position: Int): Long {

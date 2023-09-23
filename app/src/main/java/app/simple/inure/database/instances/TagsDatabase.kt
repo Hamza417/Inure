@@ -39,5 +39,10 @@ abstract class TagsDatabase : RoomDatabase() {
 
             return instance
         }
+
+        fun destroyInstance() {
+            instance?.close()
+            instance = null
+        }
     }
 }

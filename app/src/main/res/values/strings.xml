@@ -702,4 +702,6 @@
     <string name="add_tag">Add a New Tag</string>
     <string name="tinted_shadows">Tinted Shadow</string>
     <string name="extracting">Extracting</string>
+    <string name="mark_as_foss">Mark as FOSS</string>
+    <string name="mark_as_non_foss">Mark as Non-FOSS</string>
 </resources>

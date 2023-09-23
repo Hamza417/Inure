@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,6 +35,7 @@ class FOSS : ScopedFragment() {
         return view
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +44,12 @@ class FOSS : ScopedFragment() {
             postponeEnterTransition()
 
             adapterFOSS?.apps = it
-            recyclerView.adapter = adapterFOSS
+
+            if (recyclerView.adapter == null) {
+                recyclerView.adapter = adapterFOSS
+            } else {
+                adapterFOSS?.notifyDataSetChanged()
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
@@ -35,7 +37,11 @@ import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AppsMenu : ScopedDialogFragment() {
 
@@ -61,8 +67,10 @@ class AppsMenu : ScopedDialogFragment() {
     private lateinit var manifest: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
     private lateinit var toQuickApp: DynamicRippleTextView
+    private lateinit var markAsFOSS: DynamicRippleTextView
 
     private lateinit var quickAppsViewModel: QuickAppsViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private var isAlreadyInQuickApp = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -90,8 +98,10 @@ class AppsMenu : ScopedDialogFragment() {
         manifest = view.findViewById(R.id.manifest)
         notes = view.findViewById(R.id.notes)
         toQuickApp = view.findViewById(R.id.to_quick_app)
+        markAsFOSS = view.findViewById(R.id.to_foss)
 
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         details.setAppInfo(packageInfo)
 
         return view
@@ -137,6 +147,14 @@ class AppsMenu : ScopedDialogFragment() {
         name.apply {
             text = packageInfo.applicationInfo.name
             setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo.packageName))
+        }
+
+        markAsFOSS.text = buildString {
+            if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
+                append(getString(R.string.mark_as_non_foss))
+            } else {
+                append(getString(R.string.mark_as_foss))
+            }
         }
 
         packageName.text = packageInfo.packageName
@@ -250,6 +268,36 @@ class AppsMenu : ScopedDialogFragment() {
             } else {
                 quickAppsViewModel.addQuickApp(packageInfo.packageName)
             }
+        }
+
+        markAsFOSS.setOnClickListener {
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
+                    FOSSParser.removePackage(packageInfo.packageName, requireContext())
+                    withContext(Dispatchers.Main) {
+                        markAsFOSS.text = getString(R.string.mark_as_foss)
+                        name.setFOSSIcon(false)
+                        homeViewModel.refreshFossApps()
+                    }
+                } else {
+                    FOSSParser.addPackage(
+                            packageInfo.packageName, packageInfo.getVersionCode().toString(), requireContext())
+                    withContext(Dispatchers.Main) {
+                        markAsFOSS.text = getString(R.string.mark_as_non_foss)
+                        name.setFOSSIcon(true)
+                        homeViewModel.refreshFossApps()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun PackageInfo.getVersionCode(): Long {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            this.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            this.versionCode.toLong()
         }
     }
 

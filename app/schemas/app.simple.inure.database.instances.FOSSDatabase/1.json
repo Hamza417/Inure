@@ -1,0 +1,46 @@
+{
+    "formatVersion": 1,
+    "database": {
+        "version": 1,
+        "identityHash": "bcdb11d26a399b05ce2b1bb081941119",
+        "entities": [
+            {
+                "tableName": "foss",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`package_name` TEXT NOT NULL, `version_code` TEXT, `is_foss` INTEGER NOT NULL, PRIMARY KEY(`package_name`))",
+                "fields": [
+                    {
+                        "fieldPath": "packageName",
+                        "columnName": "package_name",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "versionCode",
+                        "columnName": "version_code",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "isFOSS",
+                        "columnName": "is_foss",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "autoGenerate": false,
+                    "columnNames": [
+                        "package_name"
+                    ]
+                },
+                "indices": [],
+                "foreignKeys": []
+            }
+        ],
+        "views": [],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcdb11d26a399b05ce2b1bb081941119')"
+        ]
+    }
+}

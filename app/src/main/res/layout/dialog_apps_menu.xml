@@ -290,6 +290,18 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="secondary" />
 
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/to_foss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/popup_item_gap_length"
+                android:padding="@dimen/menu_text_button_padding"
+                android:text="@string/mark_as_foss"
+                android:textSize="@dimen/popup_text_size"
+                app:appFontStyle="bold"
+                app:textColorStyle="secondary" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </app.simple.inure.decorations.corners.DynamicCornerCoordinatorLayout>

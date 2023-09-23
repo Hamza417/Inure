@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import app.simple.inure.R;
+import app.simple.inure.database.instances.FOSSDatabase;
+import app.simple.inure.models.FOSS;
+import app.simple.inure.util.ProcessUtils;
+import kotlin.Unit;
 
 public class FOSSParser {
     
@@ -46,11 +50,27 @@ public class FOSSParser {
                 }
                 eventType = xmlParser.next();
             }
-            
+    
             xmlParser.close();
+    
+            parseFromDatabase(context);
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void parseFromDatabase(Context context) {
+        ProcessUtils.INSTANCE.ensureNotOnMainThread(() -> {
+            FOSSDatabase.Companion.getInstance(context)
+                    .getFOSSDao().getAllFossMarkings().forEach(foss -> {
+                        if (foss.isFOSS()) {
+                            packageVersions.put(foss.getPackageName(), foss.getVersionCode());
+                        } else {
+                            packageVersions.remove(foss.getPackageName());
+                        }
+                    });
+            return Unit.INSTANCE;
+        });
     }
     
     public static String getPackageVersion(String packageName) {
@@ -63,5 +83,25 @@ public class FOSSParser {
         } catch (NullPointerException e) {
             return false;
         }
+    }
+    
+    public static void addPackage(String packageName, String versionCode, Context context) {
+        ProcessUtils.INSTANCE.ensureNotOnMainThread(() -> {
+            packageVersions.put(packageName, versionCode);
+            FOSSDatabase.Companion.getInstance(context)
+                    .getFOSSDao().insertFOSS(
+                            new FOSS(packageName, versionCode, true));
+            return Unit.INSTANCE;
+        });
+    }
+    
+    public static void removePackage(String packageName, Context context) {
+        ProcessUtils.INSTANCE.ensureNotOnMainThread(() -> {
+            packageVersions.remove(packageName);
+            FOSSDatabase.Companion.getInstance(context)
+                    .getFOSSDao().insertFOSS(
+                            new FOSS(packageName, "0", false));
+            return Unit.INSTANCE;
+        });
     }
 }

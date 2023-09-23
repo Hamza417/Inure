@@ -192,4 +192,9 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }
         }
     }
+
+    override fun onCleared() {
+        TagsDatabase.destroyInstance()
+        super.onCleared()
+    }
 }
