@@ -702,4 +702,7 @@
     <string name="tags">标签</string>
     <string name="add_tag">添加新标签</string>
     <string name="tinted_shadows">有色阴影</string>
+    <string name="extracting">提取中</string>
+    <string name="mark_as_foss">标记为 FOSS</string>
+    <string name="mark_as_non_foss">标记为非 FOSS</string>
 </resources>
