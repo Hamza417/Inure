@@ -45,6 +45,7 @@ use GitHub to update your version.
 - [5 Magnificent Open Source Android Apps To Download Right NOW! - Anubhav Roy](https://youtu.be/kvM9hGJJ2wA?t=357)
 - [Top Android Apps! (May 2023) - Sam Beckman](https://youtu.be/g6pMQAFfd3Q?t=220)
 - [Apps that Will LEVEL Up Your Smartphone Experience in 2023! - Sam Beckman](https://youtu.be/EtOq5ccjv5s?t=121)
+- [The Most Functional App Ever! - Sam Beckamn](https://www.youtube.com/shorts/WYoWLMKawBg)
 
 ## About
 
