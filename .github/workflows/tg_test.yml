@@ -12,9 +12,24 @@ jobs:
 
         steps:
             -   name: Send APK to Telegram
-                uses: appleboy/telegram-action@master
-                with:
-                    to: ${{ secrets.TG_TO }}
-                    token: ${{ secrets.TG_BOT_KEY }}
-                    message: 'New Beta APK build is ready, test it and report any bugs or issue you had found in the group!'
+                run: |
+                    TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
+                    CHANNEL_ID="inure_app_manager"  # Replace with your channel ID or username
+                    
+                    # Send a message using the Telegram Bot API
+                    response=$(curl -X POST "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendMessage" \
+                         -d "chat_id=${CHANNEL_ID}" \
+                         -d "text=New APK build is ready!")
+                    
+                    # Log the response for debugging
+                    echo "Telegram API Response: $response"
+                    
+                    # Check for errors in the response
+                    if [[ "$response" == *"\"ok\":false"* ]]; then
+                      echo "Message sending failed. Check the response for details."
+                      exit 1  # This will cause the workflow to fail if there is an error
+                    fi
+                env:
+                    TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
+
 
