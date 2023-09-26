@@ -14,7 +14,7 @@ jobs:
             -   name: Send APK to Telegram
                 run: |
                     TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
-                    CHANNEL_ID="inure_app_manager"  # Replace with your channel ID or username
+                    CHANNEL_ID="@inure_app_manager"  # Replace with your channel ID or username
                     
                     # Send a message using the Telegram Bot API
                     response=$(curl -X POST "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendMessage" \
