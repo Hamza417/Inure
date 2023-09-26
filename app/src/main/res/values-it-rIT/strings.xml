@@ -701,4 +701,8 @@
     <string name="import_">Importa</string>
     <string name="tags">Tag</string>
     <string name="add_tag">Aggiungi un nuovo tag</string>
+    <string name="tinted_shadows">Ombra tinteggiata</string>
+    <string name="extracting">Estrazione</string>
+    <string name="mark_as_foss">Segna come FOSS</string>
+    <string name="mark_as_non_foss">Segna come non-FOSS</string>
 </resources>
