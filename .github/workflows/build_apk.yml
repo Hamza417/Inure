@@ -56,12 +56,27 @@ jobs:
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
             -   name: Send APK to Telegram
-                uses: appleboy/telegram-action@master
-                with:
-                    to: ${{ secrets.TG_TO }}
-                    token: ${{ secrets.TG_BOT_KEY }}
-                    message: 'New Beta APK build is ready, test it and report any bugs or issue you had found in the group!'
-                    document: app/**/*.apk
+                run: |
+                    TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
+                    CHANNEL_ID="@inure_app_manager"  # Replace with your channel ID or username
+                    
+                    # Prepare the message and APK file for sending
+                    message="New APK build is ready!"
+                    document_path=${{ github.workspace }}/app/build/outputs/apk/beta/release/app-beta-release.apk
+                    
+                    # Send the message and APK file in a single message using the Telegram Bot API (document)
+                    response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@${document_path} "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                    
+                    # Log the response for debugging
+                    echo "Telegram API Response: $response"
+                    
+                    # Check for errors in the response
+                    if [[ "$response" == *"\"ok\":false"* ]]; then
+                      echo "Message and APK file sending failed. Check the response for details."
+                      exit 1  # This will cause the workflow to fail if there is an error
+                    fi
+                env:
+                    TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
