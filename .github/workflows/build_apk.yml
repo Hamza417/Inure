@@ -56,7 +56,7 @@ jobs:
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
             -   name: Send APK to Telegram
-                uses: appleboy/telegram-send-action@master
+                uses: appleboy/telegram-action@master
                 with:
                     to: inure_app_manager
                     token: ${{ secrets.TG_BOT_KEY }}
