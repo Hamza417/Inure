@@ -1,0 +1,20 @@
+name: TG Message
+
+on:
+    workflow_dispatch:  # Allow manual triggering
+
+jobs:
+
+    build:
+
+        name: Send Message
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Send APK to Telegram
+                uses: appleboy/telegram-action@master
+                with:
+                    to: ${{ secrets.TG_TO }}
+                    token: ${{ secrets.TG_BOT_KEY }}
+                    message: 'New Beta APK build is ready, test it and report any bugs or issue you had found in the group!'
+
