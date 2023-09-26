@@ -55,39 +55,41 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: Send APKs to Telegram
+            -   name: Send Latest APK to Telegram
                 run: |
                     TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
-                    CHANNEL_ID="@inure_app_manager"  # Replace with your channel ID or username
+                    CHANNEL_ID="YOUR_CHANNEL_ID"  # Replace with your channel ID or username
                     
                     # Prepare the message text
                     message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
                     
-                    # Create an array to store the APK file paths
-                    apk_files=()
+                    # Find the latest APK file using the specified pattern
+                    latest_apk=$(find app/ -name "*.apk" -print0 | xargs -0 ls -1 -t | head -1)
                     
-                    # Find all APK files using the specified pattern and add them to the array
-                    while IFS= read -r -d '' apk_file; do
-                      apk_files+=("$apk_file")
-                    done < <(find app/ -name "*.apk" -print0)
+                    # Print the path of the latest APK file
+                    echo "Latest APK: $latest_apk"
                     
-                    # Send the message with all APK files as documents
-                    response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" "${apk_files[@]/#/-F document=@}" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                    # Check if a valid APK file was found
+                    if [ -n "$latest_apk" ]; then
+                      # Send the latest APK file in a single message using the Telegram Bot API (document)
+                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@${latest_apk} "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
                     
-                    # Log the response for debugging
-                    echo "Telegram API Response: $response"
+                      # Log the response for debugging
+                      echo "Telegram API Response: $response"
                     
-                    # Check for errors in the response
-                    if [[ "$response" == *"\"ok\":false"* ]]; then
-                      echo "Sending APK files failed. Check the response for details."
-                      exit 1  # This will cause the workflow to fail if there is an error
+                      # Check for errors in the response
+                      if [[ "$response" == *"\"ok\":false"* ]]; then
+                        echo "Sending the latest APK file failed. Check the response for details."
+                        exit 1  # This will cause the workflow to fail if there is an error
+                      fi
+                    else
+                      echo "No APK files found to send."
                     fi
                 env:
-                    TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
+                    TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
                 with:
                     name: Beta APK (Debug)
                     path: app/**/*.apk
-
