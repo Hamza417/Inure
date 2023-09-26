@@ -58,7 +58,7 @@ jobs:
             -   name: Send Latest APK to Telegram
                 run: |
                     TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
-                    CHANNEL_ID="YOUR_CHANNEL_ID"  # Replace with your channel ID or username
+                    CHANNEL_ID="@inure_app_manager"  # Replace with your channel ID or username
                     
                     # Prepare the message text
                     message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
