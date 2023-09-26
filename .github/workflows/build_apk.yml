@@ -75,7 +75,7 @@ jobs:
                     # Check if a valid APK file was found
                     if [ -n "$latest_apk" ]; then
                       # Send the latest APK file in a single message using the Telegram Bot API (document)
-                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@${latest_apk} "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=${latest_apk} "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
                     
                       # Log the response for debugging
                       echo "Telegram API Response: $response"
