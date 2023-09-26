@@ -55,8 +55,14 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: List Files
-                run: ls -R
+            -   name: Send APK to Telegram
+                uses: appleboy/telegram-send-action@master
+                with:
+                    to: inure_app_manager
+                    token: ${{ secrets.TG_BOT_KEY }}
+                    message: 'New Beta APK build is ready, test it and report any bugs or issue you had found in the group!'
+                    files: |
+                        app/**/*.apk
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
