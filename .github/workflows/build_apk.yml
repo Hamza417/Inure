@@ -61,8 +61,7 @@ jobs:
                     to: inure_app_manager
                     token: ${{ secrets.TG_BOT_KEY }}
                     message: 'New Beta APK build is ready, test it and report any bugs or issue you had found in the group!'
-                    files: |
-                        app/**/*.apk
+                    document: app/**/*.apk
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
