@@ -64,10 +64,13 @@ jobs:
                     message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
                     
                     # Find the latest APK file using the specified pattern
-                    latest_apk=$(find app/ -name "*.apk" -print0 | xargs -0 ls -1 -t | head -1)
+                    latest_apk=app/**/*.apk
                     
                     # Print the path of the latest APK file
                     echo "Latest APK: $latest_apk"
+                    
+                    # Add read permission to all APK files
+                    chmod +r $latest_apk
                     
                     # Check if a valid APK file was found
                     if [ -n "$latest_apk" ]; then
