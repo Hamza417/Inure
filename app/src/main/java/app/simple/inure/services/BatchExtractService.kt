@@ -143,12 +143,10 @@ class BatchExtractService : Service() {
         override fun run() {
             isExtracting = true
 
-            measureTotalSize()
+            measureTotalSize() // Measure total size of all apps
+            createNotification() // Create notification and start foreground service
 
-            launchOnUiThread {
-                createNotification()
-            }
-
+            // Start copying
             try {
                 for (app in apps) {
                     try {
@@ -162,12 +160,12 @@ class BatchExtractService : Service() {
                         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionBatchCopyStart, applicationContext, position)
 
                         if (app.packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
-                            sendApkTypeBroadcast(APK_TYPE_SPLIT)
                             apkType = APK_TYPE_SPLIT
+                            sendApkTypeBroadcast(APK_TYPE_SPLIT)
                             extractBundle(packageInfo = app.packageInfo)
                         } else { // For APK files
-                            sendApkTypeBroadcast(APK_TYPE_FILE)
                             apkType = APK_TYPE_FILE
+                            sendApkTypeBroadcast(APK_TYPE_FILE)
                             extractApk(packageInfo = app.packageInfo)
                         }
 

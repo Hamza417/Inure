@@ -55,14 +55,31 @@
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/progress_status"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="regular"
-            app:textColorStyle="secondary" />
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress_size"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

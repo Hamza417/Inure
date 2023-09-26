@@ -51,6 +51,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
     private lateinit var count: TypeFaceTextView
     private lateinit var name: TypeFaceTextView
     private lateinit var progressStatus: TypeFaceTextView
+    private lateinit var size: TypeFaceTextView
     private lateinit var progress: LinearProgressIndicator
     private lateinit var percentage: TypeFaceTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -79,6 +80,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
         count = view.findViewById(R.id.progress_count)
         name = view.findViewById(R.id.name)
         progressStatus = view.findViewById(R.id.progress_status)
+        size = view.findViewById(R.id.progress_size)
         progress = view.findViewById(R.id.progress)
         percentage = view.findViewById(R.id.progress_percentage)
         cancel = view.findViewById(R.id.cancel)
@@ -144,6 +146,14 @@ class BatchExtract : ScopedBottomSheetFragment() {
                                 }
                             }
 
+                            progressStatus.text = buildString {
+                                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                                    append(getString(R.string.creating_split_package))
+                                } else { // For APK files
+                                    append(getString(R.string.preparing_apk_file))
+                                }
+                            }
+
                             /**
                              * Highlight the extension
                              */
@@ -160,20 +170,8 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         progress.setProgressCompat(percent.toInt(), true)
                         percentage.text = getString(R.string.progress, percent.toInt())
 
-                        progressStatus.text = buildString {
-                            when (batchExtractService?.apkType) {
-                                BatchExtractService.APK_TYPE_FILE -> {
-                                    append(getString(R.string.preparing_apk_file))
-                                }
-                                BatchExtractService.APK_TYPE_SPLIT -> {
-                                    append(getString(R.string.creating_split_package))
-                                }
-                                else -> {
-                                    append(getString(R.string.unknown))
-                                }
-                            }
-
-                            append("\n")
+                        size.text = buildString {
+                            append(" | ")
                             append("~")
                             append(maxLength.toSize())
                             append("/")
@@ -181,17 +179,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                         }
                     }
                     ServiceConstants.actionBatchApkType -> {
-                        //                        progressStatus.text = when (intent.extras?.getInt(BatchExtractService.APK_TYPE_EXTRA)) {
-                        //                            BatchExtractService.APK_TYPE_FILE -> {
-                        //                                getString(R.string.preparing_apk_file)
-                        //                            }
-                        //                            BatchExtractService.APK_TYPE_SPLIT -> {
-                        //                                getString(R.string.creating_split_package)
-                        //                            }
-                        //                            else -> {
-                        //                                getString(R.string.unknown)
-                        //                            }
-                        //                        }
+                        /* no-op */
                     }
                     ServiceConstants.actionCopyFinished -> {
                         /* no-op */

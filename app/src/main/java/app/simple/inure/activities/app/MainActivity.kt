@@ -366,13 +366,10 @@ class MainActivity : BaseActivity() {
                     supportFragmentManager.fragments.forEach {
                         if (it is Home) {
                             if (it.isVisible) {
-                                Log.d("Inure", "KEYCODE_A..KEYCODE_Z: Home")
                                 supportFragmentManager.beginTransaction()
                                     .replace(R.id.app_container, Search.newInstance(firstLaunch = true), "search")
                                     .addToBackStack("search")
                                     .commit()
-                            } else {
-                                Log.d("Inure", "KEYCODE_A..KEYCODE_Z: Not Home")
                             }
                         }
                     }
@@ -383,10 +380,7 @@ class MainActivity : BaseActivity() {
                     supportFragmentManager.fragments.forEach {
                         if (it is Search) {
                             if (it.isVisible) {
-                                Log.d("Inure", "KEYCODE_ESCAPE: Search")
                                 supportFragmentManager.popBackStack()
-                            } else {
-                                Log.d("Inure", "KEYCODE_ESCAPE: Not Search")
                             }
                         }
                     }
