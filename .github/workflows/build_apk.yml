@@ -75,53 +75,17 @@ jobs:
                 run: |
                     chmod +r "${{ env.APK_PATH }}"
 
+            -   name: Send APK to Telegram
+                uses: appleboy/telegram-action@master
+                with:
+                    to: ${{ secrets.TELEGRAM_TO }}
+                    token: ${{ secrets.TELEGRAM_TOKEN }}
+                    document: ${{ env.APK_PATH }}
+                    message: |
+                        New Beta APK build is ready, test it and report any bugs or issues you had found in the group!
+
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
                 with:
                     name: Beta APK (Debug)
                     path: ${{ env.APK_PATH }}
-
-            -   name: Download and Send APK to Telegram
-                run: |
-                    TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
-                    CHANNEL_ID="@inure_app_manager"
-                    
-                    # Prepare the message text
-                    message="New Beta APK build is ready, test it and report any bugs or issues you had found in the group!"
-                    
-                    # Get the artifact ID
-                    artifact_id=$(curl -s -X GET \
-                      -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                      "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" | jq -r ".artifacts[] | select(.name == \"Beta APK (Debug)\").id")
-                    
-                    if [ -n "$artifact_id" ]; then
-                        # Download the APK file using the artifact ID
-                        curl -OL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id/zip"
-                    
-                        # Extract the APK from the zip file
-                        unzip -q $artifact_id.zip
-                        mv "app/build/outputs/apk/beta/release/app-beta-release.apk" app-beta-release.apk
-                    
-                        # Check if the download was successful
-                        if [ -f "app-beta-release.apk" ]; then
-                            # Send the APK file in a single message using the Telegram Bot API (document)
-                            response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"app-beta-release.apk" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
-                    
-                            # Log the response for debugging
-                            echo "Telegram API Response: $response"
-                    
-                            # Check for errors in the response
-                            if [[ "$response" == *"\"ok\":false"* ]]; then
-                                echo "Sending the APK file failed. Check the response for details."
-                                exit 1  # This will cause the workflow to fail if there is an error
-                            fi
-                        else
-                            echo "APK file not found."
-                            exit 1
-                        fi
-                    else
-                        echo "Artifact ID not found."
-                        exit 1
-                    fi
-                env:
-                    TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
