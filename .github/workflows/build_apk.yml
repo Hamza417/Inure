@@ -63,11 +63,11 @@ jobs:
 
             -   name: Check File Permissions
                 run: |
-                    ls -l ${{ env.APK_PATH }}
+                    ls -l "${{ env.APK_PATH }}"
 
             -   name: Set Read Permission
                 run: |
-                    chmod +r ${{ env.APK_PATH }}
+                    chmod +r "${{ env.APK_PATH }}"
 
             -   name: Send APK to Telegram
                 run: |
