@@ -59,22 +59,21 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
-                webviewCallbacks?.onPageLoadFinished()
                 super.onPageFinished(view, url)
                 if (ThemeUtils.isNightMode(resources)) {
                     view.evaluateJavascript("CssLoader.loadDarkCss()") {
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
+                            webviewCallbacks?.onPageLoadFinished()
                             visible(animate = false)
-                            // webviewCallbacks?.onPageLoadFinished()
                         }
                     }
                 } else {
                     view.evaluateJavascript("CssLoader.loadLightCss()") {
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
+                            webviewCallbacks?.onPageLoadFinished()
                             visible(animate = false)
-                            // webviewCallbacks?.onPageLoadFinished()
                         }
                     }
                 }
