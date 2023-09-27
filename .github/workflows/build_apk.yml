@@ -64,6 +64,7 @@ jobs:
                         exit 1
                     else
                         echo "APK_PATH=$apk" >> $GITHUB_ENV
+                        echo "${{ env.APK_PATH }}"
                     fi
 
             -   name: Check File Permissions
@@ -74,18 +75,28 @@ jobs:
                 run: |
                     chmod +r "${{ env.APK_PATH }}"
 
-            -   name: Send APK to Telegram
+            -   name: Archive APK
+                uses: actions/upload-artifact@v3
+                with:
+                    name: Beta APK (Debug)
+                    path: ${{ env.APK_PATH }}
+
+            -   name: Download and Send APK to Telegram
                 run: |
                     TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
-                    CHANNEL_ID="@inure_app_manager" 
+                    CHANNEL_ID="@inure_app_manager"
+                    ARTIFACT_NAME="Beta APK (Debug)"
                     
                     # Prepare the message text
-                    message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
+                    message="New Beta APK build is ready, test it and report any bugs or issues you had found in the group!"
                     
-                    # Check if a valid APK file was found
-                    if [ -n "${{ env.APK_PATH }}" ]; then
+                    # Download the APK file using the artifact name
+                    curl -OL "https://github.com/${{ github.repository }}/actions/artifacts/${{ github.run_id }}/${ARTIFACT_NAME}/app/build/outputs/apk/beta/release/app-beta-release.apk"
+                    
+                    # Check if the download was successful
+                    if [ -f "app-beta-release.apk" ]; then
                         # Send the APK file in a single message using the Telegram Bot API (document)
-                        response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"${{ env.APK_PATH }}" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                        response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"app-beta-release.apk" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
                     
                         # Log the response for debugging
                         echo "Telegram API Response: $response"
@@ -96,14 +107,8 @@ jobs:
                             exit 1  # This will cause the workflow to fail if there is an error
                         fi
                     else
-                        echo "No APK files found to send."
+                        echo "APK file not found."
                         exit 1
                     fi
                 env:
                     TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
-
-            -   name: Archive APK
-                uses: actions/upload-artifact@v3
-                with:
-                    name: Beta APK (Debug)
-                    path: ${{ env.APK_PATH }}
