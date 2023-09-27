@@ -78,7 +78,7 @@ jobs:
             -   name: Send APK to Telegram
                 uses: appleboy/telegram-action@master
                 with:
-                    to: ${{ secrets.TG_TO }}
+                    to: inure_app_manager
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: /home/runner/work/Inure/Inure/app/build/outputs/apk/beta/release/app-beta-release.apk
                     message: |
