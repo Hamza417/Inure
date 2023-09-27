@@ -55,18 +55,20 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
+            -   name: Find APK
+                id: find_apk
+                run: |
+                    apk=$(find . -type f -path "**/app/beta/release/*.apk")
+                env:
+                    APK_PATH: ${{ apk }}
+
             -   name: Check File Permissions
                 run: |
-                    ls -l "$app/build/outputs/apk/beta/release/app-beta-release.apk"
-
-            -   name: Move APK to Temporary Directory
-                run: |
-                    mkdir -p /tmp/apk
-                    cp "app/build/outputs/apk/beta/release/app-beta-release.apk" /tmp/apk/app-beta-release.apk
+                    ls -l "$APK_PATH"
 
             -   name: Set Read Permission
                 run: |
-                    chmod +r /tmp/apk/app-beta-release.apk
+                    chmod +r "$APK_PATH"
 
             -   name: Send APK to Telegram
                 run: |
@@ -79,7 +81,7 @@ jobs:
                     # Check if a valid APK file was found
                     if [ -n "$apk" ]; then
                       # Send the APK file in a single message using the Telegram Bot API (document)
-                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"/tmp/apk/app-beta-release.apk" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"$APK_PATH" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
                     
                       # Log the response for debugging
                       echo "Telegram API Response: $response"
