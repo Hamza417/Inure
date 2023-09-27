@@ -25,8 +25,7 @@ An elegant Android app manager.
 [![](https://img.shields.io/badge/GitHub%20Actions%20(Beta)-181717?logo=github)](https://github.com/Hamza417/Inure/actions/workflows/build_apk.yml)
 [![](https://img.shields.io/badge/GitHub%20Actions%20(Release)-181717?logo=github)](https://github.com/Hamza417/Inure/actions/workflows/build_release_apk.yml)
 
-**Update:** Inure was suspended by Google on 5 Sept, 2023 due to some policy violation. I'm working on having it restored, in the meantime
-use GitHub to update your version.
+**Update (27 Sept, 2023):** Inure is now available to download on Play Store after 20 days of absence, thanks everyone for their patience :)
 
 ## Buy (Full Version)
 
