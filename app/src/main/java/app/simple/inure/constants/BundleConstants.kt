@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val scrollPosition = "scroll_position"
     const val tag = "tag"
     const val skip = "skip"
     const val state = "state"

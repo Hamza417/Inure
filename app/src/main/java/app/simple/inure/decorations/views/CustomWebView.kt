@@ -11,6 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
+import app.simple.inure.interfaces.fragments.WebviewCallbacks
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -21,6 +22,7 @@ import app.simple.inure.util.ViewUtils.visible
 open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
 
     private val color: String
+    private var webviewCallbacks: WebviewCallbacks? = null
 
     init {
         settings.allowContentAccess = true
@@ -57,12 +59,14 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
+                webviewCallbacks?.onPageLoadFinished()
                 super.onPageFinished(view, url)
                 if (ThemeUtils.isNightMode(resources)) {
                     view.evaluateJavascript("CssLoader.loadDarkCss()") {
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
                             visible(animate = false)
+                            // webviewCallbacks?.onPageLoadFinished()
                         }
                     }
                 } else {
@@ -70,6 +74,7 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
                             visible(animate = false)
+                            // webviewCallbacks?.onPageLoadFinished()
                         }
                     }
                 }
@@ -86,5 +91,9 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                 return true
             }
         }
+    }
+
+    fun setOnPageFinishedListener(webviewCallbacks: WebviewCallbacks) {
+        this.webviewCallbacks = webviewCallbacks
     }
 }
