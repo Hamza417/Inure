@@ -78,7 +78,7 @@ jobs:
             -   name: Send APK to Telegram
                 uses: appleboy/telegram-action@master
                 with:
-                    to: -inure_app_manager
+                    to: ${{ secrets.TG_TO }}
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: ${{ env.APK_PATH }}
                     message: |
