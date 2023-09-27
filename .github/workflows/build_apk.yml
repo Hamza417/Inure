@@ -55,12 +55,44 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: List Files
-                run: ls -R
+            -   name: Send APK to Telegram
+                run: |
+                    TELEGRAM_API_KEY="${{ secrets.TG_BOT_KEY }}"
+                    CHANNEL_ID="@inure_app_manager" 
+                    
+                    # Prepare the message text
+                    message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
+                    
+                    # Find the APK file using the specified pattern
+                    apk=$(realpath "app/build/outputs/apk/beta/release/app-beta-release.apk")
+                    
+                    # Print the path of the APK file
+                    echo "APK: $apk"
+                    
+                    # Read permission is required to send the file
+                    chmod +r $apk
+                    
+                    # Check if a valid APK file was found
+                    if [ -n "$apk" ]; then
+                      # Send the APK file in a single message using the Telegram Bot API (document)
+                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"/home/runner/work/Inure/Inure/app/build/outputs/apk/beta/release/app-beta-release.apk" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                    
+                      # Log the response for debugging
+                      echo "Telegram API Response: $response"
+                    
+                      # Check for errors in the response
+                      if [[ "$response" == *"\"ok\":false"* ]]; then
+                        echo "Sending the APK file failed. Check the response for details."
+                        exit 1  # This will cause the workflow to fail if there is an error
+                      fi
+                    else
+                      echo "No APK files found to send."
+                    fi
+                env:
+                    TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
                 with:
                     name: Beta APK (Debug)
                     path: app/**/*.apk
-
