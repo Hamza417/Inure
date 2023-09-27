@@ -58,8 +58,13 @@ jobs:
             -   name: Find APK
                 id: find_apk
                 run: |
-                    apk=$(find . -type f -path "app/**/*.apk")
-                    echo "APK_PATH=$apk" >> $GITHUB_ENV
+                    apk=$(find . -type f -name "*.apk")
+                    if [ -z "$apk" ]; then
+                        echo "No APK file found."
+                        exit 1
+                    else
+                        echo "APK_PATH=$apk" >> $GITHUB_ENV
+                    fi
 
             -   name: Check File Permissions
                 run: |
