@@ -83,20 +83,21 @@ jobs:
                     message="New Beta APK build is ready, test it and report any bugs or issue you had found in the group!"
                     
                     # Check if a valid APK file was found
-                    if [ -n "$apk" ]; then
-                      # Send the APK file in a single message using the Telegram Bot API (document)
-                      response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"${{ env.APK_PATH }}" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
+                    if [ -n "${{ env.APK_PATH }}" ]; then
+                        # Send the APK file in a single message using the Telegram Bot API (document)
+                        response=$(curl -F chat_id="${CHANNEL_ID}" -F text="${message}" -F document=@"${{ env.APK_PATH }}" "https://api.telegram.org/bot${TELEGRAM_API_KEY}/sendDocument")
                     
-                      # Log the response for debugging
-                      echo "Telegram API Response: $response"
+                        # Log the response for debugging
+                        echo "Telegram API Response: $response"
                     
-                      # Check for errors in the response
-                      if [[ "$response" == *"\"ok\":false"* ]]; then
-                        echo "Sending the APK file failed. Check the response for details."
-                        exit 1  # This will cause the workflow to fail if there is an error
-                      fi
+                        # Check for errors in the response
+                        if [[ "$response" == *"\"ok\":false"* ]]; then
+                            echo "Sending the APK file failed. Check the response for details."
+                            exit 1  # This will cause the workflow to fail if there is an error
+                        fi
                     else
-                      echo "No APK files found to send."
+                        echo "No APK files found to send."
+                        exit 1
                     fi
                 env:
                     TELEGRAM_API_KEY: ${{ secrets.TG_BOT_KEY }}
