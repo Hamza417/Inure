@@ -18,4 +18,6 @@ object Extensions {
     fun Float.percentOf(total: Float): Float = (this * 100.0 / total).toFloat()
 
     fun Double.percentOf(total: Double): Double = (this * 100.0 / total)
+
+    fun Float.getPercentPart(total: Float): Float = (this * total / 100.0).toFloat()
 }

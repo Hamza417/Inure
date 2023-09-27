@@ -1,7 +1,6 @@
 package app.simple.inure.ui.panels
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.math.Extensions.percentOf
 import app.simple.inure.util.ConditionUtils.isNull
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.NullSafety.isNotNull
@@ -18,15 +18,15 @@ import app.simple.inure.util.NullSafety.isNotNull
 class WebPage : ScopedFragment() {
 
     private lateinit var webView: CustomWebView
-    private lateinit var scrollViews: PaddingAwareNestedScrollView
+    private lateinit var scrollView: PaddingAwareNestedScrollView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_web_page_viewer, container, false)
 
         webView = view.findViewById(R.id.web_view)
-        scrollViews = view.findViewById(R.id.web_page_container)
+        scrollView = view.findViewById(R.id.web_page_container)
 
-        FastScrollerBuilder(scrollViews).build()
+        FastScrollerBuilder(scrollView).build()
         startPostponedEnterTransition()
 
         return view
@@ -38,8 +38,10 @@ class WebPage : ScopedFragment() {
         webView.setOnPageFinishedListener {
             postDelayed {
                 if (savedInstanceState.isNotNull()) {
-                    savedInstanceState?.getInt(BundleConstants.scrollPosition)?.let {
-                        scrollViews.scrollTo(0, it)
+                    savedInstanceState?.getFloat(BundleConstants.scrollPosition)?.let {
+                        scrollView.post {
+                            scrollView.scrollTo(0, (it * scrollView.getChildAt(0).height).toInt())
+                        }
                     }
                 }
             }
@@ -83,15 +85,14 @@ class WebPage : ScopedFragment() {
         } else {
             webView.restoreState(savedInstanceState!!)
         }
-
-        scrollViews.setOnScrollChangeListener { v, _, scrollY, oldScrollX, oldScrollY ->
-            Log.d("WebPage", "onViewCreated: $scrollY")
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
-        outState.putInt(BundleConstants.scrollPosition, scrollViews.scrollY)
+        outState.putFloat(
+                BundleConstants.scrollPosition,
+                scrollView.scrollY.percentOf(
+                        scrollView.getChildAt(0).height).div(100))
         super.onSaveInstanceState(outState)
     }
 
