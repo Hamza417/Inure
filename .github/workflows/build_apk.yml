@@ -40,11 +40,21 @@ jobs:
                     fileName: 'keystore/key.jks'
                     encodedString: ${{ secrets.SIGN_KEY }}
 
-            #      - name: Set up Android
-            #        uses: actions/setup-android@v2
-            #        with:
-            #          sdk-platform: 34   # Specify the desired Android SDK platform version
-            #          ndk-version: '25.2.9519653'  # Specify the desired NDK version
+            -   name: Extract Version Name and Version Code
+                run: |
+                    # Extract versionName and versionCode from build.gradle
+                    VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
+                    VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
+
+                    # Make the version name sentence case
+                    VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
+
+                    echo "Version Name: $VERSION_NAME"
+                    echo "Version Code: $VERSION_CODE"
+
+                    # Set these values as environment variables for later steps
+                    echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+                    echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
             -   name: Build APK
                 run: | # Use 'bundleRelease' to build the release bundle
@@ -70,10 +80,12 @@ jobs:
             -   name: Check File Permissions
                 run: |
                     ls -l "${{ env.APK_PATH }}"
+                    echo "File Permissions: $(stat -c '%A' "${{ env.APK_PATH }}")"
 
             -   name: Set Read Permission
                 run: |
                     chmod +r "${{ env.APK_PATH }}"
+                    echo "File Permissions: $(stat -c '%A' "${{ env.APK_PATH }}")"
 
             -   name: Send APK to Telegram
                 uses: appleboy/telegram-action@master
@@ -82,7 +94,7 @@ jobs:
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: ${{ env.APK_PATH }}
                     message: |
-                        New Beta APK build is ready, test it and report any bugs or issues you had found in the group!
+                        New ${{ env.VERSION_NAME }} beta apk is ready, test it and report any bugs or issues you had found in the group!
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
