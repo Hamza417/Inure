@@ -17,3 +17,4 @@ local.properties
 /app/play/release/
 /app/beta/release/
 /app/github/debug/
+/.idea/deploymentTargetDropDown.xml
