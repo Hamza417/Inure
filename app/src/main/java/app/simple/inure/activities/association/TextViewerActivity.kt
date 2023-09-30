@@ -2,7 +2,6 @@ package app.simple.inure.activities.association
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import app.simple.inure.R
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.association.Text
@@ -31,9 +30,7 @@ class TextViewerActivity : BaseActivity() {
     private fun hasAppPath(): Boolean {
         if (intent.data.isNotNull()) {
             val appDataPath = "/data/data/$packageName/"
-            val normalizedIntentPath = intent.data?.path?.replace("//+".toRegex(), "/") // Normalize multiple slashes
-            Log.d("TAG", "hasAppPath: $appDataPath")
-            Log.d("TAG", "hasAppPath: $normalizedIntentPath")
+            val normalizedIntentPath = intent.data?.path?.replace("//+".toRegex(), "/")
             return normalizedIntentPath?.contains(appDataPath) == true
         }
 
