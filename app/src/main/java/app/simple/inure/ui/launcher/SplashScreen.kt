@@ -21,7 +21,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
@@ -373,12 +372,10 @@ class SplashScreen : ScopedFragment() {
     private fun unlockStateChecker() {
         launcherViewModel.getHasValidCertificate().observe(viewLifecycleOwner) { it ->
             if (it) {
-                Log.d(TAG, "Valid certificate found")
-
                 if (TrialPreferences.isFullVersion().invert()) {
                     kotlin.runCatching {
                         if (TrialPreferences.setFullVersion(value = true)) {
-                            showWarning(R.string.full_version_activated, goBack = false)
+                            // showWarning(R.string.full_version_activated, goBack = false)
                             TrialPreferences.resetUnlockerWarningCount()
                             daysLeft.gone()
                         }
@@ -387,7 +384,7 @@ class SplashScreen : ScopedFragment() {
                     }
                 }
             } else {
-                showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
+                // showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
                 TrialPreferences.setFullVersion(false)
                 TrialPreferences.resetUnlockerWarningCount()
             }

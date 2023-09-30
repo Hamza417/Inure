@@ -10,7 +10,9 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.AppUtils
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,5 +77,15 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
         }
 
         return strResult
+    }
+
+    fun initCheck() {
+        viewModelScope.launch(Dispatchers.Default) {
+            if (TrialPreferences.isFullVersion().invert()) {
+                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                    verifyCertificate()
+                }
+            }
+        }
     }
 }

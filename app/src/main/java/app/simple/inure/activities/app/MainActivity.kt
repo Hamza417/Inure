@@ -11,7 +11,11 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.IntentConstants
@@ -57,7 +61,9 @@ import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.Logger
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.viewmodels.launcher.LauncherViewModel
 import com.topjohnwu.superuser.ipc.RootService
+import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.TimeZone
@@ -66,6 +72,8 @@ class MainActivity : BaseActivity() {
 
     private lateinit var container: ThemeCoordinatorLayout
     private lateinit var content: FrameLayout
+
+    private val launcherViewModel: LauncherViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +92,31 @@ class MainActivity : BaseActivity() {
             openPanel(intent, isNewIntent = false)
         } else {
             Log.d("MainActivity", "savedInstanceState not null")
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                launcherViewModel.initCheck()
+            }
+        }
+
+        launcherViewModel.getHasValidCertificate().observe(this@MainActivity) { it ->
+            if (it) {
+                if (TrialPreferences.isFullVersion().invert()) {
+                    kotlin.runCatching {
+                        if (TrialPreferences.setFullVersion(value = true)) {
+                            showWarning(R.string.full_version_activated, goBack = false)
+                            TrialPreferences.resetUnlockerWarningCount()
+                        }
+                    }.getOrElse {
+                        it.printStackTrace()
+                    }
+                }
+            } else {
+                showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
+                TrialPreferences.setFullVersion(false)
+                TrialPreferences.resetUnlockerWarningCount()
+            }
         }
     }
 
