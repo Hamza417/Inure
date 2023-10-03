@@ -8,6 +8,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDeviceInfo
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.ui.deviceinfo.BatteryInfo
@@ -57,20 +58,23 @@ class DeviceInfo : ScopedFragment() {
                         }
                     }
                 }
-
-                override fun onSearchClicked() {
-                    openFragmentSlide(Search.newInstance(true), "search")
-                }
-
-                override fun onSettingsClicked() {
-                    openFragmentSlide(Preferences.newInstance(), "prefs_screen")
-                }
             })
 
             panels.adapter = adapterDeviceInfo
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), panels) { id, _ ->
+                when (id) {
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), "search")
+                    }
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                    }
+                }
             }
         }
     }

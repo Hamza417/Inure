@@ -1,30 +1,37 @@
-<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/device_info_container"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/panel_item_padding"
-    android:orientation="horizontal"
     android:layout_marginVertical="@dimen/popup_padding"
+    android:layout_marginHorizontal="@dimen/device_info_item_gap_length"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
     android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.theme.ThemeIcon
-        android:id="@+id/device_info_icon"
+        android:id="@+id/icon"
         android:layout_width="@dimen/preference_icon_size"
         android:layout_height="@dimen/preference_icon_size"
-        android:transitionName="appearance_icon"
+        android:layout_gravity="center"
         app:tintType="accent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/device_info_text"
-        android:layout_width="match_parent"
+        android:id="@+id/text"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingHorizontal="20dp"
-        app:textColorStyle="secondary"
-        android:textSize="20sp"
-        app:appFontStyle="medium" />
+        android:layout_marginStart="@dimen/header_padding"
+        android:layout_weight="1"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textSize="@dimen/list_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="secondary" />
 
-</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>

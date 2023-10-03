@@ -7,8 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -28,8 +27,8 @@ class AdapterDeviceInfo(val list: List<Pair<Int, String>>) : RecyclerView.Adapte
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+    override fun onBindViewHolder(holder: VerticalListViewHolder, originalPosition: Int) {
+        val position = originalPosition - 1
 
         if (holder is Holder) {
             holder.icon.transitionName = list[position].second
@@ -38,14 +37,6 @@ class AdapterDeviceInfo(val list: List<Pair<Int, String>>) : RecyclerView.Adapte
 
             holder.container.setOnClickListener {
                 adapterDeviceInfoCallbacks.onItemClicked(list[position].second, holder.icon)
-            }
-        } else if (holder is Header) {
-            holder.search.setOnClickListener {
-                adapterDeviceInfoCallbacks.onSearchClicked()
-            }
-
-            holder.settings.setOnClickListener {
-                adapterDeviceInfoCallbacks.onSettingsClicked()
             }
         }
     }
@@ -63,15 +54,12 @@ class AdapterDeviceInfo(val list: List<Pair<Int, String>>) : RecyclerView.Adapte
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val text: TypeFaceTextView = itemView.findViewById(R.id.device_info_text)
-        val icon: ImageView = itemView.findViewById(R.id.device_info_icon)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.device_info_container)
+        val text: TypeFaceTextView = itemView.findViewById(R.id.text)
+        val icon: ImageView = itemView.findViewById(R.id.icon)
+        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val search: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_search_button)
-        val settings: DynamicRippleImageButton = itemView.findViewById(R.id.adapter_header_configuration_button)
-    }
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView)
 
     fun setOnDeviceInfoCallbackListener(deviceInfoCallbacks: AdapterDeviceInfoCallbacks) {
         this.adapterDeviceInfoCallbacks = deviceInfoCallbacks
@@ -80,8 +68,6 @@ class AdapterDeviceInfo(val list: List<Pair<Int, String>>) : RecyclerView.Adapte
     companion object {
         interface AdapterDeviceInfoCallbacks {
             fun onItemClicked(source: String, icon: View)
-            fun onSearchClicked()
-            fun onSettingsClicked()
         }
     }
 }

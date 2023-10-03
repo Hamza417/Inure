@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textSize="@dimen/info_text_small"
-        app:appFontStyle="light"
-        app:textColorStyle="tertiary" />
+        app:appFontStyle="regular"
+        app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
