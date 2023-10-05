@@ -4,4 +4,5 @@
     <integer name="icon_animation_duration">350</integer>
     <integer name="theme_change_duration">750</integer>
     <integer name="span_count">3</integer>
+    <integer name="tag_character_limit">50</integer>
 </resources>
