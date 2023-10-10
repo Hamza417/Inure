@@ -50,8 +50,7 @@ object AppDataLoader {
             ManifestAssociationActivity::class.java.name,
             TTFViewerActivity::class.java.name,
             TextViewerActivity::class.java.name,
-            TerminalAlias::class.java.name,
-            FOSSDatabase::class.java.name
+            TerminalAlias::class.java.name
     )
 
     fun Context.exportAppData(): String {

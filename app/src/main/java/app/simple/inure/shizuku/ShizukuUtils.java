@@ -237,8 +237,7 @@ public class ShizukuUtils {
     }
     
     public static String getRishCommand() {
-        String echo = "echo Starting rish...";
-        return echo + " && clear && cd $HOME && clear && sh rish && clear";
+        return "clear && cd $HOME && clear && sh rish";
     }
     
     private static void copyFile(InputStream in, OutputStream out) throws IOException {
