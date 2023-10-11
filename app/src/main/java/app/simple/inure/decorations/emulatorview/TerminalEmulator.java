@@ -37,6 +37,8 @@ class TerminalEmulator {
     private final static int CHAR_SET_ALT_SPECIAL_GRAPHICS = 4;
     /**
      * Special graphics character set
+     * <p>
+     * Read more: <a href="https://en.wikipedia.org/wiki/DEC_Special_Graphics">https://en.wikipedia.org/wiki/DEC_Special_Graphics</a>
      */
     private static final char[] specialGraphicsCharMap = new char[128];
     static {
@@ -64,7 +66,7 @@ class TerminalEmulator {
         specialGraphicsCharMap[','] = 0x25C0;    // Left arrow
         specialGraphicsCharMap['+'] = 0x25B6;    // Right arrow
         specialGraphicsCharMap['-'] = 0x25B2;    // Up arrow
-        specialGraphicsCharMap['B'] = '#';       // Board of squares
+        // specialGraphicsCharMap['h'] = '#';       // Board of squares // TODO this is not right
         specialGraphicsCharMap['a'] = 0x2592;    // Checkerboard
         specialGraphicsCharMap['0'] = 0x2588;    // Solid block
         specialGraphicsCharMap['q'] = 0x2500;    // Horizontal line (box drawing)
@@ -285,7 +287,7 @@ class TerminalEmulator {
      * line yet.  Used to ensure combining characters following a character
      * at the edge of the screen are stored in the proper place.
      */
-    private boolean mJustWrapped = false;
+    private boolean justWrapped = false;
     /**
      * Saves away a snapshot of the DECSET flags. Used to implement save and
      * restore escape sequences.
@@ -1661,7 +1663,7 @@ class TerminalEmulator {
             if (cursorCol == columns - 1 && (aboutToAutoWrap || width == 2)) {
                 screen.setLineWrap(cursorRow);
                 cursorCol = 0;
-                mJustWrapped = true;
+                justWrapped = true;
                 if (cursorRow + 1 < bottomMargin) {
                     cursorRow++;
                 } else {
@@ -1680,14 +1682,14 @@ class TerminalEmulator {
         
         if (width == 0) {
             // Combining character -- store along with character it modifies
-            if (mJustWrapped) {
+            if (justWrapped) {
                 screen.set(columns - mLastEmittedCharWidth, cursorRow - 1, c, style);
             } else {
                 screen.set(cursorCol - mLastEmittedCharWidth, cursorRow, c, style);
             }
         } else {
             screen.set(cursorCol, cursorRow, c, style);
-            mJustWrapped = false;
+            justWrapped = false;
         }
         
         if (autoWrap) {
