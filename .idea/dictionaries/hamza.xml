@@ -71,7 +71,16 @@
       <w>crowdin</w>
       <w>ctrlkey</w>
       <w>davemorrissey</w>
+      <w>decaln</w>
+      <w>deckpam</w>
+      <w>deckpnm</w>
       <w>decltype</w>
+      <w>decrc</w>
+      <w>decrst</w>
+      <w>decsc</w>
+      <w>decscnm</w>
+      <w>decset</w>
+      <w>dectcem</w>
       <w>deja</w>
       <w>delims</w>
       <w>demiyrka</w>
@@ -202,6 +211,7 @@
       <w>nunito</w>
       <w>odex</w>
       <w>officedocument</w>
+      <w>oldw</w>
       <w>onerror</w>
       <w>onload</w>
       <w>onreadystatechange</w>

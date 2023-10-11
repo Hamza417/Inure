@@ -16,9 +16,11 @@
 
 package app.simple.inure.terminal;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.decorations.emulatorview.ColorScheme;
 import app.simple.inure.decorations.emulatorview.EmulatorView;
 import app.simple.inure.decorations.emulatorview.TermSession;
@@ -27,6 +29,7 @@ import app.simple.inure.preferences.TerminalPreferences;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.themes.manager.ThemeManager;
 
+@SuppressLint ("ViewConstructor")
 public class TermView extends EmulatorView {
     
     public TermView(Context context, TermSession session, DisplayMetrics metrics) {
@@ -37,7 +40,7 @@ public class TermView extends EmulatorView {
         if (scheme == null) {
             scheme = new ColorScheme(settings.getColorScheme());
         }
-    
+        
         setTextSize(TerminalPreferences.INSTANCE.getFontSize());
         setUseCookedIME(TerminalPreferences.INSTANCE.getInputMethod() != 0);
         setColorScheme(scheme);
@@ -59,6 +62,7 @@ public class TermView extends EmulatorView {
         updatePrefs(settings, null);
     }
     
+    @NonNull
     @Override
     public String toString() {
         return getClass().toString() + '(' + getTermSession() + ')';
