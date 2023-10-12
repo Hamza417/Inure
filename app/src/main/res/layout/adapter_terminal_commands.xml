@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_padding"
-    android:orientation="vertical"
-    android:padding="@dimen/dialog_padding">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_marginHorizontal="@dimen/dialog_padding"
+    android:layout_marginVertical="5dp"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:elevation="@dimen/app_views_elevation"
+    app:cardElevation="5dp"
+    app:contentPadding="@dimen/popup_padding">
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/label"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/dialog_padding"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="medium"
-        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-        app:drawableTintStyle="accent"
-        app:textColorStyle="primary" />
+        android:orientation="vertical">
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/command"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/desc_text_size"
-        app:appFontStyle="regular"
-        app:textColorStyle="accent" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dialog_padding"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/popup_text_size"
+            app:appFontStyle="medium"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/arguments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/desc_text_size"
-        app:appFontStyle="regular"
-        app:textColorStyle="accent" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/command"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/timestamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/desc_text_size"
-        app:appFontStyle="regular"
-        app:textColorStyle="primary" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/arguments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginVertical="5dp" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="@dimen/desc_text_size"
-        app:appFontStyle="regular"
-        app:textColorStyle="secondary" />
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginVertical="5dp" />
 
-</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/lato_regular"
+            android:maxLines="1"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:textColorStyle="accent" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView>

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.terminal.TerminalCommandCallbacks
 import app.simple.inure.models.TerminalCommand
@@ -41,7 +41,7 @@ class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) 
         if (holder is Holder) {
             holder.label.text = terminalCommands[position].label
             holder.command.text = "cmd: " + terminalCommands[position].command
-            holder.timestamp.text = terminalCommands[position].dateCreated.toDate()
+            holder.timestamp.text = holder.context.getString(R.string.edited_on, terminalCommands[position].dateCreated.toDate())
 
             if (terminalCommands[position].arguments.isNullOrEmpty()) {
                 holder.arguments.text = "args: ${holder.getString(R.string.unspecified).lowercase()}"
@@ -105,7 +105,7 @@ class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) 
         val arguments: TypeFaceTextView = itemView.findViewById(R.id.arguments)
         val timestamp: TypeFaceTextView = itemView.findViewById(R.id.timestamp)
         val description: TypeFaceTextView = itemView.findViewById(R.id.description)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
+        val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
