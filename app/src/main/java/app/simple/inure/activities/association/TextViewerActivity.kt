@@ -1,12 +1,10 @@
 package app.simple.inure.activities.association
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import app.simple.inure.R
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.association.Text
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 
 class TextViewerActivity : BaseActivity() {
@@ -26,14 +24,7 @@ class TextViewerActivity : BaseActivity() {
         }
     }
 
-    @SuppressLint("SdCardPath")
     private fun hasAppPath(): Boolean {
-        if (intent.data.isNotNull()) {
-            val appDataPath = "/data/data/$packageName/"
-            val normalizedIntentPath = intent.data?.path?.replace("//+".toRegex(), "/")
-            return normalizedIntentPath?.contains(appDataPath) == true
-        }
-
-        return false
+        return intent.data?.path?.contains(packageName)!!
     }
 }
