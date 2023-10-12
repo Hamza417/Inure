@@ -62,40 +62,15 @@ renderer and a beautiful animation framework. There's also an implementation for
 effects and click interactions for tablet and PC users.
 
 Along with it own UI perks, Inure also supports dynamic Material You colors with dedicated accent
-and
-theme color modes.
-
-See the [concise list of features of the app here](./FEATURES.md).
+and theme color modes.
 
 The app is in stable testing stage. You can join
 app's [Telegram Group](https://t.me/inure_app_manager)
 and submit your feedbacks or get development related updates.
 
-## Development Status
+## Features
 
-### High priority features
-
-- [x] Add basic Shizuku support.
-- [x] Apps Backup feature.
-- [x] Dedicated app installer.
-- [x] External APK information.
-- [x] Proper analytics panel.
-- [x] App directories panel.
-- [x] APK browser for apps that are not yet installed.
-- [x] Modify Shared Prefs of other apps _(root)_.
-- [x] Add battery optimisation manager for all apps.
-- [x] Boot manager for all apps.
-- [x] Add option to disable trackers.
-- [x] Create activity shortcut on homescreen.
-- [ ] Add multiple apk installer.
-- [x] Selection framework for APKs panel
-- [ ] Batch tracker control.
-
-### Low priority features
-
-- [x] Dedicated TextEditor.
-- [x] ImageViewer scalable zoom support.
-- [ ] APK data extraction.
+See the [concise list of features of the app here](./FEATURES.md).
 
 ## Screenshots
 
