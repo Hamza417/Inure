@@ -194,7 +194,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
     @SuppressWarnings ("unused")
-    private ActionBarCompat mActionBar;
+    private ActionBarCompat actionBarCompat;
     
     private void populateViewFlipper() {
         if (termService != null) {
@@ -399,55 +399,10 @@ public class Term extends BaseActivity implements UpdateCallback,
             }
         };
     }
-    
-    private void populateWindowList() {
-        if (termSessions != null) {
-            int position = viewFlipper.getDisplayedChild();
-            
-            if (adapterWindows == null) {
-                adapterWindows = new AdapterWindows(termSessions);
-                currentWindow.setText(adapterWindows.getSessionTitle(position, String.valueOf(position)));
-                
-                adapterWindows.setOnAdapterWindowsCallbackListener(new AdapterWindows.Companion.AdapterWindowsCallback() {
-                    @Override
-                    public void onWindowClicked(int position) {
-                        if (position != viewFlipper.getDisplayedChild()) {
-                            if (position >= viewFlipper.getChildCount()) {
-                                viewFlipper.addView(createEmulatorView(termSessions.get(position - 1)));
-                            }
-                            
-                            if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-                                mActionBar.hide();
-                            }
-                            
-                            viewFlipper.setDisplayedChild(position);
-                            currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
-                            termService.setWindowId(position);
-                        }
-                        
-                        if (NullSafety.INSTANCE.isNotNull(popupTerminalWindows)) {
-                            popupTerminalWindows.dismiss();
-                            popupTerminalWindows = null;
-                        }
-                    }
-                    
-                    @Override
-                    public void onClose(int position) {
-                        TermSession session = termSessions.remove(position);
-                        if (session != null) {
-                            session.finish();
-                            adapterWindows.onUpdate(position);
-                        }
-                    }
-                });
-            } else {
-                adapterWindows.setSessions(termSessions);
-                currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
-            }
-            viewFlipper.addCallback(adapterWindows);
-            currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
-        }
-    }
+    /**
+     * Should we use keyboard shortcuts?
+     */
+    private boolean useKeyboardShortcuts;
     
     @Override
     public void onDestroy() {
@@ -519,10 +474,54 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     }
     
-    /**
-     * Should we use keyboard shortcuts?
-     */
-    private boolean mUseKeyboardShortcuts;
+    private void populateWindowList() {
+        if (termSessions != null) {
+            int position = viewFlipper.getDisplayedChild();
+            
+            if (adapterWindows == null) {
+                adapterWindows = new AdapterWindows(termSessions);
+                currentWindow.setText(adapterWindows.getSessionTitle(position, String.valueOf(position)));
+                
+                adapterWindows.setOnAdapterWindowsCallbackListener(new AdapterWindows.Companion.AdapterWindowsCallback() {
+                    @Override
+                    public void onWindowClicked(int position) {
+                        if (position != viewFlipper.getDisplayedChild()) {
+                            if (position >= viewFlipper.getChildCount()) {
+                                viewFlipper.addView(createEmulatorView(termSessions.get(position - 1)));
+                            }
+                            
+                            if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
+                                actionBarCompat.hide();
+                            }
+                            
+                            viewFlipper.setDisplayedChild(position);
+                            currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
+                            termService.setWindowId(position);
+                        }
+                        
+                        if (NullSafety.INSTANCE.isNotNull(popupTerminalWindows)) {
+                            popupTerminalWindows.dismiss();
+                            popupTerminalWindows = null;
+                        }
+                    }
+                    
+                    @Override
+                    public void onClose(int position) {
+                        TermSession session = termSessions.remove(position);
+                        if (session != null) {
+                            session.finish();
+                            adapterWindows.onUpdate(position);
+                        }
+                    }
+                });
+            } else {
+                adapterWindows.setSessions(termSessions);
+                currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
+            }
+            viewFlipper.addCallback(adapterWindows);
+            currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
+        }
+    }
     
     @Override
     protected void onStart() {
@@ -543,65 +542,8 @@ public class Term extends BaseActivity implements UpdateCallback,
         return session;
     }
     
-    /**
-     * Intercepts keys before the view/terminal gets it.
-     */
-    private final View.OnKeyListener mKeyListener = new View.OnKeyListener() {
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            return backKeyInterceptor(keyCode, event) || keyboardShortcuts(keyCode, event);
-        }
-        
-        /**
-         * Keyboard shortcuts (tab management, paste)
-         */
-        private boolean keyboardShortcuts(int keyCode, KeyEvent event) {
-            if (event.getAction() != KeyEvent.ACTION_DOWN) {
-                return false;
-            }
-            if (!mUseKeyboardShortcuts) {
-                return false;
-            }
-            boolean isCtrlPressed = (event.getMetaState() & KeycodeConstants.META_CTRL_ON) != 0;
-            boolean isShiftPressed = (event.getMetaState() & KeycodeConstants.META_SHIFT_ON) != 0;
-            
-            if (keyCode == KeycodeConstants.KEYCODE_TAB && isCtrlPressed) {
-                if (isShiftPressed) {
-                    viewFlipper.showPrevious();
-                } else {
-                    viewFlipper.showNext();
-                }
-                
-                return true;
-            } else if (keyCode == KeycodeConstants.KEYCODE_N && isCtrlPressed && isShiftPressed) {
-                doCreateNewWindow();
-                
-                return true;
-            } else if (keyCode == KeycodeConstants.KEYCODE_V && isCtrlPressed && isShiftPressed) {
-                doPaste();
-                
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
-        /**
-         * Make sure the back button always leaves the application.
-         */
-        private boolean backKeyInterceptor(int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && mActionBar != null && mActionBar.isShowing()) {
-                /* We need to intercept the key event before the view sees it,
-                   otherwise the view will handle it before we get it */
-                onKeyUp(keyCode, event);
-                return true;
-            } else {
-                return false;
-            }
-        }
-    };
-    
     private void updatePrefs() {
-        mUseKeyboardShortcuts = TerminalPreferences.INSTANCE.getKeyboardShortcutState();
+        useKeyboardShortcuts = TerminalPreferences.INSTANCE.getKeyboardShortcutState();
     
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -629,9 +571,81 @@ public class Term extends BaseActivity implements UpdateCallback,
             if (orientation == 2) {
                 o = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
             } else {
-                /* Shouldn't be happened. */
+                // Shouldn't have happened.
             }
+    
         setRequestedOrientation(o);
+    }    /**
+     * Intercepts keys before the view/terminal gets it.
+     */
+    private final View.OnKeyListener keyListener = new View.OnKeyListener() {
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            return backKeyInterceptor(keyCode, event) || keyboardShortcuts(keyCode, event);
+        }
+        
+        /**
+         * Keyboard shortcuts (tab management, paste)
+         */
+        private boolean keyboardShortcuts(int keyCode, KeyEvent event) {
+            if (event.getAction() != KeyEvent.ACTION_DOWN) {
+                return false;
+            }
+            if (!useKeyboardShortcuts) {
+                return false;
+            }
+            boolean isCtrlPressed = (event.getMetaState() & KeycodeConstants.META_CTRL_ON) != 0;
+            boolean isShiftPressed = (event.getMetaState() & KeycodeConstants.META_SHIFT_ON) != 0;
+            
+            if (keyCode == KeycodeConstants.KEYCODE_TAB && isCtrlPressed) {
+                if (isShiftPressed) {
+                    viewFlipper.showPrevious();
+                } else {
+                    viewFlipper.showNext();
+                }
+                
+                return true;
+            } else if (keyCode == KeycodeConstants.KEYCODE_N && isCtrlPressed && isShiftPressed) {
+                doCreateNewWindow();
+                
+                return true;
+            } else if (keyCode == KeycodeConstants.KEYCODE_V && isCtrlPressed && isShiftPressed) {
+                doPaste();
+    
+                return true;
+            } else if (keyCode == KeycodeConstants.KEYCODE_C && isCtrlPressed && isShiftPressed) {
+                doCopyAll();
+    
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        /**
+         * Make sure the back button always leaves the application.
+         */
+        private boolean backKeyInterceptor(int keyCode, KeyEvent event) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && actionBarCompat != null && actionBarCompat.isShowing()) {
+                /* We need to intercept the key event before the view sees it,
+                   otherwise the view will handle it before we get it */
+                onKeyUp(keyCode, event);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+    
+    private TermView createEmulatorView(TermSession session) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        TermView emulatorView = new TermView(this, session, metrics);
+    
+        emulatorView.setExtGestureListener(new EmulatorViewGestureListener(emulatorView));
+        emulatorView.setOnKeyListener(keyListener);
+        registerForContextMenu(emulatorView);
+        
+        return emulatorView;
     }
     
     private String makePathFromBundle(Bundle extras) {
@@ -712,16 +726,10 @@ public class Term extends BaseActivity implements UpdateCallback,
         terminalSessionTitle.show(getSupportFragmentManager(), "TerminalSessionTitle");
     }
     
-    private TermView createEmulatorView(TermSession session) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        TermView emulatorView = new TermView(this, session, metrics);
-        
-        emulatorView.setExtGestureListener(new EmulatorViewGestureListener(emulatorView));
-        emulatorView.setOnKeyListener(mKeyListener);
-        registerForContextMenu(emulatorView);
-        
-        return emulatorView;
+    @SuppressLint ("UnsafeIntentLaunch")
+    private void restart() {
+        startActivity(getIntent());
+        finish();
     }
     
     @Override
@@ -751,9 +759,37 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     }
     
-    private void restart() {
-        startActivity(getIntent());
-        finish();
+    @SuppressLint ("GestureBackNavigation")
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && actionBarCompat != null && actionBarCompat.isShowing()) {
+                    actionBarCompat.hide();
+                    return true;
+                }
+                switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
+                    case TermSettings.BACK_KEY_STOPS_SERVICE:
+                        stopServiceOnFinish = true;
+                    case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
+                        supportFinishAfterTransition();
+                        return true;
+                    case TermSettings.BACK_KEY_CLOSES_WINDOW:
+                        doCloseWindow();
+                        return true;
+                    default:
+                        return false;
+                }
+            case KeyEvent.KEYCODE_MENU:
+                if (actionBarCompat != null && !actionBarCompat.isShowing()) {
+                    actionBarCompat.show();
+                    return true;
+                } else {
+                    return super.onKeyUp(keyCode, event);
+                }
+            default:
+                return super.onKeyUp(keyCode, event);
+        }
     }
     
     protected static TermSession createTermSession(Context context, TermSettings settings, String initialCommand) throws IOException {
@@ -781,36 +817,15 @@ public class Term extends BaseActivity implements UpdateCallback,
         }.start();
     }
     
-    @SuppressLint ("GestureBackNavigation")
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && mActionBar != null && mActionBar.isShowing()) {
-                    mActionBar.hide();
-                    return true;
-                }
-                switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
-                    case TermSettings.BACK_KEY_STOPS_SERVICE:
-                        stopServiceOnFinish = true;
-                    case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
-                        supportFinishAfterTransition();
-                        return true;
-                    case TermSettings.BACK_KEY_CLOSES_WINDOW:
-                        doCloseWindow();
-                        return true;
-                    default:
-                        return false;
-                }
-            case KeyEvent.KEYCODE_MENU:
-                if (mActionBar != null && !mActionBar.isShowing()) {
-                    mActionBar.show();
-                    return true;
-                } else {
-                    return super.onKeyUp(keyCode, event);
-                }
-            default:
-                return super.onKeyUp(keyCode, event);
+    private void doToggleActionBar() {
+        ActionBarCompat bar = actionBarCompat;
+        if (bar == null) {
+            return;
+        }
+        if (bar.isShowing()) {
+            bar.hide();
+        } else {
+            bar.show();
         }
     }
     
@@ -1065,17 +1080,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         
     }
     
-    private void doToggleActionBar() {
-        ActionBarCompat bar = mActionBar;
-        if (bar == null) {
-            return;
-        }
-        if (bar.isShowing()) {
-            bar.hide();
-        } else {
-            bar.show();
-        }
-    }
+
     
     /**
      * Send a URL up to Android to be handled by a browser.

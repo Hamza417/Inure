@@ -112,6 +112,31 @@ object BottomMenuConstants {
     private val batchMenuRoot: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_settings_power, R.string.battery),
+                Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
+                divider,
+                Pair(R.drawable.ic_hide_source, R.string.state),
+                Pair(R.drawable.ic_delete, R.string.uninstall),
+                Pair(R.drawable.ic_close, R.string.force_stop),
+                // Pair(R.drawable.ic_share, R.string.share),
+                Pair(R.drawable.ic_downloading, R.string.extract),
+                Pair(R.drawable.ic_text_snippet, R.string.data),
+                Pair(R.drawable.ic_tags, R.string.tags),
+                divider,
+                Pair(R.drawable.ic_checklist, R.string.checklist),
+                Pair(R.drawable.ic_select_all, R.string.select_all),
+                divider,
+                refresh,
+                // Pair(R.drawable.ic_sort, R.string.sort),
+                Pair(R.drawable.ic_filter, R.string.filter),
+                Pair(R.drawable.ic_settings, R.string.preferences),
+                divider,
+                Pair(R.drawable.ic_search, R.string.search),
+        )
+    }
+
+    private val batchMenuShizuku: ArrayList<Pair<Int, Int>> by lazy {
+        arrayListOf(
+                Pair(R.drawable.ic_settings_power, R.string.battery),
                 // Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
                 divider,
                 Pair(R.drawable.ic_hide_source, R.string.state),
@@ -206,10 +231,16 @@ object BottomMenuConstants {
 
     @Suppress("UNCHECKED_CAST")
     fun getBatchMenu(): ArrayList<Pair<Int, Int>> {
-        return if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
-            batchMenuRoot.clone() as ArrayList<Pair<Int, Int>>
-        } else {
-            batchMenuNonRoot.clone() as ArrayList<Pair<Int, Int>>
+        return when {
+            ConfigurationPreferences.isUsingRoot() -> {
+                batchMenuRoot.clone() as ArrayList<Pair<Int, Int>>
+            }
+            ConfigurationPreferences.isUsingShizuku() -> {
+                batchMenuShizuku.clone() as ArrayList<Pair<Int, Int>>
+            }
+            else -> {
+                batchMenuNonRoot.clone() as ArrayList<Pair<Int, Int>>
+            }
         }
     }
 

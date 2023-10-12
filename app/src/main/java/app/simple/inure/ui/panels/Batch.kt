@@ -231,6 +231,10 @@ class Batch : ScopedFragment() {
                     childFragmentManager.showBatchBatteryOptimization(adapterBatch?.getCurrentAppsList()!!)
                 }
 
+                R.drawable.ic_radiation_nuclear -> {
+
+                }
+
                 R.drawable.ic_checklist -> {
                     openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
                 }
