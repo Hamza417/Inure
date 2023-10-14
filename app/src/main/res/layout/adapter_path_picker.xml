@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/directory_name"
+    android:layout_width="match_parent"
+    android:padding="@dimen/popup_padding"
+    android:layout_marginHorizontal="@dimen/popup_padding"
+    android:textSize="@dimen/info_text_medium"
+    android:text="PATH"
+    android:layout_marginVertical="@dimen/popup_item_gap_length"
+    android:layout_height="wrap_content"
+    app:appFontStyle="medium"
+    tools:ignore="HardcodedText" />
