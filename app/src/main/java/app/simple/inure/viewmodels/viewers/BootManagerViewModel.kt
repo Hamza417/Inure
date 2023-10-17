@@ -57,11 +57,9 @@ class BootManagerViewModel(application: Application, private val packageInfo: Pa
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), PackageManager.ResolveInfoFlags.of(resolveInfoFlags.toLong()))
                 } else {
-                    @Suppress("DEPRECATION")
                     packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
                 }
             } else {
-                @Suppress("DEPRECATION")
                 packageManager.queryBroadcastReceivers(PackageUtils.getIntentFilter(bootCompletedIntent), resolveInfoFlags)
             }.filter { it.activityInfo.packageName.equals(packageInfo.packageName) }
 

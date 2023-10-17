@@ -152,6 +152,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                             }.getOrElse {
                                 false
                             }
+
                             tracker.trackerId = signature
                             tracker.isReceiver = false
                             tracker.isService = false
