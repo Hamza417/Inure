@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.batch
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,25 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
 
         holder.path.text = holder.path.text.optimizeToColoredString("/")
 
-        holder.tracker.text = tracker.trackerId
+        holder.tracker.text = buildString {
+            append(tracker.trackerId)
+            append(" | ")
+            when {
+                tracker.isActivity -> {
+                    append(holder.itemView.context.getString(R.string.activity))
+                }
+                tracker.isService -> {
+                    append(holder.itemView.context.getString(R.string.service))
+                }
+                tracker.isReceiver -> {
+                    append(holder.itemView.context.getString(R.string.receiver))
+                }
+                else -> {
+                    append(holder.itemView.context.getString(R.string.unknown))
+                }
+            }
+        }
+
         holder.checkBox.setCheckedWithoutAnimations(tracker.isBlocked.invert())
 
         holder.container.setOnClickListener {
@@ -45,6 +64,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         return trackers.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun selectAll() {
         trackers.forEach {
             it.isBlocked = false // contextually unblock all
@@ -53,6 +73,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun unselectAll() {
         trackers.forEach {
             it.isBlocked = true // contextually block all

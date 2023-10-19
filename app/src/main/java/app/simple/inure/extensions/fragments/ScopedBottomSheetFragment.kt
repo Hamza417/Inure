@@ -194,6 +194,14 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         }
     }
 
+    protected fun postDelayed(delay: Long, action: () -> Unit) {
+        handler.postDelayed({ action() }, delay)
+    }
+
+    protected fun postDelayed(action: () -> Unit) {
+        postDelayed(500, action)
+    }
+
     open fun fullVersionCheck(goBack: Boolean = true): Boolean {
         return if (TrialPreferences.isAppFullVersionEnabled()) {
             true

@@ -33,13 +33,47 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             holder.icon.loadIconFromActivityInfo(list[position].activityInfo)
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
-            holder.trackerId.text = list[position].trackerId
+            holder.trackerId.text = buildString {
+                append(list[position].trackerId)
+                append(" | ")
+                when {
+                    list[position].isActivity -> {
+                        append(holder.itemView.context.getString(R.string.activity))
+                    }
+                    list[position].isService -> {
+                        append(holder.itemView.context.getString(R.string.service))
+                    }
+                    list[position].isReceiver -> {
+                        append(holder.itemView.context.getString(R.string.receiver))
+                    }
+                    else -> {
+                        append(holder.itemView.context.getString(R.string.unknown))
+                    }
+                }
+            }
             holder.switch.staticChecked(list[position].isBlocked.invert())
         } else if (list[position].isService) {
             holder.icon.loadIconFromServiceInfo(list[position].serviceInfo)
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
-            holder.trackerId.text = list[position].trackerId
+            holder.trackerId.text = buildString {
+                append(list[position].trackerId)
+                append(" | ")
+                when {
+                    list[position].isActivity -> {
+                        append(holder.itemView.context.getString(R.string.activity))
+                    }
+                    list[position].isService -> {
+                        append(holder.itemView.context.getString(R.string.service))
+                    }
+                    list[position].isReceiver -> {
+                        append(holder.itemView.context.getString(R.string.receiver))
+                    }
+                    else -> {
+                        append(holder.itemView.context.getString(R.string.unknown))
+                    }
+                }
+            }
             holder.switch.staticChecked(list[position].isBlocked.invert())
         }
 

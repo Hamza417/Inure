@@ -704,4 +704,7 @@
     <string name="extracting">Extracting</string>
     <string name="mark_as_foss">Mark as FOSS</string>
     <string name="mark_as_non_foss">Mark as Non-FOSS</string>
+    <string name="activity">Activity</string>
+    <string name="service">Service</string>
+    <string name="receiver">Receiver</string>
 </resources>
