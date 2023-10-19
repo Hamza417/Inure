@@ -71,6 +71,18 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         return true
     }
 
+    fun getSelectedPackages(): java.util.ArrayList<Tracker> {
+        val selectedPackages = java.util.ArrayList<Tracker>()
+
+        trackers.forEach {
+            if (!it.isBlocked) {
+                selectedPackages.add(it)
+            }
+        }
+
+        return selectedPackages
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)

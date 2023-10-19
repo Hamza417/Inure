@@ -61,11 +61,17 @@ class BatchTracker : ScopedBottomSheetFragment() {
         }
 
         block.setOnClickListener {
-
+            batchTrackersViewModel?.changeTrackerState(
+                    (recyclerView.adapter as AdapterBatchTracker).getSelectedPackages(), true) {
+                showWarning(getString(R.string.done), false)
+            }
         }
 
         unblock.setOnClickListener {
-
+            batchTrackersViewModel?.changeTrackerState(
+                    (recyclerView.adapter as AdapterBatchTracker).getSelectedPackages(), false) {
+                showWarning(getString(R.string.done), false)
+            }
         }
 
         close.setOnClickListener {
