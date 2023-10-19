@@ -21,6 +21,7 @@
     <string name="total_apps">%1$s تطبيقات</string>
     <string name="total_sensors">%1$s اجهزة الاستشعار</string>
     <string name="total_notes">%1$s ملاحظات</string>
+    <string name="total_tags"> %1$d علامات</string>
     <string name="apps">التطبيقات</string>
     <string name="sorting_style">نمط الترتيب</string>
     <string name="open_application_settings">افتح إعدادات التطبيق...</string>
@@ -104,7 +105,7 @@
     <string name="none">لا شيء</string>
     <string name="bouncy_desc">قيمة لمقدار ارتداد القائمة جيئة وذهابا قبل الاستقرار بعد انتهاء القائمة.</string>
     <string name="root">Root</string>
-    <string name="use_root_methods">استخدم طرق الجذر (Root Methods)</string>
+    <string name="use_root_methods"></string>
     <string name="root_desc">استخدم طرق الجذر بدلا من استخدام واجهات برمجة تطبيقات Android الأصلية و Libs لأداء بعض الوظائف.\n\nيوصى بهذا الخيار لأنه يمكن أن يجعل تجربة المستخدم أكثر بساطة.\n\nمطلوب جهاز روت.</string>
     <string name="back_button">رجوع</string>
     <string name="files">الملفات</string>
@@ -168,7 +169,7 @@
     <string name="yes">نعم</string>
     <string name="no">لا</string>
     <string name="open_in_settings">فتح في الإعدادات…</string>
-    <string name="force_launch_with_action">تشغيل قسري بواسطة الإجراء المحدد</string>
+    <string name="force_launch_with_action">تشغيل إجباري بواسطة الإجراء المحدد</string>
     <string name="force_launch">تشغيل قسري</string>
     <string name="action">الإجراء</string>
     <string name="desc_intent_action">تأكد من أن النشاط يتلقى أو متوافق مع الإجراء المحدد أعلاه. سيستمر إطلاق النشاط ولكن الإجراء المقدم لن يكون له أي تأثير بخلاف ذلك.</string>
@@ -240,7 +241,7 @@
     <string name="single_instance">مثيل واحد</string>
     <string name="single_task">مهمة واحدة</string>
     <string name="single_top">قاعدة واحدة</string>
-    <string name="unspecified">محدد</string>
+    <string name="unspecified">غير محدد</string>
     <string name="behind">وراء</string>
     <string name="full_sensor">مستشعر كامل</string>
     <string name="full_user">مستخدم كامل</string>
@@ -632,7 +633,7 @@
     <string name="date">تاريخ</string>
     <string name="trial_info">معلومات التجربة</string>
     <string name="desc_trial">Inure يوفر مدير التطبيقات الوصول الكامل إلى التطبيق مجانا لمدة 15 يوما. بعد ذلك ستتطلب هذه الميزات تنشيط Unlocker.</string>
-    <string name="use_shizuku">استخدم شيزوكو</string>
+    <string name="use_shizuku">وضع شيزوكو</string>
     <string name="shizuku_desc">استخدم واجهة برمجة تطبيقات Shizuku بدلا من استخدام واجهات برمجة تطبيقات Android الأصلية و Libs لأداء بعض الوظائف.\n\nيوصى بهذا الخيار للمستخدمين غير الجذر.\n\nمطلوب وصول Shizuku.</string>
     <string name="shizuku_alert">إذا تم منح الوصول إلى الجذر وتم تبديل وضع الجذر في التطبيق ، تفضيل وضع الجذر على Shizuku.</string>
     <string name="disclaimer">اخلاء المسؤوليه</string>
@@ -699,4 +700,14 @@
     <string name="backup_and_restore_desc">نسخ و استعادة بيانات التطبيق.</string>
     <string name="import_">استيراد</string>
     <string name="tags">العلامات</string>
+    <string name="add_tag">إضافة علامة جديدة</string>
+    <string name="tinted_shadows">ظل ملون</string>
+    <string name="extracting">جارٍ الاستخراج</string>
+    <string name="mark_as_foss">ضع علامة أنه \"FOSS - برمجية حرة\"</string>
+    <string name="mark_as_non_foss">ضع علامة أنه \"Non-FOSS - برمجية غير حرة\"</string>
+    <string name="activity">الأنشطة</string>
+    <string name="service">الخدمة</string>
+    <string name="receiver">المستقبل</string>
+    <string name="load_selection_profile">تحميل ملف تعريف التحديد</string>
+    <string name="save_selection_profile">حفظ ملف تعريف التحديد</string>
 </resources>
