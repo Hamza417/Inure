@@ -95,7 +95,9 @@ jobs:
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v1
                 with:
-                    files: app/**/*.apk
+                    files: |
+                        app/**/play/release/*.apk
+                        app/**/github/release/*.apk
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
                     body: ${{ env.RELEASE_NOTES_FILE }}

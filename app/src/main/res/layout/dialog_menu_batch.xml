@@ -71,6 +71,56 @@
             android:layout_marginHorizontal="@dimen/dialog_padding"
             android:layout_marginVertical="@dimen/dialog_padding" />
 
+        <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+            android:id="@+id/load_selection_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dialog_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/load_selection_profile"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:layout_width="1px"
+                android:layout_marginHorizontal="@dimen/popup_padding"
+                android:layout_height="match_parent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/current_profile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/default_identifier"
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/info_text_small"
+                android:drawablePadding="5dp"
+                app:appFontStyle="medium"
+                app:drawableEndCompat="@drawable/ic_dot_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="accent" />
+
+        </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:layout_height="wrap_content"
+            android:text="@string/save_selection_profile"
+            android:padding="@dimen/dialog_padding" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginHorizontal="@dimen/dialog_padding"
+            android:layout_marginVertical="@dimen/dialog_padding" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

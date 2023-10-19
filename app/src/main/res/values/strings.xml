@@ -707,4 +707,6 @@
     <string name="activity">Activity</string>
     <string name="service">Service</string>
     <string name="receiver">Receiver</string>
+    <string name="load_selection_profile">Load Selection Profile</string>
+    <string name="save_selection_profile">Save Selection Profile</string>
 </resources>

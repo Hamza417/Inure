@@ -16,6 +16,7 @@ An elegant Android app manager.
 ![](https://img.shields.io/badge/Target%20SDK-34%20(Android%2014)-566573?logo=android&logoColor=white)
 [![Crowdin](https://badges.crowdin.net/inure/localized.svg)](https://crowdin.com/project/inure)
 [![Telegram Channel](https://img.shields.io/badge/Telegram%20Channel-blue?logo=telegram)](https://t.me/inure_app_manager)
+[![Telegram Group](https://img.shields.io/badge/Telegram%20Group-blue?logo=telegram)](https://t.me/inure_app_grp)
 
 ## Download
 
