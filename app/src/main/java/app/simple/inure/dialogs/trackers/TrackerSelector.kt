@@ -43,7 +43,7 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paths = requireArguments().parcelableArrayList<Tracker>(BundleConstants.trackers)!!
+        paths = requireArguments().parcelableArrayList(BundleConstants.trackers)!!
 
         if (savedInstanceState.isNotNull()) {
             selectedPaths = savedInstanceState?.serializable(BundleConstants.selectedTrackers)!!

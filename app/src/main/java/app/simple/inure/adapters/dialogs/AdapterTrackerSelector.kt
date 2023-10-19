@@ -8,21 +8,52 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Tracker
+import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private val selectedPaths: ArrayList<Tracker>) : RecyclerView.Adapter<AdapterTrackerSelector.Holder>() {
 
     private var trackerSelectorCallbacks: TrackerSelectorCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_selector_split_apk, parent, false))
+        return Holder(LayoutInflater.from(parent.context)
+                          .inflate(R.layout.adapter_selector_batch_tracker, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.path.text = trackers[position].name
-        holder.checkBox.setChecked(selectedPaths.contains(trackers[position]))
+        val tracker = trackers[position]
+
+        holder.path.text = when {
+            tracker.isActivity -> tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
+            tracker.isService -> tracker.serviceInfo.packageName + "/" + tracker.serviceInfo.name
+            tracker.isReceiver -> tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
+            else -> holder.itemView.context.getString(R.string.unknown)
+        }
+
+        holder.path.text = holder.path.text.optimizeToColoredString("/")
+
+        holder.tracker.text = buildString {
+            append(tracker.trackerId)
+            append(" | ")
+            when {
+                tracker.isActivity -> {
+                    append(holder.itemView.context.getString(R.string.activity))
+                }
+                tracker.isService -> {
+                    append(holder.itemView.context.getString(R.string.service))
+                }
+                tracker.isReceiver -> {
+                    append(holder.itemView.context.getString(R.string.receiver))
+                }
+                else -> {
+                    append(holder.itemView.context.getString(R.string.unknown))
+                }
+            }
+        }
+
+        holder.checkBox.setCheckedWithoutAnimations(selectedPaths.contains(trackers[position]))
 
         holder.checkBox.setOnCheckedChangeListener { isChecked ->
             trackerSelectorCallbacks?.onTrackerSelected(trackers[position], isChecked)
@@ -38,9 +69,10 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
+        val tracker: TypeFaceTextView = itemView.findViewById(R.id.tracker)
         val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
-        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 
     fun setTrackerSelectorCallbacks(trackerSelectorCallbacks: TrackerSelectorCallbacks) {

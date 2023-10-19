@@ -31,7 +31,7 @@ class BatchTracker : ScopedBottomSheetFragment() {
     private var batchTrackersViewModel: BatchTrackersViewModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_selector_tracker, container, false)
+        val view = inflater.inflate(R.layout.dialog_batch_tracker, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
         selectAll = view.findViewById(R.id.select_all)
