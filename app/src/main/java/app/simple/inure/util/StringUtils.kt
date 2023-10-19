@@ -60,6 +60,10 @@ object StringUtils {
         }
     }
 
+    fun CharSequence.optimizeToColoredString(lookupIndex: String): Spannable {
+        return this.toString().optimizeToColoredString(lookupIndex)
+    }
+
     /**
      * Change string color to app's accent color.
      *

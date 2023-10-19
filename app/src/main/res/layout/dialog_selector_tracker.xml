@@ -16,23 +16,51 @@
         <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="450dp"
             android:clipChildren="false"
             android:fadingEdge="vertical"
             android:fadingEdgeLength="@dimen/fading_edge_length"
             android:requiresFadingEdge="vertical"
+            android:layoutAnimation="@anim/list_animation_controller"
             app:isFadingEdgeRequired="true"
             app:isFastScrollRequired="false"
             app:isTopFadingEdgeOnly="false"
             app:statusBarPaddingRequired="false" />
 
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dialog_padding"
-            android:animateLayoutChanges="true"
+            android:animateLayoutChanges="false"
             android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/select_all"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_select_all"
+                android:visibility="gone"
+                app:buttonTintType="accent" />
+
+            <app.simple.inure.decorations.views.CustomProgressBar
+                android:id="@+id/loader"
+                style="?android:attr/progressBarStyleSmall"
+                android:padding="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="@dimen/loader_size"
+                android:layout_gravity="center_vertical"
+                android:layout_height="@dimen/loader_size" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/close"
@@ -47,7 +75,7 @@
                 app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/enable"
+                android:id="@+id/unblock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
@@ -60,7 +88,7 @@
                 app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/disable"
+                android:id="@+id/block"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"

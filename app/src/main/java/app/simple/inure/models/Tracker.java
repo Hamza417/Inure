@@ -156,4 +156,20 @@ public class Tracker implements Parcelable {
     public void setLogged(boolean logged) {
         isLogged = logged;
     }
+    
+    @Override
+    public String toString() {
+        return "Tracker{" +
+                "name='" + name + '\'' +
+                ", trackerId='" + trackerId + '\'' +
+                ", isActivity=" + isActivity +
+                ", isService=" + isService +
+                ", isReceiver=" + isReceiver +
+                ", isBlocked=" + isBlocked +
+                ", isEnabled=" + isEnabled +
+                ", activityInfo=" + activityInfo +
+                ", serviceInfo=" + serviceInfo +
+                ", isLogged=" + isLogged +
+                '}';
+    }
 }

@@ -24,6 +24,7 @@ import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceSto
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
+import app.simple.inure.dialogs.batch.BatchTracker.Companion.showBatchTracker
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
@@ -232,7 +233,9 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_radiation_nuclear -> {
-
+                    childFragmentManager.showBatchTracker(
+                            adapterBatch?.getCurrentAppsList()!!
+                                .map { it.packageInfo.packageName } as ArrayList<String>)
                 }
 
                 R.drawable.ic_checklist -> {

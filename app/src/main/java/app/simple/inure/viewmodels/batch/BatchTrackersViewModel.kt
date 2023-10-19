@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
@@ -13,7 +14,6 @@ import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotNull
@@ -33,16 +33,17 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class BatchTrackersViewModel(application: Application, private val packages: ArrayList<String>) : RootServiceViewModel(application) {
 
-    private val path = "/data/system/ifw/" + "%package_name%.xml"
+    private val placeHolder = "%1\$s"
+    private val path = "/data/system/ifw/$placeHolder.xml"
 
     private val trackers: MutableLiveData<ArrayList<Tracker>> by lazy {
         MutableLiveData<ArrayList<Tracker>>().also {
-            if (ConfigurationPreferences.isUsingRoot()) {
-                initRootProc()
-            } else {
-                Log.d("BatchTrackersViewModel", "Not using root")
-            }
+            initRootProc()
         }
+    }
+
+    fun getTrackers(): LiveData<ArrayList<Tracker>> {
+        return trackers
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
@@ -65,9 +66,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                 trackersList.addAll(packageInfo.getServicesTrackers())
                 trackersList.addAll(packageInfo.getReceiversTrackers())
 
-                if (ConfigurationPreferences.isUsingRoot()) {
-                    readIntentFirewallXml(path.replace("%package_name%", packageInfo.packageName), getFileSystemManager(), trackersList)
-                }
+                readIntentFirewallXml(
+                        path.replace(placeHolder, packageInfo.packageName), getFileSystemManager(), trackersList)
             }
 
             trackersList.sortBy {
