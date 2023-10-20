@@ -703,4 +703,11 @@
     <string name="add_tag">新增標籤</string>
     <string name="tinted_shadows">濃淡陰影</string>
     <string name="extracting">正在擷取</string>
+    <string name="mark_as_foss">標示為 FOSS</string>
+    <string name="mark_as_non_foss">標示為非 FOSS</string>
+    <string name="activity">活動</string>
+    <string name="service">服務</string>
+    <string name="receiver">接收器</string>
+    <string name="load_selection_profile">載入選取項目設定檔</string>
+    <string name="save_selection_profile">儲存選取項目設定檔</string>
 </resources>
