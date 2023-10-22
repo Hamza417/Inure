@@ -91,8 +91,7 @@ jobs:
                     echo "GIT_STATUS=$GIT_STATUS" >> $GITHUB_ENV
                     
                     if [ -z "$GIT_STATUS" ]; then
-                      echo "No changes detected. Exiting..."
-                      exit 78
+                      echo "No changes detected..."
                     fi
 
             -   name: Commit changes
