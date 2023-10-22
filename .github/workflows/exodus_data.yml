@@ -83,11 +83,17 @@ jobs:
                 run: |
                     cat ./app/src/main/res/values/trackers.xml
 
+            # Check for changes and cancel the workflow if there are none
             -   name: Check for changes
                 id: git-status
                 run: |
                     export GIT_STATUS=$(git status --porcelain)
                     echo "GIT_STATUS=$GIT_STATUS" >> $GITHUB_ENV
+                    
+                    if [ -z "$GIT_STATUS" ]; then
+                      echo "No changes detected. Exiting..."
+                      exit 78
+                    fi
 
             -   name: Commit changes
                 if: env.GIT_STATUS != ''
@@ -97,3 +103,8 @@ jobs:
                     git add .
                     git commit -m "Automated Exodus data update"
                     git push origin master
+
+            -   name: Show git status
+                if: env.GIT_STATUS != ''
+                run: |
+                    echo "$GIT_STATUS"
