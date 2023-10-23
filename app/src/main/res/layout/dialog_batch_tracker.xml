@@ -13,19 +13,36 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-            android:id="@+id/recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:clipChildren="false"
-            android:fadingEdge="vertical"
-            android:fadingEdgeLength="@dimen/fading_edge_length"
-            android:requiresFadingEdge="vertical"
-            android:layoutAnimation="@anim/list_animation_controller"
-            app:isFadingEdgeRequired="true"
-            app:isFastScrollRequired="false"
-            app:isTopFadingEdgeOnly="false"
-            app:statusBarPaddingRequired="false" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:clipChildren="false"
+                android:fadingEdge="vertical"
+                android:fadingEdgeLength="@dimen/fading_edge_length"
+                android:requiresFadingEdge="vertical"
+                android:layoutAnimation="@anim/list_animation_controller"
+                app:isFadingEdgeRequired="true"
+                app:isFastScrollRequired="false"
+                app:isTopFadingEdgeOnly="false"
+                app:statusBarPaddingRequired="false" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/scanning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/info_text_medium"
+                android:text="@string/scanning"
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
+
+        </FrameLayout>
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
@@ -48,14 +65,21 @@
                 android:visibility="gone"
                 app:buttonTintType="accent" />
 
-            <app.simple.inure.decorations.views.CustomProgressBar
+            <app.simple.inure.decorations.views.LoaderImageView
                 android:id="@+id/loader"
                 style="?android:attr/progressBarStyleSmall"
-                android:padding="5dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_width="@dimen/loader_size"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/popup_padding"
                 android:layout_height="@dimen/loader_size" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
 
             <Space
                 android:layout_width="0dp"
@@ -84,6 +108,7 @@
                 android:padding="@dimen/button_padding"
                 android:text="@string/unblock"
                 android:textSize="@dimen/info_text_small"
+                android:visibility="gone"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
 
@@ -97,6 +122,7 @@
                 android:padding="@dimen/button_padding"
                 android:text="@string/block"
                 android:textSize="@dimen/info_text_small"
+                android:visibility="gone"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
 

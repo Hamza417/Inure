@@ -50,8 +50,18 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
         }
     }
 
+    private val progress: MutableLiveData<String> by lazy {
+        MutableLiveData<String>().also {
+            it.postValue("~/${packages.size}")
+        }
+    }
+
     fun getTrackers(): LiveData<ArrayList<Tracker>> {
         return trackers
+    }
+
+    fun getProgress(): LiveData<String> {
+        return progress
     }
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
@@ -68,7 +78,9 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
         viewModelScope.launch(Dispatchers.IO) {
             val trackersList = arrayListOf<Tracker>()
 
-            packages.forEach {
+            packages.forEachIndexed { index, it ->
+                progress.postValue("${index + 1}/${packages.size}")
+
                 val packageInfo = it.getPackageInfo()!!
                 trackersList.addAll(packageInfo.getActivityTrackers())
                 trackersList.addAll(packageInfo.getServicesTrackers())

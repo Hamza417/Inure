@@ -12,7 +12,8 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.batch.BatchTrackersFactory
 import app.simple.inure.util.ViewUtils.gone
@@ -22,8 +23,10 @@ import app.simple.inure.viewmodels.batch.BatchTrackersViewModel
 class BatchTracker : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var scanning: TypeFaceTextView
     private lateinit var selectAll: DynamicRippleImageButton
-    private lateinit var loader: CustomProgressBar
+    private lateinit var loader: LoaderImageView
+    private lateinit var progress: TypeFaceTextView
     private lateinit var block: DynamicRippleTextView
     private lateinit var unblock: DynamicRippleTextView
     private lateinit var close: DynamicRippleTextView
@@ -34,8 +37,10 @@ class BatchTracker : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_batch_tracker, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
+        scanning = view.findViewById(R.id.scanning)
         selectAll = view.findViewById(R.id.select_all)
         loader = view.findViewById(R.id.loader)
+        progress = view.findViewById(R.id.progress)
         block = view.findViewById(R.id.block)
         unblock = view.findViewById(R.id.unblock)
         close = view.findViewById(R.id.close)
@@ -50,14 +55,22 @@ class BatchTracker : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
         loader.visible(animate = false)
 
-        batchTrackersViewModel?.getTrackers()?.observe(viewLifecycleOwner) { it ->
+        batchTrackersViewModel?.getTrackers()?.observe(viewLifecycleOwner) {
             loader.gone(animate = true)
+            progress.gone(animate = false)
+            scanning.gone(animate = false)
 
             if (it.isNotEmpty()) {
                 selectAll.visible(animate = true)
+                block.visible(animate = true)
+                unblock.visible(animate = true)
             }
 
             recyclerView.adapter = AdapterBatchTracker(it)
+        }
+
+        batchTrackersViewModel?.getProgress()?.observe(viewLifecycleOwner) {
+            progress.text = it
         }
 
         block.setOnClickListener {
@@ -83,7 +96,7 @@ class BatchTracker : ScopedBottomSheetFragment() {
         }
 
         close.setOnClickListener {
-
+            dismiss()
         }
 
         selectAll.setOnClickListener {
