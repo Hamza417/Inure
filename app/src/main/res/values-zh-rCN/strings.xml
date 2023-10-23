@@ -705,4 +705,9 @@
     <string name="extracting">提取中</string>
     <string name="mark_as_foss">标记为 FOSS</string>
     <string name="mark_as_non_foss">标记为非 FOSS</string>
+    <string name="activity">活动</string>
+    <string name="service">服务</string>
+    <string name="receiver">接收器</string>
+    <string name="load_selection_profile">加载选定配置文件</string>
+    <string name="save_selection_profile">保存选定配置文件</string>
 </resources>
