@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
@@ -16,6 +17,8 @@ class BatchMenu : ScopedBottomSheetFragment() {
 
     private lateinit var moveSelectionOnTop: SwitchView
     private lateinit var highlightSelected: SwitchView
+    private lateinit var loadSelectionProfile: DynamicRippleLinearLayout
+    private lateinit var saveSelectionProfile: DynamicRippleTextView
     private lateinit var openSettings: DynamicRippleTextView
     private lateinit var filter: DynamicRippleImageButton
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.BatchDatabase
+import app.simple.inure.database.instances.BatchProfileDatabase
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.models.BatchModel
 import app.simple.inure.models.BatchPackageInfo
@@ -24,6 +25,7 @@ import java.util.stream.Collectors
 class BatchViewModel(application: Application) : DataGeneratorViewModel(application) {
 
     private var batchDatabase: BatchDatabase? = null
+    private var batchProfileDatabase: BatchProfileDatabase? = null
 
     private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
         MutableLiveData<ArrayList<BatchPackageInfo>>()
@@ -259,6 +261,27 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
             }
 
             loadSelectedApps()
+            loadAppData()
+        }
+    }
+
+    fun loadBatchProfile(id: Int) {
+        viewModelScope.launch(Dispatchers.Default) {
+            batchDatabase = BatchDatabase.getInstance(context)
+            batchProfileDatabase = BatchProfileDatabase.getInstance(context)
+
+            val batchProfile = batchProfileDatabase?.batchProfileDao()?.getBatchProfile(id)
+            val batchSelectionData = arrayListOf<BatchModel>()
+
+            batchDatabase?.batchDao()?.nukeTable()
+
+            batchProfile?.packageNames?.split(",")?.forEach { selectionData ->
+                val selection = selectionData.split("_") // packageName_dateSelected
+                val batchModel = BatchModel(selection[0], true, selection[2].toLong())
+                batchSelectionData.add(batchModel)
+                batchDatabase?.batchDao()?.insertBatch(batchModel)
+            }
+
             loadAppData()
         }
     }

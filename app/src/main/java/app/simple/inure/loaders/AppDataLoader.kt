@@ -15,6 +15,7 @@ import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.activities.association.TTFViewerActivity
 import app.simple.inure.activities.association.TextViewerActivity
 import app.simple.inure.database.instances.BatchDatabase
+import app.simple.inure.database.instances.BatchProfileDatabase
 import app.simple.inure.database.instances.FOSSDatabase
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.database.instances.QuickAppsDatabase
@@ -138,6 +139,7 @@ object AppDataLoader {
                 TerminalCommandDatabase.getTerminalCommandDataPath(this).toFile(),
                 TagsDatabase.getTagDataPath(this).toFile(),
                 FOSSDatabase.getFOSSDataPath(this).toFile(),
+                BatchProfileDatabase.getBatchProfileDataPath(this).toFile(),
                 (filesDir.path + "/backup/component").toFile()
         )
 
@@ -148,6 +150,7 @@ object AppDataLoader {
         TerminalCommandDatabase.getInstance(this)?.close()
         TagsDatabase.getInstance(this)?.close()
         FOSSDatabase.getInstance(this)?.close()
+        BatchProfileDatabase.getInstance(this)?.close()
 
         for (path in paths) {
             if (path.exists()) {
@@ -181,6 +184,7 @@ object AppDataLoader {
         TerminalCommandDatabase.getInstance(this)
         TagsDatabase.getInstance(this)
         FOSSDatabase.getInstance(this)
+        BatchProfileDatabase.getInstance(this)
         TrialPreferences.migrateLegacy()
     }
 

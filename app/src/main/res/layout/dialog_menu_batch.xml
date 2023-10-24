@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
+    android:layout_gravity="bottom"
     android:clipToPadding="false"
     android:padding="@dimen/dialog_padding">
 

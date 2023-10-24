@@ -11,6 +11,7 @@ object BatchPreferences {
     const val isSortingReversed = "batch_is_sorting_reversed"
     const val listAppsCategory = "batch_list_apps_category"
     const val listAppsFilter = "batch_list_apps_filter"
+    const val lastSelectedProfile = "batch_last_selected_profile"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -70,5 +71,15 @@ object BatchPreferences {
 
     fun getAppsFilter(): Int {
         return SharedPreferences.getSharedPreferences().getInt(listAppsFilter, SortConstant.ALL_BATCH_STATES)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setLastSelectedProfile(id: Int) {
+        SharedPreferences.getSharedPreferences().edit().putInt(lastSelectedProfile, id).apply()
+    }
+
+    fun getLastSelectedProfile(): Int {
+        return SharedPreferences.getSharedPreferences().getInt(lastSelectedProfile, -1)
     }
 }
