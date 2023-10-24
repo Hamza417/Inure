@@ -22,6 +22,8 @@ import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBat
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceStop
 import app.simple.inure.dialogs.batch.BatchMenu
+import app.simple.inure.dialogs.batch.BatchMenu.Companion.showBatchMenu
+import app.simple.inure.dialogs.batch.BatchProfileSave.Companion.showBatchProfileSave
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
 import app.simple.inure.dialogs.batch.BatchUninstaller
@@ -137,8 +139,19 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_settings -> {
-                    BatchMenu.newInstance()
-                        .show(childFragmentManager, "batch_menu")
+                    childFragmentManager.showBatchMenu().setBatchMenuListener(object : BatchMenu.Companion.BatchMenuListener {
+                        override fun onSaveProfile() {
+                            val packages = adapterBatch?.getCurrentAppsList()?.map {
+                                it.packageInfo.packageName + "_" + it.dateSelected
+                            } as ArrayList<String>
+
+                            if (packages.isNotEmpty()) {
+                                childFragmentManager.showBatchProfileSave(packages)
+                            } else {
+                                showWarning("ERR: No apps selected", goBack = false)
+                            }
+                        }
+                    })
                 }
 
                 R.drawable.ic_delete -> {
@@ -377,6 +390,9 @@ class Batch : ScopedFragment() {
             BatchPreferences.sortStyle,
             BatchPreferences.listAppsFilter -> {
                 batchViewModel.refresh()
+            }
+            BatchPreferences.lastSelectedProfile -> {
+                batchViewModel.loadBatchProfile(BatchPreferences.getLastSelectedProfile())
             }
         }
     }

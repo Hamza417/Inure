@@ -73,6 +73,14 @@ public class BatchProfile implements Parcelable {
         this.dateCreated = dateCreated;
     }
     
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @Override
     public int describeContents() {
         return 0;

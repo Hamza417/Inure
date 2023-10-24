@@ -20,6 +20,13 @@ interface BatchProfileDao {
     @Query("SELECT * FROM batch_profile WHERE profile_name = :name")
     fun getBatchProfile(name: String): BatchProfile
 
+    @Query("SELECT profile_name FROM batch_profile WHERE id = :id")
+    fun getBatchProfileName(id: Int): String
+
+    fun getIdFromName(name: String): Int {
+        return getBatchProfile(name).id
+    }
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBatchProfile(batchProfile: BatchProfile)
 

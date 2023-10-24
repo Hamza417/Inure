@@ -277,7 +277,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             batchProfile?.packageNames?.split(",")?.forEach { selectionData ->
                 val selection = selectionData.split("_") // packageName_dateSelected
-                val batchModel = BatchModel(selection[0], true, selection[2].toLong())
+                val batchModel = BatchModel(selection[0], true, selection[1].toLong())
                 batchSelectionData.add(batchModel)
                 batchDatabase?.batchDao()?.insertBatch(batchModel)
             }
