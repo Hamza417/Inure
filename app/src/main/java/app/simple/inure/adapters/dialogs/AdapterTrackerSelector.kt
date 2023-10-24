@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.dialogs
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
-                          .inflate(R.layout.adapter_selector_batch_tracker, parent, false))
+                          .inflate(R.layout.adapter_selector_tracker, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -77,11 +76,6 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
 
     fun setTrackerSelectorCallbacks(trackerSelectorCallbacks: TrackerSelectorCallbacks) {
         this.trackerSelectorCallbacks = trackerSelectorCallbacks
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun selectAll() {
-        notifyDataSetChanged()
     }
 
     companion object {

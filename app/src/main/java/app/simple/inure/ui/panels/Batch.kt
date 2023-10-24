@@ -24,7 +24,6 @@ import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceSto
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
-import app.simple.inure.dialogs.batch.BatchTracker.Companion.showBatchTracker
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
@@ -40,6 +39,7 @@ import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.ui.subpanels.BatchSelectedApps
+import app.simple.inure.ui.subpanels.BatchTracker
 import app.simple.inure.ui.viewers.HtmlViewer
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
@@ -233,9 +233,10 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_radiation_nuclear -> {
-                    childFragmentManager.showBatchTracker(
-                            adapterBatch?.getCurrentAppsList()!!
-                                .map { it.packageInfo.packageName } as ArrayList<String>)
+                    openFragmentSlide(
+                            BatchTracker.newInstance(adapterBatch?.getCurrentAppsList()!!.map {
+                                it.packageInfo.packageName
+                            } as ArrayList<String>), "batch_tracker")
                 }
 
                 R.drawable.ic_checklist -> {

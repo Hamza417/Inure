@@ -79,20 +79,37 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             val trackersList = arrayListOf<Tracker>()
 
             packages.forEachIndexed { index, it ->
-                progress.postValue("${index + 1}/${packages.size}")
+                progress.postValue("${index + 1}/${packages.size}\n$it")
 
                 val packageInfo = it.getPackageInfo()!!
                 trackersList.addAll(packageInfo.getActivityTrackers())
                 trackersList.addAll(packageInfo.getServicesTrackers())
                 trackersList.addAll(packageInfo.getReceiversTrackers())
 
-                readIntentFirewallXml(
-                        path.replace(placeHolder, packageInfo.packageName), getFileSystemManager(), trackersList)
+                try {
+                    readIntentFirewallXml(
+                            path.replace(placeHolder, packageInfo.packageName), getFileSystemManager(), trackersList)
+                } catch (e: NullPointerException) {
+                    Log.e("BatchTrackersViewModel", "Error: ${e.message}")
+                }
             }
 
-            trackersList.sortBy {
-                it.name.substringAfterLast(".")
-            }
+            //            trackersList.sortBy {
+            //                when {
+            //                    it.isActivity -> {
+            //                        it.activityInfo.packageName
+            //                    }
+            //                    it.isService -> {
+            //                        it.serviceInfo.packageName
+            //                    }
+            //                    it.isReceiver -> {
+            //                        it.activityInfo.packageName
+            //                    }
+            //                    else -> {
+            //                        it.name
+            //                    }
+            //                }
+            //            }
 
             if (trackersList.size.isZero()) {
                 postWarning(getString(R.string.no_trackers_found))
