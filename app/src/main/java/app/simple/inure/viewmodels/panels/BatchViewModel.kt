@@ -134,12 +134,9 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 if (batch.packageName == item.packageInfo.packageName) {
                     with(batch.isSelected) {
                         item.isSelected = this
-                        if (this) {
-                            item.dateSelected = batch.dateSelected
-                        } else {
-                            item.dateSelected = -1
-                        }
+                        item.dateSelected = if (this) batch.dateSelected else -1
                     }
+
                     break
                 }
             }
@@ -267,22 +264,31 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
     fun loadBatchProfile(id: Int) {
         viewModelScope.launch(Dispatchers.Default) {
-            batchDatabase = BatchDatabase.getInstance(context)
-            batchProfileDatabase = BatchProfileDatabase.getInstance(context)
-
-            val batchProfile = batchProfileDatabase?.batchProfileDao()?.getBatchProfile(id)
-            val batchSelectionData = arrayListOf<BatchModel>()
-
-            batchDatabase?.batchDao()?.nukeTable()
-
-            batchProfile?.packageNames?.split(",")?.forEach { selectionData ->
-                val selection = selectionData.split("_") // packageName_dateSelected
-                val batchModel = BatchModel(selection[0], true, selection[1].toLong())
-                batchSelectionData.add(batchModel)
-                batchDatabase?.batchDao()?.insertBatch(batchModel)
+            if (id == -1) {
+                return@launch
             }
 
-            loadAppData()
+            batchDatabase = BatchDatabase.getInstance(context)
+            batchProfileDatabase = BatchProfileDatabase.getInstance(context)
+            batchDatabase?.batchDao()?.nukeTable()
+
+            val batchProfile = batchProfileDatabase?.batchProfileDao()?.getBatchProfile(id)
+
+            // TODO - make sure this doesn't unnecessarily reload list from other places
+            BatchPreferences.setAppsFilter(batchProfile?.filterStyle!!)
+
+            batchProfile.packageNames?.split(",")?.forEach { selectionData ->
+                val selection = selectionData.lastIndexOf("_").let {
+                    arrayOf(selectionData.substring(0, it), selectionData.substring(it + 1))
+                }
+
+                BatchModel(selection[0], true, selection[1].toLong()).let {
+                    batchDatabase?.batchDao()?.insertBatch(it)
+                }
+            }
+
+            loadSelectedApps()
+            refreshPackageData()
         }
     }
 }

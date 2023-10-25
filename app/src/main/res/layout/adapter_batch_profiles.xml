@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:ellipsize="middle"
+    android:maxLines="1"
+    android:padding="@dimen/header_padding"
+    android:textSize="@dimen/info_text_medium"
+    app:appFontStyle="bold"
+    app:textColorStyle="primary" />

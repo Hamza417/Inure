@@ -8,7 +8,7 @@ import app.simple.inure.database.dao.BatchProfileDao
 import app.simple.inure.models.BatchProfile
 import app.simple.inure.util.ConditionUtils.invert
 
-@Database(entities = [BatchProfile::class], exportSchema = true, version = 1)
+@Database(entities = [BatchProfile::class], exportSchema = true, version = 2)
 abstract class BatchProfileDatabase : RoomDatabase() {
     abstract fun batchProfileDao(): BatchProfileDao?
 
