@@ -705,4 +705,9 @@
     <string name="extracting">Extrayendo</string>
     <string name="mark_as_foss">Marcar como FOSS</string>
     <string name="mark_as_non_foss">Marcar como no FOSS</string>
+    <string name="activity">Actividad</string>
+    <string name="service">Servicio</string>
+    <string name="receiver">Receptor</string>
+    <string name="load_selection_profile">Cargar Perfil de Selección</string>
+    <string name="save_selection_profile">Guardar Perfil de Selección</string>
 </resources>
