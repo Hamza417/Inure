@@ -169,6 +169,11 @@ from `app/src/main/res/values-locale-code` directory.
 You cannot do the above still wanna show your support? hit the star 🌟 and let me know you were here
 and appreciate the project.. 😄
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Hamza417/Inure&type=Date)](https://star-history.com/#Hamza417/Inure&Date
+)
+
 ## License
 
 **Inure App Manager** Copyright © 2023 - Hamza Rizwan
