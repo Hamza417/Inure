@@ -73,7 +73,7 @@ jobs:
 
             -   name: Move Android resource file
                 run: |
-                    mv trackers.xml ./app/src/main/res/values/trackers.xml
+                    mv trackers.xml ./app/src/main/res/values/
 
             -   name: Cleanup
                 run: |
