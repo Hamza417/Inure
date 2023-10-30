@@ -77,6 +77,10 @@ jobs:
                     output += '\n\t</string-array>\n\n'
                     output += '</resources>'
                     
+                    # Write the output to the xml file
+                    with open(output_file, 'w') as file:
+                      file.write(output)
+                    
                     EOF
 
             -   name: Move Android resource file
