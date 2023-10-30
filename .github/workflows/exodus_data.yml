@@ -11,7 +11,7 @@ jobs:
 
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v4`
+                uses: actions/checkout@v4
 
             -   name: Download JSON file
                 run: |
@@ -92,6 +92,7 @@ jobs:
                     
                     if [ -z "$GIT_STATUS" ]; then
                       echo "No changes detected..."
+                      exit 78
                     fi
 
             -   name: Commit changes
