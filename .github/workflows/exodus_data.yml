@@ -25,11 +25,23 @@ jobs:
                     json_file = 'trackers.json'
                     output_file = 'trackers.xml'
                     
-                    with open(json_file, 'r', encoding='utf8') as file:
+                    # Format the JSON file
+                    with open(json_file, "r+", encoding="utf8") as file:
                       json_content = json.load(file)
+                      json_content = json.dumps(json_content, indent=4, sort_keys=True)
+                      file.seek(0)
+                      file.write(json_content)
+                    
+                    # Read the JSON file
+                    with open(json_file, "r", encoding="utf8") as file:
+                      json_content = json.load(file)
+
+                    # Sort the JSON file by code_signature
+                    json_content["trackers"] = \
+                      dict(sorted(json_content["trackers"].items(), key=lambda x: x[1]["code_signature"]))
                     
                     # Extract the trackers tags
-                      signatures = []
+                    signatures = []
                     
                     for tracker in json_content['trackers'].values():
                       try:
@@ -41,8 +53,8 @@ jobs:
                       except KeyError:
                         pass
                     
-                      websites = [tracker['website'] for tracker in json_content['trackers'].values()]
-                      names = [tracker['name'] for tracker in json_content['trackers'].values()]
+                    websites = [tracker['website'] for tracker in json_content['trackers'].values()]
+                    names = [tracker['name'] for tracker in json_content['trackers'].values()]
                     
                     # Format the output
                     output = f'<?xml version="1.0" encoding="utf-8"?>\n\n'
@@ -64,10 +76,6 @@ jobs:
                     output += '\n'.join([f'\t\t<item>{name}</item> <!-- {names.index(name) + 1} -->' for name in names])
                     output += '\n\t</string-array>\n\n'
                     output += '</resources>'
-                    
-                    # Write the output to the text file
-                    with open(output_file, 'w') as file:
-                      file.write(output)
                     
                     EOF
 
