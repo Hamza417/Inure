@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/name"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    android:ellipsize="middle"
-    android:maxLines="1"
-    android:padding="@dimen/header_padding"
-    android:textSize="@dimen/info_text_medium"
-    app:appFontStyle="bold"
-    app:textColorStyle="primary" />
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/popup_item_gap_length"
+    android:padding="@dimen/popup_padding">
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        android:textSize="@dimen/info_text_large"
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/sort_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/info_text_small"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        android:gravity="center_vertical"
+        android:drawablePadding="5dp"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_sort_12dp"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="secondary" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/info_text_small"
+        android:drawablePadding="5dp"
+        android:layout_marginTop="@dimen/popup_item_gap_length"
+        app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_filter_12dp"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="secondary" />
+
+</app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

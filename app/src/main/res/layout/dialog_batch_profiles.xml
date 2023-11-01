@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
-        android:clipChildren="false"
-        android:clipToPadding="false"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">

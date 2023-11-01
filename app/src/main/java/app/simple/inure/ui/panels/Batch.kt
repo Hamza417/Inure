@@ -377,7 +377,7 @@ class Batch : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BatchPreferences.moveSelectionTop -> {
+            BatchPreferences.moveSelectionsToTop -> {
                 adapterBatch?.moveSelectedItemsToTheTop()
             }
 

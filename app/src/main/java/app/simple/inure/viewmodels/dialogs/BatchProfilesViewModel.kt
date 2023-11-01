@@ -32,11 +32,13 @@ class BatchProfilesViewModel(application: Application) : WrappedViewModel(applic
                         if (profiles.isNotEmpty()) {
                             this@BatchProfilesViewModel.profiles.postValue(profiles as ArrayList<BatchProfile>)
                         } else {
-                            val defaultProfile = BatchProfile(
-                                    getString(R.string.default_identifier),
-                                    "",
-                                    System.currentTimeMillis(),
-                                    BatchPreferences.getAppsFilter())
+                            val defaultProfile = BatchProfile(getString(R.string.default_identifier),
+                                                              "",
+                                                              BatchPreferences.getAppsFilter(),
+                                                              BatchPreferences.getSortStyle(),
+                                                              BatchPreferences.isReverseSorting(),
+                                                              BatchPreferences.getAppsCategory(),
+                                                              System.currentTimeMillis())
 
                             defaultProfile.id = -1
 

@@ -97,7 +97,7 @@ jobs:
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: ${{ env.APK_PATH }}
                     message: |
-                        ${{ env.VERSION_NAME }} github beta apk is ready, test it and report any bugs or issues you had found in the group!
+                        ${{ env.VERSION_NAME }} github beta apk is ready, you can test it and report any bugs or issues you had found in the group!
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3

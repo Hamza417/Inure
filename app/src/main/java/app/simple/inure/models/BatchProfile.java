@@ -24,9 +24,6 @@ public class BatchProfile implements Parcelable {
     @ColumnInfo (name = "package_names")
     private String packageNames;
     
-    @ColumnInfo (name = "date_created")
-    private long dateCreated;
-    
     public static final Creator <BatchProfile> CREATOR = new Creator <BatchProfile>() {
         @Override
         public BatchProfile createFromParcel(Parcel in) {
@@ -38,22 +35,42 @@ public class BatchProfile implements Parcelable {
             return new BatchProfile[size];
         }
     };
-    @ColumnInfo (name = "sort_style")
+    @ColumnInfo (name = "filter_style")
     private int filterStyle;
+    @ColumnInfo (name = "sort_style")
+    private String sortStyle;
+    @ColumnInfo (name = "reversed")
+    private boolean reversed;
     
-    public BatchProfile(String profileName, String packageNames, long dateCreated, int filterStyle) {
+    @ColumnInfo (name = "date_created")
+    private long dateCreated;
+    @ColumnInfo (name = "app_type")
+    private String appType;
+    
+    public BatchProfile(String profileName, String packageNames, int filterStyle, String sortStyle, boolean reversed, String appType, long dateCreated) {
         this.profileName = profileName;
         this.packageNames = packageNames;
-        this.dateCreated = dateCreated;
         this.filterStyle = filterStyle;
+        this.sortStyle = sortStyle;
+        this.reversed = reversed;
+        this.appType = appType;
+        this.dateCreated = dateCreated;
     }
     
     protected BatchProfile(Parcel in) {
         id = in.readInt();
         profileName = in.readString();
         packageNames = in.readString();
-        dateCreated = in.readLong();
         filterStyle = in.readInt();
+        sortStyle = in.readString();
+        reversed = in.readByte() != 0;
+        appType = in.readString();
+        dateCreated = in.readLong();
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
     }
     
     @Override
@@ -61,13 +78,19 @@ public class BatchProfile implements Parcelable {
         dest.writeInt(id);
         dest.writeString(profileName);
         dest.writeString(packageNames);
+        dest.writeInt(filterStyle);
+        dest.writeString(sortStyle);
+        dest.writeByte((byte) (reversed ? 1 : 0));
+        dest.writeString(appType);
         dest.writeLong(dateCreated);
-        dest.writeLong(filterStyle);
     }
     
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
     
     public String getProfileName() {
@@ -86,6 +109,38 @@ public class BatchProfile implements Parcelable {
         this.packageNames = packageNames;
     }
     
+    public int getFilterStyle() {
+        return filterStyle;
+    }
+    
+    public void setFilterStyle(int filterStyle) {
+        this.filterStyle = filterStyle;
+    }
+    
+    public String getSortStyle() {
+        return sortStyle;
+    }
+    
+    public void setSortStyle(String sortStyle) {
+        this.sortStyle = sortStyle;
+    }
+    
+    public boolean isReversed() {
+        return reversed;
+    }
+    
+    public void setReversed(boolean reversed) {
+        this.reversed = reversed;
+    }
+    
+    public String getAppType() {
+        return appType;
+    }
+    
+    public void setAppType(String appType) {
+        this.appType = appType;
+    }
+    
     public long getDateCreated() {
         return dateCreated;
     }
@@ -93,21 +148,4 @@ public class BatchProfile implements Parcelable {
     public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
     }
-    
-    public int getFilterStyle() {
-        return filterStyle;
-    }
-    
-    public void setFilterStyle(int sortStyle) {
-        this.filterStyle = sortStyle;
-    }
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
-    
 }

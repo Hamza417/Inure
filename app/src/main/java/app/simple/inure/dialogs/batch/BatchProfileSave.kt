@@ -80,8 +80,11 @@ class BatchProfileSave : ScopedDialogFragment() {
                             dao?.insertBatchProfile(
                                     BatchProfile(editText.text.toString(),
                                                  joinedPackages,
-                                                 System.currentTimeMillis(),
-                                                 BatchPreferences.getAppsFilter()))
+                                                 BatchPreferences.getAppsFilter(),
+                                                 BatchPreferences.getSortStyle(),
+                                                 BatchPreferences.isReverseSorting(),
+                                                 BatchPreferences.getAppsCategory(),
+                                                 System.currentTimeMillis()))
                         }
 
                         BatchPreferences.setLastSelectedProfile(dao?.getIdFromName(editText.text.toString())!!)

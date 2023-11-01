@@ -5,7 +5,7 @@ import app.simple.inure.util.Sort
 
 object BatchPreferences {
 
-    const val moveSelectionTop = "move_selection_on_top"
+    const val moveSelectionsToTop = "move_selection_on_top"
     const val highlightSelected = "highlight_selected_batch"
     const val sortStyle = "batch_sort_style"
     const val isSortingReversed = "batch_is_sorting_reversed"
@@ -16,11 +16,11 @@ object BatchPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setMoveSelectionOnTop(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(moveSelectionTop, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(moveSelectionsToTop, boolean).apply()
     }
 
     fun isSelectionOnTop(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(moveSelectionTop, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(moveSelectionsToTop, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

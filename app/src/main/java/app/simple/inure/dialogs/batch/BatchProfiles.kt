@@ -23,7 +23,6 @@ class BatchProfiles : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_batch_profiles, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
-
         batchProfilesViewModel = ViewModelProvider(this)[BatchProfilesViewModel::class.java]
 
         return view
