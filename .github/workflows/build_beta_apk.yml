@@ -56,7 +56,7 @@ jobs:
             -   name: Build APK
                 run: | # Use 'bundleRelease' to build the release bundle
                     chmod +x ./gradlew
-                    ./gradlew clean assembleBetaRelease
+                    ./gradlew clean assembleGithubRelease
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -73,6 +73,12 @@ jobs:
                         echo "APK_PATH=$apk" >> $GITHUB_ENV
                         echo "${{ env.APK_PATH }}"
                     fi
+
+            -   name: Rename APK
+                run: |
+                    mv "${{ env.APK_PATH }}" "app-${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk"
+                    echo "APK_PATH=$(find . -type f -name "*.apk")" >> $GITHUB_ENV
+                    echo "${{ env.APK_PATH }}"
 
             -   name: Check File Permissions
                 run: |
@@ -91,7 +97,7 @@ jobs:
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: ${{ env.APK_PATH }}
                     message: |
-                        ${{ env.VERSION_NAME }} beta apk is ready, test it and report any bugs or issues you had found in the group!
+                        ${{ env.VERSION_NAME }} github beta apk is ready, test it and report any bugs or issues you had found in the group!
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3

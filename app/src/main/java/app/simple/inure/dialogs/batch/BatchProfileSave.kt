@@ -76,10 +76,12 @@ class BatchProfileSave : ScopedDialogFragment() {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                 kotlin.runCatching {
                     BatchProfileDatabase.getInstance(requireContext())?.batchProfileDao().let { dao ->
-                        packages.joinToString(separator = ",", prefix = "", postfix = "").let {
-                            println(it)
+                        packages.joinToString(separator = ",", prefix = "", postfix = "").let { joinedPackages ->
                             dao?.insertBatchProfile(
-                                    BatchProfile(editText.text.toString(), it, System.currentTimeMillis(), BatchPreferences.getAppsFilter()))
+                                    BatchProfile(editText.text.toString(),
+                                                 joinedPackages,
+                                                 System.currentTimeMillis(),
+                                                 BatchPreferences.getAppsFilter()))
                         }
 
                         BatchPreferences.setLastSelectedProfile(dao?.getIdFromName(editText.text.toString())!!)
