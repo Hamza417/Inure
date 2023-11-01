@@ -76,7 +76,7 @@ jobs:
 
             -   name: Rename APK
                 run: |
-                    mv "${{ env.APK_PATH }}" "app-${{ env.VERSION_NAME }}-${{ env.VERSION_CODE }}.apk"
+                    mv "${{ env.APK_PATH }}" "${{ env.VERSION_NAME }}.apk"
                     echo "APK_PATH=$(find . -type f -name "*.apk")" >> $GITHUB_ENV
                     echo "${{ env.APK_PATH }}"
 
