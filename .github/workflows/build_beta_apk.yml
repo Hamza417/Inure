@@ -56,7 +56,7 @@ jobs:
             -   name: Build APK
                 run: | # Use 'bundleRelease' to build the release bundle
                     chmod +x ./gradlew
-                    ./gradlew clean assembleGithubRelease
+                    ./gradlew clean assembleBetaRelease
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
