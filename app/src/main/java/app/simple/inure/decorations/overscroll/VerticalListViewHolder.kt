@@ -2,6 +2,7 @@ package app.simple.inure.decorations.overscroll
 
 import android.content.Context
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,10 @@ open class VerticalListViewHolder(itemView: View) : RecyclerView.ViewHolder(item
 
     fun getString(resId: Int): String {
         return context.getString(resId)
+    }
+
+    fun getString(@StringRes resId: Int, vararg formatArgs: Any?): String {
+        return context.getString(resId, *formatArgs)
     }
 
     /**

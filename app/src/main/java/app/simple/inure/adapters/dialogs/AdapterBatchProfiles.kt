@@ -44,6 +44,10 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>) : Recycle
                 } else {
                     append(holder.getString(R.string.ascending))
                 }
+
+                append(" | ")
+
+                append(holder.getString(R.string.total_apps, this.packageNames.split(",").size))
             }
         }
 

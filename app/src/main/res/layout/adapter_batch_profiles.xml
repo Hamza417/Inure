@@ -22,25 +22,25 @@
         android:id="@+id/sort_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/info_text_small"
+        android:textSize="@dimen/desc_text_size"
         android:layout_marginTop="@dimen/popup_item_gap_length"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"
         app:appFontStyle="regular"
         app:drawableStartCompat="@drawable/ic_sort_12dp"
-        app:drawableTintStyle="accent"
+        app:drawableTintStyle="secondary"
         app:textColorStyle="secondary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/info_text_small"
+        android:textSize="@dimen/desc_text_size"
         android:drawablePadding="5dp"
         android:layout_marginTop="@dimen/popup_item_gap_length"
         app:appFontStyle="regular"
         app:drawableStartCompat="@drawable/ic_filter_12dp"
-        app:drawableTintStyle="accent"
+        app:drawableTintStyle="secondary"
         app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>
