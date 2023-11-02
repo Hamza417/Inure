@@ -710,4 +710,5 @@
     <string name="receiver">Receptor</string>
     <string name="load_selection_profile">Carregar perfil de seleção</string>
     <string name="save_selection_profile">Salvar perfil de seleção</string>
+    <string name="xposed_module">Módulo Xposed</string>
 </resources>
