@@ -24,6 +24,8 @@ import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceSto
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchMenu.Companion.showBatchMenu
 import app.simple.inure.dialogs.batch.BatchProfileSave.Companion.showBatchProfileSave
+import app.simple.inure.dialogs.batch.BatchProfiles
+import app.simple.inure.dialogs.batch.BatchProfiles.Companion.showBatchProfiles
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
 import app.simple.inure.dialogs.batch.BatchUninstaller
@@ -37,8 +39,11 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.models.BatchProfile
 import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.ui.subpanels.BatchTracker
@@ -150,6 +155,32 @@ class Batch : ScopedFragment() {
                             } else {
                                 showWarning("ERR: No apps selected", goBack = false)
                             }
+                        }
+
+                        override fun onLoadProfile() {
+                            childFragmentManager.showBatchProfiles().setOnProfileSelected(object : BatchProfiles.Companion.BatchProfilesCallback {
+                                override fun onProfileSelected(profile: BatchProfile) {
+                                    unregisterSharedPreferenceChangeListener()
+                                    // This just flashes before my eyes, ahhhhhh!!
+                                    // showLoader(manualOverride = true)
+
+                                    /**
+                                     * Hell, yeah!!!!!!!!!
+                                     */
+                                    if (BatchPreferences.setAppsCategory(profile.appType)) {
+                                        if (BatchPreferences.setSortStyle(profile.sortStyle)) {
+                                            if (BatchPreferences.setReverseSorting(profile.isReversed)) {
+                                                if (BatchPreferences.setAppsFilter(profile.filterStyle)) {
+                                                    if (BatchPreferences.setLastSelectedProfile(profile.id)) {
+                                                        batchViewModel.loadBatchProfile(profile.id)
+                                                        registerSharedPreferenceChangeListener()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            })
                         }
                     })
                 }
@@ -392,7 +423,7 @@ class Batch : ScopedFragment() {
                 batchViewModel.refresh()
             }
             BatchPreferences.lastSelectedProfile -> {
-                batchViewModel.loadBatchProfile(BatchPreferences.getLastSelectedProfile())
+                Log.d("Batch", "Profile changed")
             }
         }
     }

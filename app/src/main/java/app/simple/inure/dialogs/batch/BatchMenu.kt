@@ -14,7 +14,6 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.dialogs.batch.BatchProfiles.Companion.showBatchProfiles
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.BatchPreferences
@@ -64,8 +63,9 @@ class BatchMenu : ScopedBottomSheetFragment() {
         }
 
         loadSelectionProfile.setOnClickListener {
-            parentFragmentManager.showBatchProfiles()
-            dismiss()
+            batchMenuListener.onLoadProfile().also {
+                dismiss()
+            }
         }
 
         saveSelectionProfile.setOnClickListener {
@@ -124,6 +124,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
 
         interface BatchMenuListener {
             fun onSaveProfile()
+            fun onLoadProfile()
         }
     }
 }

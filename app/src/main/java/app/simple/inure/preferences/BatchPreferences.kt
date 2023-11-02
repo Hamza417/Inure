@@ -35,8 +35,8 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortStyle(style: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(sortStyle, style).apply()
+    fun setSortStyle(style: String): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putString(sortStyle, style).commit()
     }
 
     fun getSortStyle(): String {
@@ -45,8 +45,8 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
+    fun setReverseSorting(value: Boolean): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putBoolean(isSortingReversed, value).commit()
     }
 
     fun isReverseSorting(): Boolean {
@@ -55,8 +55,8 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsCategory(category: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(listAppsCategory, category).apply()
+    fun setAppsCategory(category: String): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putString(listAppsCategory, category).commit()
     }
 
     fun getAppsCategory(): String {
@@ -65,8 +65,8 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setAppsFilter(filter: Int) {
-        SharedPreferences.getSharedPreferences().edit().putInt(listAppsFilter, filter).apply()
+    fun setAppsFilter(filter: Int): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putInt(listAppsFilter, filter).commit()
     }
 
     fun getAppsFilter(): Int {
@@ -75,8 +75,8 @@ object BatchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setLastSelectedProfile(id: Int) {
-        SharedPreferences.getSharedPreferences().edit().putInt(lastSelectedProfile, id).apply()
+    fun setLastSelectedProfile(id: Int): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putInt(lastSelectedProfile, id).commit()
     }
 
     fun getLastSelectedProfile(): Int {

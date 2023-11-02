@@ -11,6 +11,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.dialogs.AdapterBatchProfiles
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.models.BatchProfile
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.viewmodels.dialogs.BatchProfilesViewModel
 
@@ -18,6 +19,8 @@ class BatchProfiles : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var batchProfilesViewModel: BatchProfilesViewModel
+
+    private var batchProfilesCallback: BatchProfilesCallback? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_profiles, container, false)
@@ -31,8 +34,11 @@ class BatchProfiles : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        batchProfilesViewModel.getProfiles().observe(viewLifecycleOwner) {
-            recyclerView.adapter = AdapterBatchProfiles(it)
+        batchProfilesViewModel.getProfiles().observe(viewLifecycleOwner) { profiles ->
+            recyclerView.adapter = AdapterBatchProfiles(profiles) {
+                batchProfilesCallback?.onProfileSelected(it)
+                dismiss()
+            }
         }
     }
 
@@ -43,6 +49,10 @@ class BatchProfiles : ScopedBottomSheetFragment() {
                 dismiss()
             }
         }
+    }
+
+    fun setOnProfileSelected(batchProfilesCallback: BatchProfilesCallback) {
+        this.batchProfilesCallback = batchProfilesCallback
     }
 
     companion object {
@@ -57,6 +67,10 @@ class BatchProfiles : ScopedBottomSheetFragment() {
             val dialog = newInstance()
             dialog.show(this, "batch_profiles")
             return dialog
+        }
+
+        interface BatchProfilesCallback {
+            fun onProfileSelected(profile: BatchProfile)
         }
     }
 }

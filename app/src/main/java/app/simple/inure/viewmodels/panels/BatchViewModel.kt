@@ -274,10 +274,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
             val batchProfile = batchProfileDatabase?.batchProfileDao()?.getBatchProfile(id)
 
-            // TODO - make sure this doesn't unnecessarily reload list from other places
-            BatchPreferences.setAppsFilter(batchProfile?.filterStyle!!)
-
-            batchProfile.packageNames?.split(",")?.forEach { selectionData ->
+            batchProfile?.packageNames?.split(",")?.forEach { selectionData ->
                 val selection = selectionData.lastIndexOf("_").let {
                     arrayOf(selectionData.substring(0, it), selectionData.substring(it + 1))
                 }
@@ -287,7 +284,6 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
             }
 
-            loadSelectedApps()
             refreshPackageData()
         }
     }

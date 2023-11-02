@@ -10,11 +10,11 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.BatchProfile
-import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortBatch
 
-class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>) : RecyclerView.Adapter<AdapterBatchProfiles.Holder>() {
+class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private val function: (BatchProfile) -> Unit)
+    : RecyclerView.Adapter<AdapterBatchProfiles.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
@@ -82,10 +82,7 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>) : Recycle
         }
 
         holder.container.setOnClickListener {
-            BatchPreferences.setAppsFilter(names[position].filterStyle)
-            BatchPreferences.setSortStyle(names[position].sortStyle)
-            BatchPreferences.setReverseSorting(names[position].isReversed)
-            BatchPreferences.setLastSelectedProfile(names[position].id)
+            function(names[position])
         }
     }
 
