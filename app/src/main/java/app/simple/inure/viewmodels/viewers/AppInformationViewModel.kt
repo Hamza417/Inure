@@ -6,7 +6,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.text.Spannable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,7 +24,9 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
@@ -105,36 +106,41 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             return@getOrElse
         }
 
+        val informationList = arrayListOf<Pair<Int, Spannable>>()
+
         kotlin.runCatching {
-            Log.d("TAG", "loadInformation: ${packageInfo.applicationInfo.sourceDir}")
-            information.postValue(arrayListOf(
-                    getPackageName(),
-                    getVersion(),
-                    getVersionCode(),
-                    getInstallLocation(),
-                    getState(),
-                    getDataDir(),
-                    getCacheSize(),
-                    getApkPath(),
-                    getSplitNames(),
-                    getTrackers(),
-                    getGlesVersion(),
-                    getArchitecture(),
-                    getNativeLibraries(),
-                    getNativeLibsDir(),
-                    getUID(),
-                    getInstallDate(),
-                    getUpdateDate(),
-                    getMinSDK(),
-                    getTargetSDK(),
-                    getFOSS(),
-                    getMethodCount(),
-                    getApex(),
-                    getApplicationType(),
-                    getInstaller(),
-                    getRequestedPermissions(),
-                    getFeatures(),
-            ))
+            informationList.add(getPackageName())
+            informationList.add(getVersion())
+            informationList.add(getVersionCode())
+            informationList.add(getInstallLocation())
+            informationList.add(getState())
+            informationList.add(getDataDir())
+            informationList.add(getCacheSize())
+            informationList.add(getApkPath())
+            informationList.add(getSplitNames())
+            informationList.add(getTrackers())
+            informationList.add(getGlesVersion())
+            informationList.add(getArchitecture())
+            informationList.add(getNativeLibraries())
+            informationList.add(getNativeLibsDir())
+            informationList.add(getUID())
+            informationList.add(getInstallDate())
+            informationList.add(getUpdateDate())
+            informationList.add(getMinSDK())
+            informationList.add(getTargetSDK())
+            informationList.add(getFOSS())
+            informationList.add(getXposedModule())
+            if (packageInfo.applicationInfo.isXposedModule()) {
+                informationList.add(getXposedDescription())
+            }
+            informationList.add(getMethodCount())
+            informationList.add(getApex())
+            informationList.add(getApplicationType())
+            informationList.add(getInstaller())
+            informationList.add(getRequestedPermissions())
+            informationList.add(getFeatures())
+
+            information.postValue(informationList)
         }.onFailure {
             it.printStackTrace()
             postWarning(it.toString())
@@ -330,6 +336,23 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         return Pair(R.string.foss,
                     (if (isFOSS) getString(R.string.yes) else getString(R.string.no))
                         .applySecondaryTextColor())
+    }
+
+    private fun getXposedModule(): Pair<Int, Spannable> {
+        val string = buildString {
+            if (packageInfo.applicationInfo.isXposedModule()) {
+                append(getString(R.string.yes))
+            } else {
+                append(getString(R.string.no))
+            }
+        }
+
+        return Pair(R.string.xposed_module, string.applySecondaryTextColor())
+    }
+
+    private fun getXposedDescription(): Pair<Int, Spannable> {
+        return Pair(R.string.description,
+                    packageInfo.applicationInfo.getXposedDescription().applySecondaryTextColor())
     }
 
     private fun getMethodCount(): Pair<Int, Spannable> {

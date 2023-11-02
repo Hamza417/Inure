@@ -273,6 +273,22 @@ object PackageUtils {
         return flags and ApplicationInfo.FLAG_SYSTEM == 0
     }
 
+    fun ApplicationInfo.isXposedModule(): Boolean {
+        return kotlin.runCatching {
+            metaData.containsKey("xposedmodule")
+        }.getOrElse {
+            false
+        }
+    }
+
+    fun ApplicationInfo.getXposedDescription(): String {
+        return kotlin.runCatching {
+            metaData.getString("xposeddescription") ?: ""
+        }.getOrElse {
+            ""
+        }
+    }
+
     /**
      * Check if an update is installed for a system app
      */

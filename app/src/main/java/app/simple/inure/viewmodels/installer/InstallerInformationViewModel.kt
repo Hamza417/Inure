@@ -19,7 +19,9 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -75,6 +77,12 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
         list.add(getMinSDK())
         list.add(getTargetSDK())
+        list.add(getXposedModule())
+
+        if (packageInfo.isNotNull() && packageInfo!!.applicationInfo.isXposedModule()) {
+            list.add(getXposedDescription())
+        }
+
         list.add(getGlesVersion())
         list.add(getArchitecture())
         list.add(getNativeLibraries())
@@ -173,6 +181,23 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
         return Pair(R.string.target_sdk,
                     targetSdk.applyAccentColor())
+    }
+
+    private fun getXposedModule(): Pair<Int, Spannable> {
+        val string = buildString {
+            if (packageInfo!!.applicationInfo.isXposedModule()) {
+                append(getString(R.string.yes))
+            } else {
+                append(getString(R.string.no))
+            }
+        }
+
+        return Pair(R.string.xposed_module, string.applySecondaryTextColor())
+    }
+
+    private fun getXposedDescription(): Pair<Int, Spannable> {
+        return Pair(R.string.description,
+                    packageInfo!!.applicationInfo.getXposedDescription().applySecondaryTextColor())
     }
 
     private fun getMethodCount(): Pair<Int, Spannable> {
