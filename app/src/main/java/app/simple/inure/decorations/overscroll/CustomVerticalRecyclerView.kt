@@ -217,7 +217,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
         if (this.adapter.isNotNull()) {
             this.animate()
                 .alpha(0f)
-                .setDuration(150)
+                .setDuration(250)
                 .setInterpolator(DecelerateInterpolator())
                 .withEndAction {
                     super.setAdapter(adapter)

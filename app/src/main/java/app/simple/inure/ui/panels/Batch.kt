@@ -161,12 +161,8 @@ class Batch : ScopedFragment() {
                             childFragmentManager.showBatchProfiles().setOnProfileSelected(object : BatchProfiles.Companion.BatchProfilesCallback {
                                 override fun onProfileSelected(profile: BatchProfile) {
                                     unregisterSharedPreferenceChangeListener()
-                                    // This just flashes before my eyes, ahhhhhh!!
-                                    // showLoader(manualOverride = true)
 
-                                    /**
-                                     * Hell, yeah!!!!!!!!!
-                                     */
+                                    // showLoader(manualOverride = true)
                                     if (BatchPreferences.setAppsCategory(profile.appType)) {
                                         if (BatchPreferences.setSortStyle(profile.sortStyle)) {
                                             if (BatchPreferences.setReverseSorting(profile.isReversed)) {
