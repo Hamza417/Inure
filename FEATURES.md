@@ -27,6 +27,9 @@ These features are available to all users without any extra requirements.
 - Deep search mode to search for internal components in all apps.
 - Built-in package installer to install apk and split apk files.
 - View information of any app even not installed ones.
+- Dedicated indicator for FOSS apps throughout the app.
+- Identify Xposed modules in app info and package installer.
+- Create and manage Batch profiles for multiple apps.
 
 ### Root Features
 These features require root access to work in the app.
