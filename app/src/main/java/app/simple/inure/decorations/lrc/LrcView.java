@@ -297,6 +297,18 @@ public class LrcView extends View {
         }
     }
     
+    public void updateTimeWithoutScroll(long time) {
+        if (isLrcEmpty()) {
+            return;
+        }
+        int linePosition = getUpdateTimeLinePosition(time);
+        if (currentLine != linePosition) {
+            currentLine = linePosition;
+            offset = getItemOffsetY(currentLine);
+            invalidateView();
+        }
+    }
+    
     private int getUpdateTimeLinePosition(long time) {
         int linePos = 0;
         for (int i = 0; i < getLrcCount(); i++) {

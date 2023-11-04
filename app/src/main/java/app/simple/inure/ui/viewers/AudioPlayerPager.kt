@@ -327,6 +327,7 @@ class AudioPlayerPager : ScopedFragment() {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     this@AudioPlayerPager.progress.text = NumberUtils.getFormattedTime(progress.toLong())
+                    lrcView.updateTimeWithoutScroll(progress.toLong())
                     currentSeekPosition = progress
                 }
             }

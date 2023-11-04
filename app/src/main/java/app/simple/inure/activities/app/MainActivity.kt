@@ -217,6 +217,7 @@ class MainActivity : BaseActivity() {
             }
 
             ShortcutConstants.AUDIO_PLAYER_ACTION -> {
+                openHome(isNewIntent)
                 openFragment(AudioPlayerPager.newInstance(MusicPreferences.getMusicPosition()), "audio_player_pager")
             }
 
