@@ -13,7 +13,8 @@ import app.simple.inure.models.BatchProfile
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortBatch
 
-class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private val adapterBatchProfilesCallback: AdapterBatchProfilesCallback)
+class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>,
+                           private val adapterBatchProfilesCallback: AdapterBatchProfilesCallback)
     : RecyclerView.Adapter<AdapterBatchProfiles.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

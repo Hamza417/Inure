@@ -15,7 +15,8 @@ class PopupBatchProfileMenu(view: View) : BasePopupWindow() {
     private var callbacks: BatchProfileMenuCallbacks? = null
 
     init {
-        val contentView = View.inflate(view.context, R.layout.popup_batch_profile, PopupLinearLayout(view.context))
+        val contentView = View.inflate(
+                view.context, R.layout.popup_batch_profile, PopupLinearLayout(view.context))
 
         select = contentView.findViewById(R.id.select)
         delete = contentView.findViewById(R.id.delete)

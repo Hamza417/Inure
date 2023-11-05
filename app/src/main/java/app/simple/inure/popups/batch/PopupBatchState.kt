@@ -14,7 +14,8 @@ class PopupBatchState(view: View) : BasePopupWindow() {
     private var popupBatchStateCallbacks: PopupBatchStateCallbacks? = null
 
     init {
-        val contentView = View.inflate(view.context, R.layout.popup_batch_state, PopupLinearLayout(view.context))
+        val contentView = View.inflate(
+                view.context, R.layout.popup_batch_state, PopupLinearLayout(view.context))
 
         contentView.apply {
             enableAll = findViewById(R.id.popup_enable_all)

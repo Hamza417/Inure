@@ -36,19 +36,21 @@ class BatchProfiles : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         batchProfilesViewModel.getProfiles().observe(viewLifecycleOwner) { profiles ->
-            recyclerView.adapter = AdapterBatchProfiles(profiles, object : AdapterBatchProfiles.Companion.AdapterBatchProfilesCallback {
+            recyclerView.adapter = AdapterBatchProfiles(
+                    profiles, object : AdapterBatchProfiles.Companion.AdapterBatchProfilesCallback {
                 override fun onProfileLongClicked(profile: BatchProfile, view: View, position: Int) {
-                    PopupBatchProfileMenu(view).setCallbacks(object : PopupBatchProfileMenu.Companion.BatchProfileMenuCallbacks {
-                        override fun onSelect() {
-                            batchProfilesCallback?.onProfileSelected(profile)
-                        }
-
-                        override fun onDelete() {
-                            batchProfilesViewModel.deleteProfile(profile) {
-                                (recyclerView.adapter as AdapterBatchProfiles).removeProfile(profile)
+                    PopupBatchProfileMenu(view)
+                        .setCallbacks(object : PopupBatchProfileMenu.Companion.BatchProfileMenuCallbacks {
+                            override fun onSelect() {
+                                batchProfilesCallback?.onProfileSelected(profile)
                             }
-                        }
-                    })
+
+                            override fun onDelete() {
+                                batchProfilesViewModel.deleteProfile(profile) {
+                                    (recyclerView.adapter as AdapterBatchProfiles).removeProfile(profile)
+                                }
+                            }
+                        })
                 }
 
                 override fun onProfileSelected(profile: BatchProfile) {
