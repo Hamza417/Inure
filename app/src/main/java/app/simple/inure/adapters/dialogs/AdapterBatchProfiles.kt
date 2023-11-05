@@ -13,7 +13,7 @@ import app.simple.inure.models.BatchProfile
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.SortBatch
 
-class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private val function: (BatchProfile) -> Unit)
+class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private val adapterBatchProfilesCallback: AdapterBatchProfilesCallback)
     : RecyclerView.Adapter<AdapterBatchProfiles.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -82,7 +82,12 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private v
         }
 
         holder.container.setOnClickListener {
-            function(names[position])
+            adapterBatchProfilesCallback.onProfileSelected(names[position])
+        }
+
+        holder.container.setOnLongClickListener {
+            adapterBatchProfilesCallback.onProfileLongClicked(names[position], it, position)
+            true
         }
     }
 
@@ -90,10 +95,23 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>, private v
         return names.size
     }
 
+    fun removeProfile(profile: BatchProfile) {
+        val idx = names.find { it.id == profile.id }?.let { names.indexOf(it) } ?: return
+        names.remove(profile)
+        notifyItemRemoved(idx)
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val sortStyle: TypeFaceTextView = itemView.findViewById(R.id.sort_style)
         val filters: TypeFaceTextView = itemView.findViewById(R.id.filters)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
+    }
+
+    companion object {
+        interface AdapterBatchProfilesCallback {
+            fun onProfileSelected(profile: BatchProfile)
+            fun onProfileLongClicked(profile: BatchProfile, view: View, position: Int)
+        }
     }
 }

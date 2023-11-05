@@ -11,6 +11,7 @@ import app.simple.inure.models.BatchProfile
 import app.simple.inure.preferences.BatchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BatchProfilesViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -44,6 +45,19 @@ class BatchProfilesViewModel(application: Application) : WrappedViewModel(applic
 
                             this@BatchProfilesViewModel.profiles.postValue(arrayListOf(defaultProfile))
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteProfile(profile: BatchProfile, function: () -> Unit = {}) {
+        viewModelScope.launch(Dispatchers.Default) {
+            kotlin.runCatching {
+                BatchProfileDatabase.getInstance(application)?.batchProfileDao().let { dao ->
+                    dao?.deleteBatchProfile(profile.id)
+                    withContext(Dispatchers.Main) {
+                        function()
                     }
                 }
             }

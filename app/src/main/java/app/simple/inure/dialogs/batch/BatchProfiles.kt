@@ -12,6 +12,7 @@ import app.simple.inure.adapters.dialogs.AdapterBatchProfiles
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.models.BatchProfile
+import app.simple.inure.popups.batch.PopupBatchProfileMenu
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.viewmodels.dialogs.BatchProfilesViewModel
 
@@ -35,10 +36,26 @@ class BatchProfiles : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         batchProfilesViewModel.getProfiles().observe(viewLifecycleOwner) { profiles ->
-            recyclerView.adapter = AdapterBatchProfiles(profiles) {
-                batchProfilesCallback?.onProfileSelected(it)
-                dismiss()
-            }
+            recyclerView.adapter = AdapterBatchProfiles(profiles, object : AdapterBatchProfiles.Companion.AdapterBatchProfilesCallback {
+                override fun onProfileLongClicked(profile: BatchProfile, view: View, position: Int) {
+                    PopupBatchProfileMenu(view).setCallbacks(object : PopupBatchProfileMenu.Companion.BatchProfileMenuCallbacks {
+                        override fun onSelect() {
+                            batchProfilesCallback?.onProfileSelected(profile)
+                        }
+
+                        override fun onDelete() {
+                            batchProfilesViewModel.deleteProfile(profile) {
+                                (recyclerView.adapter as AdapterBatchProfiles).removeProfile(profile)
+                            }
+                        }
+                    })
+                }
+
+                override fun onProfileSelected(profile: BatchProfile) {
+                    batchProfilesCallback?.onProfileSelected(profile)
+                    dismiss()
+                }
+            })
         }
     }
 
