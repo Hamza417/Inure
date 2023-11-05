@@ -23,9 +23,9 @@ import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceStop
 import app.simple.inure.dialogs.batch.BatchMenu
 import app.simple.inure.dialogs.batch.BatchMenu.Companion.showBatchMenu
-import app.simple.inure.dialogs.batch.BatchProfileSave.Companion.showBatchProfileSave
 import app.simple.inure.dialogs.batch.BatchProfiles
 import app.simple.inure.dialogs.batch.BatchProfiles.Companion.showBatchProfiles
+import app.simple.inure.dialogs.batch.BatchSaveProfile.Companion.showBatchProfileSave
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
 import app.simple.inure.dialogs.batch.BatchUninstaller

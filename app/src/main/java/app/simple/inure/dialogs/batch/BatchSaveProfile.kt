@@ -21,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class BatchProfileSave : ScopedDialogFragment() {
+class BatchSaveProfile : ScopedDialogFragment() {
 
     private lateinit var packages: ArrayList<String>
     private lateinit var profileNames: ArrayList<String>
@@ -107,15 +107,15 @@ class BatchProfileSave : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(packages: ArrayList<String>): BatchProfileSave {
+        fun newInstance(packages: ArrayList<String>): BatchSaveProfile {
             val args = Bundle()
             args.putStringArrayList(BundleConstants.packages, packages)
-            val fragment = BatchProfileSave()
+            val fragment = BatchSaveProfile()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showBatchProfileSave(packages: ArrayList<String>): BatchProfileSave {
+        fun FragmentManager.showBatchProfileSave(packages: ArrayList<String>): BatchSaveProfile {
             val dialog = newInstance(packages)
             dialog.show(this, "batch_profile_save")
             return dialog
