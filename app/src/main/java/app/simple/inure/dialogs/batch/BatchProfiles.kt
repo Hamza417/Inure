@@ -48,6 +48,9 @@ class BatchProfiles : ScopedBottomSheetFragment() {
                             override fun onDelete() {
                                 batchProfilesViewModel.deleteProfile(profile) {
                                     (recyclerView.adapter as AdapterBatchProfiles).removeProfile(profile)
+                                    if (profiles.isEmpty()) {
+                                        dismiss()
+                                    }
                                 }
                             }
                         })

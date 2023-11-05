@@ -83,11 +83,12 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>,
         }
 
         holder.container.setOnClickListener {
-            adapterBatchProfilesCallback.onProfileSelected(names[position])
+            adapterBatchProfilesCallback.onProfileSelected(names[holder.bindingAdapterPosition])
         }
 
         holder.container.setOnLongClickListener {
-            adapterBatchProfilesCallback.onProfileLongClicked(names[position], it, position)
+            adapterBatchProfilesCallback.onProfileLongClicked(
+                    names[holder.bindingAdapterPosition], it, holder.bindingAdapterPosition)
             true
         }
     }
@@ -100,6 +101,7 @@ class AdapterBatchProfiles(private val names: ArrayList<BatchProfile>,
         val idx = names.find { it.id == profile.id }?.let { names.indexOf(it) } ?: return
         names.remove(profile)
         notifyItemRemoved(idx)
+        notifyItemRangeChanged(0, names.size.minus(1))
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
