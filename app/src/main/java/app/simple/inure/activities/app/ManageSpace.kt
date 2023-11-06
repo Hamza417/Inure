@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -69,7 +68,7 @@ class ManageSpace : BaseActivity() {
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(applicationContext, R.string.failed, Toast.LENGTH_SHORT).show()
+            showWarning(getString(R.string.failed), goBack = false)
         }
     }
 

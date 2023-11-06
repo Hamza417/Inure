@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import app.simple.inure.activities.alias.TerminalAlias
 import app.simple.inure.activities.association.ApkInstallerActivity
 import app.simple.inure.activities.association.AppInformationActivity
@@ -160,18 +161,24 @@ object AppDataLoader {
 
         ZipFile(dataPath).use {
             for (file in it.fileHeaders) {
-                for (path in paths) {
-                    if (file.fileName.endsWith(path.name)) {
-                        if (path.name.equals(preferences)) {
-                            it.extractFile(file.fileName, path.parent)
-                            loadSharedPreferencesFromFile(path)
-                        } else if (path.name.equals("component")) {
-                            it.extractFile(file.fileName, path.parent)
-                            loadComponentState(path)
-                        } else {
-                            it.extractFile(file.fileName, path.parent)
+                println(file.fileName)
+                try {
+                    for (path in paths) {
+                        if (file.fileName.endsWith(path.name)) {
+                            if (path.name.equals(preferences)) {
+                                it.extractFile(file.fileName, path.parent)
+                                loadSharedPreferencesFromFile(path)
+                            } else if (path.name.equals("component")) {
+                                it.extractFile(file.fileName, path.parent)
+                                loadComponentState(path)
+                            } else {
+                                it.extractFile(file.fileName, path.parent)
+                            }
                         }
                     }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Log.d("AppDataLoader", "Error extracting file: ${file.fileName}")
                 }
             }
         }
