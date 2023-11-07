@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
@@ -196,6 +197,10 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
                     } else {
                         true
+                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
+                        FOSSParser.isPackageFOSS(packageInfo.packageName)
+                    } else {
+                        true
                     }
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
             } else {
@@ -236,6 +241,14 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                         if (packageInfo.applicationInfo.enabled &&
                             packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                            if (!filteredList.contains(packageInfo)) {
+                                filteredList.add(packageInfo)
+                            }
+                        }
+                    }
+
+                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
+                        if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }

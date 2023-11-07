@@ -182,6 +182,12 @@ class AppsSort : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, SortConstant.UNINSTALLED)
             }
 
+            sourceFlags = if (checkedIds.contains(R.id.foss)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.FOSS)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.FOSS)
+            }
+
             sourceFlags = if (checkedIds.contains(R.id.combine_flags)) {
                 FlagUtils.setFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
             } else {
@@ -323,6 +329,10 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
             filterChipGroup.check(R.id.uninstalled)
+        }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
+            filterChipGroup.check(R.id.foss)
         }
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
