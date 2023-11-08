@@ -18,6 +18,10 @@ object PermissionUtils {
     private const val PROTECTION_FLAG_APP_PREDICTOR = 0x200000
     private const val PROTECTION_FLAG_RETAIL_DEMO = 0x1000000
 
+    private val exceptionPermissions = arrayOf(
+            "android.permission.WRITE_SECURE-SETTINGS",
+    )
+
     fun String.getPermissionInfo(context: Context): PermissionInfo? {
         try {
             return context.packageManager.getPermissionInfo(this, PackageManager.GET_META_DATA)
@@ -44,6 +48,10 @@ object PermissionUtils {
                 else -> false
             }
         }
+    }
+
+    fun PermissionInfo.isException(): Boolean {
+        return name in exceptionPermissions
     }
 
     @Suppress("deprecation")
