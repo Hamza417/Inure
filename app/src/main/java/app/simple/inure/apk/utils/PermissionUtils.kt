@@ -19,7 +19,10 @@ object PermissionUtils {
     private const val PROTECTION_FLAG_RETAIL_DEMO = 0x1000000
 
     private val exceptionPermissions = arrayOf(
-            "android.permission.WRITE_SECURE-SETTINGS",
+            "android.permission.WRITE_SECURE_SETTINGS",
+            "android.permission.DUMP",
+            "android.permission.READ_LOGS",
+            "android.permission.READ_FRAME_BUFFER",
     )
 
     fun String.getPermissionInfo(context: Context): PermissionInfo? {
