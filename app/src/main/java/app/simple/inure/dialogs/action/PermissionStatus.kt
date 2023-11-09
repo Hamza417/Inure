@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.isException
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeDivider
@@ -193,7 +194,8 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
     private fun setStateText(animate: Boolean = true) {
         try {
-            if (PermissionUtils.isDangerous(permissionInfo.permissionInfo!!)) {
+            if (PermissionUtils.isDangerous(permissionInfo.permissionInfo!!)
+                    || permissionInfo.permissionInfo!!.isException()) {
                 state.visible(animate = true)
 
                 if (animate) {

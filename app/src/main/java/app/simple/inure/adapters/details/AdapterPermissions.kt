@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.isException
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -42,7 +43,9 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
             holder.desc.setDescriptionText(holder.itemView.context, permissions[position])
             holder.status.setStatusText(position, holder.itemView.context, permissions[position])
 
-            if (PermissionUtils.isDangerous(permissions[position].permissionInfo!!) && isPackageInstalled) {
+            if (PermissionUtils.isDangerous(permissions[position].permissionInfo!!)
+                    || permissions[position].permissionInfo?.isException() == true
+                    && isPackageInstalled) {
                 holder.switch.visible(false)
                 holder.name.setDangerousPermissionIcon(isDangerous = true)
             } else {
