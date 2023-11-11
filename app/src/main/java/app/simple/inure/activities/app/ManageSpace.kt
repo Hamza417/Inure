@@ -82,6 +82,7 @@ class ManageSpace : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             uri.openInputStream(applicationContext).use {
                 kotlin.runCatching {
+                    val errors: MutableList<String> = mutableListOf()
                     val file: File = (applicationContext.filesDir.absolutePath + "/rstr.inrbkp").toFile()
 
                     if (file.exists()) {
@@ -92,11 +93,13 @@ class ManageSpace : BaseActivity() {
                     file.writeBytes(it?.readBytes()!!)
                     filePath = file.absolutePath
 
-                    applicationContext.importAppData(filePath!!)
+                    applicationContext.importAppData(filePath!!) {
+                        errors += it
+                    }
 
                     withContext(Dispatchers.Main) {
                         appDataLoader.gone(animate = true)
-                        Log.d("ManageSpace", "onActivityResult: broadcast sent")
+
                         LocalBroadcastManager.getInstance(applicationContext)
                             .sendBroadcast(Intent().apply {
                                 action = DataLoaderService.REFRESH
@@ -106,6 +109,12 @@ class ManageSpace : BaseActivity() {
                             .sendBroadcast(Intent().apply {
                                 action = DataLoaderService.RELOAD_QUICK_APPS
                             })
+
+                        if (errors.isNotEmpty()) {
+                            showWarning(errors.joinToString("\n"), goBack = false)
+                        } else {
+                            showWarning(R.string.done, goBack = false)
+                        }
 
                         recreate()
                     }

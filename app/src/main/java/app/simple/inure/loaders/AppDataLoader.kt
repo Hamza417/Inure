@@ -42,6 +42,8 @@ object AppDataLoader {
     private const val filename = "inure_data_@date.inrbkp"
     private const val preferences = "prefs_bkp"
 
+    private val errors: MutableList<String> = mutableListOf()
+
     private val components = arrayListOf<String>(
             AppInformationActivity::class.java.name,
             AudioPlayerActivity::class.java.name,
@@ -130,7 +132,7 @@ object AppDataLoader {
         return zipPath
     }
 
-    fun Context.importAppData(dataPath: String) {
+    fun Context.importAppData(dataPath: String, function: (MutableList<String>) -> Unit) {
         val paths = mutableListOf(
                 (filesDir.path + "/backup/" + preferences).toFile(),
                 BatchDatabase.getBatchDataPath(this).toFile(),
@@ -179,6 +181,7 @@ object AppDataLoader {
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Log.d("AppDataLoader", "Error extracting file: ${file.fileName}")
+                    errors.add("Error extracting file: ${file.fileName}")
                 }
             }
         }
@@ -193,6 +196,8 @@ object AppDataLoader {
         FOSSDatabase.getInstance(this)
         BatchProfileDatabase.getInstance(this)
         TrialPreferences.migrateLegacy()
+
+        function(errors)
     }
 
     private fun saveSharedPreferencesToFile(context: Context): String {
@@ -304,34 +309,44 @@ object AppDataLoader {
             val componentState = mutableMapOf<String, Int>()
 
             for (line in lines) {
-                val split = line.split(" ")
-                // componentState[split[0]] = split[1].toInt()
+                try {
+                    val split = line.split(" ")
+                    // componentState[split[0]] = split[1].toInt()
 
-                when {
-                    AppUtils.isPlayFlavor() -> {
-                        if (split[0].contains("app.simple.inure.play")) {
-                            componentState[split[0]] = split[1].toInt()
-                        } else {
-                            componentState[split[0]
-                                .replace("app.simple.inure", "app.simple.inure.play")] = split[1].toInt()
+                    when {
+                        AppUtils.isPlayFlavor() -> {
+                            if (split[0].contains("app.simple.inure.play")) {
+                                componentState[split[0]] = split[1].toInt()
+                            } else {
+                                componentState[split[0]
+                                    .replace("app.simple.inure", "app.simple.inure.play")] = split[1].toInt()
+                            }
+                        }
+                        AppUtils.isPlayFlavor().not() -> {
+                            if (split[0].contains("app.simple.inure.play")) {
+                                componentState[split[0]
+                                    .replace("app.simple.inure.play", "app.simple.inure")] = split[1].toInt()
+                            } else {
+                                componentState[split[0]] = split[1].toInt()
+                            }
                         }
                     }
-                    AppUtils.isPlayFlavor().not() -> {
-                        if (split[0].contains("app.simple.inure.play")) {
-                            componentState[split[0]
-                                .replace("app.simple.inure.play", "app.simple.inure")] = split[1].toInt()
-                        } else {
-                            componentState[split[0]] = split[1].toInt()
-                        }
-                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    errors.add("Error loading component state: $line")
                 }
             }
 
             for (component in components) {
-                packageManager.setComponentEnabledSetting(
-                        ComponentName(this, Class.forName(component)),
-                        componentState[component]
-                            ?: PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP)
+                try {
+                    packageManager.setComponentEnabledSetting(
+                            ComponentName(this, Class.forName(component)),
+                            componentState[component]
+                                ?: PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP)
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    errors.add("Error setting component state: $component")
+                }
             }
         }
     }
