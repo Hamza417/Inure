@@ -115,6 +115,15 @@ object AppDataLoader {
             }
         }
 
+        BatchDatabase.getInstance(this)?.close()
+        NotesDatabase.getInstance(this)?.close()
+        QuickAppsDatabase.getInstance(this)?.close()
+        StackTraceDatabase.getInstance(this)?.close()
+        TerminalCommandDatabase.getInstance(this)?.close()
+        TagsDatabase.getInstance(this)?.close()
+        FOSSDatabase.getInstance(this)?.close()
+        BatchProfileDatabase.getInstance(this)?.close()
+
         if (File(filesDir.path + "/backup").exists().not()) {
             File(filesDir.path + "/backup").mkdir()
         } else {
@@ -128,6 +137,17 @@ object AppDataLoader {
         val zipPath = filesDir.path + "/backup/" +
                 "/${filename.replace("@date", System.currentTimeMillis().toString())}"
         ZipFile(zipPath).addFiles(paths)
+
+        // Reopen databases
+        SharedPreferences.init(this)
+        BatchDatabase.getInstance(this)
+        NotesDatabase.getInstance(this)
+        QuickAppsDatabase.getInstance(this)
+        StackTraceDatabase.getInstance(this)
+        TerminalCommandDatabase.getInstance(this)
+        TagsDatabase.getInstance(this)
+        FOSSDatabase.getInstance(this)
+        BatchProfileDatabase.getInstance(this)
 
         return zipPath
     }
