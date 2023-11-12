@@ -1,0 +1,105 @@
+name: Build APKs (Release)
+
+on:
+    workflow_dispatch:  # Allow manual triggering
+
+jobs:
+    build:
+        name: Build Early Release APK
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up Java and Android SDK
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17' # Adjust the Java version as needed
+                    distribution: 'temurin'
+                    cache: 'gradle'
+
+            -   name: Decode Keystore
+                id: decode_keystore
+                uses: timheuer/base64-to-file@v1
+                with:
+                    fileName: 'keystore/key.jks'
+                    encodedString: ${{ secrets.SIGN_KEY }}
+
+            -   name: Build GitHub Release APK
+                run: |
+                    chmod +x ./gradlew
+                    ./gradlew clean assembleGithubRelease
+                env:
+                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+
+            -   name: Build Play Release APK
+                run: |
+                    chmod +x ./gradlew
+                    ./gradlew clean assemblePlayRelease
+                env:
+                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+
+            # If you want to build both APKs in parallel, uncomment the following lines
+
+            #            -   name: Build GitHub Release and Play Release APKs
+            #                run: |
+            #                    chmod +x ./gradlew
+            #                    ./gradlew clean assembleGithubRelease assemblePlayRelease --parallel
+            #                env:
+            #                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
+            #                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+            #                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+
+            -   name: Archive APKs
+                uses: actions/upload-artifact@v3
+                with:
+                    name: Release APKs
+                    path: |
+                        app/**/play/release/*.apk
+                        app/**/github/release/*.apk
+
+            -   name: Extract Version Name and Version Code
+                run: |
+                    # Extract versionName and versionCode from build.gradle
+                    VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
+                    VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
+                    
+                    # Make the version name sentence case
+                    VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
+                    
+                    echo "Version Name: $VERSION_NAME"
+                    echo "Version Code: $VERSION_CODE"
+                    
+                    # Set these values as environment variables for later steps
+                    echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+                    echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+            -   name: Set Tag
+                run: |
+                    TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
+                    echo "TAG=${TAG}" >> $GITHUB_ENV
+                    echo "Tag: ${TAG}" # Print tag to console
+
+            -   name: Read and Store Release Notes
+                id: read_release_notes
+                run: |
+                    cat assets/release.html > release.html
+                env:
+                    RELEASE_NOTES_FILE: release.html
+
+            -   name: Create GitHub Release
+                uses: softprops/action-gh-release@v1
+                with:
+                    files: |
+                        app/**/play/release/*.apk
+                        app/**/github/release/*.apk
+                    name: ${{ env.VERSION_NAME }} # Use the original case for the release name
+                    tag_name: ${{ env.TAG }} # Use lowercase for the tag
+                    body: ${{ env.RELEASE_NOTES_FILE }}
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
