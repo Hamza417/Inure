@@ -133,6 +133,8 @@ object AppDataLoader {
     }
 
     fun Context.importAppData(dataPath: String, function: (MutableList<String>) -> Unit) {
+        errors.clear()
+
         val paths = mutableListOf(
                 (filesDir.path + "/backup/" + preferences).toFile(),
                 BatchDatabase.getBatchDataPath(this).toFile(),
@@ -161,30 +163,37 @@ object AppDataLoader {
             }
         }
 
-        ZipFile(dataPath).use {
-            for (file in it.fileHeaders) {
-                println(file.fileName)
-                try {
-                    for (path in paths) {
-                        if (file.fileName.endsWith(path.name)) {
-                            if (path.name.equals(preferences)) {
-                                it.extractFile(file.fileName, path.parent)
-                                loadSharedPreferencesFromFile(path)
-                            } else if (path.name.equals("component")) {
-                                it.extractFile(file.fileName, path.parent)
-                                loadComponentState(path)
-                            } else {
-                                it.extractFile(file.fileName, path.parent)
-                            }
+        val zipFile = ZipFile(dataPath)
+
+        if (zipFile.isValidZipFile.not()) {
+            errors.add("Invalid backup file")
+            function(errors)
+            return
+        }
+
+        for (file in zipFile.fileHeaders) {
+            try {
+                for (path in paths) {
+                    if (file.fileName.endsWith(path.name)) {
+                        if (path.name.equals(preferences)) {
+                            zipFile.extractFile(file.fileName, path.parent)
+                            loadSharedPreferencesFromFile(path)
+                        } else if (path.name.equals("component")) {
+                            zipFile.extractFile(file.fileName, path.parent)
+                            loadComponentState(path)
+                        } else {
+                            zipFile.extractFile(file.fileName, path.parent)
                         }
                     }
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                    Log.d("AppDataLoader", "Error extracting file: ${file.fileName}")
-                    errors.add("Error extracting file: ${file.fileName}")
                 }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Log.d("AppDataLoader", "Error extracting file: ${file.fileName}")
+                errors.add("Error extracting file: ${file.fileName}")
             }
         }
+
+        zipFile.close()
 
         SharedPreferences.init(this)
         BatchDatabase.getInstance(this)

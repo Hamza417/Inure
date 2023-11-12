@@ -134,6 +134,41 @@ object ColorUtils {
         return desaturate(this, DEFAULT_DESATURATION_AMOUNT, DEFAULT_DESATURATION_THRESHOLD)
     }
 
+    fun Int.adjustBrightness(factor: Double): Int {
+        // Extract RGB components from the Color integer
+        val originalRed = Color.red(this)
+        val originalGreen = Color.green(this)
+        val originalBlue = Color.blue(this)
+
+        // Calculate perceived luminance
+        val luminance: Double = calculatePerceivedLuminance(originalRed, originalGreen, originalBlue)
+
+        // Adjust brightness based on the factor
+        var adjustedLuminance = luminance * factor
+
+        // Ensure the adjusted luminance is within the valid range [0, 1]
+        adjustedLuminance = 0.0.coerceAtLeast(1.0.coerceAtMost(adjustedLuminance))
+
+        // Adjust each RGB component proportionally to maintain the color balance
+        val adjustedRed = (originalRed * adjustedLuminance).toInt()
+        val adjustedGreen = (originalGreen * adjustedLuminance).toInt()
+        val adjustedBlue = (originalBlue * adjustedLuminance).toInt()
+
+        // Create and return the adjusted Color integer
+        return Color.rgb(adjustedRed, adjustedGreen, adjustedBlue)
+    }
+
+    private fun calculatePerceivedLuminance(red: Int, green: Int, blue: Int): Double {
+        return (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0
+    }
+
+    fun Int.calculatePerceivedLuminance(): Double {
+        val red = Color.red(this)
+        val green = Color.green(this)
+        val blue = Color.blue(this)
+        return (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0
+    }
+
     @Suppress("MemberVisibilityCanBePrivate")
     fun desaturate(@ColorInt color: Int, amount: Float, minDesaturation: Float): Int {
         val originalAlpha = Color.alpha(color)
