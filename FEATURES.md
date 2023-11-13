@@ -30,6 +30,7 @@ These features are available to all users without any extra requirements.
 - Dedicated indicator for FOSS apps throughout the app.
 - Identify Xposed modules in app info and package installer.
 - Create and manage Batch profiles for multiple apps.
+- Create activity shortcuts of any app.
 
 ### Root Features
 These features require root access to work in the app.
@@ -38,6 +39,7 @@ These features require root access to work in the app.
 - Manage individual components of any app and enable/disable them on the fly.
 - Per app battery optimization configuration.
 - Component level boot manager to block boot components.
+- Force trigger launch for any component.
 - Reinstall apps on the go.
 - Clear data and cache of any app.
 - Block app trackers.
