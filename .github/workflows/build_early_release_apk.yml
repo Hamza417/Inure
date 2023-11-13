@@ -1,4 +1,4 @@
-name: Build APKs (Release)
+name: Build APKs (Early Release)
 
 on:
     workflow_dispatch:  # Allow manual triggering
