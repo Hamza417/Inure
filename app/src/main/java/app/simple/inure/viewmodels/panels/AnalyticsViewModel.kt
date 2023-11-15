@@ -25,10 +25,6 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
 
-    private val installLocationData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
-        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
-    }
-
     private val packageTypeData: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
         MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
     }
@@ -39,10 +35,6 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
     fun getTargetSDKData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return targetOsData
-    }
-
-    fun getInstallLocationData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
-        return installLocationData
     }
 
     fun getPackageTypeData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
@@ -100,34 +92,6 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
-    private fun loadInstallLocationData(apps: ArrayList<PackageInfo>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = arrayListOf<PieEntry>()
-            val colors = arrayListOf<Int>()
-
-            var internal = 0F
-            var external = 0F
-            var auto = 0F
-            var unspecified = 0F
-
-            for (app in apps) {
-                when (app.installLocation) {
-                    PackageInfo.INSTALL_LOCATION_AUTO -> auto++
-                    PackageInfo.INSTALL_LOCATION_INTERNAL_ONLY -> internal++
-                    PackageInfo.INSTALL_LOCATION_PREFER_EXTERNAL -> external++
-                    -1 -> unspecified++
-                }
-            }
-
-            if (internal != 0F) data.add(PieEntry(internal, getString(R.string.internal)))
-            if (external != 0F) data.add(PieEntry(external, getString(R.string.prefer_external)))
-            if (auto != 0F) data.add(PieEntry(auto, getString(R.string.auto)))
-            if (unspecified != 0F) data.add(PieEntry(unspecified, getString(R.string.unspecified)))
-
-            installLocationData.postValue(Pair(data, colors))
-        }
-    }
-
     private fun loadPackageTypeData(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
             val data = arrayListOf<PieEntry>()
@@ -156,7 +120,6 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             loadMinimumOsData(apps)
         }
         loadTargetOsData(apps)
-        loadInstallLocationData(apps)
         loadPackageTypeData(apps)
     }
 

@@ -38,11 +38,9 @@ class Analytics : ScopedFragment() {
     private lateinit var minSdkHeading: TypeFaceTextView
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
-    private lateinit var installLocationPie: ThemePieChart
     private lateinit var packageTypePie: ThemePieChart
     private lateinit var minimumOsLegend: LegendRecyclerView
     private lateinit var targetOsLegend: LegendRecyclerView
-    private lateinit var installLocationLegend: LegendRecyclerView
     private lateinit var packageTypeLegend: LegendRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
@@ -54,11 +52,9 @@ class Analytics : ScopedFragment() {
         minSdkHeading = view.findViewById(R.id.min_sdk_heading)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
-        installLocationPie = view.findViewById(R.id.install_location_pie)
         packageTypePie = view.findViewById(R.id.package_type_pie)
         minimumOsLegend = view.findViewById(R.id.minimum_os_legend)
         targetOsLegend = view.findViewById(R.id.target_os_legend)
-        installLocationLegend = view.findViewById(R.id.install_location_legend)
         packageTypeLegend = view.findViewById(R.id.package_type_legend)
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
@@ -174,49 +170,6 @@ class Analytics : ScopedFragment() {
 
             targetOsPie.setAnimation(false)
             targetOsPie.invalidate()
-        }
-
-        analyticsViewModel.getInstallLocationData().observe(viewLifecycleOwner) {
-            hideLoader()
-
-            installLocationPie.apply {
-                PieDataSet(it.first, "").apply {
-                    data = PieData(this)
-                    colors = ColorTemplate.PASTEL_COLORS.toMutableList()
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
-                }
-
-                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                    override fun onNothingSelected() {
-                        /* no-op */
-                    }
-
-                    override fun onValueSelected(e: Entry?, h: Highlight?) {
-                        PopupChartEntry(view, e) {
-                            // openFragmentSlide(AnalyticsPackageType.newInstance(it), "package_type")
-                        }.setOnDismissListener {
-                            installLocationPie.highlightValues(null)
-                        }
-                    }
-                })
-
-                val adapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
-                    if (longPressed) {
-                        // openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
-                    } else {
-                        installLocationPie.highlightValue(Highlight(
-                                it.first.indexOf(pieEntry).toFloat(),
-                                0, 0), false)
-                    }
-                }
-
-                installLocationLegend.adapter = adapter
-            }
-
-            installLocationPie.setAnimation(false)
-            installLocationPie.notifyDataSetChanged()
-            installLocationPie.invalidate()
         }
 
         analyticsViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
