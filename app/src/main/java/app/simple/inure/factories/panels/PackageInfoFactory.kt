@@ -56,8 +56,8 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
             modelClass.isAssignableFrom(TrackersViewModel::class.java) -> {
                 return TrackersViewModel(application, packageInfo) as T
             }
-            modelClass.isAssignableFrom(OperationsShizukuViewModel::class.java) -> {
-                return OperationsShizukuViewModel(application, packageInfo) as T
+            modelClass.isAssignableFrom(OperationsViewModel::class.java) -> {
+                return OperationsViewModel(application, packageInfo) as T
             }
             modelClass.isAssignableFrom(SharedPreferencesViewModel::class.java) -> {
                 return SharedPreferencesViewModel(packageInfo, application) as T

@@ -13,7 +13,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OperationsShizukuViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
+class OperationsViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
     private val appOpsData: MutableLiveData<ArrayList<AppOpsModel>> by lazy {
         MutableLiveData<ArrayList<AppOpsModel>>().also {
