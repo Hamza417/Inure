@@ -16,7 +16,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.PackageListUtils.setUninstalledAppInfo
+import app.simple.inure.util.InfoStripUtils.setUninstalledAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {

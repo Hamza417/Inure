@@ -18,7 +18,7 @@ import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.toLength
 import app.simple.inure.util.FileSizeHelper.toSize
 
-object PackageListUtils {
+object InfoStripUtils {
 
     fun TypeFaceTextView.setAppInfo(packageInfo: PackageInfo) {
         text = context.getAppInfo(packageInfo)

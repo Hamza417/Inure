@@ -33,7 +33,7 @@ import app.simple.inure.ui.panels.Components
 import app.simple.inure.ui.viewers.*
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.PackageListUtils.setAppInfo
+import app.simple.inure.util.InfoStripUtils.setAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone

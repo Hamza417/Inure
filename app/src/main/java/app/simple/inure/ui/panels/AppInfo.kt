@@ -83,8 +83,8 @@ import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.ui.viewers.XMLViewerWebView
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
-import app.simple.inure.util.PackageListUtils.getAppInfo
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible

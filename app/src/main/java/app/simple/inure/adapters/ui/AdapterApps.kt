@@ -21,8 +21,8 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.InfoStripUtils.setAppInfo
 import app.simple.inure.util.LocaleHelper
-import app.simple.inure.util.PackageListUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
 import app.simple.inure.util.StatusBarHeight

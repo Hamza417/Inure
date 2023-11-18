@@ -16,7 +16,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.AppsPreferences
-import app.simple.inure.util.PackageListUtils.setAppInfo
+import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class InformationCustomization : ScopedFragment() {
 

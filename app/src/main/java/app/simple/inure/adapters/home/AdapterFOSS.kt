@@ -16,7 +16,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.PackageListUtils.setAppInfo
+import app.simple.inure.util.InfoStripUtils.setAppInfo
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {

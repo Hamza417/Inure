@@ -18,7 +18,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.PackageListUtils.setAppInfo
+import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterSearch.Holder>() {
 
