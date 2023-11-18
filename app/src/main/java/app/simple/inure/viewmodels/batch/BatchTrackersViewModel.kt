@@ -544,7 +544,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             channel.close()
         }.getOrElse {
             Log.e("TrackerBlocker", "Error: ${it.message}")
-            postWarning("Error: ${it.message}")
+            postError(it)
         }
     }
 
@@ -607,7 +607,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             channel.close()
         }.getOrElse {
             Log.e("TrackerBlocker", "Error: ${it.message}")
-            postWarning("Error: ${it.message}")
+            postError(it)
         }
     }
 }

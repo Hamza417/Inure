@@ -74,6 +74,10 @@ class BatchTracker : ScopedFragment() {
             showWarning(it)
         }
 
+        batchTrackersViewModel?.getError()?.observe(viewLifecycleOwner) {
+            showError(it)
+        }
+
         block.setOnClickListener {
             loader.visible(animate = true)
             batchTrackersViewModel
