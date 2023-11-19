@@ -15,6 +15,7 @@ import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
@@ -35,6 +36,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var files: ArrayList<File>? = null
     private var splitApkFiles: ArrayList<File>? = null
     private var baseApk: File? = null
+    private var user: User? = null
     private val splitApkExtensions = arrayOf(".zip", ".apks", ".apkm", ".xapk")
 
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
@@ -351,7 +353,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         }
     }
 
-    fun install() {
+    fun install(user: User?) {
+        this.user = user
+
         if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
             initializeCoreFramework()
         } else {
@@ -390,7 +394,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private fun installCommand(): String {
         // Check if greater than nougat
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            "pm install-create --user current -S"
+            "pm install-create --user ${user?.id ?: "current"} -S"
         } else {
             "pm install-create -i -S"
         }

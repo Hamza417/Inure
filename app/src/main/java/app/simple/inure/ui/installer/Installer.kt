@@ -33,11 +33,14 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.installer.Users
+import app.simple.inure.dialogs.installer.Users.Companion.showUsers
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.models.User
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
@@ -201,12 +204,25 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 }
 
                 install.setOnClickListener {
-                    loader.visible(true)
-                    install.gone()
-                    update.gone()
-                    uninstall.gone()
-                    launch.gone()
-                    installerViewModel.install()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
+                            override fun onUserSelected(user: User) {
+                                loader.visible(true)
+                                install.gone()
+                                update.gone()
+                                uninstall.gone()
+                                launch.gone()
+                                installerViewModel.install(user)
+                            }
+                        })
+                    } else {
+                        loader.visible(true)
+                        install.gone()
+                        update.gone()
+                        uninstall.gone()
+                        launch.gone()
+                        installerViewModel.install(null)
+                    }
                 }
 
                 update.setOnClickListener {
@@ -319,7 +335,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private fun checkLaunchStatus() {
         try {
             if (requirePackageManager().isPackageInstalled(packageInfo.packageName) &&
-                PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
+                    PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
                 launch.visible(animate = false)
 
                 launch.setOnClickListener {
