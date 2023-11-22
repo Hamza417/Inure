@@ -710,4 +710,9 @@
     <string name="load_selection_profile">Load Selection Profile</string>
     <string name="save_selection_profile">Save Selection Profile</string>
     <string name="xposed_module">Xposed Module</string>
+    <string name="remote_messaging">Remote Messaging</string>
+    <string name="system_exempted">System Exempted</string>
+    <string name="short_service">Short Service</string>
+    <string name="file_management">File Management</string>
+    <string name="special_use">Special Use</string>
 </resources>
