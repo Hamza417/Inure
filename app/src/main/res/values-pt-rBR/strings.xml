@@ -711,4 +711,10 @@
     <string name="load_selection_profile">Carregar perfil de seleção</string>
     <string name="save_selection_profile">Salvar perfil de seleção</string>
     <string name="xposed_module">Módulo Xposed</string>
+    <string name="remote_messaging">Mensagem Remota</string>
+    <string name="system_exempted">Sistema Isento</string>
+    <string name="short_service">Serviço breve</string>
+    <string name="file_management">Gerenciamento de arquivos</string>
+    <string name="special_use">Uso especial</string>
+    <string name="no_preferences_found">Preferências Não Encontradas</string>
 </resources>
