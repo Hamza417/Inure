@@ -99,7 +99,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
             Log.d("BatchUninstaller", "Done -> $it")
         }
 
-        if (ConfigurationPreferences.isUsingRoot().invert() || ConfigurationPreferences.isUsingShizuku().invert()) {
+        if ((ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()).invert()) {
             if (savedInstanceState.isNull()) {
                 for (app in appList) {
                     @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
