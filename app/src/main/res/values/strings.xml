@@ -715,4 +715,5 @@
     <string name="short_service">Short Service</string>
     <string name="file_management">File Management</string>
     <string name="special_use">Special Use</string>
+    <string name="no_preferences_found">No Preferences Found</string>
 </resources>

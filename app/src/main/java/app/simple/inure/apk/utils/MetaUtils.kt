@@ -75,6 +75,11 @@ object MetaUtils {
     }
 
     /**
+     * This method is used to get the foreground service type
+     * @param type The type of the foreground service
+     * @param context The context of the application
+     * @return The string representation of the foreground service type
+     *
      * FOREGROUND_SERVICE_TYPE_MANIFEST,
      * FOREGROUND_SERVICE_TYPE_NONE,
      * FOREGROUND_SERVICE_TYPE_DATA_SYNC,
