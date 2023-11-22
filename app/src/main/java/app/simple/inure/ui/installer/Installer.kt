@@ -132,6 +132,9 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         broadcastReceiver = object : BroadcastReceiver() {
             @SuppressLint("UnsafeIntentLaunch")
             override fun onReceive(context: Context, intent: Intent) {
+                // Sanitize the intent
+                // TODO : Check if this is required
+
                 when (intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -999)) {
                     PackageInstaller.STATUS_PENDING_USER_ACTION -> {
                         val confirmationIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -204,17 +207,26 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 }
 
                 install.setOnClickListener {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
-                            override fun onUserSelected(user: User) {
-                                loader.visible(true)
-                                install.gone()
-                                update.gone()
-                                uninstall.gone()
-                                launch.gone()
-                                installerViewModel.install(user)
-                            }
-                        })
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.isUserSelectionEnabledInInstaller)) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
+                                override fun onUserSelected(user: User) {
+                                    loader.visible(true)
+                                    install.gone()
+                                    update.gone()
+                                    uninstall.gone()
+                                    launch.gone()
+                                    installerViewModel.install(user)
+                                }
+                            })
+                        } else {
+                            loader.visible(true)
+                            install.gone()
+                            update.gone()
+                            uninstall.gone()
+                            launch.gone()
+                            installerViewModel.install(null)
+                        }
                     } else {
                         loader.visible(true)
                         install.gone()

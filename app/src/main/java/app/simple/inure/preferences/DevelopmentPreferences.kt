@@ -32,6 +32,7 @@ object DevelopmentPreferences {
     const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
     const val pauseImageLoader = "is_image_loader_paused"
     const val expandHomeHeader = "is_home_header_expanded"
+    const val isUserSelectionEnabledInInstaller = "is_user_selection_enabled_in_installer"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -177,6 +178,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Expand Home Header",
                                             "Expand header in the home screen of the app.",
                                             expandHomeHeader,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Enable User Selection In Installer",
+                                            "Enable user selection in installer.",
+                                            isUserSelectionEnabledInInstaller,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
