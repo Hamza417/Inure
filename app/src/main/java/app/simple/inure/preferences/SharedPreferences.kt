@@ -65,6 +65,11 @@ object SharedPreferences {
         return sharedPreferences ?: throw NullPointerException()
     }
 
+    fun getSharedPreference(context: Context): SharedPreferences {
+        init(context)
+        return sharedPreferences ?: throw NullPointerException()
+    }
+
     fun getEncryptedSharedPreferences(): SharedPreferences {
         return encryptedSharedPreferences ?: throw NullPointerException()
     }

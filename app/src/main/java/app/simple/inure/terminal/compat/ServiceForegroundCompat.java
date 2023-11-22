@@ -40,7 +40,7 @@ public class ServiceForegroundCompat {
             boolean.class};
     
     private final Service service;
-    private final NotificationManager mNM;
+    private final NotificationManager notificationManager;
     private Method mSetForeground;
     private Method mStartForeground;
     private Method mStopForeground;
@@ -59,6 +59,30 @@ public class ServiceForegroundCompat {
         }
     }
     
+    public ServiceForegroundCompat(Service service) {
+        this.service = service;
+        notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+        
+        Class <?> clazz = service.getClass();
+        
+        try {
+            mStartForeground = clazz.getMethod("startForeground", mStartForegroundSig);
+            mStopForeground = clazz.getMethod("stopForeground", mStopForegroundSig);
+        } catch (NoSuchMethodException e) {
+            mStartForeground = mStopForeground = null;
+        }
+    
+        try {
+            mSetForeground = clazz.getMethod("setForeground", mSetForegroundSig);
+        } catch (NoSuchMethodException e) {
+            mSetForeground = null;
+        }
+    
+        if (mStartForeground == null && mSetForeground == null) {
+            throw new IllegalStateException("Neither startForeground() or setForeground() present!");
+        }
+    }
+    
     public void startForeground(int id, Notification notification) {
         if (mStartForeground != null) {
             invokeMethod(service, mStartForeground, id, notification);
@@ -66,7 +90,7 @@ public class ServiceForegroundCompat {
         }
         
         invokeMethod(service, mSetForeground, Boolean.TRUE);
-        mNM.notify(id, notification);
+        notificationManager.notify(id, notification);
         notifyId = id;
     }
     
@@ -77,32 +101,8 @@ public class ServiceForegroundCompat {
         }
         
         if (removeNotify) {
-            mNM.cancel(notifyId);
+            notificationManager.cancel(notifyId);
         }
         invokeMethod(service, mSetForeground, Boolean.FALSE);
-    }
-    
-    public ServiceForegroundCompat(Service service) {
-        this.service = service;
-        mNM = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
-        
-        Class <?> clazz = service.getClass();
-        
-        try {
-            mStartForeground = clazz.getMethod("startForeground", mStartForegroundSig);
-            mStopForeground = clazz.getMethod("stopForeground", mStopForegroundSig);
-        } catch (NoSuchMethodException e) {
-            mStartForeground = mStopForeground = null;
-        }
-        
-        try {
-            mSetForeground = clazz.getMethod("setForeground", mSetForegroundSig);
-        } catch (NoSuchMethodException e) {
-            mSetForeground = null;
-        }
-        
-        if (mStartForeground == null && mSetForeground == null) {
-            throw new IllegalStateException("Neither startForeground() or setForeground() present!");
-        }
     }
 }

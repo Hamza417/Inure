@@ -2,6 +2,7 @@ package app.simple.inure.services
 
 import android.app.*
 import android.content.*
+import android.content.pm.ServiceInfo
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -648,7 +649,12 @@ class AudioServicePager : Service(),
 
         val notification: Notification = builder!!.build()
         notificationManager!!.notify(notificationId, notification)
-        startForeground(notificationId, notification)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        } else {
+            startForeground(notificationId, notification)
+        }
     }
 
     private fun generateAction(icon: Int, title: String, action: String): NotificationCompat.Action {

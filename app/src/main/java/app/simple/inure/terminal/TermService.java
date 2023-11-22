@@ -11,6 +11,7 @@ import android.content.IntentSender;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -20,7 +21,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.os.ResultReceiver;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,7 +29,7 @@ import java.util.UUID;
 import androidx.core.app.NotificationCompat;
 import app.simple.inure.R;
 import app.simple.inure.decorations.emulatorview.TermSession;
-import app.simple.inure.terminal.compat.ServiceForegroundCompat;
+import app.simple.inure.preferences.SharedPreferences;
 import app.simple.inure.terminal.util.SessionList;
 import app.simple.inure.terminal.util.TermSettings;
 import app.simple.inure.terminal_v1.ITerminal;
@@ -39,9 +39,8 @@ public class TermService extends Service implements TermSession.FinishCallback {
     
     private static final int RUNNING_NOTIFICATION = 1;
     private static final String ACTION_CLOSE = "inure.terminal.close";
-    private ServiceForegroundCompat serviceForegroundCompat;
     
-    private SessionList mTermSessions;
+    private SessionList termSessions;
     
     private static final String TAG = "TermService";
     
@@ -90,8 +89,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     @Override
     public void onCreate() {
         createNotificationChannel();
-        serviceForegroundCompat = new ServiceForegroundCompat(this);
-        mTermSessions = new SessionList();
+        termSessions = new SessionList();
         
         /* Put the service in the foreground. */
         showPersistentNotification();
@@ -112,23 +110,32 @@ public class TermService extends Service implements TermSession.FinishCallback {
                 .addAction(generateAction(R.drawable.ic_close, getString(R.string.close), ACTION_CLOSE))
                 .setContentText(getString(R.string.service_notify_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        
+    
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_ONGOING_EVENT;
-        serviceForegroundCompat.startForeground(RUNNING_NOTIFICATION, notification);
+    
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForeground(RUNNING_NOTIFICATION, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
+            } else {
+                startForeground(RUNNING_NOTIFICATION, notification);
+            }
+        } else {
+            startForeground(RUNNING_NOTIFICATION, notification);
+        }
     }
     
     @Override
     public void onDestroy() {
-        serviceForegroundCompat.stopForeground(true);
-        for (TermSession session : mTermSessions) {
+        stopForeground(true);
+        for (TermSession session : termSessions) {
             /* Don't automatically remove from list of sessions -- we clear the
              * list below anyway and we could trigger
              * ConcurrentModificationException if we do */
             session.setFinishCallback(null);
             session.finish();
         }
-        mTermSessions.clear();
+        termSessions.clear();
     }
     
     private void createNotificationChannel() {
@@ -152,7 +159,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     }
     
     public SessionList getSessions() {
-        return mTermSessions;
+        return termSessions;
     }
     
     public int getWindowId() {
@@ -164,7 +171,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
     }
     
     public void onSessionFinish(TermSession session) {
-        mTermSessions.remove(session);
+        termSessions.remove(session);
     }
     
     private final class RBinder extends ITerminal.Stub {
@@ -207,16 +214,16 @@ public class TermService extends Service implements TermSession.FinishCallback {
                             GenericTermSession session = null;
                             try {
                                 final TermSettings settings = new TermSettings(getResources(),
-                                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-                                
+                                        SharedPreferences.INSTANCE.getSharedPreferences(getApplicationContext()));
+    
                                 session = new BoundSession(pseudoTerminalMultiplexerFd, settings, niceName);
-                                
-                                mTermSessions.add(session);
-                                
+    
+                                termSessions.add(session);
+    
                                 session.setHandle(sessionHandle);
                                 session.setFinishCallback(new RBinderCleanupCallback(result, callback));
                                 session.setTitle("");
-                                
+    
                                 session.initializeEmulator(80, 24);
                             } catch (Exception whatWentWrong) {
                                 Log.e("TermService", "Failed to bootstrap AIDL session: "
@@ -251,7 +258,7 @@ public class TermService extends Service implements TermSession.FinishCallback {
         public void onSessionFinish(TermSession session) {
             result.cancel();
             callback.send(0, new Bundle());
-            mTermSessions.remove(session);
+            termSessions.remove(session);
         }
     }
 }
