@@ -710,4 +710,11 @@
     <string name="receiver">接收器</string>
     <string name="load_selection_profile">載入選取項目設定檔</string>
     <string name="save_selection_profile">儲存選取項目設定檔</string>
+    <string name="xposed_module">Xposed 模組</string>
+    <string name="remote_messaging">遠端傳訊</string>
+    <string name="system_exempted">系統豁免</string>
+    <string name="short_service">短期服務</string>
+    <string name="file_management">檔案管理</string>
+    <string name="special_use">特殊使用</string>
+    <string name="no_preferences_found">找不到偏好設定</string>
 </resources>
