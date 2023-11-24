@@ -487,11 +487,12 @@ class AppInfo : ScopedFragment() {
                 details.append(getString(R.string.trackers_count, it))
             }
 
+            this.details.alpha = 0F
             this.details.text = details
+            this.details.animate().alpha(1F).start()
         }
 
         componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
-
             when (AppInformationPreferences.getMiscMenuLayout()) {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)

@@ -28,9 +28,8 @@ import app.simple.inure.util.Sort
 import app.simple.inure.util.StatusBarHeight
 import java.util.*
 
-class AdapterApps : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
+class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
-    var apps = arrayListOf<PackageInfo>()
     private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {

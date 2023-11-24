@@ -26,6 +26,7 @@ import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
 import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.StringUtils.endsWithAny
 import app.simple.inure.viewmodels.panels.AppsViewModel
 
 class Apps : ScopedFragment() {
@@ -34,11 +35,12 @@ class Apps : ScopedFragment() {
     private lateinit var adapter: AdapterApps
     private lateinit var appsViewModel: AppsViewModel
 
+    private val generatedDataTextExtension = arrayOf(".xml", ".txt", ".csv")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_all_apps, container, false)
 
         appsListRecyclerView = view.findViewById(R.id.all_apps_recycler_view)
-
         appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
 
         return view
@@ -53,9 +55,7 @@ class Apps : ScopedFragment() {
             postponeEnterTransition()
             hideLoader()
 
-            adapter = AdapterApps()
-            adapter.apps = it
-
+            adapter = AdapterApps(it)
             appsListRecyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
@@ -109,39 +109,36 @@ class Apps : ScopedFragment() {
             }
         }
 
-        appsViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) {
-            if (it.isNotNull()) {
+        appsViewModel.getGeneratedDataPath().observe(viewLifecycleOwner) { path ->
+            if (path.isNotNull()) {
                 hideLoader()
                 when {
-                    it.endsWith(".xml") ||
-                            it.endsWith(".txt") ||
-                            it.endsWith(".csv") -> {
-                        openFragmentSlide(
-                                XMLViewerTextView
-                                    .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                 isManifest = false,
-                                                 pathToXml = it,
-                                                 isRaw = true), "xml_viewer")
+                    path.endsWithAny(*generatedDataTextExtension) -> {
+                        openFragmentSlide(XMLViewerTextView.newInstance(
+                                packageInfo = PackageInfo(), /* Empty package info */
+                                isManifest = false,
+                                pathToXml = path,
+                                isRaw = true), "xml_viewer")
                     }
 
-                    it.endsWith(".html") -> {
-                        openFragmentSlide(HtmlViewer
-                                              .newInstance(packageInfo = PackageInfo(), it,
-                                                           isRaw = true), "web_page")
+                    path.endsWith(".html") -> {
+                        openFragmentSlide(HtmlViewer.newInstance(
+                                packageInfo = PackageInfo(), path,
+                                isRaw = true), "web_page")
                     }
 
-                    it.endsWith(".json") -> {
-                        openFragmentSlide(
-                                JSON.newInstance(packageInfo = PackageInfo(),
-                                                 path = it,
-                                                 isRaw = true), "json_viewer")
+                    path.endsWith(".json") -> {
+                        openFragmentSlide(JSON.newInstance(
+                                packageInfo = PackageInfo(),
+                                path = path,
+                                isRaw = true), "json_viewer")
                     }
 
-                    it.endsWith(".md") -> {
-                        openFragmentSlide(
-                                Markdown.newInstance(packageInfo = PackageInfo(),
-                                                     path = it,
-                                                     isRaw = true), "markdown_viewer")
+                    path.endsWith(".md") -> {
+                        openFragmentSlide(Markdown.newInstance(
+                                packageInfo = PackageInfo(),
+                                path = path,
+                                isRaw = true), "markdown_viewer")
                     }
                 }
 

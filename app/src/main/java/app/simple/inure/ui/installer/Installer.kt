@@ -42,6 +42,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.User
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.themes.manager.ThemeManager
@@ -313,8 +314,12 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         installerViewModel.getWarning().observe(viewLifecycleOwner) {
             if (it.contains("INSTALL_FAILED_DEPRECATED_SDK_VERSION")) {
-                parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
-                    installerViewModel.installAnyway()
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
+                        installerViewModel.installAnyway()
+                    }
+                } else {
+                    showWarning(it)
                 }
             } else {
                 showWarning(it)
