@@ -90,6 +90,7 @@ import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
+import app.simple.inure.ui.viewers.SharedPreferences.Companion as SharedPreferencesFrag
 
 class AppInfo : ScopedFragment() {
 
@@ -297,7 +298,7 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.shared_prefs -> {
-                            openFragmentArc(app.simple.inure.ui.viewers.SharedPreferences.newInstance(packageInfo), icon, "shared_prefs")
+                            openFragmentArc(SharedPreferencesFrag.newInstance(packageInfo), icon, "shared_prefs")
                         }
                     }
                 }

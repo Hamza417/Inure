@@ -66,8 +66,6 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
                     }
                 }
             }?.toArrayList() ?: ArrayList())
-
-            database?.close()
         }
     }
 
@@ -86,8 +84,6 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             }?.map {
                 it.tag
             }?.toArrayList() ?: ArrayList())
-
-            database?.close()
         }
     }
 
