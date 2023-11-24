@@ -717,4 +717,5 @@
     <string name="file_management">Gerenciamento de arquivos</string>
     <string name="special_use">Uso especial</string>
     <string name="no_preferences_found">Preferências Não Encontradas</string>
+    <string name="install_anyway">Instalar assim mesmo</string>
 </resources>
