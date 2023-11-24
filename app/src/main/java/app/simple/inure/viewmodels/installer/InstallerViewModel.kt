@@ -39,6 +39,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var user: User? = null
     private val splitApkExtensions = arrayOf(".zip", ".apks", ".apkm", ".xapk")
 
+    var installAnyway = false
+
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
             viewModelScope.launch(Dispatchers.Default) {
@@ -173,7 +175,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Shell.cmd("run-as ${packageInfo.value!!.packageName}").exec()
+                Shell.cmd("run-as ${application.packageName}").exec()
 
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
@@ -397,6 +399,30 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             "pm install-create --user ${user?.id ?: "current"} -S"
         } else {
             "pm install-create -i -S"
+        }
+    }
+
+    fun installAnyway() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val path = packageInfo.value!!.applicationInfo?.sourceDir
+                    ?.replace(" ", "\\ ")
+                    ?.replace("(", "\\(")
+                    ?.replace(")", "\\)")
+
+                Shell.cmd("run-as ${application.packageName}").exec()
+                Shell.cmd("pm install --bypass-low-target-sdk-block $path").exec().let {
+                    if (it.isSuccess) {
+                        success.postValue((0..50).random())
+                    } else {
+                        postWarning(it.err.joinToString())
+                    }
+
+                    Log.d("Installer", "Output: ${it.out}")
+                }
+            }.onFailure {
+                postWarning(it.message ?: "Unknown error")
+            }
         }
     }
 }

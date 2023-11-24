@@ -33,6 +33,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.installer.InstallAnyway.Companion.showInstallAnyway
 import app.simple.inure.dialogs.installer.Users
 import app.simple.inure.dialogs.installer.Users.Companion.showUsers
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -311,7 +312,13 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
 
         installerViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it)
+            if (it.contains("INSTALL_FAILED_DEPRECATED_SDK_VERSION")) {
+                parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
+                    installerViewModel.installAnyway()
+                }
+            } else {
+                showWarning(it)
+            }
         }
 
         installerViewModel.getSuccess().observe(viewLifecycleOwner) {
