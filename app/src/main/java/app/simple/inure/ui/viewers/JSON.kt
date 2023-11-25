@@ -135,6 +135,15 @@ class JSON : KeyboardScopedFragment() {
     }
 
     companion object {
+
+        /**
+         * @param packageInfo: PackageInfo of the app
+         * @param path: Path to the JSON file
+         * @param isRaw: true if the file is specified directly from the
+         *               app and not needed to be fetched from the [PackageInfo],
+         *               If true, [packageInfo] can be null however it's recommended
+         *               to pass the empty [PackageInfo] object
+         */
         fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): JSON {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)

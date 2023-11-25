@@ -141,6 +141,15 @@ class Markdown : ScopedFragment() {
     }
 
     companion object {
+
+        /**
+         * @param packageInfo: PackageInfo of the app
+         * @param path: path of the file to be opened
+         * @param isRaw: true if the file is specified directly from the
+         *               app and not needed to be fetched from the [PackageInfo],
+         *               If true, [packageInfo] can be null however it's recommended
+         *               to pass the empty [PackageInfo] object
+         */
         fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): Markdown {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)

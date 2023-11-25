@@ -283,6 +283,16 @@ class XMLViewerTextView : KeyboardScopedFragment() {
     }
 
     companion object {
+
+        /**
+         * @param packageInfo: PackageInfo of the app
+         * @param isManifest: true if the xml is manifest
+         * @param pathToXml: path to the xml file
+         * @param isRaw: true if the file is specified directly from the
+         *               app and not needed to be fetched from the [PackageInfo],
+         *               If true, [packageInfo] can be null however it's recommended
+         *               to pass the empty [PackageInfo] object
+         */
         fun newInstance(packageInfo: PackageInfo?, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XMLViewerTextView {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
