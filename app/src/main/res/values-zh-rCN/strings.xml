@@ -711,4 +711,11 @@
     <string name="load_selection_profile">加载选定配置文件</string>
     <string name="save_selection_profile">保存选定配置文件</string>
     <string name="xposed_module">Xposed 模块</string>
+    <string name="remote_messaging">远程消息传送</string>
+    <string name="system_exempted">系统豁免</string>
+    <string name="short_service">短期服务</string>
+    <string name="file_management">文件管理</string>
+    <string name="special_use">特殊用途</string>
+    <string name="no_preferences_found">未找到首选项</string>
+    <string name="install_anyway">仍然安装</string>
 </resources>
