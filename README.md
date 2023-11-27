@@ -26,8 +26,6 @@ An elegant Android app manager.
 [![](https://img.shields.io/badge/GitHub%20Actions%20(Beta)-181717?logo=github)](https://github.com/Hamza417/Inure/actions/workflows/build_apk.yml)
 [![](https://img.shields.io/badge/GitHub%20Actions%20(Release)-181717?logo=github)](https://github.com/Hamza417/Inure/actions/workflows/build_release_apk.yml)
 
-**Update (27 Sept, 2023):** Inure is now available to download on Play Store after 20 days of absence, thanks everyone for their patience :)
-
 ## Buy (Full Version)
 
 [![](https://img.shields.io/badge/Full%20Unlocker%20(GumRoad)-Purchase-23a094?logo=gumroad&logoColor=white)](https://hamza417.gumroad.com/l/inure_unlocker/)
