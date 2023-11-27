@@ -127,7 +127,7 @@ class Apps : ScopedFragment() {
                 when {
                     path.endsWithAny(*generatedDataTextExtension) -> {
                         openFragmentSlide(XMLViewerTextView.newInstance(
-                                PackageInfo(), false, path, true), "xml_viewer")
+                                PackageInfo(), false /* Not needed? */, path, true), "xml_viewer")
                     }
 
                     path.endsWith(htmlExtension) -> {

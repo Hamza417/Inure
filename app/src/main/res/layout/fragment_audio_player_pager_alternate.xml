@@ -23,9 +23,18 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_fs_audio_player" />
 
+        <app.simple.inure.decorations.corners.DynamicCornerTextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:padding="@dimen/popup_padding"
+            android:backgroundTint="@android:color/white"
+            android:layout_margin="@dimen/panel_item_padding"
+            app:appFontStyle="bold"
+            app:textColorStyle="black" />
+
     </FrameLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,18 +57,6 @@
             app:lrcTextSize="@dimen/popup_text_size"
             app:playIconHeight="@dimen/panel_item_padding"
             app:playIconWidth="@dimen/panel_item_padding" />
-
-        <app.simple.inure.decorations.corners.DynamicCornerTextView
-            android:id="@+id/number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:padding="@dimen/popup_padding"
-            android:backgroundTint="@android:color/white"
-            android:layout_marginHorizontal="@dimen/panel_item_padding"
-            app:appFontStyle="bold"
-            app:textColorStyle="black" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/mime_title"
