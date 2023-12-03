@@ -29,6 +29,7 @@ class AnalyticsPackageType : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
+    private lateinit var count: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var analyticsDataViewModel: AnalyticsDataViewModel
@@ -38,6 +39,7 @@ class AnalyticsPackageType : ScopedFragment() {
 
         back = view.findViewById(R.id.back_button)
         title = view.findViewById(R.id.sdk_name)
+        count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
         val analyticsSDKViewModelFactory = AnalyticsSDKViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
@@ -63,6 +65,7 @@ class AnalyticsPackageType : ScopedFragment() {
 
         analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
+            count.text = getString(R.string.total_apps, it.size.toString())
             val analyticsDataAdapter = AnalyticsDataAdapter(it)
 
             analyticsDataAdapter.setOnAdapterCallbacks(object : AdapterCallbacks {
