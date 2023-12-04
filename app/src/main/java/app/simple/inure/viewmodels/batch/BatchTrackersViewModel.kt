@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
 import java.io.StringReader
 import java.nio.ByteBuffer
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.Transformer
@@ -270,7 +270,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
         channel.read(buffer)
         buffer.flip()
 
-        val xml = String(buffer.array(), Charset.defaultCharset())
+        val xml = String(buffer.array(), StandardCharsets.UTF_8)
         val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
 
         val activityNodes = document.getElementsByTagName("activity")
@@ -411,7 +411,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             channel.read(buffer)
             buffer.flip()
 
-            val xml = String(buffer.array(), Charset.defaultCharset())
+            val xml = String(buffer.array(), StandardCharsets.UTF_8)
 
             val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
             val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
@@ -456,7 +456,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                          * create another activity tag with block and log attributes
                          * set to true
                          */
-                        if (activity.attributes.getNamedItem("block") != null && activity.attributes.getNamedItem("block").nodeValue == "false") {
+                        if (activity.attributes.getNamedItem("block") != null
+                                && activity.attributes.getNamedItem("block").nodeValue == "false") {
                             val activity1 = doc.createElement("activity")
                             activity1.setAttribute("block", "true")
                             activity1.setAttribute("log", "false")
@@ -486,7 +487,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                          * create another service tag with block and log attributes
                          * set to true
                          */
-                        if (service.attributes.getNamedItem("block") != null && service.attributes.getNamedItem("block").nodeValue == "false") {
+                        if (service.attributes.getNamedItem("block") != null
+                                && service.attributes.getNamedItem("block").nodeValue == "false") {
                             val service1 = doc.createElement("service")
                             service1.setAttribute("block", "true")
                             service1.setAttribute("log", "false")
@@ -516,7 +518,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                          * create another broadcast tag with block and log attributes
                          * set to true
                          */
-                        if (broadcast.attributes.getNamedItem("block") != null && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
+                        if (broadcast.attributes.getNamedItem("block") != null
+                                && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
                             val broadcast1 = doc.createElement("broadcast")
                             broadcast1.setAttribute("block", "true")
                             broadcast1.setAttribute("log", "false")
@@ -567,7 +570,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             channel.read(buffer)
             buffer.flip()
 
-            val xml = String(buffer.array(), Charset.defaultCharset())
+            val xml = String(buffer.array(), StandardCharsets.UTF_8)
 
             val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
             val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
