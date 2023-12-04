@@ -53,7 +53,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (analyticsDataViewModel.getAnalyticsData().value != null) {
+        if (analyticsDataViewModel.getMinimumSDKData().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
@@ -69,7 +69,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
             popBackStack()
         }
 
-        analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
+        analyticsDataViewModel.getTargetSDKData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             count.text = getString(R.string.total_apps, it.size.toString())
             val adapterAnalyticsSDK = AnalyticsDataAdapter(it)

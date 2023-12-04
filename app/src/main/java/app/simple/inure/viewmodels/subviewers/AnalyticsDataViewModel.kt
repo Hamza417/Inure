@@ -14,24 +14,38 @@ import app.simple.inure.util.SDKHelper
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AnalyticsDataViewModel(application: Application, private val entry: Entry) : PackageUtilsViewModel(application) {
 
-    private val data: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+    private val minimumSDK: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>()
     }
 
-    fun getAnalyticsData(): MutableLiveData<ArrayList<PackageInfo>> {
-        return data
+    private val targetSDK: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>()
+    }
+
+    private val splitPackages: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>()
+    }
+
+    fun getMinimumSDKData(): MutableLiveData<ArrayList<PackageInfo>> {
+        return minimumSDK
+    }
+
+    fun getTargetSDKData(): MutableLiveData<ArrayList<PackageInfo>> {
+        return targetSDK
+    }
+
+    fun getPackageTypeData(): MutableLiveData<ArrayList<PackageInfo>> {
+        return splitPackages
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun loadSDKFilteredAppsList(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(250L) // Optimization baybeee!!!
-
+            // delay(250L) // Optimization baybeee!!!
             val sdkFilteredApps = arrayListOf<PackageInfo>()
 
             for (app in apps) {
@@ -54,14 +68,12 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
                 it.applicationInfo.name
             }
 
-            data.postValue(sdkFilteredApps)
+            minimumSDK.postValue(sdkFilteredApps)
         }
     }
 
     private fun loadTargetSDKFilteredAppsList(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(250L) // Optimization baybeee!!!
-
             val sdkFilteredApps = arrayListOf<PackageInfo>()
 
             for (app in apps) {
@@ -84,16 +96,13 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
                 it.applicationInfo.name
             }
 
-            data.postValue(sdkFilteredApps)
+            targetSDK.postValue(sdkFilteredApps)
         }
     }
 
     private fun loadSplitPackageAppsList(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(250L) // Optimization baybeee!!!
-
             val packageApps = arrayListOf<PackageInfo>()
-
             val splitApkString = getString(R.string.split_packages)
             val apk = getString(R.string.apk)
 
@@ -117,7 +126,7 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
                 it.applicationInfo.name
             }
 
-            data.postValue(packageApps)
+            splitPackages.postValue(packageApps)
         }
     }
 

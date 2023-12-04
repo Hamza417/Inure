@@ -2,6 +2,7 @@ package app.simple.inure.ui.subpanels
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +54,7 @@ class AnalyticsMinimumSDK : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (analyticsDataViewModel.getAnalyticsData().value != null) {
+        if (analyticsDataViewModel.getMinimumSDKData().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
@@ -69,7 +70,8 @@ class AnalyticsMinimumSDK : ScopedFragment() {
             popBackStack()
         }
 
-        analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
+        analyticsDataViewModel.getMinimumSDKData().observe(viewLifecycleOwner) {
+            Log.d("AnalyticsMinimumSDK", "onViewCreated: ${it.size}")
             loader.gone(animate = true)
             count.text = getString(R.string.total_apps, it.size.toString())
 

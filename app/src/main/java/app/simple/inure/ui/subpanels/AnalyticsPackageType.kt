@@ -51,7 +51,7 @@ class AnalyticsPackageType : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (analyticsDataViewModel.getAnalyticsData().value != null) {
+        if (analyticsDataViewModel.getMinimumSDKData().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
@@ -63,7 +63,7 @@ class AnalyticsPackageType : ScopedFragment() {
             popBackStack()
         }
 
-        analyticsDataViewModel.getAnalyticsData().observe(viewLifecycleOwner) {
+        analyticsDataViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             count.text = getString(R.string.total_apps, it.size.toString())
             val analyticsDataAdapter = AnalyticsDataAdapter(it)
