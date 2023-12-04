@@ -29,6 +29,7 @@ class TaggedApps : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
+    private lateinit var count: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
@@ -44,6 +45,7 @@ class TaggedApps : ScopedFragment() {
 
         back = view.findViewById(R.id.back_button)
         title = view.findViewById(R.id.tag)
+        count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
 
@@ -66,21 +68,24 @@ class TaggedApps : ScopedFragment() {
         }
 
         tagsListViewModel.getTaggedApps().observe(viewLifecycleOwner) {
+            count.text = getString(R.string.total_apps, it.size.toString())
             loader.gone(animate = true)
-            val taggedAppsAdapter = AnalyticsDataAdapter(it)
 
-            taggedAppsAdapter.setOnAdapterCallbacks(object : AdapterCallbacks {
-                override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openAppInfo(packageInfo, icon)
-                }
+            with(AnalyticsDataAdapter(it)) {
+                recyclerView.adapter = this
+                setOnAdapterCallbacks(object : AdapterCallbacks {
 
-                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppsMenu.newInstance(packageInfo)
-                        .show(childFragmentManager, "apps_menu")
-                }
-            })
+                    override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                        openAppInfo(packageInfo, icon)
+                    }
 
-            recyclerView.adapter = taggedAppsAdapter
+                    override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
+                        AppsMenu.newInstance(packageInfo)
+                            .show(childFragmentManager, "apps_menu")
+                    }
+                })
+            }
+
             ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView)
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
