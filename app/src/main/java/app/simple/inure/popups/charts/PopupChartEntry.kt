@@ -26,7 +26,10 @@ class PopupChartEntry(view: View, entry: Entry?, function: ((PieEntry) -> Unit)?
         textEntry.text = (entry as PieEntry).label
 
         textEntry.setOnClickListener {
-            function?.let { it1 -> it1(entry) }
+            function?.let { it1 ->
+                it1(entry)
+            }
+
             dismiss()
         }
 

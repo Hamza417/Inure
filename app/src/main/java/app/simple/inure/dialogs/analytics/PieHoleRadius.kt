@@ -45,7 +45,10 @@ class PieHoleRadius : ScopedBottomSheetFragment() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 value.text = SpannableStringBuilder.buildSpannableString("${progress / factor}%", 2)
-                if (fromUser) AnalyticsPreferences.setPieHoleRadiusValue(progress / factor)
+
+                if (fromUser) {
+                    AnalyticsPreferences.setPieHoleRadiusValue(progress / factor)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {

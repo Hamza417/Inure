@@ -55,6 +55,10 @@ object ConditionUtils {
         return this != 0
     }
 
+    fun Float.isNotZero(): Boolean {
+        return this != 0F
+    }
+
     /**
      * Check is a number is equal to another number
      *

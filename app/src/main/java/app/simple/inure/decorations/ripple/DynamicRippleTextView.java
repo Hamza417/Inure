@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
@@ -63,7 +61,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(0.8F)
@@ -98,9 +96,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
                     return super.onTouchEvent(event);
                 }
             }
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP: {
+            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(1F)
@@ -111,7 +107,6 @@ public class DynamicRippleTextView extends TypeFaceTextView {
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
             }
         }
         return super.onTouchEvent(event);
@@ -136,14 +131,16 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             setBackgroundTintList(ColorStateList.valueOf(Color.TRANSPARENT));
         } else {
-            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getSelectedBackground()));
+            setBackgroundTintList(ColorStateList.valueOf(
+                    ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getSelectedBackground()));
         }
     }
     
     private void setHighlightBackgroundColor() {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
             LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            setBackgroundTintList(ColorStateList.valueOf(
+                    ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
             setBackground(null);
             if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
@@ -157,10 +154,12 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     @Override
     public void onSharedPreferenceChanged(@Nullable SharedPreferences sharedPreferences, @Nullable String key) {
         super.onSharedPreferenceChanged(sharedPreferences, key);
-        if (Objects.equals(key, AppearancePreferences.accentColor) ||
-                Objects.equals(key, AccessibilityPreferences.isHighlightStroke) ||
-                Objects.equals(key, AccessibilityPreferences.isHighlightMode)) {
-            setHighlightBackgroundColor();
+        switch (key) {
+            case AppearancePreferences.accentColor,
+                    AccessibilityPreferences.isHighlightStroke,
+                    AccessibilityPreferences.isHighlightMode -> {
+                setHighlightBackgroundColor();
+            }
         }
     }
     

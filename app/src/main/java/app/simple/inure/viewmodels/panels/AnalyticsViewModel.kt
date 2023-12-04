@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
+import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.SDKHelper
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
@@ -46,10 +47,11 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         viewModelScope.launch(Dispatchers.IO) {
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
+            val isSdkCode = AnalyticsPreferences.getSDKValue()
 
-            // TODO - improve this code
             for (sdkCode in 1..SDKHelper.totalSDKs) {
                 var total = 0F
+
                 for (app in apps) {
                     val sdk = app.applicationInfo.minSdkVersion
                     if (sdk == sdkCode) {
@@ -57,8 +59,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
                     }
                 }
 
-                if (total != 0F) { // Filter empty data
-                    data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
+                if (total.isNotZero()) { // Filter empty data
+                    val sdk = if (isSdkCode) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)
+
+                    data.add(PieEntry(total, sdk))
                     colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
                 }
             }
@@ -71,19 +75,22 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         viewModelScope.launch(Dispatchers.IO) {
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
+            val isSdkCode = AnalyticsPreferences.getSDKValue()
 
-            // TODO - improve this code
             for (sdkCode in 1..SDKHelper.totalSDKs) {
                 var total = 0F
+
                 for (app in apps) {
                     val sdk = app.applicationInfo.targetSdkVersion
                     if (sdk == sdkCode) {
-                        ++total
+                        total = total.inc()
                     }
                 }
 
-                if (total != 0F) { // Filter empty data
-                    data.add(PieEntry(total, if (AnalyticsPreferences.getSDKValue()) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)))
+                if (total.isNotZero()) { // Filter empty data
+                    val sdk = if (isSdkCode) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)
+
+                    data.add(PieEntry(total, sdk))
                     colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
                 }
             }
@@ -96,20 +103,19 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         viewModelScope.launch(Dispatchers.IO) {
             val data = arrayListOf<PieEntry>()
             val colors = arrayListOf<Int>()
-
             var split = 0F
             var apk = 0F
 
             for (app in apps) {
                 if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    apk++
+                    apk = apk.inc()
                 } else {
-                    split++
+                    split = split.inc()
                 }
             }
 
-            if (split != 0F) data.add(PieEntry(split, getString(R.string.split_packages)))
-            if (apk != 0F) data.add(PieEntry(apk, getString(R.string.apk)))
+            if (split.isNotZero()) data.add(PieEntry(split, getString(R.string.split_packages)))
+            if (apk.isNotZero()) data.add(PieEntry(apk, getString(R.string.apk)))
 
             packageTypeData.postValue(Pair(data, colors))
         }
@@ -119,6 +125,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             loadMinimumOsData(apps)
         }
+
         loadTargetOsData(apps)
         loadPackageTypeData(apps)
     }

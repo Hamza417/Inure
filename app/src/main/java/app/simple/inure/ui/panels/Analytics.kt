@@ -168,7 +168,7 @@ class Analytics : ScopedFragment() {
                 targetOsLegend.adapter = adapter
             }
 
-            targetOsPie.setAnimation(false)
+            targetOsPie.setAnimation(true)
             targetOsPie.invalidate()
         }
 
@@ -210,7 +210,7 @@ class Analytics : ScopedFragment() {
                 packageTypeLegend.adapter = adapter
             }
 
-            packageTypePie.setAnimation(false)
+            packageTypePie.setAnimation(true)
             packageTypePie.notifyDataSetChanged()
             packageTypePie.invalidate()
         }

@@ -106,8 +106,9 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (key) {
-            case AnalyticsPreferences.pieHoleRadius ->
-                    animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
+            case AnalyticsPreferences.pieHoleRadius -> {
+                animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
+            }
         }
     }
     
@@ -121,7 +122,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isInEditMode()) {
-            app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+            app.simple.inure.preferences.SharedPreferences.INSTANCE
+                    .getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
         ThemeManager.INSTANCE.addListener(this);
     }
@@ -129,7 +131,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE
+                .getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         ThemeManager.INSTANCE.removeListener(this);
         if (NullSafety.INSTANCE.isNotNull(valueAnimator)) {
             valueAnimator.cancel();
@@ -156,6 +159,13 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         }
     }
     
+    /**
+     * Should animate the chart when data changes
+     * and when the chart is first drawn.
+     * This flag should also affect the hole radius animation
+     *
+     * @param animate true to animate the chart
+     */
     public void setAnimation(boolean animate) {
         this.animate = animate;
     }

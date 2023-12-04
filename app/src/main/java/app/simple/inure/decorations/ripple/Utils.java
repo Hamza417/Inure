@@ -30,7 +30,8 @@ public class Utils {
                 endColor);
         valueAnimator.setDuration(300L);
         valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
-        valueAnimator.addUpdateListener(animation -> view.setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
+        valueAnimator.addUpdateListener(animation ->
+                view.setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
         valueAnimator.start();
     }
     
@@ -41,7 +42,9 @@ public class Utils {
                 endColor);
         valueAnimator.setDuration(300L);
         valueAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
-        valueAnimator.addUpdateListener(animation -> view.setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
+        valueAnimator.addUpdateListener(animation ->
+                view.setBackgroundTintList(ColorStateList.valueOf((int) animation.getAnimatedValue())));
+    
         valueAnimator.start();
     }
     
