@@ -43,6 +43,7 @@ An elegant Android app manager.
 - [8 Legendary Android Apps You Must INSTALL NOW - May 2023!](https://www.youtube.com/watch?v=YbnNmnd5JrE&t=268s)
 - [Apps that Will LEVEL Up Your Smartphone Experience in 2023! - Sam Beckman](https://youtu.be/EtOq5ccjv5s?t=121)
 - [The Most Functional App Ever! - Sam Beckamn](https://www.youtube.com/shorts/WYoWLMKawBg)
+- [Top 10 Android Apps! (October 2023) - Matt Robb](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
 
 ## About
 
