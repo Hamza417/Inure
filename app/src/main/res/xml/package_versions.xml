@@ -34,7 +34,7 @@
     <string name="at.h4x.awhip" translatable="false">10100</string>
     <string name="a2dp.Vol" translatable="false">169</string>
     <string name="io.github.dkter.aaaaa" translatable="false">4</string>
-    <string name="io.github.divverent.aaaaxy" translatable="false">104301014</string>
+    <string name="io.github.divverent.aaaaxy" translatable="false">104301194</string>
     <string name="com.zoffcc.applications.aagtl" translatable="false">36</string>
     <string name="de.HS_Aalen.don" translatable="false">4</string>
     <string name="itkach.aard2" translatable="false">54</string>
@@ -48,13 +48,13 @@
     <string name="com.foxdebug.acode" translatable="false">330</string>
     <string name="anupam.acrylic" translatable="false">19</string>
     <string name="de.rampro.activitydiary" translatable="false">136</string>
-    <string name="de.szalkowski.activitylauncher" translatable="false">38</string>
+    <string name="de.szalkowski.activitylauncher" translatable="false">40</string>
     <string name="de.szalkowski.activitylauncher.rustore_fork" translatable="false">137</string>
     <string name="com.activitymanager" translatable="false">545</string>
     <string name="com.germainz.activityforcenewtask" translatable="false">24</string>
     <string name="pc.javier.actualizadoropendns" translatable="false">5</string>
     <string name="net.androidcomics.acv" translatable="false">46</string>
-    <string name="ch.abertschi.adfree" translatable="false">41</string>
+    <string name="ch.abertschi.adfree" translatable="false">42</string>
     <string name="bluepie.ad_silence" translatable="false">42</string>
     <string name="com.rascarlo.adaptive.brightness.tile" translatable="false">2</string>
     <string name="org.adaway" translatable="false">60101</string>
@@ -144,7 +144,7 @@
     <string name="net.avs234" translatable="false">16</string>
     <string name="com.github.andlyticsproject" translatable="false">247</string>
     <string name="org.quovadit.apps.andof" translatable="false">21</string>
-    <string name="com.gpl.rpg.AndorsTrail" translatable="false">73</string>
+    <string name="com.gpl.rpg.AndorsTrail" translatable="false">74</string>
     <string name="com.fr3ts0n.ecu.gui.androbd" translatable="false">20607</string>
     <string name="com.fr3ts0n.androbd.plugin.gpsprovider" translatable="false">10101</string>
     <string name="com.fr3ts0n.androbd.plugin.mqtt" translatable="false">10101</string>
@@ -152,7 +152,7 @@
     <string name="net.rocrail.androc" translatable="false">418</string>
     <string name="androdns.android.leetdreams.ch.androdns" translatable="false">27</string>
     <string name="de.hechler.andfish" translatable="false">21</string>
-    <string name="dev.patri9ck.a2ln" translatable="false">17</string>
+    <string name="dev.patri9ck.a2ln" translatable="false">18</string>
     <string name="com.iamtrk.androidexplorer" translatable="false">1</string>
     <string name="com.github.pires.obd.reader" translatable="false">13</string>
     <string name="in.arjsna.permissionchecker" translatable="false">5</string>
@@ -171,7 +171,7 @@
     <string name="com.tritop.androsense2" translatable="false">13</string>
     <string name="net.tedstein.AndroSS" translatable="false">17</string>
     <string name="com.androzic" translatable="false">95</string>
-    <string name="org.andstatus.app" translatable="false">364</string>
+    <string name="org.andstatus.app" translatable="false">365</string>
     <string name="net.sourceforge.andsys" translatable="false">33</string>
     <string name="com.github.dawidd6.andttt" translatable="false">66</string>
     <string name="io.gresse.hugo.anecdote" translatable="false">23</string>
@@ -184,7 +184,7 @@
     <string name="io.krmanik.ankiimageocclusion" translatable="false">14800</string>
     <string name="com.ichi2.anki" translatable="false">21605300</string>
     <string name="com.jkcarino.ankieditor" translatable="false">9</string>
-    <string name="exa.lnx.a" translatable="false">650</string>
+    <string name="exa.lnx.a" translatable="false">655</string>
     <string name="de.ktran.anno1404warenrechner" translatable="false">1</string>
     <string name="net.haltcondition.anode" translatable="false">7</string>
     <string name="com.dx.anonymousmessenger" translatable="false">54</string>
@@ -245,7 +245,7 @@
     <string name="com.gitlab.ardash.appleflinger.android" translatable="false">1005014</string>
     <string name="org.microg.nlp.backend.apple" translatable="false">20043</string>
     <string name="com.majeur.applicationsinfo" translatable="false">7</string>
-    <string name="net.stargw.applist" translatable="false">15</string>
+    <string name="net.stargw.applist" translatable="false">16</string>
     <string name="io.github.subhamtyagi.privacyapplock" translatable="false">8</string>
     <string name="com.gueei.applocker" translatable="false">3</string>
     <string name="com.zzzmode.appopsx" translatable="false">125</string>
@@ -278,15 +278,15 @@
     <string name="com.commonsware.android.arXiv" translatable="false">112</string>
     <string name="com.rockbyte.arxiv" translatable="false">9</string>
     <string name="com.dozingcatsoftware.asciicam" translatable="false">16</string>
-    <string name="asgardius.page.s3manager" translatable="false">85</string>
-    <string name="asgardius.page.s3music" translatable="false">11</string>
+    <string name="asgardius.page.s3manager" translatable="false">86</string>
+    <string name="asgardius.page.s3music" translatable="false">12</string>
     <string name="in.sunilpaulmathew.ashell" translatable="false">8</string>
     <string name="de.lsubel.amam" translatable="false">10401</string>
     <string name="com.alfray.asqare" translatable="false">103</string>
     <string name="dk.andsen.asqlitemanager" translatable="false">17</string>
     <string name="com.series.aster.launcher" translatable="false">12</string>
     <string name="org.asteroidos.sync" translatable="false">29</string>
-    <string name="org.atalk.android" translatable="false">302030</string>
+    <string name="org.atalk.android" translatable="false">302040</string>
     <string name="org.tamanegi.atmosphere" translatable="false">9</string>
     <string name="indrora.atomic" translatable="false">21</string>
     <string name="com.wrmndfzzy.atomize" translatable="false">1</string>
@@ -416,7 +416,7 @@
     <string name="fr.fdesousa.bikesharinghub" translatable="false">30</string>
     <string name="com.lucinhu.bili_you" translatable="false">15</string>
     <string name="xyz.apiote.bimba.czwek" translatable="false">23</string>
-    <string name="de.markusfisch.android.binaryeye" translatable="false">123</string>
+    <string name="de.markusfisch.android.binaryeye" translatable="false">125</string>
     <string name="de.binary_kitchen.doorlock_app" translatable="false">8</string>
     <string name="com.github.axet.binauralbeats" translatable="false">160</string>
     <string name="com.ihunda.android.binauralbeat" translatable="false">39</string>
@@ -445,6 +445,7 @@
     <string name="com.kaliturin.blacklist" translatable="false">18</string>
     <string name="de.Cherubin7th.blackscreenpresentationremote" translatable="false">2</string>
     <string name="com.miqote.brswp" translatable="false">13</string>
+    <string name="com.chancesoftwarellc.blazedcloud" translatable="false">101013</string>
     <string name="io.github.webbluetoothcg.bletestperipheral" translatable="false">3</string>
     <string name="org.ligi.blexplorer" translatable="false">12</string>
     <string name="org.proninyaroslav.blink_comparison" translatable="false">5</string>
@@ -456,7 +457,7 @@
     <string name="de.mwvb.blockpuzzle" translatable="false">70</string>
     <string name="org.asafonov.blockbuster" translatable="false">9</string>
     <string name="com.jellyshack.block6" translatable="false">7</string>
-    <string name="com.merxury.blocker" translatable="false">3111</string>
+    <string name="com.merxury.blocker" translatable="false">3361</string>
     <string name="org.blockinger.game" translatable="false">14</string>
     <string name="de.sensebox.blockly" translatable="false">10102</string>
     <string name="org.scoutant.blokish" translatable="false">22</string>
@@ -504,7 +505,7 @@
     <string name="com.github.grimpy.botifier" translatable="false">16</string>
     <string name="net.artificialworlds.boxstacker" translatable="false">1050900</string>
     <string name="org.brightdv.boxbox" translatable="false">28</string>
-    <string name="com.rocket9labs.boxcars" translatable="false">101050</string>
+    <string name="com.rocket9labs.boxcars" translatable="false">101080</string>
     <string name="com.fredhappyface.brainf" translatable="false">20230828</string>
     <string name="de.telefongarten.brainjogging" translatable="false">1</string>
     <string name="eu.veldsoft.brainstonz" translatable="false">2</string>
@@ -544,7 +545,7 @@
     <string name="org.c_base.c_beam" translatable="false">34</string>
     <string name="de.c3nav.droid" translatable="false">14040101</string>
     <string name="com.frozendevs.cache.cleaner" translatable="false">26</string>
-    <string name="com.github.bmx666.appcachecleaner" translatable="false">59</string>
+    <string name="com.github.bmx666.appcachecleaner" translatable="false">61</string>
     <string name="at.bitfire.cadroid" translatable="false">8</string>
     <string name="info.zwanenburg.caffeinetile" translatable="false">4</string>
     <string name="com.rechnen.app" translatable="false">20</string>
@@ -621,7 +622,7 @@
     <string name="com.github.cetoolbox" translatable="false">15</string>
     <string name="com.oF2pks.chairlock" translatable="false">18</string>
     <string name="ml.vivekthazhathattil.chalachithram" translatable="false">2</string>
-    <string name="cc.narumi.chaldea.fdroid" translatable="false">963</string>
+    <string name="cc.narumi.chaldea.fdroid" translatable="false">964</string>
     <string name="com.bernaferrari.changedetection" translatable="false">32</string>
     <string name="com.linkomnia.android.Changjie" translatable="false">7</string>
     <string name="com.jforce.chapelhillnextbus" translatable="false">2</string>
@@ -657,9 +658,9 @@
     <string name="org.hollowbamboo.chordreader2" translatable="false">8</string>
     <string name="net.pmarks.chromadoze" translatable="false">28</string>
     <string name="com.nathanosman.chronosnap" translatable="false">6</string>
-    <string name="agrigolo.chubbyclick" translatable="false">24</string>
+    <string name="agrigolo.chubbyclick" translatable="false">25</string>
     <string name="us.lindanrandy.cidrcalculator" translatable="false">125</string>
-    <string name="com.wa2c.android.cifsdocumentsprovider" translatable="false">20</string>
+    <string name="com.wa2c.android.cifsdocumentsprovider" translatable="false">24</string>
     <string name="net.retiolus.cigalo" translatable="false">8</string>
     <string name="cat.jordihernandez.cinecat" translatable="false">1</string>
     <string name="com.ulicae.cinelog" translatable="false">38</string>
@@ -677,12 +678,12 @@
     <string name="douzifly.list" translatable="false">21</string>
     <string name="com.amnesica.clearclipboard" translatable="false">5</string>
     <string name="de.qspool.clementineremote" translatable="false">759</string>
-    <string name="co.prestosole.clima" translatable="false">173</string>
+    <string name="co.prestosole.clima" translatable="false">183</string>
     <string name="com.catchingnow.tinyclipboardmanager" translatable="false">57</string>
     <string name="de.ub0r.android.clipboardbeam" translatable="false">14100000</string>
     <string name="io.github.deweyreed.clipboardcleaner" translatable="false">181</string>
     <string name="me.lucky.clipeus" translatable="false">6</string>
-    <string name="com.github.lamarios.clipious" translatable="false">40383</string>
+    <string name="com.github.lamarios.clipious" translatable="false">40393</string>
     <string name="com.best.deskclock" translatable="false">3</string>
     <string name="com.chen.deskclock" translatable="false">5</string>
     <string name="com.ssaurel.clocklw" translatable="false">1</string>
@@ -717,7 +718,7 @@
     <string name="com.commonslab.commonslab" translatable="false">3</string>
     <string name="org.wikimedia.commons.wikimedia" translatable="false">1</string>
     <string name="com.sgr_b2.compass" translatable="false">10405</string>
-    <string name="com.bobek.compass" translatable="false">17</string>
+    <string name="com.bobek.compass" translatable="false">18</string>
     <string name="danielmeek32.compass" translatable="false">2</string>
     <string name="net.micode.compass" translatable="false">1</string>
     <string name="org.dyndns.fules.ck" translatable="false">20</string>
@@ -749,7 +750,7 @@
     <string name="org.coolreader" translatable="false">32380</string>
     <string name="com.dconstructing.cooper" translatable="false">2</string>
     <string name="com.github.siggel.coordinatejoker" translatable="false">34</string>
-    <string name="io.github.jd1378.otphelper" translatable="false">11000</string>
+    <string name="io.github.jd1378.otphelper" translatable="false">12000</string>
     <string name="se.johanhil.clipboard" translatable="false">2</string>
     <string name="ru.o2genum.coregame" translatable="false">3</string>
     <string name="com.aurora.corona" translatable="false">3</string>
@@ -771,7 +772,7 @@
     <string name="com.bvalosek.cpuspy" translatable="false">9</string>
     <string name="jp.takke.cpustats" translatable="false">24</string>
     <string name="com.bmco.cratesiounofficial" translatable="false">12</string>
-    <string name="se.bitcraze.crazyfliecontrol2" translatable="false">19</string>
+    <string name="se.bitcraze.crazyfliecontrol2" translatable="false">20</string>
     <string name="app.crescentcash.src" translatable="false">120</string>
     <string name="com.github.alijc.cricketsalarm" translatable="false">2</string>
     <string name="uk.org.crimetalk" translatable="false">3</string>
@@ -802,7 +803,7 @@
     <string name="com.manor.currentwidget" translatable="false">46</string>
     <string name="com.trianguloy.numericriddlegenerator" translatable="false">7</string>
     <string name="tyagi.shubham.customsearch" translatable="false">1</string>
-    <string name="com.nyx.custom_uploader" translatable="false">6</string>
+    <string name="com.nyx.custom_uploader" translatable="false">7</string>
     <string name="org.cyanogenmod.oneclick" translatable="false">1009</string>
     <string name="net.cyclestreets" translatable="false">1579</string>
     <string name="at.mikenet.serbianlatintocyrillic" translatable="false">61</string>
@@ -844,7 +845,7 @@
     <string name="dasher.android" translatable="false">9</string>
     <string name="com.umang.dashnotifier" translatable="false">18</string>
     <string name="com.drnoob.datamonitor" translatable="false">24</string>
-    <string name="com.xayah.databackup.foss" translatable="false">3411024</string>
+    <string name="com.xayah.databackup.foss" translatable="false">3411044</string>
     <string name="com.databag" translatable="false">11004</string>
     <string name="jp.takke.datastats" translatable="false">30</string>
     <string name="io.github.datastopwatch" translatable="false">10</string>
@@ -855,7 +856,7 @@
     <string name="com.tserumula.dbcleanerforwhatsapp" translatable="false">9</string>
     <string name="com.tomer.dbz.widget" translatable="false">5</string>
     <string name="com.sunilpaulmathew.debloater" translatable="false">26</string>
-    <string name="com.codedead.deadhash" translatable="false">9</string>
+    <string name="com.codedead.deadhash" translatable="false">12</string>
     <string name="com.emmanuelmess.deadlinesapp.free" translatable="false">2</string>
     <string name="com.code61.deadpixel" translatable="false">2</string>
     <string name="org.principate.matthew.dealing_sheet" translatable="false">2</string>
@@ -882,7 +883,7 @@
     <string name="ie.defo.ech_apps" translatable="false">1014051</string>
     <string name="ch.gassenarbeit.bern.your.rights" translatable="false">203</string>
     <string name="kmac.dejavu_fonts" translatable="false">10</string>
-    <string name="com.afkanerd.deku" translatable="false">44</string>
+    <string name="com.afkanerd.deku" translatable="false">45</string>
     <string name="ca.ramzan.delist" translatable="false">3</string>
     <string name="com.b44t.messenger" translatable="false">6774</string>
     <string name="website.leifs.delta.foss" translatable="false">186003</string>
@@ -942,7 +943,7 @@
     <string name="tk.giesecke.disaster_radio" translatable="false">17</string>
     <string name="com.vincent_falzon.discreetlauncher" translatable="false">63</string>
     <string name="com.kidozh.discuzhub.fdroid" translatable="false">48</string>
-    <string name="com.google.android.diskusage" translatable="false">5000</string>
+    <string name="com.google.android.diskusage" translatable="false">5001</string>
     <string name="org.disroot.disrootapp" translatable="false">31</string>
     <string name="info.metadude.android.divoc.schedule" translatable="false">88</string>
     <string name="org.diygenomics.pg" translatable="false">6</string>
@@ -988,7 +989,7 @@
     <string name="org.echoline.drawterm" translatable="false">2</string>
     <string name="net.reichholf.dreamdroid" translatable="false">456</string>
     <string name="com.refactech.driibo" translatable="false">3</string>
-    <string name="com.moimob.drinkable" translatable="false">14402</string>
+    <string name="com.moimob.drinkable" translatable="false">14500</string>
     <string name="fr.masciulli.drinks" translatable="false">32</string>
     <string name="com.drip" translatable="false">8</string>
     <string name="com.drismo" translatable="false">17</string>
@@ -1059,13 +1060,13 @@
     <string name="org.easyrpg.player" translatable="false">6699</string>
     <string name="org.freshrss.easyrss" translatable="false">706</string>
     <string name="ru.nsu.bobrofon.easysshfs" translatable="false">83</string>
-    <string name="com.phpbg.easysync" translatable="false">2</string>
+    <string name="com.phpbg.easysync" translatable="false">3</string>
     <string name="dev.develsinthedetails.eatpoopyoucat" translatable="false">9</string>
     <string name="android.nachiketa.ebookdownloader" translatable="false">5</string>
     <string name="com.marv42.ebt.newnote" translatable="false">7100</string>
     <string name="eu.mrogalski.saidit" translatable="false">14</string>
     <string name="com.f0x.eddymalou" translatable="false">2</string>
-    <string name="org.billthefarmer.editor" translatable="false">190</string>
+    <string name="org.billthefarmer.editor" translatable="false">191</string>
     <string name="com.sovworks.edslite" translatable="false">237</string>
     <string name="uk.ac.swansea.eduroamcat" translatable="false">59</string>
     <string name="nl.eduvpn.app" translatable="false">23</string>
@@ -1087,7 +1088,7 @@
     <string name="ru.henridellal.dialer" translatable="false">14</string>
     <string name="ru.henridellal.emerald" translatable="false">43</string>
     <string name="hr.kravarscan.enchantedfortress" translatable="false">16</string>
-    <string name="org.encointer.wallet" translatable="false">875</string>
+    <string name="org.encointer.wallet" translatable="false">877</string>
     <string name="com.kibab.android.EncPassChanger" translatable="false">2</string>
     <string name="dk.meznik.jan.encrypttext" translatable="false">5</string>
     <string name="com.github.thewierdnut.endless_mobile" translatable="false">39</string>
@@ -1099,7 +1100,7 @@
     <string name="de.vanitasvitae.enigmandroid" translatable="false">18</string>
     <string name="com.vishnuraghav.EnRecipes" translatable="false">3</string>
     <string name="com.nutomic.ensichat" translatable="false">17</string>
-    <string name="io.ente.photos.fdroid" translatable="false">531</string>
+    <string name="io.ente.photos.fdroid" translatable="false">533</string>
     <string name="io.ente.auth" translatable="false">226</string>
     <string name="ca.pr0ps.xposed.entrustunblocker" translatable="false">3</string>
     <string name="org.epstudios.epmobile" translatable="false">77</string>
@@ -1157,8 +1158,8 @@
     <string name="com.google.marvin.shell" translatable="false">33</string>
     <string name="mbmb5.lumixextendedcontrolapp" translatable="false">1</string>
     <string name="et.nWifiManager" translatable="false">16</string>
-    <string name="org.fdroid.fdroid" translatable="false">1019002</string>
-    <string name="org.fdroid.basic" translatable="false">1019001</string>
+    <string name="org.fdroid.fdroid" translatable="false">1019003</string>
+    <string name="org.fdroid.basic" translatable="false">1019003</string>
     <string name="de.storchp.fdroidbuildstatus" translatable="false">57</string>
     <string name="eu.bubu1.fdroidclassic" translatable="false">1110</string>
     <string name="org.fdroid.nearby" translatable="false">2</string>
@@ -1169,7 +1170,7 @@
     <string name="org.indywidualni.fblite" translatable="false">54</string>
     <string name="faenza.adw.theme" translatable="false">1</string>
     <string name="de.example.fahrraddiebstahl_berlin" translatable="false">2</string>
-    <string name="eu.faircode.email" translatable="false">2135</string>
+    <string name="eu.faircode.email" translatable="false">2138</string>
     <string name="community.fairphone.launcher" translatable="false">2</string>
     <string name="community.fairphone.fplauncher3" translatable="false">10</string>
     <string name="community.fairphone.checkup" translatable="false">20202</string>
@@ -1213,7 +1214,7 @@
     <string name="com.fediphoto" translatable="false">26</string>
     <string name="fr.gouv.etalab.mastodon" translatable="false">500</string>
     <string name="com.fediphoto.lineage" translatable="false">72</string>
-    <string name="com.nononsenseapps.feeder" translatable="false">295</string>
+    <string name="com.nononsenseapps.feeder" translatable="false">296</string>
     <string name="me.murks.feedwatcher" translatable="false">27</string>
     <string name="com.enjoyingfoss.feeel" translatable="false">4241</string>
     <string name="de.kaffeemitkoffein.feinstaubwidget" translatable="false">32</string>
@@ -1279,14 +1280,15 @@
     <string name="com.flipperdevices.app" translatable="false">1326</string>
     <string name="dk.nindroid.rss" translatable="false">119</string>
     <string name="genius.mohammad.floating.stickies" translatable="false">28</string>
-    <string name="org.handmadeideas.floccus" translatable="false">4019001</string>
+    <string name="org.handmadeideas.floccus" translatable="false">5000002</string>
     <string name="ryey.flock" translatable="false">8</string>
     <string name="cat.naval.florae" translatable="false">4</string>
     <string name="dev.patrickgold.florisboard" translatable="false">86</string>
     <string name="com.bytehamster.flowitgame" translatable="false">305</string>
     <string name="pro.oblivioncoding.fluffy_board" translatable="false">33112291</string>
-    <string name="chat.fluffy.fluffychat" translatable="false">3522</string>
+    <string name="chat.fluffy.fluffychat" translatable="false">3523</string>
     <string name="sterrenburg.github.flutterhole" translatable="false">641</string>
+    <string name="de.circle_dev.flux_news" translatable="false">2023112513</string>
     <string name="net.frju.flym" translatable="false">40</string>
     <string name="org.decsync.flym" translatable="false">46</string>
     <string name="org.flyve.mdm.agent.mqtt" translatable="false">3238</string>
@@ -1300,7 +1302,7 @@
     <string name="tmendes.com.analyticalbalancedroid" translatable="false">3</string>
     <string name="app.suhasdissa.foode" translatable="false">36</string>
     <string name="org.secuso.privacyfriendlyfoodtracker" translatable="false">5</string>
-    <string name="de.foodsharing.app" translatable="false">1019</string>
+    <string name="de.foodsharing.app" translatable="false">1027</string>
     <string name="com.iazasoft.footguy" translatable="false">6</string>
     <string name="net.ser1.forage" translatable="false">43</string>
     <string name="com.suyashsrijan.forcedoze" translatable="false">68</string>
@@ -1308,7 +1310,7 @@
     <string name="cz.martykan.forecastie" translatable="false">74</string>
     <string name="me.bgregos.brighttask" translatable="false">20</string>
     <string name="com.odnovolov.forgetmenot" translatable="false">18</string>
-    <string name="org.forkgram.messenger" translatable="false">408708</string>
+    <string name="org.forkgram.messenger" translatable="false">414508</string>
     <string name="app.crossword.yourealwaysbe.forkyz" translatable="false">4800000</string>
     <string name="app.crossword.yourealwaysbe.forkyzscanner" translatable="false">3</string>
     <string name="com.formfun" translatable="false">1</string>
@@ -1339,7 +1341,7 @@
     <string name="org.freeminer.freeminer" translatable="false">121</string>
     <string name="org.freenetproject.mobile" translatable="false">308</string>
     <string name="org.fedorahosted.freeotp" translatable="false">43</string>
-    <string name="org.liberty.android.freeotpplus" translatable="false">21</string>
+    <string name="org.liberty.android.freeotpplus" translatable="false">22</string>
     <string name="io.github.pastthepixels.freepaint" translatable="false">4</string>
     <string name="de.cwde.freeshisen" translatable="false">17</string>
     <string name="cf.playhi.freezeyou" translatable="false">151</string>
@@ -1371,7 +1373,7 @@
     <string name="click.dummer.funphonepuppet" translatable="false">12</string>
     <string name="krillefear.funwithkanji" translatable="false">27</string>
     <string name="de.hosenhasser.funktrainer" translatable="false">49</string>
-    <string name="audio.funkwhale.ffa" translatable="false">201000</string>
+    <string name="audio.funkwhale.ffa" translatable="false">300000</string>
     <string name="de.drmaxnix.futharkboard" translatable="false">1</string>
     <string name="business.braid.f_wallet" translatable="false">112</string>
     <string name="org.cipherdyne.fwknop2" translatable="false">32</string>
@@ -1392,7 +1394,7 @@
     <string name="by.yauhenl.gardine" translatable="false">4</string>
     <string name="org.woheller69.spritpreise" translatable="false">24</string>
     <string name="com.mridang.speedo" translatable="false">2</string>
-    <string name="org.piepmeyer.gauguin" translatable="false">12</string>
+    <string name="org.piepmeyer.gauguin" translatable="false">14</string>
     <string name="com.androidemu.gbc" translatable="false">32</string>
     <string name="de.baswil.gctools" translatable="false">1</string>
     <string name="de.lukaspieper.gcam.services" translatable="false">6</string>
@@ -1423,7 +1425,7 @@
     <string name="eu.roggstar.getmitokens" translatable="false">5</string>
     <string name="com.android.geto" translatable="false">4</string>
     <string name="at.bitfire.gfxtablet" translatable="false">5</string>
-    <string name="com.ghostsq.commander" translatable="false">447</string>
+    <string name="com.ghostsq.commander" translatable="false">449</string>
     <string name="com.readystatesoftware.ghostlog" translatable="false">3</string>
     <string name="omegacentauri.mobi.simplestopwatch" translatable="false">31</string>
     <string name="net.redwarp.gifwallpaper" translatable="false">74</string>
@@ -1439,7 +1441,7 @@
     <string name="io.github.pd4d10.gittouch" translatable="false">24</string>
     <string name="com.timvdalen.gizmooi" translatable="false">5</string>
     <string name="com.glTron" translatable="false">4</string>
-    <string name="nl.viter.glider" translatable="false">47</string>
+    <string name="nl.viter.glider" translatable="false">48</string>
     <string name="org.mariotaku.imageviewergl" translatable="false">1</string>
     <string name="org.linaro.glmark2" translatable="false">1</string>
     <string name="zame.GloomyDungeons.opensource.game" translatable="false">1807020000</string>
@@ -1460,7 +1462,7 @@
     <string name="org.godotengine.editor.v3" translatable="false">306002003</string>
     <string name="org.godotengine.editor.v4" translatable="false">402024003</string>
     <string name="com.googlecode.gogodroid" translatable="false">21</string>
-    <string name="fr.emersion.goguma" translatable="false">905</string>
+    <string name="fr.emersion.goguma" translatable="false">998</string>
     <string name="org.wroot.android.goldeneye" translatable="false">1</string>
     <string name="com.traffar.gomoku" translatable="false">4</string>
     <string name="org.asdtm.goodweather" translatable="false">13</string>
@@ -1478,7 +1480,7 @@
     <string name="com.gpstether" translatable="false">3</string>
     <string name="org.woheller69.gptassist" translatable="false">130</string>
     <string name="uk.co.busydoingnothing.anagrams" translatable="false">13</string>
-    <string name="com.NightDreamGames.Grade.ly" translatable="false">246</string>
+    <string name="com.NightDreamGames.Grade.ly" translatable="false">251</string>
     <string name="me.anuraag.grader" translatable="false">3</string>
     <string name="com.Bisha.TI89EmuDonation" translatable="false">1133</string>
     <string name="com.graphhopper.maps" translatable="false">9</string>
@@ -1488,13 +1490,13 @@
     <string name="org.cyanogenmod.great.freedom" translatable="false">9</string>
     <string name="com.github.jtjj222.sudburytransit" translatable="false">1</string>
     <string name="com.anysoftkeyboard.languagepack.greek" translatable="false">2908</string>
-    <string name="com.greenaddress.greenbits_android_wallet" translatable="false">22000420</string>
+    <string name="com.greenaddress.greenbits_android_wallet" translatable="false">22000421</string>
     <string name="com.michaeltroger.gruenerpass" translatable="false">50</string>
     <string name="it.greenaddress.cordova" translatable="false">72</string>
     <string name="com.starry.greenstash" translatable="false">280</string>
     <string name="com.smilla.greentooth" translatable="false">5</string>
     <string name="it.lucci.cm.greyscaletheme" translatable="false">115</string>
-    <string name="org.billthefarmer.gridle" translatable="false">116</string>
+    <string name="org.billthefarmer.gridle" translatable="false">117</string>
     <string name="com.grocerymanager" translatable="false">1</string>
     <string name="xyz.zedler.patrick.grocy" translatable="false">53</string>
     <string name="hashengineering.groestlcoin.wallet" translatable="false">100700</string>
@@ -1512,7 +1514,7 @@
     <string name="com.porg.gugal" translatable="false">22</string>
     <string name="org.ghostsinthelab.apps.guilelessbopomofo" translatable="false">115</string>
     <string name="com.simonslater.guitarfretboardtrainer" translatable="false">2</string>
-    <string name="org.billthefarmer.gurgle" translatable="false">126</string>
+    <string name="org.billthefarmer.gurgle" translatable="false">127</string>
     <string name="com.noahjutz.gymroutines" translatable="false">47</string>
     <string name="com.asdoi.gymwen" translatable="false">144</string>
     <string name="org.kvj.habtproxy.fdroid.release" translatable="false">1001</string>
@@ -1521,7 +1523,7 @@
     <string name="com.tasomaniac.dashclock.hackerspace.floss" translatable="false">13000</string>
     <string name="com.gulshansingh.hackerlivewallpaper" translatable="false">13</string>
     <string name="org.pocketworkstation.pckeyboard" translatable="false">1041001</string>
-    <string name="com.jiaqifeng.hacki" translatable="false">1343</string>
+    <string name="com.jiaqifeng.hacki" translatable="false">1363</string>
     <string name="io.mainframe.hacs" translatable="false">66</string>
     <string name="com.aistra.hail" translatable="false">30</string>
     <string name="org.bitbucket.watashi564.combapp" translatable="false">4</string>
@@ -1564,7 +1566,7 @@
     <string name="com.dynamite.heaterrc" translatable="false">16</string>
     <string name="com.heb12.heb12" translatable="false">2</string>
     <string name="com.anysoftkeyboard.languagepack.hebrew" translatable="false">2908</string>
-    <string name="fm.helio" translatable="false">311</string>
+    <string name="fm.helio" translatable="false">312</string>
     <string name="fi.testbed2" translatable="false">20</string>
     <string name="com.redblaster.hsl.main" translatable="false">37</string>
     <string name="com.borneq.heregpslocation" translatable="false">1</string>
@@ -1615,7 +1617,7 @@
     <string name="org.woheller69.hugassist" translatable="false">14</string>
     <string name="com.anysoftkeyboard.languagepack.hungarian_oss" translatable="false">2908</string>
     <string name="eu.veldsoft.hungarian.rings" translatable="false">5</string>
-    <string name="su.xash.husky" translatable="false">200</string>
+    <string name="su.xash.husky" translatable="false">201</string>
     <string name="com.hwloc.lstopo" translatable="false">272</string>
     <string name="be.ugent.zeus.hydra.open" translatable="false">36100</string>
     <string name="com.roguetemple.hydroid" translatable="false">1500</string>
@@ -1651,7 +1653,7 @@
     <string name="de.niendo.ImapNotes3" translatable="false">10303</string>
     <string name="us.achromaticmetaphor.imcktg" translatable="false">12</string>
     <string name="com.ensoft.imgurviewer" translatable="false">23700</string>
-    <string name="app.alextran.immich" translatable="false">113</string>
+    <string name="app.alextran.immich" translatable="false">114</string>
     <string name="eu.e43.impeller" translatable="false">9052</string>
     <string name="am.ed.importcontacts" translatable="false">10304</string>
     <string name="org.libreoffice.impressremote" translatable="false">30</string>
@@ -1700,7 +1702,7 @@
     <string name="com.github.niqdev.ipcam" translatable="false">241</string>
     <string name="threads.server" translatable="false">329</string>
     <string name="org.ligi.ipfsdroid" translatable="false">10</string>
-    <string name="us.spotco.ir_remote" translatable="false">1610</string>
+    <string name="us.spotco.ir_remote" translatable="false">1620</string>
     <string name="mf.asciitext.lite" translatable="false">16</string>
     <string name="io.github.ismywebsiteup" translatable="false">11</string>
     <string name="org.valos.isolmoa" translatable="false">2</string>
@@ -1717,7 +1719,7 @@
     <string name="in.sunilpaulmathew.izzyondroid" translatable="false">11</string>
     <string name="im.r_c.android.jigsaw" translatable="false">2</string>
     <string name="ru.playsoftware.j2meloader" translatable="false">98</string>
-    <string name="cx.ring" translatable="false">393</string>
+    <string name="cx.ring" translatable="false">394</string>
     <string name="org.phramusca.jamuz" translatable="false">15</string>
     <string name="com.nolanlawson.jnameconverter" translatable="false">1</string>
     <string name="com.aragaer.jtt" translatable="false">36</string>
@@ -1726,9 +1728,9 @@
     <string name="org.schabi.jedentageinset" translatable="false">30</string>
     <string name="com.achep.widget.jellyclock" translatable="false">6</string>
     <string name="org.jellyfin.mobile" translatable="false">2050399</string>
-    <string name="org.jellyfin.androidtv" translatable="false">151299</string>
+    <string name="org.jellyfin.androidtv" translatable="false">160099</string>
     <string name="com.jelly.theme.revenge" translatable="false">11</string>
-    <string name="com.jerboa" translatable="false">50</string>
+    <string name="com.jerboa" translatable="false">52</string>
     <string name="info.metadude.android.rc3.schedule" translatable="false">91</string>
     <string name="com.jonbanjo.cupsprintservice" translatable="false">23</string>
     <string name="espero.jiofibatterynotifier" translatable="false">9</string>
@@ -1774,7 +1776,7 @@
     <string name="ua.syt0r.kanji.fdroid" translatable="false">17</string>
     <string name="ch.seto.kanjirecog" translatable="false">4</string>
     <string name="com.leafdigital.kanji.android" translatable="false">2</string>
-    <string name="net.stargw.fok" translatable="false">61</string>
+    <string name="net.stargw.fok" translatable="false">63</string>
     <string name="com.adgad.kboard" translatable="false">41</string>
     <string name="org.kde.kdeconnect_tp" translatable="false">12900</string>
     <string name="com.oF2pks.kalturadeviceinfos" translatable="false">24</string>
@@ -1908,9 +1910,9 @@
     <string name="app.librenews.io.librenews" translatable="false">5</string>
     <string name="at.tomtasche.reader" translatable="false">172</string>
     <string name="info.metadude.android.libreoffice.schedule" translatable="false">89</string>
-    <string name="org.documentfoundation.libreoffice" translatable="false">34</string>
-    <string name="dev.medzik.librepass.android" translatable="false">7</string>
-    <string name="com.foobnix.pro.pdf.reader" translatable="false">5810</string>
+    <string name="org.documentfoundation.libreoffice" translatable="false">38</string>
+    <string name="dev.medzik.librepass.android" translatable="false">9</string>
+    <string name="com.foobnix.pro.pdf.reader" translatable="false">5850</string>
     <string name="com.github.librerandonaut.librerandonaut" translatable="false">2</string>
     <string name="com.example.harisont.librery" translatable="false">4</string>
     <string name="com.kaajjo.libresudoku" translatable="false">7</string>
@@ -1928,7 +1930,7 @@
     <string name="ca.momi.lift" translatable="false">2</string>
     <string name="com.github.postapczuk.lalauncher" translatable="false">19</string>
     <string name="tv.piratemedia.lightcontroler" translatable="false">161</string>
-    <string name="com.jeroen1602.lighthouse_pm" translatable="false">8</string>
+    <string name="com.jeroen1602.lighthouse_pm" translatable="false">12</string>
     <string name="acr.browser.lightning" translatable="false">101</string>
     <string name="ua.com.radiokot.lnaddr2invoice" translatable="false">4</string>
     <string name="com.lightplanx.xddk" translatable="false">2</string>
@@ -1945,7 +1947,7 @@
     <string name="com.inspiredandroid.linuxcommandbibliotheca" translatable="false">85</string>
     <string name="com.linuxcounter.lico_update_003" translatable="false">8</string>
     <string name="it.mn.salvi.linuxDayOSM" translatable="false">6</string>
-    <string name="dev.linwood.butterfly.nightly" translatable="false">81</string>
+    <string name="dev.linwood.butterfly.nightly" translatable="false">82</string>
     <string name="dev.linwood.butterfly" translatable="false">58</string>
     <string name="com.github.linwoodcloud.dev_doctor" translatable="false">15</string>
     <string name="dev.linwood.flow.nightly" translatable="false">6</string>
@@ -1962,7 +1964,7 @@
     <string name="com.martinmimigames.littlemusicplayer" translatable="false">15</string>
     <string name="com.cityfreqs.littlesirecho" translatable="false">4</string>
     <string name="org.sasehash.burgerwp" translatable="false">122</string>
-    <string name="rocks.tbog.livewallpaperit" translatable="false">2</string>
+    <string name="rocks.tbog.livewallpaperit" translatable="false">3</string>
     <string name="de.k3b.android.lossless_jpg_crop" translatable="false">10</string>
     <string name="com.lligainterm" translatable="false">3</string>
     <string name="de.thecode.lmd" translatable="false">3100300</string>
@@ -1973,7 +1975,7 @@
     <string name="helium314.localbackend" translatable="false">39</string>
     <string name="org.fitchfamily.android.gsmlocation" translatable="false">73</string>
     <string name="co.localmonero.app" translatable="false">1113</string>
-    <string name="org.localsend.localsend_app" translatable="false">38</string>
+    <string name="org.localsend.localsend_app" translatable="false">42</string>
     <string name="org.fitchfamily.android.wifi_backend" translatable="false">42</string>
     <string name="ch.rrelmy.android.locationcachemap" translatable="false">6</string>
     <string name="de.k3b.android.locationMapViewer" translatable="false">10</string>
@@ -2017,7 +2019,7 @@
     <string name="gr.ratmole.android.Mach3Pendant" translatable="false">14</string>
     <string name="com.berdik.macsposed" translatable="false">6</string>
     <string name="jpf.android.magiadni" translatable="false">10</string>
-    <string name="com.topjohnwu.magisk" translatable="false">26300</string>
+    <string name="com.topjohnwu.magisk" translatable="false">26400</string>
     <string name="com.anoshenko.android.mahjongg" translatable="false">14</string>
     <string name="de.monocles.mail" translatable="false">12</string>
     <string name="org.jfo.app.makesomenoise" translatable="false">125</string>
@@ -2140,13 +2142,13 @@
     <string name="org.midorinext.android" translatable="false">36</string>
     <string name="io.nekohasekai.sagernet.plugin.mieru" translatable="false">75</string>
     <string name="de.syss.MifareClassicTool" translatable="false">64</string>
-    <string name="com.tuntori.mightieramp" translatable="false">57</string>
+    <string name="com.tuntori.mightieramp" translatable="false">61</string>
     <string name="io.github.alketii.mightyknight" translatable="false">1</string>
     <string name="org.zerodogg.migraineLog" translatable="false">676</string>
     <string name="com.rhiannonweb.android.migrainetracker" translatable="false">2</string>
     <string name="com.evancharlton.mileage" translatable="false">3110</string>
     <string name="com.calcitem.sanmill" translatable="false">3779</string>
-    <string name="cat.mvmike.minimalcalendarwidget" translatable="false">79</string>
+    <string name="cat.mvmike.minimalcalendarwidget" translatable="false">80</string>
     <string name="com.kmac5dev.mindfulnotifier" translatable="false">45</string>
     <string name="io.anuke.mindustry" translatable="false">1070</string>
     <string name="com.xlythe.minecraftclock" translatable="false">5</string>
@@ -2209,7 +2211,7 @@
     <string name="org.asafonov.monly" translatable="false">44</string>
     <string name="uk.co.richyhbm.monochromatic" translatable="false">17</string>
     <string name="de.monocles.browser" translatable="false">11</string>
-    <string name="de.monocles.chat" translatable="false">15104</string>
+    <string name="de.monocles.chat" translatable="false">15304</string>
     <string name="de.monocles.social" translatable="false">4</string>
     <string name="de.monocles.translator" translatable="false">604</string>
     <string name="com.daviancorp.android.monsterhunter3udatabase" translatable="false">5</string>
@@ -2257,7 +2259,7 @@
     <string name="rocks.mucke" translatable="false">123</string>
     <string name="org.dkf.jmule" translatable="false">35</string>
     <string name="us.spotco.fennec_dos" translatable="false">21201020</string>
-    <string name="net.mullvad.mullvadvpn" translatable="false">23080099</string>
+    <string name="net.mullvad.mullvadvpn" translatable="false">23090099</string>
     <string name="com.hectorone.multismssender" translatable="false">18</string>
     <string name="org.tamanegi.wallpaper.multipicture.dnt" translatable="false">48</string>
     <string name="kr.softgear.multiping" translatable="false">11</string>
@@ -2276,11 +2278,11 @@
     <string name="max.music_cyclon" translatable="false">4</string>
     <string name="jl.musicalnotes" translatable="false">5</string>
     <string name="org.metabrainz.android" translatable="false">56</string>
-    <string name="com.gokadzev.musify.fdroid" translatable="false">71</string>
+    <string name="com.gokadzev.musify.fdroid" translatable="false">73</string>
     <string name="com.danielme.muspyforandroid" translatable="false">3</string>
     <string name="org.mustard.android" translatable="false">150</string>
     <string name="org.mumod.android" translatable="false">168</string>
-    <string name="com.github.muellerma.mute_reminder" translatable="false">17</string>
+    <string name="com.github.muellerma.mute_reminder" translatable="false">18</string>
     <string name="net.nurik.roman.muzei" translatable="false">350011</string>
     <string name="de.devmil.muzei.bingimageofthedayartsource" translatable="false">9</string>
     <string name="net.ebt.muzei.miyazaki" translatable="false">320</string>
@@ -2362,7 +2364,7 @@
     <string name="m.co.rh.id.a_news_provider" translatable="false">68</string>
     <string name="livio.rssreader" translatable="false">101</string>
     <string name="com.newsblur" translatable="false">212</string>
-    <string name="com.pcinpact" translatable="false">271</string>
+    <string name="com.pcinpact" translatable="false">273</string>
     <string name="dev.anilbeesetti.nextplayer" translatable="false">12</string>
     <string name="com.nextcloud.client" translatable="false">30260090</string>
     <string name="org.schabi.nxbookmarks" translatable="false">24</string>
@@ -2370,14 +2372,14 @@
     <string name="de.lukasneugebauer.nextcloudcookbook" translatable="false">34</string>
     <string name="de.micmun.android.nextcloudcookbook" translatable="false">301</string>
     <string name="it.niedermann.nextcloud.deck" translatable="false">1023004</string>
-    <string name="com.nextcloud.android.beta" translatable="false">20231206</string>
+    <string name="com.nextcloud.android.beta" translatable="false">20231212</string>
     <string name="it.danieleverducci.nextcloudmaps" translatable="false">8</string>
-    <string name="de.luhmer.owncloudnewsreader" translatable="false">187</string>
+    <string name="de.luhmer.owncloudnewsreader" translatable="false">188</string>
     <string name="it.niedermann.owncloud.notes" translatable="false">40010090</string>
     <string name="com.hegocre.nextcloudpasswords" translatable="false">18</string>
     <string name="fr.unix_experience.owncloud_sms" translatable="false">69</string>
     <string name="it.niedermann.nextcloud.tables" translatable="false">1001002</string>
-    <string name="com.nextcloud.talk2" translatable="false">170100390</string>
+    <string name="com.nextcloud.talk2" translatable="false">180000090</string>
     <string name="com.github.vauvenal5.yaga" translatable="false">2601</string>
     <string name="com.polar.nextcloudservices" translatable="false">17</string>
     <string name="com.example.hochi.nextcompanion" translatable="false">9</string>
@@ -2401,7 +2403,7 @@
     <string name="io.github.subhamtyagi.nightmode" translatable="false">1</string>
     <string name="org.michaelevans.nightmodeenabler" translatable="false">1</string>
     <string name="info.papdt.blackblub" translatable="false">18</string>
-    <string name="com.nighthawkapps.wallet.android" translatable="false">20211800</string>
+    <string name="com.nighthawkapps.wallet.android" translatable="false">20212800</string>
     <string name="com.gluege.nightlight" translatable="false">2</string>
     <string name="com.LAPARCELA.nihonoari" translatable="false">12</string>
     <string name="de.csicar.ning" translatable="false">201</string>
@@ -2519,7 +2521,7 @@
     <string name="app.olauncher" translatable="false">73</string>
     <string name="app.olaunchercf" translatable="false">34</string>
     <string name="com.enjoyingfoss.om" translatable="false">1</string>
-    <string name="it.feio.android.omninotes.foss" translatable="false">323</string>
+    <string name="it.feio.android.omninotes.foss" translatable="false">330</string>
     <string name="com.bytehamster.changelog" translatable="false">49</string>
     <string name="net.pherth.omnomagon" translatable="false">4</string>
     <string name="is.xyz.omw" translatable="false">40</string>
@@ -2530,7 +2532,7 @@
     <string name="com.github.onetimepass" translatable="false">1002003</string>
     <string name="com.nicue.onetwo" translatable="false">17</string>
     <string name="org.hanenoshino.onscripter" translatable="false">20120310</string>
-    <string name="org.openobservatory.ooniprobe" translatable="false">106</string>
+    <string name="org.openobservatory.ooniprobe" translatable="false">107</string>
     <string name="fr.witchdoctors.c4ffein.oosfirmwareextractor" translatable="false">6</string>
     <string name="com.euedge.openaviationmap.android" translatable="false">16</string>
     <string name="pro.dbro.bart" translatable="false">11</string>
@@ -2577,8 +2579,8 @@
     <string name="ru.hyst329.openfool" translatable="false">30</string>
     <string name="org.opengappsdownloader" translatable="false">12</string>
     <string name="org.opengpx" translatable="false">192</string>
-    <string name="org.openhab.habdroid" translatable="false">493</string>
-    <string name="org.openhab.habdroid.beta" translatable="false">502</string>
+    <string name="org.openhab.habdroid" translatable="false">504</string>
+    <string name="org.openhab.habdroid.beta" translatable="false">503</string>
     <string name="com.thirtydegreesray.openhub" translatable="false">34</string>
     <string name="org.sufficientlysecure.keychain" translatable="false">58902</string>
     <string name="com.benny.openlauncher" translatable="false">100</string>
@@ -2609,7 +2611,7 @@
     <string name="org.openttd.fdroid" translatable="false">1220112</string>
     <string name="de.perflyst.untis" translatable="false">16</string>
     <string name="pro.rudloff.openvegemap" translatable="false">10001</string>
-    <string name="uk.openvk.android.legacy" translatable="false">215</string>
+    <string name="uk.openvk.android.legacy" translatable="false">230</string>
     <string name="de.blinkt.openvpn" translatable="false">206</string>
     <string name="de.deftk.openww.android" translatable="false">8</string>
     <string name="com.vwp.owmap" translatable="false">136</string>
@@ -2627,7 +2629,7 @@
     <string name="com.orgzly" translatable="false">171</string>
     <string name="com.orgzlyrevived" translatable="false">183</string>
     <string name="com.lubenard.oring_reminder" translatable="false">14</string>
-    <string name="universe.constellation.orion.viewer" translatable="false">198</string>
+    <string name="universe.constellation.orion.viewer" translatable="false">2036</string>
     <string name="com.eolwral.osmonitor" translatable="false">90</string>
     <string name="net.oschina.app" translatable="false">18</string>
     <string name="org.billthefarmer.scope" translatable="false">138</string>
@@ -2654,7 +2656,7 @@
     <string name="cloud.pablos.overload" translatable="false">120</string>
     <string name="io.oversec.one" translatable="false">1005015</string>
     <string name="com.traffar.oware" translatable="false">1</string>
-    <string name="com.owncloud.android" translatable="false">41000100</string>
+    <string name="com.owncloud.android" translatable="false">41000101</string>
     <string name="de.nproth.pin" translatable="false">17</string>
     <string name="org.libre.agosto.p2play" translatable="false">7</string>
     <string name="app.pachli" translatable="false">8</string>
@@ -2694,7 +2696,7 @@
     <string name="ca.chancehorizon.paseo" translatable="false">10602</string>
     <string name="org.ligi.passandroid" translatable="false">373</string>
     <string name="com.passcard" translatable="false">6</string>
-    <string name="fr.nocle.passegares" translatable="false">207</string>
+    <string name="fr.nocle.passegares" translatable="false">208</string>
     <string name="gg.mw.passera" translatable="false">2</string>
     <string name="com.rabbitcompany.passky" translatable="false">14</string>
     <string name="es.wolfi.app.passman" translatable="false">17</string>
@@ -2728,7 +2730,7 @@
     <string name="team.swing.pendulums" translatable="false">4</string>
     <string name="org.jf.Penroser" translatable="false">6</string>
     <string name="com.traffar.pentago" translatable="false">2</string>
-    <string name="nightlock.peppercarrot" translatable="false">11</string>
+    <string name="nightlock.peppercarrot" translatable="false">12</string>
     <string name="fi.harism.wallpaper.flowers" translatable="false">10</string>
     <string name="mobi.omegacentauri.PerApp" translatable="false">19</string>
     <string name="com.brewcrewfoo.performance" translatable="false">2205</string>
@@ -2765,7 +2767,7 @@
     <string name="com.nicobrailo.pianoli" translatable="false">24</string>
     <string name="org.musicbrainz.picard.barcodescanner" translatable="false">30</string>
     <string name="github.yaa110.piclice" translatable="false">2</string>
-    <string name="de.markusfisch.android.pielauncher" translatable="false">24</string>
+    <string name="de.markusfisch.android.pielauncher" translatable="false">25</string>
     <string name="de.php_tech.piggybudget" translatable="false">25</string>
     <string name="de.blocklink.pigrid" translatable="false">5</string>
     <string name="dmusiolik.pijaret" translatable="false">9</string>
@@ -2802,7 +2804,7 @@
     <string name="de.drhoffmannsoft.pizza" translatable="false">12</string>
     <string name="com.pjuu.otterdroid" translatable="false">8</string>
     <string name="com.m3sv.plainupnp" translatable="false">75</string>
-    <string name="com.ismartcoding.plain" translatable="false">175</string>
+    <string name="com.ismartcoding.plain" translatable="false">178</string>
     <string name="com.planes.android" translatable="false">25</string>
     <string name="io.githubfede0d.planetrider" translatable="false">1</string>
     <string name="com.dftec.planetcon" translatable="false">13</string>
@@ -2831,7 +2833,7 @@
     <string name="edu.cmu.pocketsphinx.demo" translatable="false">1</string>
     <string name="com.einmalfel.podlisten" translatable="false">1030600</string>
     <string name="io.github.domi04151309.podscompanion" translatable="false">100</string>
-    <string name="com.podverse.fdroid" translatable="false">98004</string>
+    <string name="com.podverse.fdroid" translatable="false">99004</string>
     <string name="ca.rmen.android.poetassistant" translatable="false">113006</string>
     <string name="com.jmstudios.pointandhit.android" translatable="false">12</string>
     <string name="org.itishka.pointim" translatable="false">32</string>
@@ -2903,7 +2905,7 @@
     <string name="org.mattvchandler.progressbars" translatable="false">190020102</string>
     <string name="org.mosad.seil0.projectlaogai" translatable="false">6000</string>
     <string name="protect.babymonitor" translatable="false">3</string>
-    <string name="ch.protonvpn.android" translatable="false">604087000</string>
+    <string name="ch.protonvpn.android" translatable="false">604089900</string>
     <string name="com.ml.proximitysensorfix" translatable="false">32</string>
     <string name="com.phpsysinfo" translatable="false">960</string>
     <string name="io.pslab" translatable="false">22</string>
@@ -2937,7 +2939,7 @@
     <string name="org.tessoft.qonvert" translatable="false">12</string>
     <string name="com.example.barcodescanner" translatable="false">13</string>
     <string name="com.secuso.privacyFriendlyCodeScanner" translatable="false">30</string>
-    <string name="com.sweak.qralarm" translatable="false">22</string>
+    <string name="com.sweak.qralarm" translatable="false">23</string>
     <string name="com.github.andremiras.qrscan" translatable="false">721202812</string>
     <string name="com.github.xloem.qrstream" translatable="false">9</string>
     <string name="com.android.quake" translatable="false">1</string>
@@ -2956,11 +2958,11 @@
     <string name="com.lightbox.android.camera" translatable="false">2</string>
     <string name="im.quicksy.client" translatable="false">4208104</string>
     <string name="com.asdoi.quicktiles" translatable="false">14</string>
-    <string name="com.ominous.quickweather" translatable="false">76</string>
+    <string name="com.ominous.quickweather" translatable="false">77</string>
     <string name="com.write.Quill" translatable="false">41</string>
     <string name="org.qosp.notes" translatable="false">8</string>
     <string name="io.github.quillpad" translatable="false">15</string>
-    <string name="xyz.deepdaikon.quinb" translatable="false">8</string>
+    <string name="xyz.deepdaikon.quinb" translatable="false">9</string>
     <string name="de.baumann.quitsmoking" translatable="false">22</string>
     <string name="es.cesar.quitesleep" translatable="false">13</string>
     <string name="net.xenotropic.quizznworldcap" translatable="false">1</string>
@@ -2997,7 +2999,7 @@
     <string name="com.prhlt.aemus.Read4SpeechExperiments" translatable="false">19</string>
     <string name="bou.amine.apps.readerforselfossv2.android" translatable="false">123113311</string>
     <string name="com.readrops.app" translatable="false">14</string>
-    <string name="de.herrmann_engel.rbv" translatable="false">72</string>
+    <string name="de.herrmann_engel.rbv" translatable="false">73</string>
     <string name="org.recentwidget" translatable="false">6</string>
     <string name="org.secuso.privacyfriendlyrecknoningskills" translatable="false">4</string>
     <string name="com.oml.recordtimedroid" translatable="false">25</string>
@@ -3049,7 +3051,7 @@
     <string name="com.fastebro.androidrgbtool" translatable="false">12</string>
     <string name="com.github.olga_yakovleva.rhvoice.android" translatable="false">112000</string>
     <string name="click.dummer.rickapp" translatable="false">20</string>
-    <string name="com.adilhanney.ricochlime" translatable="false">1000603</string>
+    <string name="com.adilhanney.ricochlime" translatable="false">1010003</string>
     <string name="buet.rafi.dictionary" translatable="false">5</string>
     <string name="fr.keuse.rightsalert" translatable="false">3</string>
     <string name="se.oandell.riksdagen" translatable="false">10</string>
@@ -3106,7 +3108,7 @@
     <string name="com.artivain.reseaudiscord" translatable="false">1</string>
     <string name="com.naman14.stools" translatable="false">11</string>
     <string name="com.npes87184.s2tdroid.donate" translatable="false">28</string>
-    <string name="com.adilhanney.saber" translatable="false">180303</string>
+    <string name="com.adilhanney.saber" translatable="false">180403</string>
     <string name="de.kromke.andreas.safmediascanner" translatable="false">12</string>
     <string name="com.trisven.safenotes" translatable="false">10</string>
     <string name="org.privacymatters.safespace" translatable="false">9</string>
@@ -3125,7 +3127,7 @@
     <string name="com.maxfierke.sandwichroulette" translatable="false">2</string>
     <string name="cri.sanity" translatable="false">21100</string>
     <string name="com.sanskritbasics" translatable="false">33</string>
-    <string name="com.klee.sapio" translatable="false">29</string>
+    <string name="com.klee.sapio" translatable="false">31</string>
     <string name="org.satdump.SatDump" translatable="false">3</string>
     <string name="org.ligi.satoshiproof" translatable="false">104</string>
     <string name="com.altillimity.satpredict" translatable="false">2</string>
@@ -3146,7 +3148,7 @@
     <string name="org.ale.scanner.zotero" translatable="false">2</string>
     <string name="com.bijoysingh.quicknote" translatable="false">95</string>
     <string name="de.westnordost.streetcomplete.expert" translatable="false">5502</string>
-    <string name="de.spiritcroc.riotx" translatable="false">40101234</string>
+    <string name="de.spiritcroc.riotx" translatable="false">40101244</string>
     <string name="de.schlikk.calls" translatable="false">100000</string>
     <string name="de.com.quaap.primary" translatable="false">331</string>
     <string name="org.scid.android" translatable="false">55</string>
@@ -3166,7 +3168,7 @@
     <string name="uk.co.keepawayfromfire.screens" translatable="false">8</string>
     <string name="de.beatbrot.screenshotassistant" translatable="false">3</string>
     <string name="com.tomer.screenshotsharer" translatable="false">10</string>
-    <string name="com.github.cvzi.screenshottile" translatable="false">111</string>
+    <string name="com.github.cvzi.screenshottile" translatable="false">112</string>
     <string name="eu.ryuu.screeps" translatable="false">3</string>
     <string name="com.gmail.altakey.effy" translatable="false">9</string>
     <string name="eu.veldsoft.scribe4" translatable="false">1</string>
@@ -3237,7 +3239,7 @@
     <string name="sony.hidden.servicemenu" translatable="false">2</string>
     <string name="de.larcado.sesam" translatable="false">2</string>
     <string name="org.biotstoiq.seshat" translatable="false">11</string>
-    <string name="network.loki.messenger.fdroid" translatable="false">3595</string>
+    <string name="network.loki.messenger.fdroid" translatable="false">3605</string>
     <string name="io.github.muntashirakon.setedit" translatable="false">8</string>
     <string name="site.leos.setter" translatable="false">18</string>
     <string name="com.netvor.settings.database.provider" translatable="false">2</string>
@@ -3262,7 +3264,7 @@
     <string name="com.android.shellms" translatable="false">6</string>
     <string name="in.indiandragon.shellshock.shellshockvulnerabilityscan" translatable="false">3</string>
     <string name="org.jsl.shmp" translatable="false">1</string>
-    <string name="net.typeblog.shelter" translatable="false">442</string>
+    <string name="net.typeblog.shelter" translatable="false">445</string>
     <string name="com.boombuler.games.shift" translatable="false">101</string>
     <string name="de.nulide.shiftcal" translatable="false">16</string>
     <string name="com.alaskalinuxuser.shipcaptainandcrew" translatable="false">10</string>
@@ -3302,10 +3304,10 @@
     <string name="io.github.silinote" translatable="false">10</string>
     <string name="com.gmail.blandilyte.silverdict" translatable="false">94</string>
     <string name="com.launcher.silverfish" translatable="false">8</string>
-    <string name="org.simlar" translatable="false">210003</string>
+    <string name="org.simlar" translatable="false">210013</string>
     <string name="com.winston69.simpill" translatable="false">20</string>
     <string name="com.emmanuelmess.simpleaccounting" translatable="false">23</string>
-    <string name="com.better.alarm" translatable="false">31501</string>
+    <string name="com.better.alarm" translatable="false">31504</string>
     <string name="com.simplemobiletools.applauncher" translatable="false">53</string>
     <string name="com.btcontract.wallet" translatable="false">109</string>
     <string name="de.tobiasbielefeld.brickgames" translatable="false">18</string>
@@ -3320,7 +3322,7 @@
     <string name="com.simplemobiletools.contacts.pro" translatable="false">107</string>
     <string name="de.ritscher.simplemobiletools.contacts.pro" translatable="false">108</string>
     <string name="org.quicksc0p3r.simplecounter" translatable="false">10</string>
-    <string name="com.brentpanther.bitcoinwidget" translatable="false">323</string>
+    <string name="com.brentpanther.bitcoinwidget" translatable="false">324</string>
     <string name="com.casimirlab.simpleDeadlines" translatable="false">19</string>
     <string name="com.simpledecredwidget" translatable="false">3</string>
     <string name="com.simplemobiletools.dialer" translatable="false">57</string>
@@ -3404,7 +3406,7 @@
     <string name="de.devisnik.android.sliding" translatable="false">5</string>
     <string name="eu.flatworld.android.slider" translatable="false">20301</string>
     <string name="link.standen.michael.slideshow" translatable="false">51</string>
-    <string name="io.github.doubi88.slideshowwallpaper" translatable="false">5</string>
+    <string name="io.github.doubi88.slideshowwallpaper" translatable="false">6</string>
     <string name="de.shandschuh.slightbackup" translatable="false">19</string>
     <string name="com.sduduzog.slimlauncher" translatable="false">54</string>
     <string name="it.rignanese.leo.slimfacebook" translatable="false">109</string>
@@ -3498,7 +3500,7 @@
     <string name="net.majorkernelpanic.spydroid" translatable="false">1000</string>
     <string name="com.orpheusdroid.sqliteviewer" translatable="false">1</string>
     <string name="org.ea.sqrl" translatable="false">54</string>
-    <string name="org.ca.squawker" translatable="false">300012423</string>
+    <string name="org.ca.squawker" translatable="false">300012493</string>
     <string name="csci567.squeez" translatable="false">1</string>
     <string name="uk.org.ngo.squeezer" translatable="false">125</string>
     <string name="com.blacksquircle.ui" translatable="false">10022</string>
@@ -3593,7 +3595,7 @@
     <string name="org.amoradi.syncopoli" translatable="false">26</string>
     <string name="com.coste.syncorg" translatable="false">10</string>
     <string name="io.github.powerinside.syncplay" translatable="false">23</string>
-    <string name="com.nutomic.syncthingandroid" translatable="false">4373</string>
+    <string name="com.nutomic.syncthingandroid" translatable="false">4375</string>
     <string name="net.syncthing.lite" translatable="false">22</string>
     <string name="com.github.catfriend1.syncthingandroid" translatable="false">1270001</string>
     <string name="theakki.synctool" translatable="false">100</string>
@@ -3614,7 +3616,7 @@
     <string name="com.kyakujin.android.tagnotepad" translatable="false">3</string>
     <string name="com.github.mofosyne.tagdrop" translatable="false">4</string>
     <string name="fr.magistry.taigime" translatable="false">16</string>
-    <string name="com.tailscale.ipn" translatable="false">190</string>
+    <string name="com.tailscale.ipn" translatable="false">192</string>
     <string name="com.weicheng.taipeiyoubikeoffline" translatable="false">2</string>
     <string name="liou.rayyuan.ebooksearchtaiwan" translatable="false">1922210103</string>
     <string name="trikita.talalarmo" translatable="false">19</string>
@@ -3638,7 +3640,7 @@
     <string name="io.gitlab.allenb1.todolist" translatable="false">6</string>
     <string name="org.tasks" translatable="false">130605</string>
     <string name="kvj.taskw" translatable="false">3</string>
-    <string name="com.thatsmanmeet.taskyapp" translatable="false">25</string>
+    <string name="com.thatsmanmeet.taskyapp" translatable="false">26</string>
     <string name="com.github.aba2l.taswast" translatable="false">1</string>
     <string name="de.taz.android.app.free" translatable="false">10800900</string>
     <string name="de.thecode.android.tazreader" translatable="false">3140000</string>
@@ -3682,7 +3684,7 @@
     <string name="com.noprestige.kanaquiz" translatable="false">18</string>
     <string name="br.odb.knights" translatable="false">5</string>
     <string name="org.hlwd.bible_multi_the_life" translatable="false">20230823</string>
-    <string name="org.hlwd.bible" translatable="false">20231206</string>
+    <string name="org.hlwd.bible" translatable="false">20230820</string>
     <string name="com.maze_squirrel" translatable="false">124</string>
     <string name="com.sunilpaulmathew.translator" translatable="false">18</string>
     <string name="de.salomax.muzei.thevergewallpapers" translatable="false">10004</string>
@@ -3733,7 +3735,7 @@
     <string name="org.poopeeland.tinytinyfeed" translatable="false">24</string>
     <string name="org.fox.tttrss" translatable="false">535</string>
     <string name="com.rareventure.gps2" translatable="false">91</string>
-    <string name="de.kaffeemitkoffein.tinyweatherforecastgermany" translatable="false">46</string>
+    <string name="de.kaffeemitkoffein.tinyweatherforecastgermany" translatable="false">47</string>
     <string name="rocks.tbog.tblauncher" translatable="false">42</string>
     <string name="org.sorz.lab.tinykeepass" translatable="false">14</string>
     <string name="quest.faraday.tip_calculator" translatable="false">3</string>
@@ -3771,7 +3773,7 @@
     <string name="com.gregorywlodarek.torontotransit.torontotransit" translatable="false">9</string>
     <string name="com.github.axet.torrentclient" translatable="false">714</string>
     <string name="com.torrents_csv_android" translatable="false">18</string>
-    <string name="ru.yourok.torrserve" translatable="false">147</string>
+    <string name="ru.yourok.torrserve" translatable="false">148</string>
     <string name="org.torproject.torservices" translatable="false">2004</string>
     <string name="de.dm1ri.totalog" translatable="false">102</string>
     <string name="com.msapps.touchdetector" translatable="false">1</string>
@@ -3787,7 +3789,7 @@
     <string name="com.amphoras.tpthelper" translatable="false">25</string>
     <string name="org.traccar.client" translatable="false">83</string>
     <string name="com.samco.trackandgraph" translatable="false">300702</string>
-    <string name="org.zephyrsoft.trackworktime" translatable="false">65</string>
+    <string name="org.zephyrsoft.trackworktime" translatable="false">67</string>
     <string name="org.y20k.trackbook" translatable="false">51</string>
     <string name="net.kollnig.missioncontrol.fdroid" translatable="false">2023080901</string>
     <string name="org.softcatala.traductor" translatable="false">39</string>
@@ -3797,7 +3799,7 @@
     <string name="io.github.benderblog.traintime_pda" translatable="false">63</string>
     <string name="com.andybotting.tramhunter" translatable="false">1300</string>
     <string name="ir.hsn6.trans" translatable="false">4</string>
-    <string name="org.transdroid.full" translatable="false">239</string>
+    <string name="org.transdroid.full" translatable="false">243</string>
     <string name="org.transdroid.search" translatable="false">38</string>
     <string name="org.transdroid.lite" translatable="false">239</string>
     <string name="com.wmstein.transektcount" translatable="false">342</string>
@@ -3819,7 +3821,7 @@
     <string name="org.hermit.tricorder" translatable="false">41</string>
     <string name="org.stypox.tridenta" translatable="false">40</string>
     <string name="it.fabmazz.triestebus" translatable="false">1</string>
-    <string name="com.zoffcc.applications.trifa" translatable="false">10221</string>
+    <string name="com.zoffcc.applications.trifa" translatable="false">10222</string>
     <string name="com.example.trigger" translatable="false">344</string>
     <string name="com.osfans.trime" translatable="false">20231101</string>
     <string name="ogz.tripeaks" translatable="false">21</string>
@@ -3897,7 +3899,7 @@
     <string name="com.amanoteam.unalix" translatable="false">9</string>
     <string name="io.github.muntashirakon.unapkm" translatable="false">4</string>
     <string name="com.github.livingwithhippos.unchained" translatable="false">37</string>
-    <string name="com.unciv.app" translatable="false">940</string>
+    <string name="com.unciv.app" translatable="false">942</string>
     <string name="juloo.keyboard2" translatable="false">36</string>
     <string name="org.madore.android.unicodeMap" translatable="false">4</string>
     <string name="jp.ddo.hotmist.unicodepad" translatable="false">59</string>
@@ -3907,7 +3909,7 @@
     <string name="com.physphil.android.unitconverterultimate" translatable="false">50703</string>
     <string name="info.staticfree.android.units" translatable="false">9</string>
     <string name="com.unitstool" translatable="false">8</string>
-    <string name="com.sadellie.unitto" translatable="false">29</string>
+    <string name="com.sadellie.unitto" translatable="false">33</string>
     <string name="com.lucasdnd.unixtimeclockwidget" translatable="false">2</string>
     <string name="com.jkuester.unlauncher" translatable="false">18</string>
     <string name="de.eknoes.inofficialgolem" translatable="false">146</string>
@@ -3916,13 +3918,14 @@
     <string name="de.kromke.andreas.unpopmusicplayerfree" translatable="false">60</string>
     <string name="com.sevag.unrealtracker" translatable="false">7</string>
     <string name="io.horizontalsystems.bankwallet" translatable="false">92</string>
+    <string name="me.zhanghai.android.untracker" translatable="false">1</string>
     <string name="app.fedilab.nitterizeme" translatable="false">33</string>
     <string name="app.fedilab.nitterizemelite" translatable="false">33</string>
     <string name="moe.lz233.unvcode" translatable="false">20220207</string>
     <string name="org.unifiedpush.example" translatable="false">22</string>
     <string name="ru.ra66it.updaterforspotify" translatable="false">21</string>
     <string name="net.xzos.upgradeall" translatable="false">104</string>
-    <string name="app.upvpn.upvpn" translatable="false">4</string>
+    <string name="app.upvpn.upvpn" translatable="false">5</string>
     <string name="cc.co.eurdev.urecorder" translatable="false">5</string>
     <string name="com.threedlite.urforms" translatable="false">14</string>
     <string name="net.daverix.urlforward" translatable="false">12</string>
@@ -3955,7 +3958,7 @@
     <string name="com.kanedias.vanilla.audiotag" translatable="false">28</string>
     <string name="org.ligi.vaporizercontrol" translatable="false">18</string>
     <string name="de.varengold.activeTAN" translatable="false">38</string>
-    <string name="is.xyz.vcmi" translatable="false">13211</string>
+    <string name="is.xyz.vcmi" translatable="false">14101</string>
     <string name="de.bjusystems.vdrmanager" translatable="false">12600</string>
     <string name="com.dozingcatsoftware.vectorcamera" translatable="false">14</string>
     <string name="com.dozingcatsoftware.bouncy" translatable="false">38</string>
@@ -3977,7 +3980,7 @@
     <string name="com.crazylegend.vigilante" translatable="false">20</string>
     <string name="net.momodalo.app.vimtouch" translatable="false">25</string>
     <string name="it.vfsfitvnm.vimusic" translatable="false">20</string>
-    <string name="com.poupa.vinylmusicplayer" translatable="false">187</string>
+    <string name="com.poupa.vinylmusicplayer" translatable="false">188</string>
     <string name="com.github.xfalcon.vhosts" translatable="false">42</string>
     <string name="tw.com.daxia.virtualsoftkeys" translatable="false">10</string>
     <string name="io.va.exposed" translatable="false">202</string>
@@ -4007,7 +4010,7 @@
     <string name="com.poinsart.votar" translatable="false">9</string>
     <string name="de.cryptobitch.muelli.vouchercalc" translatable="false">3</string>
     <string name="co.timsmart.vouchervault" translatable="false">29</string>
-    <string name="app.vger.voyager" translatable="false">185</string>
+    <string name="app.vger.voyager" translatable="false">190</string>
     <string name="be.mygod.vpnhotspot.foss" translatable="false">262</string>
     <string name="com.amabyte.vtucslabmanual" translatable="false">1</string>
     <string name="com.vuze.android.remote" translatable="false">82</string>
@@ -4038,7 +4041,7 @@
     <string name="com.parishod.watomatic" translatable="false">26</string>
     <string name="me.shrimadhavuk.watransmitter" translatable="false">3</string>
     <string name="com.tuyafeng.watt" translatable="false">4</string>
-    <string name="dubrowgn.wattz" translatable="false">13</string>
+    <string name="dubrowgn.wattz" translatable="false">14</string>
     <string name="de.markusfisch.android.wavelines" translatable="false">23</string>
     <string name="com.jarsilio.android.waveup" translatable="false">121</string>
     <string name="com.jarsilio.android.waveup.tasker" translatable="false">6</string>
@@ -4112,7 +4115,7 @@
     <string name="de.mbutscher.wikiandpad.alphabeta" translatable="false">200300</string>
     <string name="com.nima.wikianime" translatable="false">2</string>
     <string name="pro.rudloff.muzei.commons" translatable="false">1</string>
-    <string name="org.wikipedia" translatable="false">50460</string>
+    <string name="org.wikipedia" translatable="false">50463</string>
     <string name="fr.renzo.wikipoff" translatable="false">7</string>
     <string name="org.wiktionary" translatable="false">1</string>
     <string name="com.windscribe.vpn" translatable="false">1210</string>
@@ -4165,7 +4168,7 @@
     <string name="xyz.deepdaikon.xeonjia" translatable="false">17</string>
     <string name="fr.ac_versailles.dane.xiaexpress" translatable="false">15</string>
     <string name="com.stripe1.xmouse" translatable="false">25</string>
-    <string name="org.helllabs.android.xmp" translatable="false">57</string>
+    <string name="org.helllabs.android.xmp" translatable="false">87</string>
     <string name="de.jugendhacker.xmppadmin" translatable="false">1</string>
     <string name="online.xournal.mobile" translatable="false">27</string>
     <string name="de.antonarnold.android.xoverrideheadphonejackdetection" translatable="false">5</string>
@@ -4173,7 +4176,7 @@
     <string name="de.robv.android.xposed.installer" translatable="false">43</string>
     <string name="com.xrcbapp" translatable="false">20</string>
     <string name="org.jwz.xscreensaver" translatable="false">60600</string>
-    <string name="com.github.andreyasadchy.xtra" translatable="false">214</string>
+    <string name="com.github.andreyasadchy.xtra" translatable="false">215</string>
     <string name="com.twoeightnine.root.xvii" translatable="false">194</string>
     <string name="biz.gyrus.yaab" translatable="false">30</string>
     <string name="de.yaacc" translatable="false">40002</string>
@@ -4219,9 +4222,9 @@
     <string name="org.mcxa.zephyrlogger" translatable="false">1</string>
     <string name="com.wirelessalien.zipxtract" translatable="false">7</string>
     <string name="com.zorinos.zorin_connect" translatable="false">12302</string>
-    <string name="xyz.deepdaikon.zoysii" translatable="false">13</string>
+    <string name="xyz.deepdaikon.zoysii" translatable="false">14</string>
     <string name="com.zfdang.zsmth_android" translatable="false">975</string>
-    <string name="com.zulipmobile" translatable="false">220</string>
+    <string name="com.zulipmobile" translatable="false">221</string>
     <string name="com.corphish.nightlight.generic" translatable="false">66</string>
     <string name="com.transway.caresteouvert" translatable="false">202011270</string>
     <string name="net.fabiszewski.ulogger" translatable="false">310</string>
@@ -4296,10 +4299,10 @@
     <string name="timeline.lizimumu.com.t" translatable="false">27</string>
     <string name="com.tomclaw.appsend" translatable="false">606</string>
     <string name="ara.note" translatable="false">1</string>
-    <string name="com.iiordanov.freeaRDP" translatable="false">115130</string>
+    <string name="com.iiordanov.freeaRDP" translatable="false">115140</string>
     <string name="mg.rivolink.app.aruco" translatable="false">1</string>
     <string name="mg.rivolink.app.aruco.camera.calibration" translatable="false">1</string>
-    <string name="in.sunilpaulmathew.ashell" translatable="false">8</string>
+    <string name="in.sunilpaulmathew.ashell" translatable="false">9</string>
     <string name="io.atlant.wallet" translatable="false">12</string>
     <string name="io.atticusc.atmosweather" translatable="false">10100</string>
     <string name="com.jlindemann.science" translatable="false">60</string>
@@ -4347,7 +4350,7 @@
     <string name="f.cking.software" translatable="false">1688548853</string>
     <string name="com.huc.android_ble_monitor" translatable="false">1</string>
     <string name="com.remote.ar" translatable="false">3</string>
-    <string name="com.clearevo.bluetooth_gnss" translatable="false">43</string>
+    <string name="com.clearevo.bluetooth_gnss" translatable="false">48</string>
     <string name="eu.darken.bluemusic" translatable="false">25700000</string>
     <string name="dev.jahidhasanco.bmicalculator" translatable="false">4</string>
     <string name="xyz.u1024256.bodacious" translatable="false">9</string>
@@ -4359,14 +4362,14 @@
     <string name="com.github.shingyx.boomswitch" translatable="false">11</string>
     <string name="io.chaldeaprjkt.boorusphere" translatable="false">1040</string>
     <string name="de.eindm.boum" translatable="false">26001</string>
-    <string name="org.breezyweather" translatable="false">40611</string>
+    <string name="org.breezyweather" translatable="false">40612</string>
     <string name="org.btcmap" translatable="false">46</string>
     <string name="com.danilkinkin.buckwheat" translatable="false">21</string>
     <string name="rsquared226.budget_my_life" translatable="false">14</string>
     <string name="busradar.madison" translatable="false">45</string>
     <string name="com.smartpack.busyboxinstaller" translatable="false">18</string>
-    <string name="com.iiordanov.freebVNC" translatable="false">115130</string>
-    <string name="cgeo.geocaching" translatable="false">20231113</string>
+    <string name="com.iiordanov.freebVNC" translatable="false">115140</string>
+    <string name="cgeo.geocaching" translatable="false">20231211</string>
     <string name="tr.edu.iyte.caffeine" translatable="false">11</string>
     <string name="com.capybara.calculator" translatable="false">2007</string>
     <string name="com.cyb3rg0d.calculator" translatable="false">4</string>
@@ -4392,6 +4395,7 @@
     <string name="com.example.music_app" translatable="false">2</string>
     <string name="com.iatfei.tsconverter" translatable="false">14</string>
     <string name="org.matrix.chromext" translatable="false">14</string>
+    <string name="com.vicolo.chrono" translatable="false">52</string>
     <string name="com.chaidarun.chronofile" translatable="false">4</string>
     <string name="com.angius.chryssibooru" translatable="false">1001</string>
     <string name="de.cineaste.android" translatable="false">18</string>
@@ -4415,7 +4419,7 @@
     <string name="com.dosse.clock31" translatable="false">5</string>
     <string name="com.lagradost.cloudstream3" translatable="false">63</string>
     <string name="com.parseus.codecinfo" translatable="false">10024</string>
-    <string name="com.radio.codec2talkie" translatable="false">166</string>
+    <string name="com.radio.codec2talkie" translatable="false">167</string>
     <string name="dev.shorthouse.coinwatch" translatable="false">13</string>
     <string name="org.collector.release" translatable="false">1003</string>
     <string name="is.tsin.colors_ai.colors_ai" translatable="false">1014</string>
@@ -4469,7 +4473,7 @@
     <string name="com.insalyon.dividoc" translatable="false">2</string>
     <string name="net.mm2d.dmsexplorer" translatable="false">766</string>
     <string name="com.gauravssnl.dnschanger" translatable="false">103</string>
-    <string name="at.flobii.doable" translatable="false">162</string>
+    <string name="at.flobii.doable" translatable="false">172</string>
     <string name="com.example.DocScanner" translatable="false">1001</string>
     <string name="com.bretahajek.docus" translatable="false">8</string>
     <string name="com.thoughtsunificator.domodeldiary" translatable="false">3</string>
@@ -4513,12 +4517,12 @@
     <string name="com.evnotify.app" translatable="false">204000</string>
     <string name="com.tommihirvonen.exifnotes" translatable="false">45</string>
     <string name="com.none.tom.exiferaser" translatable="false">37</string>
-    <string name="com.github.warren_bank.exoplayer_airplay_receiver" translatable="false">3040516</string>
+    <string name="com.github.warren_bank.exoplayer_airplay_receiver" translatable="false">3040716</string>
     <string name="luankevinferreira.expenses" translatable="false">17</string>
     <string name="com.calintat.explorer" translatable="false">5</string>
     <string name="com.hhvvg.ecm" translatable="false">2</string>
     <string name="varzan.extraKeyboardLayouts" translatable="false">1028</string>
-    <string name="eu.faircode.email" translatable="false">2136</string>
+    <string name="eu.faircode.email" translatable="false">2139</string>
     <string name="inc.whew.android.fakegapps" translatable="false">10</string>
     <string name="altermarkive.guardian" translatable="false">179</string>
     <string name="app.familygem" translatable="false">25</string>
@@ -4532,7 +4536,7 @@
     <string name="in.rahulja.ficsavemiddleware" translatable="false">274</string>
     <string name="com.raival.fileexplorer" translatable="false">2</string>
     <string name="com.cyb3rg0d.filemanager" translatable="false">1</string>
-    <string name="de.varakh.fbmobile" translatable="false">20</string>
+    <string name="de.varakh.fbmobile" translatable="false">21</string>
     <string name="com.island.filemanagerutils" translatable="false">5</string>
     <string name="dev.jdtech.jellyfin" translatable="false">22</string>
     <string name="com.isayso.fire2kodi" translatable="false">5</string>
@@ -4541,9 +4545,9 @@
     <string name="com.hbouzidi.fiveprayers" translatable="false">44</string>
     <string name="com.piapps.flashcardpro" translatable="false">37</string>
     <string name="uk.co.alt236.floatinginfo" translatable="false">21</string>
-    <string name="xyz.tberghuis.floatingtimer" translatable="false">39</string>
+    <string name="xyz.tberghuis.floatingtimer" translatable="false">40</string>
     <string name="tool.xfy9326.floatpicture" translatable="false">11</string>
-    <string name="org.handmadeideas.floccus" translatable="false">5000002</string>
+    <string name="org.handmadeideas.floccus" translatable="false">5000004</string>
     <string name="com.absolute.floral" translatable="false">1</string>
     <string name="dev.patrickgold.florisboard.beta" translatable="false">90</string>
     <string name="dev.mslalith.focuslauncher" translatable="false">11</string>
@@ -4553,7 +4557,7 @@
     <string name="moe.henry_zhr.force_dark" translatable="false">2</string>
     <string name="com.pigeoff.rss" translatable="false">11</string>
     <string name="de.binarynoise.freeNotifications" translatable="false">4</string>
-    <string name="io.github.yamin8000.owl" translatable="false">29</string>
+    <string name="io.github.yamin8000.owl" translatable="false">30</string>
     <string name="org.freemp.droid" translatable="false">152</string>
     <string name="io.freetubeapp.freetube" translatable="false">190001109</string>
     <string name="cf.playhi.freezeyou" translatable="false">151</string>
@@ -4564,14 +4568,14 @@
     <string name="dev.danielc.fujiapp" translatable="false">2</string>
     <string name="com.github.funkyg.funkytunes" translatable="false">6</string>
     <string name="com.gakki" translatable="false">5</string>
-    <string name="com.sagiadinos.garlic.player" translatable="false">680</string>
+    <string name="com.sagiadinos.garlic.player" translatable="false">682</string>
     <string name="de.lukaspieper.gcam.services" translatable="false">6</string>
     <string name="com.google.android.apps.photos" translatable="false">6</string>
     <string name="org.unifiedpush.distributor.fcm" translatable="false">14</string>
     <string name="com.onyx.darie.calin.gentleglowonyxboox" translatable="false">404</string>
     <string name="com.arcao.geocaching4locus" translatable="false">1578</string>
     <string name="net.exclaimindustries.geohashdroid" translatable="false">939</string>
-    <string name="com.sanmer.geomag" translatable="false">256</string>
+    <string name="com.sanmer.geomag" translatable="false">278</string>
     <string name="de.hauke_stieler.geonotes" translatable="false">1006000</string>
     <string name="com.github.raininforest.gerberpcb" translatable="false">1</string>
     <string name="ch.coredump.watertemp.zh" translatable="false">15</string>
@@ -4579,7 +4583,7 @@
     <string name="com.vishal2376.gitcoach" translatable="false">12</string>
     <string name="com.gitpoint" translatable="false">10</string>
     <string name="org.purple.glitch" translatable="false">20231030</string>
-    <string name="de.michelinside.glucodatahandler" translatable="false">2</string>
+    <string name="de.michelinside.glucodatahandler" translatable="false">1008</string>
     <string name="xyz.fmac.gmcmap" translatable="false">200</string>
     <string name="com.nicktylah.gnucash_mobile" translatable="false">3</string>
     <string name="com.github.shadowsocks.plugin.gq_client" translatable="false">4</string>
@@ -4594,7 +4598,7 @@
     <string name="com.starry.greenstash" translatable="false">280</string>
     <string name="in.rahulja.groupingmessages" translatable="false">16</string>
     <string name="com.shuyu.gsygithub.gsygithubappflutter" translatable="false">54</string>
-    <string name="com.jhelum.gyawun" translatable="false">2015</string>
+    <string name="com.jhelum.gyawun" translatable="false">2016</string>
     <string name="com.ofalvai.habittracker" translatable="false">5</string>
     <string name="no.aegisdynamics.habitat" translatable="false">47</string>
     <string name="com.dwett.habits" translatable="false">4</string>
@@ -4615,13 +4619,13 @@
     <string name="com.litlifesoftware.historyofme" translatable="false">1010</string>
     <string name="eu.chainfire.holeylight" translatable="false">102</string>
     <string name="net.kahlenberger.eberhard.haas" translatable="false">9</string>
-    <string name="ru.application.homemedkit" translatable="false">6</string>
+    <string name="ru.application.homemedkit" translatable="false">7</string>
     <string name="sk.amk.homeberry" translatable="false">2</string>
     <string name="com.studio4plus.homerplayer" translatable="false">74</string>
     <string name="com.hoptodesk.app" translatable="false">71</string>
     <string name="xzr.hkf" translatable="false">4</string>
     <string name="com.looker.howlmusic" translatable="false">13</string>
-    <string name="com.kaanelloed.iconeration" translatable="false">18</string>
+    <string name="com.kaanelloed.iconeration" translatable="false">19</string>
     <string name="com.drdisagree.iconify" translatable="false">16</string>
     <string name="de.kaiserdragon.iconrequest" translatable="false">20</string>
     <string name="io.github.trojan_gfw.igniter" translatable="false">230001004</string>
@@ -4639,7 +4643,7 @@
     <string name="com.sbeve.jada" translatable="false">30</string>
     <string name="net.iopush.jarvis" translatable="false">3</string>
     <string name="com.KaraWilson.JellyBook" translatable="false">2021</string>
-    <string name="com.jerboa" translatable="false">50</string>
+    <string name="com.jerboa" translatable="false">54</string>
     <string name="com.yasinkacmaz.jetflix" translatable="false">4</string>
     <string name="city.zouitel.jetnote" translatable="false">334</string>
     <string name="com.adaoh.numero.numero_jmp" translatable="false">9</string>
@@ -4653,7 +4657,7 @@
     <string name="th.in.whs.k2ausbkbd" translatable="false">10</string>
     <string name="com.shortendesign.k9keyboard" translatable="false">2</string>
     <string name="com.absinthe.kage" translatable="false">501</string>
-    <string name="moe.craftplacer.kaiteki" translatable="false">1701653604</string>
+    <string name="moe.craftplacer.kaiteki" translatable="false">1702258417</string>
     <string name="io.alexrintt.kanade" translatable="false">6</string>
     <string name="com.github.shadowsocks.plugin.kcptun" translatable="false">1000101</string>
     <string name="keepass2android.keepass2android_nonet" translatable="false">197</string>
@@ -4687,6 +4691,7 @@
     <string name="ee.ioc.phon.android.k6neleservice" translatable="false">208</string>
     <string name="com.lvaccaro.lamp" translatable="false">36</string>
     <string name="vegabobo.languageselector" translatable="false">5</string>
+    <string name="io.github.alessioc42.sph" translatable="false">8</string>
     <string name="de.tobifleig.lxc" translatable="false">170</string>
     <string name="app.lawnchair" translatable="false">12010005</string>
     <string name="app.lawnchair.lawnicons" translatable="false">8</string>
@@ -4736,7 +4741,7 @@
     <string name="arun.com.chromer" translatable="false">56</string>
     <string name="com.wardellbagby.lyricistant" translatable="false">58</string>
     <string name="com.mobilinkd.m17kissht.m17kissht" translatable="false">19</string>
-    <string name="com.m3u.androidApp" translatable="false">81</string>
+    <string name="com.m3u.androidApp" translatable="false">82</string>
     <string name="com.suchbyte.macrodeck" translatable="false">241</string>
     <string name="com.berdik.macsposed" translatable="false">8</string>
     <string name="com.hzy.magic.app" translatable="false">3</string>
@@ -4780,14 +4785,14 @@
     <string name="be.martinelli.miniflutt" translatable="false">2728749</string>
     <string name="juniojsv.minimum" translatable="false">12</string>
     <string name="com.gitlab.mudlej.MjPdfReader" translatable="false">54</string>
-    <string name="com.dergoogler.mmrl" translatable="false">1107</string>
+    <string name="com.dergoogler.mmrl" translatable="false">1118</string>
     <string name="com.mobilinkd.tncconfig" translatable="false">23</string>
     <string name="com.github.warren_bank.mock_location" translatable="false">2030103</string>
     <string name="com.gallantrealm.modsynth" translatable="false">609</string>
     <string name="de.spiritcroc.modular_remote" translatable="false">9</string>
     <string name="com.axiel7.moelist" translatable="false">129</string>
     <string name="io.wookey.wallet.monero" translatable="false">221</string>
-    <string name="com.m2049r.xmrwallet" translatable="false">33080</string>
+    <string name="com.m2049r.xmrwallet" translatable="false">33100</string>
     <string name="fr.themsou.monitorinternetless" translatable="false">2</string>
     <string name="de.monocles.launcher" translatable="false">1</string>
     <string name="org.joinmastodon.android.moshinda" translatable="false">103</string>
@@ -4797,7 +4802,7 @@
     <string name="org.ovirt.mobile.movirt" translatable="false">14</string>
     <string name="org.moxxy.moxxyv2" translatable="false">1013</string>
     <string name="com.husudosu.mpvremote" translatable="false">11</string>
-    <string name="com.sanmer.mrepo" translatable="false">599</string>
+    <string name="com.sanmer.mrepo" translatable="false">624</string>
     <string name="com.example.msm" translatable="false">1001</string>
     <string name="com.gelakinetic.mtgfam" translatable="false">91</string>
     <string name="com.wkovacs64.mtorch" translatable="false">210</string>
@@ -4811,14 +4816,14 @@
     <string name="com.atul.musicplayer" translatable="false">16</string>
     <string name="com.kelsos.mbrc" translatable="false">124</string>
     <string name="com.rks.musicx" translatable="false">56</string>
-    <string name="com.gokadzev.musify" translatable="false">71</string>
+    <string name="com.gokadzev.musify" translatable="false">73</string>
     <string name="com.mirfatif.mylocation" translatable="false">104</string>
     <string name="rrapps.myplaces" translatable="false">3</string>
     <string name="com.afaneca.myfin" translatable="false">16</string>
     <string name="fr.bugprogEnterprise.mygarden" translatable="false">13</string>
     <string name="de.mygrades" translatable="false">20</string>
     <string name="com.nima.mymood" translatable="false">10</string>
-    <string name="com.starry.myne" translatable="false">20</string>
+    <string name="com.starry.myne" translatable="false">21</string>
     <string name="com.ph.nabla_typemath" translatable="false">14</string>
     <string name="com.jpkhawam.nabu" translatable="false">10</string>
     <string name="com.devbaltasarq.nadamillas" translatable="false">28</string>
@@ -4849,7 +4854,7 @@
     <string name="dev.anilbeesetti.nextplayer" translatable="false">13</string>
     <string name="com.starrysky.nextor" translatable="false">4</string>
     <string name="eu.seldon1000.nextpass" translatable="false">20402</string>
-    <string name="com.nfcalarmclock" translatable="false">349</string>
+    <string name="com.nfcalarmclock" translatable="false">350</string>
     <string name="de.tu_darmstadt.seemoo.nfcgate" translatable="false">9</string>
     <string name="khuta.org.nibras3.mobile" translatable="false">30805</string>
     <string name="com.droidheat.musicplayer" translatable="false">35</string>
@@ -4878,14 +4883,14 @@
     <string name="com.notifyavailability" translatable="false">8</string>
     <string name="de.dlyt.yanndroid.notinotes" translatable="false">11</string>
     <string name="com.noto" translatable="false">61</string>
-    <string name="org.courville.nova" translatable="false">2581642</string>
+    <string name="org.courville.nova" translatable="false">2583262</string>
     <string name="my.noveldokusha" translatable="false">13</string>
     <string name="com.js.nowakelock" translatable="false">53</string>
-    <string name="com.dluvian.nozzle" translatable="false">38</string>
+    <string name="com.dluvian.nozzle" translatable="false">39</string>
     <string name="com.kaiwolfram.nozzle" translatable="false">10</string>
     <string name="com.dylan.num_plus_plus" translatable="false">3</string>
     <string name="de.yukigasai.obsidiantodowidget" translatable="false">10</string>
-    <string name="dev.imranr.obtainium" translatable="false">1230</string>
+    <string name="dev.imranr.obtainium" translatable="false">1231</string>
     <string name="fr.geonature.occtax2" translatable="false">3210</string>
     <string name="eu.darken.octi" translatable="false">803000</string>
     <string name="com.octo4a" translatable="false">1001002</string>
@@ -4893,6 +4898,8 @@
     <string name="sadLogic.OctoTouchController" translatable="false">52</string>
     <string name="app.olauncher.light" translatable="false">3</string>
     <string name="audio.omgsoundboard" translatable="false">10</string>
+    <string name="com.cb.oneclipboard.android.client" translatable="false">30103</string>
+    <string name="com.cb.oneclipboard.android.server" translatable="false">30103</string>
     <string name="com.onekeepassmobile" translatable="false">6</string>
     <string name="com.onemoresecret" translatable="false">27</string>
     <string name="mrrfv.backup.companion" translatable="false">6</string>
@@ -4924,7 +4931,7 @@
     <string name="fr.dogeo.osmgo" translatable="false">1691814802</string>
     <string name="dk.network42.osmfocus.debug" translatable="false">4</string>
     <string name="io.github.janbar.osmin" translatable="false">63</string>
-    <string name="com.akylas.documentscanner" translatable="false">2</string>
+    <string name="com.akylas.documentscanner" translatable="false">8</string>
     <string name="com.akylas.weather" translatable="false">78</string>
     <string name="org.otrsc.android" translatable="false">4</string>
     <string name="com.otraku.app" translatable="false">4060</string>
@@ -4938,11 +4945,11 @@
     <string name="dev.hemanths.paisa" translatable="false">509</string>
     <string name="dev.xero.paper" translatable="false">1</string>
     <string name="eu.bauerj.paperless_app" translatable="false">1014</string>
-    <string name="de.astubenbord.paperless_mobile" translatable="false">1055</string>
+    <string name="de.astubenbord.paperless_mobile" translatable="false">2059</string>
     <string name="com.quinncasey.paperless_share" translatable="false">2011</string>
     <string name="rocks.paperwork.android" translatable="false">1</string>
     <string name="com.duy.pascal.compiler" translatable="false">428</string>
-    <string name="com.github.frimtec.android.pikettassist" translatable="false">1569678</string>
+    <string name="com.github.frimtec.android.pikettassist" translatable="false">1580097</string>
     <string name="es.wolfi.app.passman" translatable="false">17</string>
     <string name="tech.akshit.passwd" translatable="false">1002</string>
     <string name="org.passwordmaker.android" translatable="false">2001299</string>
@@ -4958,6 +4965,7 @@
     <string name="com.github.moheb2000.persian_subtitle_fixer" translatable="false">2</string>
     <string name="com.dan.perspective" translatable="false">17</string>
     <string name="oppen.phaedra" translatable="false">4</string>
+    <string name="com.yhc.phantom.processes.savior" translatable="false">2</string>
     <string name="com.github.stsaz.phiola" translatable="false">20011</string>
     <string name="space.linuxct.phoneaccountdetector" translatable="false">5</string>
     <string name="sk.henrichg.phoneprofilesplus" translatable="false">7080</string>
@@ -4977,7 +4985,7 @@
     <string name="com.github.axet.pingutils" translatable="false">23</string>
     <string name="com.fibelatti.pinboard" translatable="false">2020100</string>
     <string name="dev.sasikanth.pinnit" translatable="false">469</string>
-    <string name="InfinityLoop1309.NewPipeEnhanced" translatable="false">104204</string>
+    <string name="InfinityLoop1309.NewPipeEnhanced" translatable="false">104304</string>
     <string name="shinado.indi.piping" translatable="false">3</string>
     <string name="com.piwigo.piwigo_ng" translatable="false">223</string>
     <string name="com.ansdoship.pixelarteditor" translatable="false">19</string>
@@ -4985,6 +4993,7 @@
     <string name="moe.studio.pixelbar" translatable="false">100</string>
     <string name="at.connyduck.pixelcat" translatable="false">1</string>
     <string name="balti.xposed.pixelifygooglephotos" translatable="false">5</string>
+    <string name="com.perol.pixez" translatable="false">10009350</string>
     <string name="de.arcus.playmusicexporter2" translatable="false">103</string>
     <string name="wtf.plexmanager" translatable="false">1003</string>
     <string name="com.soumikshah.investmenttracker" translatable="false">3</string>
@@ -5015,9 +5024,9 @@
     <string name="com.lgallardo.qbittorrentclient" translatable="false">4920</string>
     <string name="dev.bartuzen.qbitcontroller" translatable="false">15</string>
     <string name="com.omerdotdev.qrlenscmnty" translatable="false">1003</string>
-    <string name="com.sweak.qralarm" translatable="false">22</string>
+    <string name="com.sweak.qralarm" translatable="false">23</string>
     <string name="tech.oliet.qranalyzer" translatable="false">8</string>
-    <string name="dev.uint.qrserv" translatable="false">1036</string>
+    <string name="dev.uint.qrserv" translatable="false">1039</string>
     <string name="com.thehcj.quacker" translatable="false">2004</string>
     <string name="yuku.alkitab.kjv" translatable="false">17000500</string>
     <string name="com.daominh.quickmem" translatable="false">2</string>
@@ -5040,7 +5049,7 @@
     <string name="dev.sasikanth.rss.reader" translatable="false">6</string>
     <string name="ahmaabdo.readify.rss" translatable="false">9</string>
     <string name="org.receipt_manager" translatable="false">610</string>
-    <string name="com.uol.neuropsy.LSLReceiver" translatable="false">3</string>
+    <string name="com.uol.neuropsy.LSLReceiver" translatable="false">4</string>
     <string name="de.dbauer.expensetracker" translatable="false">8</string>
     <string name="com.cromstudio.redlinuxclick" translatable="false">11</string>
     <string name="com.susheelkaram.myread" translatable="false">1</string>
@@ -5059,6 +5068,7 @@
     <string name="com.vlad805.fmradio" translatable="false">601</string>
     <string name="fr.rhaz.os.android" translatable="false">30115</string>
     <string name="com.example.rhythmroid" translatable="false">1</string>
+    <string name="it.fast4x.rimusic" translatable="false">7</string>
     <string name="org.rocstreaming.rocdroid" translatable="false">2001</string>
     <string name="eu.thedarken.rootvalidator" translatable="false">30001</string>
     <string name="de.felixnuesse.extract" translatable="false">286</string>
@@ -5085,7 +5095,7 @@
     <string name="de.markusfisch.android.screentime" translatable="false">13</string>
     <string name="com.googlecode.android_scripting" translatable="false">620</string>
     <string name="pt.samp.scrumCards" translatable="false">16</string>
-    <string name="eu.darken.sdmse" translatable="false">1702000</string>
+    <string name="eu.darken.sdmse" translatable="false">1800000</string>
     <string name="com.gitlab.giwiniswut.rwremount" translatable="false">4</string>
     <string name="io.github.boapps.searxer_foss" translatable="false">2</string>
     <string name="flunzmas.seasoncalendar" translatable="false">3045</string>
@@ -5102,14 +5112,14 @@
     <string name="com.example.itzmeanjan.sensorz" translatable="false">1</string>
     <string name="com.invertedx.sentinelx" translatable="false">2011</string>
     <string name="com.druk.servicebrowser" translatable="false">2001000</string>
-    <string name="network.loki.messenger" translatable="false">3591</string>
+    <string name="network.loki.messenger" translatable="false">3601</string>
     <string name="com.netvor.settings.database.provider" translatable="false">2</string>
     <string name="amirz.shade" translatable="false">26649280</string>
     <string name="in.basulabs.shakealarmclock" translatable="false">32</string>
     <string name="com.nudev.sharchive" translatable="false">2</string>
     <string name="com.app.shared.expense" translatable="false">4</string>
     <string name="com.xlzhen.sharefileserver" translatable="false">8</string>
-    <string name="moe.shizuku.privileged.api" translatable="false">1028</string>
+    <string name="moe.shizuku.privileged.api" translatable="false">1036</string>
     <string name="com.michaldrabik.showly_oss" translatable="false">619</string>
     <string name="io.unsigned.sideband" translatable="false">20231207</string>
     <string name="com.tortillum.signalid" translatable="false">3</string>
@@ -5127,6 +5137,7 @@
     <string name="free.rm.skytube.extra" translatable="false">47</string>
     <string name="com.github.warren_bank.slideshow_screensaver" translatable="false">2010417</string>
     <string name="app.dapk.st" translatable="false">29</string>
+    <string name="ch.virt.smartphonemouse" translatable="false">4</string>
     <string name="com.smartpack.kernelmanager" translatable="false">177</string>
     <string name="com.sentaroh.android.SMBSync2" translatable="false">286</string>
     <string name="pylapp.smoothclicker.android" translatable="false">33</string>
@@ -5146,7 +5157,7 @@
     <string name="net.marcellozaniboni.sonqui" translatable="false">910</string>
     <string name="com.jarsilio.android.sotification" translatable="false">3</string>
     <string name="com.github.soulsearching" translatable="false">8</string>
-    <string name="com.tiefensuche.soundcrowd" translatable="false">72</string>
+    <string name="com.tiefensuche.soundcrowd" translatable="false">73</string>
     <string name="lt.ffda.sourcherry" translatable="false">12</string>
     <string name="io.github.omisie11.spacexfollower" translatable="false">7</string>
     <string name="net.shaytech.groceries" translatable="false">1010300</string>
@@ -5170,7 +5181,7 @@
     <string name="org.subsurfacedivelog.mobile" translatable="false">2305</string>
     <string name="cc.taylorzhang.subtune" translatable="false">9</string>
     <string name="jp.juggler.subwaytooter.noFcm" translatable="false">542</string>
-    <string name="pl.blach.sunmachine" translatable="false">6</string>
+    <string name="pl.blach.sunmachine" translatable="false">7</string>
     <string name="landau.sweb" translatable="false">6</string>
     <string name="org.shou.switchmyslot" translatable="false">8</string>
     <string name="com.afkanerd.sw0b" translatable="false">49</string>
@@ -5191,13 +5202,13 @@
     <string name="es.dmoral.tappic" translatable="false">15</string>
     <string name="com.nima.taskmanager" translatable="false">3</string>
     <string name="com.geekflow.taskly" translatable="false">1001</string>
-    <string name="com.thatsmanmeet.taskyapp" translatable="false">25</string>
+    <string name="com.thatsmanmeet.taskyapp" translatable="false">26</string>
     <string name="com.kangtech.tauonremote" translatable="false">6</string>
     <string name="com.example.teddyforreddit" translatable="false">5</string>
     <string name="com.qwe7002.telegram_sms" translatable="false">4471</string>
     <string name="com.cappielloantonio.tempo" translatable="false">22</string>
     <string name="com.afwsamples.testdpc" translatable="false">9001</string>
-    <string name="com.pyamsoft.tetherfi" translatable="false">36</string>
+    <string name="com.pyamsoft.tetherfi" translatable="false">38</string>
     <string name="xyz.tcreopargh.textconverter" translatable="false">69</string>
     <string name="com.dingleinc.texttoolspro" translatable="false">200018</string>
     <string name="sh.eliza.textbender" translatable="false">4</string>
@@ -5291,7 +5302,7 @@
     <string name="org.volkszaehler.volkszaehlerapp" translatable="false">97</string>
     <string name="net.hyx.app.volumenotification" translatable="false">1100</string>
     <string name="com.jhc.volumetile" translatable="false">1</string>
-    <string name="app.vger.voyager" translatable="false">186</string>
+    <string name="app.vger.voyager" translatable="false">193</string>
     <string name="com.vpnhood.client.android" translatable="false">443</string>
     <string name="com.netbyte.vtunnel" translatable="false">160</string>
     <string name="com.Frontesque.vuetube" translatable="false">1</string>
@@ -5339,7 +5350,7 @@
     <string name="uk.org.platitudes.wipefiles" translatable="false">3</string>
     <string name="com.wireguard.android" translatable="false">510</string>
     <string name="com.foxek.simpletimer" translatable="false">26</string>
-    <string name="ca.cgagnier.wlednativeandroid" translatable="false">30</string>
+    <string name="ca.cgagnier.wlednativeandroid" translatable="false">32</string>
     <string name="onedroid.worktracker" translatable="false">2</string>
     <string name="com.fitworkoutfast" translatable="false">58</string>
     <string name="com.gocoronago.tracker" translatable="false">40200</string>
@@ -5371,7 +5382,6 @@
     <string name="net.accelf.yuito" translatable="false">57</string>
     <string name="zapsolutions.zap" translatable="false">3040</string>
     <string name="com.ziadoua.zcalc" translatable="false">1</string>
-    <string name="com.github.pakka_papad" translatable="false">10201</string>
     <string name="net.kaaass.zerotierfix" translatable="false">14</string>
     <string name="xyz.zood.george" translatable="false">40</string>
     <string name="kaczmarek.moneycalculator" translatable="false">7</string>
