@@ -701,4 +701,21 @@
     <string name="import_">Importa</string>
     <string name="tags">Tag</string>
     <string name="add_tag">Aggiungi un nuovo tag</string>
+    <string name="tinted_shadows">Ombra tinteggiata</string>
+    <string name="extracting">Estrazione</string>
+    <string name="mark_as_foss">Segna come FOSS</string>
+    <string name="mark_as_non_foss">Segna come non-FOSS</string>
+    <string name="activity">Attività</string>
+    <string name="service">Servizio</string>
+    <string name="receiver">Receiver</string>
+    <string name="load_selection_profile">Carica profilo selezione</string>
+    <string name="save_selection_profile">Salva profilo selezione</string>
+    <string name="xposed_module">Modulo Xposed</string>
+    <string name="remote_messaging">Messaggistica remota</string>
+    <string name="system_exempted">Sistema esentato</string>
+    <string name="short_service">Servizio breve</string>
+    <string name="file_management">Gestione file</string>
+    <string name="special_use">Utilizzo speciale</string>
+    <string name="no_preferences_found">Nessuna opzione trovata</string>
+    <string name="install_anyway">Installa comunque</string>
 </resources>
