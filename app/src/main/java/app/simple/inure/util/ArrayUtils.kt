@@ -67,4 +67,29 @@ object ArrayUtils {
         @Suppress("UNCHECKED_CAST")
         return this.toArrayList().clone() as ArrayList<T>
     }
+
+    /**
+     * Split an [ArrayList] into multiple [ArrayList]s
+     * @param count number of [ArrayList]s to split into
+     */
+    fun <T> ArrayList<T>.split(count: Int): ArrayList<ArrayList<T>> {
+        val result = ArrayList<ArrayList<T>>()
+        var remainder = size % count
+        val size = size / count
+        var index = 0
+        for (i in 0 until count) {
+            val list = ArrayList<T>()
+            for (j in 0 until size) {
+                list.add(this[index])
+                index++
+            }
+            if (remainder > 0) {
+                list.add(this[index])
+                index++
+                remainder--
+            }
+            result.add(list)
+        }
+        return result
+    }
 }

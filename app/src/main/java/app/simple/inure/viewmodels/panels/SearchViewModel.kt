@@ -129,11 +129,11 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val tag = keywords.substring(1)
             val tagApps = tagsDatabase?.getTagDao()?.getTag(tag)?.packages?.split(",")
 
-            apps.stream().filter { p ->
+            apps.parallelStream().filter { p ->
                 tagApps?.contains(p.packageName) ?: false
             }.collect(Collectors.toList()) as ArrayList<PackageInfo>
         } else {
-            apps.stream().filter { p ->
+            apps.parallelStream().filter { p ->
                 p.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored())
                         || p.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
             }.collect(Collectors.toList()) as ArrayList<PackageInfo>
@@ -141,12 +141,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         when (SearchPreferences.getAppsCategory()) {
             SortConstant.SYSTEM -> {
-                apps = apps.stream().filter { p ->
+                apps = apps.parallelStream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
             SortConstant.USER -> {
-                apps = apps.stream().filter { p ->
+                apps = apps.parallelStream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
@@ -155,7 +155,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         var filteredList = arrayListOf<PackageInfo>()
 
         if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
-            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).parallelStream().filter { p ->
                 if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                     if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                         true
@@ -238,7 +238,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
 
             // Remove duplicate elements
-            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+            filteredList = filteredList.parallelStream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
         }
 
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
@@ -266,12 +266,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         when (SearchPreferences.getAppsCategory()) {
             SortConstant.SYSTEM -> {
-                apps = apps.stream().filter { p ->
+                apps = apps.parallelStream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
             SortConstant.USER -> {
-                apps = apps.stream().filter { p ->
+                apps = apps.parallelStream().filter { p ->
                     p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
@@ -281,7 +281,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) { // Pretty special case, even I don't know what I did here
             @Suppress("UNCHECKED_CAST")
-            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { p ->
+            filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).parallelStream().filter { p ->
                 if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                     if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                         true
@@ -364,12 +364,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
 
             // Remove duplicate elements
-            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+            filteredList = filteredList.parallelStream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
         }
 
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        for (app in filteredList) {
+        for (app in filteredList) { // Split this into multiple threads
             val searchModel = SearchModel()
 
             searchModel.packageInfo = app
