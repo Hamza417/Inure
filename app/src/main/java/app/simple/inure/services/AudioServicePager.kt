@@ -468,16 +468,16 @@ class AudioServicePager : Service(),
     }
 
     internal fun changePlayerState(): Boolean {
-        if (mediaPlayer.isNotNull()) {
+        return if (mediaPlayer.isNotNull()) {
             if (mediaPlayer.isPlaying) {
                 pause()
             } else {
                 play()
             }
 
-            return mediaPlayer.isPlaying
+            mediaPlayer.isPlaying
         } else {
-            return false
+            false
         }
     }
 
@@ -490,47 +490,38 @@ class AudioServicePager : Service(),
         }
 
         // Set current volume, depending on fade or not
-        iVolume = if (volumeFadeDuration > 0) {
-            intVolumeMax
-        } else {
-            intVolumeMin
-        }
+        iVolume = intVolumeMax
         updateVolume(0)
 
         // Start increasing volume in increments
-        if (volumeFadeDuration > 0) {
-            timer = Timer(true)
-            timerTask = object : TimerTask() {
-                override fun run() {
-                    updateVolume(-1)
-                    if (iVolume == intVolumeMin) {
-                        // Pause music
-                        if (mediaPlayer.isPlaying) {
-                            mediaPlayer.pause()
-                            setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
-                            kotlin.runCatching {
-                                showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlayPager))
-                                //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                //                                    stopForeground(STOP_FOREGROUND_DETACH)
-                                //                                } else {
-                                //                                    @Suppress("DEPRECATION")
-                                //                                    stopForeground(false)
-                                //                                }
-                            }
+        timer = Timer(true)
+        timerTask = object : TimerTask() {
+            override fun run() {
+                updateVolume(-1)
+                if (iVolume == intVolumeMin) {
+                    // Pause music
+                    if (mediaPlayer.isPlaying) {
+                        mediaPlayer.pause()
+                        setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                        kotlin.runCatching {
+                            showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlayPager))
+                            //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            //                                    stopForeground(STOP_FOREGROUND_DETACH)
+                            //                                } else {
+                            //                                    @Suppress("DEPRECATION")
+                            //                                    stopForeground(false)
+                            //                                }
                         }
-                        timer!!.cancel()
-                        timer!!.purge()
                     }
+                    timer!!.cancel()
+                    timer!!.purge()
                 }
             }
-
-            // calculate delay, cannot be zero, set to 1 if zero
-            var delay: Int = volumeFadeDuration / intVolumeMax
-            if (delay == 0) {
-                delay = 1
-            }
-            timer!!.schedule(timerTask, delay.toLong(), delay.toLong())
         }
+
+        // calculate delay, cannot be zero, set to 1 if zero
+        val delay: Long = (volumeFadeDuration / intVolumeMax).toLong().coerceAtLeast(1)
+        timer!!.schedule(timerTask, delay, delay)
     }
 
     private fun play() {
@@ -540,12 +531,7 @@ class AudioServicePager : Service(),
         }
 
         // Set current volume, depending on fade or not
-        iVolume = if (volumeFadeDuration > 0) {
-            intVolumeMin
-        } else {
-            intVolumeMax
-        }
-
+        iVolume = intVolumeMin
         updateVolume(0)
 
         // Play music
@@ -561,48 +547,47 @@ class AudioServicePager : Service(),
         }
 
         // Start increasing volume in increments
-        if (volumeFadeDuration > 0) {
-            timer = Timer(true)
-            timerTask = object : TimerTask() {
-                override fun run() {
-                    updateVolume(1)
-                    if (iVolume == intVolumeMax) {
-                        timer!!.cancel()
-                        timer!!.purge()
-                    }
+        timer = Timer(true)
+        timerTask = object : TimerTask() {
+            override fun run() {
+                updateVolume(1)
+                if (iVolume == intVolumeMax) {
+                    timer!!.cancel()
+                    timer!!.purge()
                 }
             }
-
-            // calculate delay, cannot be zero, set to 1 if zero
-            var delay: Int = volumeFadeDuration / intVolumeMax
-            if (delay == 0) {
-                delay = 1
-            }
-            timer!!.schedule(timerTask, delay.toLong(), delay.toLong())
         }
+
+        // calculate delay, cannot be zero, set to 1 if zero
+        val delay: Long = (volumeFadeDuration / intVolumeMax).toLong().coerceAtLeast(1)
+        timer!!.schedule(timerTask, delay, delay)
     }
 
     private fun updateVolume(change: Int) {
-        // increment or decrement depending on type of fade
-        iVolume += change
+        try {
+            // increment or decrement depending on type of fade
+            iVolume += change
 
-        // ensure iVolume within boundaries
-        if (iVolume < intVolumeMin) {
-            iVolume = intVolumeMin
-        } else if (iVolume > intVolumeMax) {
-            iVolume = intVolumeMax
+            // ensure iVolume within boundaries
+            if (iVolume < intVolumeMin) {
+                iVolume = intVolumeMin
+            } else if (iVolume > intVolumeMax) {
+                iVolume = intVolumeMax
+            }
+
+            // convert to float value
+            var fVolume = 1 - ln((intVolumeMax - iVolume).toDouble()).toFloat() / ln(intVolumeMax.toDouble()).toFloat()
+
+            // ensure fVolume within boundaries
+            if (fVolume < floatVolumeMin) {
+                fVolume = floatVolumeMin
+            } else if (fVolume > floatVolumeMax) {
+                fVolume = floatVolumeMax
+            }
+            mediaPlayer.setVolume(fVolume, fVolume)
+        } catch (e: IllegalStateException) {
+            Log.e("AudioService", "Uhh!! Volume can't be changed now, IllegalStateException: ${e.message}")
         }
-
-        // convert to float value
-        var fVolume = 1 - ln((intVolumeMax - iVolume).toDouble()).toFloat() / ln(intVolumeMax.toDouble()).toFloat()
-
-        // ensure fVolume within boundaries
-        if (fVolume < floatVolumeMin) {
-            fVolume = floatVolumeMin
-        } else if (fVolume > floatVolumeMax) {
-            fVolume = floatVolumeMax
-        }
-        mediaPlayer.setVolume(fVolume, fVolume)
     }
 
     private fun createNotificationChannel() {
