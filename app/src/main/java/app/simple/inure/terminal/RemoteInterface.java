@@ -16,6 +16,7 @@
 
 package app.simple.inure.terminal;
 
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -168,18 +169,17 @@ public class RemoteInterface extends BaseActivity {
             
             session.setFinishCallback(service);
             service.getSessions().add(session);
-    
+            
             String handle = UUID.randomUUID().toString();
             ((GenericTermSession) session).setHandle(handle);
-    
+            
             Intent intent = new Intent(PRIVACT_OPEN_NEW_WINDOW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-    
+            
             return handle;
-        } catch (
-                IOException e) {
+        } catch (IOException | ActivityNotFoundException e) {
             return null;
         }
     }
