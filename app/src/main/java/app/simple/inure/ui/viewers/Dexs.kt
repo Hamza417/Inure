@@ -15,6 +15,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DexClassesPreferences
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class Dexs : SearchBarScopedFragment() {
@@ -46,15 +47,17 @@ class Dexs : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dexDataViewModel.getDexClasses().observe(viewLifecycleOwner) {
-            val adapter = AdapterDexData(it, searchBox.text.toString().trim())
+            if (recyclerView.adapter.isNull()) {
+                val adapter = AdapterDexData(it, searchBox.text.toString().trim())
 
-            adapter.onDetailsClicked = { dexClass ->
-                openFragmentSlide(
-                        ClassSourceViewer.newInstance(dexClass, packageInfo),
-                        "class_source_viewer")
+                adapter.onDetailsClicked = { dexClass ->
+                    openFragmentSlide(
+                            ClassSourceViewer.newInstance(dexClass, packageInfo),
+                            "class_source_viewer")
+                }
+
+                recyclerView.adapter = adapter
             }
-
-            recyclerView.adapter = adapter
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

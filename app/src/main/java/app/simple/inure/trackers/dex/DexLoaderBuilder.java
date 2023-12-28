@@ -1,6 +1,7 @@
 package app.simple.inure.trackers.dex;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -39,8 +40,16 @@ public class DexLoaderBuilder {
         
         final File dexInternalStoragePath = new File(context.getDir("dex", Context.MODE_PRIVATE), dexFileName);
         
-        if (!dexInternalStoragePath.exists()) {
-            prepareDex(dexBytes, dexInternalStoragePath);
+        if (dexInternalStoragePath.exists()) {
+            if (dexInternalStoragePath.delete()) {
+                Log.d("DexLoaderBuilder", "Successfully deleted previous version of dex file: " + dexFileName);
+            }
+        }
+        
+        prepareDex(dexBytes, dexInternalStoragePath);
+        
+        if (dexInternalStoragePath.setReadOnly()) {
+            Log.d("DexLoaderBuilder", "Successfully set dex file to read only mode");
         }
         
         final File optimizedDexOutputPath = context.getCodeCacheDir();

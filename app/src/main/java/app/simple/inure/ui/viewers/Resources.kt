@@ -16,6 +16,7 @@ import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ResourcesPreferences
+import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Resources : SearchBarScopedFragment() {
@@ -45,23 +46,24 @@ class Resources : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getResources().observe(viewLifecycleOwner) {
-            val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
+            if (recyclerView.adapter.isNull()) {
+                val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
+                recyclerView.adapter = adapterResources
 
-            recyclerView.adapter = adapterResources
-
-            adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
-                override fun onResourceClicked(path: String) {
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                        openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, false, path), "wv_xml")
-                    } else {
-                        openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, path), "tv_xml")
+                adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
+                    override fun onResourceClicked(path: String) {
+                        if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
+                            openFragmentSlide(XMLViewerWebView.newInstance(packageInfo, false, path), "wv_xml")
+                        } else {
+                            openFragmentSlide(XMLViewerTextView.newInstance(packageInfo, false, path), "tv_xml")
+                        }
                     }
-                }
 
-                override fun onResourceLongClicked(path: String, view: View, position: Int) {
-                    openFragmentSlide(Text.newInstance(packageInfo, path), "txt_tv_xml")
-                }
-            })
+                    override fun onResourceLongClicked(path: String, view: View, position: Int) {
+                        openFragmentSlide(Text.newInstance(packageInfo, path), "txt_tv_xml")
+                    }
+                })
+            }
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
