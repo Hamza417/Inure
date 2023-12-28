@@ -22,8 +22,12 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
     }
 
     fun postError(value: Throwable, application: Application) {
-        postValue(value)
-        saveTraceToDatabase(value, application.applicationContext)
+        if (!isSameThrowable(value)) {
+            postValue(value)
+            saveTraceToDatabase(value, application.applicationContext)
+        } else {
+            Log.e("ErrorLiveData", "Same throwable found, skipping...")
+        }
     }
 
     private fun saveTraceToDatabase(throwable: Throwable, applicationContext: Context) {
@@ -46,5 +50,11 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
                         "trying to save stacktrace, skipping...")
             }
         }
+    }
+
+    private fun isSameThrowable(throwable: Throwable): Boolean {
+        value?.let {
+            return it.javaClass == throwable.javaClass
+        } ?: return false
     }
 }

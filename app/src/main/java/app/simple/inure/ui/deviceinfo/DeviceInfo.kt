@@ -36,15 +36,15 @@ class DeviceInfo : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        data.getBasics().observe(viewLifecycleOwner, {
+        data.getBasics().observe(viewLifecycleOwner) {
             adapterBasicInfo = AdapterDeviceInfoContent(it, getString(R.string.device))
             setAdapters()
-        })
+        }
 
-        data.getDisplay().observe(viewLifecycleOwner, {
+        data.getDisplay().observe(viewLifecycleOwner) {
             adapterDisplayInfo = AdapterDeviceInfoContent(it, getString(R.string.display))
             setAdapters()
-        })
+        }
     }
 
     private fun setAdapters() {
