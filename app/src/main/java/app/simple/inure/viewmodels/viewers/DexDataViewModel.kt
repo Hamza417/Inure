@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import dalvik.system.DexClassLoader
 import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,21 +33,13 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
         }
     }
 
+    @Suppress("DEPRECATION") // Why is Android so hard to work with? :(
     private fun getClassesOfPackage(packageName: String): ArrayList<String> {
         val appContext = applicationContext().createPackageContext(packageName, 0)
         val packageCodePath: String = appContext.packageCodePath
+        val df = DexFile(packageCodePath)
+        val iter = df.entries()
 
-        // Load the DexClassLoader dynamically
-        val optimizedDexOutputPath: String = appContext.getDir("outdex", 0).absolutePath
-        val classLoader = DexClassLoader(packageCodePath, optimizedDexOutputPath, null, appContext.classLoader)
-
-        val classes = ArrayList<String>()
-
-        // Get the DexFile instance from the DexClassLoader
-        val dexFile = DexFile(packageCodePath)
-
-        // Iterate through the entries in the DexFile
-        val iter = dexFile.entries()
         while (iter.hasMoreElements()) {
             val className = iter.nextElement()
             classes.add(className)
