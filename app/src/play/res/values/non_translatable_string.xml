@@ -15,17 +15,17 @@
     <string name="time_placeholder" translatable="false">--:--</string>
     <string name="audio_file_info" translatable="false">%1$s | %2$s | %3$s</string>
     <string name="play_store" translatable="false">Play Store</string>
-    <string name="amazon" translatable="false">Amazon App Store</string>
-    <string name="fdroid" translatable="false">F-Droid</string>
-    <string name="izzyondroid" translatable="false">IzzyOnDroid</string>
-    <string name="galaxy_store" translatable="false">Galaxy Store</string>
+    <string name="amazon" translatable="false" />
+    <string name="fdroid" translatable="false" />
+    <string name="izzyondroid" translatable="false" />
+    <string name="galaxy_store" translatable="false" />
     <string name="px" translatable="false">%1$s px</string>
     <string name="amoled" translatable="false">AMOLED</string>
     <string name="shell" translatable="false">Shell</string>
     <string name="text" translatable="false">Text</string>
     <string name="over_scroll_behavior" translatable="false">app.simple.inure.decorations.behaviors.OverScrollBehavior</string>
     <string name="github" translatable="false">GitHub</string>
-    <string name="kofi" translatable="false">Ko-fi</string>
+    <string name="kofi" translatable="false" />
     <string name="exodus" translatable="false">εxodus</string>
     <string name="progress" translatable="false">%d%%</string>
     <string name="x_509" translatable="false">X.509</string>
@@ -35,8 +35,8 @@
     <string name="android" translatable="false">Android</string>
     <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="system_excidle" translatable="false">System-Excidle</string>
-    <string name="gumroad_link" translatable="false">"https://hamza417.gumroad.com/l/inure_unlocker"</string>
-    <string name="gumroad" translatable="false">GumRoad</string>
+    <string name="gumroad_link" translatable="false" />
+    <string name="gumroad" translatable="false" />
     <string name="help_url" translatable="false">http://jackpal.github.com/Android-Terminal-Emulator/help/index.html</string>
 
     <!-- The word CTRLKEY should be left un-translated. It will be replaced at run-time with the
@@ -62,7 +62,7 @@
     <string name="json" translatable="false">.JSON</string>
     <string name="csv" translatable="false">.CSV</string>
     <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
-    <string name="kofi_link" translatable="false">https://ko-fi.com/s/c1f0cb960f</string>
+    <string name="kofi_link" translatable="false" />
     <string name="shizuku" translatable="false">Shizuku</string>
     <string name="github_profile_link" translatable="false">https://github.com/Hamza417</string>
     <string name="play_profile_link" translatable="false">https://play.google.com/store/apps/dev?id=9002962740272949113</string>

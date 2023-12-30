@@ -19,6 +19,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -288,7 +289,7 @@ class HomeViewModel(application: Application) :
                 list.add(Pair(R.drawable.ic_disable, R.string.disabled))
             }
 
-            list.add(Pair(R.drawable.ic_open_source, R.string.foss)) // Divider
+            list.add(Pair(R.drawable.ic_open_source, R.string.foss))
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
@@ -312,6 +313,12 @@ class HomeViewModel(application: Application) :
                 list.add(Pair(R.drawable.ic_adb, R.string.APKs))
             }
 
+            list.add(Pair(0, 0)) // Divider
+
+            if (AppUtils.isGithubFlavor()) {
+                list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
+            }
+
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Pair(R.drawable.ic_music_note, R.string.music))
@@ -319,7 +326,7 @@ class HomeViewModel(application: Application) :
             }
 
             if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible)
-                && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+                    && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                 list.add(Pair(R.drawable.ic_stacktrace, R.string.crash_report))
             }
 
