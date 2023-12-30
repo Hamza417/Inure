@@ -221,6 +221,11 @@ dependencies {
     //noinspection GradleDependency
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
+    // FDroid
+    githubImplementation 'org.fdroid:download:0.1.1'
+    githubImplementation 'org.fdroid:index:0.1.1'
+    githubImplementation 'org.fdroid:database:0.1.1'
+
     // Room
     implementation 'androidx.room:room-ktx:2.6.0'
     //noinspection KaptUsageInsteadOfKsp
