@@ -65,7 +65,18 @@ object SortConstant {
     const val BATCH_NOT_SELECTED = 2
     const val BATCH_ENABLED = 4
     const val BATCH_DISABLED = 8
-    const val ALL_BATCH_STATES = BATCH_SELECTED or BATCH_NOT_SELECTED or BATCH_ENABLED or BATCH_DISABLED
+    const val BATCH_UNINSTALLED = 16
+    const val BATCH_FOSS = 32
+    const val BATCH_APK = 64
+    const val BATCH_SPLIT = 128
+    const val ALL_BATCH_STATES = BATCH_SELECTED or
+            BATCH_NOT_SELECTED or
+            BATCH_ENABLED or
+            BATCH_DISABLED or
+            BATCH_UNINSTALLED or
+            BATCH_FOSS or
+            BATCH_APK or
+            BATCH_SPLIT
 
     const val BOOT_ENABLED = 1
     const val BOOT_DISABLED = 2

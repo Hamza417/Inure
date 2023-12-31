@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.BatchDatabase
@@ -106,9 +107,41 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                         }
                     }
                 }
+
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_UNINSTALLED)) {
+                    if (item.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_FOSS)) {
+                    if (FOSSParser.isPackageFOSS(item.packageInfo.packageName)) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_APK)) {
+                    if (item.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SPLIT)) {
+                    if (!item.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (!filtered.contains(item)) {
+                            filtered.add(item)
+                        }
+                    }
+                }
             }
 
-            filtered = filtered.stream().distinct().collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+            filtered = filtered.parallelStream().distinct().collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
 
             batchData.postValue(filtered)
         }

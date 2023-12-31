@@ -92,6 +92,22 @@ class BatchSort : ScopedBottomSheetFragment() {
             filterChipGroup.check(R.id.enabled)
         }
 
+        if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_UNINSTALLED)) {
+            filterChipGroup.check(R.id.uninstalled)
+        }
+
+        if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_FOSS)) {
+            filterChipGroup.check(R.id.foss)
+        }
+
+        if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_APK)) {
+            filterChipGroup.check(R.id.apk)
+        }
+
+        if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SPLIT)) {
+            filterChipGroup.check(R.id.split_apk)
+        }
+
         filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var flags = BatchPreferences.getAppsFilter()
 
@@ -117,6 +133,30 @@ class BatchSort : ScopedBottomSheetFragment() {
                 FlagUtils.setFlag(flags, SortConstant.BATCH_NOT_SELECTED)
             } else {
                 FlagUtils.unsetFlag(flags, SortConstant.BATCH_NOT_SELECTED)
+            }
+
+            flags = if (checkedIds.contains(R.id.uninstalled)) {
+                FlagUtils.setFlag(flags, SortConstant.BATCH_UNINSTALLED)
+            } else {
+                FlagUtils.unsetFlag(flags, SortConstant.BATCH_UNINSTALLED)
+            }
+
+            flags = if (checkedIds.contains(R.id.foss)) {
+                FlagUtils.setFlag(flags, SortConstant.BATCH_FOSS)
+            } else {
+                FlagUtils.unsetFlag(flags, SortConstant.BATCH_FOSS)
+            }
+
+            flags = if (checkedIds.contains(R.id.apk)) {
+                FlagUtils.setFlag(flags, SortConstant.BATCH_APK)
+            } else {
+                FlagUtils.unsetFlag(flags, SortConstant.BATCH_APK)
+            }
+
+            flags = if (checkedIds.contains(R.id.split_apk)) {
+                FlagUtils.setFlag(flags, SortConstant.BATCH_SPLIT)
+            } else {
+                FlagUtils.unsetFlag(flags, SortConstant.BATCH_SPLIT)
             }
 
             BatchPreferences.setAppsFilter(flags)

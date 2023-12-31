@@ -9,11 +9,13 @@
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/transparent"
+        android:backgroundTint="@android:color/white"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layout_margin="@dimen/dialog_padding"
         android:orientation="vertical"
+        android:elevation="25dp"
+        android:background="@android:color/background_light"
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -189,6 +191,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/enabled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/uninstalled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uninstalled" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/foss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/foss" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/apk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apk" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/split_apk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/split_packages" />
 
         </com.google.android.material.chip.ChipGroup>
 
