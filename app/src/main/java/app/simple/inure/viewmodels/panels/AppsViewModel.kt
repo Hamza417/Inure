@@ -45,12 +45,12 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
             when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {
-                    apps = apps.stream().filter { p ->
+                    apps = apps.parallelStream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
                 SortConstant.USER -> {
-                    apps = apps.stream().filter { p ->
+                    apps = apps.parallelStream().filter { p ->
                         p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
@@ -158,50 +158,8 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
              * app is not installed, it should be filtered out
              */
             if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).stream().filter { packageInfo ->
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                        } else {
-                            packageInfo.applicationInfo.enabled.invert() &&
-                                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                        }
-                    } else {
-                        true
-                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                        } else {
-                            packageInfo.applicationInfo.enabled &&
-                                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                        }
-                    } else {
-                        true
-                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                            true
-                        } else {
-                            packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()
-                        }
-                    } else {
-                        true
-                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                            true
-                        } else {
-                            packageInfo.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
-                        }
-                    } else {
-                        true
-                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                        packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                    } else {
-                        true
-                    } && if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
-                        FOSSParser.isPackageFOSS(packageInfo.packageName)
-                    } else {
-                        true
-                    }
+                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).parallelStream().filter { packageInfo ->
+                    checkCombinedFlags(packageInfo)
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
             } else {
                 for (packageInfo in apps) {
@@ -223,7 +181,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                         if (!packageInfo.applicationInfo.enabled &&
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -240,7 +198,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                         if (packageInfo.applicationInfo.enabled &&
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -264,6 +222,70 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
             appData.postValue(filteredList as ArrayList<PackageInfo>?)
             appLoaded.postValue(AppsEvent(true))
+        }
+    }
+
+    private fun checkCombinedFlags(packageInfo: PackageInfo): Boolean {
+        return when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                } else {
+                    packageInfo.applicationInfo.enabled.invert() &&
+                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                }
+            }
+            else -> {
+                true
+            }
+        } && when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED) -> {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                } else {
+                    packageInfo.applicationInfo.enabled &&
+                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                }
+            }
+            else -> {
+                true
+            }
+        } && when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK) -> {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    true
+                } else {
+                    packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                }
+            }
+            else -> {
+                true
+            }
+        } && when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT) -> {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
+                    true
+                } else {
+                    packageInfo.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                }
+            }
+            else -> {
+                true
+            }
+        } && when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED) -> {
+                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+            }
+            else -> {
+                true
+            }
+        } && when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS) -> {
+                FOSSParser.isPackageFOSS(packageInfo.packageName)
+            }
+            else -> {
+                true
+            }
         }
     }
 
