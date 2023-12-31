@@ -19,6 +19,7 @@ import java.io.File
 import java.lang.reflect.Method
 import java.util.*
 
+@Suppress("KotlinRedundantDiagnosticSuppress")
 object PackageUtils {
 
     private const val UNINSTALL_REQUEST_CODE = 6452
@@ -89,12 +90,12 @@ object PackageUtils {
         return null
     }
 
+    @Suppress("EXTENSION_SHADOWED_BY_MEMBER")
     fun PackageManager.getPackageInfo(packageName: String, flags: Int): PackageInfo? {
         try {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
             } else {
-                @Suppress("DEPRECATION")
                 getPackageInfo(packageName, flags)
             }
         } catch (e: NameNotFoundException) {
@@ -118,12 +119,12 @@ object PackageUtils {
         }
     }
 
+    @Suppress("EXTENSION_SHADOWED_BY_MEMBER")
     fun PackageManager.getPackageArchiveInfo(path: String, flags: Int): PackageInfo? {
         try {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getPackageArchiveInfo(path, PackageManager.PackageInfoFlags.of(flags.toLong()))
             } else {
-                @Suppress("DEPRECATION")
                 getPackageArchiveInfo(path, flags)
             }
         } catch (e: NameNotFoundException) {
@@ -269,6 +270,7 @@ object PackageUtils {
     /**
      * Check if app is a user app
      */
+    @Suppress("unused")
     fun ApplicationInfo.isUserApp(): Boolean {
         return flags and ApplicationInfo.FLAG_SYSTEM == 0
     }
@@ -481,6 +483,7 @@ object PackageUtils {
      * @warning do not modify the returned [PackageInfo] object
      * @return [ArrayList] of [PackageInfo] objects
      */
+    @Suppress("unused")
     fun PackageManager.getInstalledPackages(flags: Long = PackageUtils.flags): ArrayList<PackageInfo> {
         val packageInfoList = ArrayList<PackageInfo>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

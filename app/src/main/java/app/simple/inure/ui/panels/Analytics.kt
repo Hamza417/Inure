@@ -28,6 +28,7 @@ import app.simple.inure.viewmodels.panels.AnalyticsViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
@@ -44,6 +45,10 @@ class Analytics : ScopedFragment() {
     private lateinit var packageTypeLegend: LegendRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
+
+    private var minimumOS: AdapterLegend? = null
+    private var targetOS: AdapterLegend? = null
+    private var packageTypeAdapter: AdapterLegend? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
@@ -105,12 +110,19 @@ class Analytics : ScopedFragment() {
                         PopupChartEntry(view, e) {
                             openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
                         }.setOnDismissListener {
-                            minimumOsPie.highlightValues(null)
+                            runCatching {
+                                minimumOsPie.highlightValues(null)
+                                minimumOS?.highlightEntry(null)
+                            }
+                        }
+
+                        runCatching {
+                            minimumOS?.highlightEntry(e as PieEntry?)
                         }
                     }
                 })
 
-                val adapter = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
+                minimumOS = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
                     if (longPressed) {
                         openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), "sdk")
                     } else {
@@ -120,7 +132,7 @@ class Analytics : ScopedFragment() {
                     }
                 }
 
-                minimumOsLegend.adapter = adapter
+                minimumOsLegend.adapter = minimumOS
             }
 
             minimumOsPie.setAnimation(true)
@@ -150,12 +162,19 @@ class Analytics : ScopedFragment() {
                         PopupChartEntry(view, e) {
                             openFragmentSlide(AnalyticsTargetSDK.newInstance(it), "target_sdk")
                         }.setOnDismissListener {
-                            targetOsPie.highlightValues(null)
+                            runCatching {
+                                targetOsPie.highlightValues(null)
+                                targetOS?.highlightEntry(null)
+                            }
+                        }
+
+                        runCatching {
+                            targetOS?.highlightEntry(e as PieEntry?)
                         }
                     }
                 })
 
-                val adapter = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
+                targetOS = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
                     if (longPressed) {
                         openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), "target_sdk")
                     } else {
@@ -165,7 +184,7 @@ class Analytics : ScopedFragment() {
                     }
                 }
 
-                targetOsLegend.adapter = adapter
+                targetOsLegend.adapter = targetOS
             }
 
             targetOsPie.setAnimation(true)
@@ -192,12 +211,19 @@ class Analytics : ScopedFragment() {
                         PopupChartEntry(view, e) {
                             openFragmentSlide(AnalyticsPackageType.newInstance(it), "package_type")
                         }.setOnDismissListener {
-                            packageTypePie.highlightValues(null)
+                            runCatching {
+                                packageTypePie.highlightValues(null)
+                                packageTypeAdapter?.highlightEntry(null)
+                            }
+                        }
+
+                        runCatching {
+                            packageTypeAdapter?.highlightEntry(e as PieEntry?)
                         }
                     }
                 })
 
-                val adapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
+                packageTypeAdapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
                         openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
                     } else {
@@ -207,7 +233,7 @@ class Analytics : ScopedFragment() {
                     }
                 }
 
-                packageTypeLegend.adapter = adapter
+                packageTypeLegend.adapter = packageTypeAdapter
             }
 
             packageTypePie.setAnimation(true)

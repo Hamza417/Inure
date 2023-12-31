@@ -43,6 +43,9 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
         setBackgroundColor(Color.TRANSPARENT);
     }
     
+    /**
+     * @noinspection unused
+     */
     public DynamicRippleLegendLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setBackgroundColor(Color.TRANSPARENT);
@@ -66,7 +69,7 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(0.8F)
@@ -101,9 +104,7 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
                     return super.onTouchEvent(event);
                 }
             }
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP: {
+            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(1F)
@@ -114,7 +115,6 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
             }
         }
         return super.onTouchEvent(event);
@@ -172,5 +172,14 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
     
     public void setRippleColor(int rippleColor) {
         this.rippleColor = rippleColor;
+    }
+    
+    public void highlight(int color) {
+        LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
+        setBackgroundTintList(ColorStateList.valueOf(color));
+    }
+    
+    public void unHighlight() {
+        setHighlightBackgroundColor();
     }
 }
