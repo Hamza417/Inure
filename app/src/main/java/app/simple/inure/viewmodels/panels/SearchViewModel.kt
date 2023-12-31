@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -251,6 +252,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun loadDeepSearchData(keywords: String) {
         var list = arrayListOf<SearchModel>()
         var apps: ArrayList<PackageInfo>
+        val startTime = System.currentTimeMillis()
 
         if (keywords.isEmpty()) {
             deepSearchData.postValue(arrayListOf())
@@ -395,6 +397,10 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         if (Thread.currentThread().name == thread?.name) {
             deepSearchData.postValue(list)
         }
+
+        val endTime = System.currentTimeMillis()
+
+        Log.d("Search", (endTime - startTime).toString())
     }
 
     private fun loadTags() {
@@ -518,6 +524,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     fun clearSearch() {
-        initiateSearch("")
+        searchKeywords.postValue("")
+        searchData.postValue(arrayListOf())
+        deepSearchData.postValue(arrayListOf())
     }
 }

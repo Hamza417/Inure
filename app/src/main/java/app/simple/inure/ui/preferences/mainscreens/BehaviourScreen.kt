@@ -1,10 +1,12 @@
 package app.simple.inure.ui.preferences.mainscreens
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -34,6 +36,8 @@ class BehaviourScreen : ScopedFragment() {
     private lateinit var dampingRatio: DynamicRippleConstraintLayout
     private lateinit var stiffness: DynamicRippleConstraintLayout
 
+    private lateinit var blurWindowsContainer: ConstraintLayout
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_behaviour, container, false)
 
@@ -49,6 +53,8 @@ class BehaviourScreen : ScopedFragment() {
         arcType = view.findViewById(R.id.popup_arc_transition_type)
         dampingRatio = view.findViewById(R.id.damping_ratio_container)
         stiffness = view.findViewById(R.id.stiffness_container)
+
+        blurWindowsContainer = view.findViewById(R.id.blur_windows_container)
 
         startPostponedEnterTransition()
 
@@ -68,6 +74,16 @@ class BehaviourScreen : ScopedFragment() {
 
         setTransitionType()
         setArcType()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (requireActivity().windowManager.isCrossWindowBlurEnabled) {
+                blurWindowsContainer.visibility = View.VISIBLE
+            } else {
+                blurWindowsContainer.visibility = View.GONE
+                blurWindows.setChecked(false)
+                BehaviourPreferences.setBlurWindows(false)
+            }
+        }
 
         dimWindows.setOnSwitchCheckedChangeListener {
             BehaviourPreferences.setDimWindows(it)
