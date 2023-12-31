@@ -30,7 +30,6 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.terminal.Term
-import app.simple.inure.ui.Store
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
@@ -204,10 +203,6 @@ class Home : ScopedFragment() {
 
                         R.string.APKs -> {
                             openFragmentArc(APKs.newInstance(), icon, "apks")
-                        }
-
-                        R.string.fdroid -> {
-                            openFragmentArc(Store.newInstance(), icon, "fdroid")
                         }
 
                         // Header

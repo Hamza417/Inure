@@ -19,7 +19,6 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
-import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -314,10 +313,6 @@ class HomeViewModel(application: Application) :
             }
 
             list.add(Pair(0, 0)) // Divider
-
-            if (AppUtils.isGithubFlavor()) {
-                list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
-            }
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
