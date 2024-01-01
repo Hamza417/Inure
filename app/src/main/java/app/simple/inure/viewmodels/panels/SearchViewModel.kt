@@ -518,6 +518,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         super.onCleared()
         try {
             thread?.interrupt()
+            Log.d("SearchViewModel", "onCleared: ${thread?.name}")
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }

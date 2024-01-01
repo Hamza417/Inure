@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import com.topjohnwu.superuser.NoShellException
@@ -116,15 +117,27 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            onShizukuCreated()
+            runCatching {
+                ShizukuServiceHelper().bindUserService {
+                    Log.d("RootViewModel", "Shizuku service initialization successful")
+                    onShizukuCreated()
+                }
+            }.onFailure {
+                if (it is RuntimeException) {
+                    onShizukuDenied()
+                    Log.d("RootViewModel", "Shizuku service initialization failed")
+                }
+            }
         } else {
             onShizukuDenied()
+            Log.d("RootViewModel", "Shizuku service initialization failed")
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         shell?.close()
+        ShizukuServiceHelper().unbindUserService()
 
         kotlin.runCatching {
             Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
