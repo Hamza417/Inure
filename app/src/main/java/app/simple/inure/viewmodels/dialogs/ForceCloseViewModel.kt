@@ -70,28 +70,30 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
     }
 
     private fun runShizuku() {
-        kotlin.runCatching {
-            Log.d("ForceCloseViewModel", "Running Shizuku command...")
-            ShizukuServiceHelper().service?.execute(mutableListOf("am", "force-stop", packageInfo.packageName), null, null).let {
-                Log.d("ForceCloseViewModel", it?.toString()!!)
-                if (it.isSuccess) {
-                    result.postValue(it.output)
-                    Log.d("ForceCloseViewModel", it.output.toString())
-                } else {
-                    result.postValue(it.error)
-                    Log.d("ForceCloseViewModel", it.error.toString())
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                Log.d("ForceCloseViewModel", "Running Shizuku command...")
+                ShizukuServiceHelper().service?.execute(mutableListOf("am force-stop ${packageInfo.packageName}"), null, null).let {
+                    Log.d("ForceCloseViewModel", it?.toString()!!)
+                    if (it.isSuccess) {
+                        result.postValue(it.output)
+                        Log.d("ForceCloseViewModel", it.output.toString())
+                    } else {
+                        result.postValue(it.error)
+                        Log.d("ForceCloseViewModel", it.error.toString())
+                    }
                 }
+            }.onFailure {
+                it.printStackTrace()
+                result.postValue("\n" + it.message)
+                success.postValue("Failed")
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                it.printStackTrace()
+                result.postValue("\n" + it.message)
+                success.postValue("Failed")
             }
-        }.onFailure {
-            it.printStackTrace()
-            result.postValue("\n" + it.message)
-            success.postValue("Failed")
-        }.onSuccess {
-            success.postValue("Done")
-        }.getOrElse {
-            it.printStackTrace()
-            result.postValue("\n" + it.message)
-            success.postValue("Failed")
         }
     }
 

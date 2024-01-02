@@ -251,8 +251,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     private fun loadDeepSearchData(keywords: String) {
         var list = arrayListOf<SearchModel>()
-        var apps: ArrayList<PackageInfo>
-        val startTime = System.currentTimeMillis()
+        var apps: ArrayList<PackageInfo> = (getInstalledApps() + getUninstalledApps()).toArrayList()
 
         if (keywords.isEmpty()) {
             deepSearchData.postValue(arrayListOf())
@@ -260,7 +259,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
 
         if (deepApps.isEmpty()) {
-            deepApps = packageManager.getInstalledPackages(flags.toLong()).loadPackageNames()
+            deepApps.addAll(apps)
         }
 
         @Suppress("UNCHECKED_CAST")
@@ -371,22 +370,26 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        for (app in filteredList) { // Split this into multiple threads
+        filteredList.parallelStream().forEach { app ->
             val searchModel = SearchModel()
+            val pkg = packageManager.getPackageInfo(app.packageName, flags).apply {
+                applicationInfo.name = app.applicationInfo.name
+            }
 
-            searchModel.packageInfo = app
-            searchModel.permissions = getPermissionCount(keywords, app)
-            searchModel.activities = getActivitiesCount(keywords, app)
-            searchModel.services = getServicesCount(keywords, app)
-            searchModel.receivers = getReceiversCount(keywords, app)
-            searchModel.providers = getProvidersCount(keywords, app)
-            searchModel.resources = getResourcesCount(keywords, app)
+            searchModel.packageInfo = pkg
+            searchModel.permissions = getPermissionCount(keywords, pkg)
+            searchModel.activities = getActivitiesCount(keywords, pkg)
+            searchModel.services = getServicesCount(keywords, pkg)
+            searchModel.receivers = getReceiversCount(keywords, pkg)
+            searchModel.providers = getProvidersCount(keywords, pkg)
+            searchModel.resources = getResourcesCount(keywords, pkg)
 
-            list.add(searchModel)
+            synchronized(list) {
+                list.add(searchModel)
+            }
         }
 
         // Filter out apps with no results
-
         list = list.filter {
             it.permissions > 0 || it.activities > 0 || it.services > 0 ||
                     it.receivers > 0 || it.providers > 0 || it.resources > 0 ||
@@ -397,10 +400,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         if (Thread.currentThread().name == thread?.name) {
             deepSearchData.postValue(list)
         }
-
-        val endTime = System.currentTimeMillis()
-
-        Log.d("Search", (endTime - startTime).toString())
     }
 
     private fun loadTags() {
@@ -417,8 +416,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             if (app.requestedPermissions != null) {
                 for (permission in app.requestedPermissions) {
                     if (permission.lowercase().contains(keyword.lowercase())
-                        || permission.getPermissionInfo(application)?.loadLabel(application.packageManager)
-                            .toString().lowercase().contains(keyword.lowercase())) {
+                            || permission.getPermissionInfo(application)?.loadLabel(application.packageManager)
+                                .toString().lowercase().contains(keyword.lowercase())) {
                         count = count.inc()
                     }
                 }
@@ -528,5 +527,10 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         searchKeywords.postValue("")
         searchData.postValue(arrayListOf())
         deepSearchData.postValue(arrayListOf())
+        try {
+            thread?.interrupt()
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
     }
 }

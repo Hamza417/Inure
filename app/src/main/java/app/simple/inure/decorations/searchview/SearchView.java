@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -59,7 +60,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     private void initViews() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
-    
+        
         icon = view.findViewById(R.id.icon);
         editText = view.findViewById(R.id.search_view_text_input_layout);
         number = view.findViewById(R.id.search_number);
@@ -67,13 +68,13 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         clear = view.findViewById(R.id.search_view_clear_button);
         refresh = view.findViewById(R.id.search_view_refresh_button);
         loader = view.findViewById(R.id.loader);
-    
+        
         if (!isInEditMode()) {
             if (SearchPreferences.INSTANCE.getLastSearchKeyword().length() > 0) {
-                ViewUtils.INSTANCE.visible(clear, true);
-                ViewUtils.INSTANCE.visible(refresh, true);
+                ViewUtils.INSTANCE.visible(clear, false);
+                ViewUtils.INSTANCE.visible(refresh, false);
                 editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
-    
+                
                 if (SearchPreferences.INSTANCE.getLastSearchKeyword().startsWith("#")) {
                     if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
                         editText.getText().setSpan(
@@ -85,13 +86,14 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 ViewUtils.INSTANCE.gone(refresh, true);
             }
         }
-    
+        
         updateDeepSearchData();
         editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
-    
-        TextViewUtils.INSTANCE.doOnTextChanged(editText, (s, start, before, count) -> {
-            boolean isValidCount = s.toString().trim().replace("#", "").length() > 0;
         
+        TextViewUtils.INSTANCE.doOnTextChanged(editText, (s, start, before, count) -> {
+            Log.d("SearchView", "onTextChanged: " + s.toString().trim());
+            boolean isValidCount = s.toString().trim().replace("#", "").length() > 0;
+            
             if (editText.isFocused()) {
                 if (!s.toString().trim().equals(SearchPreferences.INSTANCE.getLastSearchKeyword())) {
                     if (isValidCount) {
@@ -99,12 +101,13 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                     } else {
                         loader.setVisibility(View.GONE);
                     }
+                    
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
             }
-        
+            
             SearchPreferences.INSTANCE.setLastSearchKeyword(s.toString().trim());
-        
+            
             if (isValidCount) {
                 ViewUtils.INSTANCE.visible(clear, true);
                 ViewUtils.INSTANCE.visible(refresh, true);
@@ -112,29 +115,41 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 ViewUtils.INSTANCE.gone(clear, true);
                 ViewUtils.INSTANCE.gone(refresh, true);
             }
-        
+            
             if (s.toString().trim().startsWith("#")) {
                 if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
                     editText.getText().setSpan(
                             new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
                 }
             } else {
-                editText.getText().removeSpan(new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()));
+                if (editText.getText().getSpans(0, 1, ForegroundColorSpan.class).length > 0) {
+                    // Remove the spans
+                    for (ForegroundColorSpan span : editText.getText().getSpans(0, 1, ForegroundColorSpan.class)) {
+                        editText.getText().removeSpan(span);
+                    }
+                    
+                    // Move the cursor to the end of the text
+                    editText.setSelection(editText.getText().length());
+                    // Focus the edit text
+                    editText.requestFocus();
+                }
             }
-        
+            
             return Unit.INSTANCE;
         });
-    
+        
         menu.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
-    
+        
         refresh.setOnClickListener(button -> {
             loader.setVisibility(View.VISIBLE);
             searchViewEventListener.onSearchRefreshPressed(button);
         });
-    
+        
         clear.setOnClickListener(button -> {
             editText.getText().clear();
             setNewNumber(0);
+            searchViewEventListener.onClear(button);
+            SearchPreferences.INSTANCE.setLastSearchKeyword("");
         });
     }
     
@@ -181,7 +196,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         if (numberAnimator != null) {
             numberAnimator.cancel();
         }
-    
+        
         numberAnimator = ValueAnimator.ofInt(oldNumber, newNumber);
         numberAnimator.setInterpolator(new FastOutLinearInInterpolator());
         numberAnimator.setDuration(getResources().getInteger(R.integer.animation_duration));
@@ -204,7 +219,21 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         if (SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
             iconAnimator = ViewUtils.INSTANCE.animateTint(icon, AppearancePreferences.INSTANCE.getAccentColor());
             editText.setHint(R.string.deep_search);
-            editText.getText().clearSpans();
+            
+            /*
+             * Just so you know, this is a very bad idea
+             * It will cause the app to work very slow
+             * and will cause the app to crash in some cases.
+             * I don't know why, but it does.
+             */
+            // editText.getText().clearSpans();
+            
+            /*
+             * This is a better way to do it
+             */
+            for (ForegroundColorSpan span : editText.getText().getSpans(0, 1, ForegroundColorSpan.class)) {
+                editText.getText().removeSpan(span);
+            }
         } else {
             iconAnimator = ViewUtils.INSTANCE.animateTint(icon, ThemeManager.INSTANCE.getTheme().getIconTheme().getSecondaryIconColor());
             editText.setHint(R.string.search);

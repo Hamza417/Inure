@@ -172,9 +172,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: AppIconImageView) {
                         childFragmentManager.showAppsMenu(packageInfo, searchViewModel.getSearchKeywords().value ?: "").onDismissListener = {
-                            postDelayed(250) {
-                                // searchView.showInput()
-                            }
+                            // Open keyboard after menu is dismissed
+                            //                            postDelayed(250) {
+                            //                                searchView.showInput()
+                            //                            }
                         }
                     }
                 })
@@ -220,9 +221,8 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
                 removeHandlerCallbacks()
-
                 if (keywords.isNotEmpty()) {
-                    postDelayed(1000L) {
+                    postDelayed(1000L) { // Todo : Find a better way to do this
                         searchViewModel.initiateSearch(keywords)
                     }
                 } else {
@@ -238,18 +238,19 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
             override fun onClear(button: View?) {
                 setTagsStripState("")
+                searchViewModel.clearSearch()
             }
         })
     }
 
     private fun setTagsStripState(keywords: String) {
-        kotlin.runCatching {
-            (tags.adapter as? AdapterTags)?.highlightedTag = keywords.removePrefix("#")
-        }
-
         if (SearchPreferences.isDeepSearchEnabled()) {
             tags.gone(animate = false)
         } else {
+            kotlin.runCatching {
+                (tags.adapter as? AdapterTags)?.highlightedTag = keywords.removePrefix("#")
+            }
+
             if (keywords.startsWith("#")) {
                 tags.visible(animate = false)
             } else {
