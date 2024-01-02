@@ -130,4 +130,11 @@ public class StatusBarHeight {
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.widthPixels;
     }
+    
+    /**
+     * Check if device is equal to or above sw600dp
+     */
+    public static boolean isTablet(Context context) {
+        return context.getResources().getBoolean(R.bool.isTablet);
+    }
 }

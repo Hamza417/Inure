@@ -16,6 +16,7 @@ import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.adapters.ui.AdapterTags
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -28,15 +29,32 @@ import app.simple.inure.viewmodels.panels.TagsViewModel
 class Tags : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-
     private var tagsViewModel: TagsViewModel? = null
+
+    private var spanCount = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_tags, container, false)
 
         recyclerView = view.findViewById(R.id.tags_recycler_view)
-
         tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
+
+        when {
+            StatusBarHeight.isLandscape(requireContext()) -> {
+                spanCount = if (StatusBarHeight.isTablet(requireContext())) {
+                    Misc.FOUR
+                } else {
+                    Misc.THREE
+                }
+            }
+            else -> {
+                spanCount = if (StatusBarHeight.isTablet(requireContext())) {
+                    Misc.THREE
+                } else {
+                    Misc.TWO
+                }
+            }
+        }
 
         return view
     }
@@ -84,12 +102,6 @@ class Tags : ScopedFragment() {
                     })
                 }
             })
-
-            val spanCount = if (StatusBarHeight.isLandscape(requireContext())) {
-                3
-            } else {
-                2
-            }
 
             recyclerView.layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL).apply {
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
