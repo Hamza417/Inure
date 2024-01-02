@@ -45,6 +45,7 @@ An elegant Android app manager.
 - [The Most Functional App Ever! - Sam Beckamn](https://www.youtube.com/shorts/WYoWLMKawBg)
 - [Top 10 Android Apps! (October 2023) - Matt Robb](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
 - [The Best Apps of 2023! - Sam Beckman](https://youtu.be/NYZd7IKn1oY?t=202)
+- [Coolest Open Source projects of the week 🔥 - Ana Mogul](https://console.substack.com/p/console-190)
 
 ## About
 
