@@ -710,4 +710,12 @@
     <string name="receiver">المستقبل</string>
     <string name="load_selection_profile">تحميل ملف تعريف التحديد</string>
     <string name="save_selection_profile">حفظ ملف تعريف التحديد</string>
+    <string name="xposed_module"></string>
+    <string name="remote_messaging"></string>
+    <string name="system_exempted">النظام مستثنى</string>
+    <string name="short_service">الخدمة القصيرة</string>
+    <string name="file_management">إدارة الملفات</string>
+    <string name="special_use">الاستخدام الخاص</string>
+    <string name="no_preferences_found">لا توجد تفضيلات موجودة</string>
+    <string name="install_anyway">التثبيت على أي حال</string>
 </resources>
