@@ -169,9 +169,9 @@ class APKs : ScopedFragment() {
 
                                         packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
                                     } else if (adapterApks.paths[position].file.absolutePath.endsWith(".apks") ||
-                                        adapterApks.paths[position].file.absolutePath.endsWith(".xapk") ||
-                                        adapterApks.paths[position].file.absolutePath.endsWith(".zip") ||
-                                        adapterApks.paths[position].file.absolutePath.endsWith(".apkm")) {
+                                            adapterApks.paths[position].file.absolutePath.endsWith(".xapk") ||
+                                            adapterApks.paths[position].file.absolutePath.endsWith(".zip") ||
+                                            adapterApks.paths[position].file.absolutePath.endsWith(".apkm")) {
 
                                         val copiedFile = requireContext().getInstallerDir(adapterApks.paths[position].file.name + ".zip") // .zip is useless here
 
@@ -308,6 +308,8 @@ class APKs : ScopedFragment() {
                     }
                 }
             }
+
+            updateBottomMenu()
         }
     }
 

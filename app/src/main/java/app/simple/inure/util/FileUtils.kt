@@ -11,10 +11,16 @@ import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import app.simple.inure.constants.Extensions
-import java.io.*
+import java.io.BufferedInputStream
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.nio.file.InvalidPathException
 import java.nio.file.Paths
-import java.util.*
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -172,5 +178,32 @@ object FileUtils {
 
     fun String.makePathBashCompatible(): String {
         return this.replace(" ", "\\ ")
+    }
+
+    fun String.escapeSpecialCharactersForUnixPath(): String {
+        return this.replace("\\", "/")
+            .replace(" ", "\\ ")
+            .replace("(", "\\(")
+            .replace(")", "\\)")
+            .replace("'", "\\'")
+            .replace("&", "\\&")
+            .replace("`", "\\`")
+            .replace("!", "\\!")
+            .replace("\"", "\\\"")
+            .replace("#", "\\#")
+            .replace("$", "\\$")
+            .replace("%", "\\%")
+            .replace("^", "\\^")
+            .replace("*", "\\*")
+            .replace("?", "\\?")
+            .replace("{", "\\{")
+            .replace("}", "\\}")
+            .replace("[", "\\[")
+            .replace("]", "\\]")
+            .replace("<", "\\<")
+            .replace(">", "\\>")
+            .replace("|", "\\|")
+            .replace(" ", "\\ ")
+        // Add more replacements if needed
     }
 }

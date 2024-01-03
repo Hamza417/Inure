@@ -21,6 +21,7 @@ import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
+import app.simple.inure.util.FileUtils.escapeSpecialCharactersForUnixPath
 import app.simple.inure.util.FileUtils.getLength
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.StringUtils.endsWithAny
@@ -38,8 +39,6 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var baseApk: File? = null
     private var user: User? = null
     private val splitApkExtensions = arrayOf(".zip", ".apks", ".apkm", ".xapk")
-
-    var installAnyway = false
 
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
@@ -196,10 +195,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         val idx = files?.indexOf(file)
                         Log.d("Installer", "Index: $idx")
 
-                        val path = file.absolutePath
-                            .replace(" ", "\\ ")
-                            .replace("(", "\\(")
-                            .replace(")", "\\)")
+                        val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
                         Log.d("Installer", "Path: $path")
 
                         Shell.cmd("pm install-write -S $size $sessionId $idx $path").exec().let {
@@ -283,10 +279,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d("Installer", "Split name: $splitName")
                         val idx = splitApkFiles?.indexOf(file)
                         Log.d("Installer", "Index: $idx")
-                        val path = file.absolutePath
-                            .replace(" ", "\\ ")
-                            .replace("(", "\\(")
-                            .replace(")", "\\)")
+                        val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
                         Log.d("Installer", "Path: $path")
 
                         // create uri from file
@@ -306,10 +299,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     } else { // Not a split apk
                         val size = file.length()
                         Log.d("Installer", "Size of ${file.name}: $size")
-                        val path = file.absolutePath
-                            .replace(" ", "\\ ")
-                            .replace("(", "\\(")
-                            .replace(")", "\\)")
+                        val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
                         Log.d("Installer", "Path: $path")
 
                         // create uri from file
@@ -405,10 +395,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     fun installAnyway() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val path = packageInfo.value!!.applicationInfo?.sourceDir
-                    ?.replace(" ", "\\ ")
-                    ?.replace("(", "\\(")
-                    ?.replace(")", "\\)")
+                val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
 
                 Shell.cmd("run-as ${application.packageName}").exec()
                 Shell.cmd("pm install --bypass-low-target-sdk-block $path").exec().let {
