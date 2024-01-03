@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -70,7 +70,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
             holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo.packageName))
-            holder.checkBox.setCheckedWithoutAnimations(apps[position].isSelected)
+            holder.checkBox.isChecked = apps[position].isSelected
 
             if (highlight) {
                 holder.container.setDefaultBackground(apps[position].isSelected)
@@ -78,9 +78,9 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 holder.container.setDefaultBackground(false)
             }
 
-            holder.checkBox.setOnCheckedChangeListener { it ->
-                apps[position].isSelected = it
-                apps[position].dateSelected = if (it) System.currentTimeMillis() else -1
+            holder.checkBox.setOnCheckedChangeListener { checkBox, isChecked ->
+                apps[position].isSelected = isChecked
+                apps[position].dateSelected = if (isChecked) System.currentTimeMillis() else -1
                 adapterCallbacks?.onBatchChanged(apps[position])
 
                 if (highlight) {
@@ -95,9 +95,10 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                     holder.date.setText(R.string.not_selected)
                 }
 
-                if (BatchPreferences.isSelectionOnTop() && it) {
+                if (BatchPreferences.isSelectionOnTop() && isChecked) {
                     if (headerEnabled) {
-                        val selectedApps: ArrayList<BatchPackageInfo> = apps.stream().filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
+                        val selectedApps: ArrayList<BatchPackageInfo> = apps.stream()
+                            .filter { it.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
                         var index = 0
 
                         selectedApps.getSortedList(BatchPreferences.getSortStyle(), BatchPreferences.isReverseSorting())
@@ -311,7 +312,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val date: TypeFaceTextView = itemView.findViewById(R.id.date)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 

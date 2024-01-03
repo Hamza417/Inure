@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipChildren="false"
     android:layout_margin="10dp">
 
     <app.simple.inure.decorations.views.AppIconImageView
@@ -68,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@id/package_id"
         app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.checkbox.InureCheckBox
+    <app.simple.inure.decorations.views.CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
