@@ -20,11 +20,11 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SetupPreferences
@@ -53,7 +53,7 @@ class Setup : ScopedFragment() {
     private lateinit var shizukuSwitchView: SwitchView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
-    private lateinit var dontShowAgainCheckBox: InureCheckBox
+    private lateinit var dontShowAgainCheckBox: CheckBox
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -103,7 +103,7 @@ class Setup : ScopedFragment() {
         startPostponedEnterTransition()
 
         rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
-        dontShowAgainCheckBox.setChecked(SetupPreferences.isDontShowAgain())
+        dontShowAgainCheckBox.isChecked = SetupPreferences.isDontShowAgain()
         shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
 
         usageAccess.setOnClickListener {

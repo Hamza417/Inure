@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
@@ -40,14 +40,14 @@ class AdapterComponentManager(private val list: ArrayList<Triple<Int, Int, Class
             holder.icon.setImageResource(list[position].first)
             holder.name.setText(list[position].second)
 
-            holder.checkBox.setChecked(when (holder.context.packageManager.getComponentEnabledSetting(ComponentName(holder.context, list[position].third))) {
-                                           PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
-                                           PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
-                                           PackageManager.COMPONENT_ENABLED_STATE_DEFAULT -> {
-                                               ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position].third.name)
-                                           }
-                                           else -> false
-                                       })
+            holder.checkBox.isChecked = when (holder.context.packageManager.getComponentEnabledSetting(ComponentName(holder.context, list[position].third))) {
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
+                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT -> {
+                    ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position].third.name)
+                }
+                else -> false
+            }
 
             holder.checkBox.setOnCheckedChangeListener {
                 if (it) {
@@ -84,7 +84,7 @@ class AdapterComponentManager(private val list: ArrayList<Triple<Int, Int, Class
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ThemeIcon = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 

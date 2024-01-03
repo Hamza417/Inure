@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
@@ -66,7 +66,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
             }
         }
 
-        holder.checkBox.setCheckedWithoutAnimations(tracker.isBlocked.invert())
+        holder.checkBox.isChecked = tracker.isBlocked.invert()
 
         holder.container.setOnClickListener {
             tracker.isBlocked = !tracker.isBlocked
@@ -123,7 +123,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val details: TypeFaceTextView = itemView.findViewById(R.id.details)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
     }
 }

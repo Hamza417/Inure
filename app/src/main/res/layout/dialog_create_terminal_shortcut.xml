@@ -130,7 +130,7 @@
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.checkbox.InureCheckBox
+            <app.simple.inure.decorations.views.CheckBox
                 android:id="@+id/quote_checkbox"
                 android:layout_width="@dimen/checkbox_dimensions"
                 android:layout_height="@dimen/checkbox_dimensions"

@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -22,7 +22,7 @@ import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortApks
-import java.util.*
+import java.util.Locale
 
 class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
                   private val transitionName: String,
@@ -79,7 +79,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
                 holder.checkBox.visibility = View.GONE
             }
 
-            holder.checkBox.setCheckedWithoutAnimations(paths[position].isSelected)
+            holder.checkBox.isChecked = paths[position].isSelected
             holder.icon.loadAPKIcon(paths[position].file)
             holder.name.text = paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf("/") + 1)
             holder.path.text = paths[position].file.absolutePath
@@ -91,7 +91,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
             holder.container.setOnClickListener { view ->
                 if (isSelectionMode) {
                     paths[position].isSelected = !paths[position].isSelected
-                    holder.checkBox.setChecked(paths[position].isSelected)
+                    holder.checkBox.isChecked = paths[position].isSelected
                     isSelectionMode = paths.any { it.isSelected }
                     adapterCallbacks.onSelectionChanged()
                 } else {
@@ -183,7 +183,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkBox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 

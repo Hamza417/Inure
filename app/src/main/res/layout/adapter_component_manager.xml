@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.checkbox.InureCheckBox
+    <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

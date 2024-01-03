@@ -2,8 +2,8 @@ package app.simple.inure.popups.music
 
 import android.view.View
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 import app.simple.inure.preferences.MusicPreferences
@@ -14,7 +14,7 @@ class PopupMusicSort(view: View) : BasePopupWindow() {
     private val name: DynamicRippleTextView
     private val date: DynamicRippleTextView
     private val reverse: DynamicRippleTextView
-    private val reversedCheckBox: InureCheckBox
+    private val reversedCheckBox: CheckBox
 
     init {
         val contentView = View.inflate(view.context, R.layout.popup_music_sort, PopupLinearLayout(view.context))
@@ -24,7 +24,7 @@ class PopupMusicSort(view: View) : BasePopupWindow() {
         reverse = contentView.findViewById(R.id.sort_reversed)
         reversedCheckBox = contentView.findViewById(R.id.sort_reversed_checkbox)
 
-        reversedCheckBox.setChecked(MusicPreferences.getMusicSortReverse())
+        reversedCheckBox.isChecked = MusicPreferences.getMusicSortReverse()
 
         name.setOnClickListener {
             setOnClick(SortMusic.NAME)

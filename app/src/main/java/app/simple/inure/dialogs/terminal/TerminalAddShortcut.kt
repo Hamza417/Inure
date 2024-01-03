@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.constants.TerminalConstants
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.terminal.TerminalAddShortcutCallbacks
 
@@ -18,7 +18,7 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
     private lateinit var command: TypeFaceEditText
     private lateinit var args: TypeFaceEditText
     private lateinit var label: TypeFaceEditText
-    private lateinit var quoteForBash: InureCheckBox
+    private lateinit var quoteForBash: CheckBox
     private lateinit var save: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
 
@@ -57,7 +57,7 @@ class TerminalAddShortcut : ScopedBottomSheetFragment() {
                         command.text.toString(),
                         args.text.toString(),
                         label.text.toString(),
-                        quoteForBash.isChecked())
+                        quoteForBash.isChecked)
         }
 
         cancel.setOnClickListener {

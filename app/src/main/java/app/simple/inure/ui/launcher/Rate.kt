@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.TrialPreferences
@@ -19,7 +19,7 @@ class Rate : ScopedFragment() {
     private lateinit var text: TypeFaceTextView
     private lateinit var sure: DynamicRippleTextView
     private lateinit var back: DynamicRippleTextView
-    private lateinit var showAgain: InureCheckBox
+    private lateinit var showAgain: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_rate, container, false)
@@ -36,14 +36,14 @@ class Rate : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        showAgain.setChecked(MainPreferences.isShowRateReminder())
+        showAgain.isChecked = MainPreferences.isShowRateReminder()
         text.text = getString(R.string.rate_reminder,
                               MainPreferences.getLaunchCount(),
                               DateUtils.formatDate(
                                       TrialPreferences.getFirstLaunchDate(), "dd MMM yyyy"))
 
         sure.setOnClickListener {
-            showAgain.setChecked(true)
+            showAgain.isChecked = true
             MarketUtils.openAppOnPlayStore(requireContext(), requireContext().packageName)
         }
 

@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -37,8 +37,8 @@ class AdapterDevelopmentPreferences : RecyclerView.Adapter<VerticalListViewHolde
             holder.title.text = DevelopmentPreferences.developmentPreferences[position].title
             holder.description.text = DevelopmentPreferences.developmentPreferences[position].description
 
-            holder.checkBox.setCheckedWithoutAnimations(DevelopmentPreferences
-                                                            .get(DevelopmentPreferences.developmentPreferences[position].key))
+            holder.checkBox.isChecked = DevelopmentPreferences
+                .get(DevelopmentPreferences.developmentPreferences[position].key)
 
             holder.checkBox.setOnCheckedChangeListener {
                 DevelopmentPreferences.set(DevelopmentPreferences.developmentPreferences[position].key, it)
@@ -68,6 +68,6 @@ class AdapterDevelopmentPreferences : RecyclerView.Adapter<VerticalListViewHolde
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_development_preferences_container)
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_development_preferences_title)
         val description: TypeFaceTextView = itemView.findViewById(R.id.adapter_development_preferences_description)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.adapter_development_preferences_checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.adapter_development_preferences_checkbox)
     }
 }

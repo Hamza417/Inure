@@ -11,11 +11,11 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.models.ShortcutModel
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor
@@ -65,10 +65,10 @@ class AdapterShortcuts(private val list: List<ShortcutModel>,
 
             for (shortcut in shortcuts) {
                 if (list[position].id == shortcut.id) {
-                    holder.checkBox.setCheckedWithoutAnimations(shortcut.isEnabled)
+                    holder.checkBox.isChecked = shortcut.isEnabled
                     break
                 } else {
-                    holder.checkBox.setCheckedWithoutAnimations(false)
+                    holder.checkBox.isChecked = false
                 }
             }
 
@@ -132,7 +132,7 @@ class AdapterShortcuts(private val list: List<ShortcutModel>,
         val name: TypeFaceTextView = itemView.findViewById(R.id.shortcut_name)
         val id: TypeFaceTextView = itemView.findViewById(R.id.shortcut_id)
         val action: TypeFaceTextView = itemView.findViewById(R.id.shortcut_action)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.shortcut_checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.shortcut_checkbox)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.shortcut_container)
     }
 

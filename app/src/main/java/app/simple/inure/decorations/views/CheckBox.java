@@ -2,6 +2,7 @@ package app.simple.inure.decorations.views;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,15 +20,16 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.themes.interfaces.ThemeChangedListener;
+import app.simple.inure.themes.manager.Accent;
+import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class CheckBox extends View {
+public class CheckBox extends View implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private final Paint background = new Paint();
-    private final Paint backgroundShadow = new Paint();
     private final Paint check = new Paint();
     private final RectF backgroundRect = new RectF();
-    private final RectF checkRect = new RectF();
     private Drawable checkedIcon;
     private ValueAnimator animator = null;
     private ValueAnimator colorAnimator = null;
@@ -67,9 +69,6 @@ public class CheckBox extends View {
         
         background.setAntiAlias(true);
         background.setStyle(Paint.Style.FILL);
-        
-        backgroundShadow.setAntiAlias(true);
-        backgroundShadow.setStyle(Paint.Style.FILL);
         
         check.setAntiAlias(true);
         check.setStyle(Paint.Style.FILL);
@@ -230,7 +229,7 @@ public class CheckBox extends View {
         isChecked = !isChecked;
         
         if (listener != null) {
-            listener.onCheckedChanged(this, isChecked);
+            listener.onCheckedChanged(isChecked);
         }
         
         updateChecked();
@@ -240,7 +239,7 @@ public class CheckBox extends View {
         isChecked = !isChecked;
         
         if (listener != null) {
-            listener.onCheckedChanged(this, isChecked);
+            listener.onCheckedChanged(isChecked);
         }
         
         if (animate) {
@@ -255,7 +254,7 @@ public class CheckBox extends View {
         animateChecked();
         
         if (listener != null) {
-            listener.onCheckedChanged(this, isChecked);
+            listener.onCheckedChanged(isChecked);
         }
     }
     
@@ -334,6 +333,18 @@ public class CheckBox extends View {
     }
     
     @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
     public void clearAnimation() {
         if (animator != null) {
             animator.cancel();
@@ -350,7 +361,28 @@ public class CheckBox extends View {
         this.listener = listener;
     }
     
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+        switch (key) {
+            case AppearancePreferences.accentColor, AppearancePreferences.theme -> {
+                animateChecked();
+            }
+        }
+    }
+    
+    @Override
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        ThemeChangedListener.super.onThemeChanged(theme, animate);
+        animateChecked();
+    }
+    
+    @Override
+    public void onAccentChanged(@NonNull Accent accent) {
+        ThemeChangedListener.super.onAccentChanged(accent);
+        animateChecked();
+    }
+    
     public interface OnCheckedChangeListener {
-        void onCheckedChanged(CheckBox checkBox, boolean isChecked);
+        void onCheckedChanged(boolean isChecked);
     }
 }

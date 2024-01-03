@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.util.ConditionUtils.invert
 
 class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterSplitApkSelector.Holder>() {
@@ -21,9 +21,9 @@ class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolea
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.path.text = paths.elementAt(position).first.subSequence(paths.elementAt(position).first.lastIndexOf("/") + 1, paths.elementAt(position).first.length)
-
-        holder.checkBox.setChecked(paths.elementAt(position).second)
+        holder.path.text = paths.elementAt(position).first
+            .subSequence(paths.elementAt(position).first.lastIndexOf("/") + 1, paths.elementAt(position).first.length)
+        holder.checkBox.isChecked = paths.elementAt(position).second
 
         if (paths.elementAt(position).first.endsWith("base.apk").invert()) {
             holder.checkBox.setOnCheckedChangeListener { isChecked ->
@@ -36,7 +36,7 @@ class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolea
                 holder.checkBox.toggle()
             }
         } else {
-            holder.checkBox.setChecked(true)
+            holder.checkBox.isChecked = true
             holder.checkBox.isEnabled = false
             holder.container.alpha = 0.5f
         }
@@ -48,7 +48,7 @@ class AdapterSplitApkSelector(private val paths: MutableList<Pair<String, Boolea
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 

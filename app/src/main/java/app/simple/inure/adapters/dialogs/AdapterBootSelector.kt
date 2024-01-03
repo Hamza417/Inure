@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 
 class AdapterBootSelector(private val components: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterBootSelector.Holder>() {
 
@@ -21,7 +21,7 @@ class AdapterBootSelector(private val components: MutableList<Pair<String, Boole
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.path.text = components.elementAt(position).first.subSequence(components.elementAt(position).first.lastIndexOf("/") + 1, components.elementAt(position).first.length)
-        holder.checkBox.setChecked(components.elementAt(position).second)
+        holder.checkBox.isChecked = components.elementAt(position).second
 
         holder.checkBox.setOnCheckedChangeListener { isChecked ->
             val newPair = Pair(components.elementAt(position).first, isChecked)
@@ -40,7 +40,7 @@ class AdapterBootSelector(private val components: MutableList<Pair<String, Boole
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 

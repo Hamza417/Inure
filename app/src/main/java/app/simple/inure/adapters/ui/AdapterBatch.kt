@@ -78,7 +78,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
                 holder.container.setDefaultBackground(false)
             }
 
-            holder.checkBox.setOnCheckedChangeListener { checkBox, isChecked ->
+            holder.checkBox.setOnCheckedChangeListener { isChecked ->
                 apps[position].isSelected = isChecked
                 apps[position].dateSelected = if (isChecked) System.currentTimeMillis() else -1
                 adapterCallbacks?.onBatchChanged(apps[position])

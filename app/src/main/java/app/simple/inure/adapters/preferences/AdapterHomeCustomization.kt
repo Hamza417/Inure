@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.models.VisibilityCustomizationModel
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.util.ConditionUtils.isZero
@@ -38,7 +38,7 @@ class AdapterHomeCustomization(private val list: List<VisibilityCustomizationMod
             holder.icon.setImageResource(list[position].icon)
             holder.name.setText(list[position].title)
 
-            holder.checkBox.setChecked(HomePreferences.isPanelVisible(list[position].key))
+            holder.checkBox.isChecked = HomePreferences.isPanelVisible(list[position].key)
 
             holder.checkBox.setOnCheckedChangeListener {
                 HomePreferences.setPanelVisibility(list[position].key, it)
@@ -67,7 +67,7 @@ class AdapterHomeCustomization(private val list: List<VisibilityCustomizationMod
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: ThemeIcon = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
     }
 

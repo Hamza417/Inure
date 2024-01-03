@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.checkbox.InureCheckBox
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.models.Tracker
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
@@ -52,7 +52,7 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
             }
         }
 
-        holder.checkBox.setCheckedWithoutAnimations(selectedPaths.contains(trackers[position]))
+        holder.checkBox.isChecked = selectedPaths.contains(trackers[position])
 
         holder.checkBox.setOnCheckedChangeListener { isChecked ->
             trackerSelectorCallbacks?.onTrackerSelected(trackers[position], isChecked)
@@ -71,7 +71,7 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
         val tracker: TypeFaceTextView = itemView.findViewById(R.id.tracker)
-        val checkBox: InureCheckBox = itemView.findViewById(R.id.checkbox)
+        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
     }
 
     fun setTrackerSelectorCallbacks(trackerSelectorCallbacks: TrackerSelectorCallbacks) {

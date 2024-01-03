@@ -12,6 +12,7 @@ import com.google.android.material.shape.CornerFamily
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 
+@Deprecated("User CheckBox instead", ReplaceWith("app.simple.inure.decorations.views.CheckBox"), DeprecationLevel.WARNING)
 open class CheckBoxFrameLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : FrameLayout(context, attrs, defStyleAttr) {
 

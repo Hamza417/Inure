@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@id/package_id"
         app:textColorStyle="accent" />
 
-    <app.simple.inure.decorations.checkbox.InureCheckBox
+    <app.simple.inure.decorations.views.CheckBox
         android:id="@+id/checkBox"
         android:layout_width="@dimen/checkbox_dimensions"
         android:layout_height="@dimen/checkbox_dimensions"
