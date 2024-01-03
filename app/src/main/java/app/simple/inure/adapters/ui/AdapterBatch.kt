@@ -136,7 +136,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             }
 
             holder.container.setOnClickListener {
-                holder.checkBox.toggle()
+                holder.checkBox.animateToggle()
                 // appsAdapterCallbacks?.onAppClicked(apps[position].packageInfo, holder.icon)
             }
 

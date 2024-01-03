@@ -8,9 +8,11 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,11 +30,17 @@ public class CheckBox extends View {
     private final RectF checkRect = new RectF();
     private Drawable checkedIcon;
     private ValueAnimator animator = null;
+    private ValueAnimator colorAnimator = null;
+    private OnCheckedChangeListener listener;
     
+    private int backgroundColor;
     private boolean isChecked = false;
     private float x;
     private float y;
+    private float checkIconRatio = 0.8f;
     private int duration = 200;
+    private float cornerRadius = 10;
+    private float shadowRadius = 10F;
     
     public CheckBox(Context context) {
         super(context);
@@ -69,6 +77,10 @@ public class CheckBox extends View {
         checkedIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_check);
         checkedIcon.setTint(Color.WHITE);
         
+        cornerRadius = AppearancePreferences.INSTANCE.getCornerRadius() / 4F;
+        backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
+        duration = getResources().getInteger(R.integer.animation_duration);
+        
         setLayoutParams(new LayoutParams(
                 getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions),
                 getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions)));
@@ -76,50 +88,116 @@ public class CheckBox extends View {
         setMinimumHeight(getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions));
         setMinimumWidth(getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions));
         
+        if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
+            shadowRadius = 10F;
+        } else {
+            shadowRadius = 0F;
+        }
+        
         post(() -> {
             x = getWidth() / 2f;
             y = getHeight() / 2f;
-            Log.d("CheckBox", "x: " + x + " y: " + y);
+            updateChecked(); // Update everything post layout to avoid missing graphics issues
         });
+        
+        setOnClickListener(v -> toggle(true));
+        
+        updateChecked();
     }
     
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         // Draw the background based on checked state
-        if (isChecked) {
-            background.setColor(AppearancePreferences.INSTANCE.getAccentColor());
-            background.setShadowLayer(10, 0, 0, AppearancePreferences.INSTANCE.getAccentColor());
-        } else {
-            background.setColor(ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor());
-            background.setShadowLayer(10, 0, 0, ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor());
-        }
+        background.setColor(backgroundColor);
+        background.setShadowLayer(shadowRadius, 0, 0, backgroundColor);
         
         backgroundRect.set(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(backgroundRect, 10, 10, background);
+        canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, background);
         
-        // Draw the check icon if checked
-        if (isChecked) {
-            check.setColor(Color.WHITE);
-            checkRect.set(x - (x * 0.5f), y - (y * 0.5f), x + (x * 0.5f), y + (y * 0.5f));
-            canvas.drawRoundRect(checkRect, 10, 10, check);
-            checkedIcon.setBounds((int) (x - (x * 0.5f)), (int) (y - (y * 0.5f)), (int) (x + (x * 0.5f)), (int) (y + (y * 0.5f)));
-            checkedIcon.draw(canvas);
-        } else {
-            check.setColor(ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor());
-            checkRect.set(x - (x * 0.5f), y - (y * 0.5f), x + (x * 0.5f), y + (y * 0.5f));
-            canvas.drawRoundRect(checkRect, 10, 10, check);
-        }
+        checkedIcon.draw(canvas);
         
         super.onDraw(canvas);
     }
     
-    public void setChecked(boolean checked, boolean animate) {
-        isChecked = checked;
-        if (animate) {
-            animateChecked();
+    private void animateChecked() {
+        clearAnimation();
+        
+        if (isChecked) {
+            animator = ValueAnimator.ofFloat(0, 1);
+            animator.setDuration(duration);
+            animator.setInterpolator(new OvershootInterpolator());
+            animator.addUpdateListener(animation -> {
+                float value = (float) animation.getAnimatedValue();
+                checkedIcon.setAlpha((int) (255 * value));
+                checkedIcon.setBounds((int) (x - (x * checkIconRatio * value)),
+                        (int) (y - (y * checkIconRatio * value)),
+                        (int) (x + (x * checkIconRatio * value)),
+                        (int) (y + (y * checkIconRatio * value)));
+                invalidate();
+            });
+            
+            colorAnimator = ValueAnimator.ofArgb(ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor(),
+                    AppearancePreferences.INSTANCE.getAccentColor());
+            colorAnimator.setDuration(duration);
+            colorAnimator.setInterpolator(new DecelerateInterpolator());
+            colorAnimator.addUpdateListener(animation -> {
+                backgroundColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
         } else {
-            invalidate();
+            animator = ValueAnimator.ofFloat(1, 0);
+            animator.setDuration(duration);
+            animator.setInterpolator(new AccelerateInterpolator());
+            animator.addUpdateListener(animation -> {
+                float value = (float) animation.getAnimatedValue();
+                // checkRect.set(x - (x * value), y - (y * value), x + (x * value), y + (y * value));
+                checkedIcon.setAlpha((int) (255 * value));
+                checkedIcon.setBounds((int) (x - (x * checkIconRatio * value)),
+                        (int) (y - (y * checkIconRatio * value)),
+                        (int) (x + (x * checkIconRatio * value)),
+                        (int) (y + (y * checkIconRatio * value)));
+                
+                invalidate();
+            });
+            
+            colorAnimator = ValueAnimator.ofArgb(AppearancePreferences.INSTANCE.getAccentColor(),
+                    ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor());
+            colorAnimator.setDuration(duration);
+            colorAnimator.setInterpolator(new AccelerateInterpolator());
+            colorAnimator.addUpdateListener(animation -> {
+                backgroundColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
         }
+        
+        animator.start();
+        colorAnimator.start();
+    }
+    
+    private void updateChecked() {
+        clearAnimation();
+        
+        if (isChecked) {
+            backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
+            checkedIcon.setAlpha(255);
+            checkedIcon.setBounds(
+                    (int) (x - (x * checkIconRatio)),
+                    (int) (y - (y * checkIconRatio * 1)),
+                    (int) (x + (x * checkIconRatio * 1)),
+                    (int) (y + (y * checkIconRatio * 1)));
+        } else {
+            backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
+            checkedIcon.setAlpha(0);
+            checkedIcon.setBounds(
+                    (int) (x - (x * checkIconRatio)),
+                    (int) (y - (y * checkIconRatio * 0F)),
+                    (int) (x + (x * checkIconRatio * 0F)),
+                    (int) (y + (y * checkIconRatio * 0F)));
+            
+            // ^ You could just set it to 0 or 1, where's fun in that?
+        }
+        
+        invalidate();
     }
     
     public int getDuration() {
@@ -136,11 +214,66 @@ public class CheckBox extends View {
     
     public void setChecked(boolean checked) {
         isChecked = checked;
-        invalidate();
+        updateChecked();
+    }
+    
+    public void setChecked(boolean checked, boolean animate) {
+        isChecked = checked;
+        if (animate) {
+            animateChecked();
+        } else {
+            updateChecked();
+        }
     }
     
     public void toggle() {
         isChecked = !isChecked;
+        
+        if (listener != null) {
+            listener.onCheckedChanged(this, isChecked);
+        }
+        
+        updateChecked();
+    }
+    
+    public void toggle(boolean animate) {
+        isChecked = !isChecked;
+        
+        if (listener != null) {
+            listener.onCheckedChanged(this, isChecked);
+        }
+        
+        if (animate) {
+            animateChecked();
+        } else {
+            updateChecked();
+        }
+    }
+    
+    public void animateToggle() {
+        isChecked = !isChecked;
+        animateChecked();
+        
+        if (listener != null) {
+            listener.onCheckedChanged(this, isChecked);
+        }
+    }
+    
+    public float getCheckIconRatio() {
+        return checkIconRatio;
+    }
+    
+    public void setCheckIconRatio(float ratio) {
+        checkIconRatio = ratio;
+        invalidate();
+    }
+    
+    public float getCornerRadius() {
+        return cornerRadius;
+    }
+    
+    public void setCornerRadius(float cornerRadius) {
+        this.cornerRadius = cornerRadius;
         invalidate();
     }
     
@@ -156,27 +289,6 @@ public class CheckBox extends View {
     public void setCheckedIconColor(int color) {
         checkedIcon.setTint(color);
         invalidate();
-    }
-    
-    private void animateChecked() {
-        if (isChecked) {
-            animator = ValueAnimator.ofFloat(0, 1);
-            animator.setDuration(duration);
-            animator.addUpdateListener(animation -> {
-                float value = (float) animation.getAnimatedValue();
-                checkRect.set(x - (x * value), y - (y * value), x + (x * value), y + (y * value));
-                invalidate();
-            });
-        } else {
-            animator = ValueAnimator.ofFloat(1, 0);
-            animator.setDuration(duration);
-            animator.addUpdateListener(animation -> {
-                float value = (float) animation.getAnimatedValue();
-                checkRect.set(x - (x * value), y - (y * value), x + (x * value), y + (y * value));
-                invalidate();
-            });
-        }
-        animator.start();
     }
     
     @Override
@@ -227,15 +339,15 @@ public class CheckBox extends View {
             animator.cancel();
         }
         
+        if (colorAnimator != null) {
+            colorAnimator.cancel();
+        }
+        
         super.clearAnimation();
     }
     
     public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
-        setOnClickListener(v -> {
-            isChecked = !isChecked;
-            animateChecked();
-            listener.onCheckedChanged(this, isChecked);
-        });
+        this.listener = listener;
     }
     
     public interface OnCheckedChangeListener {
