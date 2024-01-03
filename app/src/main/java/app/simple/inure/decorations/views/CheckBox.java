@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -97,6 +98,13 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             x = getWidth() / 2f;
             y = getHeight() / 2f;
             updateChecked(); // Update everything post layout to avoid missing graphics issues
+            
+            try { // I like cheating :)
+                ((ViewGroup) getParent()).setClipToOutline(false);
+                ((ViewGroup) getParent()).setClipChildren(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         
         setOnClickListener(v -> toggle(true));
@@ -213,7 +221,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     public void setChecked(boolean checked) {
         isChecked = checked;
-        updateChecked();
+        animateChecked();
     }
     
     public void setChecked(boolean checked, boolean animate) {
@@ -232,7 +240,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             listener.onCheckedChanged(isChecked);
         }
         
-        updateChecked();
+        animateChecked();
     }
     
     public void toggle(boolean animate) {

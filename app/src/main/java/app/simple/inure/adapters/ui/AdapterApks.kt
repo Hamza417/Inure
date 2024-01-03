@@ -79,7 +79,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
                 holder.checkBox.visibility = View.GONE
             }
 
-            holder.checkBox.isChecked = paths[position].isSelected
+            holder.checkBox.setChecked(paths[position].isSelected, false)
             holder.icon.loadAPKIcon(paths[position].file)
             holder.name.text = paths[position].file.absolutePath.substring(paths[position].file.absolutePath.lastIndexOf("/") + 1)
             holder.path.text = paths[position].file.absolutePath
@@ -91,7 +91,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
             holder.container.setOnClickListener { view ->
                 if (isSelectionMode) {
                     paths[position].isSelected = !paths[position].isSelected
-                    holder.checkBox.isChecked = paths[position].isSelected
+                    holder.checkBox.setChecked(paths[position].isSelected, true)
                     isSelectionMode = paths.any { it.isSelected }
                     adapterCallbacks.onSelectionChanged()
                 } else {

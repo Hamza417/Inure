@@ -70,7 +70,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
             holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo.packageName))
-            holder.checkBox.isChecked = apps[position].isSelected
+            holder.checkBox.setChecked(apps[position].isSelected, false)
 
             if (highlight) {
                 holder.container.setDefaultBackground(apps[position].isSelected)

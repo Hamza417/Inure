@@ -16,7 +16,6 @@ import android.widget.ImageView
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.decorations.switchview.SwitchCallbacks
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
@@ -28,7 +27,7 @@ import app.simple.inure.util.ViewUtils
 @SuppressLint("ClickableViewAccessibility")
 @Deprecated("User CheckBox instead", ReplaceWith("app.simple.inure.decorations.views.CheckBox"), DeprecationLevel.ERROR)
 class InureCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CheckBox(context, attrs, defStyleAttr), ThemeChangedListener {
+    : CheckBoxFrameLayout(context, attrs, defStyleAttr), ThemeChangedListener {
 
     private var thumb: ImageView
     private var switchCallbacks: SwitchCallbacks? = null
