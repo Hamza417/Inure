@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -31,12 +32,12 @@ public class Switch extends View {
     private ValueAnimator thumbSizeAnimator;
     private ValueAnimator backgroundAnimator;
     private OnCheckedChangeListener onCheckedChangeListener;
-    private float thumbRadius = 0;
+    private final float thumbPadding = height / 8;
     private float thumbX = 0;
-    private float thumbY = 0;
+    private final float thumbY = 0;
     private float width = 0;
-    private final float thumbPadding = width / 10;
     private float height = 0;
+    private float thumbDiameter = 0;
     private float currentThumbPosition = 0;
     private final float cornerRadius = 200;
     private float shadowRadius = 0;
@@ -92,14 +93,15 @@ public class Switch extends View {
             width = getWidth();
             height = getHeight();
             
-            thumbRadius = height / 2F;
-            thumbX = thumbRadius;
-            thumbY = thumbRadius;
+            Log.d("Switch", "width: " + width);
+            Log.d("Switch", "height: " + height);
+            
+            thumbDiameter = height - thumbPadding;
             
             backgroundRect.set(0, 0, width, height);
         });
         
-        updateSwitchState();
+        // updateSwitchState();
     }
     
     @Override
@@ -110,10 +112,9 @@ public class Switch extends View {
         
         // Draw thumb
         thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
-        canvas.drawCircle(thumbX, thumbY, (thumbRadius - thumbPadding) * currentThumbScale, thumbPaint);
+        canvas.drawCircle(thumbX, thumbY, thumbDiameter * currentThumbScale, thumbPaint);
         
         // Position thumb based on currentThumbPosition
-        thumbX = thumbRadius + (currentThumbPosition * (width - (thumbRadius * 2)));
         canvas.translate(thumbX, thumbY);
         
         super.onDraw(canvas);
@@ -122,12 +123,14 @@ public class Switch extends View {
     private void updateSwitchState() {
         if (isChecked) {
             currentThumbPosition = width;
-            currentThumbScale = fixedThumbScale - thumbPadding;
+            currentThumbScale = fixedThumbScale;
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
+            thumbX = width - thumbDiameter;
         } else {
             currentThumbPosition = 0;
-            currentThumbScale = fixedThumbScale - thumbPadding;
+            currentThumbScale = fixedThumbScale;
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
+            thumbX = 0;
         }
         
         invalidate();
@@ -215,6 +218,7 @@ public class Switch extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int desiredWidth = getResources().getDimensionPixelSize(R.dimen.switch_width);
         int desiredHeight = getResources().getDimensionPixelSize(R.dimen.switch_height);
+        thumbDiameter = desiredHeight - thumbPadding;
         
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);

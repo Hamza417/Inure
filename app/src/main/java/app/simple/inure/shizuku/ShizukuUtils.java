@@ -206,14 +206,23 @@ public class ShizukuUtils {
             OutputStream out = null;
             try {
                 in = assetManager.open(filename);
-    
-                File outFile = new File(ShellPreferences.INSTANCE.getHomePath(), filename.substring(filename.lastIndexOf('/') + 1));
-    
+                
+                File outFile = new File(ShellPreferences.INSTANCE.getHomePath(),
+                        filename.substring(filename.lastIndexOf('/') + 1));
+                
                 if (outFile.exists()) {
                     Log.e("Shizuku", "File already exists: " + outFile.getAbsolutePath());
                 } else {
                     out = new FileOutputStream(outFile);
                     copyFile(in, out);
+                }
+                
+                // Set read only
+                outFile.setExecutable(true);
+                if (outFile.setReadOnly()) {
+                    Log.i("Shizuku", "Set read only: " + outFile.getAbsolutePath());
+                } else {
+                    Log.e("Shizuku", "Failed to set read only: " + outFile.getAbsolutePath());
                 }
             } catch (IOException e) {
                 Log.e("Shizuku", "Failed to copy asset file: " + filename, e);

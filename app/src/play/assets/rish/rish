@@ -9,12 +9,13 @@ fi
 
 # shellcheck disable=SC2046
 if [ $(getprop ro.build.version.sdk) -ge 34 ]; then
-    if [ -w "$DEX" ]; then
+    if [ -w $DEX ]; then
+        echo "Writeable dex detected."
         echo "On Android 14+, app_process cannot load writable dex."
         echo "Attempting to remove the write permission..."
-        chmod 400 "$DEX"
+        chmod 400 $DEX
     fi
-    if [ -w "$DEX" ]; then
+    if [ -w $DEX ]; then
         echo "Cannot remove the write permission of $DEX."
         echo "You can copy to file to terminal app's private directory (/data/data/<package>, so that remove write permission is possible"
         exit 1

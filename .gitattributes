@@ -9,3 +9,5 @@
 *.webp binary
 *.ttf binary
 *.gif binary
+*.mp3 binary
+*.dex binary
