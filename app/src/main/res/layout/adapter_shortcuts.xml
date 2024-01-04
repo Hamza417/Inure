@@ -52,7 +52,7 @@
 
     </LinearLayout>
 
-    <app.simple.inure.decorations.views.CheckBox
+    <app.simple.inure.decorations.toggles.CheckBox
         android:id="@+id/shortcut_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

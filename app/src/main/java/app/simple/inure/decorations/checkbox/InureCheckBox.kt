@@ -25,7 +25,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
-@Deprecated("User CheckBox instead", ReplaceWith("app.simple.inure.decorations.views.CheckBox"), DeprecationLevel.ERROR)
+@Deprecated("User CheckBox instead", ReplaceWith("app.simple.inure.decorations.toggles.CheckBox"), DeprecationLevel.ERROR)
 class InureCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : CheckBoxFrameLayout(context, attrs, defStyleAttr), ThemeChangedListener {
 

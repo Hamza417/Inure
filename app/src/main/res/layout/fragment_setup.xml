@@ -394,7 +394,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/popup_padding">
 
-        <app.simple.inure.decorations.views.CheckBox
+        <app.simple.inure.decorations.toggles.CheckBox
             android:id="@+id/show_again_checkbox"
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_height="@dimen/checkbox_dimensions"

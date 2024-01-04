@@ -8,8 +8,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.models.VisibilityCustomizationModel
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.util.ConditionUtils.isZero

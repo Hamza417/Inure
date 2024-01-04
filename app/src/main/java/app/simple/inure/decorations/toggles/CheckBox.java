@@ -1,4 +1,4 @@
-package app.simple.inure.decorations.views;
+package app.simple.inure.decorations.toggles;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -388,9 +388,5 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     public void onAccentChanged(@NonNull Accent accent) {
         ThemeChangedListener.super.onAccentChanged(accent);
         animateChecked();
-    }
-    
-    public interface OnCheckedChangeListener {
-        void onCheckedChanged(boolean isChecked);
     }
 }

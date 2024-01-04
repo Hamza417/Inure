@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CheckBox
 
 class AdapterBootSelector(private val components: MutableList<Pair<String, Boolean>>) : RecyclerView.Adapter<AdapterBootSelector.Holder>() {
 

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.TrialPreferences

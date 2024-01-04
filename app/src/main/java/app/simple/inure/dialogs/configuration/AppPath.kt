@@ -11,8 +11,8 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.invert

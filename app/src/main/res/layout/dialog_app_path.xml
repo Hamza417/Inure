@@ -38,7 +38,7 @@
         android:layout_marginTop="@dimen/popup_padding"
         android:orientation="horizontal">
 
-        <app.simple.inure.decorations.views.CheckBox
+        <app.simple.inure.decorations.toggles.CheckBox
             android:id="@+id/sdcard_checkbox"
             android:layout_width="@dimen/checkbox_dimensions"
             android:layout_gravity="center_vertical"

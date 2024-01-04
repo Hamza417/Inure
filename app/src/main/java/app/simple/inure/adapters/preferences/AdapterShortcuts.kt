@@ -14,8 +14,8 @@ import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.models.ShortcutModel
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor

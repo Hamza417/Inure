@@ -3,7 +3,7 @@ package app.simple.inure.popups.viewers
 import android.view.LayoutInflater
 import android.view.View
 import app.simple.inure.R
-import app.simple.inure.decorations.views.CheckBox
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 import app.simple.inure.extensions.popup.PopupMenuCallback

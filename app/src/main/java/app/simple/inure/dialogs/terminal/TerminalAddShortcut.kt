@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.constants.TerminalConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceEditText
-import app.simple.inure.decorations.views.CheckBox
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.terminal.TerminalAddShortcutCallbacks
 

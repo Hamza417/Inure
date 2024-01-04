@@ -42,7 +42,7 @@
         app:textColorStyle="tertiary"
         tools:ignore="HardcodedText" />
 
-    <app.simple.inure.decorations.views.CheckBox
+    <app.simple.inure.decorations.toggles.CheckBox
         android:id="@+id/adapter_development_preferences_checkbox"
         android:layout_width="@dimen/checkbox_dimensions"
         android:layout_height="@dimen/checkbox_dimensions"
