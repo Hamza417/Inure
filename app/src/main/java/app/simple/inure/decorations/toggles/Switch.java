@@ -22,8 +22,6 @@ import app.simple.inure.themes.manager.ThemeManager;
 
 public class Switch extends View {
     
-    private final float fixedThumbScale = 1F;
-    private final float thumbScaleOnTouch = 1.50F;
     private final Paint thumbPaint = new Paint();
     private final Paint backgroundPaint = new Paint();
     private final RectF backgroundRect = new RectF();
@@ -32,11 +30,14 @@ public class Switch extends View {
     private ValueAnimator thumbSizeAnimator;
     private ValueAnimator backgroundAnimator;
     private OnCheckedChangeListener onCheckedChangeListener;
-    private final float thumbPadding = height / 8;
+    
+    private final float fixedThumbScale = 1F;
+    private final float thumbScaleOnTouch = 1.50F;
     private float thumbX = 0;
-    private final float thumbY = 0;
+    private float thumbY = 0;
     private float width = 0;
     private float height = 0;
+    private float thumbPadding = 0;
     private float thumbDiameter = 0;
     private float currentThumbPosition = 0;
     private final float cornerRadius = 200;
@@ -112,10 +113,11 @@ public class Switch extends View {
         
         // Draw thumb
         thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
-        canvas.drawCircle(thumbX, thumbY, thumbDiameter * currentThumbScale, thumbPaint);
+        canvas.drawCircle(thumbX, thumbY, thumbDiameter / 2, thumbPaint);
+        Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
         
         // Position thumb based on currentThumbPosition
-        canvas.translate(thumbX, thumbY);
+        // canvas.translate(thumbX, thumbY);
         
         super.onDraw(canvas);
     }
@@ -218,7 +220,6 @@ public class Switch extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int desiredWidth = getResources().getDimensionPixelSize(R.dimen.switch_width);
         int desiredHeight = getResources().getDimensionPixelSize(R.dimen.switch_height);
-        thumbDiameter = desiredHeight - thumbPadding;
         
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -252,6 +253,11 @@ public class Switch extends View {
             // Be whatever you want
             height = desiredHeight;
         }
+        
+        thumbPadding = height * 0.25F;
+        thumbDiameter = height * 0.5F;
+        thumbY = (float) height / 2;
+        thumbX = thumbDiameter / 2 + thumbPadding;
         
         // MUST CALL THIS
         setMeasuredDimension(width, height);
