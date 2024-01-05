@@ -9,7 +9,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -29,7 +29,8 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val isEnabled = ReceiversUtils.isEnabled(holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)
+        val isEnabled = ReceiversUtils.isEnabled(
+                holder.itemView.context, resolveInfoList[position].activityInfo.packageName, resolveInfoList[position].activityInfo.name)
 
         holder.icon.loadIconFromActivityInfo(resolveInfoList[position].activityInfo)
         holder.name.text = resolveInfoList[position].activityInfo.name.substring(resolveInfoList[position].activityInfo.name.lastIndexOf(".") + 1)
@@ -49,7 +50,7 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
                     holder.itemView.context.getString(R.string.disabled)
                 }
         )
-        holder.switch.setChecked(isEnabled)
+        holder.switch.isChecked = isEnabled
         // holder.status.append(receivers[position].status)
         // holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
 
@@ -72,7 +73,7 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
 
             holder.container.setOnClickListener {
                 bootCallbacks
-                    .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition], holder.switch.isChecked())
+                    .onBootClicked(resolveInfoList[holder.absoluteAdapterPosition], holder.switch.isChecked)
             }
         } else {
             holder.switch.gone()
@@ -94,7 +95,7 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.id)
         val status: TypeFaceTextView = itemView.findViewById(R.id.status)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
-        val switch: SwitchView = itemView.findViewById(R.id.switch_view)
+        val switch: Switch = itemView.findViewById(R.id.switch_view)
 
         init {
             name.enableSelection()

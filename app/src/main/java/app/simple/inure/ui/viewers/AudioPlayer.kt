@@ -178,9 +178,9 @@ class AudioPlayer : ScopedFragment() {
                 kotlin.runCatching {
                     if (uri.isNull()) {
                         if ((audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("audio") == true
-                                    || audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("video") == true)
-                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("http") == true
-                            || audioModel?.fileUri?.toUri()?.toString()?.startsWith("ftp") == true) {
+                                        || audioModel?.fileUri?.toUri()?.getMimeType(requireContext())?.startsWith("video") == true)
+                                || audioModel?.fileUri?.toUri()?.toString()?.startsWith("http") == true
+                                || audioModel?.fileUri?.toUri()?.toString()?.startsWith("ftp") == true) {
                             serviceBound = true
                             audioService = (service as AudioService.AudioBinder).getService()
                             audioService?.audioUri = audioModel?.fileUri?.toUri()
@@ -189,9 +189,9 @@ class AudioPlayer : ScopedFragment() {
                         }
                     } else {
                         if ((uri?.getMimeType(requireContext())?.startsWith("audio") == true
-                                    || uri?.getMimeType(requireContext())?.startsWith("video") == true)
-                            || uri?.toString()?.startsWith("http") == true
-                            || uri?.toString()?.startsWith("ftp") == true) {
+                                        || uri?.getMimeType(requireContext())?.startsWith("video") == true)
+                                || uri?.toString()?.startsWith("http") == true
+                                || uri?.toString()?.startsWith("ftp") == true) {
                             serviceBound = true
                             audioService = (service as AudioService.AudioBinder).getService()
                             audioService?.audioUri = uri

@@ -3,8 +3,11 @@ package app.simple.inure.decorations.toggles;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -12,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -20,33 +24,57 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.themes.interfaces.ThemeChangedListener;
+import app.simple.inure.themes.manager.Accent;
+import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class Switch extends View {
+/**
+ * @noinspection FieldCanBeLocal
+ */
+public class Switch extends View implements SharedPreferences.OnSharedPreferenceChangeListener, ThemeChangedListener {
     
     private final Paint thumbPaint = new Paint();
     private final Paint backgroundPaint = new Paint();
     private final RectF backgroundRect = new RectF();
+    
     private Drawable thumbDrawable;
+    
     private ValueAnimator thumbAnimator;
     private ValueAnimator thumbSizeAnimator;
     private ValueAnimator backgroundAnimator;
-    private OnCheckedChangeListener onCheckedChangeListener;
+    // Constants
+    private final float CORNER_RADIUS = 200;
+    private final float TENSION = 3.5F;
     
-    private final float fixedThumbScale = 1F;
-    private final float thumbScaleOnTouch = 1.50F;
-    private float thumbX = 0;
+    private OnCheckedChangeListener onCheckedChangeListener;
+    private final float SHADOW_SCALE_RGB = 0.85F;
+    private final float SHADOW_SCALE_ALPHA = 0.50F;
+    private final float FIXED_THUMB_SCALE = 1F;
+    private final float THUMB_SCALE_ON_TOUCH = 1.50F;
     private float thumbY = 0;
-    private float width = 0;
     private float height = 0;
-    private float thumbPadding = 0;
     private float thumbDiameter = 0;
-    private float currentThumbPosition = 0;
-    private final float cornerRadius = 200;
-    private float shadowRadius = 0;
-    private float currentThumbScale = 1;
+    private ValueAnimator elevationAnimator;
     private int backgroundColor = 0;
-    private int duration = 0;
+    private ValueAnimator elevationColorAnimator;
+    // X and Y coordinates of the thumb
+    private float thumbX = 0;
+    // Width and height of the switch
+    private float width = 0;
+    // Padding and diameter of the thumb
+    private float thumbPadding = 0;
+    private float currentThumbScale = 1;
+    /**
+     * Radius of the shadow around the background
+     */
+    private float shadowRadius = 0;
+    private int elevationColor = Color.TRANSPARENT;
+    private int elevation = 0;
+    /**
+     * Duration of the animations
+     */
+    private int duration = 500; // Subject to change according to the global animation duration
     
     private boolean isChecked = false;
     
@@ -65,11 +93,6 @@ public class Switch extends View {
         init();
     }
     
-    public Switch(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-    
     private void init() {
         setClipToOutline(false);
         
@@ -79,15 +102,19 @@ public class Switch extends View {
             shadowRadius = 0F;
         }
         
+        ColorMatrix matrix = new ColorMatrix();
+        matrix.setScale(SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_ALPHA);
         backgroundPaint.setAntiAlias(true);
+        backgroundPaint.setColorFilter(new ColorMatrixColorFilter(matrix));
         
         thumbPaint.setAntiAlias(true);
         thumbPaint.setColor(Color.WHITE);
         thumbPaint.setStyle(Paint.Style.FILL);
-        thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
+        // thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
         
         backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
         duration = getResources().getInteger(R.integer.animation_duration);
+        elevation = getResources().getDimensionPixelSize(R.dimen.app_views_elevation) * 2;
         
         thumbDrawable = ContextCompat.getDrawable(getContext(), R.drawable.switch_thumb);
         thumbDrawable.setTint(Color.WHITE);
@@ -95,9 +122,6 @@ public class Switch extends View {
         post(() -> {
             width = getWidth();
             height = getHeight();
-            
-            Log.d("Switch", "width: " + width);
-            Log.d("Switch", "height: " + height);
             
             thumbDiameter = height - thumbPadding;
             
@@ -108,23 +132,31 @@ public class Switch extends View {
                 isChecked = !isChecked;
                 animateThumbPosition();
                 animateBackgroundColor();
+                animateElevation();
                 if (onCheckedChangeListener != null) {
                     onCheckedChangeListener.onCheckedChanged(isChecked);
                 }
             });
+            
+            try { // I like cheating :)
+                ((ViewGroup) getParent()).setClipToOutline(false);
+                ((ViewGroup) getParent()).setClipChildren(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            updateSwitchState();
         });
-        
-        // updateSwitchState();
     }
     
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         // Draw background
         backgroundPaint.setColor(backgroundColor);
-        canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, backgroundPaint);
+        backgroundPaint.setShadowLayer(shadowRadius, 0, 10, elevationColor);
+        canvas.drawRoundRect(backgroundRect, CORNER_RADIUS, CORNER_RADIUS, backgroundPaint);
         
         // Draw thumb
-        thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
         canvas.drawCircle(thumbX, thumbY, (thumbDiameter / 2) * currentThumbScale, thumbPaint);
         // Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
         
@@ -140,6 +172,7 @@ public class Switch extends View {
         Log.d("Switch", "onTouchEvent called with: event = [" + event + "]");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN -> {
+                getParent().requestDisallowInterceptTouchEvent(true);
                 animateThumbSize(true);
                 return super.onTouchEvent(event);
             }
@@ -154,8 +187,8 @@ public class Switch extends View {
                 Log.d("Switch", "ACTION_CANCEL");
             }
             case MotionEvent.ACTION_UP -> {
+                getParent().requestDisallowInterceptTouchEvent(false);
                 animateThumbSize(false);
-                isChecked = event.getX() > width / 2;
                 return super.onTouchEvent(event);
             }
         }
@@ -165,15 +198,17 @@ public class Switch extends View {
     
     private void updateSwitchState() {
         if (isChecked) {
-            currentThumbPosition = width;
-            currentThumbScale = fixedThumbScale;
+            thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
+            currentThumbScale = FIXED_THUMB_SCALE;
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
-            thumbX = width - thumbDiameter;
+            elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+            shadowRadius = elevation;
         } else {
-            currentThumbPosition = 0;
-            currentThumbScale = fixedThumbScale;
+            thumbX = thumbDiameter / 2 + thumbPadding / 2;
+            currentThumbScale = FIXED_THUMB_SCALE;
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
-            thumbX = 0;
+            elevationColor = Color.TRANSPARENT;
+            shadowRadius = 0;
         }
         
         invalidate();
@@ -184,20 +219,22 @@ public class Switch extends View {
             thumbAnimator.cancel();
         }
         
+        Log.d("Switch", "animateThumbPosition: " + isChecked);
+        
         if (isChecked) {
-            thumbAnimator = ValueAnimator.ofFloat(currentThumbPosition, width);
-            thumbAnimator.setInterpolator(new OvershootInterpolator());
+            thumbAnimator = ValueAnimator.ofFloat(thumbX, width - thumbDiameter / 2 - thumbPadding / 2);
+            thumbAnimator.setInterpolator(new OvershootInterpolator(TENSION));
             thumbAnimator.setDuration(duration);
             thumbAnimator.addUpdateListener(animation -> {
-                currentThumbPosition = (float) animation.getAnimatedValue();
+                thumbX = (float) animation.getAnimatedValue();
                 invalidate();
             });
         } else {
-            thumbAnimator = ValueAnimator.ofFloat(currentThumbPosition, 0);
-            thumbAnimator.setInterpolator(new OvershootInterpolator());
+            thumbAnimator = ValueAnimator.ofFloat(thumbX, thumbDiameter / 2 + thumbPadding / 2);
+            thumbAnimator.setInterpolator(new OvershootInterpolator(TENSION));
             thumbAnimator.setDuration(duration);
             thumbAnimator.addUpdateListener(animation -> {
-                currentThumbPosition = (float) animation.getAnimatedValue();
+                thumbX = (float) animation.getAnimatedValue();
                 invalidate();
             });
         }
@@ -211,17 +248,17 @@ public class Switch extends View {
         }
         
         if (isTouchDown) {
-            thumbSizeAnimator = ValueAnimator.ofFloat(currentThumbScale, thumbScaleOnTouch);
+            thumbSizeAnimator = ValueAnimator.ofFloat(currentThumbScale, THUMB_SCALE_ON_TOUCH);
             thumbSizeAnimator.setDuration(duration);
-            thumbAnimator.setInterpolator(new DecelerateInterpolator());
+            thumbSizeAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
             thumbSizeAnimator.addUpdateListener(animation -> {
                 currentThumbScale = (float) animation.getAnimatedValue();
                 invalidate();
             });
         } else {
-            thumbSizeAnimator = ValueAnimator.ofFloat(currentThumbScale, fixedThumbScale);
+            thumbSizeAnimator = ValueAnimator.ofFloat(currentThumbScale, FIXED_THUMB_SCALE);
             thumbSizeAnimator.setDuration(duration);
-            thumbAnimator.setInterpolator(new DecelerateInterpolator());
+            thumbSizeAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
             thumbSizeAnimator.addUpdateListener(animation -> {
                 currentThumbScale = (float) animation.getAnimatedValue();
                 invalidate();
@@ -255,6 +292,53 @@ public class Switch extends View {
         }
         
         backgroundAnimator.start();
+    }
+    
+    private void animateElevation() {
+        if (elevationAnimator != null && elevationAnimator.isRunning()) {
+            elevationAnimator.cancel();
+        }
+        
+        if (elevationColorAnimator != null && elevationColorAnimator.isRunning()) {
+            elevationColorAnimator.cancel();
+        }
+        
+        if (isChecked) {
+            elevationAnimator = ValueAnimator.ofFloat(shadowRadius, elevation);
+            elevationAnimator.setDuration(duration);
+            elevationAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+            elevationAnimator.addUpdateListener(animation -> {
+                shadowRadius = (float) animation.getAnimatedValue();
+                invalidate();
+            });
+            
+            elevationColorAnimator = ValueAnimator.ofArgb(elevationColor, AppearancePreferences.INSTANCE.getAccentColor());
+            elevationColorAnimator.setDuration(duration);
+            elevationColorAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+            elevationColorAnimator.addUpdateListener(animation -> {
+                elevationColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
+        } else {
+            elevationAnimator = ValueAnimator.ofFloat(shadowRadius, 0);
+            elevationAnimator.setDuration(duration);
+            elevationAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+            elevationAnimator.addUpdateListener(animation -> {
+                shadowRadius = (float) animation.getAnimatedValue();
+                invalidate();
+            });
+            
+            elevationColorAnimator = ValueAnimator.ofArgb(elevationColor, Color.TRANSPARENT);
+            elevationColorAnimator.setDuration(duration);
+            elevationColorAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+            elevationColorAnimator.addUpdateListener(animation -> {
+                elevationColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
+        }
+        
+        elevationAnimator.start();
+        elevationColorAnimator.start();
     }
     
     @Override
@@ -295,22 +379,81 @@ public class Switch extends View {
             height = desiredHeight;
         }
         
-        thumbPadding = height * 0.25F;
-        thumbDiameter = height * 0.5F;
+        /*
+         * Set the dimensions for the switch thumb
+         */
+        thumbPadding = (float) getResources().getDimensionPixelSize(R.dimen.switch_thumb_dimensions) / 2;
+        thumbDiameter = getResources().getDimensionPixelSize(R.dimen.switch_thumb_dimensions);
         thumbY = (float) height / 2;
-        thumbX = thumbDiameter / 2 + thumbPadding;
+        thumbX = thumbDiameter / 2 + thumbPadding / 2;
         
         // MUST CALL THIS
         setMeasuredDimension(width, height);
+        updateSwitchState();
+        
+        // Update switch state
+        invalidate();
+    }
+    
+    private void animateEverything() {
+        animateThumbPosition();
+        animateBackgroundColor();
+        animateElevation();
+    }
+    
+    public void setChecked(boolean checked, boolean animate) {
+        isChecked = checked;
+        if (animate) {
+            animateEverything();
+        } else {
+            updateSwitchState();
+        }
+    }
+    
+    public boolean isChecked() {
+        return isChecked;
     }
     
     public void setChecked(boolean checked) {
         isChecked = checked;
-        animateThumbPosition();
-        animateBackgroundColor();
+        updateSwitchState();
     }
     
-    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+    public void toggle() {
+        isChecked = !isChecked;
+        animateEverything();
+    }
+    
+    public void setOnSwitchCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
+    }
+    
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
+    
+    }
+    
+    @Override
+    public void onThemeChanged(@NonNull Theme theme, boolean animate) {
+        ThemeChangedListener.super.onThemeChanged(theme, animate);
+    }
+    
+    @Override
+    public void onAccentChanged(@NonNull Accent accent) {
+        ThemeChangedListener.super.onAccentChanged(accent);
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ThemeManager.INSTANCE.addListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        ThemeManager.INSTANCE.removeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
     }
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.usagestats.UsageStatsSort.Companion.showUsageStatsSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -22,7 +21,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
     private lateinit var engine: DynamicRippleTextView
     private lateinit var settings: DynamicRippleTextView
     private lateinit var interval: DynamicRippleTextView
-    private lateinit var unusedAppsToggle: SwitchView
+    private lateinit var unusedAppsToggle: Switch
     private lateinit var limitToHours: Switch
     private lateinit var filter: DynamicRippleImageButton
 
@@ -44,8 +43,8 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
         setIntervalText()
         setEngineText()
-        unusedAppsToggle.setChecked(StatisticsPreferences.areUnusedAppHidden())
-        limitToHours.setChecked(StatisticsPreferences.isLimitToHours())
+        unusedAppsToggle.isChecked = StatisticsPreferences.areUnusedAppHidden()
+        limitToHours.isChecked = StatisticsPreferences.isLimitToHours()
 
         engine.setOnClickListener {
             PopupUsageStatsEngine(it)
@@ -59,7 +58,7 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
             StatisticsPreferences.setUnusedAppState(it)
         }
 
-        limitToHours.setOnCheckedChangeListener {
+        limitToHours.setOnSwitchCheckedChangeListener {
             StatisticsPreferences.setLimitToHours(it)
         }
 

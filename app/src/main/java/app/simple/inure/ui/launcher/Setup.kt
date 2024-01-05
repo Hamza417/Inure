@@ -22,8 +22,8 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
 import app.simple.inure.decorations.toggles.CheckBox
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -49,8 +49,8 @@ class Setup : ScopedFragment() {
     private lateinit var usageStatus: TypeFaceTextView
     private lateinit var storageStatus: TypeFaceTextView
     private lateinit var storageUri: TypeFaceTextView
-    private lateinit var rootSwitchView: SwitchView
-    private lateinit var shizukuSwitchView: SwitchView
+    private lateinit var rootSwitchView: Switch
+    private lateinit var shizukuSwitchView: Switch
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
     private lateinit var dontShowAgainCheckBox: CheckBox
@@ -85,10 +85,10 @@ class Setup : ScopedFragment() {
                     ShizukuProvider.PERMISSION -> {
                         if (it.value) {
                             ConfigurationPreferences.setUsingShizuku(true)
-                            shizukuSwitchView.setChecked(true)
+                            shizukuSwitchView.isChecked = true
                         } else {
                             ConfigurationPreferences.setUsingShizuku(false)
-                            shizukuSwitchView.setChecked(false)
+                            shizukuSwitchView.isChecked = false
                         }
                     }
                 }
@@ -102,9 +102,9 @@ class Setup : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+        rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         dontShowAgainCheckBox.isChecked = SetupPreferences.isDontShowAgain()
-        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
+        shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
 
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -164,18 +164,18 @@ class Setup : ScopedFragment() {
                     if (Shell.isAppGrantedRoot() == true) {
                         withContext(Dispatchers.Main) {
                             ConfigurationPreferences.setUsingRoot(true)
-                            rootSwitchView.setChecked(true)
+                            rootSwitchView.isChecked = true
                         }
                     } else {
                         withContext(Dispatchers.Main) {
                             ConfigurationPreferences.setUsingRoot(false)
-                            rootSwitchView.setChecked(false)
+                            rootSwitchView.isChecked = false
                         }
                     }
                 }
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
-                rootSwitchView.setChecked(false)
+                rootSwitchView.isChecked = false
             }
         }
 

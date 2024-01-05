@@ -23,6 +23,7 @@ import app.simple.inure.util.LocaleHelper.isRTL
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")
+@Deprecated("Use Switch instead", ReplaceWith("app.simple.inure.decorations.toggles.Switch"), DeprecationLevel.WARNING)
 class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
     : SwitchFrameLayout(context, attrs, defStyleAttr), ThemeChangedListener {
 
@@ -180,14 +181,6 @@ class SwitchView @JvmOverloads constructor(context: Context, attrs: AttributeSet
     override fun onViewRemoved(child: View?) {
         super.onViewRemoved(child)
         thumb.clearAnimation()
-    }
-
-    /**
-     * Inverts the switch's checked status. If the switch is checked then
-     * it will be unchecked and vice-versa
-     */
-    fun invertCheckedStatus() {
-        isChecked = !isChecked
     }
 
     override fun onAttachedToWindow() {
