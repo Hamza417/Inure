@@ -102,6 +102,16 @@ public class Switch extends View {
             thumbDiameter = height - thumbPadding;
             
             backgroundRect.set(0, 0, width, height);
+            
+            setOnClickListener(v -> {
+                Log.d("Switch", "onClick: ");
+                isChecked = !isChecked;
+                animateThumbPosition();
+                animateBackgroundColor();
+                if (onCheckedChangeListener != null) {
+                    onCheckedChangeListener.onCheckedChanged(isChecked);
+                }
+            });
         });
         
         // updateSwitchState();
@@ -116,7 +126,7 @@ public class Switch extends View {
         // Draw thumb
         thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
         canvas.drawCircle(thumbX, thumbY, (thumbDiameter / 2) * currentThumbScale, thumbPaint);
-        Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
+        // Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
         
         // Position thumb based on currentThumbPosition
         // canvas.translate(thumbX, thumbY);
@@ -127,25 +137,26 @@ public class Switch extends View {
     @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Log.d("Switch", "onTouchEvent called with: event = [" + event + "]");
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN ->
-                    animateThumbSize(true);
+            case MotionEvent.ACTION_DOWN -> {
+                animateThumbSize(true);
+                return super.onTouchEvent(event);
+            }
             case MotionEvent.ACTION_MOVE -> {
-                thumbX = event.getX();
+                Log.d("Switch", "ACTION_MOVE");
+                // thumbX = event.getX();
+                // thumbY = event.getY();
                 invalidate();
+                return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_CANCEL -> {
-                animateThumbSize(false);
                 Log.d("Switch", "ACTION_CANCEL");
             }
             case MotionEvent.ACTION_UP -> {
                 animateThumbSize(false);
                 isChecked = event.getX() > width / 2;
-                animateThumbPosition();
-                animateBackgroundColor();
-                if (onCheckedChangeListener != null) {
-                    onCheckedChangeListener.onCheckedChanged(isChecked);
-                }
+                return super.onTouchEvent(event);
             }
         }
         
