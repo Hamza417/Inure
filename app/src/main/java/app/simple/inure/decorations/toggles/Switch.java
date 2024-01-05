@@ -1,6 +1,7 @@
 package app.simple.inure.decorations.toggles;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -113,13 +115,41 @@ public class Switch extends View {
         
         // Draw thumb
         thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
-        canvas.drawCircle(thumbX, thumbY, thumbDiameter / 2, thumbPaint);
+        canvas.drawCircle(thumbX, thumbY, (thumbDiameter / 2) * currentThumbScale, thumbPaint);
         Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
         
         // Position thumb based on currentThumbPosition
         // canvas.translate(thumbX, thumbY);
         
         super.onDraw(canvas);
+    }
+    
+    @SuppressLint ("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN ->
+                    animateThumbSize(true);
+            case MotionEvent.ACTION_MOVE -> {
+                thumbX = event.getX();
+                invalidate();
+            }
+            case MotionEvent.ACTION_CANCEL -> {
+                animateThumbSize(false);
+                Log.d("Switch", "ACTION_CANCEL");
+            }
+            case MotionEvent.ACTION_UP -> {
+                animateThumbSize(false);
+                isChecked = event.getX() > width / 2;
+                animateThumbPosition();
+                animateBackgroundColor();
+                if (onCheckedChangeListener != null) {
+                    onCheckedChangeListener.onCheckedChanged(isChecked);
+                }
+            }
+        }
+        
+        return super.onTouchEvent(event);
     }
     
     private void updateSwitchState() {
