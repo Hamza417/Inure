@@ -78,7 +78,7 @@
         android:supportsRtl="true"
         android:theme="@style/Inure"
         android:windowSoftInputMode="adjustPan"
-        android:taskAffinity=""
+        android:taskAffinity="app.simple.inure"
         tools:ignore="AllowBackup"
         tools:targetApi="tiramisu">
 
