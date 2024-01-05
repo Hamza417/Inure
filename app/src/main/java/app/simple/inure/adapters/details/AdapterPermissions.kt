@@ -12,7 +12,7 @@ import app.simple.inure.apk.utils.PermissionUtils.isException
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.AppearancePreferences
@@ -53,7 +53,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
                 holder.name.setDangerousPermissionIcon(isDangerous = false)
             }
 
-            holder.switch.staticChecked(permissions[position].isGranted == 1)
+            holder.switch.isChecked = permissions[position].isGranted == 1
 
             /* -------------------------------------------------------------------------------------------------------- */
 
@@ -164,7 +164,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
-        val switch: SwitchView = itemView.findViewById(R.id.switch_view)
+        val switch: Switch = itemView.findViewById(R.id.switch_view)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_permissions_container)
 
         init {

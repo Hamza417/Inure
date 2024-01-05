@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dialog_padding"
-            app:textColorStyle="secondary"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/preparing_progress"
@@ -40,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="@dimen/dialog_padding"
-            app:textColorStyle="secondary"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="secondary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

@@ -20,9 +20,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/enable_all"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_disable_all"
@@ -33,9 +33,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/disable_all"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_open"
@@ -48,8 +48,8 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/open"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </merge>

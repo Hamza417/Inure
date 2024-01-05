@@ -33,9 +33,9 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="primary" />
 
-            <app.simple.inure.decorations.switchview.SwitchView
+            <app.simple.inure.decorations.toggles.Switch
                 android:id="@+id/auto_save"
-                android:layout_width="@dimen/switch_width"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
 

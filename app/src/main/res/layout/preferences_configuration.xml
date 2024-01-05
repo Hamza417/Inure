@@ -119,7 +119,7 @@
                         app:layout_constraintTop_toBottomOf="@id/keep_screen_on_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/configuration_switch_keep_screen_on"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -396,9 +396,9 @@
                         app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/configuration_root_switch_view"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -486,9 +486,9 @@
                         app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/configuration_shizuku_switch_view"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"

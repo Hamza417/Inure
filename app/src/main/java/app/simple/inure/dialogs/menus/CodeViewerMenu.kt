@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.FormattingPreferences
 
 class CodeViewerMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var showNumberOnEveryLine: SwitchView
+    private lateinit var showNumberOnEveryLine: Switch
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +27,7 @@ class CodeViewerMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showNumberOnEveryLine.setChecked(FormattingPreferences.isCountingAllLines())
+        showNumberOnEveryLine.isChecked = FormattingPreferences.isCountingAllLines()
 
         showNumberOnEveryLine.setOnSwitchCheckedChangeListener {
             FormattingPreferences.setCountAllLines(it)

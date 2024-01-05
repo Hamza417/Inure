@@ -299,9 +299,9 @@
                         app:layout_constraintTop_toBottomOf="@id/typeFaceTextView07"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/configuration_root_switch_view"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -362,9 +362,9 @@
                         app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/setup_shizuku_switch_view"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"

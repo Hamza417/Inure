@@ -14,10 +14,10 @@
         android:id="@+id/adapter_music_art"
         android:layout_width="@dimen/app_icon_dimension"
         android:layout_height="@dimen/app_icon_dimension"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="5dp"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -28,14 +28,14 @@
         android:layout_marginTop="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        app:textColorStyle="primary"
         android:textSize="@dimen/info_text_medium"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/adapter_music_artists"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/adapter_music_art"
         app:layout_constraintTop_toTopOf="@+id/adapter_music_art"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/adapter_music_artists"

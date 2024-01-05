@@ -2,10 +2,10 @@
 <app.simple.inure.decorations.ripple.DynamicRippleLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recently_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/recently_container"
     android:padding="@dimen/popup_padding">
 
     <ImageView
@@ -21,7 +21,7 @@
         android:layout_marginTop="5dp"
         android:layout_gravity="center"
         android:gravity="center"
-        app:textColorStyle="secondary"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayout>

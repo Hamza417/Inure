@@ -29,10 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            app:textColorStyle="accent"
             android:textSize="@dimen/header_name_text_size"
             android:transitionName="@string/app_information"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
     </LinearLayout>
 

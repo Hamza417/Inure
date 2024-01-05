@@ -20,9 +20,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/fade"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_elevation"
@@ -33,9 +33,9 @@
         android:paddingVertical="20dp"
         android:text="@string/elevation"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_shared_axis_x"
@@ -46,9 +46,9 @@
         android:paddingVertical="20dp"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/shared_axis"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_shared_axis_y"
@@ -59,9 +59,9 @@
         android:paddingVertical="20dp"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/shared_axis"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_shared_axis_z"
@@ -72,9 +72,9 @@
         android:paddingVertical="20dp"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/shared_axis"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_through"
@@ -84,8 +84,8 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/through"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </merge>

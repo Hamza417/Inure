@@ -75,11 +75,11 @@
             android:gravity="center"
             android:padding="@dimen/dialog_padding"
             android:drawablePadding="5dp"
-            app:drawableTintStyle="secondary"
-            app:drawableEndCompat="@drawable/ic_web_page_tiny"
             android:text="@string/cheatsheet"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_web_page_tiny"
+            app:drawableTintStyle="secondary"
             app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView

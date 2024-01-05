@@ -12,7 +12,7 @@ import app.simple.inure.adapters.preferences.AdapterColorPalette
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.appearances.PopupPalettes
@@ -23,12 +23,12 @@ import app.simple.inure.util.ViewUtils.visible
 
 class AccessibilityScreen : ScopedFragment() {
 
-    private lateinit var highlight: SwitchView
-    private lateinit var stroke: SwitchView
-    private lateinit var divider: SwitchView
-    private lateinit var reduceAnimations: SwitchView
-    private lateinit var enableContexts: SwitchView
-    private lateinit var colorfulIcons: SwitchView
+    private lateinit var highlight: Switch
+    private lateinit var stroke: Switch
+    private lateinit var divider: Switch
+    private lateinit var reduceAnimations: Switch
+    private lateinit var enableContexts: Switch
+    private lateinit var colorfulIcons: Switch
 
     private lateinit var palette: DynamicRippleTextView
     private lateinit var paletteRecyclerView: CustomHorizontalRecyclerView
@@ -61,29 +61,29 @@ class AccessibilityScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        highlight.setChecked(AccessibilityPreferences.isHighlightMode())
-        stroke.setChecked(AccessibilityPreferences.isHighlightStroke())
-        divider.setChecked(AccessibilityPreferences.isDividerEnabled())
-        reduceAnimations.setChecked(AccessibilityPreferences.isAnimationReduced())
-        enableContexts.setChecked(AccessibilityPreferences.isAppElementsContext())
-        colorfulIcons.setChecked(AccessibilityPreferences.isColorfulIcons())
+        highlight.isChecked = AccessibilityPreferences.isHighlightMode()
+        stroke.isChecked = AccessibilityPreferences.isHighlightStroke()
+        divider.isChecked = AccessibilityPreferences.isDividerEnabled()
+        reduceAnimations.isChecked = AccessibilityPreferences.isAnimationReduced()
+        enableContexts.isChecked = AccessibilityPreferences.isAppElementsContext()
+        colorfulIcons.isChecked = AccessibilityPreferences.isColorfulIcons()
         palette.setPalette()
         paletteRecyclerView.adapter = AdapterColorPalette()
 
-        if (highlight.isChecked()) {
+        if (highlight.isChecked) {
             strokeContainer.visible(false)
         } else {
             strokeContainer.gone()
         }
 
-        if (colorfulIcons.isChecked()) {
+        if (colorfulIcons.isChecked) {
             paletteContainer.visibility = View.VISIBLE
         } else {
             paletteContainer.visibility = View.GONE
         }
 
-        stroke.isEnabled = highlight.isChecked()
-        paletteContainer.isEnabled = colorfulIcons.isChecked()
+        stroke.isEnabled = highlight.isChecked
+        paletteContainer.isEnabled = colorfulIcons.isChecked
 
         highlight.setOnSwitchCheckedChangeListener {
             AccessibilityPreferences.setHighlightMode(it)

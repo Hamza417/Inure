@@ -19,9 +19,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/delete"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_send"
@@ -35,9 +35,9 @@
         android:layout_marginTop="@dimen/popup_item_gap_length"
         android:paddingVertical="20dp"
         android:text="@string/send"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_open"
@@ -51,9 +51,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/open"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/popup_copy"
@@ -67,8 +67,8 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/copy"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </merge>

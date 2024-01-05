@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.search.SearchSort.Companion.showSearchSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.SearchPreferences
@@ -15,8 +15,8 @@ import app.simple.inure.preferences.SearchPreferences
 class SearchMenu : ScopedBottomSheetFragment() {
 
     private lateinit var openAppsSettings: DynamicRippleTextView
-    private lateinit var ignoreCase: SwitchView
-    private lateinit var deepSearch: SwitchView
+    private lateinit var ignoreCase: Switch
+    private lateinit var deepSearch: Switch
     private lateinit var filter: DynamicRippleImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,8 +33,8 @@ class SearchMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ignoreCase.setChecked(SearchPreferences.isCasingIgnored())
-        deepSearch.setChecked(SearchPreferences.isDeepSearchEnabled())
+        ignoreCase.isChecked = SearchPreferences.isCasingIgnored()
+        deepSearch.isChecked = SearchPreferences.isDeepSearchEnabled()
 
         openAppsSettings.setOnClickListener {
             openSettings()

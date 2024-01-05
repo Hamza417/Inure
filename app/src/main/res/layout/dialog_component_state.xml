@@ -29,9 +29,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:text="@string/executing_command"
-            app:textColorStyle="tertiary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="medium" />
+            app:appFontStyle="medium"
+            app:textColorStyle="tertiary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

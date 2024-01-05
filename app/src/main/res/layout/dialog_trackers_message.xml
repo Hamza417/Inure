@@ -29,12 +29,12 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:drawablePadding="@dimen/dialog_padding"
-                app:drawableTintStyle="accent"
                 android:gravity="center_vertical"
                 android:text="@string/error"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
                 app:drawableStartCompat="@drawable/ic_radiation_nuclear"
+                app:drawableTintStyle="accent"
                 app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleImageButton

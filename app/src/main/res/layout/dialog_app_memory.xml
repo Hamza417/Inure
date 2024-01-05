@@ -23,12 +23,12 @@
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:drawablePadding="@dimen/dialog_padding"
-            app:drawableTintStyle="accent"
             android:gravity="center_vertical"
             android:text="@string/memory"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
             app:drawableStartCompat="@drawable/ic_memory"
+            app:drawableTintStyle="accent"
             app:textColorStyle="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView

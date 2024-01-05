@@ -260,9 +260,9 @@
                         app:layout_constraintTop_toBottomOf="@id/rish_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/rish_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -331,9 +331,9 @@
                         app:layout_constraintTop_toBottomOf="@id/mouse_event_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/mouse_event_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -395,9 +395,9 @@
                         app:layout_constraintTop_toBottomOf="@id/close_window_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/close_window_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -465,9 +465,9 @@
                         app:layout_constraintTop_toBottomOf="@id/verify_path_entries_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/verify_path_entries_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -529,9 +529,9 @@
                         app:layout_constraintTop_toBottomOf="@id/verify_path_extensions_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/verify_path_extensions_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"
@@ -592,9 +592,9 @@
                         app:layout_constraintTop_toBottomOf="@id/allow_path_prepend_title"
                         app:textColorStyle="tertiary" />
 
-                    <app.simple.inure.decorations.switchview.SwitchView
+                    <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/allow_path_prepend_switch"
-                        android:layout_width="@dimen/switch_width"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:clipChildren="false"

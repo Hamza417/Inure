@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.terminal.TerminalCommandLine
 import app.simple.inure.dialogs.terminal.TerminalHomePath
 import app.simple.inure.dialogs.terminal.TerminalInitialCommand
@@ -24,12 +24,12 @@ class ShellScreen : ScopedFragment() {
     private lateinit var commandLine: DynamicRippleRelativeLayout
     private lateinit var initialCommand: DynamicRippleRelativeLayout
     private lateinit var terminalType: DynamicRippleRelativeLayout
-    private lateinit var useRISH: SwitchView
-    private lateinit var sendMouseEvent: SwitchView
-    private lateinit var closeWindow: SwitchView
-    private lateinit var verifyPathEntries: SwitchView
-    private lateinit var allowPathExtensions: SwitchView
-    private lateinit var allowPathPrepend: SwitchView
+    private lateinit var useRISH: Switch
+    private lateinit var sendMouseEvent: Switch
+    private lateinit var closeWindow: Switch
+    private lateinit var verifyPathEntries: Switch
+    private lateinit var allowPathExtensions: Switch
+    private lateinit var allowPathPrepend: Switch
     private lateinit var homePath: DynamicRippleRelativeLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,12 +54,12 @@ class ShellScreen : ScopedFragment() {
         startPostponedEnterTransition()
         fullVersionCheck()
 
-        useRISH.setChecked(ShellPreferences.isUsingRISH())
-        sendMouseEvent.setChecked(ShellPreferences.getMouseEventState())
-        closeWindow.setChecked(ShellPreferences.getCloseWindowOnExitState())
-        verifyPathEntries.setChecked(ShellPreferences.getVerifyPathEntriesState())
-        allowPathExtensions.setChecked(ShellPreferences.getAllowPathExtensionsState())
-        allowPathPrepend.setChecked(ShellPreferences.getAllowPathPrependState())
+        useRISH.isChecked = ShellPreferences.isUsingRISH()
+        sendMouseEvent.isChecked = ShellPreferences.getMouseEventState()
+        closeWindow.isChecked = ShellPreferences.getCloseWindowOnExitState()
+        verifyPathEntries.isChecked = ShellPreferences.getVerifyPathEntriesState()
+        allowPathExtensions.isChecked = ShellPreferences.getAllowPathExtensionsState()
+        allowPathPrepend.isChecked = ShellPreferences.getAllowPathPrependState()
 
         commandLine.setOnClickListener {
             TerminalCommandLine.newInstance()

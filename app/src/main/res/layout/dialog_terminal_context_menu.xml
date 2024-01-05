@@ -19,9 +19,9 @@
         android:fontFamily="@font/lato_bold"
         android:padding="@dimen/menu_text_button_padding"
         android:text="@string/select_text"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/copy_all"
@@ -33,9 +33,9 @@
         android:padding="@dimen/menu_text_button_padding"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
         android:text="@string/copy_all"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/paste"
@@ -45,9 +45,9 @@
         android:padding="@dimen/menu_text_button_padding"
         android:text="@string/paste"
         android:layout_marginBottom="@dimen/popup_item_gap_length"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/send_control_key"
@@ -56,9 +56,9 @@
         android:fontFamily="@font/lato_bold"
         android:padding="@dimen/menu_text_button_padding"
         android:text="@string/send_control_key"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
         android:id="@+id/send_fn_key"
@@ -67,8 +67,8 @@
         android:fontFamily="@font/lato_bold"
         android:padding="@dimen/menu_text_button_padding"
         android:text="@string/send_fn_key"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

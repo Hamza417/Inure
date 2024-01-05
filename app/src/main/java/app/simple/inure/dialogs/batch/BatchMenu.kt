@@ -12,7 +12,7 @@ import app.simple.inure.database.instances.BatchProfileDatabase
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -23,8 +23,8 @@ import kotlinx.coroutines.withContext
 
 class BatchMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var moveSelectionOnTop: SwitchView
-    private lateinit var highlightSelected: SwitchView
+    private lateinit var moveSelectionOnTop: Switch
+    private lateinit var highlightSelected: Switch
     private lateinit var loadSelectionProfile: DynamicRippleLinearLayout
     private lateinit var saveSelectionProfile: DynamicRippleTextView
     private lateinit var currentProfile: TypeFaceTextView
@@ -50,8 +50,8 @@ class BatchMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        moveSelectionOnTop.setChecked(BatchPreferences.isSelectionOnTop())
-        highlightSelected.setChecked(BatchPreferences.isSelectedBatchHighlighted())
+        moveSelectionOnTop.isChecked = BatchPreferences.isSelectionOnTop()
+        highlightSelected.isChecked = BatchPreferences.isSelectedBatchHighlighted()
         setCurrentProfileName()
 
         moveSelectionOnTop.setOnSwitchCheckedChangeListener {

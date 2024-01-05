@@ -14,7 +14,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.configuration.AppPath.Companion.showAppPathDialog
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
@@ -33,13 +33,13 @@ import rikka.shizuku.ShizukuProvider
 
 class ConfigurationScreen : ScopedFragment() {
 
-    private lateinit var keepScreenOnSwitchView: SwitchView
+    private lateinit var keepScreenOnSwitchView: Switch
     private lateinit var shortcuts: DynamicRippleRelativeLayout
     private lateinit var componets: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var path: DynamicRippleConstraintLayout
-    private lateinit var rootSwitchView: SwitchView
-    private lateinit var shizukuSwitchView: SwitchView
+    private lateinit var rootSwitchView: Switch
+    private lateinit var shizukuSwitchView: Switch
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -60,10 +60,10 @@ class ConfigurationScreen : ScopedFragment() {
                     ShizukuProvider.PERMISSION -> {
                         if (it.value) {
                             ConfigurationPreferences.setUsingShizuku(true)
-                            shizukuSwitchView.setChecked(true)
+                            shizukuSwitchView.isChecked = true
                         } else {
                             ConfigurationPreferences.setUsingShizuku(false)
-                            shizukuSwitchView.setChecked(false)
+                            shizukuSwitchView.isChecked = false
                         }
                     }
                 }
@@ -77,9 +77,9 @@ class ConfigurationScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        keepScreenOnSwitchView.setChecked(ConfigurationPreferences.isKeepScreenOn())
-        rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
-        shizukuSwitchView.setChecked(ConfigurationPreferences.isUsingShizuku())
+        keepScreenOnSwitchView.isChecked = ConfigurationPreferences.isKeepScreenOn()
+        rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
+        shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -134,18 +134,18 @@ class ConfigurationScreen : ScopedFragment() {
                     if (Shell.isAppGrantedRoot() == true) {
                         withContext(Dispatchers.Main) {
                             ConfigurationPreferences.setUsingRoot(true)
-                            rootSwitchView.setChecked(true)
+                            rootSwitchView.isChecked = true
                         }
                     } else {
                         withContext(Dispatchers.Main) {
                             ConfigurationPreferences.setUsingRoot(false)
-                            rootSwitchView.setChecked(false)
+                            rootSwitchView.isChecked = false
                         }
                     }
                 }
             } else {
                 ConfigurationPreferences.setUsingRoot(false)
-                rootSwitchView.setChecked(false)
+                rootSwitchView.isChecked = false
             }
         }
 

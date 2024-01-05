@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.configuration.DateFormat
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.FormattingPreferences
 
 class FormattingScreen : ScopedFragment() {
 
-    private lateinit var useBinaryFormat: SwitchView
+    private lateinit var useBinaryFormat: Switch
     private lateinit var dateFormat: DynamicRippleConstraintLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,7 +30,7 @@ class FormattingScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        useBinaryFormat.setChecked(FormattingPreferences.getSizeType() == "binary")
+        useBinaryFormat.isChecked = FormattingPreferences.getSizeType() == "binary"
 
         useBinaryFormat.setOnSwitchCheckedChangeListener {
             if (it) {

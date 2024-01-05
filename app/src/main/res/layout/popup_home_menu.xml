@@ -18,9 +18,9 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/refresh"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
@@ -38,8 +38,8 @@
         android:paddingHorizontal="30dp"
         android:paddingVertical="20dp"
         android:text="@string/preferences"
-        app:textColorStyle="primary"
         android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold" />
+        app:appFontStyle="bold"
+        app:textColorStyle="primary" />
 
 </merge>

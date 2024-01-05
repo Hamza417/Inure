@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -51,7 +51,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
                     }
                 }
             }
-            holder.switch.staticChecked(list[position].isBlocked.invert())
+            holder.switch.isChecked = list[position].isBlocked.invert()
         } else if (list[position].isService) {
             holder.icon.loadIconFromServiceInfo(list[position].serviceInfo)
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
@@ -74,7 +74,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
                     }
                 }
             }
-            holder.switch.staticChecked(list[position].isBlocked.invert())
+            holder.switch.isChecked = list[position].isBlocked.invert()
         }
 
         if (isRoot) {
@@ -83,7 +83,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             }
 
             holder.container.setOnClickListener {
-                trackersCallbacks?.onTrackersClicked(list[position], holder.switch.isChecked().invert(), position)
+                trackersCallbacks?.onTrackersClicked(list[position], holder.switch.isChecked.invert(), position)
             }
 
             holder.switch.visible(animate = false)
@@ -118,7 +118,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val trackerId: TypeFaceTextView = itemView.findViewById(R.id.tracker_id)
-        val switch: SwitchView = itemView.findViewById(R.id.switch_view)
+        val switch: Switch = itemView.findViewById(R.id.switch_view)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
 
         init {

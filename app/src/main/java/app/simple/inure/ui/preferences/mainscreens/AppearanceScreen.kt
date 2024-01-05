@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -23,9 +23,9 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var roundedCorner: DynamicRippleRelativeLayout
     private lateinit var iconSize: DynamicRippleRelativeLayout
     private lateinit var appTheme: DynamicRippleRelativeLayout
-    private lateinit var iconShadows: SwitchView
-    private lateinit var coloredIconShadows: SwitchView
-    private lateinit var accentOnNav: SwitchView
+    private lateinit var iconShadows: Switch
+    private lateinit var coloredIconShadows: Switch
+    private lateinit var accentOnNav: Switch
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_appearances, container, false)
@@ -48,9 +48,9 @@ class AppearanceScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        iconShadows.setChecked(AppearancePreferences.isIconShadowsOn())
-        coloredIconShadows.setChecked(AppearancePreferences.getColoredIconShadows())
-        accentOnNav.setChecked(AppearancePreferences.isAccentOnNavigationBar())
+        iconShadows.isChecked = AppearancePreferences.isIconShadowsOn()
+        coloredIconShadows.isChecked = AppearancePreferences.getColoredIconShadows()
+        accentOnNav.isChecked = AppearancePreferences.isAccentOnNavigationBar()
 
         appTheme.setOnClickListener {
             openFragmentSlide(AppearanceAppTheme.newInstance(), "theme")

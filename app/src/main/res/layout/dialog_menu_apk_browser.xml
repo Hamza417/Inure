@@ -53,9 +53,9 @@
 
             </LinearLayout>
 
-            <app.simple.inure.decorations.switchview.SwitchView
+            <app.simple.inure.decorations.toggles.Switch
                 android:id="@+id/external_storage_switch"
-                android:layout_width="@dimen/switch_width"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dialog_padding" />
@@ -98,9 +98,9 @@
 
             </LinearLayout>
 
-            <app.simple.inure.decorations.switchview.SwitchView
+            <app.simple.inure.decorations.toggles.Switch
                 android:id="@+id/load_split_icon"
-                android:layout_width="@dimen/switch_width"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dialog_padding" />

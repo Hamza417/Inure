@@ -75,11 +75,11 @@
             android:inputType="textMultiLine|textNoSuggestions"
             android:paddingStart="10dp"
             android:paddingVertical="10dp"
-            app:textColorStyle="secondary"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textIsSelectable="true"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="regular" />
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
 
     </LinearLayout>
 

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.apks.ApksSort.Companion.showApksSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.ApkBrowserPreferences
@@ -17,8 +17,8 @@ import app.simple.inure.util.SDCard
 
 class ApksMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var loadSplitIconSwitch: SwitchView
-    private lateinit var externalStorageSwitchView: SwitchView
+    private lateinit var loadSplitIconSwitch: Switch
+    private lateinit var externalStorageSwitchView: Switch
     private lateinit var openSettings: DynamicRippleTextView
     private lateinit var filter: DynamicRippleImageButton
 
@@ -36,8 +36,8 @@ class ApksMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadSplitIconSwitch.setChecked(ApkBrowserPreferences.isLoadSplitIcon())
-        externalStorageSwitchView.setChecked(ApkBrowserPreferences.isExternalStorage())
+        loadSplitIconSwitch.isChecked = ApkBrowserPreferences.isLoadSplitIcon()
+        externalStorageSwitchView.isChecked = ApkBrowserPreferences.isExternalStorage()
 
 
         loadSplitIconSwitch.setOnSwitchCheckedChangeListener { isChecked ->
@@ -50,7 +50,7 @@ class ApksMenu : ScopedBottomSheetFragment() {
                     ApkBrowserPreferences.setExternalStorage(true)
                     dismiss()
                 } else {
-                    externalStorageSwitchView.setChecked(false)
+                    externalStorageSwitchView.isChecked = false
                     showWarning("No SD Card found", false)
                 }
             } else {

@@ -21,8 +21,8 @@
             android:textSize="@dimen/popup_text_size"
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
-            app:drawableEndCompat="@drawable/ic_warning_tiny"
             app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_warning_tiny"
             app:drawableTintStyle="warning"
             app:textColorStyle="primary" />
 

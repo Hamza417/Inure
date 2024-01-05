@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.NotesPreferences
 
 class NotesMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var expandedNotes: SwitchView
+    private lateinit var expandedNotes: Switch
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,7 +27,7 @@ class NotesMenu : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        expandedNotes.setChecked(NotesPreferences.areNotesExpanded())
+        expandedNotes.isChecked = NotesPreferences.areNotesExpanded()
 
         expandedNotes.setOnSwitchCheckedChangeListener {
             NotesPreferences.setExpandedNotes(it)

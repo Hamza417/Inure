@@ -22,9 +22,9 @@
             android:paddingHorizontal="30dp"
             android:paddingVertical="20dp"
             android:text="@string/highlight_extensions"
-            app:textColorStyle="primary"
             android:textSize="@dimen/popup_text_size"
-            app:appFontStyle="bold" />
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
 
         <app.simple.inure.decorations.toggles.CheckBox
             android:id="@+id/extras_highlight_checkbox"

@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.switchview.SwitchView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.behavior.DampingRatio.Companion.showDampingRatioDialog
 import app.simple.inure.dialogs.behavior.Stiffness.Companion.showStiffnessDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -23,13 +23,13 @@ import app.simple.inure.preferences.DevelopmentPreferences
 
 class BehaviourScreen : ScopedFragment() {
 
-    private lateinit var dimWindows: SwitchView
-    private lateinit var blurWindows: SwitchView
-    private lateinit var shadows: SwitchView
-    private lateinit var transition: SwitchView
-    private lateinit var animations: SwitchView
-    private lateinit var marquee: SwitchView
-    private lateinit var skipLoading: SwitchView
+    private lateinit var dimWindows: Switch
+    private lateinit var blurWindows: Switch
+    private lateinit var shadows: Switch
+    private lateinit var transition: Switch
+    private lateinit var animations: Switch
+    private lateinit var marquee: Switch
+    private lateinit var skipLoading: Switch
 
     private lateinit var transitionType: DynamicRippleTextView
     private lateinit var arcType: DynamicRippleTextView
@@ -64,13 +64,13 @@ class BehaviourScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dimWindows.setChecked(BehaviourPreferences.isDimmingOn())
-        blurWindows.setChecked(BehaviourPreferences.isBlurringOn())
-        shadows.setChecked(BehaviourPreferences.areColoredShadowsOn())
-        transition.setChecked(BehaviourPreferences.isTransitionOn())
-        animations.setChecked(BehaviourPreferences.isArcAnimationOn())
-        marquee.setChecked(BehaviourPreferences.isMarqueeOn())
-        skipLoading.setChecked(BehaviourPreferences.isSkipLoading())
+        dimWindows.isChecked = BehaviourPreferences.isDimmingOn()
+        blurWindows.isChecked = BehaviourPreferences.isBlurringOn()
+        shadows.isChecked = BehaviourPreferences.areColoredShadowsOn()
+        transition.isChecked = BehaviourPreferences.isTransitionOn()
+        animations.isChecked = BehaviourPreferences.isArcAnimationOn()
+        marquee.isChecked = BehaviourPreferences.isMarqueeOn()
+        skipLoading.isChecked = BehaviourPreferences.isSkipLoading()
 
         setTransitionType()
         setArcType()
@@ -80,7 +80,7 @@ class BehaviourScreen : ScopedFragment() {
                 blurWindowsContainer.visibility = View.VISIBLE
             } else {
                 blurWindowsContainer.visibility = View.GONE
-                blurWindows.setChecked(false)
+                blurWindows.isChecked = false
                 BehaviourPreferences.setBlurWindows(false)
             }
         }

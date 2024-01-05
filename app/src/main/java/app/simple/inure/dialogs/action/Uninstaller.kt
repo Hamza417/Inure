@@ -19,7 +19,13 @@ import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
 import app.simple.inure.factories.actions.UninstallerViewModelFactory
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.viewmodels.dialogs.UninstallerViewModel
-import app.simple.inure.viewmodels.panels.*
+import app.simple.inure.viewmodels.panels.AppsViewModel
+import app.simple.inure.viewmodels.panels.BatchViewModel
+import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
+import app.simple.inure.viewmodels.panels.BootManagerViewModel
+import app.simple.inure.viewmodels.panels.HomeViewModel
+import app.simple.inure.viewmodels.panels.SearchViewModel
+import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import rikka.shizuku.Shizuku
 
 class Uninstaller : ScopedActionDialogBottomFragment() {

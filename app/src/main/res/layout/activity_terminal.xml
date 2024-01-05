@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/app_container"
     android:orientation="vertical">
 
     <app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,8 +18,8 @@
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/header_padding"
-            app:srcCompat="@drawable/ic_terminal"
             android:transitionName="@string/terminal"
+            app:srcCompat="@drawable/ic_terminal"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
 
