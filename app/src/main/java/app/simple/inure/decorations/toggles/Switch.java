@@ -68,7 +68,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     // Constants
     private final float CORNER_RADIUS = 200;
-    private final float TENSION = 3.5F;
+    private final float OVERSHOOT_TENSION = 3.5F;
     private final float SHADOW_SCALE_RGB = 0.85F;
     private final float SHADOW_SCALE_ALPHA = 0.4F;
     private final float FIXED_THUMB_SCALE = 1F;
@@ -89,6 +89,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private int duration = 500; // Subject to change according to the global animation duration
     
     private boolean isChecked = false;
+    private boolean shouldClick = true;
     
     public Switch(Context context) {
         super(context);
@@ -142,12 +143,15 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             backgroundRect.set(0, 0, width, height);
             
             setOnClickListener(v -> {
-                isChecked = !isChecked;
-                animateThumbX();
-                animateBackgroundColor();
-                animateElevation();
-                if (onCheckedChangeListener != null) {
-                    onCheckedChangeListener.onCheckedChanged(isChecked);
+                if (shouldClick) {
+                    Log.d("Switch", "onClick");
+                    isChecked = !isChecked;
+                    animateThumbX();
+                    animateBackgroundColor();
+                    animateElevation();
+                    if (onCheckedChangeListener != null) {
+                        onCheckedChangeListener.onCheckedChanged(isChecked);
+                    }
                 }
             });
             
@@ -173,12 +177,11 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         
         // Draw background
         backgroundPaint.setColor(backgroundColor);
-        // backgroundPaint.setShadowLayer(shadowRadius, 0, 10, elevationColor);
+        // backgroundPaint.setShadowLayer(shadowRadius, 0, 10, elevationColor); // We'll draw the shadow separately above
         canvas.drawRoundRect(backgroundRect, CORNER_RADIUS, CORNER_RADIUS, backgroundPaint);
         
         // Draw thumb
         canvas.drawCircle(thumbX, thumbY, (thumbDiameter / 2) * currentThumbScale, thumbPaint);
-        // Log.d("Switch", "thumbX: " + thumbX + " thumbY: " + thumbY + " thumbDiameter: " + thumbDiameter);
         
         // Position thumb based on currentThumbPosition
         // canvas.translate(thumbX, thumbY);
@@ -193,26 +196,47 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             case MotionEvent.ACTION_DOWN -> {
                 getParent().requestDisallowInterceptTouchEvent(true);
                 animateThumbSize(true);
+                shouldClick = true; // Reset the click flag
+                
                 return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_MOVE -> {
+                // Cancel some animations
+                if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
+                    thumbXAnimator.cancel();
+                }
+                
+                if (thumbYAnimator != null && thumbYAnimator.isRunning()) {
+                    thumbYAnimator.cancel();
+                }
+                
                 thumbX = event.getX();
                 thumbY = event.getY();
-                /*
-                 * Move the switch thumb on x axis but keep it within the bounds of the switch
-                 * If the bounds is exceeded, set the thumb position to the bounds.
-                 */
+                
+                // The thumb is dragged, prevent the click event
+                shouldClick = false;
                 invalidate();
+                
                 return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_CANCEL -> {
+                // I don't know what to do here
                 Log.d("Switch", "ACTION_CANCEL");
+                
+                return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_UP -> {
                 getParent().requestDisallowInterceptTouchEvent(false);
                 animateThumbSize(false);
-                animateThumbX();
-                animateThumbY();
+                
+                /*
+                 * If the user has dragged the thumb more than half the width of the switch, then
+                 * set the switch to checked state, else set it to unchecked state
+                 */
+                isChecked = thumbX >= width / 2;
+                setChecked(isChecked, true);
+                onCheckedChangeListener.onCheckedChanged(isChecked);
+                
                 return super.onTouchEvent(event);
             }
         }
@@ -245,7 +269,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         
         if (isChecked) {
             thumbXAnimator = ValueAnimator.ofFloat(thumbX, width - thumbDiameter / 2 - thumbPadding / 2);
-            thumbXAnimator.setInterpolator(new OvershootInterpolator(TENSION));
+            thumbXAnimator.setInterpolator(new OvershootInterpolator(OVERSHOOT_TENSION));
             thumbXAnimator.setDuration(duration);
             thumbXAnimator.addUpdateListener(animation -> {
                 thumbX = (float) animation.getAnimatedValue();
@@ -253,7 +277,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             });
         } else {
             thumbXAnimator = ValueAnimator.ofFloat(thumbX, thumbDiameter / 2 + thumbPadding / 2);
-            thumbXAnimator.setInterpolator(new OvershootInterpolator(TENSION));
+            thumbXAnimator.setInterpolator(new OvershootInterpolator(OVERSHOOT_TENSION));
             thumbXAnimator.setDuration(duration);
             thumbXAnimator.addUpdateListener(animation -> {
                 thumbX = (float) animation.getAnimatedValue();
@@ -435,10 +459,14 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private void animateEverything() {
         animateThumbX();
+        animateThumbY();
         animateBackgroundColor();
         animateElevation();
     }
     
+    /**
+     * @noinspection unused
+     */
     public void setChecked(boolean checked, boolean animate) {
         isChecked = checked;
         if (animate) {
