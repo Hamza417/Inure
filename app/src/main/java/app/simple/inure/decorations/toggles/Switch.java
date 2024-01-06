@@ -42,7 +42,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private Drawable thumbDrawable;
     
-    private ValueAnimator thumbAnimator;
+    private ValueAnimator thumbXAnimator;
+    private ValueAnimator thumbYAnimator;
     private ValueAnimator thumbSizeAnimator;
     private ValueAnimator backgroundAnimator;
     private ValueAnimator elevationAnimator;
@@ -142,7 +143,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             
             setOnClickListener(v -> {
                 isChecked = !isChecked;
-                animateThumbPosition();
+                animateThumbX();
                 animateBackgroundColor();
                 animateElevation();
                 if (onCheckedChangeListener != null) {
@@ -195,8 +196,12 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_MOVE -> {
-                // thumbX = event.getX();
-                // thumbY = event.getY();
+                thumbX = event.getX();
+                thumbY = event.getY();
+                /*
+                 * Move the switch thumb on x axis but keep it within the bounds of the switch
+                 * If the bounds is exceeded, set the thumb position to the bounds.
+                 */
                 invalidate();
                 return super.onTouchEvent(event);
             }
@@ -206,6 +211,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             case MotionEvent.ACTION_UP -> {
                 getParent().requestDisallowInterceptTouchEvent(false);
                 animateThumbSize(false);
+                animateThumbX();
+                animateThumbY();
                 return super.onTouchEvent(event);
             }
         }
@@ -225,36 +232,52 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             currentThumbScale = FIXED_THUMB_SCALE;
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
             elevationColor = Color.TRANSPARENT;
-            shadowRadius = 0;
+            shadowRadius = MINIMUM_SHADOW_RADIUS;
         }
         
         invalidate();
     }
     
-    private void animateThumbPosition() {
-        if (thumbAnimator != null && thumbAnimator.isRunning()) {
-            thumbAnimator.cancel();
+    private void animateThumbX() {
+        if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
+            thumbXAnimator.cancel();
         }
         
         if (isChecked) {
-            thumbAnimator = ValueAnimator.ofFloat(thumbX, width - thumbDiameter / 2 - thumbPadding / 2);
-            thumbAnimator.setInterpolator(new OvershootInterpolator(TENSION));
-            thumbAnimator.setDuration(duration);
-            thumbAnimator.addUpdateListener(animation -> {
+            thumbXAnimator = ValueAnimator.ofFloat(thumbX, width - thumbDiameter / 2 - thumbPadding / 2);
+            thumbXAnimator.setInterpolator(new OvershootInterpolator(TENSION));
+            thumbXAnimator.setDuration(duration);
+            thumbXAnimator.addUpdateListener(animation -> {
                 thumbX = (float) animation.getAnimatedValue();
                 invalidate();
             });
         } else {
-            thumbAnimator = ValueAnimator.ofFloat(thumbX, thumbDiameter / 2 + thumbPadding / 2);
-            thumbAnimator.setInterpolator(new OvershootInterpolator(TENSION));
-            thumbAnimator.setDuration(duration);
-            thumbAnimator.addUpdateListener(animation -> {
+            thumbXAnimator = ValueAnimator.ofFloat(thumbX, thumbDiameter / 2 + thumbPadding / 2);
+            thumbXAnimator.setInterpolator(new OvershootInterpolator(TENSION));
+            thumbXAnimator.setDuration(duration);
+            thumbXAnimator.addUpdateListener(animation -> {
                 thumbX = (float) animation.getAnimatedValue();
                 invalidate();
             });
         }
         
-        thumbAnimator.start();
+        thumbXAnimator.start();
+    }
+    
+    private void animateThumbY() {
+        if (thumbYAnimator != null && thumbYAnimator.isRunning()) {
+            thumbYAnimator.cancel();
+        }
+        
+        thumbYAnimator = ValueAnimator.ofFloat(thumbY, height / 2);
+        thumbYAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
+        thumbYAnimator.setDuration(duration);
+        thumbYAnimator.addUpdateListener(animation -> {
+            thumbY = (float) animation.getAnimatedValue();
+            invalidate();
+        });
+        
+        thumbYAnimator.start();
     }
     
     private void animateThumbSize(boolean isTouchDown) {
@@ -411,7 +434,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     }
     
     private void animateEverything() {
-        animateThumbPosition();
+        animateThumbX();
         animateBackgroundColor();
         animateElevation();
     }
