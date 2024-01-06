@@ -45,9 +45,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private ValueAnimator thumbAnimator;
     private ValueAnimator thumbSizeAnimator;
     private ValueAnimator backgroundAnimator;
-    // Constants
-    private final float CORNER_RADIUS = 200;
-    private final float TENSION = 3.5F;
+    private ValueAnimator elevationAnimator;
+    private ValueAnimator elevationColorAnimator;
     
     private OnCheckedChangeListener onCheckedChangeListener;
     
@@ -57,7 +56,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     // X and Y coordinates of the thumb
     private float thumbX = 0;
-    private final float SHADOW_SCALE_RGB = 0.85F;
+    private float thumbY = 0;
     
     // Width and height of the switch
     private float width = 0;
@@ -65,14 +64,17 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     // Padding and diameter of the thumb
     private float thumbPadding = 0;
     private float currentThumbScale = 1;
+    
+    // Constants
+    private final float CORNER_RADIUS = 200;
+    private final float TENSION = 3.5F;
+    private final float SHADOW_SCALE_RGB = 0.85F;
     private final float SHADOW_SCALE_ALPHA = 0.4F;
     private final float FIXED_THUMB_SCALE = 1F;
     private final float THUMB_SCALE_ON_TOUCH = 1.50F;
     private final float SHADOW_Y_OFFSET = 10F;
     private final float MINIMUM_SHADOW_RADIUS = 5F;
-    private ValueAnimator elevationAnimator;
-    private ValueAnimator elevationColorAnimator;
-    private float thumbY = 0;
+    
     /**
      * Radius of the shadow around the background
      */
