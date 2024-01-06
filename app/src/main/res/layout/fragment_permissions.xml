@@ -89,6 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:clipChildren="false"
         android:paddingVertical="5dp"
         android:layoutAnimation="@anim/list_animation_controller"
         app:isFastScrollRequired="false"

@@ -221,7 +221,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     public void setChecked(boolean checked) {
         isChecked = checked;
-        animateChecked();
+        updateChecked();
     }
     
     public void setChecked(boolean checked, boolean animate) {

@@ -109,10 +109,14 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private void init() {
         setClipToOutline(false);
         
-        if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
-            shadowRadius = 10F;
+        if (!isInEditMode()) {
+            if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
+                shadowRadius = 10F;
+            } else {
+                shadowRadius = 0F;
+            }
         } else {
-            shadowRadius = 0F;
+            shadowRadius = 10F;
         }
         
         ColorMatrix matrix = new ColorMatrix();
@@ -144,7 +148,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             
             setOnClickListener(v -> {
                 if (shouldClick) {
-                    Log.d("Switch", "onClick");
                     isChecked = !isChecked;
                     animateThumbX();
                     animateBackgroundColor();
@@ -469,6 +472,20 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     }
     
     /**
+     * Set the switch state without animation
+     * For animated check, use {@link #setChecked(boolean, boolean)}
+     *
+     * @noinspection unused
+     */
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        updateSwitchState();
+    }
+    
+    /**
+     * Set the switch state with or without animation
+     * For unanimated check, use {@link #setChecked(boolean)}
+     *
      * @noinspection unused
      */
     public void setChecked(boolean checked, boolean animate) {
@@ -484,14 +501,87 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         return isChecked;
     }
     
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-        updateSwitchState();
-    }
-    
+    /**
+     * Toggle the switch with animation
+     */
     public void toggle() {
         isChecked = !isChecked;
         animateEverything();
+    }
+    
+    /**
+     * Check the switch without animation
+     * For animated check, use {@link #check(boolean)}
+     */
+    public void check() {
+        isChecked = true;
+        updateSwitchState();
+    }
+    
+    /**
+     * Uncheck the switch without animation
+     * For animated uncheck, use {@link #uncheck(boolean)}
+     *
+     * @noinspection unused
+     */
+    public void uncheck() {
+        isChecked = false;
+        updateSwitchState();
+    }
+    
+    /**
+     * Check the switch with or without animation
+     * For unanimated check, use {@link #check()}
+     *
+     * @param animate Whether to animate the check or not
+     */
+    public void check(boolean animate) {
+        isChecked = true;
+        if (animate) {
+            animateEverything();
+        } else {
+            updateSwitchState();
+        }
+    }
+    
+    /**
+     * Uncheck the switch with or without animation
+     * For unanimated uncheck, use {@link #uncheck()}
+     *
+     * @param animate Whether to animate the uncheck or not
+     * @noinspection unused
+     */
+    public void uncheck(boolean animate) {
+        isChecked = false;
+        if (animate) {
+            animateEverything();
+        } else {
+            updateSwitchState();
+        }
+    }
+    
+    /**
+     * Make the switch visible
+     */
+    public void visible() {
+        updateSwitchState();
+        setVisibility(VISIBLE);
+    }
+    
+    /**
+     * Make the switch invisible
+     */
+    public void invisible() {
+        updateSwitchState();
+        setVisibility(INVISIBLE);
+    }
+    
+    /**
+     * Make the switch gone
+     */
+    public void gone() {
+        updateSwitchState();
+        setVisibility(GONE);
     }
     
     public void setOnSwitchCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
@@ -524,13 +614,45 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         ThemeManager.INSTANCE.addListener(this);
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+        }
     }
     
     @Override
     protected void onDetachedFromWindow() {
+        clearAnimation();
         super.onDetachedFromWindow();
         ThemeManager.INSTANCE.removeListener(this);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+    }
+    
+    @Override
+    public void clearAnimation() {
+        if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
+            thumbXAnimator.cancel();
+        }
+        
+        if (thumbYAnimator != null && thumbYAnimator.isRunning()) {
+            thumbYAnimator.cancel();
+        }
+        
+        if (thumbSizeAnimator != null && thumbSizeAnimator.isRunning()) {
+            thumbSizeAnimator.cancel();
+        }
+        
+        if (backgroundAnimator != null && backgroundAnimator.isRunning()) {
+            backgroundAnimator.cancel();
+        }
+        
+        if (elevationAnimator != null && elevationAnimator.isRunning()) {
+            elevationAnimator.cancel();
+        }
+        
+        if (elevationColorAnimator != null && elevationColorAnimator.isRunning()) {
+            elevationColorAnimator.cancel();
+        }
+        
+        super.clearAnimation();
     }
 }
