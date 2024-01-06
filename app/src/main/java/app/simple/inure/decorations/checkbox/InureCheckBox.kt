@@ -24,6 +24,7 @@ import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils
 
+@Suppress("DEPRECATION")
 @SuppressLint("ClickableViewAccessibility")
 @Deprecated("User CheckBox instead", ReplaceWith("app.simple.inure.decorations.toggles.CheckBox"), DeprecationLevel.ERROR)
 class InureCheckBox @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)

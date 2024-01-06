@@ -28,6 +28,7 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ViewUtils;
 
 /**
  * @noinspection FieldCanBeLocal
@@ -36,6 +37,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private final Paint thumbPaint = new Paint();
     private final Paint backgroundPaint = new Paint();
+    private final Paint elevationPaint = new Paint();
     private final RectF backgroundRect = new RectF();
     
     private Drawable thumbDrawable;
@@ -48,29 +50,36 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private final float TENSION = 3.5F;
     
     private OnCheckedChangeListener onCheckedChangeListener;
-    private final float SHADOW_SCALE_RGB = 0.85F;
-    private final float SHADOW_SCALE_ALPHA = 0.50F;
-    private final float FIXED_THUMB_SCALE = 1F;
-    private final float THUMB_SCALE_ON_TOUCH = 1.50F;
-    private float thumbY = 0;
+    
     private float height = 0;
     private float thumbDiameter = 0;
-    private ValueAnimator elevationAnimator;
     private int backgroundColor = 0;
-    private ValueAnimator elevationColorAnimator;
+    
     // X and Y coordinates of the thumb
     private float thumbX = 0;
+    private final float SHADOW_SCALE_RGB = 0.85F;
+    
     // Width and height of the switch
     private float width = 0;
+    
     // Padding and diameter of the thumb
     private float thumbPadding = 0;
     private float currentThumbScale = 1;
+    private final float SHADOW_SCALE_ALPHA = 0.4F;
+    private final float FIXED_THUMB_SCALE = 1F;
+    private final float THUMB_SCALE_ON_TOUCH = 1.50F;
+    private final float SHADOW_Y_OFFSET = 10F;
+    private final float MINIMUM_SHADOW_RADIUS = 5F;
+    private ValueAnimator elevationAnimator;
+    private ValueAnimator elevationColorAnimator;
+    private float thumbY = 0;
     /**
      * Radius of the shadow around the background
      */
-    private float shadowRadius = 0;
+    private float shadowRadius = MINIMUM_SHADOW_RADIUS;
     private int elevationColor = Color.TRANSPARENT;
     private int elevation = 0;
+    
     /**
      * Duration of the animations
      */
@@ -104,8 +113,10 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         
         ColorMatrix matrix = new ColorMatrix();
         matrix.setScale(SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_RGB, SHADOW_SCALE_ALPHA);
+        elevationPaint.setAntiAlias(true);
+        elevationPaint.setColorFilter(new ColorMatrixColorFilter(matrix));
+        
         backgroundPaint.setAntiAlias(true);
-        backgroundPaint.setColorFilter(new ColorMatrixColorFilter(matrix));
         
         thumbPaint.setAntiAlias(true);
         thumbPaint.setColor(Color.WHITE);
@@ -128,7 +139,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             backgroundRect.set(0, 0, width, height);
             
             setOnClickListener(v -> {
-                Log.d("Switch", "onClick: ");
                 isChecked = !isChecked;
                 animateThumbPosition();
                 animateBackgroundColor();
@@ -146,14 +156,21 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             }
             
             updateSwitchState();
+            setElevation(elevation);
+            ViewUtils.INSTANCE.addShadow(this);
         });
     }
     
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+        // Draw shadow
+        elevationPaint.setColor(backgroundColor);
+        elevationPaint.setShadowLayer(shadowRadius, 0, SHADOW_Y_OFFSET, elevationColor);
+        canvas.drawRoundRect(backgroundRect, CORNER_RADIUS, CORNER_RADIUS, elevationPaint);
+        
         // Draw background
         backgroundPaint.setColor(backgroundColor);
-        backgroundPaint.setShadowLayer(shadowRadius, 0, 10, elevationColor);
+        // backgroundPaint.setShadowLayer(shadowRadius, 0, 10, elevationColor);
         canvas.drawRoundRect(backgroundRect, CORNER_RADIUS, CORNER_RADIUS, backgroundPaint);
         
         // Draw thumb
@@ -169,7 +186,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d("Switch", "onTouchEvent called with: event = [" + event + "]");
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN -> {
                 getParent().requestDisallowInterceptTouchEvent(true);
@@ -177,7 +193,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_MOVE -> {
-                Log.d("Switch", "ACTION_MOVE");
                 // thumbX = event.getX();
                 // thumbY = event.getY();
                 invalidate();
@@ -218,8 +233,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         if (thumbAnimator != null && thumbAnimator.isRunning()) {
             thumbAnimator.cancel();
         }
-        
-        Log.d("Switch", "animateThumbPosition: " + isChecked);
         
         if (isChecked) {
             thumbAnimator = ValueAnimator.ofFloat(thumbX, width - thumbDiameter / 2 - thumbPadding / 2);
@@ -320,7 +333,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 invalidate();
             });
         } else {
-            elevationAnimator = ValueAnimator.ofFloat(shadowRadius, 0);
+            elevationAnimator = ValueAnimator.ofFloat(shadowRadius, MINIMUM_SHADOW_RADIUS);
             elevationAnimator.setDuration(duration);
             elevationAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
             elevationAnimator.addUpdateListener(animation -> {
@@ -436,6 +449,13 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         ThemeChangedListener.super.onThemeChanged(theme, animate);
+        if (!isChecked) {
+            if (animate) {
+                animateEverything();
+            } else {
+                updateSwitchState();
+            }
+        }
     }
     
     @Override
