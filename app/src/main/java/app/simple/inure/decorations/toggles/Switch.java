@@ -210,6 +210,10 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                     thumbYAnimator.cancel();
                 }
                 
+                if (thumbSizeAnimator != null && thumbSizeAnimator.isRunning()) {
+                    thumbSizeAnimator.cancel();
+                }
+                
                 thumbX = event.getX();
                 thumbY = event.getY();
                 
