@@ -66,7 +66,7 @@ class BehaviourScreen : ScopedFragment() {
 
         dimWindows.isChecked = BehaviourPreferences.isDimmingOn()
         blurWindows.isChecked = BehaviourPreferences.isBlurringOn()
-        shadows.isChecked = BehaviourPreferences.areColoredShadowsOn()
+        shadows.isChecked = BehaviourPreferences.isColoredShadow()
         transition.isChecked = BehaviourPreferences.isTransitionOn()
         animations.isChecked = BehaviourPreferences.isArcAnimationOn()
         marquee.isChecked = BehaviourPreferences.isMarqueeOn()

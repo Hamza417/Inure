@@ -162,7 +162,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         backgroundShape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
         
         if (!isInEditMode()) {
-            if (BehaviourPreferences.INSTANCE.areColoredShadowsOn()) {
+            if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
                 backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
             } else {
                 backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));

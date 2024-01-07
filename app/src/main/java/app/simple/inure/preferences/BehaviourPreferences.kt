@@ -8,12 +8,12 @@ object BehaviourPreferences {
 
     private const val dimWindows = "is_dimming_windows_on"
     private const val blurWindow = "is_blurring_windows_on"
-    private const val coloredShadows = "are_colored_shadows_on"
     private const val transition = "is_transition_on"
     private const val arcAnimation = "is_animation_on"
     private const val marquee = "is_marquee_on"
     private const val skipLoading = "skip_main_loading_screen"
 
+    const val coloredShadows = "are_colored_shadows_on"
     const val transitionType = "panel_transition_type"
     const val arcType = "arc_type"
     const val stiffness = "scrolling_stiffness"
@@ -45,7 +45,7 @@ object BehaviourPreferences {
         SharedPreferences.getSharedPreferences().edit().putBoolean(coloredShadows, boolean).apply()
     }
 
-    fun areColoredShadowsOn(): Boolean {
+    fun isColoredShadow(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(coloredShadows, true)
     }
 

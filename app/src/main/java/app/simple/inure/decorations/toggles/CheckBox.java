@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.BehaviourPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
@@ -29,15 +30,24 @@ import app.simple.inure.themes.manager.ThemeManager;
 public class CheckBox extends View implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private final Paint background = new Paint();
+    private final Paint elevationPaint = new Paint();
     private final Paint check = new Paint();
+    
     private final RectF backgroundRect = new RectF();
+    
     private Drawable checkedIcon;
+    
     private ValueAnimator animator = null;
     private ValueAnimator colorAnimator = null;
+    private ValueAnimator elevationAnimator = null;
+    
     private OnCheckedChangeListener listener;
     
     private int backgroundColor;
+    private int elevationColor;
+    
     private boolean isChecked = false;
+    
     private float x;
     private float y;
     private float checkIconRatio = 0.8f;
@@ -94,6 +104,12 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             shadowRadius = 0F;
         }
         
+        if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
+            elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+        } else {
+            elevationColor = Color.DKGRAY;
+        }
+        
         post(() -> {
             x = getWidth() / 2f;
             y = getHeight() / 2f;
@@ -114,9 +130,12 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+        // Draw the shadow
+        elevationPaint.setColor(elevationColor);
+        elevationPaint.setShadowLayer(shadowRadius, 0, 0, elevationColor);
+        
         // Draw the background based on checked state
         background.setColor(backgroundColor);
-        background.setShadowLayer(shadowRadius, 0, 0, backgroundColor);
         
         backgroundRect.set(0, 0, getWidth(), getHeight());
         canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, background);
@@ -126,7 +145,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         super.onDraw(canvas);
     }
     
-    private void animateChecked() {
+    private void animateFinalState() {
         clearAnimation();
         
         if (isChecked) {
@@ -149,6 +168,22 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             colorAnimator.setInterpolator(new DecelerateInterpolator());
             colorAnimator.addUpdateListener(animation -> {
                 backgroundColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
+            
+            int endColor;
+            
+            if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
+                endColor = AppearancePreferences.INSTANCE.getAccentColor();
+            } else {
+                endColor = Color.DKGRAY;
+            }
+            
+            elevationAnimator = ValueAnimator.ofArgb(elevationColor, endColor);
+            elevationAnimator.setDuration(duration);
+            elevationAnimator.setInterpolator(new DecelerateInterpolator());
+            elevationAnimator.addUpdateListener(animation -> {
+                elevationColor = (int) animation.getAnimatedValue();
                 invalidate();
             });
         } else {
@@ -175,10 +210,19 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
                 backgroundColor = (int) animation.getAnimatedValue();
                 invalidate();
             });
+            
+            elevationAnimator = ValueAnimator.ofArgb(elevationColor, Color.TRANSPARENT);
+            elevationAnimator.setDuration(duration);
+            elevationAnimator.setInterpolator(new AccelerateInterpolator());
+            elevationAnimator.addUpdateListener(animation -> {
+                elevationColor = (int) animation.getAnimatedValue();
+                invalidate();
+            });
         }
         
         animator.start();
         colorAnimator.start();
+        elevationAnimator.start();
     }
     
     private void updateChecked() {
@@ -227,7 +271,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     public void setChecked(boolean checked, boolean animate) {
         isChecked = checked;
         if (animate) {
-            animateChecked();
+            animateFinalState();
         } else {
             updateChecked();
         }
@@ -240,7 +284,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             listener.onCheckedChanged(isChecked);
         }
         
-        animateChecked();
+        animateFinalState();
     }
     
     public void toggle(boolean animate) {
@@ -251,7 +295,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         }
         
         if (animate) {
-            animateChecked();
+            animateFinalState();
         } else {
             updateChecked();
         }
@@ -259,7 +303,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     public void animateToggle() {
         isChecked = !isChecked;
-        animateChecked();
+        animateFinalState();
         
         if (listener != null) {
             listener.onCheckedChanged(isChecked);
@@ -362,6 +406,10 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             colorAnimator.cancel();
         }
         
+        if (elevationAnimator != null) {
+            elevationAnimator.cancel();
+        }
+        
         super.clearAnimation();
     }
     
@@ -372,8 +420,8 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
         switch (key) {
-            case AppearancePreferences.accentColor, AppearancePreferences.theme -> {
-                animateChecked();
+            case AppearancePreferences.accentColor, AppearancePreferences.theme, BehaviourPreferences.coloredShadows -> {
+                animateFinalState();
             }
         }
     }
@@ -381,12 +429,12 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
         ThemeChangedListener.super.onThemeChanged(theme, animate);
-        animateChecked();
+        animateFinalState();
     }
     
     @Override
     public void onAccentChanged(@NonNull Accent accent) {
         ThemeChangedListener.super.onAccentChanged(accent);
-        animateChecked();
+        animateFinalState();
     }
 }

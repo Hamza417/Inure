@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.BehaviourPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
@@ -256,7 +257,11 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
             currentThumbScale = FIXED_THUMB_SCALE;
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
-            elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+            if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
+                elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+            } else {
+                elevationColor = Color.DKGRAY;
+            }
             shadowRadius = elevation;
         } else {
             thumbX = thumbDiameter / 2 + thumbPadding / 2;
@@ -381,7 +386,15 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 invalidate();
             });
             
-            elevationColorAnimator = ValueAnimator.ofArgb(elevationColor, AppearancePreferences.INSTANCE.getAccentColor());
+            int endColor;
+            
+            if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
+                endColor = AppearancePreferences.INSTANCE.getAccentColor();
+            } else {
+                endColor = Color.DKGRAY;
+            }
+            
+            elevationColorAnimator = ValueAnimator.ofArgb(elevationColor, endColor);
             elevationColorAnimator.setDuration(duration);
             elevationColorAnimator.setInterpolator(new DecelerateInterpolator(1.5F));
             elevationColorAnimator.addUpdateListener(animation -> {
@@ -590,7 +603,12 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
-    
+        //noinspection SwitchStatementWithTooFewBranches
+        switch (key) {
+            case BehaviourPreferences.coloredShadows -> {
+                animateElevation();
+            }
+        }
     }
     
     @Override

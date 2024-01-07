@@ -90,7 +90,7 @@ object ViewUtils {
      *                    shadow
      */
     fun addShadow(contentView: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && BehaviourPreferences.areColoredShadowsOn()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && BehaviourPreferences.isColoredShadow()) {
             contentView.outlineAmbientShadowColor = AppearancePreferences.getAccentColor()
             contentView.outlineSpotShadowColor = AppearancePreferences.getAccentColor()
         }
