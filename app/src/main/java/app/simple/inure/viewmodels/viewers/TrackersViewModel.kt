@@ -73,25 +73,29 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
     private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val trackersList = arrayListOf<Tracker>()
+            runCatching {
+                val trackersList = arrayListOf<Tracker>()
 
-            trackersList.addAll(getActivityTrackers())
-            trackersList.addAll(getServicesTrackers())
-            trackersList.addAll(getReceiversTrackers())
+                trackersList.addAll(getActivityTrackers())
+                trackersList.addAll(getServicesTrackers())
+                trackersList.addAll(getReceiversTrackers())
 
-            trackersList.sortBy {
-                it.name.substringAfterLast(".")
+                trackersList.sortBy {
+                    it.name.substringAfterLast(".")
+                }
+
+                if (trackersList.size.isZero()) {
+                    postWarning(getString(R.string.no_trackers_found))
+                }
+
+                if (ConfigurationPreferences.isUsingRoot()) {
+                    readIntentFirewallXml(getFileSystemManager(), trackersList)
+                }
+
+                trackers.postValue(trackersList)
+            }.onFailure {
+                postWarning("Error: ${it.message ?: "Unknown error"}")
             }
-
-            if (trackersList.size.isZero()) {
-                postWarning(getString(R.string.no_trackers_found))
-            }
-
-            if (ConfigurationPreferences.isUsingRoot()) {
-                readIntentFirewallXml(getFileSystemManager(), trackersList)
-            }
-
-            trackers.postValue(trackersList)
         }
     }
 
