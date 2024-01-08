@@ -244,7 +244,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val features = StringBuilder()
 
         try {
-            for (feature in packageInfo!!.reqFeatures) {
+            for (feature in packageInfo!!.reqFeatures.filter { it.name != "null" }) {
                 if (features.isEmpty()) {
                     features.append(feature.name)
                 } else {

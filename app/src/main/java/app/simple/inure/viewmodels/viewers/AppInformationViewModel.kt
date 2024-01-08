@@ -554,7 +554,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         val features = StringBuilder()
 
         try {
-            for (feature in packageInfo.reqFeatures) {
+            for (feature in packageInfo.reqFeatures.filter { it.name != "null" }) {
                 if (features.isEmpty()) {
                     if (feature.name.isNullOrEmpty()) {
                         features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
