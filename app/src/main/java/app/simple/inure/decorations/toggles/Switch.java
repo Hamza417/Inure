@@ -29,7 +29,6 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
-import app.simple.inure.util.ViewUtils;
 
 /**
  * @noinspection FieldCanBeLocal
@@ -92,6 +91,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private boolean isChecked = false;
     private boolean shouldClick = true;
     
+    private String tag = "Switch";
+    
     public Switch(Context context) {
         super(context);
         init();
@@ -130,7 +131,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         thumbPaint.setAntiAlias(true);
         thumbPaint.setColor(Color.WHITE);
         thumbPaint.setStyle(Paint.Style.FILL);
-        // thumbPaint.setShadowLayer(shadowRadius, 0, 0, Color.WHITE);
         
         backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
         duration = getResources().getInteger(R.integer.animation_duration);
@@ -140,13 +140,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         thumbDrawable.setTint(Color.WHITE);
         
         post(() -> {
-            width = getWidth();
-            height = getHeight();
-            
-            thumbDiameter = height - thumbPadding;
-            
-            backgroundRect.set(0, 0, width, height);
-            
             setOnClickListener(v -> {
                 if (shouldClick) {
                     isChecked = !isChecked;
@@ -165,10 +158,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
-            updateSwitchState();
-            setElevation(elevation);
-            ViewUtils.INSTANCE.addShadow(this);
         });
     }
     
@@ -252,7 +241,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         return super.onTouchEvent(event);
     }
     
-    private void updateSwitchState() {
+    public void updateSwitchState() {
         if (isChecked) {
             thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
             currentThumbScale = FIXED_THUMB_SCALE;
@@ -462,19 +451,19 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         }
         
         /*
-         * Set the dimensions for the switch thumb
+         * Set the dimensions for the switch elements
          */
+        this.width = width;
+        this.height = height;
+        backgroundRect.set(0, 0, width, height);
         thumbPadding = (float) getResources().getDimensionPixelSize(R.dimen.switch_thumb_dimensions) / 2;
         thumbDiameter = getResources().getDimensionPixelSize(R.dimen.switch_thumb_dimensions);
         thumbY = (float) height / 2;
-        thumbX = thumbDiameter / 2 + thumbPadding / 2;
+        thumbX = width - thumbDiameter / 2 + thumbPadding / 2;
         
         // MUST CALL THIS
         setMeasuredDimension(width, height);
         updateSwitchState();
-        
-        // Update switch state
-        invalidate();
     }
     
     private void animateEverything() {
@@ -571,6 +560,15 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         } else {
             updateSwitchState();
         }
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
+    
+    public void setTag(String tag) {
+        this.tag = tag;
     }
     
     /**
