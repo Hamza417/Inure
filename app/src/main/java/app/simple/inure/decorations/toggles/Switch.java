@@ -89,6 +89,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private int duration = 500; // Subject to change according to the global animation duration
     
     private boolean isChecked = false;
+    private boolean isDragEnabled = true;
     private boolean shouldClick = true;
     
     private String tag = "Switch";
@@ -232,7 +233,10 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                  */
                 isChecked = thumbX >= width / 2;
                 setChecked(isChecked, true);
-                onCheckedChangeListener.onCheckedChanged(isChecked);
+                
+                if (!shouldClick) {
+                    onCheckedChangeListener.onCheckedChanged(isChecked);
+                }
                 
                 return super.onTouchEvent(event);
             }
@@ -569,6 +573,14 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     public void setTag(String tag) {
         this.tag = tag;
+    }
+    
+    public boolean isDragEnabled() {
+        return isDragEnabled;
+    }
+    
+    public void setDragEnabled(boolean dragEnabled) {
+        isDragEnabled = dragEnabled;
     }
     
     /**
