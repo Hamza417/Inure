@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -154,7 +153,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
             kotlin.runCatching {
                 ShizukuUtils.execInternal(Command("dumpsys deviceidle whitelist"), null).let { result ->
-                    Log.d("BatteryOptimizationShizukuViewModel", "loadBatteryOptimizationShizuku:\n${result.out}")
+                    // Log.d("BatteryOptimizationShizukuViewModel", "loadBatteryOptimizationShizuku:\n${result.out}")
                     apps.forEach { packageInfo ->
                         kotlin.runCatching {
                             val outData = result.out.split("\n").find { out ->
