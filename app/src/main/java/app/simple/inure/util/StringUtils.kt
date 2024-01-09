@@ -10,7 +10,7 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
 import java.io.InputStream
 import java.nio.charset.Charset
-import java.util.*
+import java.util.Locale
 
 object StringUtils {
 
@@ -107,7 +107,7 @@ object StringUtils {
     fun Spannable.highlightExtensions(): Spannable {
         kotlin.runCatching {
             val spannable: Spannable = SpannableString(this)
-            spannable.setSpan(ForegroundColorSpan(getExtensionHardcodedColors(this.toString())),
+            spannable.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
                               this.lastIndexOf("."),
                               this.length,
                               Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -117,6 +117,7 @@ object StringUtils {
         }
     }
 
+    @Deprecated("This require hardcoding for every extension, use app accent color instead.")
     private fun getExtensionHardcodedColors(path: String): Int {
         kotlin.runCatching {
             return Color.parseColor(Extensions.imageExtensionColors[path.substring(path.lastIndexOf(".") + 1)])

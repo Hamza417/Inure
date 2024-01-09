@@ -53,7 +53,7 @@ class SharedPreferences : SearchBarScopedFragment() {
                 }
 
                 override fun onResourceLongClicked(path: String, view: View, position: Int) {
-                    PopupSharedPreferences(view).setOnPopupNotesMenuCallbackListener(object : PopupSharedPreferences.Companion.PopupSharedPrefsMenuCallback {
+                    PopupSharedPreferences(requireView()).setOnPopupNotesMenuCallbackListener(object : PopupSharedPreferences.Companion.PopupSharedPrefsMenuCallback {
                         override fun onOpenClicked() {
                             openFragmentSlide(SharedPrefsViewer.newInstance(
                                     sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), "shared_prefs_viewer")

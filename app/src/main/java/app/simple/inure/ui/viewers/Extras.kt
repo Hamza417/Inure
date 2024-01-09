@@ -120,7 +120,7 @@ class Extras : SearchBarScopedFragment() {
         }
 
         options.setOnClickListener {
-            PopupExtrasMenu(it)
+            PopupExtrasMenu(requireView())
         }
 
         search.setOnClickListener {

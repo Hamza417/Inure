@@ -68,7 +68,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     // Constants
     private final float CORNER_RADIUS = 200;
-    private final float OVERSHOOT_TENSION = 3.5F;
+    private final float OVERSHOOT_TENSION = 1F; // Lower is smoother, higher is more bouncy
     private final float SHADOW_SCALE_RGB = 0.85F;
     private final float SHADOW_SCALE_ALPHA = 0.4F;
     private final float FIXED_THUMB_SCALE = 1F;
@@ -90,6 +90,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private boolean isChecked = false;
     private boolean isDragEnabled = true;
+    private boolean isDragging = false;
     private boolean shouldClick = true;
     
     private String tag = "Switch";
@@ -175,6 +176,13 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         canvas.drawRoundRect(backgroundRect, CORNER_RADIUS, CORNER_RADIUS, backgroundPaint);
         
         // Draw thumb
+        //noinspection StatementWithEmptyBody
+        if (isDragging) {
+            // thumbPaint.setShadowLayer(20F, 0, 0, AppearancePreferences.INSTANCE.getAccentColor());
+        } else {
+            // thumbPaint.setShadowLayer(0, 0, 0, Color.TRANSPARENT);
+        }
+        
         canvas.drawCircle(thumbX, thumbY, (thumbDiameter / 2) * currentThumbScale, thumbPaint);
         
         // Position thumb based on currentThumbPosition
@@ -196,29 +204,32 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             }
             case MotionEvent.ACTION_MOVE -> {
                 // Cancel some animations
-                if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
-                    thumbXAnimator.cancel();
+                if (isDragEnabled) {
+                    if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
+                        thumbXAnimator.cancel();
+                    }
+                    
+                    if (thumbYAnimator != null && thumbYAnimator.isRunning()) {
+                        thumbYAnimator.cancel();
+                    }
+                    
+                    if (thumbSizeAnimator != null && thumbSizeAnimator.isRunning()) {
+                        thumbSizeAnimator.cancel();
+                    }
+                    
+                    thumbX = event.getX();
+                    thumbY = event.getY();
+                    
+                    // The thumb is dragged, prevent the click event
+                    shouldClick = false;
+                    isDragging = true;
+                    invalidate();
                 }
-                
-                if (thumbYAnimator != null && thumbYAnimator.isRunning()) {
-                    thumbYAnimator.cancel();
-                }
-                
-                if (thumbSizeAnimator != null && thumbSizeAnimator.isRunning()) {
-                    thumbSizeAnimator.cancel();
-                }
-                
-                thumbX = event.getX();
-                thumbY = event.getY();
-                
-                // The thumb is dragged, prevent the click event
-                shouldClick = false;
-                invalidate();
                 
                 return super.onTouchEvent(event);
             }
             case MotionEvent.ACTION_CANCEL -> {
-                // I don't know what to do here
+                isDragging = false;
                 Log.d("Switch", "ACTION_CANCEL");
                 
                 return super.onTouchEvent(event);
@@ -231,6 +242,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                  * If the user has dragged the thumb more than half the width of the switch, then
                  * set the switch to checked state, else set it to unchecked state
                  */
+                isDragging = false;
                 isChecked = thumbX >= width / 2;
                 setChecked(isChecked, true);
                 

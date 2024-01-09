@@ -1,10 +1,10 @@
 package app.simple.inure.popups.viewers
 
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
@@ -21,7 +21,7 @@ class PopupSharedPreferences(view: View) : BasePopupWindow() {
         delete = contentView.findViewById(R.id.popup_delete)
         open = contentView.findViewById(R.id.popup_open)
 
-        init(contentView, view, Gravity.END)
+        init(contentView, view, Misc.xOffset, Misc.yOffset)
     }
 
     fun setOnPopupNotesMenuCallbackListener(popupSharedPrefsMenuCallback: PopupSharedPrefsMenuCallback) {

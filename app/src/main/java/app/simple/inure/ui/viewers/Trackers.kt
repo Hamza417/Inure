@@ -61,7 +61,12 @@ class Trackers : SearchBarScopedFragment() {
 
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
             progress.gone(true)
-            search.visible(animate = true)
+            if (trackers.isNotEmpty()) {
+                search.visible(animate = true)
+            } else {
+                search.gone(true)
+            }
+
             val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
@@ -102,7 +107,11 @@ class Trackers : SearchBarScopedFragment() {
                     openFragmentSlide(IFWViewer.newInstance(packageInfo), "ifw_viewer")
                 }
 
-                ifwButton.visible(animate = true)
+                if (trackers.isNotEmpty()) {
+                    ifwButton.visible(animate = true)
+                } else {
+                    ifwButton.gone(false)
+                }
             } else {
                 ifwButton.gone(true)
             }
