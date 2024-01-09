@@ -73,8 +73,8 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 Log.d("ForceCloseViewModel", "Running Shizuku command...")
-                ShizukuServiceHelper().service?.execute(mutableListOf("am force-stop ${packageInfo.packageName}"), null, null).let {
-                    Log.d("ForceCloseViewModel", it?.toString()!!)
+                ShizukuServiceHelper().service?.execute(mutableListOf("am", "force-stop", packageInfo.packageName), null, null)?.let {
+                    Log.d("ForceCloseViewModel", it.toString())
                     if (it.isSuccess) {
                         result.postValue(it.output)
                         Log.d("ForceCloseViewModel", it.output.toString())

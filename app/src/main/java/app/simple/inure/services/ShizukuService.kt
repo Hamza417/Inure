@@ -15,13 +15,16 @@ class ShizukuService : IUserService.Stub() {
     }
 
     override fun exit() {
+        Log.d("ShizukuService", "exit")
         destroy()
     }
 
     override fun execute(cmdarray: MutableList<String>?, envp: MutableList<String>?, dir: String?): ExecuteResult = runBlocking(Dispatchers.IO) {
+        Log.d("ShizukuService", "execute: ${cmdarray?.toTypedArray()?.contentToString()}")
         val process = Runtime.getRuntime().exec(cmdarray?.toTypedArray(), envp?.toTypedArray(), dir?.let {
             File(it)
         })
+        Log.d("ShizukuService", "execute: ${cmdarray?.toTypedArray()?.contentToString()}")
         val exitCode = process.waitFor()
         val error = process.errorStream.readBytes().decodeToString()
         val output = process.inputStream.readBytes().decodeToString()

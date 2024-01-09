@@ -60,7 +60,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                     //                        return@launch
                     //                    }
 
-                    withTimeout(1) {
+                    withTimeout(15000) {
                         Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMode)
 
                         kotlin.runCatching {
@@ -78,15 +78,11 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                             // it.printStackTrace()
                         }
 
-                        Log.d("RootViewModel", "Shell initialization begins")
-
                         Shell.cmd("su --mount-master").exec().let {
                             if (it.isSuccess) {
-                                Log.d("RootViewModel", "Shell initialization successful")
                                 shell = Shell.getShell()
                                 onShellCreated(shell)
                             } else {
-                                Log.d("RootViewModel", "Shell initialization failed")
                                 onShellDenied()
                                 warning.postValue(Warnings.getNoRootConnectionWarning())
                             }
