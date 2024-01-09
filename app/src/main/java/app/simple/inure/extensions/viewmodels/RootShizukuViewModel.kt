@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
-import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import com.topjohnwu.superuser.NoShellException
@@ -60,7 +59,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                     //                        return@launch
                     //                    }
 
-                    withTimeout(15000) {
+                    withTimeout(10000) {
                         Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.debugMode)
 
                         kotlin.runCatching {
@@ -78,11 +77,15 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                             // it.printStackTrace()
                         }
 
+                        Log.d("RootViewModel", "Shell initialization begins")
+
                         Shell.cmd("su --mount-master").exec().let {
                             if (it.isSuccess) {
+                                Log.d("RootViewModel", "Shell initialization successful")
                                 shell = Shell.getShell()
                                 onShellCreated(shell)
                             } else {
+                                Log.d("RootViewModel", "Shell initialization failed")
                                 onShellDenied()
                                 warning.postValue(Warnings.getNoRootConnectionWarning())
                             }
@@ -113,27 +116,15 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            runCatching {
-                ShizukuServiceHelper().bindUserService {
-                    Log.d("RootViewModel", "Shizuku service initialization successful")
-                    onShizukuCreated()
-                }
-            }.onFailure {
-                if (it is RuntimeException) {
-                    onShizukuDenied()
-                    Log.d("RootViewModel", "Shizuku service initialization failed")
-                }
-            }
+            onShizukuCreated()
         } else {
             onShizukuDenied()
-            Log.d("RootViewModel", "Shizuku service initialization failed")
         }
     }
 
     override fun onCleared() {
         super.onCleared()
         shell?.close()
-        ShizukuServiceHelper().unbindUserService()
 
         kotlin.runCatching {
             Shizuku.removeBinderReceivedListener(onBinderReceivedListener)

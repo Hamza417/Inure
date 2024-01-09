@@ -9,7 +9,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
-import app.simple.inure.helpers.ShizukuServiceHelper
+import app.simple.inure.shizuku.Shell.Command
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,25 +74,17 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 Log.d("ForceCloseViewModel", "Running Shizuku command...")
-                ShizukuServiceHelper().service?.execute(mutableListOf("am", "force-stop", packageInfo.packageName), null, null)?.let {
+                ShizukuUtils.execInternal(Command("am force-stop ${packageInfo.packageName}"), null).let {
+                    result.postValue(it.toString())
                     Log.d("ForceCloseViewModel", it.toString())
-                    if (it.isSuccess) {
-                        result.postValue(it.output)
-                        Log.d("ForceCloseViewModel", it.output.toString())
-                    } else {
-                        result.postValue(it.error)
-                        Log.d("ForceCloseViewModel", it.error.toString())
-                    }
                 }
             }.onFailure {
-                it.printStackTrace()
-                result.postValue("\n" + it.message)
+                result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
             }.onSuccess {
                 success.postValue("Done")
             }.getOrElse {
-                it.printStackTrace()
-                result.postValue("\n" + it.message)
+                result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
             }
         }

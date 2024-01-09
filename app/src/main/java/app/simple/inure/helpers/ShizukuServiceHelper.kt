@@ -52,12 +52,18 @@ class ShizukuServiceHelper {
         if (isSupported()) {
             val runnable = onBound?.let { Runnable { it.invoke() } }
             runCatching {
-                runnable?.let { onServiceConnectedListeners.add(it) }
+                runnable?.let {
+                    onServiceConnectedListeners.add(it)
+                }
+
                 Shizuku.bindUserService(userServiceArgs, userServiceConnection)
-            }.onFailure {
-                runnable?.let { onServiceConnectedListeners.remove(it) }
-                it.printStackTrace()
-                throw it
+            }.onFailure { throwable ->
+                runnable?.let {
+                    onServiceConnectedListeners.remove(it)
+                }
+
+                throwable.printStackTrace()
+                throw throwable
             }
         } else {
             throw RuntimeException("Current Shizuku version is not supported: ${Shizuku.getVersion()}")
