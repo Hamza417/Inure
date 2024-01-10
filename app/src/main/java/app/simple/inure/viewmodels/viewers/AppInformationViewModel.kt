@@ -129,6 +129,9 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             informationList.add(getMinSDK())
             informationList.add(getTargetSDK())
             informationList.add(getFOSS())
+            if (FOSSParser.isPackageFOSS(packageInfo)) {
+                informationList.add(getFOSSLicense())
+            }
             informationList.add(getXposedModule())
             if (packageInfo.applicationInfo.isXposedModule()) {
                 informationList.add(getXposedDescription())
@@ -336,6 +339,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         return Pair(R.string.foss,
                     (if (isFOSS) getString(R.string.yes) else getString(R.string.no))
                         .applySecondaryTextColor())
+    }
+
+    private fun getFOSSLicense(): Pair<Int, Spannable> {
+        FOSSParser.init(application)
+        val licenses = FOSSParser.getPackageLicense(packageInfo)
+        return Pair(R.string.open_source_licenses,
+                    licenses.toString().applySecondaryTextColor())
     }
 
     private fun getXposedModule(): Pair<Int, Spannable> {

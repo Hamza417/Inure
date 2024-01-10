@@ -88,7 +88,7 @@ public class FOSSParser {
     }
     
     @Nullable
-    public static String getOpenSourceLicense(PackageInfo packageInfo) {
+    public static String getPackageLicense(PackageInfo packageInfo) {
         try {
             String license = packageVersions.get(packageInfo.packageName);
             
