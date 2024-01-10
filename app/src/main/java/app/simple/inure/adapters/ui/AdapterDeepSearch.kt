@@ -38,7 +38,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
         holder.packageId.text = deepSearchInfo[position].packageInfo.packageName
 
         holder.name.setStrikeThru(deepSearchInfo[position].packageInfo.applicationInfo.enabled)
-        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(deepSearchInfo[position].packageInfo.packageName))
+        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(deepSearchInfo[position].packageInfo))
         holder.info.setAppInfo(deepSearchInfo[position].packageInfo)
         holder.setDeepInfo(deepSearchInfo[position])
 

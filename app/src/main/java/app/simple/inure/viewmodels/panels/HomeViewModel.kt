@@ -211,7 +211,7 @@ class HomeViewModel(application: Application) :
             FOSSParser.init(application.applicationContext)
 
             val apps = getInstalledApps().stream()
-                .filter { FOSSParser.isPackageFOSS(it.packageName) }
+                .filter { FOSSParser.isPackageFOSS(it) }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             apps.sortBy {

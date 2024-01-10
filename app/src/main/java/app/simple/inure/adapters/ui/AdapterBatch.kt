@@ -69,7 +69,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo.packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
             holder.checkBox.setChecked(apps[position].isSelected, false)
 
             if (highlight) {

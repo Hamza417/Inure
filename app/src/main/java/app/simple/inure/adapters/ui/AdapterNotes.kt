@@ -65,7 +65,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             holder.note.text = notes[position].note.subSequence(0, notes[position].note.length.coerceAtMost(1000))
 
             holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(notes[position].packageInfo.packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(notes[position].packageInfo))
 
             if (areNotesExpanded) {
                 holder.note.maxLines = 60

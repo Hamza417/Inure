@@ -58,7 +58,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo.packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
 
             holder.data.text = with(StringBuilder()) {
                 append(holder.getString(getAppType(apps[position].type)))

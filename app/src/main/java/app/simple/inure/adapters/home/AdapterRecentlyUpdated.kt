@@ -49,7 +49,7 @@ class AdapterRecentlyUpdated : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
             holder.date.setRecentlyUpdatedInfo(apps[position])
 
             holder.container.setOnClickListener {

@@ -155,19 +155,19 @@ If you are a developer and want your app to be listed in the FOSS panel of Inure
 2. You can add `open_source` tag in your app's manifest file and Inure will fetch this info during the runtime and will include your app based on the flag.
 
    ```xml
-       <application
-           .....
-        >
+    <application
+        .....
+     >
 
-        <meta-data
-            android:name="open_source"
-            android:value="true" /> <!-- Set to true to indicate the app is open source -->
-   
-        <meta-data
-            android:name="open_source_license"
-            android:value="GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007" /> <!-- License of your app -->
-   
-       </application>
+     <meta-data
+         android:name="open_source"
+         android:value="true" /> <!-- Set to true to indicate the app is open source -->
+
+     <meta-data
+         android:name="open_source_license"
+         android:value="GNU GENERAL PUBLIC LICENSE Version 3" /> <!-- License of your app -->
+
+    </application>
    ```
    
 ## Contribute

@@ -206,7 +206,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
-                        if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
+                        if (FOSSParser.isPackageFOSS(packageInfo)) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -281,7 +281,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             }
         } && when {
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS) -> {
-                FOSSParser.isPackageFOSS(packageInfo.packageName)
+                FOSSParser.isPackageFOSS(packageInfo)
             }
             else -> {
                 true

@@ -50,7 +50,7 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.packageId.text = apps[position].packageInfo?.packageName
 
             holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo?.packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
 
             with(apps[position].totalTimeUsed) {
                 holder.date.apply {

@@ -156,11 +156,11 @@ class AppsMenu : ScopedDialogFragment() {
 
         name.apply {
             text = packageInfo.applicationInfo.name
-            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo.packageName))
+            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
         }
 
         markAsFOSS.text = buildString {
-            if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
+            if (FOSSParser.isPackageFOSS(packageInfo)) {
                 append(getString(R.string.mark_as_non_foss))
             } else {
                 append(getString(R.string.mark_as_foss))
@@ -282,7 +282,7 @@ class AppsMenu : ScopedDialogFragment() {
 
         markAsFOSS.setOnClickListener {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                if (FOSSParser.isPackageFOSS(packageInfo.packageName)) {
+                if (FOSSParser.isPackageFOSS(packageInfo)) {
                     FOSSParser.removePackage(packageInfo.packageName, requireContext())
                     withContext(Dispatchers.Main) {
                         markAsFOSS.text = getString(R.string.mark_as_foss)

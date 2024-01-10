@@ -50,7 +50,7 @@ class AdapterHidden(var apps: ArrayList<PackageInfo> = arrayListOf()) : Recycler
             holder.packageId.text = apps[position].packageName
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
 
             holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, FormattingPreferences.getDateFormat())
 

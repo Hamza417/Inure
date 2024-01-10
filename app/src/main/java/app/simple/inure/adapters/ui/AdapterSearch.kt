@@ -38,7 +38,7 @@ class AdapterSearch(private var apps: ArrayList<PackageInfo>, private var search
         holder.packageId.text = apps[position].packageName
 
         holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
         holder.info.setAppInfo(apps[position])
 
         holder.container.setOnClickListener {

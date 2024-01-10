@@ -568,7 +568,7 @@ class AppInfo : ScopedFragment() {
 
         name.apply {
             text = packageInfo.applicationInfo.name
-            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo.packageName))
+            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
         }
         packageId.text = packageInfo.packageName
 

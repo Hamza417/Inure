@@ -69,7 +69,7 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
             }
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
 
             holder.info.setAppInfo(apps[position])
 

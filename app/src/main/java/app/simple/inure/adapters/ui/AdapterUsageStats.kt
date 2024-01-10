@@ -71,7 +71,7 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
             holder.wifiDown.text = apps[position].wifiData?.rx?.toSize()
 
             holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo?.packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
 
             with(apps[position].totalTimeUsed) {
                 holder.time.apply {

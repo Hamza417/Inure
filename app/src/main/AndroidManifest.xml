@@ -84,6 +84,18 @@
 
         <profileable android:shell="true" />
 
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
+
+        <meta-data
+            android:name="open_source"
+            android:value="true" />
+
+        <meta-data
+            android:name="open_source_license"
+            android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
+
         <activity
             android:name=".activities.app.MainActivity"
             android:configChanges="uiMode"
@@ -836,10 +848,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
 
     </application>
 

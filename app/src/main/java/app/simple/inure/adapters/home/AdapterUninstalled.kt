@@ -51,7 +51,7 @@ class AdapterUninstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.packageId.text = apps[position].packageName
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageName))
+            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
 
             holder.date.setUninstalledAppInfo(apps[position])
 

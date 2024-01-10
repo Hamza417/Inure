@@ -332,7 +332,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getFOSS(): Pair<Int, Spannable> {
         FOSSParser.init(application)
-        val isFOSS = FOSSParser.isPackageFOSS(packageInfo.packageName)
+        val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
         return Pair(R.string.foss,
                     (if (isFOSS) getString(R.string.yes) else getString(R.string.no))
                         .applySecondaryTextColor())

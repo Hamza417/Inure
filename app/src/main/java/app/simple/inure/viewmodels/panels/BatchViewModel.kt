@@ -117,7 +117,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_FOSS)) {
-                    if (FOSSParser.isPackageFOSS(item.packageInfo.packageName)) {
+                    if (FOSSParser.isPackageFOSS(item.packageInfo)) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }

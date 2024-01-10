@@ -1,6 +1,7 @@
 package app.simple.inure.apk.parsers;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 
@@ -10,6 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import androidx.annotation.Nullable;
 import app.simple.inure.R;
 import app.simple.inure.database.instances.FOSSDatabase;
 import app.simple.inure.models.FOSS;
@@ -19,6 +21,9 @@ import kotlin.Unit;
 public class FOSSParser {
     
     private static HashMap <String, String> packageVersions;
+    private static final String OPEN_SOURCE = "open_source";
+    private static final String OPEN_SOURCE_LICENSE = "open_source_license";
+    private static final String TAG = "FOSSParser";
     
     public static void init(Context context) {
         packageVersions = new HashMap <>();
@@ -50,9 +55,9 @@ public class FOSSParser {
                 }
                 eventType = xmlParser.next();
             }
-    
+            
             xmlParser.close();
-    
+            
             parseFromDatabase(context);
         } catch (XmlPullParserException | IOException e) {
             e.printStackTrace();
@@ -77,11 +82,21 @@ public class FOSSParser {
         return packageVersions.get(packageName);
     }
     
-    public static boolean isPackageFOSS(String packageName) {
+    public static boolean isPackageFOSS(PackageInfo packageInfo) {
         try {
-            return packageVersions.containsKey(packageName);
+            return packageVersions.containsKey(packageInfo.packageName) ||
+                    packageInfo.applicationInfo.metaData.getBoolean(OPEN_SOURCE);
         } catch (NullPointerException e) {
             return false;
+        }
+    }
+    
+    @Nullable
+    public static String getOpenSourceLicense(PackageInfo packageInfo) {
+        try {
+            return packageInfo.applicationInfo.metaData.getString(OPEN_SOURCE_LICENSE);
+        } catch (NullPointerException e) {
+            return null;
         }
     }
     
