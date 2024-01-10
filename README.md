@@ -151,8 +151,10 @@ Various styles of menus and dialogs used in the app.
 
 If you are a developer and want your app to be listed in the FOSS panel of Inure, there are two ways this can be done.
 
-1. You can publish your app on F-Droid and inure will automatically fetch the list from the F-Droid's repositories.
-2. You can add `open_source` tag in your app's manifest file and Inure will fetch this info during the runtime and will include your app based on the flag.
+1. You can publish your app on F-Droid. Inure automatically mark the app as FOSS if it's available
+   on F-Droid.
+2. You can add `open_source` tag in your app's manifest file and Inure will fetch this info during
+   the runtime and will include your app based on the flag.
 
    ```xml
     <application

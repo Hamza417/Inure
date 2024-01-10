@@ -78,10 +78,6 @@ public class FOSSParser {
         });
     }
     
-    public static String getPackageVersion(String packageName) {
-        return packageVersions.get(packageName);
-    }
-    
     public static boolean isPackageFOSS(PackageInfo packageInfo) {
         try {
             return packageVersions.containsKey(packageInfo.packageName) ||
@@ -94,9 +90,25 @@ public class FOSSParser {
     @Nullable
     public static String getOpenSourceLicense(PackageInfo packageInfo) {
         try {
-            return packageInfo.applicationInfo.metaData.getString(OPEN_SOURCE_LICENSE);
+            String license = packageVersions.get(packageInfo.packageName);
+            
+            if (license != null) {
+                return license;
+            } else {
+                throw new NullPointerException();
+            }
         } catch (NullPointerException e) {
-            return null;
+            try {
+                String license = packageInfo.applicationInfo.metaData.getString(OPEN_SOURCE_LICENSE);
+                
+                if (license != null) {
+                    return license;
+                } else {
+                    throw new NullPointerException();
+                }
+            } catch (NullPointerException e1) {
+                return null;
+            }
         }
     }
     

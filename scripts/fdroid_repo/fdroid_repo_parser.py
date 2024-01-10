@@ -52,12 +52,12 @@ count = 0
 def parse_xml(root):
     for application in root.findall(".//application"):
         app_id = application.get("id")
-        version_code = application.find(".//versioncode").text
+        license_ = application.find(".//license").text
 
         # Check for duplicates before adding to the xml_content
         global xml_content  # use the global xml_content variable
         if f'{app_id}' not in xml_content:
-            xml_content += f'    <string name="{app_id}" translatable="false">{version_code}</string>\n'
+            xml_content += f'    <string name="{app_id}" translatable="false">{license_}</string>\n'
             global count  # use the global count variable
             count += 1
 
