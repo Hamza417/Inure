@@ -10,7 +10,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
@@ -18,6 +17,7 @@ import app.simple.inure.decorations.corners.DynamicCornerMaterialCardView
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.Utils
 import app.simple.inure.decorations.theme.ThemeIcon
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.AppearancePreferences.getCornerRadius
 import app.simple.inure.themes.data.MaterialYou
@@ -86,14 +86,14 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
             if (AppearancePreferences.isCustomColor()) {
                 holder.tick.visibility = if (list[position1].first == Color.DKGRAY) {
-                    lastSelectedItem = holder.absoluteAdapterPosition
+                    lastSelectedItem = holder.bindingAdapterPosition
                     View.VISIBLE
                 } else {
-                    View.INVISIBLE
+                    View.GONE
                 }
             } else {
                 holder.tick.visibility = if (list[position1].first == AppearancePreferences.getAccentColor()) {
-                    lastSelectedItem = holder.absoluteAdapterPosition
+                    lastSelectedItem = holder.bindingAdapterPosition
                     View.VISIBLE
                 } else {
                     View.INVISIBLE
@@ -101,6 +101,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             }
         } else if (holder is Header) {
             holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+            holder.title.setTextColor(AppearancePreferences.getAccentColor())
         }
     }
 
@@ -117,13 +118,14 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val color: DynamicCornerAccentColor = itemView.findViewById(R.id.adapter_palette_color)
         val tick: ThemeIcon = itemView.findViewById(R.id.adapter_accent_check_icon)
-        val name: TextView = itemView.findViewById(R.id.color_name)
-        val hex: TextView = itemView.findViewById(R.id.color_hex)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.color_name)
+        val hex: TypeFaceTextView = itemView.findViewById(R.id.color_hex)
         val container: DynamicCornerMaterialCardView = itemView.findViewById(R.id.color_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
-        val total: TextView = itemView.findViewById(R.id.adapter_accent_total)
+        val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_accent_total)
+        val title: TypeFaceTextView = itemView.findViewById(R.id.title)
     }
 
     private fun getRippleDrawable(backgroundDrawable: Drawable?, color: Int): RippleDrawable {
