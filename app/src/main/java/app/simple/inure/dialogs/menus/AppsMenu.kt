@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -305,15 +304,6 @@ class AppsMenu : ScopedDialogFragment() {
                     }
                 }
             }
-        }
-    }
-
-    private fun PackageInfo.getVersionCode(): Long {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            this.longVersionCode
-        } else {
-            @Suppress("DEPRECATION")
-            this.versionCode.toLong()
         }
     }
 

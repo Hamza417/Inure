@@ -14,7 +14,11 @@
         android:layout_height="wrap_content"
         android:text="@string/mark_as_foss"
         android:textSize="@dimen/popup_text_size"
+        android:gravity="center_vertical"
+        android:drawablePadding="5dp"
         app:appFontStyle="bold"
+        app:drawableEndCompat="@drawable/ic_warning_tiny"
+        app:drawableTintStyle="warning"
         app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -22,11 +26,8 @@
         android:layout_height="wrap_content"
         android:text="@string/foss_license_warning"
         android:layout_marginTop="5dp"
-        android:drawablePadding="5dp"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
-        app:drawableEndCompat="@drawable/ic_warning_tiny"
-        app:drawableTintStyle="warning"
         app:textColorStyle="tertiary" />
 
     <LinearLayout
