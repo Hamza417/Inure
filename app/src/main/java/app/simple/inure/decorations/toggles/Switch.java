@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.BehaviourPreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
@@ -68,7 +69,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     // Constants
     private final float CORNER_RADIUS = 200;
-    private final float OVERSHOOT_TENSION = 1F; // Lower is smoother, higher is more bouncy
+    private float OVERSHOOT_TENSION = 1F; // Lower is smoother, higher is more bouncy
     private final float SHADOW_SCALE_RGB = 0.85F;
     private final float SHADOW_SCALE_ALPHA = 0.4F;
     private final float FIXED_THUMB_SCALE = 1F;
@@ -112,6 +113,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private void init() {
         setClipToOutline(false);
+        setDragEnabled(!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwichDraggable));
         
         if (!isInEditMode()) {
             if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
@@ -199,6 +201,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 getParent().requestDisallowInterceptTouchEvent(true);
                 animateThumbSize(true);
                 shouldClick = true; // Reset the click flag
+                OVERSHOOT_TENSION = 3.5F;
                 
                 return super.onTouchEvent(event);
             }
@@ -223,6 +226,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                     // The thumb is dragged, prevent the click event
                     shouldClick = false;
                     isDragging = true;
+                    OVERSHOOT_TENSION = 1F;
+                    
                     invalidate();
                 }
                 

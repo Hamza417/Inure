@@ -33,6 +33,7 @@ object DevelopmentPreferences {
     const val pauseImageLoader = "is_image_loader_paused"
     const val expandHomeHeader = "is_home_header_expanded"
     const val isUserSelectionEnabledInInstaller = "is_user_selection_enabled_in_installer"
+    const val isSwichDraggable = "is_switch_draggable"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -183,6 +184,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Enable User Selection In Installer",
                                             "Enable user selection in installer.",
                                             isUserSelectionEnabledInInstaller,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Disable Draggable Switch",
+                                            "Disable the draggable property of the switch in the app.",
+                                            isSwichDraggable,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
