@@ -146,6 +146,30 @@ Various styles of menus and dialogs used in the app.
 |:---------------------------------------:|
 | Presentation design for Batch interface |
 
+
+## Include your app in Inure's FOSS panel
+
+If you are a developer and want your app to be listed in the FOSS panel of Inure, there are two ways this can be done.
+
+1. You can publish your app on F-Droid and inure will automatically fetch the list from the F-Droid's repositories.
+2. You can add `open_source` tag in your app's manifest file and Inure will fetch this info during the runtime and will include your app based on the flag.
+
+   ```xml
+       <application
+           .....
+        >
+
+        <meta-data
+            android:name="open_source"
+            android:value="true" /> <!-- Set to true to indicate the app is open source -->
+   
+        <meta-data
+            android:name="open_source_license"
+            android:value="GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007" /> <!-- License of your app -->
+   
+       </application>
+   ```
+   
 ## Contribute
 
 #### Developers
@@ -168,8 +192,7 @@ from `app/src/main/res/values-locale-code` directory.
 You cannot do the above still wanna show your support? hit the star 🌟 and let me know you were here
 and appreciate the project.. 😄
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Hamza417/Inure&type=Date)](https://star-history.com/#Hamza417/Inure&Date
-)
+[![Star History Chart](https://api.star-history.com/svg?repos=Hamza417/Inure&type=Date)](https://star-history.com/#Hamza417/Inure&Date)
 
 ## License
 
