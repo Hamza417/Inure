@@ -17,19 +17,38 @@
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.corners.DynamicCornerEditText
-        android:id="@+id/edit_text"
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/foss_license_warning"
+        android:layout_marginTop="5dp"
+        android:drawablePadding="5dp"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:drawableEndCompat="@drawable/ic_warning_tiny"
+        app:drawableTintStyle="warning"
+        app:textColorStyle="tertiary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/dialog_padding"
-        android:hint="@string/open_source_licenses"
-        android:importantForAutofill="no"
-        android:inputType="textNoSuggestions"
-        android:maxLines="1"
-        android:paddingHorizontal="@dimen/dialog_padding"
-        android:textCursorDrawable="@drawable/text_cursor"
-        app:appFontStyle="medium"
-        app:textColorStyle="primary" />
+        android:orientation="horizontal">
+
+        <app.simple.inure.decorations.views.HintsEditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/open_source_licenses"
+            android:importantForAutofill="no"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

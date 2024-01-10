@@ -292,11 +292,15 @@ class AppsMenu : ScopedDialogFragment() {
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        childFragmentManager.showMarkFossDialog().OnMarkFossSaved = { license ->
-                            FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
-                            markAsFOSS.text = getString(R.string.mark_as_non_foss)
-                            name.setFOSSIcon(true)
-                            homeViewModel.refreshFossApps()
+                        childFragmentManager.showMarkFossDialog().onMarkFossSaved = { license ->
+                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                                FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
+                                withContext(Dispatchers.Main) {
+                                    markAsFOSS.text = getString(R.string.mark_as_non_foss)
+                                    name.setFOSSIcon(true)
+                                    homeViewModel.refreshFossApps()
+                                }
+                            }
                         }
                     }
                 }

@@ -1,0 +1,47 @@
+<resources>
+    <string-array name="osi_approved_licenses">
+        <item>Apache License 2.0</item>
+        <item>Apple Public Source License 2.0 (APSL-2.0)</item>
+        <item>Artistic License 2.0</item>
+        <item>Attribution Assurance License</item>
+        <item>BSD 2-Clause "Simplified" License</item>
+        <item>BSD 3-Clause "New" or "Revised" License</item>
+        <item>Boost Software License 1.0</item>
+        <item>Common Development and Distribution License 1.0 (CDDL-1.0)</item>
+        <item>Creative Commons Zero v1.0 Universal</item>
+        <item>Eclipse Public License 1.0</item>
+        <item>European Union Public License 1.1 (EUPL-1.1)</item>
+        <item>GNU Affero General Public License (AGPL) 3.0</item>
+        <item>GNU General Public License (GPL) 2.0</item>
+        <item>GNU General Public License (GPL) 3.0</item>
+        <item>GNU Lesser General Public License (LGPL) 2.1</item>
+        <item>GNU Lesser General Public License (LGPL) 3.0</item>
+        <item>Historical Permission Notice and Disclaimer</item>
+        <item>ISC License (ISC)</item>
+        <item>LaTeX Project Public License (LPPL) 1.3c</item>
+        <item>MIT License</item>
+        <item>Microsoft Public License (Ms-PL)</item>
+        <item>Microsoft Reciprocal License (Ms-RL)</item>
+        <item>Mozilla Public License 2.0</item>
+        <item>NASA Open Source Agreement 1.3</item>
+        <item>NTP License</item>
+        <item>Open Font License (OFL) 1.1</item>
+        <item>Open Government License - Canada</item>
+        <item>Open Software License 3.0 (OSL-3.0)</item>
+        <item>PHP License 3.0</item>
+        <item>PostgreSQL License</item>
+        <item>SIL Open Font License 1.1</item>
+        <item>Standard ML of New Jersey License</item>
+        <item>The Unlicense</item>
+        <item>University of Illinois/NCSA Open Source License</item>
+        <item>Vim License</item>
+        <item>zlib License</item>
+        <item>Attribution-NoDerivs 2.5 Generic (CC BY-ND 2.5)</item>
+        <item>Attribution-NonCommercial-ShareAlike 2.5 Generic (CC BY-NC-SA 2.5)</item>
+        <item>Attribution-NonCommercial 2.5 Generic (CC BY-NC 2.5)</item>
+        <item>Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5)</item>
+        <item>Attribution-NonCommercial-NoDerivs 2.5 Generic (CC BY-NC-ND 2.5)</item>
+        <item>Open Data Commons Open Database License (ODbL) 1.0</item>
+        <!-- Add more licenses as needed -->
+    </string-array>
+</resources>
