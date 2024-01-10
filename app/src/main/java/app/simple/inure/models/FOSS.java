@@ -13,15 +13,15 @@ public class FOSS {
     @ColumnInfo (name = "package_name")
     private String packageName;
     
-    @ColumnInfo (name = "version_code")
-    private String versionCode;
+    @ColumnInfo (name = "license")
+    private String license;
     
     @ColumnInfo (name = "is_foss")
     private boolean isFOSS;
     
-    public FOSS(@NonNull String packageName, String versionCode, boolean isFOSS) {
+    public FOSS(@NonNull String packageName, String license, boolean isFOSS) {
         this.packageName = packageName;
-        this.versionCode = versionCode;
+        this.license = license;
         this.isFOSS = isFOSS;
     }
     
@@ -34,12 +34,12 @@ public class FOSS {
         this.packageName = packageName;
     }
     
-    public String getVersionCode() {
-        return versionCode;
+    public String getLicense() {
+        return license;
     }
     
-    public void setVersionCode(String versionCode) {
-        this.versionCode = versionCode;
+    public void setLicense(String license) {
+        this.license = license;
     }
     
     public boolean isFOSS() {

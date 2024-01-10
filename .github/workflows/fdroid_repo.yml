@@ -32,8 +32,8 @@ jobs:
                       root = tree.getroot()
                       for application in root.findall('.//application'):
                         app_id = application.get('id')
-                        license = application.find('.//license').text
-                        print(f'    <string name=\"{app_id}\" translatable=\"false\">{license}</string>')
+                        license_ = application.find('.//license').text
+                        print(f'    <string name=\"{app_id}\" translatable=\"false\">{license_}</string>')
                     
                     parse_and_write_xml('fdroid_index.xml')
                     parse_and_write_xml('izzyondroid_index.xml')

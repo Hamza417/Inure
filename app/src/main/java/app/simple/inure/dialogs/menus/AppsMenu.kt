@@ -23,6 +23,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.dialogs.action.Send
+import app.simple.inure.dialogs.foss.MarkFoss.Companion.showMarkFossDialog
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
@@ -290,12 +291,13 @@ class AppsMenu : ScopedDialogFragment() {
                         homeViewModel.refreshFossApps()
                     }
                 } else {
-                    FOSSParser.addPackage(
-                            packageInfo.packageName, packageInfo.getVersionCode().toString(), requireContext())
                     withContext(Dispatchers.Main) {
-                        markAsFOSS.text = getString(R.string.mark_as_non_foss)
-                        name.setFOSSIcon(true)
-                        homeViewModel.refreshFossApps()
+                        childFragmentManager.showMarkFossDialog().OnMarkFossSaved = { license ->
+                            FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
+                            markAsFOSS.text = getString(R.string.mark_as_non_foss)
+                            name.setFOSSIcon(true)
+                            homeViewModel.refreshFossApps()
+                        }
                     }
                 }
             }

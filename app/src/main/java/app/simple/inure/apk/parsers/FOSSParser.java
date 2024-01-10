@@ -69,7 +69,7 @@ public class FOSSParser {
             FOSSDatabase.Companion.getInstance(context)
                     .getFOSSDao().getAllFossMarkings().forEach(foss -> {
                         if (foss.isFOSS()) {
-                            packageVersions.put(foss.getPackageName(), foss.getVersionCode());
+                            packageVersions.put(foss.getPackageName(), foss.getLicense());
                         } else {
                             packageVersions.remove(foss.getPackageName());
                         }
@@ -112,12 +112,12 @@ public class FOSSParser {
         }
     }
     
-    public static void addPackage(String packageName, String versionCode, Context context) {
+    public static void addPackage(String packageName, String license, Context context) {
         ProcessUtils.INSTANCE.ensureNotOnMainThread(() -> {
-            packageVersions.put(packageName, versionCode);
+            packageVersions.put(packageName, license);
             FOSSDatabase.Companion.getInstance(context)
                     .getFOSSDao().insertFOSS(
-                            new FOSS(packageName, versionCode, true));
+                            new FOSS(packageName, license, true));
             return Unit.INSTANCE;
         });
     }
