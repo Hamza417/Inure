@@ -131,13 +131,13 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         // Draw the shadow
-        elevationPaint.setColor(elevationColor);
-        elevationPaint.setShadowLayer(shadowRadius, 0, 0, elevationColor);
+        // elevationPaint.setColor(elevationColor);
+        // elevationPaint.setShadowLayer(shadowRadius, 0, 0, elevationColor);
         
         // Draw the background based on checked state
         background.setColor(backgroundColor);
-        
         backgroundRect.set(0, 0, getWidth(), getHeight());
+        background.setShadowLayer(shadowRadius, 0, 0, elevationColor);
         canvas.drawRoundRect(backgroundRect, cornerRadius, cornerRadius, background);
         
         checkedIcon.draw(canvas);
@@ -230,6 +230,8 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         
         if (isChecked) {
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
+            elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+            shadowRadius = 10F;
             checkedIcon.setAlpha(255);
             checkedIcon.setBounds(
                     (int) (x - (x * checkIconRatio)),
@@ -238,6 +240,8 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
                     (int) (y + (y * checkIconRatio * 1)));
         } else {
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
+            elevationColor = Color.TRANSPARENT;
+            shadowRadius = 0F;
             checkedIcon.setAlpha(0);
             checkedIcon.setBounds(
                     (int) (x - (x * checkIconRatio)),
