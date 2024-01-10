@@ -35,18 +35,18 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="@dimen/info_text_small"
                 android:layout_marginEnd="16dp"
-                app:appFontStyle="bold"
+                app:appFontStyle="medium"
                 app:layout_constraintEnd_toStartOf="@+id/adapter_accent_check_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:textColorStyle="primary" />
+                app:textColorStyle="secondary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/color_hex"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="@dimen/info_text_tiny"
+                android:textSize="@dimen/desc_text_size"
                 android:layout_marginEnd="16dp"
                 app:appFontStyle="regular"
                 app:layout_constraintBottom_toBottomOf="parent"
