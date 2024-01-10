@@ -113,7 +113,9 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private void init() {
         setClipToOutline(false);
-        setDragEnabled(!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwichDraggable));
+        if (!isInEditMode()) {
+            setDragEnabled(!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwichDraggable));
+        }
         
         if (!isInEditMode()) {
             if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {

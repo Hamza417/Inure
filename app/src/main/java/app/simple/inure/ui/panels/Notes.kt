@@ -103,13 +103,10 @@ class Notes : ScopedFragment() {
                 }
             }
 
-            when (NotesPreferences.getListType()) {
-                NotesPreferences.LIST_TYPE_STAGGERED -> {
-                    staggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                }
-                NotesPreferences.LIST_TYPE_LIST -> {
-                    staggeredGridLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-                }
+            staggeredGridLayoutManager = if (NotesPreferences.getGrid()) {
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            } else {
+                StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
             }
 
             staggeredGridLayoutManager?.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
@@ -144,19 +141,16 @@ class Notes : ScopedFragment() {
             NotesPreferences.expandedNotes -> {
                 adapterNotes?.areNotesExpanded = NotesPreferences.areNotesExpanded()
             }
-            NotesPreferences.listType -> {
-                when (NotesPreferences.getListType()) {
-                    NotesPreferences.LIST_TYPE_STAGGERED -> {
-                        recyclerView.post {
-                            TransitionManager.beginDelayedTransition(recyclerView)
-                            (recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 2
-                        }
+            NotesPreferences.isGrid -> {
+                if (NotesPreferences.getGrid()) {
+                    recyclerView.post {
+                        TransitionManager.beginDelayedTransition(recyclerView)
+                        staggeredGridLayoutManager?.spanCount = 2
                     }
-                    NotesPreferences.LIST_TYPE_LIST -> {
-                        recyclerView.post {
-                            TransitionManager.beginDelayedTransition(recyclerView)
-                            (recyclerView.layoutManager as StaggeredGridLayoutManager).spanCount = 1
-                        }
+                } else {
+                    recyclerView.post {
+                        TransitionManager.beginDelayedTransition(recyclerView)
+                        staggeredGridLayoutManager?.spanCount = 1
                     }
                 }
             }

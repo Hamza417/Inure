@@ -4,10 +4,7 @@ object NotesPreferences {
 
     const val expandedNotes = "expanded_notes"
     const val autoSave = "notes_editor_auto_save"
-    const val listType = "notes_list_type"
-
-    const val LIST_TYPE_STAGGERED = 0
-    const val LIST_TYPE_LIST = 1
+    const val isGrid = "notes_is_grid"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -31,11 +28,11 @@ object NotesPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setListType(type: Int) {
-        SharedPreferences.getSharedPreferences().edit().putInt(listType, type).apply()
+    fun setGrid(boolean: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(isGrid, boolean).apply()
     }
 
-    fun getListType(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(listType, LIST_TYPE_STAGGERED)
+    fun getGrid(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(isGrid, true)
     }
 }

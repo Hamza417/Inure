@@ -13,12 +13,14 @@ import app.simple.inure.preferences.NotesPreferences
 class NotesMenu : ScopedBottomSheetFragment() {
 
     private lateinit var expandedNotes: Switch
+    private lateinit var gridSwitch: Switch
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_notes, container, false)
 
         expandedNotes = view.findViewById(R.id.expanded_notes)
+        gridSwitch = view.findViewById(R.id.grid_switch)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -28,9 +30,14 @@ class NotesMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         expandedNotes.isChecked = NotesPreferences.areNotesExpanded()
+        gridSwitch.isChecked = NotesPreferences.getGrid()
 
         expandedNotes.setOnSwitchCheckedChangeListener {
             NotesPreferences.setExpandedNotes(it)
+        }
+
+        gridSwitch.setOnSwitchCheckedChangeListener {
+            NotesPreferences.setGrid(it)
         }
 
         openSettings.setOnClickListener {

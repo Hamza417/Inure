@@ -40,33 +40,18 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_total_apps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
         android:layout_marginVertical="@dimen/header_item_margin"
-        android:orientation="horizontal">
-
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/adapter_total_apps"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:drawablePadding="@dimen/popup_padding"
-            android:textSize="16sp"
-            app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_numbers_textview"
-            app:drawableTintStyle="accent"
-            app:textColorStyle="primary" />
-
-        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-            android:id="@+id/list_style"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginEnd="8dp"
-            app:buttonTintType="regular" />
-
-    </LinearLayout>
+        android:drawablePadding="@dimen/popup_padding"
+        android:textSize="16sp"
+        app:appFontStyle="bold"
+        app:drawableStartCompat="@drawable/ic_numbers_textview"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="primary" />
 
 </LinearLayout>
