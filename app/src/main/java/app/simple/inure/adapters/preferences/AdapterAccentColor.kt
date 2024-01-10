@@ -10,11 +10,11 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
+import app.simple.inure.decorations.corners.DynamicCornerMaterialCardView
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.Utils
 import app.simple.inure.decorations.theme.ThemeIcon
@@ -25,7 +25,7 @@ import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils.TYPE_HEADER
 import app.simple.inure.util.RecyclerViewUtils.TYPE_ITEM
-import java.util.*
+import java.util.Arrays
 
 class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -46,49 +46,53 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
 
-        val position = holder.absoluteAdapterPosition - 1
+        val position1 = holder.bindingAdapterPosition - 1
 
         if (holder is Holder) {
-            holder.color.backgroundTintList = ColorStateList.valueOf(list[position].first)
+            holder.color.backgroundTintList = ColorStateList.valueOf(list[position1].first)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                holder.color.outlineSpotShadowColor = list[position].first
-                holder.color.outlineAmbientShadowColor = list[position].first
+                holder.color.outlineSpotShadowColor = list[position1].first
+                holder.color.outlineAmbientShadowColor = list[position1].first
+
+                holder.container.outlineSpotShadowColor = list[position1].first
+                holder.container.outlineAmbientShadowColor = list[position1].first
             }
 
             holder.container.setOnClickListener {
-                if (list[position].first == Color.DKGRAY) {
+                if (list[position1].first == Color.DKGRAY) {
                     accentColorCallbacks?.onAccentColorPicker()
                 } else {
-                    if (AppearancePreferences.setAccentColor(list[position].first)) {
+                    if (AppearancePreferences.setAccentColor(list[position1].first)) {
                         AppearancePreferences.setCustomColor(false)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            AppearancePreferences.setMaterialYouAccent(position == MaterialYou.materialYouAdapterIndex)
+                            AppearancePreferences.setMaterialYouAccent(position1 == MaterialYou.materialYouAdapterIndex)
                         }
                         notifyItemChanged(lastSelectedItem)
-                        notifyItemChanged(holder.absoluteAdapterPosition)
-                        lastSelectedItem = holder.absoluteAdapterPosition
+                        notifyItemChanged(holder.bindingAdapterPosition)
+                        lastSelectedItem = holder.bindingAdapterPosition
                     }
                 }
             }
 
-            holder.name.text = list[position].second
-            holder.hex.text = list[position].first.toHexColor()
+            holder.name.text = list[position1].second
+            holder.hex.text = list[position1].first.toHexColor()
 
-            holder.container.background = null
-            holder.container.background = getRippleDrawable(holder.container.background, list[position].first)
+            // holder.container.background = null
+            // holder.container.background = getRippleDrawable(holder.container.background, list[position1].first)
+            holder.container.rippleColor = ColorStateList.valueOf(list[position1].first)
 
             if (AppearancePreferences.isCustomColor()) {
-                holder.tick.visibility = if (list[position].first == Color.DKGRAY) {
+                holder.tick.visibility = if (list[position1].first == Color.DKGRAY) {
                     lastSelectedItem = holder.absoluteAdapterPosition
                     View.VISIBLE
                 } else {
                     View.INVISIBLE
                 }
             } else {
-                holder.tick.visibility = if (list[position].first == AppearancePreferences.getAccentColor()) {
+                holder.tick.visibility = if (list[position1].first == AppearancePreferences.getAccentColor()) {
                     lastSelectedItem = holder.absoluteAdapterPosition
                     View.VISIBLE
                 } else {
@@ -115,7 +119,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         val tick: ThemeIcon = itemView.findViewById(R.id.adapter_accent_check_icon)
         val name: TextView = itemView.findViewById(R.id.color_name)
         val hex: TextView = itemView.findViewById(R.id.color_hex)
-        val container: LinearLayout = itemView.findViewById(R.id.color_container)
+        val container: DynamicCornerMaterialCardView = itemView.findViewById(R.id.color_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

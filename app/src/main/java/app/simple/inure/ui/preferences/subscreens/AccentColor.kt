@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
@@ -28,8 +28,14 @@ class AccentColor : ScopedFragment() {
         val view = layoutInflater.inflate(R.layout.fragment_accent_color, container, false)
 
         recyclerView = view.findViewById(R.id.accent_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         recyclerView.setHasFixedSize(true)
+
+        (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (adapterAccentColor.getItemViewType(position) == 0) 2 else 1
+            }
+        }
 
         val list = arrayListOf(
                 Pair(ContextCompat.getColor(requireContext(), R.color.inure), "Inure"),

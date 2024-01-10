@@ -207,7 +207,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
             }
             case MotionEvent.ACTION_MOVE -> {
                 // Cancel some animations
-                if (isDragEnabled) {
+                if (isDragEnabled()) {
                     if (thumbXAnimator != null && thumbXAnimator.isRunning()) {
                         thumbXAnimator.cancel();
                     }
