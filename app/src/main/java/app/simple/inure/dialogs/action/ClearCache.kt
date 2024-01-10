@@ -35,7 +35,7 @@ class ClearCache : ScopedActionDialogBottomFragment() {
                         val sizeNow = with(packageInfo.getPackageSize(requireContext())) {
                             cacheSize + dataSize + codeSize
                         }
-                        status.text = getString(R.string.cleared) + " -> " + (size - sizeNow).toSize()
+                        status.text = getString(R.string.cleared) + " " + (size - sizeNow).toSize()
                     }
                     "Failed" -> {
                         loader.error()

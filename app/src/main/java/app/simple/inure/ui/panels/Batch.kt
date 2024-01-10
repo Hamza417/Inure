@@ -52,6 +52,7 @@ import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
 import app.simple.inure.ui.viewers.XMLViewerTextView
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
@@ -291,6 +292,21 @@ class Batch : ScopedFragment() {
                 R.drawable.ic_close -> {
                     onSure {
                         childFragmentManager.showBatchForceStop(adapterBatch?.getCurrentAppsList()!!)
+                    }
+                }
+                R.drawable.ic_broom -> {
+                    onSure {
+                        showLoader(manualOverride = true)
+
+                        batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
+                            hideLoader()
+
+                            if (it.isNotNull()) {
+                                showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
+                            }
+                        }
+
+                        batchViewModel.clearSelectedAppsCache(adapterBatch?.getCurrentAppsList()!!)
                     }
                 }
             }

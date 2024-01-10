@@ -129,6 +129,7 @@ object BottomMenuConstants {
                 divider,
                 Pair(R.drawable.ic_hide_source, R.string.state),
                 Pair(R.drawable.ic_delete, R.string.uninstall),
+                Pair(R.drawable.ic_broom, R.string.clear_cache),
                 Pair(R.drawable.ic_close, R.string.force_stop),
                 // Pair(R.drawable.ic_share, R.string.share),
                 Pair(R.drawable.ic_downloading, R.string.extract),
@@ -260,7 +261,7 @@ object BottomMenuConstants {
         return batchUnselectedMenu.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
+    @Suppress("UNCHECKED_CAST", "unused")
     fun getNotesFunctionMenu(): ArrayList<Pair<Int, Int>> {
         return notesFunctionMenu.clone() as ArrayList<Pair<Int, Int>>
     }

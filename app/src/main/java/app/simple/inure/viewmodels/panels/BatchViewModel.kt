@@ -1,14 +1,17 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.database.instances.BatchProfileDatabase
@@ -18,15 +21,21 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.Sort.getSortedList
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.Collections
 import java.util.stream.Collectors
 
 class BatchViewModel(application: Application) : DataGeneratorViewModel(application) {
 
     private var batchDatabase: BatchDatabase? = null
     private var batchProfileDatabase: BatchProfileDatabase? = null
+
+    private var clearedSize = 0L
 
     private val batchData: MutableLiveData<ArrayList<BatchPackageInfo>> by lazy {
         MutableLiveData<ArrayList<BatchPackageInfo>>()
@@ -38,12 +47,20 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         }
     }
 
+    private val clearedCacheSize: MutableLiveData<Long> by lazy {
+        MutableLiveData<Long>()
+    }
+
     fun getBatchData(): LiveData<ArrayList<BatchPackageInfo>> {
         return batchData
     }
 
     fun getSelectedApps(): LiveData<ArrayList<BatchPackageInfo>> {
         return selectedApps
+    }
+
+    fun getClearedCacheSize(): LiveData<Long> {
+        return clearedCacheSize
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -241,6 +258,68 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 loadSelectedApps()
             }
         }
+    }
+
+    fun clearSelectedAppsCache(currentAppsList: java.util.ArrayList<BatchPackageInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            clearedSize = 0L
+
+            runCatching {
+                for (batchPackageInfo in currentAppsList) {
+                    val size = with(batchPackageInfo.packageInfo.getPackageSize(applicationContext())) {
+                        cacheSize + dataSize + codeSize
+                    }
+
+                    runCatching {
+                        with(getCommand(batchPackageInfo.packageInfo)) {
+                            if (this.isNotNull() || this.contains("null")) {
+                                Shell.cmd(this).exec().let {
+                                    val sizeNow = with(batchPackageInfo.packageInfo.getPackageSize(applicationContext())) {
+                                        cacheSize + dataSize + codeSize
+                                    }
+
+                                    clearedSize += size - sizeNow
+                                }
+                            }
+                        }
+                    }.onFailure {
+                        it.printStackTrace()
+                    }.onSuccess {
+                        Log.d("ClearCacheViewModel", "clearSelectedAppsCache: Success")
+                    }
+                }
+            }.onSuccess {
+                clearedCacheSize.postValue(clearedSize)
+            }.onFailure {
+                it.printStackTrace()
+                postWarning(it.message ?: "ERR: ${it.stackTraceToString()}")
+            }
+        }
+    }
+
+    private fun getCommand(packageInfo: PackageInfo): String {
+        //        return "rm -r -v /data/data/${packageInfo.packageName}/cache " +
+        //                "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
+        //                "& rm -r -v /data/data/${packageInfo.packageName}/app_texture " +
+        //                "& rm -r -v /data/data/${packageInfo.packageName}/app_webview " +
+        //                "& rm -r -v /data/data/${packageInfo.packageName}/code_cache" +
+        //                "& rm -r -v /data/data/${packageInfo.packageName}/files"
+
+        val packageContext: Context = applicationContext().createPackageContext(packageInfo.packageName, 0)
+        val directories: MutableList<File?> = java.util.ArrayList()
+        val command = StringBuilder("rm -rf")
+
+        directories.add(packageContext.cacheDir)
+        Collections.addAll(directories, *packageContext.externalCacheDirs)
+
+        for (directory in directories) {
+            Log.d("ClearCacheViewModel", "getCommand: ${directory?.absolutePath}")
+            if (directory?.absolutePath.isNotNull()) {
+                command.append(" \"" + directory?.absolutePath.toString() + "\"")
+            }
+        }
+
+        return command.toString()
     }
 
     override fun onAppUninstalled(packageName: String?) {
