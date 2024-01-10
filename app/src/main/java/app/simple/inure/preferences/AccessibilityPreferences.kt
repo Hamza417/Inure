@@ -60,7 +60,7 @@ object AccessibilityPreferences {
     }
 
     fun isAppElementsContext(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(bottomMenuContext, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

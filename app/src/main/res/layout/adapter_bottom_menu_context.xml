@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/popup_item_gap_length"
     android:orientation="vertical"
-    android:padding="@dimen/popup_item_gap_length">
+    android:padding="5dp">
 
     <app.simple.inure.decorations.theme.ThemeIcon
         android:id="@+id/button"
@@ -24,6 +24,7 @@
         android:gravity="center"
         android:text="@string/extract"
         android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
         app:textColorStyle="primary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>

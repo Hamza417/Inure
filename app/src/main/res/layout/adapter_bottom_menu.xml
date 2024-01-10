@@ -4,5 +4,5 @@
     android:id="@+id/button"
     android:layout_width="@dimen/button_size"
     android:layout_height="@dimen/button_size"
-    android:layout_marginHorizontal="@dimen/popup_item_gap_length"
+    android:layout_margin="5dp"
     app:buttonTintType="regular" />
