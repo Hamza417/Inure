@@ -157,15 +157,15 @@ If you are a developer and want your app to be listed in the FOSS panel of Inure
    ```xml
     <application
         .....
-     >
+        >
 
-     <meta-data
-         android:name="open_source"
-         android:value="true" /> <!-- Set to true to indicate the app is open source -->
+        <meta-data
+            android:name="open_source"
+            android:value="true" /> <!-- Set to true to indicate the app is open source -->
 
-     <meta-data
-         android:name="open_source_license"
-         android:value="GNU GENERAL PUBLIC LICENSE Version 3" /> <!-- License of your app -->
+        <meta-data
+            android:name="open_source_license"
+            android:value="GNU GENERAL PUBLIC LICENSE Version 3" /> <!-- License of your app -->
 
     </application>
    ```
