@@ -8,6 +8,19 @@ object BottomMenuConstants {
     private val divider = Pair(-1, -1)
     private val refresh = Pair(R.drawable.ic_refresh, R.string.refresh)
 
+    /**
+     * Use this to set the height of the bottom menu divider.
+     */
+    private var bottomMenuHeight = 0
+
+    fun setBottomMenuHeight(height: Int) {
+        bottomMenuHeight = height
+    }
+
+    fun getBottomMenuHeight(): Int {
+        return bottomMenuHeight
+    }
+
     private val genericBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             refresh,
             divider,
@@ -173,7 +186,6 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_watch_later, R.string.date),
     )
 
-    @Suppress("UNCHECKED_CAST")
     private val apkBrowserMenu_: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_refresh, R.string.refresh),
@@ -186,7 +198,6 @@ object BottomMenuConstants {
         )
     }
 
-    @Suppress("UNCHECKED_CAST")
     private val apkBrowserMenuSelection_: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
                 Pair(R.drawable.ic_delete, R.string.delete),

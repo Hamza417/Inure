@@ -6,12 +6,12 @@ object AccessibilityPreferences {
 
     const val isHighlightMode = "is_highlight_mode"
     const val isHighlightStroke = "is_highlight_stroke_enabled"
+    const val bottomMenuContext = "bottom_menu_context"
+    const val colorfulIconsPalette = "colorful_icons_palette"
+
     private const val isDividerEnabled = "is_divider_enabled"
     private const val reduceAnimations = "reduce_animations"
-    private const val bottomMenuContext = "bottom_menu_context"
     private const val isColorfulIcons = "is_colorful_icons"
-
-    const val colorfulIconsPalette = "colorful_icons_palette"
 
     // ---------------------------------------------------------------------------------------------------------- //
 

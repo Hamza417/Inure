@@ -1,11 +1,13 @@
 package app.simple.inure.adapters.menus
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
@@ -81,6 +83,7 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
         return bottomMenuItems
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateMenu(bottomMenuItems: ArrayList<Pair<Int, Int>>) {
         Log.d("AdapterBottomMenu", "updateMenu: $bottomMenuItems")
         this.bottomMenuItems.clear()
@@ -98,5 +101,13 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
         val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
     }
 
-    inner class Divider(parent: View) : HorizontalListViewHolder(parent)
+    inner class Divider(parent: View) : HorizontalListViewHolder(parent) {
+        val divider: View = parent.findViewById(R.id.divider)
+
+        init {
+            val layoutParams = divider.layoutParams
+            layoutParams.height = BottomMenuConstants.getBottomMenuHeight()
+            divider.layoutParams = layoutParams
+        }
+    }
 }

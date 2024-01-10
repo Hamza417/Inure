@@ -23,6 +23,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
 import app.simple.inure.adapters.menus.AdapterBottomMenu;
+import app.simple.inure.constants.BottomMenuConstants;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView;
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks;
@@ -33,6 +34,9 @@ import kotlin.ranges.RangesKt;
 
 public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
+    /**
+     * @noinspection unused
+     */
     private static final String TAG = "BottomMenuRecyclerView";
     private int containerHeight;
     private int displayWidth;
@@ -110,8 +114,9 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-    
+            
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
+            BottomMenuConstants.INSTANCE.setBottomMenuHeight(getHeight() - layoutParams.topMargin - layoutParams.bottomMargin);
     
             setLayoutParams(layoutParams);
     

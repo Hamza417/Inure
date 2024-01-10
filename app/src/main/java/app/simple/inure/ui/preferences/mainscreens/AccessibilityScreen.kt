@@ -9,6 +9,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterColorPalette
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -182,6 +183,22 @@ class AccessibilityScreen : ScopedFragment() {
                             .start()
                     }
                     .start()
+            }
+
+            AccessibilityPreferences.bottomMenuContext -> {
+                /**
+                 * Reset the bottom menu height so that it can be reinitialized
+                 * with the updated height later in [app.simple.inure.decorations.views.BottomMenuRecyclerView].
+                 *
+                 * This is done because the height of the bottom menu is calculated
+                 * based on the height of the bottom menu items. So, if the height of the
+                 * bottom menu items is changed, the height of the bottom menu should be
+                 * recalculated. For some reason the height of the bottom menu items is not
+                 * recalculated when the height of the bottom menu is changed.
+                 *
+                 * This is a workaround for that.
+                 */
+                BottomMenuConstants.setBottomMenuHeight(0)
             }
         }
     }
