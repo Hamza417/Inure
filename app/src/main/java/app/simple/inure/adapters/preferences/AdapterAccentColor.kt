@@ -128,6 +128,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         val title: TypeFaceTextView = itemView.findViewById(R.id.title)
     }
 
+    @Suppress("unused")
     private fun getRippleDrawable(backgroundDrawable: Drawable?, color: Int): RippleDrawable {
         val outerRadii = FloatArray(8)
         val innerRadii = FloatArray(8)
@@ -147,11 +148,23 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     fun updateAccentColor() {
         if (AppearancePreferences.isCustomColor()) {
+            val position = list.find {
+                it.first == Color.DKGRAY
+            }?.let {
+                list.indexOf(it)
+            } ?: 0
+
             notifyItemChanged(lastSelectedItem)
-            notifyItemChanged(list.find { it.first == Color.DKGRAY }?.let { list.indexOf(it) } ?: 0)
+            notifyItemChanged(position)
         } else {
+            val position = list.find {
+                it.first == AppearancePreferences.getAccentColor()
+            }?.let {
+                list.indexOf(it)
+            } ?: 0
+
             notifyItemChanged(lastSelectedItem)
-            notifyItemChanged(list.find { it.first == AppearancePreferences.getAccentColor() }?.let { list.indexOf(it) } ?: 0)
+            notifyItemChanged(position)
         }
     }
 
