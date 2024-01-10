@@ -718,4 +718,5 @@
     <string name="special_use">特殊使用</string>
     <string name="no_preferences_found">找不到偏好設定</string>
     <string name="install_anyway">仍要安裝</string>
+    <string name="foss_license_warning">必須輸入與專案相關的正確授權。</string>
 </resources>
