@@ -17,7 +17,7 @@ import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterComponentManager(private val list: ArrayList<Triple<Int, Int, Class<out BaseActivity>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Class<out BaseActivity>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {

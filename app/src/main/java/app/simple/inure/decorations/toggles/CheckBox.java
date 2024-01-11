@@ -87,7 +87,12 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         checkedIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_check);
         checkedIcon.setTint(Color.WHITE);
         
-        cornerRadius = AppearancePreferences.INSTANCE.getCornerRadius() / 4F;
+        if (!isInEditMode()) {
+            cornerRadius = AppearancePreferences.INSTANCE.getCornerRadius() / 4F;
+        } else {
+            cornerRadius = 10;
+        }
+        
         backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
         duration = getResources().getInteger(R.integer.animation_duration);
         
@@ -98,14 +103,22 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         setMinimumHeight(getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions));
         setMinimumWidth(getResources().getDimensionPixelSize(R.dimen.checkbox_dimensions));
         
-        if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
-            shadowRadius = 10F;
+        if (!isInEditMode()) {
+            if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
+                shadowRadius = 10F;
+            } else {
+                shadowRadius = 0F;
+            }
         } else {
-            shadowRadius = 0F;
+            shadowRadius = 10F;
         }
         
-        if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
-            elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+        if (!isInEditMode()) {
+            if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
+                elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
+            } else {
+                elevationColor = Color.DKGRAY;
+            }
         } else {
             elevationColor = Color.DKGRAY;
         }
@@ -391,7 +404,9 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+        if (!isInEditMode()) {
+            app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
+        }
     }
     
     @Override

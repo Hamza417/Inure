@@ -14,7 +14,7 @@ import app.simple.inure.activities.association.InformationActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.activities.association.TTFViewerActivity
 import app.simple.inure.activities.association.TextViewerActivity
-import app.simple.inure.adapters.preferences.AdapterComponentManager
+import app.simple.inure.adapters.preferences.AdapterComponentsManager
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +56,7 @@ class ComponentManager : ScopedFragment() {
             }
 
             withContext(Dispatchers.Main) {
-                recyclerView.adapter = AdapterComponentManager(list)
+                recyclerView.adapter = AdapterComponentsManager(list)
             }
         }
     }
