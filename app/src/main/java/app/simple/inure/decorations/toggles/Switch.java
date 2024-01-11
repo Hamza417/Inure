@@ -113,9 +113,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private void init() {
         setClipToOutline(false);
-        if (!isInEditMode()) {
-            setDragEnabled(!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwichDraggable));
-        }
+        setDragEnabled(true);
         
         if (!isInEditMode()) {
             if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
@@ -222,8 +220,18 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                         thumbSizeAnimator.cancel();
                     }
                     
-                    thumbX = event.getX();
-                    thumbY = event.getY();
+                    if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwitchFancyDraggable)) {
+                        thumbX = event.getX();
+                        thumbY = event.getY();
+                    } else {
+                        thumbX = event.getX();
+                        
+                        if (thumbX < thumbDiameter / 2 + thumbPadding / 2) {
+                            thumbX = thumbDiameter / 2 + thumbPadding / 2;
+                        } else if (thumbX > width - thumbDiameter / 2 - thumbPadding / 2) {
+                            thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
+                        }
+                    }
                     
                     // The thumb is dragged, prevent the click event
                     shouldClick = false;

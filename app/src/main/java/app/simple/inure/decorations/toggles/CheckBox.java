@@ -244,7 +244,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         if (isChecked) {
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
             elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
-            shadowRadius = 10F;
+            // shadowRadius = 10F;
             checkedIcon.setAlpha(255);
             checkedIcon.setBounds(
                     (int) (x - (x * checkIconRatio)),
@@ -254,7 +254,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         } else {
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
             elevationColor = Color.TRANSPARENT;
-            shadowRadius = 0F;
+            // shadowRadius = 0F;
             checkedIcon.setAlpha(0);
             checkedIcon.setBounds(
                     (int) (x - (x * checkIconRatio)),
