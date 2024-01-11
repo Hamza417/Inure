@@ -718,4 +718,5 @@
     <string name="special_use">特殊用途</string>
     <string name="no_preferences_found">未找到首选项</string>
     <string name="install_anyway">仍然安装</string>
+    <string name="foss_license_warning">必须输入与该项目相关的正确许可证</string>
 </resources>
