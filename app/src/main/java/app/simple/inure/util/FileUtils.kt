@@ -203,7 +203,5 @@ object FileUtils {
             .replace("<", "\\<")
             .replace(">", "\\>")
             .replace("|", "\\|")
-            .replace(" ", "\\ ")
-        // Add more replacements if needed
     }
 }
