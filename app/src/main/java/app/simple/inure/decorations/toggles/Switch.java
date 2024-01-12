@@ -238,6 +238,8 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                     isDragging = true;
                     OVERSHOOT_TENSION = 1F;
                     
+                    Log.d("Switch", "ACTION_MOVE");
+                    
                     invalidate();
                 }
                 
@@ -253,15 +255,14 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                 getParent().requestDisallowInterceptTouchEvent(false);
                 animateThumbSize(false);
                 
-                /*
-                 * If the user has dragged the thumb more than half the width of the switch, then
-                 * set the switch to checked state, else set it to unchecked state
-                 */
-                isDragging = false;
-                isChecked = thumbX >= width / 2;
-                setChecked(isChecked, true);
-                
                 if (!shouldClick) {
+                    /*
+                     * If the user has dragged the thumb more than half the width of the switch, then
+                     * set the switch to checked state, else set it to unchecked state
+                     */
+                    isDragging = false;
+                    isChecked = thumbX >= width / 2;
+                    setChecked(isChecked, true);
                     onCheckedChangeListener.onCheckedChanged(isChecked);
                 }
                 
