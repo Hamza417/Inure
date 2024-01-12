@@ -68,6 +68,10 @@ The app is in stable testing stage. You can join
 app's [Telegram Group](https://t.me/inure_app_manager)
 and submit your feedbacks or get development related updates.
 
+## Fun Fact about Inure
+
+Inure now comprises more than 200K lines and In a really large codebase written by a single person, Inure has zero memory leaks since the beginning, and still doesn't have even a single `WeakReference` anywhere in the project.
+
 ## Features
 
 See the [concise list of features of the app here](./FEATURES.md).
