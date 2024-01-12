@@ -19,7 +19,7 @@ class Rate : ScopedFragment() {
     private lateinit var text: TypeFaceTextView
     private lateinit var sure: DynamicRippleTextView
     private lateinit var back: DynamicRippleTextView
-    private lateinit var showAgain: CheckBox
+    private lateinit var dontShowAgain: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_rate, container, false)
@@ -27,7 +27,7 @@ class Rate : ScopedFragment() {
         text = view.findViewById(R.id.reminder_text)
         sure = view.findViewById(R.id.sure)
         back = view.findViewById(R.id.back)
-        showAgain = view.findViewById(R.id.show_again_checkbox)
+        dontShowAgain = view.findViewById(R.id.show_again_checkbox)
 
         return view
     }
@@ -36,14 +36,14 @@ class Rate : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        showAgain.isChecked = MainPreferences.isShowRateReminder()
+        dontShowAgain.isChecked = MainPreferences.isShowRateReminder()
         text.text = getString(R.string.rate_reminder,
                               MainPreferences.getLaunchCount(),
                               DateUtils.formatDate(
                                       TrialPreferences.getFirstLaunchDate(), "dd MMM yyyy"))
 
         sure.setOnClickListener {
-            showAgain.isChecked = true
+            dontShowAgain.isChecked = true
             MarketUtils.openAppOnPlayStore(requireContext(), requireContext().packageName)
         }
 
@@ -51,7 +51,7 @@ class Rate : ScopedFragment() {
             goBack()
         }
 
-        showAgain.setOnCheckedChangeListener { isChecked ->
+        dontShowAgain.setOnCheckedChangeListener { isChecked ->
             MainPreferences.setShowRateReminder(isChecked)
         }
     }

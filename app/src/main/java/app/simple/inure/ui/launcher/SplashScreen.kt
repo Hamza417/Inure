@@ -31,7 +31,6 @@ import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.Trial
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.launcher.LauncherViewModel
 import app.simple.inure.viewmodels.panels.*
@@ -306,8 +305,18 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun openApp() {
-        if (isEverythingLoaded() || BehaviourPreferences.isSkipLoading()) {
-            if (MainPreferences.getLaunchCount() % 7 == 0 && StatusBarHeight.isLandscape(requireContext()).invert() && AppUtils.isPlayFlavor()) {
+        if (BehaviourPreferences.isSkipLoading()) {
+            launch()
+        } else {
+            if (isEverythingLoaded()) {
+                launch()
+            }
+        }
+    }
+
+    private fun launch() {
+        if (AppUtils.isPlayFlavor()) {
+            if (MainPreferences.shouldShowRateReminder()) {
                 if (MainPreferences.isShowRateReminder()) {
                     requireActivity().supportFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
@@ -330,6 +339,12 @@ class SplashScreen : ScopedFragment() {
                 } else {
                     openFragmentSlide(Trial.newInstance())
                 }
+            }
+        } else {
+            if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
+                openFragmentArc(Home.newInstance(), icon)
+            } else {
+                openFragmentSlide(Trial.newInstance())
             }
         }
     }

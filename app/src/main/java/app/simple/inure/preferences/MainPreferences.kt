@@ -16,7 +16,7 @@ object MainPreferences {
     private const val unlockerWarningCount = "unlocker_warning_count"
     private const val isAppFullVersionEnabled = "is_full_version_enabled"
     private const val disclaimerAgreed = "disclaimer_agreed"
-    private const val isRateReminderShown = "is_rate_reminder_shown"
+    private const val isRateReminderShown = "is_rate_reminder_shown_2"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -26,6 +26,10 @@ object MainPreferences {
 
     fun getLaunchCount(): Int {
         return getSharedPreferences().getInt(launchCount, 0)
+    }
+
+    fun shouldShowRateReminder(): Boolean {
+        return getLaunchCount() > 15
     }
 
     fun incrementLaunchCount() {
