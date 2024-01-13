@@ -92,7 +92,7 @@ public class FOSSParser {
         try {
             String license = packageVersions.get(packageInfo.packageName);
             
-            if (license != null) {
+            if (license != null && !license.isEmpty()) {
                 return license;
             } else {
                 throw new NullPointerException();
