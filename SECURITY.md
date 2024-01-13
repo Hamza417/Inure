@@ -42,3 +42,10 @@ I will not pursue legal action against individuals who report security vulnerabi
 these guidelines. I do, however, expect security researchers to act responsibly and within the bounds of the law.
 
 Thank you for your contribution to the security of this project.
+
+
+# Reporting a Vulnerability
+
+If you discover a security vulnerability in inure please disclose it via [our huntr page](https://huntr.dev/repos/hamza417/inure/). Information about bounties, CVEs, response times and past reports are all there..
+
+Thank you for improving the security of inure.
