@@ -75,7 +75,7 @@ class BatchForceStopViewModel(application: Application, private val apps: ArrayL
                     apps.forEach { batchPackageInfo ->
                         ShizukuUtils.execInternal(Command(
                                 "am force-stop ${batchPackageInfo.packageInfo.packageName}"), null).let { result ->
-                            if (result.isSuccessful) {
+                            if (result.isSuccess) {
                                 if (isEmpty()) {
                                     append("${getString(R.string.closed)} - ${batchPackageInfo.packageInfo.packageName}")
                                 } else {

@@ -317,7 +317,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
 
                 ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null).let { result ->
-                    if (result.isSuccessful) {
+                    if (result.isSuccess) {
                         Log.d("Installer", "Output: ${result.out}")
                         Log.d("Installer", "Error: ${result.err}")
                         success.postValue((0..50).random())
@@ -325,7 +325,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d("Installer", "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
                         ShizukuUtils.execInternal(Command("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}"), null)
                             .let {
-                                if (it.isSuccessful) {
+                                if (it.isSuccess) {
                                     Log.d("Installer", "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
                                 } else {
                                     Log.d("Installer", "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")

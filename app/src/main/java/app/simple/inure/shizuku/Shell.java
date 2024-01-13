@@ -110,7 +110,7 @@ public interface Shell {
             this.err = err;
         }
         
-        public boolean isSuccessful() {
+        public boolean isSuccess() {
             return exitCode == 0;
         }
         

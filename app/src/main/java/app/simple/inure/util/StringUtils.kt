@@ -167,4 +167,12 @@ object StringUtils {
         }
         return false
     }
+
+    fun StringBuilder.appendLineSafely(string: String) {
+        if (isNotEmpty()) {
+            append("\n$string")
+        } else {
+            append(string)
+        }
+    }
 }

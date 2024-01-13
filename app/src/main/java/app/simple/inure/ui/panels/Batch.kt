@@ -1,21 +1,26 @@
 package app.simple.inure.ui.panels
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterBatch
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.IntentConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
@@ -42,6 +47,7 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.BatchProfile
 import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.services.BatchExtractService
@@ -70,6 +76,20 @@ class Batch : ScopedFragment() {
 
     private lateinit var batchViewModel: BatchViewModel
     private lateinit var tagsViewModel: TagsViewModel
+
+    private var appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                Log.d("Batch", "Uninstalled successfully")
+            }
+            Activity.RESULT_CANCELED -> {
+                Log.d("Batch", "Uninstall cancelled")
+            }
+            else -> {
+                Log.d("Batch", "Uninstall failed")
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_batch, container, false)
@@ -186,8 +206,18 @@ class Batch : ScopedFragment() {
                     if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
-                                BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
-                                    .show(childFragmentManager, "batch_uninstaller")
+                                if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+                                    BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
+                                        .show(childFragmentManager, "batch_uninstaller")
+                                } else {
+                                    for (app in adapterBatch?.getCurrentAppsList()!!) {
+                                        @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+                                        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                                        intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
+                                        intent.data = Uri.parse("package:${app.packageInfo.packageName}")
+                                        appUninstallObserver.launch(intent)
+                                    }
+                                }
                             }
                         })
                     } else {

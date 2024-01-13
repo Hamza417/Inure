@@ -21,11 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/dialog_padding"
-            android:text="@string/progress"
-            android:textSize="@dimen/popup_text_size"
+            android:textSize="@dimen/info_text_small"
             android:gravity="center_vertical"
-            app:appFontStyle="medium"
-            app:drawableStartCompat="@drawable/ic_delete"
+            app:appFontStyle="regular"
+            android:text="@string/executing_command"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 

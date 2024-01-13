@@ -105,7 +105,7 @@ class Permissions : ScopedFragment() {
                         } else if (ConfigurationPreferences.isUsingShizuku()) {
                             kotlin.runCatching {
                                 ShizukuUtils.execInternal(Command("pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
-                                    if (it.isSuccessful) {
+                                    if (it.isSuccess) {
                                         withContext(Dispatchers.Main) {
                                             adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
                                         }

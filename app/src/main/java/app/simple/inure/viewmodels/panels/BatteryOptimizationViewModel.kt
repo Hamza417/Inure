@@ -244,7 +244,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
             } else if (ConfigurationPreferences.isUsingShizuku()) {
                 kotlin.runCatching {
                     ShizukuUtils.execInternal(Command(cmd), null).let {
-                        if (it.isSuccessful) {
+                        if (it.isSuccess) {
                             // Invert the state here
                             batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized
                             batteryOptimizationUpdate.postValue(Pair(batteryOptimizationModel, position))

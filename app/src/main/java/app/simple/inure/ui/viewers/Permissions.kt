@@ -106,7 +106,7 @@ class Permissions : SearchBarScopedFragment() {
                                 if (Shizuku.pingBinder()) {
                                     ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(
                                             "pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
-                                        if (it.isSuccessful) {
+                                        if (it.isSuccess) {
                                             withContext(Dispatchers.Main) {
                                                 adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
                                             }

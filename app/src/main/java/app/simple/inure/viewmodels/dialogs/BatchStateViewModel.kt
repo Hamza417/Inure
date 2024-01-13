@@ -40,7 +40,7 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
 
             for (app in list) {
                 ShizukuUtils.execInternal(Command("pm $stateCommand ${app.packageInfo.packageName}"), null).let {
-                    if (it.isSuccessful) {
+                    if (it.isSuccess) {
                         app.packageInfo.applicationInfo.enabled = state
                     } else {
                         Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
