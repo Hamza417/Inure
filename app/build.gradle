@@ -7,6 +7,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
 
     compileSdk 34
@@ -25,6 +28,8 @@ android {
         versionName "Build98"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // buildConfigField 'string', "VIRUS_TOTAL_API_KEY", "${properties.getProperty("VIRUS_TOTAL_API_KEY").toString()}"
 
         resValue "string", "versionName", versionName
 
