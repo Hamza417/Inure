@@ -717,4 +717,6 @@
     <string name="file_management">Administración de archivos</string>
     <string name="special_use">Uso especial</string>
     <string name="no_preferences_found">No se han encontrado preferencias</string>
+    <string name="install_anyway">Instalar de todos modos</string>
+    <string name="foss_license_warning">Es imperativo ingresar la licencia correcta asociada con el proyecto.</string>
 </resources>
