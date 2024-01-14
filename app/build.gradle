@@ -12,8 +12,6 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 
 android {
 
-    compileSdk 34
-
     buildFeatures {
         viewBinding false
         aidl true
@@ -22,6 +20,7 @@ android {
 
     defaultConfig {
         applicationId "app.simple.inure"
+        compileSdk 34
         minSdkVersion 23
         targetSdkVersion 34
         versionCode 9901
