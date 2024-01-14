@@ -7,10 +7,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 android {
+
+    compileSdk 34
 
     buildFeatures {
         viewBinding false
@@ -20,7 +19,6 @@ android {
 
     defaultConfig {
         applicationId "app.simple.inure"
-        compileSdk 34
         minSdkVersion 23
         targetSdkVersion 34
         versionCode 9901
