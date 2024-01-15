@@ -283,6 +283,10 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     public void setChecked(boolean checked) {
         isChecked = checked;
         updateChecked();
+        
+        if (listener != null) {
+            listener.onCheckedChanged(isChecked);
+        }
     }
     
     public void setChecked(boolean checked, boolean animate) {
@@ -324,6 +328,52 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         
         if (listener != null) {
             listener.onCheckedChanged(isChecked);
+        }
+    }
+    
+    public void check() {
+        isChecked = true;
+        animateFinalState();
+        
+        if (listener != null) {
+            listener.onCheckedChanged(isChecked);
+        }
+    }
+    
+    public void check(boolean animate) {
+        isChecked = true;
+        
+        if (listener != null) {
+            listener.onCheckedChanged(isChecked);
+        }
+        
+        if (animate) {
+            animateFinalState();
+        } else {
+            updateChecked();
+        }
+    }
+    
+    public void uncheck() {
+        isChecked = false;
+        animateFinalState();
+        
+        if (listener != null) {
+            listener.onCheckedChanged(isChecked);
+        }
+    }
+    
+    public void uncheck(boolean animate) {
+        isChecked = false;
+        
+        if (listener != null) {
+            listener.onCheckedChanged(isChecked);
+        }
+        
+        if (animate) {
+            animateFinalState();
+        } else {
+            updateChecked();
         }
     }
     

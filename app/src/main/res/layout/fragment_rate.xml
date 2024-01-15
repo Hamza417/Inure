@@ -54,11 +54,13 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/popup_padding" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/dont_show_again"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/popup_padding"
+            android:layout_marginHorizontal="@dimen/popup_padding"
+            android:padding="5dp"
             android:layout_weight="1"
             android:text="@string/dont_show_again"
             android:textSize="@dimen/desc_text_size"

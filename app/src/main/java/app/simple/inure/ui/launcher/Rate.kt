@@ -11,6 +11,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.MarketUtils
 
@@ -20,6 +21,7 @@ class Rate : ScopedFragment() {
     private lateinit var sure: DynamicRippleTextView
     private lateinit var back: DynamicRippleTextView
     private lateinit var dontShowAgain: CheckBox
+    private lateinit var dontShowAgainTextView: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_rate, container, false)
@@ -28,6 +30,7 @@ class Rate : ScopedFragment() {
         sure = view.findViewById(R.id.sure)
         back = view.findViewById(R.id.back)
         dontShowAgain = view.findViewById(R.id.show_again_checkbox)
+        dontShowAgainTextView = view.findViewById(R.id.dont_show_again)
 
         return view
     }
@@ -36,14 +39,14 @@ class Rate : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        dontShowAgain.isChecked = MainPreferences.isShowRateReminder()
+        dontShowAgain.isChecked = MainPreferences.isShowRateReminder().invert()
         text.text = getString(R.string.rate_reminder,
                               MainPreferences.getLaunchCount(),
                               DateUtils.formatDate(
                                       TrialPreferences.getFirstLaunchDate(), "dd MMM yyyy"))
 
         sure.setOnClickListener {
-            dontShowAgain.isChecked = true
+            dontShowAgain.check()
             MarketUtils.openAppOnPlayStore(requireContext(), requireContext().packageName)
         }
 
@@ -52,7 +55,11 @@ class Rate : ScopedFragment() {
         }
 
         dontShowAgain.setOnCheckedChangeListener { isChecked ->
-            MainPreferences.setShowRateReminder(isChecked)
+            MainPreferences.setShowRateReminder(isChecked.invert())
+        }
+
+        dontShowAgainTextView.setOnClickListener {
+            dontShowAgain.toggle(true)
         }
     }
 

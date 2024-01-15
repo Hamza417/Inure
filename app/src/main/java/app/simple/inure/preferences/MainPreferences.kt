@@ -29,7 +29,7 @@ object MainPreferences {
     }
 
     fun shouldShowRateReminder(): Boolean {
-        return getLaunchCount() > 15
+        return getLaunchCount() % (5..10).random() == 0
     }
 
     fun incrementLaunchCount() {
@@ -115,6 +115,6 @@ object MainPreferences {
     }
 
     fun isShowRateReminder(): Boolean {
-        return getSharedPreferences().getBoolean(isRateReminderShown, true) && getLaunchCount() > 70
+        return getSharedPreferences().getBoolean(isRateReminderShown, true)
     }
 }
