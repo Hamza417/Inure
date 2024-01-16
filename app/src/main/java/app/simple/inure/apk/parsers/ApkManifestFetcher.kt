@@ -188,11 +188,22 @@ object ApkManifestFetcher {
                     val attrResId = lew(xml, off + 4 * 4)  // AttrValue ResourceId or dup AttrValue StrInd
                     off += 5 * 4  // Skip over the 5 words of an attribute
 
-                    val attrName = compXmlString(xml, sitOff, stOff, attrNameSi)
-                    val attrValue = if (attrValueSi != -1)
-                        compXmlString(xml, sitOff, stOff, attrValueSi)
-                    else
+                    val attrName = try {
+                        compXmlString(xml, sitOff, stOff, attrNameSi)
+                    } catch (e: Exception) {
+                        "Error: Unable to get attribute name!"
+                    }
+
+                    val attrValue = if (attrValueSi != -1) {
+                        try {
+                            compXmlString(xml, sitOff, stOff, attrValueSi)
+                        } catch (e: Exception) {
+                            "Error: Unable to get attribute value!"
+                        }
+                    } else {
                         "resourceID 0x" + Integer.toHexString(attrResId)
+                    }
+
                     sb.append(" $attrName=\"$attrValue\"")
                     //tr.add(attrName, attrValue);
                 }
@@ -281,11 +292,13 @@ object ApkManifestFetcher {
      * @return Value of Little Endian 32 bit word specified
      */
     private fun lew(arr: ByteArray, off: Int): Int {
-        return arr[off + 3] shl 24 and -0x1000000 or
-                (arr[off + 2] shl 16 and 0xff0000) or
-                (arr[off + 1] shl 8 and 0xff00) or
+        require(arr.size >= off + 4) { "Array is too small for the specified offset." }
+
+        return (arr[off + 3].toInt() shl 24) and -0x1000000 or
+                (arr[off + 2].toInt() shl 16 and 0xff0000) or
+                (arr[off + 1].toInt() shl 8 and 0xff00) or
                 (arr[off].toInt() and 0xFF)
-    } // end of LEW
+    }
 
     private infix fun Byte.shl(i: Int): Int = (this.toInt() shl i)
     // private infix fun Int.shl(i: Int): Int = (this shl i)

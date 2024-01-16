@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser.extractManifest
-import app.simple.inure.apk.parsers.ApkManifestFetcher
 import app.simple.inure.apk.xml.XML
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils.toFile
@@ -59,14 +58,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                     }
                 } else {
                     if (isManifest) {
-                        kotlin.runCatching {
-                            packageInfo.applicationInfo.extractManifest()!!
-                        }.getOrElse {
-                            /**
-                             * Alternate engine for parsing manifest
-                             */
-                            ApkManifestFetcher.getManifestXmlFromFilePath(packageInfo.applicationInfo.sourceDir)!!
-                        }
+                        packageInfo.applicationInfo.extractManifest()!!
                     } else {
                         kotlin.runCatching {
                             kotlin.runCatching {

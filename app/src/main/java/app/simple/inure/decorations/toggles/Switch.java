@@ -113,7 +113,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     
     private void init() {
         setClipToOutline(false);
-        setDragEnabled(true);
+        setDragEnabled(false); // Disable the drag permanently ??TODO: Remove this
         
         if (!isInEditMode()) {
             if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {

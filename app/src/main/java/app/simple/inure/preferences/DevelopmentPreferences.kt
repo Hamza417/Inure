@@ -186,10 +186,10 @@ object DevelopmentPreferences {
                                             isUserSelectionEnabledInInstaller,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
-                                            "Drag switch to any position and not just left and right.",
-                                            isSwitchFancyDraggable,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
+                //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
+                //                                            "Drag switch to any position and not just left and right.",
+                //                                            isSwitchFancyDraggable,
+                //                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
         }
