@@ -133,7 +133,7 @@ public class LayoutBackground {
         MaterialShapeDrawable materialShapeDrawable = new MaterialShapeDrawable(shapeAppearanceModel);
         
         if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
-            if (highlightColor != -1) {
+            if (highlightColor == -1) {
                 materialShapeDrawable.setStroke(strokeWidth, AppearancePreferences.INSTANCE.getAccentColor());
             } else {
                 materialShapeDrawable.setStroke(strokeWidth, highlightColor);
