@@ -34,6 +34,7 @@ class AdapterMenu(val list: List<Pair<Int, Int>>, layoutStyle: Int) : RecyclerVi
 
         if (AccessibilityPreferences.isColorfulIcons()) {
             holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+            holder.container.setHighlightColor(Colors.getColors()[position])
         }
 
         holder.container.setOnClickListener {

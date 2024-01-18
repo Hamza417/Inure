@@ -19,12 +19,16 @@ import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    
+    private int highlightColor = -1;
     
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -110,8 +114,13 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     
     private void setHighlightBackgroundColor() {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            if (highlightColor == -1) {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            } else {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(highlightColor, Misc.highlightColorAlpha)));
+            }
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
@@ -141,6 +150,14 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor)) {
             setHighlightBackgroundColor();
+        }
+    }
+    
+    public void setHighlightColor(int highlightColor) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useColorfulHighlight)) {
+            this.highlightColor = highlightColor;
+        } else {
+            this.highlightColor = -1;
         }
     }
 }

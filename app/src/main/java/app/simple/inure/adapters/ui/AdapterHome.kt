@@ -74,6 +74,10 @@ class AdapterHome(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter
                         Colors.getColors()[position],
                         Colors.getColors()[position]
                 ))
+
+                if (AccessibilityPreferences.isHighlightMode()) {
+                    holder.container.setHighlightColor(Colors.getColors()[position])
+                }
             }
 
             holder.container.setOnClickListener {

@@ -48,8 +48,19 @@ object ColorUtils {
         return color
     }
 
-    fun changeAlpha(origColor: Int, userInputAlpha: Int): Int {
-        return origColor and 0x00ffffff or (userInputAlpha shl 24)
+    /**
+     * Change color opacity from 0.0F - 1.0F
+     * @param origColor original color
+     * @param userInputAlpha alpha value from 0.0F - 1.0F
+     * @return new color with alpha
+     */
+    fun changeAlpha(origColor: Int, userInputAlpha: Float = 1F): Int {
+        return Color.argb(
+                (Color.alpha(origColor) * userInputAlpha).toInt(),
+                Color.red(origColor),
+                Color.green(origColor),
+                Color.blue(origColor)
+        )
     }
 
     fun Int.toHexColor(): String {

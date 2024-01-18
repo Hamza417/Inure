@@ -60,9 +60,7 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
                     try {
                         holder.tag.setChipColor(Colors.getColors()[position], true)
                     } catch (e: IndexOutOfBoundsException) {
-                        holder.tag.setChipColor(
-                                Colors.getColors()[position - Colors.getColors().size], true
-                        )
+                        holder.tag.setChipColor(Colors.getColors()[position - Colors.getColors().size], true)
                     }
                 } else {
                     holder.tag.setDefaultChipColor()

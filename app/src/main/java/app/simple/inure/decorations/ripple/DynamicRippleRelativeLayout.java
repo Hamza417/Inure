@@ -16,9 +16,12 @@ import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleRelativeLayout extends RelativeLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
+    
+    private int highlightColor = -1;
     
     public DynamicRippleRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -41,8 +44,13 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
     
     private void setHighlightBackgroundColor() {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            if (highlightColor == -1) {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            } else {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(highlightColor, Misc.highlightColorAlpha)));
+            }
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
@@ -106,6 +114,10 @@ public class DynamicRippleRelativeLayout extends RelativeLayout implements Share
     public boolean onGenericMotionEvent(MotionEvent event) {
         ViewUtils.INSTANCE.triggerHover(this, event);
         return super.onGenericMotionEvent(event);
+    }
+    
+    public void setHighlightColor(int highlightColor) {
+        this.highlightColor = highlightColor;
     }
 }
 

@@ -10,6 +10,7 @@ object Misc {
     const val minBlur = 0.1F
     const val blurRadius = 16F
     const val dimAmount = 0.75F
+    const val highlightColorAlpha = 0.15F
 
     const val ONE = 1
     const val TWO = 2

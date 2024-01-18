@@ -34,6 +34,7 @@ object DevelopmentPreferences {
     const val expandHomeHeader = "is_home_header_expanded"
     const val isUserSelectionEnabledInInstaller = "is_user_selection_enabled_in_installer"
     const val isSwitchFancyDraggable = "is_switch_fancy_draggable"
+    const val useColorfulHighlight = "is_colorful_highlight_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -185,6 +186,11 @@ object DevelopmentPreferences {
                                             "Enable user selection in installer.",
                                             isUserSelectionEnabledInInstaller,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Use Colorful Highlight",
+                                            "Use colorful static backgrounds in the enu containers as well if colorful icons are enabled with static backgrounds.",
+                                            useColorfulHighlight,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
                 //                                            "Drag switch to any position and not just left and right.",

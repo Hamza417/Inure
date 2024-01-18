@@ -42,6 +42,7 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
 
             if (AccessibilityPreferences.isColorfulIcons()) {
                 holder.icon.imageTintList = ColorStateList.valueOf(Colors.getColors()[position])
+                holder.container.setHighlightColor(Colors.getColors()[position])
             }
 
             holder.container.setOnClickListener {

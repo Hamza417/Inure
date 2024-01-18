@@ -9,9 +9,11 @@ import android.view.MotionEvent;
 
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import app.simple.inure.R;
+import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 
 @Deprecated ()
 /*
@@ -19,13 +21,21 @@ import app.simple.inure.themes.manager.ThemeManager;
  * of it, it works much better than button
  */
 public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButton {
+    
+    private int highlightColor = -1;
+    
     public DynamicRippleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setBackgroundColor(Color.TRANSPARENT);
         
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, attrs, 2F);
-            setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            if (highlightColor == -1) {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            } else {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(highlightColor, Misc.highlightColorAlpha)));
+            }
         } else {
             setBackground(Utils.getRippleDrawable(getBackground(), 2F));
         }
@@ -35,7 +45,7 @@ public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButt
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+            case MotionEvent.ACTION_DOWN -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(0.8F)
@@ -45,11 +55,8 @@ public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButt
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
             }
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP: {
+            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(1F)
@@ -60,9 +67,12 @@ public class DynamicRippleButton extends androidx.appcompat.widget.AppCompatButt
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-                break;
             }
         }
         return super.onTouchEvent(event);
+    }
+    
+    public void setHighlightColor(int highlightColor) {
+        this.highlightColor = highlightColor;
     }
 }

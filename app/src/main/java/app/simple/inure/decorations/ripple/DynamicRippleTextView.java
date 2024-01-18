@@ -20,6 +20,7 @@ import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
+import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
 
 /**
@@ -27,6 +28,8 @@ import app.simple.inure.util.ViewUtils;
  * background
  */
 public class DynamicRippleTextView extends TypeFaceTextView {
+    
+    private int highlightColor = -1;
     
     public DynamicRippleTextView(@NonNull Context context) {
         super(context);
@@ -138,9 +141,13 @@ public class DynamicRippleTextView extends TypeFaceTextView {
     
     private void setHighlightBackgroundColor() {
         if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
-            LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor);
-            setBackgroundTintList(ColorStateList.valueOf(
-                    ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            if (highlightColor == -1) {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
+            } else {
+                LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
+                setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(highlightColor, Misc.highlightColorAlpha)));
+            }
         } else {
             setBackground(null);
             if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
@@ -173,5 +180,9 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         clearAnimation();
         setScaleX(1);
         setScaleY(1);
+    }
+    
+    public void setHighlightColor(int highlightColor) {
+        this.highlightColor = highlightColor;
     }
 }
