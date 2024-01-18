@@ -10,7 +10,7 @@ import app.simple.inure.models.TerminalCommand
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SavedCommandsViewModel(application: Application) : WrappedViewModel(application) {
+class TerminalCommandsViewModel(application: Application) : WrappedViewModel(application) {
 
     private val terminalCommands: MutableLiveData<ArrayList<TerminalCommand>> by lazy {
         MutableLiveData<ArrayList<TerminalCommand>>().also {

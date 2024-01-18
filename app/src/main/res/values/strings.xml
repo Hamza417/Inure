@@ -454,7 +454,7 @@
     <string name="standalone_terminal_desc">Use terminal as a standalone app and launch it directly from home screen without needing to open the main app every time terminal is needed.</string>
     <string name="ok">OK</string>
     <string name="share">Share</string>
-    <string name="saved_commands">Saved Commands</string>
+    <string name="terminal_commands">Terminal Commands</string>
     <string name="pin_to_home_panel">Pin to Home Panel</string>
     <string name="remove_from_home_screen">Remove from Home Panel</string>
     <string name="limit_stats_to_hours">Limit Stats to Hours</string>

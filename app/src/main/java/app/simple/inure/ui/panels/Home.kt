@@ -197,7 +197,7 @@ class Home : ScopedFragment() {
                             openFragmentArc(BootManager.newInstance(), icon, "boot_manager")
                         }
 
-                        R.string.saved_commands -> {
+                        R.string.terminal_commands -> {
                             openFragmentArc(TerminalCommands.newInstance(), icon, "saved_commands")
                         }
 

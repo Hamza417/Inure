@@ -21,9 +21,9 @@
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/saved_commands"
+            android:contentDescription="@string/terminal_commands"
             android:src="@drawable/ic_push_pin"
-            android:transitionName="@string/saved_commands"
+            android:transitionName="@string/terminal_commands"
             app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -33,7 +33,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
-            android:text="@string/saved_commands"
+            android:text="@string/terminal_commands"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
             app:textColorStyle="heading" />

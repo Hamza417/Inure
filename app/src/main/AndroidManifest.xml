@@ -599,7 +599,7 @@
 
         <activity-alias
             android:name="TermInternal"
-            android:exported="false"
+            android:exported="true"
             android:icon="@mipmap/ic_terminal"
             android:targetActivity=".terminal.Term">
             <intent-filter>

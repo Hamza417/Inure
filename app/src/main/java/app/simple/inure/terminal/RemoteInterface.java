@@ -44,10 +44,10 @@ public class RemoteInterface extends BaseActivity {
     protected static final String PRIVEXTRA_TARGET_WINDOW = "inure.terminal.private.target_window";
     protected static final String PRIVACT_ACTIVITY_ALIAS = "inure.terminal.TermInternal";
     
-    private TermSettings mSettings;
+    private TermSettings termSettings;
     
     private TermService termService;
-    private Intent mTSIntent;
+    private Intent termServiceIntent;
     
     /**
      * Quote a string so it can be used as a parameter in bash and similar shells.
@@ -99,10 +99,10 @@ public class RemoteInterface extends BaseActivity {
         super.onCreate(savedInstanceState);
     
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        mSettings = new TermSettings(getResources(), prefs);
+        termSettings = new TermSettings(getResources(), prefs);
     
         Intent TSIntent = new Intent(this, TermService.class);
-        mTSIntent = TSIntent;
+        termServiceIntent = TSIntent;
         startService(TSIntent);
         if (!bindService(TSIntent, terminalServiceConnection, BIND_AUTO_CREATE)) {
             Log.e(TermDebug.LOG_TAG, "bind to service failed!");
@@ -121,7 +121,7 @@ public class RemoteInterface extends BaseActivity {
             if (service != null) {
                 SessionList sessions = service.getSessions();
                 if (sessions == null || sessions.size() == 0) {
-                    stopService(mTSIntent);
+                    stopService(termServiceIntent);
                 }
             }
     
@@ -145,7 +145,6 @@ public class RemoteInterface extends BaseActivity {
     protected TermService getTermService() {
         return termService;
     }
-    
 
     
     protected String openNewWindow(String iInitialCommand) {
@@ -165,7 +164,7 @@ public class RemoteInterface extends BaseActivity {
         }
         
         try {
-            TermSession session = Term.createTermSession(this, mSettings, initialCommand);
+            TermSession session = Term.createTermSession(this, termSettings, initialCommand);
             
             session.setFinishCallback(service);
             service.getSessions().add(session);
@@ -180,6 +179,7 @@ public class RemoteInterface extends BaseActivity {
             
             return handle;
         } catch (IOException | ActivityNotFoundException e) {
+            Log.e(TermDebug.LOG_TAG, "Couldn't create new window: " + e.getMessage());
             return null;
         }
     }

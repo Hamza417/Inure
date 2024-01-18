@@ -25,14 +25,14 @@ import app.simple.inure.terminal.RunShortcut
 import app.simple.inure.terminal.TermDebug
 import app.simple.inure.terminal.compat.PRNGFixes
 import app.simple.inure.terminal.util.ShortcutEncryption
-import app.simple.inure.viewmodels.panels.SavedCommandsViewModel
+import app.simple.inure.viewmodels.panels.TerminalCommandsViewModel
 import java.security.GeneralSecurityException
 
 class TerminalCommands : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
-    private val savedCommandsViewModel: SavedCommandsViewModel by viewModels()
+    private val terminalCommandsViewModel: TerminalCommandsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_terminal_commands, container, false)
@@ -46,7 +46,7 @@ class TerminalCommands : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
 
-        savedCommandsViewModel.getTerminalCommands().observe(viewLifecycleOwner) {
+        terminalCommandsViewModel.getTerminalCommands().observe(viewLifecycleOwner) {
             val adapterTerminalCommands = AdapterTerminalCommands(it)
 
             adapterTerminalCommands.setOnItemClickListener(object : TerminalCommandCallbacks {
@@ -59,7 +59,7 @@ class TerminalCommands : ScopedFragment() {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    savedCommandsViewModel.deleteCommand(terminalCommand)
+                                    terminalCommandsViewModel.deleteCommand(terminalCommand)
                                     adapterTerminalCommands.removeItem(position)
                                 }
                             })
@@ -73,7 +73,7 @@ class TerminalCommands : ScopedFragment() {
                             childFragmentManager.editTerminalShortcut(terminalCommand!!).setTerminalAddShortcutCallbacks(object : TerminalAddShortcutCallbacks {
                                 override fun onCreateShortcut(path: String?, args: String?, label: String?, description: String?) {
                                     val terminalCommandEdited = TerminalCommand(path, args, label, description, terminalCommand.dateCreated)
-                                    savedCommandsViewModel.updateCommand(terminalCommandEdited)
+                                    terminalCommandsViewModel.updateCommand(terminalCommandEdited)
                                     adapterTerminalCommands.updateItem(terminalCommandEdited, position)
                                 }
                             })
@@ -89,7 +89,7 @@ class TerminalCommands : ScopedFragment() {
                     R.drawable.ic_add -> {
                         childFragmentManager.createTerminalShortcut().setTerminalAddShortcutCallbacks(object : TerminalAddShortcutCallbacks {
                             override fun onCreateShortcut(path: String?, args: String?, label: String?, description: String?) {
-                                savedCommandsViewModel.addNewCommands(TerminalCommand(path, args, label, description, System.currentTimeMillis()))
+                                terminalCommandsViewModel.addNewCommands(TerminalCommand(path, args, label, description, System.currentTimeMillis()))
                             }
                         })
                     }
@@ -102,7 +102,7 @@ class TerminalCommands : ScopedFragment() {
                     R.drawable.ic_clear_all -> {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
-                                savedCommandsViewModel.deleteAll()
+                                terminalCommandsViewModel.deleteAll()
                             }
                         })
                     }
@@ -145,7 +145,7 @@ class TerminalCommands : ScopedFragment() {
         try {
             encryptedCommand = ShortcutEncryption.encrypt(cmdStr, keys)
 
-            val target = Intent().setClass(requireContext(), RunShortcut::class.java)
+            val target = Intent(requireContext(), RunShortcut::class.java)
             target.action = RunShortcut.ACTION_RUN_SHORTCUT
             target.putExtra(RunShortcut.EXTRA_SHORTCUT_COMMAND, encryptedCommand)
             target.putExtra(RunShortcut.EXTRA_WINDOW_HANDLE, terminalCommand?.label)

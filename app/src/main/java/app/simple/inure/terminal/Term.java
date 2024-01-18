@@ -763,7 +763,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_BACK -> {
                 if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && actionBarCompat != null && actionBarCompat.isShowing()) {
                     actionBarCompat.hide();
                     return true;
@@ -780,15 +780,18 @@ public class Term extends BaseActivity implements UpdateCallback,
                     default:
                         return false;
                 }
-            case KeyEvent.KEYCODE_MENU:
+            }
+            case KeyEvent.KEYCODE_MENU -> {
                 if (actionBarCompat != null && !actionBarCompat.isShowing()) {
                     actionBarCompat.show();
                     return true;
                 } else {
                     return super.onKeyUp(keyCode, event);
                 }
-            default:
+            }
+            default -> {
                 return super.onKeyUp(keyCode, event);
+            }
         }
     }
     

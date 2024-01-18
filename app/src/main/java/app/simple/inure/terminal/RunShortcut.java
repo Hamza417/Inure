@@ -37,18 +37,18 @@ public final class RunShortcut extends RemoteInterface {
             finish();
             return;
         }
-    
-        Intent myIntent = getIntent();
-        String action = myIntent.getAction();
-    
+        
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        
         if (action == null) {
             Log.e(TermDebug.LOG_TAG, "No action specified for intent");
             finish();
             return;
         }
-    
+        
         if (action.equals(ACTION_RUN_SHORTCUT)) {
-            String encCommand = myIntent.getStringExtra(EXTRA_SHORTCUT_COMMAND);
+            String encCommand = intent.getStringExtra(EXTRA_SHORTCUT_COMMAND);
             if (encCommand == null) {
                 Log.e(TermDebug.LOG_TAG, "No command provided in shortcut!");
                 finish();
@@ -72,7 +72,7 @@ public final class RunShortcut extends RemoteInterface {
                 return;
             }
             
-            String handle = myIntent.getStringExtra(EXTRA_WINDOW_HANDLE);
+            String handle = intent.getStringExtra(EXTRA_WINDOW_HANDLE);
             if (handle != null) {
                 // Target the request at an existing window if open
                 handle = appendToWindow(handle, command);
