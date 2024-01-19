@@ -168,6 +168,7 @@ public class RemoteInterface extends BaseActivity {
             
             session.setFinishCallback(service);
             service.getSessions().add(session);
+            service.setWindowId(service.getSessions().indexOf(session));
             
             String handle = UUID.randomUUID().toString();
             ((GenericTermSession) session).setHandle(handle);

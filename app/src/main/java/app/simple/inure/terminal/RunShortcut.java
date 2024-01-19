@@ -76,9 +76,11 @@ public final class RunShortcut extends RemoteInterface {
             if (handle != null) {
                 // Target the request at an existing window if open
                 handle = appendToWindow(handle, command);
+                Log.i(TermDebug.LOG_TAG, "Sending command to window: " + handle);
             } else {
                 // Open a new window
                 handle = openNewWindow(command);
+                Log.i(TermDebug.LOG_TAG, "Opening new window with command: " + handle);
             }
             Intent result = new Intent();
             result.putExtra(EXTRA_WINDOW_HANDLE, handle);

@@ -40,7 +40,7 @@ import app.simple.inure.terminal.util.TermSettings;
 public class TermViewFlipper extends DecentViewFlipper implements Iterable <View> {
     
     private Context context;
-    private Toast mToast;
+    private Toast toast;
     private LinkedList <UpdateCallback> callbacks;
     
     private int mCurWidth;
@@ -174,13 +174,14 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
             title = ((GenericTermSession) session).getTitle(title);
         }
         
-        if (mToast == null) {
-            mToast = Toast.makeText(context, title, Toast.LENGTH_SHORT);
-            mToast.setGravity(Gravity.CENTER, 0, 0);
+        if (toast == null) {
+            toast = Toast.makeText(context, title, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
         } else {
-            mToast.setText(title);
+            toast.setText(title);
         }
-        mToast.show();
+        
+        // toast.show(); // We hate toasts
     }
     
     @Override
