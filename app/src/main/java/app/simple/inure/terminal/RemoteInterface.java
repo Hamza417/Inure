@@ -197,9 +197,12 @@ public class RemoteInterface extends BaseActivity {
             String h = session.getHandle();
             if (h != null && h.equals(handle)) {
                 target = session;
+                Log.d(TermDebug.LOG_TAG, "Found target window: " + index);
                 break;
             }
         }
+        
+        Log.e(TermDebug.LOG_TAG, "Target window not found, opening new one");
         
         if (target == null) {
             // Target window not found, open a new one
