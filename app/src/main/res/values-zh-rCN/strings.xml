@@ -455,7 +455,6 @@
     <string name="standalone_terminal_desc">将终端用作独立应用程序并直接从主屏幕启动它，而无需在每次需要终端时都打开主应用程序.</string>
     <string name="ok">OK</string>
     <string name="share">Share</string>
-    <string name="saved_commands">已保存的命令</string>
     <string name="pin_to_home_panel">添加到主屏幕</string>
     <string name="remove_from_home_screen">从主屏幕中移除</string>
     <string name="limit_stats_to_hours">将统计数据限制为小时</string>

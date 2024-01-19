@@ -455,7 +455,6 @@
     <string name="standalone_terminal_desc">Использовать терминал как отдельное приложение и запускать его прямо с домашней страницы лончера, без необходимости открывать основное приложение каждый раз, когда терминал нужен.</string>
     <string name="ok">ОК</string>
     <string name="share">Поделиться</string>
-    <string name="saved_commands">Избранные команды</string>
     <string name="pin_to_home_panel">Добавить в Быстрый доступ к приложениям</string>
     <string name="remove_from_home_screen">Убрать из Быстрый доступ к приложениям</string>
     <string name="limit_stats_to_hours">Ограничить статистику по часам</string>

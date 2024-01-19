@@ -455,7 +455,6 @@
     <string name="standalone_terminal_desc">Usar o terminal como app autônomo e executá-lo diretamente da tela inicial sem precisar abrir a aplicação principal toda vez que o terminal é necessário.</string>
     <string name="ok">OK</string>
     <string name="share">Compartilhar</string>
-    <string name="saved_commands">Comandos salvos</string>
     <string name="pin_to_home_panel">Fixar no Painel Inicial</string>
     <string name="remove_from_home_screen">Remover do Painel Inicial</string>
     <string name="limit_stats_to_hours">Limitar estatísticas a horas</string>

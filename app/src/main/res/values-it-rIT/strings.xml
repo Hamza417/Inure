@@ -455,7 +455,6 @@
     <string name="standalone_terminal_desc">Usa il terminale come un\'app indipendente che puoi avviare dalla schermata home senza bisogno di aprire l\'app principale ogni volta che ti serve il terminale.</string>
     <string name="ok">OK</string>
     <string name="share">Condividi</string>
-    <string name="saved_commands">Comandi preferiti</string>
     <string name="pin_to_home_panel">Aggiungi alla schermata Home</string>
     <string name="remove_from_home_screen">Rimuovi dalla schermata Home</string>
     <string name="limit_stats_to_hours">Limita le statistiche a ore</string>

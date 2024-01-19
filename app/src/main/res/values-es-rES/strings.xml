@@ -455,7 +455,6 @@
     <string name="standalone_terminal_desc">Utiliza terminal como una aplicación independiente y ejecútala directamente desde la pantalla de inicio sin necesidad de abrir la aplicación principal cada vez que necesites la terminal.</string>
     <string name="ok">Aceptar</string>
     <string name="share">Compartir</string>
-    <string name="saved_commands">Comandos guardados</string>
     <string name="pin_to_home_panel">Anclar al panel de inicio</string>
     <string name="remove_from_home_screen">Quitar del panel de inicio</string>
     <string name="limit_stats_to_hours">Limitar estadísticas a horas</string>
