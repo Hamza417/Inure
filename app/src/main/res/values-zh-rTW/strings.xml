@@ -455,7 +455,7 @@
     <string name="standalone_terminal_desc">將終端機作為一個獨立的應用程式，直接從主畫面上啟動，而無需再每次需要終端機時開啟主要應用程式。</string>
     <string name="ok">確定</string>
     <string name="share">分享</string>
-    <string name="saved_commands">儲存的命令</string>
+    <string name="terminal_commands">終端機命令</string>
     <string name="pin_to_home_panel">釘選至主面板</string>
     <string name="remove_from_home_screen">從主面板中移除</string>
     <string name="limit_stats_to_hours">限制統計資料時長</string>
