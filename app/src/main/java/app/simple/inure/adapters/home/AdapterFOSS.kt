@@ -51,6 +51,7 @@ class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
             holder.date.text = FOSSParser.getPackageLicense(apps[position]) ?: holder.itemView.context.getString(R.string.not_available)
+            holder.date.setWarningIcon(FOSSParser.isUserDefinedFOSS(apps[position].packageName))
 
             holder.container.setOnClickListener {
                 adapterCallbacks.onAppClicked(apps[position], holder.icon)

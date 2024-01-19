@@ -37,7 +37,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
     private val typedArray: TypedArray
     private var colorMode: Int = 1
-    private var drawableTintMode = 2
+    private var drawableTintMode = ICON_TINT_REGULAR
     private var isDrawableHidden = true
     private var lastDrawableColor = Color.GRAY
 
@@ -157,17 +157,33 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     private fun setDrawableTint(animate: Boolean) {
         if (animate) {
             when (drawableTintMode) {
-                0, 3, 5 -> animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
-                1 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
-                2 -> animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
-                4 -> animateDrawableColorChange(lastDrawableColor, Color.RED) // Error
+                ICON_TINT_ACCENT, ICON_TINT_WARNING, ICON_TINT_SUCCESS -> {
+                    animateDrawableColorChange(lastDrawableColor, AppearancePreferences.getAccentColor())
+                }
+                ICON_TINT_REGULAR -> {
+                    animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.regularIconColor)
+                }
+                ICON_TINT_SECONDARY -> {
+                    animateDrawableColorChange(lastDrawableColor, ThemeManager.theme.iconTheme.secondaryIconColor)
+                }
+                ICON_TINT_ERROR -> {
+                    animateDrawableColorChange(lastDrawableColor, Color.RED)
+                }
             }
         } else {
             when (drawableTintMode) {
-                0, 3, 5 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
-                1 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.regularIconColor))
-                2 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.secondaryIconColor))
-                4 -> TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.RED)) // Error
+                ICON_TINT_ACCENT, ICON_TINT_WARNING, ICON_TINT_SUCCESS -> {
+                    TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(AppearancePreferences.getAccentColor()))
+                }
+                ICON_TINT_REGULAR -> {
+                    TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.regularIconColor))
+                }
+                ICON_TINT_SECONDARY -> {
+                    TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(ThemeManager.theme.iconTheme.secondaryIconColor))
+                }
+                ICON_TINT_ERROR -> {
+                    TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.RED))
+                } // Error
             }
         }
 
@@ -176,19 +192,19 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
     protected fun getDrawableTintColor(): Int {
         return when (drawableTintMode) {
-            0, 3, 5 -> AppearancePreferences.getAccentColor()
-            1 -> ThemeManager.theme.iconTheme.regularIconColor
-            2 -> ThemeManager.theme.iconTheme.secondaryIconColor
-            4 -> Color.RED // Error
+            ICON_TINT_ACCENT, ICON_TINT_WARNING, ICON_TINT_SUCCESS -> AppearancePreferences.getAccentColor()
+            ICON_TINT_REGULAR -> ThemeManager.theme.iconTheme.regularIconColor
+            ICON_TINT_SECONDARY -> ThemeManager.theme.iconTheme.secondaryIconColor
+            ICON_TINT_ERROR -> Color.RED // Error
             else -> ThemeManager.theme.iconTheme.secondaryIconColor
         }
     }
 
     private fun setLastDrawableColor() {
         lastDrawableColor = when (drawableTintMode) {
-            0 -> context.resolveAttrColor(R.attr.colorAppAccent)
-            1 -> ThemeManager.theme.iconTheme.regularIconColor
-            2 -> ThemeManager.theme.iconTheme.secondaryIconColor
+            ICON_TINT_ACCENT -> context.resolveAttrColor(R.attr.colorAppAccent)
+            ICON_TINT_REGULAR -> ThemeManager.theme.iconTheme.regularIconColor
+            ICON_TINT_SECONDARY -> ThemeManager.theme.iconTheme.secondaryIconColor
             else -> ThemeManager.theme.iconTheme.secondaryIconColor
         }
     }
@@ -236,6 +252,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
 
         drawableTintMode = 0
+        setDrawableTint(false)
+    }
+
+    fun setWarningIcon(isWarning: Boolean, tintMode: Int = 2) {
+        if (isWarning) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_warning_tiny, 0)
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+        drawableTintMode = tintMode
         setDrawableTint(false)
     }
 
@@ -308,5 +335,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         const val REGULAR = 1
         const val MEDIUM = 2
         const val BOLD = 3
+
+        const val ICON_TINT_ACCENT = 0
+        const val ICON_TINT_REGULAR = 1
+        const val ICON_TINT_SECONDARY = 2
+        const val ICON_TINT_WARNING = 3
+        const val ICON_TINT_ERROR = 4
+        const val ICON_TINT_SUCCESS = 5
+
     }
 }

@@ -23,6 +23,10 @@ public class FOSSParser {
     private static HashMap <String, String> packageVersions;
     private static final String OPEN_SOURCE = "open_source";
     private static final String OPEN_SOURCE_LICENSE = "open_source_license";
+    
+    /**
+     * @noinspection unused
+     */
     private static final String TAG = "FOSSParser";
     
     public static void init(Context context) {
@@ -110,6 +114,10 @@ public class FOSSParser {
                 return null;
             }
         }
+    }
+    
+    public static boolean isUserDefinedFOSS(String packageName) {
+        return !packageVersions.containsKey(packageName);
     }
     
     public static void addPackage(String packageName, String license, Context context) {
