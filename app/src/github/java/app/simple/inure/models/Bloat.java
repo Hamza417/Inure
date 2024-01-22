@@ -1,5 +1,6 @@
 package app.simple.inure.models;
 
+import android.content.pm.PackageInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,8 +17,12 @@ public class Bloat implements Parcelable {
     private ArrayList <String> neededBy;
     private ArrayList <String> labels;
     private Removal removal;
+    private PackageInfo packageInfo;
     
-    public Bloat(String id, String list, String description, ArrayList <String> dependencies, ArrayList <String> neededBy, ArrayList <String> labels, Removal removal) {
+    public Bloat() {
+    }
+    
+    public Bloat(String id, String list, String description, ArrayList <String> dependencies, ArrayList <String> neededBy, ArrayList <String> labels, Removal removal, PackageInfo packageInfo) {
         this.id = id;
         this.list = list;
         this.description = description;
@@ -25,9 +30,7 @@ public class Bloat implements Parcelable {
         this.neededBy = neededBy;
         this.labels = labels;
         this.removal = removal;
-    }
-    
-    public Bloat() {
+        this.packageInfo = packageInfo;
     }
     
     protected Bloat(Parcel in) {
@@ -37,6 +40,7 @@ public class Bloat implements Parcelable {
         dependencies = in.createStringArrayList();
         neededBy = in.createStringArrayList();
         labels = in.createStringArrayList();
+        packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
     }
     
     @Override
@@ -47,6 +51,7 @@ public class Bloat implements Parcelable {
         dest.writeStringList(dependencies);
         dest.writeStringList(neededBy);
         dest.writeStringList(labels);
+        dest.writeParcelable(packageInfo, flags);
     }
     
     @Override
@@ -120,5 +125,13 @@ public class Bloat implements Parcelable {
     
     public void setRemoval(Removal removal) {
         this.removal = removal;
+    }
+    
+    public PackageInfo getPackageInfo() {
+        return packageInfo;
+    }
+    
+    public void setPackageInfo(PackageInfo packageInfo) {
+        this.packageInfo = packageInfo;
     }
 }

@@ -15,24 +15,30 @@ import java.io.InputStreamReader
 
 class DebloatViewModel(application: Application) : PackageUtilsViewModel(application) {
 
-    private val bloatList: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
+    private val bloatList: MutableLiveData<ArrayList<Bloat>> by lazy {
+        MutableLiveData<ArrayList<Bloat>>()
     }
 
-    fun getBloatList(): LiveData<ArrayList<PackageInfo>> {
+    fun getBloatList(): LiveData<ArrayList<Bloat>> {
         return bloatList
     }
 
     private fun parseUADList() {
         viewModelScope.launch(Dispatchers.IO) {
             val uadList = getUADList()
-            val apps = ArrayList<PackageInfo>()
-            for (app in getInstalledApps()) {
-                if (uadList.containsKey(app.packageName)) {
-                    apps.add(app)
+            val apps = getInstalledApps()
+            val bloats = ArrayList<Bloat>()
+
+            uadList.forEach { (id, bloat) ->
+                apps.forEach { app ->
+                    if (app.packageName == id) {
+                        bloat.packageInfo = app
+                        bloats.add(bloat)
+                    }
                 }
             }
-            bloatList.postValue(apps)
+
+            bloatList.postValue(bloats)
         }
     }
 

@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.ui
 
-import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,10 @@ import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.models.Bloat
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -34,11 +34,11 @@ class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : Recycler
         val pos = holder.bindingAdapterPosition.minus(1)
         when (holder) {
             is Holder -> {
-                holder.name.text = packageInfo[pos].applicationInfo.name
-                holder.packageName.text = packageInfo[pos].packageName
-                holder.desc.text = packageInfo[pos].packageName
+                holder.name.text = bloats[pos].packageInfo.applicationInfo.name
+                holder.packageName.text = bloats[pos].packageInfo.packageName
+                holder.desc.text = bloats[pos].description
                 holder.checkBox.isChecked = true
-                holder.icon.loadAppIcon(packageInfo[pos].packageName, packageInfo[pos].applicationInfo.enabled)
+                holder.icon.loadAppIcon(bloats[pos].packageInfo.packageName, bloats[pos].packageInfo.applicationInfo.enabled)
             }
             is Header -> {
 
@@ -47,7 +47,7 @@ class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : Recycler
     }
 
     override fun getItemCount(): Int {
-        return packageInfo.size.plus(1)
+        return bloats.size.plus(1)
     }
 
     override fun getItemViewType(position: Int): Int {
