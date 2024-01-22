@@ -85,6 +85,15 @@ android {
             manifestPlaceholders = [removePermission: "inure.terminal.permission.RUN_SCRIPT"]
             manifestPlaceholders = [removePermission2: "inure.terminal.permission.APPEND_TO_PATH"]
             manifestPlaceholders = [removePermission3: "inure.terminal.permission.PREPEND_TO_PATH"]
+
+            // Include all github flavor files
+            sourceSets {
+                beta {
+                    java.srcDirs += 'src/github/java'
+                    res.srcDirs += 'src/github/res'
+                    resources.srcDirs += 'src/github/resources'
+                }
+            }
         }
     }
 

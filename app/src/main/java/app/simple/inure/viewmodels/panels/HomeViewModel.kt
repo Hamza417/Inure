@@ -19,6 +19,7 @@ import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
@@ -289,6 +290,10 @@ class HomeViewModel(application: Application) :
             }
 
             list.add(Pair(R.drawable.ic_open_source, R.string.foss))
+
+            if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
+                list.add(Pair(R.drawable.ic_recycling, R.string.debloat))
+            }
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))

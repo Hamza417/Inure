@@ -170,6 +170,10 @@ class Home : ScopedFragment() {
                             openFragmentArc(FOSS.newInstance(), icon, "foss")
                         }
 
+                        R.string.debloat -> {
+                            openFragmentArc(Debloat.newInstance(), icon, "debloat")
+                        }
+
                         R.string.hidden -> {
                             openFragmentArc(Hidden.newInstance(), icon, "hidden")
                         }
