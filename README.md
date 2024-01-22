@@ -69,7 +69,7 @@ and get development related updates or you can [submit your feedbacks about the 
 
 ## Fun Fact about Inure
 
-Inure now comprises more than 200K lines and In a really large codebase written by a single person, Inure has zero memory leaks since the beginning, and still doesn't have even a single `WeakReference` anywhere in the project.
+Inure now comprises more than 200K lines and In a really large codebase written by a single person, Inure has zero memory leaks since the beginning, and still doesn't have a single `WeakReference` anywhere in the project.
 
 ## Features
 
