@@ -1,0 +1,62 @@
+name: Copy UAD File
+
+on:
+    workflow_dispatch:  # Allow manual triggering
+    push:
+        paths:
+            - 'resources/assets/uad_lists.json'
+
+jobs:
+    copy_file:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout source repository
+                uses: actions/checkout@v4
+                with:
+                    repository: Universal-Debloater-Alliance/universal-android-debloater-next-generation
+                    path: source_repo
+
+            ### Copy file to HOME
+            -   name: Copy file to HOME
+                run: |
+                    if [ -f source_repo/resources/assets/uad_lists.json ]; then
+                        mkdir -p $HOME/.uad_lists || { echo "Failed to create directory"; exit 1; }
+                        if [ -f $HOME/.uad_lists/uad_lists.json ]; then
+                            echo "Warning: File already exists and will be overwritten"
+                        fi
+                        cp source_repo/resources/assets/uad_lists.json $HOME/.uad_lists/ || { echo "Failed to copy file"; exit 1; }
+                    else
+                        echo "Source file does not exist"
+                        exit 1
+                    fi
+
+            ### Checkout current repository
+            -   name: Checkout current repository
+                uses: actions/checkout@v4
+                with:
+                    repository: ${{ github.repository }}
+                    path: inure
+
+            ### File should be copied to inure/app/src/github/resources/uad_lists.json
+            -   name: Copy file
+                run: |
+                    if [ -f $HOME/.uad_lists/uad_lists.json ]; then
+                        mkdir -p inure/app/src/github/resources || { echo "Failed to create directory"; exit 1; }
+                        if [ -f inure/app/src/github/resources/uad_lists.json ]; then
+                            echo "Warning: File already exists and will be overwritten"
+                        fi
+                        cp $HOME/.uad_lists/uad_lists.json inure/app/src/github/resources/ || { echo "Failed to copy file"; exit 1; }
+                    else
+                        echo "Source file does not exist"
+                        exit 1
+                    fi
+
+            -   name: Commit changes
+                run: |
+                    cd inure
+                    git config --global user.email "actions@github.com"
+                    git config --global user.name "GitHub Actions"
+                    git add .
+                    git commit -m "Update UAD Lists file from source repository" || true
+                    git push origin master
