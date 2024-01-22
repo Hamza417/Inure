@@ -107,7 +107,6 @@ class XMLViewerTextView : KeyboardScopedFragment() {
         name.text = requireArguments().getString(BundleConstants.pathToXml)!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
-                                                           requireArguments().getBoolean(BundleConstants.isManifest),
                                                            requireArguments().getString(BundleConstants.pathToXml)!!,
                                                            requireArguments().getBoolean(BundleConstants.isRaw, false))
 

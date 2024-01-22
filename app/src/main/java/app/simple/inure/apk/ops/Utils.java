@@ -1,4 +1,4 @@
-package app.simple.inure.apk.utils;
+package app.simple.inure.apk.ops;
 
 import android.util.Log;
 
@@ -9,21 +9,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.preferences.ConfigurationPreferences;
 
 public class Utils {
-    
-    public static void runCommand(String command) {
-        if (ConfigurationPreferences.INSTANCE.isUsingRoot() && Shell.rootAccess()) {
-            Shell.cmd(command).exec();
-        } else {
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
     
     @NonNull
     public static String runAndGetOutput(String command) {

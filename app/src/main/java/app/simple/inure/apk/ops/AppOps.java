@@ -6,7 +6,6 @@ import android.os.Build;
 import java.util.ArrayList;
 
 import app.simple.inure.apk.utils.PermissionUtils;
-import app.simple.inure.apk.utils.Utils;
 import app.simple.inure.models.AppOpsModel;
 
 public class AppOps {

@@ -7,9 +7,6 @@ import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.isImageFile
-import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.LocaleHelper
-import com.jaredrummler.apkparser.ApkParser
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
@@ -27,30 +24,6 @@ object APKParser {
     private const val MIPS = "mips"
     private const val x86 = "x86"
     private const val x86_64 = "x86_64"
-
-    /**
-     * Fetch the decompiled manifest from an APK file
-     */
-    fun ApplicationInfo.extractManifest(): String? {
-        kotlin.runCatching {
-            kotlin.runCatching {
-                ApkParser.create(this.sourceDir.toFile()).use {
-                    it.preferredLocale = LocaleHelper.getAppLocale()
-                    return it.androidManifest.xml
-                }
-            }.getOrElse {
-                ApkFile(sourceDir).use {
-                    it.preferredLocale = LocaleHelper.getAppLocale()
-                    return it.manifestXml
-                }
-            }
-        }.onFailure { throwable ->
-            throwable.printStackTrace()
-            return ApkManifestFetcher.getManifestXmlFromFilePath(sourceDir)
-        }.getOrElse {
-            throw ApkParserException("Couldn't parse manifest file due to error : ${it.message}")
-        }
-    }
 
     /**
      * Fetch the install location of an APK file
@@ -339,9 +312,9 @@ object APKParser {
                 if (keyword.lowercase().startsWith("$")) {
                     if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
                         if (name.endsWith(".xml") ||
-                            name.endsWith(".so") ||
-                            name.endsWith(".dex") ||
-                            name.endsWith(".arsc")) {
+                                name.endsWith(".so") ||
+                                name.endsWith(".dex") ||
+                                name.endsWith(".arsc")) {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {
@@ -352,9 +325,9 @@ object APKParser {
                 } else if (keyword.lowercase().endsWith("$")) {
                     if (name.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
                         if (name.endsWith(".xml") ||
-                            name.endsWith(".so") ||
-                            name.endsWith(".dex") ||
-                            name.endsWith(".arsc")) {
+                                name.endsWith(".so") ||
+                                name.endsWith(".dex") ||
+                                name.endsWith(".arsc")) {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {
@@ -365,9 +338,9 @@ object APKParser {
                 } else {
                     if (name.lowercase().contains(keyword.lowercase())) {
                         if (name.endsWith(".xml") ||
-                            name.endsWith(".so") ||
-                            name.endsWith(".dex") ||
-                            name.endsWith(".arsc")) {
+                                name.endsWith(".so") ||
+                                name.endsWith(".dex") ||
+                                name.endsWith(".arsc")) {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {

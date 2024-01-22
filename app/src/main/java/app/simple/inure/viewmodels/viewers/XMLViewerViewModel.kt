@@ -7,22 +7,18 @@ import android.text.Spanned
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.parsers.APKParser.extractManifest
-import app.simple.inure.apk.xml.XML
+import app.simple.inure.apk.decoders.XMLDecoder
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.StringUtils.readTextSafely
 import app.simple.inure.util.XMLUtils.formatXML
 import app.simple.inure.util.XMLUtils.getPrettyXML
-import com.jaredrummler.apkparser.ApkParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import java.io.File
 import java.io.FileInputStream
 
 class XMLViewerViewModel(val packageInfo: PackageInfo,
-                         private val isManifest: Boolean,
                          private val pathToXml: String,
                          private val raw: Boolean,
                          application: Application)
@@ -57,25 +53,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                         it.readTextSafely()
                     }
                 } else {
-                    if (isManifest) {
-                        packageInfo.applicationInfo.extractManifest()!!
-                    } else {
-                        kotlin.runCatching {
-                            kotlin.runCatching {
-                                ApkParser.create(packageInfo.applicationInfo.sourceDir.toFile()).use {
-                                    it.transBinaryXml(pathToXml)
-                                }
-                            }.getOrElse {
-                                ApkFile(packageInfo.applicationInfo.sourceDir.toFile()).use {
-                                    it.transBinaryXml(pathToXml)
-                                }
-                            }
-                        }.getOrElse {
-                            XML(packageInfo.applicationInfo.sourceDir).use {
-                                it.transBinaryXml(pathToXml)
-                            }
-                        }
-                    }
+                    XMLDecoder(packageInfo.applicationInfo.sourceDir.toFile()).decode(pathToXml)
                 }
 
                 spanned.postValue(code.formatXML().getPrettyXML())
@@ -88,13 +66,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
     private fun getStringXml() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val code = if (isManifest) {
-                    packageInfo.applicationInfo.extractManifest()!!
-                } else {
-                    XML(packageInfo.applicationInfo.sourceDir).use {
-                        it.transBinaryXml(pathToXml)
-                    }
-                }
+                val code = XMLDecoder(packageInfo.applicationInfo.sourceDir.toFile()).decode(pathToXml)
 
                 val data = String.format(
                         "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3" +

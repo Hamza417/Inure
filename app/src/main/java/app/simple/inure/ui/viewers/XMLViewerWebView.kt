@@ -67,8 +67,7 @@ class XMLViewerWebView : ScopedFragment() {
 
         manifest.enableWithWebClient()
 
-        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getBoolean("is_manifest"),
-                                                           requireArguments().getString("path_to_xml")!!)
+        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo, requireArguments().getString("path_to_xml")!!)
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
@@ -120,10 +119,9 @@ class XMLViewerWebView : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, isManifest: Boolean, pathToXml: String?): XMLViewerWebView {
+        fun newInstance(packageInfo: PackageInfo, pathToXml: String?): XMLViewerWebView {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putBoolean(BundleConstants.isManifest, isManifest)
             args.putString(BundleConstants.pathToXml, pathToXml)
             val fragment = XMLViewerWebView()
             fragment.arguments = args

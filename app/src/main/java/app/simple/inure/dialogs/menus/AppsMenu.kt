@@ -240,7 +240,7 @@ class AppsMenu : ScopedDialogFragment() {
         manifest.setOnClickListener {
             if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
                 openFragmentSlide(XMLViewerWebView.newInstance(
-                        packageInfo, true, "AndroidManifest.xml"), "xml")
+                        packageInfo, "AndroidManifest.xml"), "xml")
             } else {
                 openFragmentSlide(XMLViewerTextView.newInstance(
                         packageInfo, true, "AndroidManifest.xml"), "xml")
