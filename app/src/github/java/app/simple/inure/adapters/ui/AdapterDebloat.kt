@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.corners.DynamicCornerConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -19,7 +19,7 @@ class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : Recycler
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_debloat, parent, false))
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_debloat, parent, false))
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_debloat, parent, false))
@@ -40,7 +40,7 @@ class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : Recycler
                 holder.checkBox.isChecked = true
                 holder.icon.loadAppIcon(packageInfo[pos].packageName, packageInfo[pos].applicationInfo.enabled)
             }
-            is HeaderHolder -> {
+            is Header -> {
 
             }
         }
@@ -59,13 +59,13 @@ class AdapterDebloat(private val packageInfo: ArrayList<PackageInfo>) : Recycler
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: AppIconImageView = itemView.findViewById(R.id.icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_name)
+        val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.description)
-        val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
-        val container: DynamicCornerConstraintLayout = itemView.findViewById(R.id.container)
+        val checkBox: CheckBox = itemView.findViewById(R.id.check_box)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
-    inner class HeaderHolder(itemView: View) : VerticalListViewHolder(itemView)
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView)
 }

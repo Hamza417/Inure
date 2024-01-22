@@ -53,16 +53,13 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
      *   },
      */
     fun getUADList(): HashMap<String, Bloat> {
-        val assetManager = applicationContext().assets
-        val inputStream = assetManager.open(UAD_FILE_NAME)
-        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val bufferedReader = BufferedReader(InputStreamReader(DebloatViewModel::class.java.getResourceAsStream(UAD_FILE_NAME)))
         val stringBuilder = StringBuilder()
         var line: String?
         while (bufferedReader.readLine().also { line = it } != null) {
             stringBuilder.append(line)
         }
         bufferedReader.close()
-        inputStream.close()
 
         val json = stringBuilder.toString()
         val jsonArray = org.json.JSONArray(json)
@@ -82,7 +79,7 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             bloat.id = id
             bloat.list = list
             bloat.description = description
-            bloat.removal = Removal.valueOf(removal)
+            bloat.removal = Removal.valueOf(removal.uppercase())
             bloat.dependencies = ArrayList()
             bloat.neededBy = ArrayList()
             bloat.labels = ArrayList()
@@ -106,6 +103,6 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
     }
 
     companion object {
-        private const val UAD_FILE_NAME = "resources/uad_list.json"
+        private const val UAD_FILE_NAME = "/uad_lists.json"
     }
 }
