@@ -4303,7 +4303,6 @@
     <string name="com.jvdegithub.aiscatcher" translatable="false">GPL-3.0-only</string>
     <string name="org.secuso.aktivpause" translatable="false">GPL-3.0-or-later</string>
     <string name="com.stud.reef.almatsurat_dhikr" translatable="false">Unknown</string>
-    <string name="tech.laihz.alga.arm64" translatable="false">MIT</string>
     <string name="tech.laihz.alga" translatable="false">MIT</string>
     <string name="akylas.alpi.maps" translatable="false">MIT</string>
     <string name="com.gitlab.fasheng.nlp.amap" translatable="false">GPL-3.0-only</string>
@@ -4510,6 +4509,7 @@
     <string name="me.sankethbk.dairyapp" translatable="false">MIT</string>
     <string name="cool.mixi.dica" translatable="false">GPL-3.0-only</string>
     <string name="io.github.aldrinzigmundv.digilogtv" translatable="false">AGPL-3.0-only</string>
+    <string name="com.adeeteya.digital_calculator" translatable="false">MIT</string>
     <string name="de.buttercookie.disabletargetapiblock" translatable="false">MPL-2.0</string>
     <string name="com.varuns2002.disable_flag_secure" translatable="false">GPL-3.0-only</string>
     <string name="com.porg.blocker" translatable="false">GPL-3.0-or-later</string>
@@ -4596,8 +4596,10 @@
     <string name="com.lorenzovainigli.foodexpirationdates.foss" translatable="false">MIT</string>
     <string name="moe.henry_zhr.force_dark" translatable="false">WTFPL</string>
     <string name="org.fossify.calendar" translatable="false">GPL-3.0-only</string>
+    <string name="org.fossify.contacts" translatable="false">GPL-3.0-only</string>
     <string name="org.fossify.filemanager" translatable="false">GPL-3.0-only</string>
     <string name="org.fossify.gallery" translatable="false">GPL-3.0-only</string>
+    <string name="org.fossify.phone" translatable="false">GPL-3.0-only</string>
     <string name="com.pigeoff.rss" translatable="false">GPL-3.0-only</string>
     <string name="de.binarynoise.freeNotifications" translatable="false">EUPL-1.2</string>
     <string name="com.phstudio.freetv" translatable="false">GPL-3.0-only</string>
@@ -4834,11 +4836,11 @@
     <string name="io.wookey.wallet.monero" translatable="false">MIT</string>
     <string name="com.m2049r.xmrwallet" translatable="false">Apache-2.0</string>
     <string name="fr.themsou.monitorinternetless" translatable="false">MIT</string>
+    <string name="de.monocles.browser.standard" translatable="false">GPL-3.0-only</string>
     <string name="de.monocles.launcher" translatable="false">GPL-3.0-or-later</string>
     <string name="org.joinmastodon.android.moshinda" translatable="false">GPL-3.0-only</string>
     <string name="com.tiefensuche.motionmate" translatable="false">GPL-3.0-only</string>
     <string name="com.example.movielab" translatable="false">Apache-2.0</string>
-    <string name="com.example.movies_app_flutter" translatable="false">MIT</string>
     <string name="org.ovirt.mobile.movirt" translatable="false">Apache-2.0</string>
     <string name="org.moxxy.moxxyv2" translatable="false">GPL-3.0-only</string>
     <string name="com.husudosu.mpvremote" translatable="false">MIT</string>
@@ -4848,7 +4850,7 @@
     <string name="com.wkovacs64.mtorch" translatable="false">MIT</string>
     <string name="rocks.mucke.github" translatable="false">GPL-3.0-only</string>
     <string name="com.mehmetakiftutuncu.muezzin" translatable="false">MIT</string>
-    <string name="com.freshfieldreds.muffed" translatable="false">GPL-2.0-only</string>
+    <string name="com.freshfieldreds.muffed" translatable="false">AGPL-3.0-only</string>
     <string name="com.kwasow.musekit" translatable="false">GPL-3.0-only</string>
     <string name="org.lineageos.eleven" translatable="false">Apache-2.0</string>
     <string name="com.sdsmdg.harjot.MusicDNA" translatable="false">MIT</string>
@@ -5254,7 +5256,6 @@
     <string name="xyz.tcreopargh.textconverter" translatable="false">GPL-2.0-only</string>
     <string name="com.dingleinc.texttoolspro" translatable="false">Apache-2.0</string>
     <string name="sh.eliza.textbender" translatable="false">GPL-3.0-only</string>
-    <string name="com.example.textextractor" translatable="false">MIT</string>
     <string name="org.misterfruits.textlaunch" translatable="false">GPL-3.0-only</string>
     <string name="com.tans.tfiletransporter" translatable="false">Apache-2.0</string>
     <string name="github.tornaco.android.thanos" translatable="false">Apache-2.0</string>

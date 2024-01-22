@@ -284,9 +284,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         isChecked = checked;
         updateChecked();
         
-        if (listener != null) {
-            listener.onCheckedChanged(isChecked);
-        }
+        // This method shouldn't notify the listener
     }
     
     public void setChecked(boolean checked, boolean animate) {
