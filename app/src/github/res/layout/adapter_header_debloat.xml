@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
@@ -26,17 +27,39 @@
             app:srcCompat="@drawable/ic_recycling"
             app:tintType="accent" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/typeFaceTextView02"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
-            android:text="@string/debloat"
-            android:textSize="@dimen/header_font_size"
-            app:appFontStyle="light"
-            app:textColorStyle="heading" />
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/typeFaceTextView02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/debloat"
+                android:textSize="@dimen/header_font_size"
+                app:appFontStyle="light"
+                app:textColorStyle="heading" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/uad_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/info_text_tiny"
+                android:padding="2dp"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="Universal Android Debloater"
+                app:appFontStyle="regular"
+                app:drawableStartCompat="@drawable/ic_web_page_tiny"
+                app:drawableTintStyle="secondary"
+                app:textColorStyle="tertiary"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -88,4 +111,5 @@
             app:textColorStyle="tertiary" />
 
     </LinearLayout>
+
 </LinearLayout>

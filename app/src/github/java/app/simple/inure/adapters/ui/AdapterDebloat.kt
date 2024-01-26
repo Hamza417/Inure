@@ -13,6 +13,8 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.enums.Removal
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Bloat
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.StringUtils.appendFlag
 
@@ -41,7 +43,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.name.text = bloats[pos].packageInfo.applicationInfo.name
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])
-                holder.desc.text = bloats[pos].description
+                holder.desc.text = bloats[pos].description.trim()
                 holder.checkBox.isChecked = bloats[pos].isSelected
                 holder.icon.loadAppIcon(bloats[pos].packageInfo.packageName, bloats[pos].packageInfo.applicationInfo.enabled)
 
@@ -53,9 +55,17 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.container.setOnClickListener {
                     holder.checkBox.toggle()
                 }
+
+                holder.container.setOnLongClickListener {
+                    adapterDebloatCallback?.onBloatLongPressed(bloats[pos])
+                    true
+                }
             }
             is Header -> {
                 holder.total.text = holder.total.context.getString(R.string.total_apps, bloats.size.toString())
+                holder.uadSubtitle.setOnClickListener {
+                    UAD_REPO_LINK.asUri().openInBrowser(holder.uadSubtitle.context)
+                }
             }
         }
     }
@@ -84,6 +94,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val uadSubtitle: TypeFaceTextView = itemView.findViewById(R.id.uad_subtitle)
     }
 
     fun setAdapterDebloatCallback(adapterDebloatCallback: AdapterDebloatCallback) {
@@ -96,6 +107,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 return true
             }
         }
+
         return false
     }
 
@@ -125,8 +137,12 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
     }
 
     companion object {
+
+        const val UAD_REPO_LINK = "https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation"
+
         interface AdapterDebloatCallback {
             fun onBloatSelected(bloat: Bloat)
+            fun onBloatLongPressed(bloat: Bloat)
         }
     }
 }
