@@ -720,4 +720,13 @@
     <string name="install_anyway">Instalar de todos modos</string>
     <string name="foss_license_warning">Es imperativo ingresar la licencia correcta asociada con el proyecto.</string>
     <string name="debloat">Depurar</string>
+    <string name="advanced">Avanzado</string>
+    <string name="expert">Experto</string>
+    <string name="recommended">Recomendado</string>
+    <string name="unsafe">Inseguro</string>
+    <string name="method">Método</string>
+    <string name="unlisted">No listado</string>
+    <string name="carrier">Operadora</string>
+    <string name="miscellaneous">Misceláneo</string>
+    <string name="pending">Pendiente</string>
 </resources>
