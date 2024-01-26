@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,11 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.debloat.DebloatFilter.Companion.showDebloatFilter
+import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
+import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
 class Debloat : ScopedFragment() {
@@ -72,6 +74,20 @@ class Debloat : ScopedFragment() {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
                 }
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            DebloatPreferences.applicationType,
+            DebloatPreferences.listType,
+            DebloatPreferences.removalType,
+            DebloatPreferences.sort,
+            DebloatPreferences.state,
+            DebloatPreferences.sortingStyle -> {
+                debloatViewModel.refreshBloatList()
             }
         }
     }

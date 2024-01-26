@@ -233,14 +233,14 @@
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/filter"
+            android:text="@string/state"
             android:textSize="@dimen/preferences_title_text_size"
             android:layout_marginTop="5dp"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/filter_chip_group"
+            android:id="@+id/state_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="5dp"
