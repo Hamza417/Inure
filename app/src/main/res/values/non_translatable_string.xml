@@ -77,4 +77,5 @@
     <string name="telegram" translatable="false">Telegram</string>
     <string name="nomedia" translatable="false">.nomedia</string>
     <string name="foss" translatable="false">FOSS</string>
+    <string name="aosp">AOSP</string>
 </resources>

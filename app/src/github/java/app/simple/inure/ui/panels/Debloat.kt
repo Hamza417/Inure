@@ -10,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.debloat.DebloatFilter.Companion.showDebloatFilter
 import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
@@ -62,13 +63,13 @@ class Debloat : ScopedFragment() {
                         debloatViewModel.refreshBloatList()
                     }
                     R.drawable.ic_filter -> {
-                        // TODO - Filter
+                        childFragmentManager.showDebloatFilter()
                     }
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), "preferences")
                     }
                     R.drawable.ic_search -> {
-                        // TODO - Search
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
                 }
             }

@@ -722,5 +722,10 @@
     <string name="advanced">Advanced</string>
     <string name="expert">Expert</string>
     <string name="recommended">Recommended</string>
-    <string name="unsafe">Unsafe\n</string>
+    <string name="unsafe">Unsafe</string>
+    <string name="method">Method</string>
+    <string name="unlisted">Unlisted</string>
+    <string name="carrier">Carrier</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="pending">Pending</string>
 </resources>

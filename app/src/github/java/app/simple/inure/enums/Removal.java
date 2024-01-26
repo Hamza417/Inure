@@ -4,7 +4,8 @@ public enum Removal {
     ADVANCED("Advanced"),
     EXPERT("Expert"),
     RECOMMENDED("Recommended"),
-    UNSAFE("Unsafe");
+    UNSAFE("Unsafe"),
+    UNLISTED("Unlisted");
     
     private final String method;
     
