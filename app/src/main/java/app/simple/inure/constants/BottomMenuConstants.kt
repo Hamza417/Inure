@@ -3,6 +3,7 @@ package app.simple.inure.constants
 import app.simple.inure.R
 import app.simple.inure.preferences.ConfigurationPreferences
 
+@Suppress("UNCHECKED_CAST")
 object BottomMenuConstants {
 
     private val divider = Pair(-1, -1)
@@ -214,34 +215,48 @@ object BottomMenuConstants {
         )
     }
 
+    private val debloatMenuNoSelection: ArrayList<Pair<Int, Int>> = arrayListOf(
+            Pair(R.drawable.ic_refresh, R.string.refresh),
+            divider,
+            Pair(R.drawable.ic_filter, R.string.filter),
+            divider,
+            Pair(R.drawable.ic_settings, R.string.preferences),
+            Pair(R.drawable.ic_search, R.string.search),
+    )
+
+    private val debloatMenuSelection: ArrayList<Pair<Int, Int>> = arrayListOf(
+            Pair(R.drawable.ic_delete, R.string.uninstall),
+            divider,
+            Pair(R.drawable.ic_refresh, R.string.refresh),
+            divider,
+            Pair(R.drawable.ic_filter, R.string.filter),
+            divider,
+            Pair(R.drawable.ic_settings, R.string.preferences),
+            Pair(R.drawable.ic_search, R.string.search),
+    )
+
     // *********************************************************************************************** //
 
-    @Suppress("UNCHECKED_CAST")
     fun getGenericBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return genericBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getAllAppsBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return allAppsBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getSensorsBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return sensorsBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getBootManagerBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return bootManagerBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getMusicBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return musicBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getBatchMenu(): ArrayList<Pair<Int, Int>> {
         return when {
             ConfigurationPreferences.isUsingRoot() -> {
@@ -256,7 +271,6 @@ object BottomMenuConstants {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getBatchUnselectedMenu(): ArrayList<Pair<Int, Int>> {
         return batchUnselectedMenu.clone() as ArrayList<Pair<Int, Int>>
     }
@@ -266,28 +280,31 @@ object BottomMenuConstants {
         return notesFunctionMenu.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getStackTracesBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return stackTracesBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getTerminalCommandsBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return terminalCommandsBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getUninstalledBottomMenuItems(): ArrayList<Pair<Int, Int>> {
         return uninstalledBottomMenuItems.clone() as ArrayList<Pair<Int, Int>>
     }
 
     fun getApkBrowserMenu(): ArrayList<Pair<Int, Int>> {
-        @Suppress("UNCHECKED_CAST")
         return apkBrowserMenu_.clone() as ArrayList<Pair<Int, Int>>
     }
 
     fun getApkBrowserMenuSelection(): ArrayList<Pair<Int, Int>> {
-        @Suppress("UNCHECKED_CAST")
         return apkBrowserMenuSelection_.clone() as ArrayList<Pair<Int, Int>>
+    }
+
+    fun getDebloatMenu(isSelected: Boolean): ArrayList<Pair<Int, Int>> {
+        return if (isSelected) {
+            debloatMenuSelection.clone() as ArrayList<Pair<Int, Int>>
+        } else {
+            debloatMenuNoSelection.clone() as ArrayList<Pair<Int, Int>>
+        }
     }
 }

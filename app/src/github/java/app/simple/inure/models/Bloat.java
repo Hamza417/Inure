@@ -13,6 +13,7 @@ public class Bloat implements Parcelable {
     private String id;
     private String list;
     private String description;
+    private boolean isSelected;
     private ArrayList <String> dependencies;
     private ArrayList <String> neededBy;
     private ArrayList <String> labels;
@@ -22,10 +23,11 @@ public class Bloat implements Parcelable {
     public Bloat() {
     }
     
-    public Bloat(String id, String list, String description, ArrayList <String> dependencies, ArrayList <String> neededBy, ArrayList <String> labels, Removal removal, PackageInfo packageInfo) {
+    public Bloat(String id, String list, String description, boolean isSelected, ArrayList <String> dependencies, ArrayList <String> neededBy, ArrayList <String> labels, Removal removal, PackageInfo packageInfo) {
         this.id = id;
         this.list = list;
         this.description = description;
+        this.isSelected = isSelected;
         this.dependencies = dependencies;
         this.neededBy = neededBy;
         this.labels = labels;
@@ -37,6 +39,7 @@ public class Bloat implements Parcelable {
         id = in.readString();
         list = in.readString();
         description = in.readString();
+        isSelected = in.readByte() != 0;
         dependencies = in.createStringArrayList();
         neededBy = in.createStringArrayList();
         labels = in.createStringArrayList();
@@ -48,6 +51,7 @@ public class Bloat implements Parcelable {
         dest.writeString(id);
         dest.writeString(list);
         dest.writeString(description);
+        dest.writeByte((byte) (isSelected ? 1 : 0));
         dest.writeStringList(dependencies);
         dest.writeStringList(neededBy);
         dest.writeStringList(labels);
@@ -59,7 +63,7 @@ public class Bloat implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Bloat> CREATOR = new Creator <>() {
+    public static final Creator <Bloat> CREATOR = new Creator <Bloat>() {
         @Override
         public Bloat createFromParcel(Parcel in) {
             return new Bloat(in);
@@ -93,6 +97,14 @@ public class Bloat implements Parcelable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public boolean isSelected() {
+        return isSelected;
+    }
+    
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
     
     public ArrayList <String> getDependencies() {

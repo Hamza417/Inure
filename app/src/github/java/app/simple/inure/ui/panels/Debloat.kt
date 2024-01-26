@@ -8,8 +8,10 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.models.Bloat
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
 class Debloat : ScopedFragment() {
@@ -33,10 +35,37 @@ class Debloat : ScopedFragment() {
 
         debloatViewModel.getBloatList().observe(viewLifecycleOwner) {
             val adapterDebloat = AdapterDebloat(it)
+
+            adapterDebloat.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
+                override fun onBloatSelected(bloat: Bloat) {
+                    bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat.isAnyItemSelected()))
+                }
+            })
+
             recyclerView.adapter = adapterDebloat
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getDebloatMenu(adapterDebloat.isAnyItemSelected()), recyclerView) { id, _ ->
+                when (id) {
+                    R.drawable.ic_delete -> {
+                        // TODO - Delete
+                    }
+                    R.drawable.ic_refresh -> {
+                        debloatViewModel.refreshBloatList()
+                    }
+                    R.drawable.ic_filter -> {
+                        // TODO - Filter
+                    }
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                    }
+                    R.drawable.ic_search -> {
+                        // TODO - Search
+                    }
+                }
             }
         }
     }

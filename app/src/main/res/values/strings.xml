@@ -719,4 +719,8 @@
     <string name="install_anyway">Install Anyway</string>
     <string name="foss_license_warning">It is imperative to enter the correct license associated with the project.</string>
     <string name="debloat">Debloat</string>
+    <string name="advanced">Advanced</string>
+    <string name="expert">Expert</string>
+    <string name="recommended">Recommended</string>
+    <string name="unsafe">Unsafe\n</string>
 </resources>

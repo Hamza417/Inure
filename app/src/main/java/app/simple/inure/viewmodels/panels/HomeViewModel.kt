@@ -291,10 +291,6 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_open_source, R.string.foss))
 
-            if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
-                list.add(Pair(R.drawable.ic_recycling, R.string.debloat))
-            }
-
             if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
             }
@@ -315,6 +311,10 @@ class HomeViewModel(application: Application) :
 
             if (HomePreferences.isPanelVisible(HomePreferences.isAPKsVisible)) {
                 list.add(Pair(R.drawable.ic_adb, R.string.APKs))
+            }
+
+            if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
+                list.add(Pair(R.drawable.ic_recycling, R.string.debloat))
             }
 
             list.add(Pair(0, 0)) // Divider

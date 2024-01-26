@@ -175,4 +175,12 @@ object StringUtils {
             append(string)
         }
     }
+
+    fun StringBuilder.appendFlag(string: String) {
+        if (isEmpty()) {
+            append(string)
+        } else {
+            append(" | $string")
+        }
+    }
 }

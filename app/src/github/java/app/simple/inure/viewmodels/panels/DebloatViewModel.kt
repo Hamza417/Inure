@@ -108,6 +108,10 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         return bloats
     }
 
+    fun refreshBloatList() {
+        refreshPackageData()
+    }
+
     companion object {
         private const val UAD_FILE_NAME = "/uad_lists.json"
     }

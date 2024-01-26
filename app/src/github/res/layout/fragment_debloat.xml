@@ -12,7 +12,8 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        app:isFadingEdgeRequired="true" />
+        app:isFadingEdgeRequired="true"
+        app:isFastScrollRequired="false" />
 
     <app.simple.inure.decorations.views.BottomMenuRecyclerView
         android:id="@+id/bottom_menu"
