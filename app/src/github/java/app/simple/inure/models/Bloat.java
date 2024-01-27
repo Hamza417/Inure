@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import app.simple.inure.enums.Removal;
 
 public class Bloat implements Parcelable {
@@ -23,7 +25,18 @@ public class Bloat implements Parcelable {
     public Bloat() {
     }
     
-    public Bloat(String id, String list, String description, boolean isSelected, ArrayList <String> dependencies, ArrayList <String> neededBy, ArrayList <String> labels, Removal removal, PackageInfo packageInfo) {
+    /**
+     * @noinspection unused
+     */
+    public Bloat(String id,
+            String list,
+            String description,
+            boolean isSelected,
+            ArrayList <String> dependencies,
+            ArrayList <String> neededBy,
+            ArrayList <String> labels,
+            Removal removal,
+            PackageInfo packageInfo) {
         this.id = id;
         this.list = list;
         this.description = description;
@@ -63,7 +76,7 @@ public class Bloat implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Bloat> CREATOR = new Creator <Bloat>() {
+    public static final Creator <Bloat> CREATOR = new Creator <>() {
         @Override
         public Bloat createFromParcel(Parcel in) {
             return new Bloat(in);
@@ -145,5 +158,30 @@ public class Bloat implements Parcelable {
     
     public void setPackageInfo(PackageInfo packageInfo) {
         this.packageInfo = packageInfo;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "Bloat{" +
+                "id='" + id + '\'' +
+                ", list='" + list + '\'' +
+                ", description='" + description + '\'' +
+                ", isSelected=" + isSelected +
+                ", dependencies=" + dependencies +
+                ", neededBy=" + neededBy +
+                ", labels=" + labels +
+                ", removal=" + removal +
+                ", packageInfo=" + packageInfo.toString() +
+                '}';
+    }
+    
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Bloat bloat) {
+            return bloat.getId().equals(this.getId());
+        }
+        
+        return false;
     }
 }

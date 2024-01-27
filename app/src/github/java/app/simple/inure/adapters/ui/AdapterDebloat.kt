@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
@@ -13,6 +14,8 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.enums.Removal
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Bloat
+import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.sort.DebloatSort
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
@@ -66,6 +69,37 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.uadSubtitle.setOnClickListener {
                     UAD_REPO_LINK.asUri().openInBrowser(holder.uadSubtitle.context)
                 }
+
+                holder.category.text = when (DebloatPreferences.getApplicationType()) {
+                    SortConstant.USER -> {
+                        holder.getString(R.string.user)
+                    }
+                    SortConstant.SYSTEM -> {
+                        holder.getString(R.string.system)
+                    }
+                    SortConstant.BOTH -> {
+                        with(StringBuilder()) {
+                            append(holder.getString(R.string.user))
+                            append(" | ")
+                            append(holder.getString(R.string.system))
+                        }
+                    }
+                    else -> {
+                        holder.getString(R.string.unknown)
+                    }
+                }
+
+                holder.sorting.text = when (DebloatPreferences.getSortBy()) {
+                    DebloatSort.SORT_BY_NAME -> {
+                        holder.getString(R.string.name)
+                    }
+                    DebloatSort.SORT_BY_PACKAGE_NAME -> {
+                        holder.getString(R.string.package_name)
+                    }
+                    else -> {
+                        holder.getString(R.string.unknown)
+                    }
+                }
             }
         }
     }
@@ -95,6 +129,8 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val uadSubtitle: TypeFaceTextView = itemView.findViewById(R.id.uad_subtitle)
+        val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
+        val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
     }
 
     fun setAdapterDebloatCallback(adapterDebloatCallback: AdapterDebloatCallback) {
@@ -113,12 +149,39 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
 
     private fun TypeFaceTextView.setBloatFlags(bloat: Bloat) {
         text = buildString {
+            // State
             if (bloat.packageInfo.applicationInfo.enabled) {
                 appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
             } else {
                 appendFlag(this@setBloatFlags.context.getString(R.string.disabled))
             }
 
+            // List
+            when (bloat.list.lowercase()) {
+                "aosp" -> {
+                    appendFlag(context.getString(R.string.aosp))
+                }
+                "carrier" -> {
+                    appendFlag(context.getString(R.string.carrier))
+                }
+                "google" -> {
+                    appendFlag(context.getString(R.string.google))
+                }
+                "misc" -> {
+                    appendFlag(context.getString(R.string.miscellaneous))
+                }
+                "oem" -> {
+                    appendFlag(context.getString(R.string.oem))
+                }
+                "pending" -> {
+                    appendFlag(context.getString(R.string.pending))
+                }
+                "unlisted" -> {
+                    appendFlag(context.getString(R.string.unlisted))
+                }
+            }
+
+            // Removal
             when (bloat.removal.method) {
                 Removal.ADVANCED.method -> {
                     appendFlag(this@setBloatFlags.context.getString(R.string.advanced))
@@ -128,6 +191,9 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 }
                 Removal.RECOMMENDED.method -> {
                     appendFlag(this@setBloatFlags.context.getString(R.string.recommended))
+                }
+                Removal.UNLISTED.method -> {
+                    appendFlag(context.getString(R.string.unlisted))
                 }
                 Removal.UNSAFE.method -> {
                     appendFlag(this@setBloatFlags.context.getString(R.string.unsafe))

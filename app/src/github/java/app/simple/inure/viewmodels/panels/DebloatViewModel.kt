@@ -49,12 +49,12 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             // Filter system or user apps
             when (DebloatPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
-                    bloats.parallelStream().filter { b ->
+                    bloats = bloats.parallelStream().filter { b ->
                         b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
                 SortConstant.USER -> {
-                    bloats.parallelStream().filter { b ->
+                    bloats = bloats.parallelStream().filter { b ->
                         b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
@@ -67,6 +67,9 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             bloats = bloats.applyListFilter()
             bloats = bloats.applyMethodsFilter()
             bloats = bloats.applyStateFilter()
+
+            // Remove duplicates
+            bloats = bloats.distinctBy { it.id } as ArrayList<Bloat>
 
             bloatList.postValue(bloats)
         }
@@ -147,65 +150,76 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         val filteredList = ArrayList<Bloat>()
 
         parallelStream().forEach {
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.AOSP)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.AOSP)) {
                 if (it.list.lowercase() == "aosp") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.CARRIER)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.CARRIER)) {
                 if (it.list.lowercase() == "carrier") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.GOOGLE)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.GOOGLE)) {
                 if (it.list.lowercase() == "google") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.MISC)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.MISC)) {
                 if (it.list.lowercase() == "misc") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.OEM)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.OEM)) {
                 if (it.list.lowercase() == "oem") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.PENDING)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.PENDING)) {
                 if (it.list.lowercase() == "pending") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
-            if (FlagUtils.isFlagSet(DebloatPreferences.getListType(), DebloatSortConstants.UNLISTED_LIST)) {
+            if (FlagUtils.isFlagSet(listType, DebloatSortConstants.UNLISTED_LIST)) {
                 if (it.list.lowercase() == "unlisted") {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
         }
-
-        // Remove duplicates
-        filteredList.distinct()
 
         return filteredList
     }
@@ -217,47 +231,54 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         parallelStream().forEach {
             if (FlagUtils.isFlagSet(removalType, DebloatSortConstants.RECOMMENDED)) {
                 if (it.removal == Removal.RECOMMENDED) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(removalType, DebloatSortConstants.ADVANCED)) {
                 if (it.removal == Removal.ADVANCED) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(removalType, DebloatSortConstants.EXPERT)) {
                 if (it.removal == Removal.EXPERT) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(removalType, DebloatSortConstants.UNSAFE)) {
                 if (it.removal == Removal.UNSAFE) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(removalType, DebloatSortConstants.UNLISTED)) {
                 if (it.removal == Removal.UNLISTED) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
         }
-
-        // Remove duplicates
-        filteredList.distinct()
 
         return filteredList
     }
@@ -269,31 +290,34 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         parallelStream().forEach {
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.DISABLED)) {
                 if (it.packageInfo.applicationInfo.enabled.not()) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.ENABLED)) {
                 if (it.packageInfo.applicationInfo.enabled) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.UNINSTALLED)) {
                 if (it.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                    if (filteredList.contains(it).invert()) {
-                        filteredList.add(it)
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
+                        }
                     }
                 }
             }
         }
-
-        // Remove duplicates
-        filteredList.distinct()
 
         return filteredList
     }
