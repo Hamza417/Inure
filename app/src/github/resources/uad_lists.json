@@ -137,7 +137,7 @@
   {
     "id": "com.sonyericsson.unsupportedheadsetnotifier",
     "list": "Oem",
-    "description": "Given its name, I think it diplays a notification when you insert a headset not compatible with your phone.\n",
+    "description": "Given its name, I think it displays a notification when you insert a headset not compatible with your phone.\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -3872,7 +3872,7 @@
   {
     "id": "com.aura.oobe.samsung.gl",
     "list": "Carrier",
-    "description": "AppCloud\nIt offers the \"Aura Out-Of-the-Box Experience\" (OOBE)\nIt is some kind of post-install recommended apps setup from the carrier. Asks for your age and gender and then recommends you to install popular apps.\nDevelopped by IronSource, an Israeli advertising company.\nhttps://en.wikipedia.org/wiki/IronSource\nhttps://aura.ironsrc.com/tools/drive-app-downloads/\nhttps://arxiv.org/pdf/2010.10088.pdf\nHas way too many permissions.\nSee https://github.com/0x192/universal-android-debloater/issues/278",
+    "description": "AppCloud\nIt offers the \"Aura Out-Of-the-Box Experience\" (OOBE)\nIt is some kind of post-install recommended apps setup from the carrier. Asks for your age and gender and then recommends you to install popular apps.\nDeveloped by IronSource, an Israeli advertising company.\nhttps://en.wikipedia.org/wiki/IronSource\nhttps://aura.ironsrc.com/tools/drive-app-downloads/\nhttps://arxiv.org/pdf/2010.10088.pdf\nHas way too many permissions.\nSee https://github.com/0x192/universal-android-debloater/issues/278",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -3881,7 +3881,7 @@
   {
     "id": "com.aura.oobe.samsung",
     "list": "Carrier",
-    "description": "AppCloud\nIt offers the \"Aura Out-Of-the-Box Experience\" (OOBE)\nIt is some kind of post-install recommended apps setup from the carrier. Asks for your age and gender and then recommends you to install popular apps.\nDevelopped by IronSource, an Israeli advertising company.\nhttps://en.wikipedia.org/wiki/IronSource\nhttps://aura.ironsrc.com/tools/drive-app-downloads/\nhttps://arxiv.org/pdf/2010.10088.pdf\nHas way too many permissions.\nSee https://github.com/0x192/universal-android-debloater/issues/278",
+    "description": "AppCloud\nIt offers the \"Aura Out-Of-the-Box Experience\" (OOBE)\nIt is some kind of post-install recommended apps setup from the carrier. Asks for your age and gender and then recommends you to install popular apps.\nDeveloped by IronSource, an Israeli advertising company.\nhttps://en.wikipedia.org/wiki/IronSource\nhttps://aura.ironsrc.com/tools/drive-app-downloads/\nhttps://arxiv.org/pdf/2010.10088.pdf\nHas way too many permissions.\nSee https://github.com/0x192/universal-android-debloater/issues/278",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -4511,7 +4511,7 @@
   {
     "id": "com.samsung.android.dqagent",
     "list": "Oem",
-    "description": "Samsung Device Quality Agent\nMonitors how the device uses wifi. Has the ability to identify network operator related data.\nFound mention of some packages in the Java code:\n- com.samsung.android.app.mobiledoctor (https://play.google.com/store/apps/details?id=com.samsung.heartwiseVcr)\n- com.samsung.android.dhr (Device Health Report)\n- om.salab.act (https://play.google.com/store/apps/details?id=com.jquiz.act)\n- kr.co.avad.diagnostictool (unkown stuff from South Korea)\n\n2 hard-coded URLs:\nPRD = https://dc.dqa.samsung.com\nSTG = https://stg-dc.dqa.samsung.com\nPRD = Portable Recording Device, STG = Security Threat Group. 2 terms related to law enforcment.",
+    "description": "Samsung Device Quality Agent\nMonitors how the device uses wifi. Has the ability to identify network operator related data.\nFound mention of some packages in the Java code:\n- com.samsung.android.app.mobiledoctor (https://play.google.com/store/apps/details?id=com.samsung.heartwiseVcr)\n- com.samsung.android.dhr (Device Health Report)\n- om.salab.act (https://play.google.com/store/apps/details?id=com.jquiz.act)\n- kr.co.avad.diagnostictool (unknown stuff from South Korea)\n\n2 hard-coded URLs:\nPRD = https://dc.dqa.samsung.com\nSTG = https://stg-dc.dqa.samsung.com\nPRD = Portable Recording Device, STG = Security Threat Group. 2 terms related to law enforcment.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -5376,6 +5376,15 @@
     "id": "com.samsung.ecomm",
     "list": "Oem",
     "description": "Shop Samsung (https://play.google.com/store/apps/details?id=com.samsung.ecomm)\nApp where you can buy all (and only) Samsung products.\nhttps://www.samsung.com/us/explore/shop-samsung-app/\n",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  {
+    "id": "com.samsung.ecomm.global.in",
+    "list": "Oem",
+    "description": "Samsung Shop (https://play.google.com/store/apps/details?id=com.samsung.ecomm)\nApp where you can buy all (and only) Samsung products.\nhttps://www.samsung.com/us/explore/shop-samsung-app/\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -7148,7 +7157,7 @@
   {
     "id": "com.samsung.android.honeyboard",
     "list": "Oem",
-    "description": "Samsung keyboard\nWARNING: do NOT disable if you don't have another keyboard with direct boot mode support, or you'll be stuck at boot (no keyboard to unlock the phone).\nhttps://developer.android.com/training/articles/direct-boot\nSimple Keyboard and OpenBoard are FOSS, based on the AOSP keyboard and have direct boot support:\nhttps://f-droid.org/packages/rkr.simplekeyboard.inputmethod/\nhttps://f-droid.org/packages/org.dslul.openboard.inputmethod.latin/\nWARNING: Do NOT remove this package with root if it wasn't first uninstalled with the non-root method.\nWARNING: Removing this packages breaks the Accessibility settings on Android 11.",
+    "description": "Samsung keyboard\nWARNING: do NOT disable if you don't have another keyboard with direct boot mode support, or you'll be stuck at boot (no keyboard to unlock the phone).\nhttps://developer.android.com/training/articles/direct-boot\nWARNING: Do NOT remove this package with root if it wasn't first uninstalled with the non-root method.\nWARNING: Removing this packages breaks the Accessibility settings on Android 11.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -11333,7 +11342,7 @@
   {
     "id": "com.qualcomm.qti.services.secureui",
     "list": "Misc",
-    "description": "Qualcomm Secure UI Service\nIt collects your data about screen:gravity, orientation, id, layout_width.\nhave Wifi Display Service. QC_WFD\nnot runs in the background",
+    "description": "Qualcomm Secure UI Service\nIt collects your data about screen:gravity, orientation, id, layout_width.\nIt has a Wifi Display Service. QC_WFD\nDoes not run in the background.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -15923,7 +15932,7 @@
   {
     "id": "com.touchtype.swiftkey",
     "list": "Misc",
-    "description": "Swiftkey Keyboard (https://play.google.com/store/apps/details?id=com.touchtype.swiftkey)\nKeyboard app by TouchType, a Microsoft subsidiary (https://en.wikipedia.org/wiki/SwiftKey)\n4 Trackers + 11 Permissions: https://reports.exodus-privacy.eu.org/en/reports/com.touchtype.swiftkey/latest/\nNOTE: default keyboard on some Nokia and Huawei phones. Make sure you have another keyboard app before disabling this.\nSimple Keyboard is a good FOSS replacement based on the AOSP keyboard: https://f-droid.org/en/packages/rkr.simplekeyboard.inputmethod/",
+    "description": "Swiftkey Keyboard (https://play.google.com/store/apps/details?id=com.touchtype.swiftkey)\nKeyboard app by TouchType, a Microsoft subsidiary (https://en.wikipedia.org/wiki/SwiftKey)\n4 Trackers + 11 Permissions: https://reports.exodus-privacy.eu.org/en/reports/com.touchtype.swiftkey/latest/\nNOTE: default keyboard on some Nokia and Huawei phones. Make sure you have another keyboard app before disabling this.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -17093,7 +17102,7 @@
   {
     "id": "com.miui.gallery",
     "list": "Oem",
-    "description": "MIUI Gallery app.\nSimple Gallery is way better, lighter and open-source (https://f-droid.org/en/packages/com.simplemobiletools.gallery.pro/)\nNote: Removing the Gallery will break the send screenshot feature (swipe 3 fingers to show the screenshot preview)",
+    "description": "MIUI Gallery app.\nNote: Removing the Gallery will break the send screenshot feature (swipe 3 fingers to show the screenshot preview).",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -31017,7 +31026,7 @@
   {
     "id": "com.google.android.inputmethod.latin",
     "list": "Google",
-    "description": "Gboard – the Google Keyboard (https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin)\nSometimes the only keyboard app on a phone; Make sure you have another installed before you disable.\n\"Simple Keyboard\" is a good FOSS, lightweight replacement based on the AOSP Keyboard:\nhttps://f-droid.org/en/packages/rkr.simplekeyboard.inputmethod/",
+    "description": "Gboard – the Google Keyboard (https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin)\nSometimes the only keyboard app on a phone; Make sure you have another installed before you disable.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
