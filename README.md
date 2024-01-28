@@ -67,9 +67,9 @@ and theme color modes.
 The app is in stable testing stage. You can join app's [Telegram Group](https://t.me/inure_app_manager)
 and get development related updates or you can [submit your feedbacks about the app](https://github.com/Hamza417/Inure/discussions/286).
 
-## Fun Fact about Inure
+### Fact about Inure
 
-Inure now comprises more than 200K lines and In a really large codebase written by a single person, Inure has zero memory leaks since the beginning, and still doesn't have a single `WeakReference` anywhere in the project.
+Inure now comprises more than 200K lines, has zero memory leaks, and doesn't have even a single `WeakReference` anywhere in the project.
 
 ## Features
 
