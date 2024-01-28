@@ -720,4 +720,13 @@
     <string name="install_anyway">仍然安装</string>
     <string name="foss_license_warning">必须输入与该项目相关的正确许可证</string>
     <string name="debloat">Debloat</string>
+    <string name="advanced">高级</string>
+    <string name="expert">专家</string>
+    <string name="recommended">推荐</string>
+    <string name="unsafe">不安全</string>
+    <string name="method">方法</string>
+    <string name="unlisted">未列出</string>
+    <string name="carrier">运营商</string>
+    <string name="miscellaneous">杂项</string>
+    <string name="pending">排队中</string>
 </resources>
