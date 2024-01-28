@@ -18,6 +18,7 @@ import app.simple.inure.interfaces.parsers.LinkCallbacks
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
@@ -215,6 +216,23 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 }
                 Removal.UNSAFE.method -> {
                     appendFlag(this@setBloatFlags.context.getString(R.string.unsafe))
+                }
+            }
+        }
+    }
+
+    fun updateSelections() {
+        when {
+            bloats.any { it.isSelected.invert() } -> {
+                for (i in bloats.indices) {
+                    bloats[i].isSelected = true
+                    notifyItemChanged(i.plus(1))
+                }
+            }
+            bloats.all { it.isSelected } -> {
+                for (i in bloats.indices) {
+                    bloats[i].isSelected = false
+                    notifyItemChanged(i.plus(1))
                 }
             }
         }

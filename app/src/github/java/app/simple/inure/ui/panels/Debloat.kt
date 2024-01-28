@@ -60,6 +60,9 @@ class Debloat : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(
                     BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()), recyclerView) { id, _ ->
                 when (id) {
+                    R.drawable.ic_select_all -> {
+                        adapterDebloat?.updateSelections()
+                    }
                     R.drawable.ic_delete -> {
                         // TODO - Delete
                     }

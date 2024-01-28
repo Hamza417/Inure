@@ -49,7 +49,7 @@ object TextViewUtils {
             // if(startIndexOfLink == -1) continue // if you want to verify your texts contains links text
             spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
-        this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+        this.movementMethod = LinkMovementMethod.getInstance()  // without LinkMovementMethod, links can not be clicked
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
@@ -85,8 +85,12 @@ object TextViewUtils {
             spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
-        this.setText(spannableString, TextView.BufferType.SPANNABLE)
+        if (links.isNotEmpty()) {
+            this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, links can not be clicked
+            this.setText(spannableString, TextView.BufferType.SPANNABLE)
+        } else {
+            this.text = string
+        }
     }
 
     fun TextView.makeClickable(vararg links: Pair<String, View.OnClickListener>) {
@@ -120,7 +124,7 @@ object TextViewUtils {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
-        this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+        this.movementMethod = LinkMovementMethod.getInstance()  // without LinkMovementMethod, links can not be clicked
         this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
