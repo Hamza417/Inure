@@ -37,11 +37,13 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             val apps = getInstalledApps() + getUninstalledApps()
             var bloats = ArrayList<Bloat>()
 
-            uadList.forEach { (id, bloat) ->
-                apps.forEach { app ->
-                    if (app.packageName == id) {
-                        bloat.packageInfo = app
-                        bloats.add(bloat)
+            uadList.parallelStream().forEach { bloat ->
+                synchronized(bloats) {
+                    apps.forEach { app ->
+                        if (app.packageName == bloat.id) {
+                            bloat.packageInfo = app
+                            bloats.add(bloat)
+                        }
                     }
                 }
             }
@@ -91,7 +93,7 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
      *     "removal": "Recommended"
      *   },
      */
-    private fun getUADList(): HashMap<String, Bloat> {
+    private fun getUADList(): ArrayList<Bloat> {
         val bufferedReader = BufferedReader(InputStreamReader(DebloatViewModel::class.java.getResourceAsStream(UAD_FILE_NAME)))
         val stringBuilder = StringBuilder()
         var line: String?
@@ -102,7 +104,7 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
 
         val json = stringBuilder.toString()
         val jsonArray = org.json.JSONArray(json)
-        val bloats = hashMapOf<String, Bloat>()
+        val bloats = arrayListOf<Bloat>()
 
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -135,7 +137,7 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
                 bloat.labels.add(labels.getString(j))
             }
 
-            bloats[id] = bloat
+            bloats.add(bloat)
         }
 
         return bloats

@@ -11,6 +11,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.enums.Removal
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Bloat
@@ -24,6 +25,7 @@ import app.simple.inure.util.StringUtils.appendFlag
 class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var adapterDebloatCallback: AdapterDebloatCallback? = null
+    private var isLoading = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -65,6 +67,12 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 }
             }
             is Header -> {
+                if (isLoading) {
+                    holder.loader.visibility = View.VISIBLE
+                } else {
+                    holder.loader.visibility = View.GONE
+                }
+
                 holder.total.text = holder.total.context.getString(R.string.total_apps, bloats.size.toString())
                 holder.uadSubtitle.setOnClickListener {
                     UAD_REPO_LINK.asUri().openInBrowser(holder.uadSubtitle.context)
@@ -131,6 +139,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
         val uadSubtitle: TypeFaceTextView = itemView.findViewById(R.id.uad_subtitle)
         val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
         val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
+        val loader: CustomProgressBar = itemView.findViewById(R.id.loader)
     }
 
     fun setAdapterDebloatCallback(adapterDebloatCallback: AdapterDebloatCallback) {
@@ -145,6 +154,11 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
         }
 
         return false
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        this.isLoading = isLoading
+        notifyItemChanged(0)
     }
 
     private fun TypeFaceTextView.setBloatFlags(bloat: Bloat) {

@@ -21,7 +21,8 @@ import app.simple.inure.viewmodels.panels.DebloatViewModel
 class Debloat : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var debloatViewModel: DebloatViewModel
+    private var debloatViewModel: DebloatViewModel? = null
+    private var adapterDebloat: AdapterDebloat? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_debloat, container, false)
@@ -37,12 +38,12 @@ class Debloat : ScopedFragment() {
         fullVersionCheck()
         postponeEnterTransition()
 
-        debloatViewModel.getBloatList().observe(viewLifecycleOwner) {
-            val adapterDebloat = AdapterDebloat(it)
+        debloatViewModel?.getBloatList()?.observe(viewLifecycleOwner) {
+            adapterDebloat = AdapterDebloat(it)
 
-            adapterDebloat.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
+            adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
                 override fun onBloatSelected(bloat: Bloat) {
-                    bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat.isAnyItemSelected()))
+                    bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()))
                 }
 
                 override fun onBloatLongPressed(bloat: Bloat) {
@@ -56,13 +57,14 @@ class Debloat : ScopedFragment() {
                 startPostponedEnterTransition()
             }
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getDebloatMenu(adapterDebloat.isAnyItemSelected()), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(
+                    BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_delete -> {
                         // TODO - Delete
                     }
                     R.drawable.ic_refresh -> {
-                        debloatViewModel.refreshBloatList()
+                        debloatViewModel?.refreshBloatList()
                     }
                     R.drawable.ic_filter -> {
                         childFragmentManager.showDebloatFilter()
@@ -87,7 +89,8 @@ class Debloat : ScopedFragment() {
             DebloatPreferences.sort,
             DebloatPreferences.state,
             DebloatPreferences.sortingStyle -> {
-                debloatViewModel.refreshBloatList()
+                adapterDebloat?.setLoading(true)
+                debloatViewModel?.refreshBloatList()
             }
         }
     }

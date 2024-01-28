@@ -61,6 +61,16 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/loader"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
     <LinearLayout
