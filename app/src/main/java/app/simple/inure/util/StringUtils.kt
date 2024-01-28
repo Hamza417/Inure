@@ -183,4 +183,16 @@ object StringUtils {
             append(" | $string")
         }
     }
+
+    fun String.fetchLinks(): List<String> {
+        val links = mutableListOf<String>()
+        val regex = Regex("""\b(?:https?|ftp)://\S+\b""")
+        val matcher = regex.findAll(this)
+
+        for (match in matcher) {
+            links.add(match.value)
+        }
+
+        return links
+    }
 }

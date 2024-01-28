@@ -14,6 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.enums.Removal
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.parsers.LinkCallbacks
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
@@ -21,6 +22,7 @@ import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.StringUtils.appendFlag
+import app.simple.inure.util.TextViewUtils.makeLinksClickable
 
 class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -48,7 +50,9 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.name.text = bloats[pos].packageInfo.applicationInfo.name
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])
-                holder.desc.text = bloats[pos].description.trim()
+                holder.desc.makeLinksClickable(bloats[pos].description.trim(), LinkCallbacks { url, _ ->
+                    url?.asUri()?.openInBrowser(holder.desc.context)
+                })
                 holder.checkBox.isChecked = bloats[pos].isSelected
                 holder.icon.loadAppIcon(bloats[pos].packageInfo.packageName, bloats[pos].packageInfo.applicationInfo.enabled)
 
