@@ -16,7 +16,7 @@ These features are available to all users without any extra requirements.
 - Save your terminal commands in the app for one tap execution in Terminal.
 - Scan directories for apk files and show them all at one place to easily manage all your apk files.
 - Built-in crash report framework.
-- Pin your favourite aps in home panel.
+- Pin your favourite apps in home panel.
 - View internal components such as permissions, services, activities etc of all apps.
 - Get detailed app information.
 - View resources of any app in a properly highlighted code viewer.
@@ -27,6 +27,7 @@ These features are available to all users without any extra requirements.
 - Deep search mode to search for internal components in all apps.
 - Built-in package installer to install apk and split apk files.
 - View information of any app even not installed ones.
+- View licenses of FOSS apps and update licenses manually if needed.
 - Dedicated indicator for FOSS apps throughout the app.
 - Identify Xposed modules in app info and package installer.
 - Create and manage Batch profiles for multiple apps.
@@ -45,7 +46,7 @@ These features require root access to work in the app.
 - Block app trackers.
 - View and modify shared preferences of any app.
 - Run installer in root mode to seamlessly install apps.
-- Run terminal in root mode.
+- Run Terminal in root mode.
 
 ### Shizuku Features
 
