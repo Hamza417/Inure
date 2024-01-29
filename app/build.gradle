@@ -210,7 +210,6 @@ dependencies {
 
     // Third Party
     implementation 'net.dongliu:apk-parser:2.6.10'
-    implementation 'com.scottyab:rootbeer-lib:0.1.0'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.anggrayudi:storage:1.5.5'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'

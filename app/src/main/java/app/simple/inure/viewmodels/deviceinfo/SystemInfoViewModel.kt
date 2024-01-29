@@ -14,7 +14,7 @@ import app.simple.inure.util.DeviceUtils
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
-import com.scottyab.rootbeer.RootBeer
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -133,8 +133,8 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     }
 
     private fun getRoot(): Pair<String, Spannable> {
-        val s = with(RootBeer(context)) {
-            if (isRooted) {
+        val s = with(Shell.getShell()) {
+            if (isRoot) {
                 getString(R.string.available)
             } else {
                 getString(R.string.not_available)
@@ -145,14 +145,12 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
     }
 
     private fun getBusybox(): Pair<String, Spannable> {
-        val s = with(RootBeer(context)) {
-            if (checkForBusyBoxBinary()) {
-                getString(R.string.available)
+        Shell.cmd("busybox").exec().let {
+            if (it.isSuccess) {
+                return Pair("Busybox", getString(R.string.available).applySecondaryTextColor())
             } else {
-                getString(R.string.not_available)
+                return Pair("Busybox", getString(R.string.not_available).applySecondaryTextColor())
             }
         }
-
-        return Pair("Busybox", s.applySecondaryTextColor())
     }
 }
