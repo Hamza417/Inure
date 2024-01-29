@@ -84,7 +84,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:drawablePadding="@dimen/popup_padding"
             android:text="@string/apps"
@@ -121,5 +120,18 @@
             app:textColorStyle="tertiary" />
 
     </LinearLayout>
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_total_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/header_item_margin"
+        android:drawablePadding="@dimen/popup_padding"
+        android:textSize="16sp"
+        app:appFontStyle="bold"
+        app:drawableStartCompat="@drawable/ic_check_16dp"
+        app:drawableTintStyle="accent"
+        app:textColorStyle="primary" />
 
 </LinearLayout>

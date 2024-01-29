@@ -148,7 +148,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
 
         if (holder is Header) {
             holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
-            holder.selected.text = apps.count { it.isSelected }.toString()
+            holder.selected.text = holder.getString(R.string.selected_apps, getSelectedAppsCount())
 
             holder.category.text = when (BatchPreferences.getAppsCategory()) {
                 SortConstant.USER -> {

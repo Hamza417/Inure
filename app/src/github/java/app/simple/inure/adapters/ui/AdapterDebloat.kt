@@ -60,6 +60,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.checkBox.setOnCheckedChangeListener {
                     bloats[pos].isSelected = it
                     adapterDebloatCallback?.onBloatSelected(bloats[pos])
+                    notifyItemChanged(0) // Header
                 }
 
                 holder.container.setOnClickListener {
@@ -78,6 +79,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                     holder.loader.visibility = View.GONE
                 }
 
+                holder.totalSelected.text = holder.totalSelected.context.getString(R.string.selected_apps, bloats.count { it.isSelected })
                 holder.total.text = holder.total.context.getString(R.string.total_apps, bloats.size.toString())
                 holder.uadSubtitle.setOnClickListener {
                     UAD_REPO_LINK.asUri().openInBrowser(holder.uadSubtitle.context)
@@ -141,6 +143,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
+        val totalSelected: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_selected)
         val uadSubtitle: TypeFaceTextView = itemView.findViewById(R.id.uad_subtitle)
         val category: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_category)
         val sorting: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_sorting)
