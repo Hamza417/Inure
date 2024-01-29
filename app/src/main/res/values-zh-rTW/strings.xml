@@ -720,4 +720,14 @@
     <string name="install_anyway">仍要安裝</string>
     <string name="foss_license_warning">必須輸入與專案相關的正確授權。</string>
     <string name="debloat">壓縮</string>
+    <string name="advanced">進階</string>
+    <string name="expert">專家</string>
+    <string name="recommended">建議</string>
+    <string name="unsafe">不安全</string>
+    <string name="method">方法</string>
+    <string name="unlisted">未列出</string>
+    <string name="carrier">電信業者</string>
+    <string name="miscellaneous">雜項</string>
+    <string name="pending">擱置中</string>
+    <string name="selected_apps">已選取 %1$d 個應用程式</string>
 </resources>
