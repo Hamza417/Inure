@@ -729,4 +729,5 @@
     <string name="carrier">Operadora</string>
     <string name="miscellaneous">Misceláneo</string>
     <string name="pending">Pendiente</string>
+    <string name="selected_apps">%1$d Seleccionado</string>
 </resources>
