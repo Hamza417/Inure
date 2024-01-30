@@ -97,7 +97,8 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Device Info",
-                                            "Enable Device Info panel in the app. It was planned but never implemented.",
+                                            "Enable Device Info panel in the app. It was planned but never implemented. " +
+                                                    "This isn't officially supported and any info that\'s being showed here isn\'t guaranteed to be accurate.",
                                             enableDeviceInfo,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 

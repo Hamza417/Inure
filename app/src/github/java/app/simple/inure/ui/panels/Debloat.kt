@@ -64,7 +64,10 @@ class Debloat : ScopedFragment() {
                         adapterDebloat?.updateSelections()
                     }
                     R.drawable.ic_delete -> {
-                        // TODO - Delete
+                        // debloatViewModel?.startDebloating(DebloatViewModel.METHOD_UNINSTALL)
+                    }
+                    R.drawable.ic_hide_source -> {
+                        // debloatViewModel?.startDebloating(DebloatViewModel.METHOD_DISABLE)
                     }
                     R.drawable.ic_refresh -> {
                         debloatViewModel?.refreshBloatList()

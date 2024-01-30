@@ -227,7 +227,9 @@ object BottomMenuConstants {
     )
 
     private val debloatMenuSelection: ArrayList<Pair<Int, Int>> = arrayListOf(
+            Pair(R.drawable.ic_hide_source, R.string.disable),
             Pair(R.drawable.ic_delete, R.string.uninstall),
+            divider,
             Pair(R.drawable.ic_select_all, R.string.select_all),
             divider,
             Pair(R.drawable.ic_refresh, R.string.refresh),

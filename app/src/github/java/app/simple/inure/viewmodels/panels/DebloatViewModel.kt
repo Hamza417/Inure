@@ -11,10 +11,12 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.Bloat
+import app.simple.inure.models.User
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort.getSortedList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
@@ -27,8 +29,16 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         MutableLiveData<ArrayList<Bloat>>()
     }
 
+    private val debloatedPackages: MutableLiveData<ArrayList<Pair<String, Boolean>>> by lazy {
+        MutableLiveData<ArrayList<Pair<String, Boolean>>>()
+    }
+
     fun getBloatList(): LiveData<ArrayList<Bloat>> {
         return bloatList
+    }
+
+    fun getDebloatedPackages(): LiveData<ArrayList<Pair<String, Boolean>>> {
+        return debloatedPackages
     }
 
     private fun parseUADList() {
@@ -324,7 +334,84 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         return filteredList
     }
 
+    fun startDebloating(method: String) {
+        val selectedBloats = ArrayList<Bloat>()
+        bloatList.value?.forEach {
+            if (it.isSelected) {
+                selectedBloats.add(it)
+            }
+        }
+
+        debloat(selectedBloats, method)
+    }
+
+    private fun debloat(bloats: ArrayList<Bloat>, method: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val debloatedPackages = ArrayList<Pair<String, Boolean>>()
+            val user = getCurrentUser()
+
+            bloats.parallelStream().forEach {
+                Shell.cmd(getCommand(method, user, it.id)).submit { result ->
+                    if (result.isSuccess) {
+                        synchronized(debloatedPackages) {
+                            debloatedPackages.add(Pair(it.id, true))
+                        }
+                    } else {
+                        synchronized(debloatedPackages) {
+                            debloatedPackages.add(Pair(it.id, false))
+                        }
+                    }
+                }
+            }
+
+            this@DebloatViewModel.debloatedPackages.postValue(debloatedPackages)
+        }
+    }
+
+    private fun getCurrentUser(): User {
+        /**
+         * UserInfo{0:Hamza Rizwan:c13}
+         *
+         * 0: User ID
+         * Hamza Rizwan: User Name
+         * c13: hexFlags
+         */
+        kotlin.runCatching {
+            var user = User()
+            Shell.cmd("pm list users").exec().let {
+                if (it.isSuccess) {
+                    it.out.forEach { line ->
+                        if (line.contains("UserInfo") && line.contains("{") && line.contains("}")) {
+                            if (line.contains("Running")) {
+                                val split = line.substringAfter("{").substringBefore("}").split(":")
+                                user = User(split[0].toInt(), split[1], split[2])
+                            }
+                        }
+                    }
+
+                    return user
+                } else {
+                    postWarning(it.err.toString())
+                }
+            }
+        }.onFailure {
+            postError(it)
+        }
+
+        return User(0, "Primary", "c13") // Assume primary user
+    }
+
+    private fun getCommand(method: String, user: User, appID: String): String {
+        return when (method) {
+            METHOD_DISABLE -> "pm disable --user ${user.id} $appID"
+            METHOD_UNINSTALL -> "pm uninstall --user ${user.id} $appID"
+            else -> throw IllegalArgumentException("Invalid method")
+        }
+    }
+
     companion object {
         private const val UAD_FILE_NAME = "/uad_lists.json"
+        const val METHOD_DISABLE = "disable"
+        const val METHOD_UNINSTALL = "uninstall"
     }
 }

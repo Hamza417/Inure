@@ -36,6 +36,9 @@ public class User implements Parcelable {
         this.hexFlags = hexFlags;
     }
     
+    public User() {
+    }
+    
     protected User(Parcel in) {
         id = in.readInt();
         name = in.readString();
