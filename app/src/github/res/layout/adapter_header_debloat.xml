@@ -23,7 +23,7 @@
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_name"
-            android:transitionName="@string/apps"
+            android:transitionName="@string/debloat"
             app:srcCompat="@drawable/ic_recycling"
             app:tintType="accent" />
 
