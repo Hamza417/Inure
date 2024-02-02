@@ -455,6 +455,7 @@
     <string name="standalone_terminal_desc">Usar o terminal como app autônomo e executá-lo diretamente da tela inicial sem precisar abrir a aplicação principal toda vez que o terminal é necessário.</string>
     <string name="ok">OK</string>
     <string name="share">Compartilhar</string>
+    <string name="terminal_commands">Terminal de Comandos</string>
     <string name="pin_to_home_panel">Fixar no Painel Inicial</string>
     <string name="remove_from_home_screen">Remover do Painel Inicial</string>
     <string name="limit_stats_to_hours">Limitar estatísticas a horas</string>
@@ -718,4 +719,15 @@
     <string name="no_preferences_found">Preferências Não Encontradas</string>
     <string name="install_anyway">Instalar assim mesmo</string>
     <string name="foss_license_warning">É imperativo inserir a licença correta associada ao projeto.</string>
+    <string name="debloat">Desbloquear</string>
+    <string name="advanced">Avançado</string>
+    <string name="expert">Avançado</string>
+    <string name="recommended">Recomendado</string>
+    <string name="unsafe">Inseguro</string>
+    <string name="method">Método</string>
+    <string name="unlisted">Não listado</string>
+    <string name="carrier">Operadora</string>
+    <string name="miscellaneous">Adicionais</string>
+    <string name="pending">Pendente</string>
+    <string name="selected_apps">%1$d Selecionado</string>
 </resources>
