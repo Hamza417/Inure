@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.typeface.TypeFaceTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/package_name"
+    android:layout_width="match_parent"
+    android:padding="5dp"
+    android:layout_height="wrap_content"
+    android:drawablePadding="5dp"
+    android:layout_gravity="center_vertical"
+    app:appFontStyle="medium"
+    app:drawableTintStyle="success"
+    app:textColorStyle="secondary" />
