@@ -11,6 +11,7 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.Bloat
+import app.simple.inure.models.UninstallResult
 import app.simple.inure.models.User
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort.getSortedList
@@ -29,15 +30,15 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         MutableLiveData<ArrayList<Bloat>>()
     }
 
-    private val debloatedPackages: MutableLiveData<ArrayList<Pair<String, Boolean>>> by lazy {
-        MutableLiveData<ArrayList<Pair<String, Boolean>>>()
+    private val debloatedPackages: MutableLiveData<ArrayList<UninstallResult>> by lazy {
+        MutableLiveData<ArrayList<UninstallResult>>()
     }
 
     fun getBloatList(): LiveData<ArrayList<Bloat>> {
         return bloatList
     }
 
-    fun getDebloatedPackages(): LiveData<ArrayList<Pair<String, Boolean>>> {
+    fun getDebloatedPackages(): LiveData<ArrayList<UninstallResult>> {
         return debloatedPackages
     }
 
@@ -347,19 +348,15 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
 
     private fun debloat(bloats: ArrayList<Bloat>, method: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val debloatedPackages = ArrayList<Pair<String, Boolean>>()
+            val debloatedPackages = ArrayList<UninstallResult>()
             val user = getCurrentUser()
 
-            bloats.parallelStream().forEach {
-                Shell.cmd(getCommand(method, user, it.id)).submit { result ->
+            bloats.forEach {
+                Shell.cmd(getCommand(method, user, it.id)).exec().let { result ->
                     if (result.isSuccess) {
-                        synchronized(debloatedPackages) {
-                            debloatedPackages.add(Pair(it.id, true))
-                        }
+                        debloatedPackages.add(UninstallResult(it.id, true))
                     } else {
-                        synchronized(debloatedPackages) {
-                            debloatedPackages.add(Pair(it.id, false))
-                        }
+                        debloatedPackages.add(UninstallResult(it.id, false))
                     }
                 }
             }
@@ -407,6 +404,10 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             METHOD_UNINSTALL -> "pm uninstall --user ${user.id} $appID"
             else -> throw IllegalArgumentException("Invalid method")
         }
+    }
+
+    fun clearDebloatedPackages() {
+        debloatedPackages.postValue(null)
     }
 
     companion object {

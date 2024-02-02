@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.dialogs
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.UninstallResult
+import app.simple.inure.util.TextViewUtils.setDrawableTint
 
 class AdapterUninstallResult(private val data: ArrayList<UninstallResult>) : RecyclerView.Adapter<AdapterUninstallResult.Holder>() {
 
@@ -23,10 +25,12 @@ class AdapterUninstallResult(private val data: ArrayList<UninstallResult>) : Rec
             holder.packageName
                 .setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(holder.context, R.drawable.ic_check_12dp), null)
+            holder.packageName.setDrawableTint(Color.GREEN)
         } else {
             holder.packageName
                 .setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(holder.context, R.drawable.ic_close_12dp), null)
+            holder.packageName.setDrawableTint(Color.RED)
         }
     }
 

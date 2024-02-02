@@ -12,10 +12,13 @@ import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
+import app.simple.inure.dialogs.debloat.UninstallMethodChoice.Companion.showUninstallMethodChoice
 import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
+import app.simple.inure.dialogs.miscellaneous.UninstallResult.Companion.showUninstallResult
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
 class Debloat : ScopedFragment() {
@@ -38,8 +41,8 @@ class Debloat : ScopedFragment() {
         fullVersionCheck()
         postponeEnterTransition()
 
-        debloatViewModel?.getBloatList()?.observe(viewLifecycleOwner) {
-            adapterDebloat = AdapterDebloat(it)
+        debloatViewModel?.getBloatList()?.observe(viewLifecycleOwner) { bloats ->
+            adapterDebloat = AdapterDebloat(bloats)
 
             adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
                 override fun onBloatSelected(bloat: Bloat) {
@@ -63,11 +66,20 @@ class Debloat : ScopedFragment() {
                     R.drawable.ic_select_all -> {
                         adapterDebloat?.updateSelections()
                     }
-                    R.drawable.ic_delete -> {
-                        // debloatViewModel?.startDebloating(DebloatViewModel.METHOD_UNINSTALL)
-                    }
-                    R.drawable.ic_hide_source -> {
-                        // debloatViewModel?.startDebloating(DebloatViewModel.METHOD_DISABLE)
+                    R.drawable.ic_recycling -> {
+                        childFragmentManager.showUninstallMethodChoice().onUninstallMethodSelected = { uninstall ->
+                            if (uninstall) {
+                                onSure {
+                                    showLoader(manualOverride = true)
+                                    debloatViewModel?.startDebloating(DebloatViewModel.METHOD_UNINSTALL)
+                                }
+                            } else {
+                                onSure {
+                                    showLoader(manualOverride = true)
+                                    debloatViewModel?.startDebloating(DebloatViewModel.METHOD_DISABLE)
+                                }
+                            }
+                        }
                     }
                     R.drawable.ic_refresh -> {
                         debloatViewModel?.refreshBloatList()
@@ -82,6 +94,14 @@ class Debloat : ScopedFragment() {
                         openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
                     }
                 }
+            }
+        }
+
+        debloatViewModel?.getDebloatedPackages()?.observe(viewLifecycleOwner) {
+            if (it.isNotNull() && it.isNotEmpty()) {
+                childFragmentManager.showUninstallResult(it)
+                debloatViewModel?.clearDebloatedPackages()
+                debloatViewModel?.refreshBloatList()
             }
         }
     }
