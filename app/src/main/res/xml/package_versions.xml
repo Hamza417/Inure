@@ -4480,7 +4480,6 @@
     <string name="com.radio.codec2talkie" translatable="false">GPL-2.0-only</string>
     <string name="dev.shorthouse.coinwatch" translatable="false">Apache-2.0</string>
     <string name="org.collector.release" translatable="false">AGPL-3.0-only</string>
-    <string name="com.drdisagree.colorblendr" translatable="false">GPL-3.0-only</string>
     <string name="is.tsin.colors_ai.colors_ai" translatable="false">MIT</string>
     <string name="com.thebrokenrail.combustible" translatable="false">MIT</string>
     <string name="com.puutaro.commandclick" translatable="false">GPL-3.0-only</string>
@@ -4948,7 +4947,6 @@
     <string name="sadLogic.OctoTouchController.foss" translatable="false">AGPL-3.0-only</string>
     <string name="sadLogic.OctoTouchController" translatable="false">AGPL-3.0-only</string>
     <string name="app.olauncher.light" translatable="false">GPL-3.0-only</string>
-    <string name="audio.omgsoundboard" translatable="false">Apache-2.0</string>
     <string name="com.cb.oneclipboard.android.client" translatable="false">LGPL-3.0-only</string>
     <string name="com.cb.oneclipboard.android.server" translatable="false">LGPL-3.0-only</string>
     <string name="com.onekeepassmobile" translatable="false">GPL-3.0-only</string>
@@ -5226,6 +5224,7 @@
     <string name="org.tigase.messenger.phone.pro" translatable="false">AGPL-3.0-only</string>
     <string name="de.westnordost.streetmeasure" translatable="false">Apache-2.0</string>
     <string name="lcukerd.com.stufflist" translatable="false">MIT</string>
+    <string name="eu.laslo_hauschild.your_schedule" translatable="false">GPL-3.0-only</string>
     <string name="com.jamal2367.styx" translatable="false">MPL-2.0</string>
     <string name="projekt.substratum" translatable="false">GPL-3.0-only</string>
     <string name="com.luisbocanegra.substweaks" translatable="false">Apache-2.0</string>
