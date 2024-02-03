@@ -730,4 +730,5 @@
     <string name="miscellaneous">杂项</string>
     <string name="pending">排队中</string>
     <string name="selected_apps">已选中 %1$d 项</string>
+    <string name="restore">恢复</string>
 </resources>
