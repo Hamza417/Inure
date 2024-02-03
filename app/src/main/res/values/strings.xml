@@ -729,4 +729,5 @@
     <string name="miscellaneous">Miscellaneous</string>
     <string name="pending">Pending</string>
     <string name="selected_apps">%1$d Selected</string>
+    <string name="restore">Restore</string>
 </resources>

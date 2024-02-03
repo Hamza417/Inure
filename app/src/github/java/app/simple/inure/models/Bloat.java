@@ -12,6 +12,9 @@ import app.simple.inure.enums.Removal;
 
 public class Bloat implements Parcelable {
     
+    /**
+     * Package name of the bloat
+     */
     private String id;
     private String list;
     private String description;

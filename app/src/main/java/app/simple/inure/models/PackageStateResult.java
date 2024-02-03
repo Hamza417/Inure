@@ -5,30 +5,30 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class UninstallResult implements Parcelable {
+public class PackageStateResult implements Parcelable {
     
     private String packageName;
     private boolean success;
     
-    public UninstallResult(String packageName, boolean success) {
+    public PackageStateResult(String packageName, boolean success) {
         this.packageName = packageName;
         this.success = success;
     }
     
-    protected UninstallResult(Parcel in) {
+    protected PackageStateResult(Parcel in) {
         packageName = in.readString();
         success = in.readByte() != 0;
     }
     
-    public static final Creator <UninstallResult> CREATOR = new Creator <UninstallResult>() {
+    public static final Creator <PackageStateResult> CREATOR = new Creator <>() {
         @Override
-        public UninstallResult createFromParcel(Parcel in) {
-            return new UninstallResult(in);
+        public PackageStateResult createFromParcel(Parcel in) {
+            return new PackageStateResult(in);
         }
         
         @Override
-        public UninstallResult[] newArray(int size) {
-            return new UninstallResult[size];
+        public PackageStateResult[] newArray(int size) {
+            return new PackageStateResult[size];
         }
     };
     

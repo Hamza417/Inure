@@ -9,11 +9,12 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
-import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
+import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.Bloat
-import app.simple.inure.models.UninstallResult
-import app.simple.inure.models.User
+import app.simple.inure.models.PackageStateResult
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.sort.DebloatSort.getSortedList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
@@ -24,21 +25,23 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
-class DebloatViewModel(application: Application) : PackageUtilsViewModel(application) {
+class DebloatViewModel(application: Application) : RootShizukuViewModel(application) {
+
+    private var currentMethod: String = METHOD_DISABLE // should change during runtime
 
     private val bloatList: MutableLiveData<ArrayList<Bloat>> by lazy {
         MutableLiveData<ArrayList<Bloat>>()
     }
 
-    private val debloatedPackages: MutableLiveData<ArrayList<UninstallResult>> by lazy {
-        MutableLiveData<ArrayList<UninstallResult>>()
+    private val debloatedPackages: MutableLiveData<ArrayList<PackageStateResult>> by lazy {
+        MutableLiveData<ArrayList<PackageStateResult>>()
     }
 
     fun getBloatList(): LiveData<ArrayList<Bloat>> {
         return bloatList
     }
 
-    fun getDebloatedPackages(): LiveData<ArrayList<UninstallResult>> {
+    fun getDebloatedPackages(): LiveData<ArrayList<PackageStateResult>> {
         return debloatedPackages
     }
 
@@ -335,6 +338,11 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         return filteredList
     }
 
+    fun initDebloaterEngine(method: String) {
+        currentMethod = method
+        initializeCoreFramework()
+    }
+
     fun startDebloating(method: String) {
         val selectedBloats = ArrayList<Bloat>()
         bloatList.value?.forEach {
@@ -343,20 +351,34 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
             }
         }
 
-        debloat(selectedBloats, method)
+        if (ConfigurationPreferences.isUsingRoot()) {
+            debloatRoot(selectedBloats, method)
+        } else if (ConfigurationPreferences.isUsingShizuku()) {
+            debloatShizuku(selectedBloats, method)
+        }
     }
 
-    private fun debloat(bloats: ArrayList<Bloat>, method: String) {
+    override fun onShellCreated(shell: Shell?) {
+        super.onShellCreated(shell)
+        startDebloating(currentMethod)
+    }
+
+    override fun onShizukuCreated() {
+        super.onShizukuCreated()
+        startDebloating(currentMethod)
+    }
+
+    private fun debloatRoot(bloats: ArrayList<Bloat>, method: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val debloatedPackages = ArrayList<UninstallResult>()
+            val debloatedPackages = ArrayList<PackageStateResult>()
             val user = getCurrentUser()
 
             bloats.forEach {
                 Shell.cmd(getCommand(method, user, it.id)).exec().let { result ->
                     if (result.isSuccess) {
-                        debloatedPackages.add(UninstallResult(it.id, true))
+                        debloatedPackages.add(PackageStateResult(it.id, true))
                     } else {
-                        debloatedPackages.add(UninstallResult(it.id, false))
+                        debloatedPackages.add(PackageStateResult(it.id, false))
                     }
                 }
             }
@@ -365,7 +387,32 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         }
     }
 
-    private fun getCurrentUser(): User {
+    private fun debloatShizuku(bloats: ArrayList<Bloat>, method: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val debloatedPackages = mutableSetOf<PackageStateResult>()
+            val user = getCurrentUser()
+
+            bloats.forEach { bloat ->
+                kotlin.runCatching {
+                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(getCommand(method, user, bloat.id)), null).let { result ->
+                        if (result.isSuccess) {
+                            debloatedPackages.add(PackageStateResult(bloat.id, true))
+                        } else {
+                            debloatedPackages.add(PackageStateResult(bloat.id, false))
+                        }
+                    }
+                }.onSuccess {
+                    debloatedPackages.add(PackageStateResult(bloat.id, true))
+                }.onFailure {
+                    debloatedPackages.add(PackageStateResult(bloat.id, false))
+                }.getOrElse {
+                    debloatedPackages.add(PackageStateResult(bloat.id, false))
+                }
+            }
+        }
+    }
+
+    private fun getCurrentUser(): Int {
         /**
          * UserInfo{0:Hamza Rizwan:c13}
          *
@@ -374,34 +421,36 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
          * c13: hexFlags
          */
         kotlin.runCatching {
-            var user = User()
-            Shell.cmd("pm list users").exec().let {
-                if (it.isSuccess) {
-                    it.out.forEach { line ->
-                        if (line.contains("UserInfo") && line.contains("{") && line.contains("}")) {
-                            if (line.contains("Running")) {
-                                val split = line.substringAfter("{").substringBefore("}").split(":")
-                                user = User(split[0].toInt(), split[1], split[2])
-                            }
-                        }
+            var user = 0
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd("am get-current-user").exec().let { result ->
+                    if (result.isSuccess) {
+                        user = result.out.joinToString().toInt()
                     }
-
-                    return user
-                } else {
-                    postWarning(it.err.toString())
+                }
+            } else if (ConfigurationPreferences.isUsingShizuku()) {
+                kotlin.runCatching {
+                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("am get-current-user"), null)
+                }.onSuccess {
+                    user = it.out.toInt()
+                }.onFailure {
+                    postError(it)
                 }
             }
+
+            return user
         }.onFailure {
             postError(it)
         }
 
-        return User(0, "Primary", "c13") // Assume primary user
+        return 0
     }
 
-    private fun getCommand(method: String, user: User, appID: String): String {
+    private fun getCommand(method: String, user: Int, appID: String): String {
         return when (method) {
-            METHOD_DISABLE -> "pm disable --user ${user.id} $appID"
-            METHOD_UNINSTALL -> "pm uninstall --user ${user.id} $appID"
+            METHOD_DISABLE -> "pm disable --user $user $appID"
+            METHOD_UNINSTALL -> "pm uninstall --user $user $appID"
+            METHOD_RESTORE -> "pm install-existing --user $user $appID && pm enable --user $user $appID"
             else -> throw IllegalArgumentException("Invalid method")
         }
     }
@@ -414,5 +463,6 @@ class DebloatViewModel(application: Application) : PackageUtilsViewModel(applica
         private const val UAD_FILE_NAME = "/uad_lists.json"
         const val METHOD_DISABLE = "disable"
         const val METHOD_UNINSTALL = "uninstall"
+        const val METHOD_RESTORE = "restore"
     }
 }

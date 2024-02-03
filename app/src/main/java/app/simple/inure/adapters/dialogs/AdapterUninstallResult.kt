@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.models.UninstallResult
+import app.simple.inure.models.PackageStateResult
 import app.simple.inure.util.TextViewUtils.setDrawableTint
 
-class AdapterUninstallResult(private val data: ArrayList<UninstallResult>) : RecyclerView.Adapter<AdapterUninstallResult.Holder>() {
+class AdapterUninstallResult(private val data: ArrayList<PackageStateResult>) : RecyclerView.Adapter<AdapterUninstallResult.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_uninstall_result, parent, false))

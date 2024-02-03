@@ -18,6 +18,8 @@ import app.simple.inure.dialogs.miscellaneous.UninstallResult.Companion.showUnin
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
@@ -71,15 +73,24 @@ class Debloat : ScopedFragment() {
                             if (uninstall) {
                                 onSure {
                                     showLoader(manualOverride = true)
-                                    debloatViewModel?.startDebloating(DebloatViewModel.METHOD_UNINSTALL)
+                                    debloatViewModel?.initDebloaterEngine(DebloatViewModel.METHOD_UNINSTALL)
                                 }
                             } else {
                                 onSure {
                                     showLoader(manualOverride = true)
-                                    debloatViewModel?.startDebloating(DebloatViewModel.METHOD_DISABLE)
+                                    debloatViewModel?.initDebloaterEngine(DebloatViewModel.METHOD_DISABLE)
                                 }
                             }
                         }
+                    }
+                    R.drawable.ic_restore -> {
+                        onSure {
+                            showLoader(manualOverride = true)
+                            debloatViewModel?.initDebloaterEngine(DebloatViewModel.METHOD_RESTORE)
+                        }
+                    }
+                    R.drawable.ic_help -> {
+                        getString(R.string.debloat_help).asUri().openInBrowser(requireContext())
                     }
                     R.drawable.ic_refresh -> {
                         debloatViewModel?.refreshBloatList()
@@ -98,6 +109,8 @@ class Debloat : ScopedFragment() {
         }
 
         debloatViewModel?.getDebloatedPackages()?.observe(viewLifecycleOwner) {
+            hideLoader()
+
             if (it.isNotNull() && it.isNotEmpty()) {
                 childFragmentManager.showUninstallResult(it)
                 debloatViewModel?.clearDebloatedPackages()
