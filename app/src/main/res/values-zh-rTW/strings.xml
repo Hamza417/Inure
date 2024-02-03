@@ -730,4 +730,5 @@
     <string name="miscellaneous">雜項</string>
     <string name="pending">擱置中</string>
     <string name="selected_apps">已選取 %1$d 個應用程式</string>
+    <string name="restore">還原</string>
 </resources>
