@@ -18,7 +18,7 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Set up JDK
-                uses: actions/setup-java@v3
+                uses: actions/setup-java@v4
                 with:
                     distribution: 'temurin'
                     java-version: '17'
@@ -92,10 +92,11 @@ jobs:
                     document: ${{ env.APK_PATH }}
                     message: |
                         ${{ github.event.inputs.message }}
+                        
                         Current Build Code: ${{ env.VERSION_CODE }}
 
             -   name: Archive APK
-                uses: actions/upload-artifact@v3
+                uses: actions/upload-artifact@v4
                 with:
                     name: Beta APK (Debug)
                     path: ${{ env.APK_PATH }}
