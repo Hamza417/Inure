@@ -39,7 +39,7 @@ class UsersViewModel(application: Application) : RootShizukuViewModel(applicatio
             kotlin.runCatching {
                 val users = ArrayList<User>()
 
-                Shell.cmd("pm list users").submit {
+                Shell.cmd("pm list users").exec().let {
                     if (it.isSuccess) {
                         it.out.forEach { line ->
                             if (line.contains("UserInfo") && line.contains("{") && line.contains("}")) {
