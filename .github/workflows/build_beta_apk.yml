@@ -1,18 +1,12 @@
 name: Build APK (Beta)
 
 on:
-    workflow_dispatch:  # Allow manual triggering
-#    push:
-#        branches:
-#            - master
-#        paths-ignore:
-#            - 'fastlane/**'
-#            - 'scripts/**'
-#            - '.idea/**'
-#            - '.github/**'
-#            - 'assets/**'
-#            - '*.md'
-#            - '*.yml'
+    workflow_dispatch:
+        inputs:
+            message:
+                description: 'Message to be sent'
+                required: true
+                default: 'The beta build is ready for testing'
 
 jobs:
     build:
@@ -97,7 +91,8 @@ jobs:
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: ${{ env.APK_PATH }}
                     message: |
-                        ${{ env.VERSION_NAME }} is ready, you can test it and report any bugs or issues you had found in the group!
+                        ${{ github.event.inputs.message }}
+                        Current Build Code: ${{ env.VERSION_CODE }}
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v3
