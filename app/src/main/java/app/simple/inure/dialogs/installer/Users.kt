@@ -33,14 +33,12 @@ class Users : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         usersViewModel.getUsers().observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                adapterUsers = AdapterUsers(it) {
-                    usersCallback?.onUserSelected(it)
-                    dismiss()
-                }
-
-                recyclerView.adapter = adapterUsers
+            adapterUsers = AdapterUsers(it) {
+                usersCallback?.onUserSelected(it)
+                dismiss()
             }
+
+            recyclerView.adapter = adapterUsers
         }
     }
 

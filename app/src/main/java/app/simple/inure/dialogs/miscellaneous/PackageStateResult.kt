@@ -12,7 +12,7 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.models.PackageStateResult
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
 
-class UninstallResult : ScopedBottomSheetFragment() {
+class PackageStateResult : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
@@ -32,15 +32,15 @@ class UninstallResult : ScopedBottomSheetFragment() {
     }
 
     companion object {
-        fun newInstance(data: ArrayList<PackageStateResult>): UninstallResult {
+        fun newInstance(data: ArrayList<PackageStateResult>): app.simple.inure.dialogs.miscellaneous.PackageStateResult {
             val args = Bundle()
             args.putParcelableArrayList(BundleConstants.result, data)
-            val fragment = UninstallResult()
+            val fragment = PackageStateResult()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showUninstallResult(data: ArrayList<PackageStateResult>) {
+        fun FragmentManager.showPackageStateResult(data: ArrayList<PackageStateResult>) {
             val dialog = newInstance(data)
             dialog.show(this, "uninstall_result")
         }

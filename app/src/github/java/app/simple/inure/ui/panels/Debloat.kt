@@ -14,7 +14,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.dialogs.debloat.UninstallMethodChoice.Companion.showUninstallMethodChoice
 import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
-import app.simple.inure.dialogs.miscellaneous.UninstallResult.Companion.showUninstallResult
+import app.simple.inure.dialogs.miscellaneous.PackageStateResult.Companion.showPackageStateResult
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
@@ -112,7 +112,7 @@ class Debloat : ScopedFragment() {
             hideLoader()
 
             if (it.isNotNull() && it.isNotEmpty()) {
-                childFragmentManager.showUninstallResult(it)
+                childFragmentManager.showPackageStateResult(it)
                 debloatViewModel?.clearDebloatedPackages()
                 debloatViewModel?.refreshBloatList()
             }

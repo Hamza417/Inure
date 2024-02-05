@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 
-class UninstallInfo : ScopedDialogFragment() {
+class UninstalledAppsInfo : ScopedDialogFragment() {
 
     private lateinit var ok: DynamicRippleTextView
 
@@ -29,9 +29,9 @@ class UninstallInfo : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(): UninstallInfo {
+        fun newInstance(): UninstalledAppsInfo {
             val args = Bundle()
-            val fragment = UninstallInfo()
+            val fragment = UninstalledAppsInfo()
             fragment.arguments = args
             return fragment
         }

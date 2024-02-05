@@ -13,7 +13,7 @@ import app.simple.inure.adapters.home.AdapterUninstalled
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.menus.AppsMenu
-import app.simple.inure.dialogs.miscellaneous.UninstallInfo
+import app.simple.inure.dialogs.miscellaneous.UninstalledAppsInfo
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -69,7 +69,7 @@ class Uninstalled : ScopedFragment() {
                         openFragmentSlide(Search.newInstance(true), "search")
                     }
                     R.drawable.ic_info -> {
-                        UninstallInfo.newInstance()
+                        UninstalledAppsInfo.newInstance()
                             .show(childFragmentManager, "uninstall_info")
                     }
                     R.drawable.ic_refresh -> {
