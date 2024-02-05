@@ -43,7 +43,12 @@ class Debloat : ScopedFragment() {
         fullVersionCheck()
         postponeEnterTransition()
 
+        if (debloatViewModel?.shouldShowLoader() == true) {
+            showLoader(manualOverride = true)
+        }
+
         debloatViewModel?.getBloatList()?.observe(viewLifecycleOwner) { bloats ->
+            hideLoader()
             adapterDebloat = AdapterDebloat(bloats)
 
             adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {

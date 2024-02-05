@@ -45,6 +45,14 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         return debloatedPackages
     }
 
+    fun shouldShowLoader(): Boolean {
+        runCatching {
+            return bloatList.value.isNullOrEmpty()
+        }.getOrElse {
+            return true
+        }
+    }
+
     private fun parseUADList() {
         viewModelScope.launch(Dispatchers.IO) {
             val uadList = getUADList()
