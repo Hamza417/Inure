@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
@@ -14,7 +15,7 @@ import app.simple.inure.models.TerminalCommand
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterTerminalCommands(private val terminalCommands: ArrayList<TerminalCommand>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var terminalCommandCallbacks: TerminalCommandCallbacks? = null
 
@@ -106,9 +107,17 @@ class AdapterTerminalCommands(val terminalCommands: ArrayList<TerminalCommand>) 
         val timestamp: TypeFaceTextView = itemView.findViewById(R.id.timestamp)
         val description: TypeFaceTextView = itemView.findViewById(R.id.description)
         val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
+
+        init {
+            (itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).isFullSpan = false
+        }
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.total)
+
+        init {
+            (itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).isFullSpan = true
+        }
     }
 }

@@ -54,7 +54,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:drawablePadding="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="8dp"
             android:gravity="center_vertical"
             android:textSize="@dimen/popup_text_size"
             app:appFontStyle="bold"

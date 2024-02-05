@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterTerminalCommands
 import app.simple.inure.constants.BottomMenuConstants
@@ -31,7 +32,6 @@ import java.security.GeneralSecurityException
 class TerminalCommands : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-
     private val terminalCommandsViewModel: TerminalCommandsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -82,6 +82,7 @@ class TerminalCommands : ScopedFragment() {
                 }
             })
 
+            recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             recyclerView.adapter = adapterTerminalCommands
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getTerminalCommandsBottomMenuItems(), recyclerView) { id, _ ->

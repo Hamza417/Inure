@@ -13,6 +13,8 @@
         android:layoutAnimation="@anim/list_animation_controller"
         app:isFadingEdgeRequired="true"
         app:manuallyAnimated="false"
+        android:paddingHorizontal="@dimen/popup_padding"
+        android:paddingBottom="@dimen/popup_padding"
         app:statusBarPaddingRequired="true" />
 
     <app.simple.inure.decorations.views.BottomMenuRecyclerView

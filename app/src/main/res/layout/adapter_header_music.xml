@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:drawablePadding="5dp"
-        android:paddingHorizontal="5dp"
+        android:paddingHorizontal="8dp"
         android:gravity="center_vertical"
         android:textSize="@dimen/popup_text_size"
         app:appFontStyle="bold"
