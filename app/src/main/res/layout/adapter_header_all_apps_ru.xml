@@ -51,8 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
             android:drawablePadding="@dimen/popup_padding"
             android:text="@string/apps"
             android:textSize="@dimen/popup_text_size"
@@ -63,11 +61,10 @@
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_header_sorting"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginVertical="5dp"
-            android:layout_marginStart="8dp"
             android:drawablePadding="@dimen/popup_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"
@@ -77,10 +74,9 @@
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/adapter_header_category"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"
             android:drawablePadding="@dimen/popup_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="regular"

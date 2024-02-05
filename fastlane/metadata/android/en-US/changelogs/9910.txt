@@ -1,4 +1,5 @@
 - Added debloat panel
+- Fixed various issues
 
 Refer to Change Logs under About section of the app to get the detailed list of all changes in this version.
 
