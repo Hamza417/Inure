@@ -17,6 +17,7 @@ object ShortcutConstants {
     const val AUDIO_PLAYER_ACTION = "open_audio_player"
     const val TAGS_ACTION = "open_tags"
     const val FOSS_ACTION = "open_foss"
+    const val DEBLOAT_ACTION = "open_debloat"
     const val TAGGED_APPS_ACTION = "open_tagged_apps"
     const val BATCH_EXTRACT_ACTION = "batch_extraction"
 
@@ -37,6 +38,7 @@ object ShortcutConstants {
     const val TAGS_ID = "sc_tags"
     const val FOSS_ID = "sc_foss"
     const val TAGGED_APPS_ID = "sc_tagged_apps"
+    const val DEBLOAT_ID = "sc_debloat"
 
     const val TAGGED_APPS_EXTRA = "tag"
 }

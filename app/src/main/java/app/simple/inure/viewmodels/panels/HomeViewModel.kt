@@ -314,7 +314,9 @@ class HomeViewModel(application: Application) :
             }
 
             if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
-                list.add(Pair(R.drawable.ic_recycling, R.string.debloat))
+                if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+                    list.add(Pair(R.drawable.ic_recycling, R.string.debloat))
+                }
             }
 
             list.add(Pair(0, 0)) // Divider

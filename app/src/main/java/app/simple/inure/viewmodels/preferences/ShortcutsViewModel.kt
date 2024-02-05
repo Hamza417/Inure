@@ -12,6 +12,8 @@ import app.simple.inure.constants.ShortcutConstants.APPS_ACTION
 import app.simple.inure.constants.ShortcutConstants.APPS_ID
 import app.simple.inure.constants.ShortcutConstants.BATCH_ACTION
 import app.simple.inure.constants.ShortcutConstants.BATCH_ID
+import app.simple.inure.constants.ShortcutConstants.DEBLOAT_ACTION
+import app.simple.inure.constants.ShortcutConstants.DEBLOAT_ID
 import app.simple.inure.constants.ShortcutConstants.FOSS_ACTION
 import app.simple.inure.constants.ShortcutConstants.FOSS_ID
 import app.simple.inure.constants.ShortcutConstants.MOST_USED_ACTION
@@ -39,6 +41,7 @@ import app.simple.inure.constants.ShortcutConstants.USAGE_STATS_ID
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ShortcutModel
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.util.AppUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -70,12 +73,18 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
                     ShortcutModel(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, R.string.preferences),
                     ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search),
                     ShortcutModel(R.drawable.sc_tags, TAGS_ID, TAGS_ACTION, R.string.tags),
-                    ShortcutModel(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss)
+                    ShortcutModel(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss),
             )
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(ShortcutModel(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
+                }
+            }
+
+            if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
+                ShortcutModel(R.drawable.sc_recycling, DEBLOAT_ID, DEBLOAT_ACTION, R.string.debloat).also {
+                    list.add(it)
                 }
             }
 

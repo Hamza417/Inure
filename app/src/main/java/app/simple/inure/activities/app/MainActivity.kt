@@ -41,6 +41,7 @@ import app.simple.inure.ui.launcher.SplashScreen
 import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Apps
 import app.simple.inure.ui.panels.Batch
+import app.simple.inure.ui.panels.Debloat
 import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.FOSS
 import app.simple.inure.ui.panels.Home
@@ -209,6 +210,11 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.FOSS_ACTION -> {
                 openHome(isNewIntent)
                 openFragment(FOSS.newInstance(), "foss")
+            }
+
+            ShortcutConstants.DEBLOAT_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(Debloat.newInstance(), "debloat")
             }
 
             ShortcutConstants.MUSIC_ACTION -> {

@@ -59,6 +59,7 @@ class SplashScreen : ScopedFragment() {
     private var isBatteryOptimizationLoaded = false
     private var isBootManagerLoaded = false
     private var isTagsLoaded = false
+    private var isDebloatLoaded = false
 
     private val launcherViewModel: LauncherViewModel by viewModels()
 
@@ -187,6 +188,13 @@ class SplashScreen : ScopedFragment() {
             null
         }
 
+        val debloatViewModel = if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+            ViewModelProvider(requireActivity())[DebloatViewModel::class.java]
+        } else {
+            isDebloatLoaded = true
+            null
+        }
+
         val startTime = System.currentTimeMillis()
 
         appsViewModel.getAppData().observe(viewLifecycleOwner) {
@@ -297,6 +305,12 @@ class SplashScreen : ScopedFragment() {
          */
         apkBrowserViewModel.getApkFiles().observe(viewLifecycleOwner) {
             Log.d(TAG, "Apk files loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+        }
+
+        debloatViewModel?.getBloatList()?.observe(viewLifecycleOwner) {
+            Log.d(TAG, "Debloat data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
+            isDebloatLoaded = true
+            openApp()
         }
 
         if (BehaviourPreferences.isSkipLoading()) {
