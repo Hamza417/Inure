@@ -19,18 +19,19 @@ class AdapterUninstallResult(private val data: ArrayList<PackageStateResult>) : 
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.name.text = data[position].name
         holder.packageName.text = data[position].packageName
 
         if (data[position].isSuccess) {
-            holder.packageName
+            holder.name
                 .setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(holder.context, R.drawable.ic_check_12dp), null)
-            holder.packageName.setDrawableTint(Color.GREEN)
+            holder.name.setDrawableTint(Color.GREEN)
         } else {
-            holder.packageName
+            holder.name
                 .setCompoundDrawablesWithIntrinsicBounds(
                         null, null, ContextCompat.getDrawable(holder.context, R.drawable.ic_close_12dp), null)
-            holder.packageName.setDrawableTint(Color.RED)
+            holder.name.setDrawableTint(Color.RED)
         }
     }
 
@@ -39,6 +40,7 @@ class AdapterUninstallResult(private val data: ArrayList<PackageStateResult>) : 
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+        val name: TypeFaceTextView = itemView.findViewById(R.id.app_name)
         val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_name)
     }
 }

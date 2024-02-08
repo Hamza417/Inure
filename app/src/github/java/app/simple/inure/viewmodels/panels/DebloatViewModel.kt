@@ -384,9 +384,9 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             bloats.forEach {
                 Shell.cmd(getCommand(method, user, it.id)).exec().let { result ->
                     if (result.isSuccess) {
-                        debloatedPackages.add(PackageStateResult(it.id, true))
+                        debloatedPackages.add(PackageStateResult(it.packageInfo.applicationInfo.name, it.id, true))
                     } else {
-                        debloatedPackages.add(PackageStateResult(it.id, false))
+                        debloatedPackages.add(PackageStateResult(it.packageInfo.applicationInfo.name, it.id, false))
                     }
                 }
             }
@@ -404,17 +404,17 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                 kotlin.runCatching {
                     ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(getCommand(method, user, bloat.id)), null).let { result ->
                         if (result.isSuccess) {
-                            debloatedPackages.add(PackageStateResult(bloat.id, true))
+                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
                         } else {
-                            debloatedPackages.add(PackageStateResult(bloat.id, false))
+                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                         }
                     }
                 }.onSuccess {
-                    debloatedPackages.add(PackageStateResult(bloat.id, true))
+                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
                 }.onFailure {
-                    debloatedPackages.add(PackageStateResult(bloat.id, false))
+                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                 }.getOrElse {
-                    debloatedPackages.add(PackageStateResult(bloat.id, false))
+                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                 }
             }
         }
