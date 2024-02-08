@@ -233,35 +233,37 @@ class MainActivity : BaseActivity() {
             }
 
             IntentConstants.ACTION_UNLOCK -> {
-                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                    if (TrialPreferences.isFullVersion()) {
-                        showWarning(R.string.full_version_already_activated, goBack = false)
-
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                            .commit()
-                    } else {
-                        if (TrialPreferences.setFullVersion(value = true)) {
-                            showWarning(R.string.full_version_activated, goBack = false)
-                            TrialPreferences.resetUnlockerWarningCount()
+                if (TrialPreferences.isUnlockerVerificationRequired()) {
+                    if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                        if (TrialPreferences.isFullVersion()) {
+                            showWarning(R.string.full_version_already_activated, goBack = false)
 
                             supportFragmentManager.beginTransaction()
                                 .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
                                 .commit()
                         } else {
-                            showWarning(R.string.failed_to_activate_full_version, goBack = false)
+                            if (TrialPreferences.setFullVersion(value = true)) {
+                                showWarning(R.string.full_version_activated, goBack = false)
+                                TrialPreferences.resetUnlockerWarningCount()
 
-                            supportFragmentManager.beginTransaction()
-                                .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                .commit()
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                    .commit()
+                            } else {
+                                showWarning(R.string.failed_to_activate_full_version, goBack = false)
+
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                                    .commit()
+                            }
                         }
-                    }
-                } else {
-                    showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
+                    } else {
+                        showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
 
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                        .commit()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .commit()
+                    }
                 }
             }
 

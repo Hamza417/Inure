@@ -48,7 +48,11 @@
         android:layout_marginTop="@dimen/dialog_padding"
         android:text="@string/verifying_license"
         android:textSize="@dimen/desc_text_size"
+        android:gravity="center_vertical"
+        android:drawablePadding="5dp"
         app:appFontStyle="regular"
+        app:drawableStartCompat="@drawable/ic_arrow_right_tiny"
+        app:drawableTintStyle="accent"
         app:textColorStyle="secondary" />
 
     <LinearLayout

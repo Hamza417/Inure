@@ -72,6 +72,8 @@ class LicenseKey : ScopedDialogFragment() {
         editText.filters = arrayOf(inputFilter)
 
         verify.setOnClickListener {
+            info.setText(R.string.verifying_license)
+            info.visible(animate = true)
             gumroadLicenceAuthenticatorViewModel?.verifyLicence(editText.text.toString())
         }
 
@@ -82,6 +84,9 @@ class LicenseKey : ScopedDialogFragment() {
         gumroadLicenceAuthenticatorViewModel?.getLicenseStatus()?.observe(viewLifecycleOwner) {
             if (it) {
                 Log.d("LicenseKey", "Licence is valid")
+                handler.post {
+                    dismiss()
+                }
             } else {
                 Log.d("LicenseKey", "Licence is invalid")
             }
@@ -89,7 +94,12 @@ class LicenseKey : ScopedDialogFragment() {
 
         gumroadLicenceAuthenticatorViewModel?.getMessage()?.observe(viewLifecycleOwner) {
             info.text = it
-            info.visible(true)
+            info.visible(animate = true)
+        }
+
+        gumroadLicenceAuthenticatorViewModel?.getWarning()?.observe(viewLifecycleOwner) {
+            info.text = it
+            info.visible(animate = true)
         }
     }
 

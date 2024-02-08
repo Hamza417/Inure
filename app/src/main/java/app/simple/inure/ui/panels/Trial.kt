@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.Purchase.Companion.showPurchaseDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.SharedPreferences.registerEncryptedSharedPreferencesListener
+import app.simple.inure.preferences.SharedPreferences.unregisterEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.DateUtils.toDate
 
@@ -49,6 +52,30 @@ class Trial : ScopedFragment() {
 
     private fun getValidTill(): String {
         return TrialPreferences.getFirstLaunchDate().plus(86_400_000L * 15L).toDate()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            TrialPreferences.hasLicenseKey -> {
+                if (TrialPreferences.isFullVersion()) {
+                    requireActivity().runOnUiThread {
+                        validTill.text = getString(R.string.full_version_activated)
+                        daysLeft.text = getString(R.string.days_trial_period_remaining, 0)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerEncryptedSharedPreferencesListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterEncryptedSharedPreferencesListener(this)
     }
 
     companion object {

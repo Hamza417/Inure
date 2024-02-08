@@ -30,8 +30,10 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
 
     private val hasValidCertificate: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().also {
-            if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                verifyCertificate()
+            if (TrialPreferences.isUnlockerVerificationRequired()) {
+                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                    verifyCertificate()
+                }
             }
         }
     }

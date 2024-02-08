@@ -28,6 +28,7 @@
         android:maxLines="1"
         android:textSize="@dimen/info_text_medium"
         app:appFontStyle="bold"
+        app:drawableTintStyle="warning"
         app:layout_constraintBottom_toTopOf="@+id/package_id"
         app:layout_constraintEnd_toStartOf="@+id/checkbox"
         app:layout_constraintStart_toEndOf="@id/app_icon"
@@ -59,9 +60,9 @@
         android:drawablePadding="10dp"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@id/desc"
         app:layout_constraintEnd_toStartOf="@+id/checkbox"
         app:layout_constraintStart_toEndOf="@+id/app_icon"
-        app:layout_constraintBottom_toTopOf="@id/desc"
         app:layout_constraintTop_toBottomOf="@id/package_id"
         app:textColorStyle="accent" />
 

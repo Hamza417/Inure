@@ -119,8 +119,8 @@ object TrialPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setUnlockerVerificationRequired(value: Boolean) {
-        SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(isUnlockerVerificationRequired, value).apply()
+    fun setUnlockerVerificationRequired(value: Boolean): Boolean {
+        return SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(isUnlockerVerificationRequired, value).commit()
     }
 
     fun isUnlockerVerificationRequired(): Boolean {
