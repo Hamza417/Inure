@@ -14,6 +14,10 @@ import java.util.Locale
 
 object StringUtils {
 
+    fun emptyString(): String {
+        return ""
+    }
+
     /**
      * Capitalized the first letter of any [String]
      */

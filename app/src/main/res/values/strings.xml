@@ -730,4 +730,7 @@
     <string name="pending">Pending</string>
     <string name="selected_apps">%1$d Selected</string>
     <string name="restore">Restore</string>
+    <string name="license_key">License Key</string>
+    <string name="verify">Verify</string>
+    <string name="licence_verification">Licence Verification</string>
 </resources>

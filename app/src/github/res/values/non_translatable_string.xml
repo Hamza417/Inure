@@ -2,4 +2,5 @@
 <resources>
     <string name="google" translatable="false">Google</string>
     <string name="debloat_help" translatable="false">https://github.com/Universal-Debloater-Alliance/universal-android-debloater-next-generation/wiki/FAQ</string>
+    <string name="gumroad_key_desc" translatable="false">If you\'ve acquired a license key from GumRoad, you can unlock the full version without using the Unlocker.</string>
 </resources>

@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
@@ -127,7 +128,9 @@ class SplashScreen : ScopedFragment() {
 
             // Initialize native crash handler
             if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
-                CrashReporter(requireContext()).initialize()
+                if (BuildConfig.DEBUG.invert()) {
+                    CrashReporter(requireContext()).initialize()
+                }
             }
 
             when {
