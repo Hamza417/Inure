@@ -49,6 +49,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
         when (holder) {
             is Holder -> {
                 holder.name.text = bloats[pos].packageInfo.applicationInfo.name
+                holder.name.setWarningIcon(isWarning(bloats[pos]))
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])
                 holder.desc.makeLinksClickable(bloats[pos].description.trim(), LinkCallbacks { url, _ ->
@@ -222,6 +223,10 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 }
             }
         }
+    }
+
+    private fun isWarning(bloat: Bloat): Boolean {
+        return bloat.removal.method == Removal.UNSAFE.method || bloat.removal.method == Removal.UNLISTED.method
     }
 
     fun updateSelections() {
