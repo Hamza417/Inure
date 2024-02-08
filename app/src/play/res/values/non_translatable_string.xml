@@ -35,8 +35,6 @@
     <string name="android" translatable="false">Android</string>
     <string name="wifi" translatable="false">Wi-Fi</string>
     <string name="system_excidle" translatable="false">System-Excidle</string>
-    <string name="gumroad_link" translatable="false" />
-    <string name="gumroad" translatable="false" />
     <string name="help_url" translatable="false">http://jackpal.github.com/Android-Terminal-Emulator/help/index.html</string>
 
     <!-- The word CTRLKEY should be left un-translated. It will be replaced at run-time with the
@@ -61,8 +59,6 @@
     <string name="xml" translatable="false">.XML</string>
     <string name="json" translatable="false">.JSON</string>
     <string name="csv" translatable="false">.CSV</string>
-    <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
-    <string name="kofi_link" translatable="false" />
     <string name="shizuku" translatable="false">Shizuku</string>
     <string name="github_profile_link" translatable="false">https://github.com/Hamza417</string>
     <string name="play_profile_link" translatable="false">https://play.google.com/store/apps/dev?id=9002962740272949113</string>
