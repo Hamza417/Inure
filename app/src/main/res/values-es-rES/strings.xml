@@ -731,4 +731,8 @@
     <string name="pending">Pendiente</string>
     <string name="selected_apps">%1$d Seleccionado</string>
     <string name="restore">Restaurar</string>
+    <string name="license_key">Clave de licencia</string>
+    <string name="verify">Verificar</string>
+    <string name="licence_verification">Verificación de licencia</string>
+    <string name="enter_license_key">Ingresar clave de licencia</string>
 </resources>
