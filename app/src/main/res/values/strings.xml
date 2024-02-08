@@ -733,4 +733,5 @@
     <string name="license_key">License Key</string>
     <string name="verify">Verify</string>
     <string name="licence_verification">Licence Verification</string>
+    <string name="enter_license_key">Enter License Key</string>
 </resources>

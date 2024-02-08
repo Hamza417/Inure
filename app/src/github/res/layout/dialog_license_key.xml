@@ -31,7 +31,7 @@
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/license_key"
+        android:hint="@string/enter_license_key"
         android:importantForAutofill="no"
         android:maxLength="@integer/tag_character_limit"
         android:inputType="textNoSuggestions"

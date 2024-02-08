@@ -1,6 +1,5 @@
 package app.simple.inure.preferences
 
-import app.simple.inure.preferences.SharedPreferences.getEncryptedSharedPreferences
 import app.simple.inure.util.CalendarUtils
 import java.util.Date
 
@@ -12,15 +11,18 @@ object TrialPreferences {
     private const val isAppFullVersionEnabled = "is_full_version_"
     private const val unlockerWarningCount = "unlocker_warning_count_"
     private const val isLegacyMigrated = "is_legacy_migrated_"
+    private const val isUnlockerVerificationRequired = "is_unlocker_verification_required_"
+
+    const val hasLicenseKey = "has_license_key"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setFirstLaunchDate(date: Long) {
-        getEncryptedSharedPreferences().edit().putLong(firstLaunch, date).apply()
+        SharedPreferences.getEncryptedSharedPreferences().edit().putLong(firstLaunch, date).apply()
     }
 
     fun getFirstLaunchDate(): Long {
-        return getEncryptedSharedPreferences().getLong(firstLaunch, -1)
+        return SharedPreferences.getEncryptedSharedPreferences().getLong(firstLaunch, -1)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -37,11 +39,11 @@ object TrialPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     private fun setUnlockerWarningCount(value: Int) {
-        getEncryptedSharedPreferences().edit().putInt(unlockerWarningCount, value).apply()
+        SharedPreferences.getEncryptedSharedPreferences().edit().putInt(unlockerWarningCount, value).apply()
     }
 
     fun getUnlockerWarningCount(): Int {
-        return getEncryptedSharedPreferences().getInt(unlockerWarningCount, 0)
+        return SharedPreferences.getEncryptedSharedPreferences().getInt(unlockerWarningCount, 0)
     }
 
     fun incrementUnlockerWarningCount() {
@@ -51,11 +53,11 @@ object TrialPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setFullVersion(value: Boolean): Boolean {
-        return getEncryptedSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, value).commit()
+        return SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, value).commit()
     }
 
     fun isAppFullVersionEnabled(): Boolean {
-        return getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
+        return SharedPreferences.getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false) ||
                 CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
     }
 
@@ -69,7 +71,7 @@ object TrialPreferences {
     }
 
     fun isFullVersion(): Boolean {
-        return getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
+        return SharedPreferences.getEncryptedSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -98,10 +100,30 @@ object TrialPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setLegacyMigrated(value: Boolean) {
-        getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, value).apply()
+        SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(isLegacyMigrated, value).apply()
     }
 
     private fun isLegacyMigrated(): Boolean {
-        return getEncryptedSharedPreferences().getBoolean(isLegacyMigrated, false)
+        return SharedPreferences.getEncryptedSharedPreferences().getBoolean(isLegacyMigrated, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setHasLicenceKey(hasLicence: Boolean) {
+        SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(hasLicenseKey, hasLicence).apply()
+    }
+
+    fun hasLicenceKey(): Boolean {
+        return SharedPreferences.getEncryptedSharedPreferences().getBoolean(hasLicenseKey, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setUnlockerVerificationRequired(value: Boolean) {
+        SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(isUnlockerVerificationRequired, value).apply()
+    }
+
+    fun isUnlockerVerificationRequired(): Boolean {
+        return SharedPreferences.getEncryptedSharedPreferences().getBoolean(isUnlockerVerificationRequired, true)
     }
 }

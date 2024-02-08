@@ -37,7 +37,10 @@ import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.*
+import app.simple.inure.preferences.SharedPreferences.registerEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferencesListener
+import app.simple.inure.preferences.SharedPreferences.unregisterEncryptedSharedPreferencesListener
+import app.simple.inure.preferences.SharedPreferences.unregisterListener
 import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
@@ -72,6 +75,7 @@ open class BaseActivity : AppCompatActivity(),
         SharedPreferences.init(newBaseContext)
         SharedPreferences.initEncrypted(newBaseContext)
         registerSharedPreferencesListener(this)
+        registerEncryptedSharedPreferencesListener(this)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             HiddenApiBypass.addHiddenApiExemptions("L")
         }
@@ -589,5 +593,11 @@ open class BaseActivity : AppCompatActivity(),
     override fun onPause() {
         super.onPause()
         orientationListener.disable()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterListener(this)
+        unregisterEncryptedSharedPreferencesListener(this)
     }
 }

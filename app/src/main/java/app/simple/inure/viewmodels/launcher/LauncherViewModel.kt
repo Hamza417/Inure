@@ -83,7 +83,9 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
         viewModelScope.launch(Dispatchers.Default) {
             if (TrialPreferences.isFullVersion().invert()) {
                 if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                    verifyCertificate()
+                    if (TrialPreferences.isUnlockerVerificationRequired()) {
+                        verifyCertificate()
+                    }
                 }
             }
         }

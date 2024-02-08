@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.preferences.TrialPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -39,51 +40,65 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
      */
     fun verifyLicence(licence: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            TrafficStats.setThreadStatsTag(0xF00D)
-            val httpClient = OkHttpClient()
+            runCatching {
+                TrafficStats.setThreadStatsTag(0xF00D)
+                val httpClient = OkHttpClient()
 
-            val request = okhttp3.Request.Builder()
-                .url("https://api.gumroad.com/v2/licenses/verify")
-                .post(okhttp3.FormBody.Builder()
-                          .add("product_permalink", "nlf3AEUrATXrE9iBrZ2Mbw==")
-                          .add("license_key", licence)
-                          .build())
-                .build()
+                val request = okhttp3.Request.Builder()
+                    .url("https://api.gumroad.com/v2/licenses/verify")
+                    .post(okhttp3.FormBody.Builder()
+                              .add("product_permalink", "nlf3AEUrATXrE9iBrZ2Mbw==")
+                              .add("license_key", licence)
+                              .build())
+                    .build()
 
-            httpClient.newCall(request).execute().use { response ->
-                val responseBodyCopy = response.peekBody(Long.MAX_VALUE)
-                val responseBody = responseBodyCopy.string()
+                httpClient.newCall(request).execute().use { response ->
+                    val responseBodyCopy = response.peekBody(Long.MAX_VALUE)
+                    val responseBody = responseBodyCopy.string()
 
-                if (response.isSuccessful) {
-                    // Check if the response body contains the key "success" and the value is true
-                    // and refunded value is false
+                    if (response.isSuccessful) {
+                        // Check if the response body contains the key "success" and the value is true
+                        // and refunded value is false
 
-                    Log.d("GumroadLicenceAuthenticatorViewModel", responseBody)
+                        Log.d("GumroadLicenceAuthenticatorViewModel", responseBody)
 
-                    val jsonObject = JSONObject(responseBody)
-                    val success = jsonObject.getBoolean("success")
-                    val refunded = jsonObject.getBoolean("refunded")
+                        val jsonObject = JSONObject(responseBody)
+                        val success = jsonObject.getBoolean("success")
+                        val refunded = jsonObject.getBoolean("refunded")
 
-                    if (success && !refunded) {
-                        // Licence is valid
-                        licenseStatus.postValue(true)
+                        if (success && !refunded) {
+                            // Licence is valid
+                            licenseStatus.postValue(true)
+                            TrialPreferences.setFullVersion(true)
+                            TrialPreferences.setHasLicenceKey(true)
+                            TrialPreferences.setUnlockerVerificationRequired(false)
+                        } else {
+                            // Licence is invalid
+                            licenseStatus.postValue(false)
+                            TrialPreferences.setFullVersion(false)
+                            TrialPreferences.setHasLicenceKey(false)
+                            TrialPreferences.setUnlockerVerificationRequired(true)
+                        }
                     } else {
                         // Licence is invalid
+                        Log.e("GumroadLicenceAuthenticatorViewModel", responseBody)
                         licenseStatus.postValue(false)
+                        TrialPreferences.setFullVersion(false)
+                        TrialPreferences.setHasLicenceKey(false)
+                        TrialPreferences.setUnlockerVerificationRequired(true)
+
+                        val jsonObject = JSONObject(responseBody)
+                        message.postValue(jsonObject.getString("message"))
                     }
-                } else {
-                    // Licence is invalid
-                    Log.e("GumroadLicenceAuthenticatorViewModel", responseBody)
-                    licenseStatus.postValue(false)
-
-                    val jsonObject = JSONObject(responseBody)
-                    message.postValue(jsonObject.getString("message"))
                 }
-            }
 
-            Log.d("GumroadLicenceAuthenticatorViewModel", TrafficStats.getThreadStatsTag().toString())
-            TrafficStats.clearThreadStatsTag()
-            httpClient.connectionPool().evictAll()
+                Log.d("GumroadLicenceAuthenticatorViewModel", TrafficStats.getThreadStatsTag().toString())
+                TrafficStats.clearThreadStatsTag()
+                httpClient.connectionPool().evictAll()
+            }.getOrElse {
+                postWarning(it.message.toString())
+                it.printStackTrace()
+            }
         }
     }
 }

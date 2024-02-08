@@ -338,7 +338,7 @@ class MainActivity : BaseActivity() {
         super.onConfigurationChanged(newConfig)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_DARK ||
-                AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_LIGHT) {
+                    AppearancePreferences.getTheme() == ThemeConstants.MATERIAL_YOU_LIGHT) {
                 recreate()
             }
         }
@@ -363,6 +363,16 @@ class MainActivity : BaseActivity() {
 
             ConfigurationPreferences.language -> {
                 recreate() // update the language in context wrapper
+            }
+
+            TrialPreferences.hasLicenseKey -> {
+                if (TrialPreferences.isFullVersion()) {
+                    if (TrialPreferences.isUnlockerVerificationRequired().invert()) {
+                        showWarning(R.string.full_version_activated, goBack = false)
+                    } else {
+                        showWarning(R.string.unlocker_not_installed, goBack = false)
+                    }
+                }
             }
         }
     }

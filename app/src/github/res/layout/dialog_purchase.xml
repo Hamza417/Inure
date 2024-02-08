@@ -14,18 +14,37 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/play_store"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:text="@string/gumroad_key_desc"
+            android:textSize="@dimen/desc_text_size"
+            app:appFontStyle="regular"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/license_verification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_padding"
             android:drawablePadding="@dimen/popup_padding"
             android:gravity="center_vertical"
             android:padding="@dimen/dialog_padding"
-            android:text="@string/play_store"
+            android:text="@string/enter_license_key"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableEndCompat="@drawable/ic_dot_tiny"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_marginVertical="@dimen/dialog_padding"
+            android:layout_height="1px" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/gumroad"
@@ -66,6 +85,20 @@
             android:gravity="center_vertical"
             android:padding="@dimen/dialog_padding"
             android:text="@string/kofi"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/play_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/play_store"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:drawableEndCompat="@drawable/ic_open_in_new_tiny"

@@ -100,6 +100,14 @@ object SharedPreferences {
         unregisterListener(this)
     }
 
+    fun registerEncryptedSharedPreferencesListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getEncryptedSharedPreferences().registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregisterEncryptedSharedPreferencesListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getEncryptedSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
     /**
      * Singleton to hold reference of SharedPreference.
      *

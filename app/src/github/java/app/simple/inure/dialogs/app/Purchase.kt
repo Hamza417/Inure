@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.dialogs.app.LicenseKey.Companion.showLicenseKey
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.MarketUtils
-import app.simple.inure.util.ViewUtils.gone
 
 class Purchase : ScopedBottomSheetFragment() {
 
     private lateinit var close: DynamicRippleTextView
+    private lateinit var licenseVerification: DynamicRippleTextView
     private lateinit var playStore: DynamicRippleTextView
     private lateinit var gumroad: DynamicRippleTextView
     private lateinit var github: DynamicRippleTextView
@@ -25,6 +26,7 @@ class Purchase : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_purchase, container, false)
 
+        licenseVerification = view.findViewById(R.id.license_verification)
         playStore = view.findViewById(R.id.play_store)
         gumroad = view.findViewById(R.id.gumroad)
         github = view.findViewById(R.id.github)
@@ -37,15 +39,10 @@ class Purchase : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (AppUtils.isPlayFlavor()) {
-            kofi.gone()
-            gumroad.gone()
-            github.gone()
-        }
-
-        playStore.setOnClickListener {
-            // Open in Play Store
-            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
+        licenseVerification.setOnClickListener {
+            parentFragmentManager.showLicenseKey().also {
+                dismiss()
+            }
         }
 
         gumroad.setOnClickListener {
@@ -61,6 +58,11 @@ class Purchase : ScopedBottomSheetFragment() {
         kofi.setOnClickListener {
             // Open Ko-Fi link in Browser
             getString(R.string.kofi_link).asUri().openInBrowser(requireContext())
+        }
+
+        playStore.setOnClickListener {
+            // Open in Play Store
+            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
         }
 
         close.setOnClickListener {
