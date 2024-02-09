@@ -56,7 +56,11 @@ public class XMLDecoder {
         if (data == null) {
             return null;
         }
-        return decode(data);
+        if (isBinaryXml(ByteBuffer.wrap(data))) {
+            return decode(data);
+        } else {
+            return new String(data);
+        }
     }
     
     private byte[] getFileData(String path) throws IOException {
@@ -92,7 +96,11 @@ public class XMLDecoder {
     
     @NonNull
     public String decode(@NonNull byte[] data) throws IOException {
-        return decode(ByteBuffer.wrap(data));
+        if (isBinaryXml(ByteBuffer.wrap(data))) {
+            return decode(ByteBuffer.wrap(data));
+        } else {
+            return new String(data);
+        }
     }
     
     @NonNull
