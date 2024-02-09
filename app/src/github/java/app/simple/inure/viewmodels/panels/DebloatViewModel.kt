@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
@@ -314,9 +315,11 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         parallelStream().forEach {
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.DISABLED)) {
                 if (it.packageInfo.applicationInfo.enabled.not()) {
-                    synchronized(filteredList) {
-                        if (filteredList.contains(it).invert()) {
-                            filteredList.add(it)
+                    if (it.packageInfo.isInstalled()) {
+                        synchronized(filteredList) {
+                            if (filteredList.contains(it).invert()) {
+                                filteredList.add(it)
+                            }
                         }
                     }
                 }
@@ -324,16 +327,18 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.ENABLED)) {
                 if (it.packageInfo.applicationInfo.enabled) {
-                    synchronized(filteredList) {
-                        if (filteredList.contains(it).invert()) {
-                            filteredList.add(it)
+                    if (it.packageInfo.isInstalled()) {
+                        synchronized(filteredList) {
+                            if (filteredList.contains(it).invert()) {
+                                filteredList.add(it)
+                            }
                         }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.UNINSTALLED)) {
-                if (it.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                if (it.packageInfo.isInstalled().invert()) {
                     synchronized(filteredList) {
                         if (filteredList.contains(it).invert()) {
                             filteredList.add(it)
@@ -421,13 +426,6 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     }
 
     private fun getCurrentUser(): Int {
-        /**
-         * UserInfo{0:Hamza Rizwan:c13}
-         *
-         * 0: User ID
-         * Hamza Rizwan: User Name
-         * c13: hexFlags
-         */
         kotlin.runCatching {
             var user = 0
             if (ConfigurationPreferences.isUsingRoot()) {

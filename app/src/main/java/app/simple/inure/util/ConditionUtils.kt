@@ -69,7 +69,7 @@ object ConditionUtils {
     }
 
     /**
-     * Inverts the current boolean
+     * returns the inverse of the boolean
      *
      * @return [Boolean]
      */
