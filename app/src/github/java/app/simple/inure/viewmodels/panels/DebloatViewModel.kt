@@ -421,33 +421,6 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         }
     }
 
-    private fun getCurrentUser(): Int {
-        kotlin.runCatching {
-            var user = 0
-            if (ConfigurationPreferences.isUsingRoot()) {
-                Shell.cmd("am get-current-user").exec().let { result ->
-                    if (result.isSuccess) {
-                        user = result.out.joinToString().toInt()
-                    }
-                }
-            } else if (ConfigurationPreferences.isUsingShizuku()) {
-                kotlin.runCatching {
-                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("am get-current-user"), null)
-                }.onSuccess {
-                    user = it.out.toInt()
-                }.onFailure {
-                    postError(it)
-                }
-            }
-
-            return user
-        }.onFailure {
-            postError(it)
-        }
-
-        return 0
-    }
-
     private fun getCommand(method: String, user: Int, appID: String): String {
         return when (method) {
             METHOD_DISABLE -> "pm disable --user $user $appID"

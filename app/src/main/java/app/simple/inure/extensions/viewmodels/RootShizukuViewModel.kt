@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.NoShellException
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -156,5 +157,32 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     open fun onShizukuDenied() {
         warning.postValue(Warnings.getShizukuFailedWarning())
+    }
+
+    protected fun getCurrentUser(): Int {
+        kotlin.runCatching {
+            var user = 0
+            if (ConfigurationPreferences.isUsingRoot()) {
+                Shell.cmd("am get-current-user").exec().let { result ->
+                    if (result.isSuccess) {
+                        user = result.out.joinToString().toInt()
+                    }
+                }
+            } else if (ConfigurationPreferences.isUsingShizuku()) {
+                kotlin.runCatching {
+                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("am get-current-user"), null)
+                }.onSuccess {
+                    user = it.out.toInt()
+                }.onFailure {
+                    postError(it)
+                }
+            }
+
+            return user
+        }.onFailure {
+            postError(it)
+        }
+
+        return 0
     }
 }
