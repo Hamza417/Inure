@@ -85,9 +85,6 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                 }
             }
 
-            // Sort the bloat list
-            bloats.getSortedList()
-
             // Apply filters
             bloats = bloats.applyListFilter()
             bloats = bloats.applyMethodsFilter()
@@ -95,6 +92,9 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
             // Remove duplicates
             bloats = bloats.distinctBy { it.id } as ArrayList<Bloat>
+
+            // Sort the bloat list
+            bloats.getSortedList()
 
             bloatList.postValue(bloats)
         }
@@ -309,29 +309,25 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     }
 
     private fun ArrayList<Bloat>.applyStateFilter(): ArrayList<Bloat> {
-        val state = DebloatPreferences.getRemovalType()
+        val state = DebloatPreferences.getState()
         val filteredList = ArrayList<Bloat>()
 
         parallelStream().forEach {
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.DISABLED)) {
-                if (it.packageInfo.applicationInfo.enabled.not()) {
-                    if (it.packageInfo.isInstalled()) {
-                        synchronized(filteredList) {
-                            if (filteredList.contains(it).invert()) {
-                                filteredList.add(it)
-                            }
+                if (it.packageInfo.applicationInfo.enabled.not() && it.packageInfo.isInstalled()) {
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
                         }
                     }
                 }
             }
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.ENABLED)) {
-                if (it.packageInfo.applicationInfo.enabled) {
-                    if (it.packageInfo.isInstalled()) {
-                        synchronized(filteredList) {
-                            if (filteredList.contains(it).invert()) {
-                                filteredList.add(it)
-                            }
+                if (it.packageInfo.applicationInfo.enabled && it.packageInfo.isInstalled()) {
+                    synchronized(filteredList) {
+                        if (filteredList.contains(it).invert()) {
+                            filteredList.add(it)
                         }
                     }
                 }
@@ -356,7 +352,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         initializeCoreFramework()
     }
 
-    fun startDebloating(method: String) {
+    private fun startDebloating(method: String) {
         val selectedBloats = ArrayList<Bloat>()
         bloatList.value?.forEach {
             if (it.isSelected) {

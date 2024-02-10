@@ -19,6 +19,7 @@ import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
@@ -56,7 +57,10 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                     url?.asUri()?.openInBrowser(holder.desc.context)
                 })
                 holder.checkBox.isChecked = bloats[pos].isSelected
-                holder.icon.loadAppIcon(bloats[pos].packageInfo.packageName, bloats[pos].packageInfo.applicationInfo.enabled)
+                holder.icon.loadAppIcon(
+                        bloats[pos].packageInfo.packageName,
+                        bloats[pos].packageInfo.applicationInfo.enabled,
+                        bloats[pos].packageInfo.applicationInfo.sourceDir.toFile())
 
                 holder.checkBox.setOnCheckedChangeListener {
                     bloats[pos].isSelected = it
