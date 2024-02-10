@@ -32,7 +32,6 @@ object DevelopmentPreferences {
     const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
     const val pauseImageLoader = "is_image_loader_paused"
     const val expandHomeHeader = "is_home_header_expanded"
-    const val isUserSelectionEnabledInInstaller = "is_user_selection_enabled_in_installer"
     const val isSwitchFancyDraggable = "is_switch_fancy_draggable"
     const val useColorfulHighlight = "is_colorful_highlight_enabled"
 
@@ -181,11 +180,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Expand Home Header",
                                             "Expand header in the home screen of the app.",
                                             expandHomeHeader,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable User Selection In Installer",
-                                            "Enable user selection in installer.",
-                                            isUserSelectionEnabledInInstaller,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Colorful Highlight",

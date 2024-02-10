@@ -35,9 +35,10 @@ class ConfigurationScreen : ScopedFragment() {
 
     private lateinit var keepScreenOnSwitchView: Switch
     private lateinit var shortcuts: DynamicRippleRelativeLayout
-    private lateinit var componets: DynamicRippleRelativeLayout
+    private lateinit var components: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var path: DynamicRippleConstraintLayout
+    private lateinit var showUsersSwitch: Switch
     private lateinit var rootSwitchView: Switch
     private lateinit var shizukuSwitchView: Switch
 
@@ -48,9 +49,10 @@ class ConfigurationScreen : ScopedFragment() {
 
         keepScreenOnSwitchView = view.findViewById(R.id.configuration_switch_keep_screen_on)
         shortcuts = view.findViewById(R.id.configuration_shortcuts)
-        componets = view.findViewById(R.id.configuration_component_manager)
+        components = view.findViewById(R.id.configuration_component_manager)
         language = view.findViewById(R.id.configuration_language)
         path = view.findViewById(R.id.configuration_path)
+        showUsersSwitch = view.findViewById(R.id.configuration_show_user_list_switch)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
 
@@ -78,6 +80,7 @@ class ConfigurationScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         keepScreenOnSwitchView.isChecked = ConfigurationPreferences.isKeepScreenOn()
+        showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
 
@@ -95,7 +98,7 @@ class ConfigurationScreen : ScopedFragment() {
             openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
         }
 
-        componets.setOnClickListener {
+        components.setOnClickListener {
             openFragmentSlide(ComponentManager.newInstance(), "components")
         }
 
@@ -113,6 +116,10 @@ class ConfigurationScreen : ScopedFragment() {
                     }
                 })
             }
+        }
+
+        showUsersSwitch.setOnSwitchCheckedChangeListener {
+            ConfigurationPreferences.setShowUsersList(it)
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener { it ->
@@ -149,7 +156,7 @@ class ConfigurationScreen : ScopedFragment() {
             }
         }
 
-        shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
+        shizukuSwitchView.setOnSwitchCheckedChangeListener {
             if (it) {
                 requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
             } else {
@@ -158,6 +165,7 @@ class ConfigurationScreen : ScopedFragment() {
         }
     }
 
+    @Suppress("unused")
     private fun isShizukuPermissionGranted(): Boolean {
         return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
             requireActivity().checkSelfPermission(ShizukuProvider.PERMISSION) == PackageManager.PERMISSION_GRANTED

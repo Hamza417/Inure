@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/popup_padding"
+    android:padding="@dimen/dialog_padding"
     android:orientation="horizontal">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/info_text_medium"
+        android:textSize="@dimen/info_text_large"
         android:layout_gravity="center_vertical"
         app:appFontStyle="bold"
         app:textColorStyle="primary" />
@@ -21,7 +21,7 @@
         android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/info_text_small"
+        android:textSize="@dimen/info_text_medium"
         android:layout_gravity="center_vertical"
         app:appFontStyle="regular"
         app:textColorStyle="accent" />

@@ -3,6 +3,7 @@ package app.simple.inure.preferences
 object ConfigurationPreferences {
 
     private const val keepScreenOn = "keep_screen_on"
+    private const val showUsersList = "show_users_list"
     const val isUsingRoot = "is_using_root"
     const val isUsingShizuku = "is_using_shizuku"
     const val language = "language_of_app"
@@ -69,5 +70,15 @@ object ConfigurationPreferences {
 
     fun isExternalStorage(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(isExternalStorage, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setShowUsersList(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(showUsersList, value).apply()
+    }
+
+    fun isShowUsersList(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(showUsersList, false)
     }
 }

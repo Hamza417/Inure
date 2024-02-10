@@ -734,4 +734,6 @@
     <string name="verify">Verify</string>
     <string name="licence_verification">Licence Verification</string>
     <string name="enter_license_key">Enter License Key</string>
+    <string name="show_user_list">Show Users List</string>
+    <string name="show_user_list_desc">Show user selection popup before installing an app.</string>
 </resources>
