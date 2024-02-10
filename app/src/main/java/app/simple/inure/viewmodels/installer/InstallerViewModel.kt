@@ -403,6 +403,29 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         success.postValue((0..50).random())
                     } else {
                         postWarning(it.err.joinToString())
+                        Log.e("Installer", "Error: ${it.err}")
+                    }
+
+                    Log.d("Installer", "Output: ${it.out}")
+                }
+            }.onFailure {
+                postWarning(it.message ?: "Unknown error")
+            }
+        }
+    }
+
+    fun installAnywayShizuku() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
+
+                ShizukuUtils.execInternal(Command("pm install --bypass-low-target-sdk-block $path"), null).let {
+                    if (it.isSuccess) {
+                        success.postValue((0..50).random())
+                    } else {
+                        postWarning(it.out)
+                        Log.e("Installer", "Error: ${it.err}")
+                        Log.e("Installer", "Output: ${it.out}")
                     }
 
                     Log.d("Installer", "Output: ${it.out}")
