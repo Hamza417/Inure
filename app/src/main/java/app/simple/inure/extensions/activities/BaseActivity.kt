@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
-@SuppressLint("Registered")
+@SuppressLint("Registered") // This activity should not be registered in the manifest
 open class BaseActivity : AppCompatActivity(),
                           ThemeChangedListener,
                           android.content.SharedPreferences.OnSharedPreferenceChangeListener {

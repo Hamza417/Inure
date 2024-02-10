@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
+    android:layout_gravity="bottom"
     android:clipToPadding="false">
 
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/dialog_purchase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
@@ -26,20 +30,59 @@
             app:drawableTintStyle="accent"
             app:textColorStyle="accent" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/license_verification"
+        <LinearLayout
+            android:id="@+id/license_key_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:animateLayoutChanges="true"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.corners.DynamicCornerEditText
+                android:id="@+id/license_key"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_license_key"
+                android:importantForAutofill="no"
+                android:maxLength="@integer/tag_character_limit"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/dialog_padding"
+                android:textCursorDrawable="@drawable/text_cursor"
+                app:appFontStyle="medium"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/verify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="@dimen/popup_item_gap_length"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/verify"
+                android:textSize="@dimen/info_text_small"
+                android:visibility="visible"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dialog_padding"
-            android:drawablePadding="@dimen/popup_padding"
+            android:text="@string/verifying_license"
+            android:textSize="@dimen/desc_text_size"
             android:gravity="center_vertical"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/enter_license_key"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_dot_tiny"
+            android:drawablePadding="5dp"
+            app:appFontStyle="regular"
+            app:drawableStartCompat="@drawable/ic_arrow_right_tiny"
             app:drawableTintStyle="accent"
-            app:textColorStyle="primary" />
+            app:textColorStyle="secondary" />
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
