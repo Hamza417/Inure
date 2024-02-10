@@ -159,7 +159,7 @@
             android:text="@string/close"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="accent" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
