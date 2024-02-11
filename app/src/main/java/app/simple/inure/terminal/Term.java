@@ -142,7 +142,8 @@ public class Term extends BaseActivity implements UpdateCallback,
     // Available on API 12 and later
     private static final int WIFI_MODE_FULL_HIGH_PERF = 3;
     
-    private boolean backKeyPressed;
+    private boolean wilLResume = false;
+    private boolean backKeyPressed = false;
     
     private static final String ACTION_CLOSE = "inure.terminal.close";
     private static final String ACTION_PATH_BROADCAST = "inure.terminal.broadcast.APPEND_TO_PATH";
@@ -200,10 +201,10 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (termService != null) {
             termSessions = termService.getSessions();
             
-            /*
-             * This causes the window list to be updated back to first window
-             */
-            // onResumeSelectWindow = termService.getWindowId();
+            if (!wilLResume) {
+                onResumeSelectWindow = termService.getWindowId();
+                wilLResume = false;
+            }
             
             if (termSessions.size() == 0) {
                 try {
@@ -698,6 +699,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         
         onResumeSelectWindow = viewFlipper.getDisplayedChild();
         termService.setWindowId(onResumeSelectWindow);
+        wilLResume = true;
         
         viewFlipper.onPause();
         if (termSessions != null) {
