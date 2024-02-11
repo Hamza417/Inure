@@ -731,4 +731,10 @@
     <string name="pending">排队中</string>
     <string name="selected_apps">已选中 %1$d 项</string>
     <string name="restore">恢复</string>
+    <string name="license_key">许可证密钥</string>
+    <string name="verify">验证</string>
+    <string name="licence_verification">许可证验证</string>
+    <string name="enter_license_key">输入授权码</string>
+    <string name="show_user_list">显示用户列表</string>
+    <string name="show_user_list_desc">在安装应用程序前显示用户选择弹窗</string>
 </resources>
