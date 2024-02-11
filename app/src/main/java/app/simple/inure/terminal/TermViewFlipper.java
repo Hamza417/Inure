@@ -43,12 +43,12 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
     private Toast toast;
     private LinkedList <UpdateCallback> callbacks;
     
-    private int mCurWidth;
-    private int mCurHeight;
-    private final Rect mVisibleRect = new Rect();
-    private final Rect mWindowRect = new Rect();
-    private LayoutParams mChildParams = null;
-    private boolean mRedoLayout = false;
+    private int curWidth;
+    private int curHeight;
+    private final Rect visibleRect = new Rect();
+    private final Rect windowRect = new Rect();
+    private LayoutParams childParams = null;
+    private boolean redoLayout = false;
     
     /**
      * True if we must poll to discover if the view has changed size.
@@ -57,11 +57,11 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
      */
     private final boolean mbPollForWindowSizeChange = (AndroidCompat.SDK < 8);
     private static final int SCREEN_CHECK_PERIOD = 1000;
-    private final Handler mHandler = new Handler();
-    private final Runnable mCheckSize = new Runnable() {
+    private final Handler handler = new Handler();
+    private final Runnable checkSize = new Runnable() {
         public void run() {
             adjustChildSize();
-            mHandler.postDelayed(this, SCREEN_CHECK_PERIOD);
+            handler.postDelayed(this, SCREEN_CHECK_PERIOD);
         }
     };
     
@@ -95,9 +95,9 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
         this.context = context;
         callbacks = new LinkedList <>();
         updateVisibleRect();
-        Rect visible = mVisibleRect;
-        mChildParams = new LayoutParams(visible.width(), visible.height(), Gravity.TOP | Gravity.START);
-    
+        Rect visible = visibleRect;
+        childParams = new LayoutParams(visible.width(), visible.height(), Gravity.TOP | Gravity.START);
+        
     }
     
     public void updatePrefs(TermSettings settings) {
@@ -126,14 +126,14 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
     
     public void onPause() {
         if (mbPollForWindowSizeChange) {
-            mHandler.removeCallbacks(mCheckSize);
+            handler.removeCallbacks(checkSize);
         }
         pauseCurrentView();
     }
     
     public void onResume() {
         if (mbPollForWindowSizeChange) {
-            mCheckSize.run();
+            checkSize.run();
         }
         resumeCurrentView();
     }
@@ -213,17 +213,17 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
     
     @Override
     public void addView(View v, int index) {
-        super.addView(v, index, mChildParams);
+        super.addView(v, index, childParams);
     }
     
     @Override
     public void addView(View v) {
-        super.addView(v, mChildParams);
+        super.addView(v, childParams);
     }
     
     private void updateVisibleRect() {
-        Rect visible = mVisibleRect;
-        Rect window = mWindowRect;
+        Rect visible = visibleRect;
+        Rect window = windowRect;
 
         /* Get rectangle representing visible area of this view, as seen by
            the activity (takes other views in the layout into account, but
@@ -255,21 +255,21 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
     
     private void adjustChildSize() {
         updateVisibleRect();
-        Rect visible = mVisibleRect;
+        Rect visible = visibleRect;
         int width = visible.width();
         int height = visible.height();
         
-        if (mCurWidth != width || mCurHeight != height) {
-            mCurWidth = width;
-            mCurHeight = height;
+        if (curWidth != width || curHeight != height) {
+            curWidth = width;
+            curHeight = height;
             
-            LayoutParams params = mChildParams;
+            LayoutParams params = childParams;
             params.width = width;
             params.height = height;
             for (View v : this) {
                 updateViewLayout(v, params);
             }
-            mRedoLayout = true;
+            redoLayout = true;
             
             EmulatorView currentView = (EmulatorView) getCurrentView();
             if (currentView != null) {
@@ -290,9 +290,9 @@ public class TermViewFlipper extends DecentViewFlipper implements Iterable <View
     
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mRedoLayout) {
+        if (redoLayout) {
             requestLayout();
-            mRedoLayout = false;
+            redoLayout = false;
         }
         super.onDraw(canvas);
     }

@@ -199,7 +199,11 @@ public class Term extends BaseActivity implements UpdateCallback,
     private void populateViewFlipper() {
         if (termService != null) {
             termSessions = termService.getSessions();
-            onResumeSelectWindow = termService.getWindowId();
+            
+            /*
+             * This causes the window list to be updated back to first window
+             */
+            // onResumeSelectWindow = termService.getWindowId();
             
             if (termSessions.size() == 0) {
                 try {
@@ -380,7 +384,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
         
         wifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
-        mHaveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
+        haveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
         
         updatePrefs();
         alreadyStarted = true;
@@ -428,7 +432,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     }
     
-    private boolean mHaveFullHwKeyboard = false;
+    private boolean haveFullHwKeyboard = false;
     
     private class EmulatorViewGestureListener extends SimpleOnGestureListener {
         private final EmulatorView view;
@@ -673,20 +677,21 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     protected void onStop() {
         /*
-         * To protect shared transition animation state
-         * TODO - Check this later to see if this method is good enough
+         * To protect shared transition animation state, we need to save the state of the activity
          */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !isFinishing()) {
             new Instrumentation().callActivityOnSaveInstanceState(this, new Bundle());
         }
-    
+        
         super.onStop();
-    
+        
         onResumeSelectWindow = viewFlipper.getDisplayedChild();
+        termService.setWindowId(onResumeSelectWindow);
+        
         viewFlipper.onPause();
         if (termSessions != null) {
             termSessions.removeCallback(this);
-    
+            
             if (adapterWindows != null) {
                 termSessions.removeCallback(adapterWindows);
                 termSessions.removeTitleChangedListener(adapterWindows);
@@ -849,7 +854,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         
-        mHaveFullHwKeyboard = checkHaveFullHwKeyboard(newConfig);
+        haveFullHwKeyboard = checkHaveFullHwKeyboard(newConfig);
         
         EmulatorView v = (EmulatorView) viewFlipper.getCurrentView();
         if (v != null) {
@@ -883,9 +888,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         ActivityCompat.invalidateOptionsMenu(this);
     }
     
-    private boolean checkHaveFullHwKeyboard(Configuration c) {
-        return (c.keyboard == Configuration.KEYBOARD_QWERTY) &&
-                (c.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO);
+    private boolean checkHaveFullHwKeyboard(Configuration configuration) {
+        return (configuration.keyboard == Configuration.KEYBOARD_QWERTY) &&
+                (configuration.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO);
     }
     
     @Override
@@ -1002,7 +1007,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private void doUIToggle(int x, int y, int width, int height) {
         switch (actionBarMode) {
             case TermSettings.ACTION_BAR_MODE_NONE:
-                if (AndroidCompat.SDK >= 11 && (mHaveFullHwKeyboard || y < height / 2)) {
+                if (AndroidCompat.SDK >= 11 && (haveFullHwKeyboard || y < height / 2)) {
                     openOptionsMenu();
                     return;
                 } else {
@@ -1010,12 +1015,12 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
                 break;
             case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE:
-                if (!mHaveFullHwKeyboard) {
+                if (!haveFullHwKeyboard) {
                     doToggleSoftKeyboard();
                 }
                 break;
             case TermSettings.ACTION_BAR_MODE_HIDES:
-                if (mHaveFullHwKeyboard || y < height / 2) {
+                if (haveFullHwKeyboard || y < height / 2) {
                     doToggleActionBar();
                     return;
                 } else {
