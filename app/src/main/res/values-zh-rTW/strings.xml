@@ -731,4 +731,10 @@
     <string name="pending">擱置中</string>
     <string name="selected_apps">已選取 %1$d 個應用程式</string>
     <string name="restore">還原</string>
+    <string name="license_key">授權金鑰</string>
+    <string name="verify">驗證</string>
+    <string name="licence_verification">授權驗證</string>
+    <string name="enter_license_key">輸入授權金鑰</string>
+    <string name="show_user_list">顯示使用者清單</string>
+    <string name="show_user_list_desc">在安裝應用程式前顯示使用者選取彈出式視窗。</string>
 </resources>
