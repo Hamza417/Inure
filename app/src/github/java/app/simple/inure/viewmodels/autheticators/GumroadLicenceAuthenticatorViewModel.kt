@@ -10,8 +10,10 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.TrialPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
 class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -42,7 +44,9 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 TrafficStats.setThreadStatsTag(0xF00D)
-                val httpClient = OkHttpClient()
+                val httpClient = OkHttpClient().newBuilder()
+                    .connectionPool(ConnectionPool(0, 5, TimeUnit.SECONDS))
+                    .build()
 
                 val request = okhttp3.Request.Builder()
                     .url("https://api.gumroad.com/v2/licenses/verify")
@@ -141,7 +145,7 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
                 Log.d("GumroadLicenceAuthenticatorViewModel", TrafficStats.getThreadStatsTag().toString())
                 TrafficStats.clearThreadStatsTag()
                 response.close()
-                httpClient.connectionPool().evictAll()
+                httpClient.dispatcher().executorService().shutdown()
             }.getOrElse {
                 postWarning(it.message.toString())
                 it.printStackTrace()
