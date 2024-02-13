@@ -20,14 +20,17 @@ import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.TrackerUtils.getTrackerSignatures
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -63,6 +66,14 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
+    private val batteryOptimization: MutableLiveData<BatteryOptimizationModel> by lazy {
+        MutableLiveData<BatteryOptimizationModel>().also {
+            if (ConfigurationPreferences.isRootOrShizuku()) {
+                loadBatteryOptimization()
+            }
+        }
+    }
+
     fun getComponentsOptions(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
@@ -81,6 +92,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun getTags(): LiveData<ArrayList<String>> {
         return tags
+    }
+
+    fun getBatteryOptimization(): LiveData<BatteryOptimizationModel> {
+        return batteryOptimization
     }
 
     fun loadActionOptions() {
@@ -395,5 +410,104 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
 
     fun unsetUpdateFlag() {
         FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+    }
+
+    private fun loadBatteryOptimization() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val batteryOptimizationModel = BatteryOptimizationModel()
+            batteryOptimizationModel.packageInfo = packageInfo
+
+            runCatching {
+                when {
+                    ConfigurationPreferences.isUsingRoot() -> {
+                        Shell.cmd("dumpsys deviceidle whitelist").exec().let { result ->
+                            if (result.isSuccess) {
+                                if (result.out.isNotEmpty()) {
+                                    val lines = result.out
+                                    for (line in lines) {
+                                        if (line.contains(packageInfo.packageName)) {
+                                            batteryOptimizationModel.isOptimized = false
+                                            break
+                                        } else {
+                                            batteryOptimizationModel.isOptimized = true
+                                        }
+                                    }
+                                } else {
+                                    batteryOptimizationModel.isOptimized = true
+                                }
+                            }
+                        }
+
+                        batteryOptimization.postValue(batteryOptimizationModel)
+                    }
+                    ConfigurationPreferences.isUsingShizuku() -> {
+                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("dumpsys deviceidle whitelist"), null).let { result ->
+                            if (result.isSuccess) {
+                                if (result.out.isNotEmpty()) {
+                                    val lines = result.out.split("\n")
+                                    for (line in lines) {
+                                        if (line.contains(packageInfo.packageName)) {
+                                            batteryOptimizationModel.isOptimized = false
+                                            break
+                                        } else {
+                                            batteryOptimizationModel.isOptimized = true
+                                        }
+                                    }
+                                } else {
+                                    batteryOptimizationModel.isOptimized = true
+                                }
+                            }
+                        }
+
+                        batteryOptimization.postValue(batteryOptimizationModel)
+                    }
+                }
+            }
+        }
+    }
+
+    fun setBatteryOptimization(packageInfo: PackageInfo, optimize: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            when {
+                ConfigurationPreferences.isUsingRoot() -> {
+                    if (optimize) {
+                        Shell.cmd("cmd deviceidle whitelist -${packageInfo.packageName}").exec().let {
+                            if (it.isSuccess) {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                            } else {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                            }
+                        }
+                    } else {
+                        Shell.cmd("cmd deviceidle whitelist +${packageInfo.packageName}").exec().let {
+                            if (it.isSuccess) {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                            } else {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                            }
+                        }
+                    }
+                }
+                ConfigurationPreferences.isUsingShizuku() -> {
+                    if (optimize) {
+                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("cmd deviceidle whitelist -${packageInfo.packageName}"), null).let {
+                            if (it.isSuccess) {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                            } else {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                            }
+                        }
+                    } else {
+                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("cmd deviceidle whitelist +${packageInfo.packageName}"), null).let {
+                            if (it.isSuccess) {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                            } else {
+                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

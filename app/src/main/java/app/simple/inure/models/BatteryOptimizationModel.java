@@ -4,6 +4,8 @@ import android.content.pm.PackageInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 public class BatteryOptimizationModel implements Parcelable {
     
     public static final String TYPE_IGNORE_BATTERY_OPTIMIZATIONS = "TYPE_IGNORE_BATTERY_OPTIMIZATIONS";
@@ -18,6 +20,15 @@ public class BatteryOptimizationModel implements Parcelable {
     public BatteryOptimizationModel(PackageInfo packageInfo, String type, boolean isOptimized) {
         this.packageInfo = packageInfo;
         this.type = type;
+        this.isOptimized = isOptimized;
+    }
+    
+    public BatteryOptimizationModel(PackageInfo packageInfo) {
+        this.packageInfo = packageInfo;
+    }
+    
+    public BatteryOptimizationModel(PackageInfo packageInfo, boolean isOptimized) {
+        this.packageInfo = packageInfo;
         this.isOptimized = isOptimized;
     }
     
@@ -77,5 +88,43 @@ public class BatteryOptimizationModel implements Parcelable {
     
     public void setOptimized(boolean optimized) {
         isOptimized = optimized;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "BatteryOptimizationModel{" +
+                "packageInfo=" + packageInfo +
+                ", type='" + type + '\'' +
+                ", isOptimized=" + isOptimized +
+                '}';
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        
+        BatteryOptimizationModel that = (BatteryOptimizationModel) o;
+        
+        if (isOptimized() != that.isOptimized()) {
+            return false;
+        }
+        if (!getPackageInfo().equals(that.getPackageInfo())) {
+            return false;
+        }
+        return getType().equals(that.getType());
+    }
+    
+    @Override
+    public int hashCode() {
+        int result = getPackageInfo().hashCode();
+        result = 31 * result + getType().hashCode();
+        result = 31 * result + (isOptimized() ? 1 : 0);
+        return result;
     }
 }

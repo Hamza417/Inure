@@ -26,8 +26,10 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.GridRecyclerView
@@ -57,7 +59,9 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.tags.PopupTagMenu
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppInformationPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.TaggedApps
@@ -102,6 +106,9 @@ class AppInfo : ScopedFragment() {
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
     private lateinit var notes: DynamicRippleTextView
+    private lateinit var batteryOptimization: DynamicRippleConstraintLayout
+    private lateinit var batteryOptimizationState: TypeFaceTextView
+    private lateinit var batteryOptimizationSwitch: Switch
     private lateinit var tagsRecyclerView: TagsRecyclerView
     private lateinit var meta: GridRecyclerView
     private lateinit var actions: GridRecyclerView
@@ -132,6 +139,9 @@ class AppInfo : ScopedFragment() {
         appInformation = view.findViewById(R.id.app_info_information_tv)
         usageStatistics = view.findViewById(R.id.app_info_storage_tv)
         notes = view.findViewById(R.id.app_info_notes_tv)
+        batteryOptimization = view.findViewById(R.id.app_info_battery_optimization)
+        batteryOptimizationState = view.findViewById(R.id.battery_optimization_state)
+        batteryOptimizationSwitch = view.findViewById(R.id.battery_optimization_switch)
         tagsRecyclerView = view.findViewById(R.id.tags_recycler_view)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
@@ -194,6 +204,38 @@ class AppInfo : ScopedFragment() {
                     }
                 })
             }
+        }
+
+        if (ConfigurationPreferences.isRootOrShizuku()) {
+            if (TrialPreferences.isFullVersion()) {
+                batteryOptimization.visible(animate = false)
+
+                componentsViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
+                    batteryOptimizationSwitch.isChecked = it.isOptimized
+
+                    if (it.isOptimized) {
+                        batteryOptimizationState.text = getString(R.string.optimized)
+                    } else {
+                        batteryOptimizationState.text = getString(R.string.not_optimized)
+                    }
+
+                    batteryOptimizationSwitch.setOnSwitchCheckedChangeListener { isChecked ->
+                        if (isChecked) {
+                            componentsViewModel.setBatteryOptimization(packageInfo, false)
+                        } else {
+                            componentsViewModel.setBatteryOptimization(packageInfo, true)
+                        }
+                    }
+
+                    batteryOptimization.setOnClickListener {
+                        batteryOptimizationSwitch.toggle()
+                    }
+                }
+            } else {
+                batteryOptimization.gone()
+            }
+        } else {
+            batteryOptimization.gone()
         }
 
         componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {

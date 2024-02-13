@@ -81,4 +81,10 @@ object ConfigurationPreferences {
     fun isShowUsersList(): Boolean {
         return SharedPreferences.getSharedPreferences().getBoolean(showUsersList, false)
     }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun isRootOrShizuku(): Boolean {
+        return isUsingRoot() || isUsingShizuku()
+    }
 }

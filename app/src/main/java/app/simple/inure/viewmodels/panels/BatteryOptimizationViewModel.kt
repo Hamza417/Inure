@@ -124,6 +124,10 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         }
 
                         filtered.getSortedList()
+
+                        // Remove duplicates
+                        filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
+
                         batteryOptimizationData.postValue(filtered)
                     }
                 }
@@ -214,6 +218,10 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                     }
 
                     filtered.getSortedList()
+
+                    // Remove duplicates
+                    filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
+
                     batteryOptimizationData.postValue(filtered)
                 }
             }.getOrElse {

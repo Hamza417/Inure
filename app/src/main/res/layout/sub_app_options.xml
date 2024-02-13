@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -47,5 +49,55 @@
         app:appFontStyle="bold"
         app:drawableTintStyle="regular"
         app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+        android:id="@+id/app_info_battery_optimization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:padding="10dp">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/typeFaceTextView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/battery_optimization"
+            android:textSize="@dimen/app_info_options_text_size"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="regular"
+            app:layout_constraintEnd_toStartOf="@+id/battery_optimization_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/battery_optimization_state"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/info_text_tiny"
+            app:appFontStyle="regular"
+            app:drawableTintStyle="regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/battery_optimization_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView5"
+            app:textColorStyle="accent" />
+
+        <app.simple.inure.decorations.toggles.Switch
+            android:id="@+id/battery_optimization_switch"
+            android:layout_gravity="center_vertical"
+            android:layout_width="@dimen/switch_width"
+            android:layout_height="@dimen/switch_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
 
 </LinearLayout>
