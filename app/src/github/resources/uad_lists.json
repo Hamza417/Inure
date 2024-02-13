@@ -4833,6 +4833,15 @@
     "removal": "Recommended"
   },
   {
+    "id": "com.samsung.android.photoremasterservice",
+    "list": "Oem",
+    "description": "PhotoRemasterService\nIf removed, Photo Remaster in the gallery won't work.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
+  {
     "id": "com.samsung.android.provider.shootingmodeprovider",
     "list": "Oem",
     "description": "Provide camera modes (when you swipe left from the camera app)\nSafe to remove (but it is quite useful)",
@@ -4943,7 +4952,7 @@
   {
     "id": "com.samsung.android.smartface",
     "list": "Oem",
-    "description": "SmartFaceService\nUsed to automatically detects faces when using the Samsung camera\nIt might be related to "Keep screen on while viewing" under Motions and gestures in Settings.\nNOTE: This package has nothing to do with face unlock (com.samsung.android.bio.face.service)\n",
+    "description": "SmartFaceService\nUsed to automatically detects faces when using the Samsung camera\nIt might be related to \"Keep screen on while viewing\" under Motions and gestures in Settings.\nNOTE: This package has nothing to do with face unlock (com.samsung.android.bio.face.service)\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -5141,7 +5150,7 @@
   {
     "id": "com.samsung.android.svcagent",
     "list": "Oem",
-    "description": "Impossible to know what this system app does. It has full access to internet network anyway. Safe to remove. Its APK implies it has a UI, but it doesn't have any activities. It occasionally runs a MainService for many consecutive hours",
+    "description": "The APK has various icons in it + DiagMon library (telemetry). It has full access to internet and occasionally runs a MainService for many consecutive hours.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -7751,11 +7760,11 @@
   {
     "id": "com.android.soundrecorder",
     "list": "Aosp",
-    "description": "AOSP Sound recorder. OEMs often use their own solution\nNOTE: On some phones, Huawei & Xiaomi also use this package name for their own browser app.\nThere are better apps (on F-droid) anyway \n",
+    "description": "AOSP Sound recorder\nOEMs often use their own solution\nNOTE: On some phones, Huawei & Xiaomi also use this package name for their own browser app.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Advanced"
+    "removal": "Recommended"
   },
   {
     "id": "com.android.stk2",
@@ -8655,7 +8664,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Unsafe"
+    "removal": "Advanced"
   },
   {
     "id": "com.android.providers.media",
@@ -17804,7 +17813,7 @@
   {
     "id": "com.miui.wmsvc",
     "list": "Oem",
-    "description": "WMService\nRuns at boot and has access to internet + GPS\nI quickly looked at the decompiled code and saw some unsanitized SQL inputs, which is BAD! (vulnerable to SQL injection)\nTries to get your android unique Google advertising ID from Google Play Services.\nFeeds and launches the spying/analytics app \"com.miui.hybrid\".\nDoesn't seem to do anything important, only tracking.\nWARNING: Some people said removing this package causes bootloop, others said it doesn't. Can someone check this? I think it should be okay to remove if you remove all other dependent Xiaomi packages(bloat).",
+    "description": "WMService\nRuns at boot and has access to internet + GPS\nI quickly looked at the decompiled code and saw some unsanitized SQL inputs, which is BAD! (vulnerable to SQL injection)\nTries to get your android unique Google advertising ID from Google Play Services.\nFeeds and launches the spying/analytics app \"com.miui.hybrid\".\nDoesn't seem to do anything important, only tracking.\nWARNING:  It does not seem to affect any functionality or cause bootloop.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -29658,20 +29667,20 @@
   {
     "id": "com.miui.securitycenter",
     "list": "Oem",
-    "description": "MIUI Security app\nProvides \"protection and optimization tools\" \nApp lock, Data usage, Security scan, Cleaner, Battery saver, Blocklist and other features.\nThis package is mostly the front-end (UI).\nhttps://beta.pithus.org/report/f8c24ccfc526389ff9084505c60fba3d3463565f92e2015190e2974b370e7c4e\nNOTE: REMOVING THIS MIGHT BOOTLOOP YOUR DEVICE! Uninstalling this on the Redmi Pad is not causing any bootloop, but you will lose some functionality like the battery status/usage page, as well as the app usage/removal page.",
+    "description": "MIUI Security app\nProvides \"protection and optimization tools\" \nApp lock, Data usage, Security scan, Cleaner, Battery saver, Blocklist and other features.\nThis package is mostly the front-end (UI).\nhttps://beta.pithus.org/report/f8c24ccfc526389ff9084505c60fba3d3463565f92e2015190e2974b370e7c4e\nNOTE: REMOVING THIS WILL MOST LIKELY BOOTLOOP YOUR DEVICE! Uninstalling this on the Redmi Pad is not causing any bootloop, but you will lose some functionality like the battery status/usage page, as well as the app usage/removal page.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Expert"
+    "removal": "Unsafe"
   },
   {
     "id": "com.miui.securitycore",
     "list": "Oem",
-    "description": "Core features of the \"com.miui.securitycenter\"\nREMOVING THIS MIGHT BOOTLOOP YOUR DEVICE! This may depend on your MIUI version and device, see\nhttps://github.com/0x192/universal-android-debloater/issues/641",
+    "description": "Core features of the \"com.miui.securitycenter\"\nREMOVING THIS WILL MOST LIKELY BOOTLOOP YOUR DEVICE! This may depend on your MIUI version and device, see\nhttps://github.com/0x192/universal-android-debloater/issues/641",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Expert"
+    "removal": "Unsafe"
   },
   {
     "id": "com.miui.system",
@@ -29694,11 +29703,11 @@
   {
     "id": "com.miui.securityadd",
     "list": "Oem",
-    "description": "Related to the MIUI Security app\nREMOVING THIS MIGHT BOOTLOOP YOUR DEVICE! This may depend on your MIUI version and device, see\nhttps://github.com/0x192/universal-android-debloater/issues/641",
+    "description": "Related to the MIUI Security app\nREMOVING THIS WILL MOST LIKELY BOOTLOOP YOUR DEVICE! This may depend on your MIUI version and device, see\nhttps://github.com/0x192/universal-android-debloater/issues/641",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Expert"
+    "removal": "Unsafe"
   },
   {
     "id": "com.xiaomi.misettings",
@@ -34379,6 +34388,15 @@
     "id": "com.samsung.android.shealthmonitor",
     "list": "Oem",
     "description": "Samsung Health Monitor\n\nEnables you to record ECG and blood pressure.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
+  {
+    "id": "com.samsung.android.wallpaper.res",
+    "list": "Oem",
+    "description": "Pre-installed wallpapers\nRemoving this package causes the background to be transparent (black, but the system will see it as white unless you use a custom wallpaper).",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
