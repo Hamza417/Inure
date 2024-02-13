@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -177,10 +178,14 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
     private fun TypeFaceTextView.setBloatFlags(bloat: Bloat) {
         text = buildString {
             // State
-            if (bloat.packageInfo.applicationInfo.enabled) {
-                appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
+            if (bloat.packageInfo.isInstalled()) {
+                if (bloat.packageInfo.applicationInfo.enabled) {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
+                } else {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.disabled))
+                }
             } else {
-                appendFlag(this@setBloatFlags.context.getString(R.string.disabled))
+                appendFlag(this@setBloatFlags.context.getString(R.string.uninstalled))
             }
 
             // List
