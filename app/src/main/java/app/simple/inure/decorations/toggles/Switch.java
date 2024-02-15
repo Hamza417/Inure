@@ -540,6 +540,9 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
      */
     public void toggle() {
         isChecked = !isChecked;
+        if (onCheckedChangeListener != null) {
+            onCheckedChangeListener.onCheckedChanged(isChecked);
+        }
         animateEverything();
     }
     

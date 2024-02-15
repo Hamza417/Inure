@@ -207,7 +207,7 @@ class AppInfo : ScopedFragment() {
         }
 
         if (ConfigurationPreferences.isRootOrShizuku()) {
-            if (TrialPreferences.isFullVersion()) {
+            if (TrialPreferences.isFullVersion() || TrialPreferences.isWithinTrialPeriod()) {
                 batteryOptimization.visible(animate = false)
 
                 componentsViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
@@ -221,9 +221,9 @@ class AppInfo : ScopedFragment() {
 
                     batteryOptimizationSwitch.setOnSwitchCheckedChangeListener { isChecked ->
                         if (isChecked) {
-                            componentsViewModel.setBatteryOptimization(packageInfo, false)
-                        } else {
                             componentsViewModel.setBatteryOptimization(packageInfo, true)
+                        } else {
+                            componentsViewModel.setBatteryOptimization(packageInfo, false)
                         }
                     }
 

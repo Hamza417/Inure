@@ -578,7 +578,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireContext().packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(PackageUtils.flags))
         } else {
-            @Suppress("DEPRECATION")
             requireContext().packageManager.getPackageInfo(packageName, PackageUtils.flags.toInt())
         }
     }
