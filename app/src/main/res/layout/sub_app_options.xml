@@ -50,6 +50,12 @@
         app:drawableTintStyle="regular"
         app:textColorStyle="primary" />
 
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:id="@+id/app_info_divider_1"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_height="1px" />
+
     <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
         android:id="@+id/app_info_battery_optimization"
         android:layout_width="match_parent"
@@ -81,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/info_text_tiny"
+            android:layout_marginTop="2dp"
             app:appFontStyle="regular"
             app:drawableTintStyle="regular"
             app:layout_constraintBottom_toBottomOf="parent"

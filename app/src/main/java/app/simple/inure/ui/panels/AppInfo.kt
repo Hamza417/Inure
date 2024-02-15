@@ -29,6 +29,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -90,6 +91,7 @@ import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
+import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
@@ -109,6 +111,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var batteryOptimization: DynamicRippleConstraintLayout
     private lateinit var batteryOptimizationState: TypeFaceTextView
     private lateinit var batteryOptimizationSwitch: Switch
+    private lateinit var divider1: ThemeDivider
     private lateinit var tagsRecyclerView: TagsRecyclerView
     private lateinit var meta: GridRecyclerView
     private lateinit var actions: GridRecyclerView
@@ -142,6 +145,7 @@ class AppInfo : ScopedFragment() {
         batteryOptimization = view.findViewById(R.id.app_info_battery_optimization)
         batteryOptimizationState = view.findViewById(R.id.battery_optimization_state)
         batteryOptimizationSwitch = view.findViewById(R.id.battery_optimization_switch)
+        divider1 = view.findViewById(R.id.app_info_divider_1)
         tagsRecyclerView = view.findViewById(R.id.tags_recycler_view)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
@@ -209,14 +213,15 @@ class AppInfo : ScopedFragment() {
         if (ConfigurationPreferences.isRootOrShizuku()) {
             if (TrialPreferences.isFullVersion() || TrialPreferences.isWithinTrialPeriod()) {
                 batteryOptimization.visible(animate = false)
+                divider1.visible(animate = false)
 
                 componentsViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
                     batteryOptimizationSwitch.isChecked = it.isOptimized
 
                     if (it.isOptimized) {
-                        batteryOptimizationState.text = getString(R.string.optimized)
+                        batteryOptimizationState.setTextWithSlideAnimation(getString(R.string.optimized), 250L, ViewUtils.RIGHT)
                     } else {
-                        batteryOptimizationState.text = getString(R.string.not_optimized)
+                        batteryOptimizationState.setTextWithSlideAnimation(getString(R.string.not_optimized), 250L, ViewUtils.LEFT)
                     }
 
                     batteryOptimizationSwitch.setOnSwitchCheckedChangeListener { isChecked ->
@@ -233,9 +238,11 @@ class AppInfo : ScopedFragment() {
                 }
             } else {
                 batteryOptimization.gone()
+                divider1.gone()
             }
         } else {
             batteryOptimization.gone()
+            divider1.gone()
         }
 
         componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
