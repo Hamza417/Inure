@@ -51,7 +51,6 @@ class ManifestAssociationActivity : BaseActivity() {
                                 packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                     packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageManager.PackageInfoFlags.of(PackageUtils.flags))!!
                                 } else {
-                                    @Suppress("DEPRECATION")
                                     packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
                                 }
 
@@ -88,7 +87,7 @@ class ManifestAssociationActivity : BaseActivity() {
                                 .replace(R.id.app_container, XMLViewerTextView
                                     .newInstance(packageInfo,
                                                  true,
-                                                 sourceFile.absolutePath + "/AndroidManifest.xml",
+                                                 "AndroidManifest.xml",
                                                  false), "app_info")
                                 .commit()
                         }

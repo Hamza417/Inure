@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.text.Html
 import android.text.Spanned
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -53,6 +54,7 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                         it.readTextSafely()
                     }
                 } else {
+                    Log.d("XMLViewerViewModel", "getSpannedXml: $pathToXml")
                     XMLDecoder(packageInfo.applicationInfo.sourceDir.toFile()).decode(pathToXml)
                 }
 
