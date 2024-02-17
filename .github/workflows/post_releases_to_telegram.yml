@@ -11,6 +11,9 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
             -   name: Extract Version Name and Version Code
                 run: |
                     # Extract versionName and versionCode from build.gradle
@@ -32,6 +35,13 @@ jobs:
                     TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
+
+            -   name: Wipe out the app directory
+                run: |
+                    # Remove the app directory if it exists
+                    if [ -d app ]; then
+                        rm -rf app
+                    fi
 
             -   name: Get latest release
                 id: latest_release
