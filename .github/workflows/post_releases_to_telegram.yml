@@ -43,12 +43,19 @@ jobs:
                         rm -rf app
                     fi
 
-            -   name: Fetch latest release
-                id: get_release
+            -   name: Fetch all releases
+                id: get_releases
                 run: |
-                    echo "Fetching latest release from $GITHUB_REPOSITORY..."
-                    latest_release=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest")
-                    apk_urls=$(echo "$latest_release" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+                    echo "Fetching all releases from $GITHUB_REPOSITORY..."
+                    all_releases=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases")
+                    apk_urls=""
+                    for release in $(echo "${all_releases}" | jq -r '.[] | @base64'); do
+                        _jq() {
+                            echo ${release} | base64 --decode | jq -r ${1}
+                        }
+                        apk_urls+=$(echo $(_jq '.assets[] | select(.name | endswith(".apk")) | .browser_download_url'))
+                        apk_urls+=" "
+                    done
                     echo "apk_urls=$apk_urls" >> $GITHUB_ENV
 
             -   name: Download APKs
