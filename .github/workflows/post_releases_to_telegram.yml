@@ -61,9 +61,10 @@ jobs:
             -   name: Download APKs
                 run: |
                     for url in ${{ steps.get_release.outputs.apk_urls }}; do
-                      filename=$(basename "$url")
-                      echo "Downloading $filename..."
-                      curl -L -o "$filename" "$url"
+                        echo "Downloading $url..."
+                        filename=$(basename "$url")
+                        echo "Downloading $filename..."
+                        curl -L -o "$filename" "$url"
                     done
 
             -   name: Create app directory
