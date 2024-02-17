@@ -60,7 +60,6 @@ import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.Logger
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.launcher.LauncherViewModel
 import com.topjohnwu.superuser.ipc.RootService
@@ -451,9 +450,9 @@ class MainActivity : BaseActivity() {
 
         try {
             RootService.stop(Intent(this, RootService::class.java))
-            Logger.postVerboseLog("RootService stopped")
+            Log.d("RootService", "Stopped")
         } catch (e: IllegalStateException) {
-            Logger.postErrorLog(e.message ?: "RootService not running")
+            Log.d("RootService", "Not running")
         }
     }
 }
