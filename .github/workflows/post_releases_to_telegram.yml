@@ -80,13 +80,13 @@ jobs:
                     # And, if it contains play, then rename it as play_store_versionName_versionCode.apk
                     for file in app/*.apk; do
                         if [[ $file == *"github"* ]]; then
-                            mv $file app/github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
-                            echo "Renamed $file to github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk"
+                            mv $file app/github_${{ env.VERSION_NAME }}.apk
+                            echo "Renamed $file to github_${{ env.VERSION_NAME }}.apk"
                         fi
                     
                         if [[ $file == *"play"* ]]; then
-                            mv $file app/play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
-                            echo "Renamed $file to play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk"
+                            mv $file app/play_${{ env.VERSION_NAME }}.apk
+                            echo "Renamed $file to play_${{ env.VERSION_NAME }}.apk"
                         fi
                     done
                     
@@ -99,8 +99,8 @@ jobs:
                     to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
                     token: ${{ secrets.TG_BOT_KEY }}
                     document: |
-                        app/github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
-                        app/play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
-                    message: |
-                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store.
+                        app/play_${{ env.VERSION_NAME }}.apk
+                        app/github_${{ env.VERSION_NAME }}.apk
+#                    message: |
+#                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store.
 
