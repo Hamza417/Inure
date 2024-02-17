@@ -71,6 +71,11 @@ jobs:
                     # Create the app directory
                     mkdir app
 
+            -   name: List all files in current directory
+                run: |
+                    echo "Listing all files in current directory..."
+                    ls -la
+
             -   name: Move APKs to app directory
                 run: |
                     # Move the APKs to the app directory
