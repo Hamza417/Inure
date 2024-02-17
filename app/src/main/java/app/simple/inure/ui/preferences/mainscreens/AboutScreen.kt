@@ -61,7 +61,11 @@ class AboutScreen : ScopedFragment() {
         setAppVersionTag()
 
         if (TrialPreferences.isFullVersion()) {
-            version.append("-full")
+            if (TrialPreferences.isUnlockerVerificationRequired()) {
+                version.append("-full_unlckr")
+            } else {
+                version.append("-full_grdlkey")
+            }
         } else {
             version.append("-trial (${TrialPreferences.getDaysLeft()} days left)")
         }

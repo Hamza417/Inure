@@ -1,0 +1,79 @@
+name: Post Releases to Telegram
+
+on:
+    release:
+        types: [ published ]
+    workflow_dispatch: # Allow manual triggering
+
+jobs:
+    post:
+        name: Post Releases to Telegram
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Extract Version Name and Version Code
+                run: |
+                    # Extract versionName and versionCode from build.gradle
+                    VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
+                    VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
+
+                    # Make the version name sentence case
+                    VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
+
+                    echo "Version Name: $VERSION_NAME"
+                    echo "Version Code: $VERSION_CODE"
+
+                    # Set these values as environment variables for later steps
+                    echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+                    echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+            -   name: Set Tag
+                run: |
+                    TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
+                    echo "TAG=${TAG}" >> $GITHUB_ENV
+                    echo "Tag: ${TAG}" # Print tag to console
+
+            -   name: Get latest release
+                id: latest_release
+                uses: actions/github-script@v5
+                with:
+                    script: |
+                        const releases = await github.repos.listReleases({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                        });
+                        const latestRelease = releases.data[0];
+                        return latestRelease.name;
+                        
+                        -   name: Download APKs from Current Release
+                            uses: actions/download-artifact@v4
+                            with:
+                                # Download only files ending with .apk
+                                name: '*.apk' # Name of the artifact to download
+                                path: app
+
+            -   name: Download APKs from Latest Release
+                uses: actions/download-artifact@v4
+                with:
+                    # Download only files ending with .apk
+                    name: ${{ steps.latest_release.outputs.result }} # Name of the artifact to download
+                    path: app
+
+            -   name: Rename APKs
+                run: |
+                    # Rename the APKs to include the version name and version code
+                    # If the file name contains github, then rename it as github_release_versionName_versionCode.apk
+                    # And, if it contains play, then rename it as play_store_versionName_versionCode.apk
+                    for file in app/*.apk; do
+                        if [[ $file == *"github"* ]]; then
+                            mv $file app/github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
+                            echo "Renamed $file to github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk"
+                        elif [[ $file == *"play"* ]]; then
+                            mv $file app/play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
+                            echo "Renamed $file to play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk"
+                        fi
+                    done
+                    
+                    # List the files in the app directory
+                    ls app
+
