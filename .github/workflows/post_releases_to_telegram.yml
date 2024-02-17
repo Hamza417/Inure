@@ -43,25 +43,17 @@ jobs:
                         rm -rf app
                     fi
 
-            -   name: Fetch all releases
-                id: get_releases
+            -   name: Fetch latest release
+                id: get_release
                 run: |
-                    echo "Fetching all releases from $GITHUB_REPOSITORY..."
-                    all_releases=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases")
-                    apk_urls=""
-                    for release in $(echo "${all_releases}" | jq -r '.[] | @base64'); do
-                        _jq() {
-                            echo ${release} | base64 --decode | jq -r ${1}
-                        }
-                        apk_urls+=$(echo $(_jq '.assets[] | select(.name | endswith(".apk")) | .browser_download_url'))
-                        apk_urls+=" "
-                    done
+                    echo "Fetching latest release from $GITHUB_REPOSITORY..."
+                    latest_release=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest")
+                    apk_urls=$(echo "$latest_release" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
                     echo "apk_urls=$apk_urls" >> $GITHUB_ENV
 
             -   name: Download APKs
                 run: |
                     for url in ${{ env.apk_urls }}; do
-                        echo "Downloading $url..."
                         filename=$(basename "$url")
                         echo "Downloading $filename..."
                         curl -L -o "$filename" "$url"
@@ -71,11 +63,6 @@ jobs:
                 run: |
                     # Create the app directory
                     mkdir app
-
-            -   name: List all files in current directory
-                run: |
-                    echo "Listing all files in current directory..."
-                    ls -la
 
             -   name: Move APKs to app directory
                 run: |
