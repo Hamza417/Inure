@@ -60,7 +60,7 @@ jobs:
 
             -   name: Download APKs
                 run: |
-                    for url in ${{ steps.get_release.outputs.apk_urls }}; do
+                    for url in ${{ env.apk_urls }}; do
                         echo "Downloading $url..."
                         filename=$(basename "$url")
                         echo "Downloading $filename..."
