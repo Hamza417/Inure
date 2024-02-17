@@ -54,13 +54,6 @@ jobs:
                         });
                         const latestRelease = releases.data[0];
                         return latestRelease.name;
-                        
-                        -   name: Download APKs from Current Release
-                            uses: actions/download-artifact@v4
-                            with:
-                                # Download only files ending with .apk
-                                name: '*.apk' # Name of the artifact to download
-                                path: app
 
             -   name: Download APKs from Latest Release
                 uses: actions/download-artifact@v4
