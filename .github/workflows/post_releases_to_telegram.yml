@@ -101,14 +101,27 @@ jobs:
                     echo "GITHUB_APK_PATH=${{ env.GITHUB_APK_PATH }}"
                     echo "PLAY_APK_PATH=${{ env.PLAY_APK_PATH }}"
 
-            -   name: Send APK to Telegram
+            -   name: Send Notification Message
                 uses: appleboy/telegram-action@master
                 with:
                     to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
                     token: ${{ secrets.TG_BOT_KEY }}
-                    document: |
-                        ${{ env.GITHUB_APK_PATH }}
-                        ${{ env.PLAY_APK_PATH }}
                     message: |
                         ${{ env.VERSION_NAME }} is live on the GitHub and Play Store.
+
+            -   name: Send First APK to Telegram
+                uses: appleboy/telegram-action@master
+                with:
+                    to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
+                    token: ${{ secrets.TG_BOT_KEY }}
+                    document: ${{ env.GITHUB_APK_PATH }}
+                    message: " "
+
+            -   name: Send Second APK to Telegram
+                uses: appleboy/telegram-action@master
+                with:
+                    to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
+                    token: ${{ secrets.TG_BOT_KEY }}
+                    document: ${{ env.PLAY_APK_PATH }}
+                    message: " "
 
