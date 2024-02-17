@@ -43,24 +43,30 @@ jobs:
                         rm -rf app
                     fi
 
-            -   name: Get latest release
-                id: latest_release
-                uses: actions/github-script@v5
-                with:
-                    script: |
-                        const releases = await github.repos.listReleases({
-                            owner: context.repo.owner,
-                            repo: context.repo.repo,
-                        });
-                        const latestRelease = releases.data[0];
-                        return latestRelease.name;
+            -   name: Fetch latest release
+                id: get_release
+                run: |
+                    latest_release=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest")
+                    apk_urls=$(echo "$latest_release" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
+                    echo "::set-output name=apk_urls::$apk_urls"
 
-            -   name: Download APKs from Latest Release
-                uses: actions/download-artifact@v4
-                with:
-                    # Download only files ending with .apk
-                    name: ${{ steps.latest_release.outputs.result }} # Name of the artifact to download
-                    path: app
+            -   name: Download APKs
+                run: |
+                    for url in ${{ steps.get_release.outputs.apk_urls }}; do
+                      filename=$(basename "$url")
+                      echo "Downloading $filename..."
+                      curl -L -o "$filename" "$url"
+                    done
+
+            -   name: Create app directory
+                run: |
+                    # Create the app directory
+                    mkdir app
+
+            -   name: Move APKs to app directory
+                run: |
+                    # Move the APKs to the app directory
+                    mv *.apk app/
 
             -   name: Rename APKs
                 run: |
@@ -79,4 +85,15 @@ jobs:
                     
                     # List the files in the app directory
                     ls app
+#
+#            -   name: Send APK to Telegram
+#                uses: appleboy/telegram-action@master
+#                with:
+#                    to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
+#                    token: ${{ secrets.TG_BOT_KEY }}
+#                    document: |
+#                        app/github_release_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
+#                        app/play_store_${{ env.VERSION_NAME }}_${{ env.VERSION_CODE}}.apk
+#                    message: |
+#                        #Build${{ env.VERSION_CODE }} is live on the GitHub and Play Store.
 
