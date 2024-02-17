@@ -43,11 +43,17 @@ jobs:
                         rm -rf app
                     fi
 
-            -   name: Fetch APK files from the release
+            -   name: Fetch latest release
+                id: get_release
                 run: |
-                    # Fetch the APKs from the release
-                    apk_urls=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.TAG }} | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
-                    echo "apk_urls=${apk_urls}" >> $GITHUB_ENV
+                    echo "Fetching latest release from $GITHUB_REPOSITORY..."
+                    latest_release=$(curl -s "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest")
+                    first_apk_url=$(echo "$latest_release" | jq -r '.assets[0].browser_download_url')
+                    second_apk_url=$(echo "$latest_release" | jq -r '.assets[1].browser_download_url')
+                    echo "First APK URL: $first_apk_url"
+                    echo "Second APK URL: $second_apk_url"
+                    # Set the apk_urls environment variable
+                    echo "apk_urls=$first_apk_url $second_apk_url" >> $GITHUB_ENV
 
             -   name: Download APKs
                 run: |
