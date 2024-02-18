@@ -80,7 +80,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
                         Log.d("RootViewModel", "Shell initialization begins")
 
-                        Shell.cmd("su --mount-master").exec().let {
+                        Shell.cmd("su").exec().let {
                             if (it.isSuccess) {
                                 Log.d("RootViewModel", "Shell initialization successful")
                                 shell = Shell.getShell()
@@ -88,7 +88,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                             } else {
                                 Log.d("RootViewModel", "Shell initialization failed")
                                 onShellDenied()
-                                warning.postValue(Warnings.getNoRootConnectionWarning())
+                                warning.postValue(it.err.joinToString())
                             }
                         }
                     }
