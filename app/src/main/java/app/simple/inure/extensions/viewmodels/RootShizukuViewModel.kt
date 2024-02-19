@@ -71,14 +71,14 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                                         .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
                                         .setTimeout(10))
                         }.getOrElse {
-                            /**
-                             * Block crashed deliberately, shell already created
-                             * get the traces and ignore the warning
-                             */
-                            // it.printStackTrace()
+                            // Shell already initialized
                         }
 
-                        onShellCreated(shell)
+                        if (Shell.getShell().isRoot) { // Check if root is available
+                            onShellCreated(shell)
+                        } else {
+                            throw NoShellException("No root shell available")
+                        }
                     }
                 }.onFailure {
                     it.printStackTrace()
