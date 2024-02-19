@@ -20,9 +20,10 @@ An elegant Android app manager.
 
 ## Download
 
-[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay)](https://play.google.com/store/apps/details?id=app.simple.inure.play)
+[![](https://img.shields.io/badge/Play%20Store-ea4335?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=app.simple.inure.play)
 [![](https://img.shields.io/github/v/release/Hamza417/Inure?color=181717&logo=github&label=GitHub%20Release)](https://github.com/Hamza417/Inure/releases/latest)
 [![](https://img.shields.io/f-droid/v/app.simple.inure?logo=fdroid&logoColor=white&label=F-Droid&color=1976D2)](https://f-droid.org/en/packages/app.simple.inure/)
+[![](https://img.shields.io/badge/SourceForge-FF6600?logo=sourceforge&logoColor=white)](https://sourceforge.net/projects/inure-app-manager.mirror/)
 
 ## Buy (Full Version)
 
