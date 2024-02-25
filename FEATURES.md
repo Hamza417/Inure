@@ -82,3 +82,11 @@ Features that are added for convenience
 - Image Viewer with SVG and GIF support
 - TTF viewer
 - Text Viewer and Editor
+
+### How does GitHub buids differ from Play builds?
+GitHub builds don't have play policies constraints and therefore allows more room for including features
+that are not possible to have in play builds. Here are the list of feature exclusive to GitHub builds only.
+
+- Debloat
+- Activate using license key without unlocker
+- More store options
