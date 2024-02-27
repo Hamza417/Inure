@@ -384,11 +384,13 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     private fun installCommand(): String {
-        // Check if greater than nougat
+        /**
+         * Users feature is only available after Nougat
+         */
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            "pm install-create -r -d --user ${user?.id ?: getCurrentUser()} -S"
+            "pm install-create -i ${application.packageName} --user ${user?.id ?: getCurrentUser()} -S"
         } else {
-            "pm install-create -i -r -d -S"
+            "pm install-create -i ${application.packageName} -S"
         }
     }
 
