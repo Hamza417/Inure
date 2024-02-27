@@ -107,15 +107,14 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     }
 
     /**
-     * {
-     *     "id": "com.android.package",
-     *     "list": "Oem",
-     *     "description": "desc \n",
+     * "com.android.package": {
+     *     "list": "",
+     *     "description": "",
      *     "dependencies": [],
      *     "neededBy": [],
      *     "labels": [],
-     *     "removal": "Recommended"
-     *   },
+     *     "removal": "Advanced"
+     *  }
      */
     private fun getUADList(): ArrayList<Bloat> {
         val bufferedReader = BufferedReader(InputStreamReader(DebloatViewModel::class.java.getResourceAsStream(UAD_FILE_NAME)))
@@ -125,23 +124,21 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             stringBuilder.append(line)
         }
         bufferedReader.close()
-
         val json = stringBuilder.toString()
-        val jsonArray = org.json.JSONArray(json)
+        val jsonObject = org.json.JSONObject(json)
         val bloats = arrayListOf<Bloat>()
 
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            val id = jsonObject.getString("id")
-            val list = jsonObject.getString("list")
-            val description = jsonObject.getString("description")
-            val removal = jsonObject.getString("removal")
-            val dependencies = jsonObject.getJSONArray("dependencies")
-            val neededBy = jsonObject.getJSONArray("neededBy")
-            val labels = jsonObject.getJSONArray("labels")
+        jsonObject.keys().forEach { key ->
+            val properties = jsonObject.getJSONObject(key)
+            val list = properties.getString("list")
+            val description = properties.getString("description")
+            val removal = properties.getString("removal")
+            val dependencies = properties.getJSONArray("dependencies")
+            val neededBy = properties.getJSONArray("neededBy")
+            val labels = properties.getJSONArray("labels")
 
             val bloat = Bloat()
-            bloat.id = id
+            bloat.id = key // use the key as the id
             bloat.list = list
             bloat.description = description
             bloat.removal = Removal.valueOf(removal.uppercase())
