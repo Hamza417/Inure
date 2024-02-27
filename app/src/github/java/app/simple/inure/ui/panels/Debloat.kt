@@ -11,6 +11,8 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.debloat.DebloatSelect
+import app.simple.inure.dialogs.debloat.DebloatSelect.Companion.showDebloatSelectionDialog
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.dialogs.debloat.UninstallMethodChoice.Companion.showUninstallMethodChoice
 import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
@@ -71,7 +73,11 @@ class Debloat : ScopedFragment() {
                     BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_select_all -> {
-                        adapterDebloat?.updateSelections()
+                        childFragmentManager.showDebloatSelectionDialog().setOnDebloatSelectCallback(object : DebloatSelect.Companion.DebloatSelectCallback {
+                            override fun onModeSelected(mode: Int) {
+                                adapterDebloat?.updateSelections(mode)
+                            }
+                        })
                     }
                     R.drawable.ic_recycling -> {
                         childFragmentManager.showUninstallMethodChoice().onUninstallMethodSelected = { uninstall ->

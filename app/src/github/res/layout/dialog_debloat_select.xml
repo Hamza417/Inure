@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:layout_gravity="bottom"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/dialog_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/select_recommended"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/recommended"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/select_expert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/expert"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/select_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:drawablePadding="@dimen/popup_padding"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/all"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:gravity="center"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/close"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>
