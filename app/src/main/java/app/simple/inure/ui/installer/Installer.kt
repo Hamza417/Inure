@@ -33,6 +33,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.installer.Downgrade.Companion.showDowngradeDialog
 import app.simple.inure.dialogs.installer.InstallAnyway.Companion.showInstallAnyway
 import app.simple.inure.dialogs.installer.Users
 import app.simple.inure.dialogs.installer.Users.Companion.showUsers
@@ -73,6 +74,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
+    private var user: User? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_installer, container, false)
@@ -213,6 +215,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
                                 override fun onUserSelected(user: User) {
+                                    this@Installer.user = user
                                     loader.visible(true)
                                     install.gone()
                                     update.gone()
@@ -313,24 +316,41 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
 
         installerViewModel.getWarning().observe(viewLifecycleOwner) {
-            if (it.contains("INSTALL_FAILED_DEPRECATED_SDK_VERSION")) {
-                when {
-                    ConfigurationPreferences.isUsingRoot() -> {
-                        parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
-                            installerViewModel.installAnyway()
+            when {
+                it.contains("INSTALL_FAILED_DEPRECATED_SDK_VERSION") -> {
+                    when {
+                        ConfigurationPreferences.isUsingRoot() -> {
+                            parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
+                                installerViewModel.installAnyway()
+                            }
                         }
-                    }
-                    ConfigurationPreferences.isUsingShizuku() -> {
-                        parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
-                            installerViewModel.installAnywayShizuku()
+                        ConfigurationPreferences.isUsingShizuku() -> {
+                            parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
+                                installerViewModel.installAnywayShizuku()
+                            }
                         }
-                    }
-                    else -> {
-                        showWarning(it)
+                        else -> {
+                            showWarning(it)
+                        }
                     }
                 }
-            } else {
-                showWarning(it)
+                it.contains("INSTALL_FAILED_VERSION_DOWNGRADE") -> {
+                    childFragmentManager.showDowngradeDialog(it).setUninstallCallbacks {
+                        childFragmentManager.uninstallPackage(packageInfo) {
+                            if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                                loader.visible(true)
+                                install.gone()
+                                update.gone()
+                                uninstall.gone()
+                                launch.gone()
+                                installerViewModel.install(user)
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    showWarning(it, goBack = false)
+                }
             }
         }
 

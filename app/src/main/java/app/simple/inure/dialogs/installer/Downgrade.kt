@@ -10,22 +10,22 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
-import app.simple.inure.interfaces.dialog.InstallAnywayCallback
+import app.simple.inure.interfaces.dialog.UninstallCallbacks
 
-class InstallAnyway : ScopedBottomSheetFragment() {
+class Downgrade : ScopedBottomSheetFragment() {
 
     private lateinit var warning: TypeFaceTextView
     private lateinit var close: DynamicRippleTextView
-    private lateinit var installAnyway: DynamicRippleTextView
+    private lateinit var uninstall: DynamicRippleTextView
 
-    private var installAnywayCallback: InstallAnywayCallback? = null
+    private var uninstallCallbacks: UninstallCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.dialog_install_anyway, container, false)
+        val view = inflater.inflate(R.layout.dialog_downgrade, container, false)
 
         warning = view.findViewById(R.id.install_failure_warning)
         close = view.findViewById(R.id.close)
-        installAnyway = view.findViewById(R.id.install_anyway)
+        uninstall = view.findViewById(R.id.uninstall)
 
         return view
     }
@@ -35,8 +35,8 @@ class InstallAnyway : ScopedBottomSheetFragment() {
 
         warning.text = requireArguments().getString(BundleConstants.warning)
 
-        installAnyway.setOnClickListener {
-            installAnywayCallback?.onInstallAnyway()
+        uninstall.setOnClickListener {
+            uninstallCallbacks?.onUninstalled()
             dismiss()
         }
 
@@ -45,20 +45,20 @@ class InstallAnyway : ScopedBottomSheetFragment() {
         }
     }
 
-    fun setInstallAnywayCallback(callback: InstallAnywayCallback) {
-        installAnywayCallback = callback
+    fun setUninstallCallbacks(callback: UninstallCallbacks) {
+        uninstallCallbacks = callback
     }
 
     companion object {
-        fun newInstance(string: String): InstallAnyway {
+        fun newInstance(string: String): Downgrade {
             val args = Bundle()
             args.putString(BundleConstants.warning, string)
-            val fragment = InstallAnyway()
+            val fragment = Downgrade()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showInstallAnyway(warning: String): InstallAnyway {
+        fun FragmentManager.showDowngradeDialog(warning: String): Downgrade {
             val dialog = newInstance(warning)
             dialog.show(this, "install_anyway")
             return dialog
