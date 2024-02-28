@@ -96,7 +96,7 @@
             "documentation": [],
             "id": 105,
             "name": "Google Tag Manager",
-            "network_signature": "www\\.googletagmanager\\.com|www\\.googletagservices\\.com",
+            "network_signature": "www\\.googletagmanager\\.com|www\\.googletagservices\\.com|www-googletagmanager\\.l\\.google\\.com",
             "website": "https://www.google.com/analytics/tag-manager/"
         },
         "106": {
@@ -336,7 +336,7 @@
             "documentation": [],
             "id": 123,
             "name": "Urbanairship",
-            "network_signature": "device-api\\.urbanairship\\.com|urbanairship\\.com",
+            "network_signature": "device-api\\.urbanairship\\.com|urbanairship\\.com|device-api\\.asnapieu\\.com",
             "website": "https://www.urbanairship.com/"
         },
         "124": {
@@ -627,12 +627,14 @@
             ],
             "code_signature": "com.gigya.",
             "creation_date": "2018-08-16",
-            "description": "*700 leading companies trust Gigya to turn unknown online visitors into known, loyal customers, with the industry\u2019s number one customer identity management platform.*",
-            "documentation": [],
+            "description": "*700 leading companies trust Gigya to turn unknown online visitors into known, loyal customers, with the industry\u2019s number one customer identity management platform.*\r\n\r\nNow part of SAP.",
+            "documentation": [
+                "https://help.sap.com/docs/r/product/SAP_CUSTOMER_DATA_CLOUD/GIGYA/en-US"
+            ],
             "id": 148,
-            "name": "Gigya",
+            "name": "SAP CDC (Gigya)",
             "network_signature": "cdn1\\.gigya\\.com|cdn2\\.gigya\\.com|cdn3\\.gigya\\.com|cdn\\.gigya\\.com|cdns\\.us1\\.gigya\\.com",
-            "website": "https://www.gigya.com"
+            "website": "https://www.sap.com/products/crm/customer-data-management.html"
         },
         "149": {
             "categories": [
@@ -956,7 +958,7 @@
             "documentation": [],
             "id": 172,
             "name": "Optimizely",
-            "network_signature": "optimizely\\.com",
+            "network_signature": "optimizely\\.com|optimizelyapis\\.com",
             "website": "https://www.optimizely.com/"
         },
         "173": {
@@ -1105,7 +1107,7 @@
         },
         "184": {
             "categories": [],
-            "code_signature": "com.appnext.",
+            "code_signature": "com.appnext.sdk",
             "creation_date": "2019-03-19",
             "description": "App marketing and mobile monetization",
             "documentation": [],
@@ -1236,7 +1238,7 @@
             "documentation": [],
             "id": 194,
             "name": "Appdynamics",
-            "network_signature": "",
+            "network_signature": "eum-appdynamics\\.com|appdynamics\\.com",
             "website": "https://www.appdynamics.com/"
         },
         "195": {
@@ -1571,7 +1573,7 @@
             "documentation": [],
             "id": 219,
             "name": "AltBeacon",
-            "network_signature": "",
+            "network_signature": "data.\\altbeacon\\.org",
             "website": "https://altbeacon.org"
         },
         "22": {
@@ -2364,7 +2366,7 @@
             "documentation": [],
             "id": 275,
             "name": "Admixer",
-            "network_signature": "admixer\\.co\\.kr",
+            "network_signature": "admixer\\.co\\.kr|admixer\\.net",
             "website": "http://admixer.co.kr/"
         },
         "276": {
@@ -2901,10 +2903,12 @@
             "code_signature": "com.google.ads.|com.google.android.gms.ads.AdView|com.google.android.gms.ads.AdActivity|com.google.android.gms.ads.AdRequest|com.google.android.gms.ads.mediation|com.google.android.gms.ads.doubleclick|com.google.android.ads.|com.google.unity.ads.|com.google.android.gms.admob|com.google.firebase.firebase_ads.",
             "creation_date": "2020-06-24",
             "description": "https://developers.google.com/admob/android/quick-start\r\n\r\nhttps://firebase.google.com/docs/admob/android/quick-start\r\n\r\nIncludes:\r\n\r\n* Google AdMob Mediation\r\n\r\n* Google DoubleClick",
-            "documentation": [],
+            "documentation": [
+                "https://developers.google.com/admob/android/quick-start"
+            ],
             "id": 312,
             "name": "Google AdMob",
-            "network_signature": "2mdn\\.net|\\.google\\.com|dmtry\\.com|doubleclick\\.com|doubleclick\\.net|mng-ads\\.com",
+            "network_signature": "2mdn\\.net|dmtry\\.com|doubleclick\\.com|doubleclick\\.net|mng-ads\\.com|mobileads\\.google\\.com|ads\\.google\\.com|googlesyndication\\.com|googleadservices\\.com|googleads\\.g\\.doubleclick\\.net|adservice\\.google\\..*|adservice\\.g\\.cn",
             "website": "https://admob.google.com"
         },
         "313": {
@@ -3158,7 +3162,7 @@
             "documentation": [],
             "id": 333,
             "name": "Huawei Mobile Services (HMS) Core",
-            "network_signature": "",
+            "network_signature": "hicloud\\.com|dbankcloud\\.ru|dbankcloud\\.cn|dbankcloud\\.com",
             "website": "https://developer.huawei.com/consumer/en/hms"
         },
         "334": {
@@ -3577,9 +3581,9 @@
             "categories": [
                 "Advertisement"
             ],
-            "code_signature": "com.bytedance.sdk.openadsdk|com.bytedance.tea.crash.|com.bytedance.embedapplog.|com.bytedance.applog.",
+            "code_signature": "com.bytedance|com.pgl|com.pangle.global",
             "creation_date": "2021-02-28",
-            "description": "App Monetization",
+            "description": "App Monetization\r\nRetrieves IMSI",
             "documentation": [],
             "id": 363,
             "name": "Pangle",
@@ -3829,7 +3833,7 @@
             "categories": [
                 "Advertisement"
             ],
-            "code_signature": "com.tappx.sdk.",
+            "code_signature": "com.tappx.sdk.android",
             "creation_date": "2021-03-01",
             "description": "Ad Tech Platform\r\n\r\nhttps://developers.tappx.com/en/android/sdk-integration-android-studio",
             "documentation": [],
@@ -4522,7 +4526,9 @@
             "website": "https://www.crunchbase.com/organization/admarvel"
         },
         "427": {
-            "categories": [],
+            "categories": [
+                "Advertisement"
+            ],
             "code_signature": "com.aiming.mdt.|com.adtiming.",
             "creation_date": "2022-02-10",
             "description": "Data-Driven Mobile Marketing",
@@ -4776,6 +4782,63 @@
             "network_signature": "",
             "website": "https://measurementsys.com/index.php#appdev"
         },
+        "444": {
+            "categories": [
+                "Crash reporting"
+            ],
+            "code_signature": "org.acra.|ch.acra.",
+            "creation_date": "2023-12-05",
+            "description": "Application Crash Reports for Android\r\n\r\nFree and open source solution",
+            "documentation": [],
+            "id": 444,
+            "name": "ACRA",
+            "network_signature": "",
+            "website": "https://www.acra.ch/"
+        },
+        "445": {
+            "categories": [
+                "Crash reporting"
+            ],
+            "code_signature": "com.github.backtrace-labs.|backtraceio.library.",
+            "creation_date": "2023-12-05",
+            "description": "Error and crash reporting for Android-based devices",
+            "documentation": [
+                "https://github.com/backtrace-labs/backtrace-android"
+            ],
+            "id": 445,
+            "name": "Backtrace",
+            "network_signature": "backtrace\\.io",
+            "website": "https://backtrace.io"
+        },
+        "447": {
+            "categories": [
+                "Crash reporting"
+            ],
+            "code_signature": "io.sentry.|com.joshdholtz.sentry",
+            "creation_date": "2023-12-05",
+            "description": "Sentry's Android SDK reports an error automatically whenever a thrown exception goes uncaught in your application causing the application to crash.\r\n\r\nLinks:\r\n* https://github.com/getsentry/sentry-java\r\n* https://github.com/joshdholtz/Sentry-Android",
+            "documentation": [
+                "https://docs.sentry.io/platforms/android/"
+            ],
+            "id": 447,
+            "name": "Sentry",
+            "network_signature": "",
+            "website": "https://sentry.io/"
+        },
+        "448": {
+            "categories": [
+                "Crash reporting",
+                "Analytics"
+            ],
+            "code_signature": "com.uc.crashsdk|com.uc2.crashsdk",
+            "creation_date": "2023-12-05",
+            "description": "Crash SDK",
+            "documentation": [],
+            "id": 448,
+            "name": "Yueying Crash SDK",
+            "network_signature": "",
+            "website": "https://yueying-docs.effirst.com/"
+        },
         "45": {
             "categories": [
                 "Analytics"
@@ -4836,7 +4899,7 @@
             "documentation": [],
             "id": 49,
             "name": "Google Firebase Analytics",
-            "network_signature": "firebase\\.com",
+            "network_signature": "firebase\\.com|firebaselogging-pa\\.googleapis\\.com",
             "website": "https://firebase.google.com/"
         },
         "5": {
@@ -4873,7 +4936,7 @@
             "documentation": [],
             "id": 52,
             "name": "Adjust",
-            "network_signature": "adj\\.st|adjust\\.com",
+            "network_signature": "adj\\.st|adjust\\.com|go\\.link",
             "website": "https://www.adjust.com/"
         },
         "53": {
@@ -5396,7 +5459,9 @@
             "website": "http://adcolony.com/"
         },
         "91": {
-            "categories": [],
+            "categories": [
+                "Identification"
+            ],
             "code_signature": "com.facebook.accountkit",
             "creation_date": "2018-03-04",
             "description": "## About\r\n\r\nAccountKit is a product of Facebook lets users quickly register/login to apps by using just their phone number or email address.  No password is needed. [Link to weblink](https://www.accountkit.com/faq/)\r\n\r\n## Ownership\r\n\r\nAccountKit is owned by Facebook (NASDAQ: FB). \r\n\r\nNote: there is an unaffiliated Australian Accounting firm of the same name.  \r\n\r\n## What it does\r\n\r\n* User Verification\r\n* Phone number collection\r\n* Permits direct app logins without SMS code\r\n\r\n## Data Policy\r\n\r\n[Policy as of 8/9/2018:](https://www.facebook.com/privacy/explanation/)\r\n\r\n* Identical to Facebook's Policy.  This provides controls for users to opt out but no actual commitment to reduce the collection and use of personal data.  \r\n\r\n* Data will be used to \"reasearch and innovate for social good\", \"promote satety, integrity and security\", personalize advertising, communicate with users, and measure analytics for business services. \r\n\r\n* Third-party apps and websites integrated with Facebook and its products receive information on what users post and share. This \"information collected by these third-party services is subject to their own terms and policies, not this one.\" \r\n\r\n* Facebook's policy states that it doesn't \"sell any of your information to anyone and we never will.\" It imposes \"strict restrictions\" on how partners use and disclose the data it provides. \r\n\r\n* Information may be accessed, preserved, and shared with regulators, law enforcement, and others in response to legal requests (including those in outside jurisdictions if there is a \"good faith belief\" they're required to respond), prevention of fraud, unauthorized use of products or services, breaches of Terms or Policies, to prevent harm to Facebook or its property, and harmful or illegal activity.",

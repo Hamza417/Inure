@@ -129,6 +129,21 @@ if decision.lower() == "y":
         os.system(f"copy {output_file} ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
         print("Copied to: ..\\..\\app\\src\\main\\res\\values\\trackers.xml")
 
+# Copy trackers JSON to main/resources dir
+# Check if the file exists
+decision = input("Do you want to copy the JSON file to Inure? (y/n): ")
+if decision.lower() == "y":
+    try:
+        open(f"..\\..\\app\\src\\main\\resources\\{json_file}", "r")
+        print("File already exists at: ..\\..\\app\\src\\main\\resources\\trackers.json")
+        print("Deleting..")
+        os.remove(f"..\\..\\app\\src\\main\\resources\\{json_file}")
+    except FileNotFoundError:
+        print("File not found at: ..\\..\\app\\src\\main\\resources\\trackers.json")
+    finally:
+        os.system(f"copy {json_file} ..\\..\\app\\src\\main\\resources\\trackers.json")
+        print("Copied to: ..\\..\\app\\src\\main\\resources\\trackers.json")
+
 print("Total time taken:", round(time.time() - startTimeMillis, 2), "seconds")
 
 # Open the output file
