@@ -133,7 +133,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                             tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, activity.name)
                         }
 
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = false
                         tracker.isService = false
                         tracker.isActivity = true
@@ -167,7 +167,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                             tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, service.name)
                         }
 
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = false
                         tracker.isService = true
                         tracker.isActivity = false
@@ -201,7 +201,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                             tracker.isEnabled = ActivityUtils.isEnabled(applicationContext(), packageInfo?.packageName!!, receiver.name)
                         }
 
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = true
                         tracker.isService = false
                         tracker.isActivity = false

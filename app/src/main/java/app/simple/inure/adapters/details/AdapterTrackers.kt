@@ -16,7 +16,6 @@ import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
 class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
@@ -34,7 +33,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
             holder.trackerId.text = buildString {
-                append(list[position].trackerId)
+                append(list[position].codeSignature)
                 append(" | ")
                 when {
                     list[position].isActivity -> {
@@ -57,7 +56,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             holder.name.text = list[position].name.substring((list[position]).name.lastIndexOf(".") + 1)
             holder.packageId.text = list[position].name
             holder.trackerId.text = buildString {
-                append(list[position].trackerId)
+                append(list[position].codeSignature)
                 append(" | ")
                 when {
                     list[position].isActivity -> {

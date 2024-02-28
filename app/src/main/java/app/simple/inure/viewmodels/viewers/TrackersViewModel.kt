@@ -19,7 +19,7 @@ import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotNull
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.TrackerUtils.getTrackerSignatures
+import app.simple.inure.util.TrackerUtils
 import com.topjohnwu.superuser.nio.ExtendedFile
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
@@ -74,11 +74,16 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     private fun scanTrackers() {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
+                val trackersData = TrackerUtils.getTrackersData()
+                Log.d("TrackersViewModel", "Trackers: ${trackersData.size}")
                 val trackersList = arrayListOf<Tracker>()
 
-                trackersList.addAll(getActivityTrackers())
-                trackersList.addAll(getServicesTrackers())
-                trackersList.addAll(getReceiversTrackers())
+                Log.d("TrackersViewModel", "Loading activity trackers")
+                trackersList.addAll(getActivityTrackers(trackersData))
+                Log.d("TrackersViewModel", "Loading service trackers")
+                trackersList.addAll(getServicesTrackers(trackersData))
+                Log.d("TrackersViewModel", "Loading receiver trackers")
+                trackersList.addAll(getReceiversTrackers(trackersData))
 
                 trackersList.sortBy {
                     it.name.substringAfterLast(".")
@@ -94,6 +99,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
                 trackers.postValue(trackersList)
             }.onFailure {
+                it.printStackTrace()
                 postWarning("Error: ${it.message ?: "Unknown error"}")
             }
         }
@@ -137,27 +143,22 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         }
     }
 
-    private fun getActivityTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = applicationContext().getTrackerSignatures()
+    private fun getActivityTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
         val activities = getPackageInfo().activities ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (activities != null) {
             for (activity in activities) {
-                for (signature in trackerSignatures) {
-                    if (activity.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
-                        if (activity.name.lowercase().contains(signature.lowercase())) {
-                            val tracker = Tracker()
-
+                for (tracker in trackersData) {
+                    if (activity.name.lowercase().contains(keyword.lowercase()) || tracker.codeSignature.lowercase().contains(keyword.lowercase())) {
+                        if (activity.name.lowercase().contains(tracker.codeSignature.lowercase())) {
                             tracker.activityInfo = activity
-                            tracker.name = activity.name
                             tracker.isEnabled = kotlin.runCatching {
                                 ActivityUtils.isEnabled(applicationContext(), packageInfo.packageName, activity.name)
                             }.getOrElse {
                                 false
                             }
 
-                            tracker.trackerId = signature
                             tracker.isReceiver = false
                             tracker.isService = false
                             tracker.isActivity = true
@@ -174,26 +175,21 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         return trackersList
     }
 
-    private fun getServicesTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = applicationContext().getTrackerSignatures()
+    private fun getServicesTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
         val services = getPackageInfo().services ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (services != null) {
             for (service in services) {
-                for (signature in trackerSignatures) {
-                    if (service.name.lowercase().contains(keyword.lowercase()) || signature.lowercase().contains(keyword.lowercase())) {
-                        if (service.name.lowercase().contains(signature.lowercase())) {
-                            val tracker = Tracker()
-
+                for (tracker in trackersData) {
+                    if (service.name.lowercase().contains(keyword.lowercase()) || tracker.codeSignature.lowercase().contains(keyword.lowercase())) {
+                        if (service.name.lowercase().contains(tracker.codeSignature.lowercase())) {
                             tracker.serviceInfo = service
-                            tracker.name = service.name
                             tracker.isEnabled = kotlin.runCatching {
                                 ServicesUtils.isEnabled(applicationContext(), packageInfo.packageName, service.name)
                             }.getOrElse {
                                 false
                             }
-                            tracker.trackerId = signature
                             tracker.isReceiver = false
                             tracker.isService = true
                             tracker.isActivity = false
@@ -210,27 +206,21 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         return trackersList
     }
 
-    private fun getReceiversTrackers(): ArrayList<Tracker> {
-        val trackerSignatures = applicationContext().getTrackerSignatures()
+    private fun getReceiversTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
         val receivers = getPackageInfo().receivers ?: null
         val trackersList = arrayListOf<Tracker>()
 
         if (receivers != null) {
             for (receiver in receivers) {
-                for (signature in trackerSignatures) {
-                    if (receiver.name.lowercase().contains(keyword.lowercase())
-                        || signature.lowercase().contains(keyword.lowercase())) {
-                        if (receiver.name.lowercase().contains(signature.lowercase())) {
-                            val tracker = Tracker()
-
-                            tracker.activityInfo = receiver
-                            tracker.name = receiver.name
+                for (tracker in trackersData) {
+                    if (receiver.name.lowercase().contains(keyword.lowercase()) || tracker.codeSignature.lowercase().contains(keyword.lowercase())) {
+                        if (receiver.name.lowercase().contains(tracker.codeSignature.lowercase())) {
+                            tracker.receiverInfo = receiver
                             tracker.isEnabled = kotlin.runCatching {
                                 ReceiversUtils.isEnabled(applicationContext(), packageInfo.packageName, receiver.name)
                             }.getOrElse {
                                 false
                             }
-                            tracker.trackerId = signature
                             tracker.isReceiver = true
                             tracker.isService = false
                             tracker.isActivity = false

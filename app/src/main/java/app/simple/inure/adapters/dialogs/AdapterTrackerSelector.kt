@@ -34,7 +34,7 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
         holder.path.text = holder.path.text.optimizeToColoredString("/")
 
         holder.tracker.text = buildString {
-            append(tracker.trackerId)
+            append(tracker.codeSignature)
             append(" | ")
             when {
                 tracker.isActivity -> {

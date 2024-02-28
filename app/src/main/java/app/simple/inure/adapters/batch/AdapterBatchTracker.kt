@@ -48,7 +48,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         holder.path.text = holder.path.text.optimizeToColoredString("/")
 
         holder.details.text = buildString {
-            append(tracker.trackerId)
+            append(tracker.codeSignature)
             append(" | ")
             when {
                 tracker.isActivity -> {

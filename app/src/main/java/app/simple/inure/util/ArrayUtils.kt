@@ -1,5 +1,7 @@
 package app.simple.inure.util
 
+import org.json.JSONArray
+
 object ArrayUtils {
     fun <E> ArrayList<E>.move(fromIndex: Int, toIndex: Int) {
         if (fromIndex >= size || fromIndex < 0) {
@@ -91,5 +93,13 @@ object ArrayUtils {
             result.add(list)
         }
         return result
+    }
+
+    fun JSONArray.toStringArray(): Array<String> {
+        val list = ArrayList<String>()
+        for (i in 0 until length()) {
+            list.add(getString(i))
+        }
+        return list.toTypedArray()
     }
 }

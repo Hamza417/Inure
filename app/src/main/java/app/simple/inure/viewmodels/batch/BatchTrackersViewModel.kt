@@ -138,7 +138,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                             false
                         }
 
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = false
                         tracker.isService = false
                         tracker.isActivity = true
@@ -172,7 +172,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         }.getOrElse {
                             false
                         }
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = false
                         tracker.isService = true
                         tracker.isActivity = false
@@ -206,7 +206,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         }.getOrElse {
                             false
                         }
-                        tracker.trackerId = signature
+                        tracker.codeSignature = signature
                         tracker.isReceiver = true
                         tracker.isService = false
                         tracker.isActivity = false
