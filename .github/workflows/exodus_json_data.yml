@@ -44,7 +44,7 @@ jobs:
                       echo "File exists, moving..."
                     fi
                     
-                    mv trackers.xml ./app/src/main/resources/
+                    mv trackers.json ./app/src/main/resources/
                     
                     if [ -f "./app/src/main/resources/trackers.json" ]; then
                       echo "File moved successfully."
@@ -68,5 +68,5 @@ jobs:
                     git config --global user.email "actions@github.com"
                     git config --global user.name "GitHub Actions"
                     git add .
-                    git commit -m "Automated Exodus data update"
+                    git commit -m "Automated Exodus JSON data update"
                     git push origin master
