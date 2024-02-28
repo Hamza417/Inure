@@ -1,7 +1,6 @@
 package app.simple.inure.util
 
 import android.content.Context
-import android.util.Log
 import app.simple.inure.R
 import app.simple.inure.models.Tracker
 import app.simple.inure.util.ArrayUtils.toStringArray
@@ -74,21 +73,24 @@ object TrackerUtils {
                 val categories = tracker.getJSONArray("categories")
                 val documentation = tracker.getJSONArray("documentation")
 
-                val trackerObject = Tracker()
-                trackerObject.name = name
-                trackerObject.codeSignature = codeSignature
-                trackerObject.networkSignature = networkSignature
-                trackerObject.website = website
-                trackerObject.creationDate = creationDate
-                trackerObject.description = description
-                Log.d("TrackerUtils", "getTrackersData: loading categories: $categories")
-                trackerObject.categories = categories.toStringArray()
-                trackerObject.documentation = documentation.toStringArray()
+                codeSignature.split("|").forEach { signature ->
+                    val trackerObject = Tracker()
+                    trackerObject.name = name
+                    trackerObject.codeSignature = signature
+                    trackerObject.networkSignature = networkSignature
+                    trackerObject.website = website
+                    trackerObject.creationDate = creationDate
+                    trackerObject.description = description
+                    trackerObject.categories = categories.toStringArray()
+                    trackerObject.documentation = documentation.toStringArray()
 
-                trackersList.add(trackerObject)
+                    trackersList.add(trackerObject)
+                }
             }
 
-            return trackersList
+            return trackersList.filter {
+                it.codeSignature.isNotEmpty()
+            } as ArrayList<Tracker>
         }
     }
 }
