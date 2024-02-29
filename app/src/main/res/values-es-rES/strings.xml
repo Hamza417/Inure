@@ -737,4 +737,5 @@
     <string name="enter_license_key">Ingresar clave de licencia</string>
     <string name="show_user_list">Mostrar lista de usuarios</string>
     <string name="show_user_list_desc">Mostrar ventana emergente de selección de usuario antes de instalar una aplicación.</string>
+    <string name="uninstall_downgrade_desc">¿Le gustaría desinstalar la versión actual antes de continuar con la instalación? ¿Se perderán todos los datos?</string>
 </resources>
