@@ -68,11 +68,11 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
 
         if (isRoot) {
             holder.switch.setOnSwitchCheckedChangeListener {
-                trackersCallbacks?.onTrackersClicked(list[position], it, position)
+                trackersCallbacks?.onTrackerSwitchChanged(list[position], it, position)
             }
 
             holder.container.setOnClickListener {
-                trackersCallbacks?.onTrackersClicked(list[position], holder.switch.isChecked.invert(), position)
+                trackersCallbacks?.onTrackersClicked(list[position])
             }
 
             holder.switch.visible(animate = false)
@@ -119,6 +119,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     }
 
     interface TrackersCallbacks {
-        fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int)
+        fun onTrackerSwitchChanged(tracker: Tracker, enabled: Boolean, position: Int)
+        fun onTrackersClicked(tracker: Tracker)
     }
 }

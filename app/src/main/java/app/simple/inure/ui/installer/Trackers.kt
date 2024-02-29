@@ -44,7 +44,7 @@ class Trackers : ScopedFragment() {
             val adapterTrackers = AdapterTrackers(trackers, "")
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int) {
+                override fun onTrackerSwitchChanged(tracker: Tracker, enabled: Boolean, position: Int) {
                     if (enabled) {
                         installerTrackersViewModel.unblockTrackers(arrayListOf(tracker), position)
                     } else {
@@ -57,6 +57,10 @@ class Trackers : ScopedFragment() {
                             installerTrackersViewModel.clear()
                         }
                     }
+                }
+
+                override fun onTrackersClicked(tracker: Tracker) {
+                    // TODO - open tracker info menu
                 }
             })
 
