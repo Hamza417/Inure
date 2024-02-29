@@ -91,7 +91,6 @@ import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
-import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
@@ -219,9 +218,9 @@ class AppInfo : ScopedFragment() {
                     batteryOptimizationSwitch.isChecked = it.isOptimized
 
                     if (it.isOptimized) {
-                        batteryOptimizationState.setTextWithSlideAnimation(getString(R.string.optimized), 250L, ViewUtils.RIGHT)
+                        batteryOptimizationState.setTextWithAnimation(getString(R.string.optimized), 250L)
                     } else {
-                        batteryOptimizationState.setTextWithSlideAnimation(getString(R.string.not_optimized), 250L, ViewUtils.LEFT)
+                        batteryOptimizationState.setTextWithAnimation(getString(R.string.not_optimized), 250L)
                     }
 
                     batteryOptimizationSwitch.setOnSwitchCheckedChangeListener { isChecked ->
