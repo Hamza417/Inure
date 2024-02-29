@@ -54,6 +54,7 @@ class Setup : ScopedFragment() {
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
     private lateinit var dontShowAgainCheckBox: CheckBox
+    private lateinit var dontShowAgain: DynamicRippleTextView
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
@@ -72,6 +73,7 @@ class Setup : ScopedFragment() {
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
         dontShowAgainCheckBox = view.findViewById(R.id.show_again_checkbox)
+        dontShowAgain = view.findViewById(R.id.dont_show_again)
 
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.forEach {
@@ -189,6 +191,10 @@ class Setup : ScopedFragment() {
 
         dontShowAgainCheckBox.setOnCheckedChangeListener {
             SetupPreferences.setDontShowAgain(it)
+        }
+
+        dontShowAgain.setOnClickListener {
+            dontShowAgainCheckBox.toggle(true)
         }
     }
 
