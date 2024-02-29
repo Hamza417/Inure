@@ -199,4 +199,12 @@ object StringUtils {
 
         return links
     }
+
+    fun String.fromLastIndexOf(char: Char): String {
+        return this.substring(this.lastIndexOf(char) + 1)
+    }
+
+    fun String.fromLastIndexOf(string: String): String {
+        return this.substring(this.lastIndexOf(string) + 1)
+    }
 }

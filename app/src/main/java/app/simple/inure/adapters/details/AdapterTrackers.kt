@@ -16,6 +16,8 @@ import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.StringUtils.appendFlag
+import app.simple.inure.util.StringUtils.fromLastIndexOf
 import app.simple.inure.util.ViewUtils.visible
 
 class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword: String) : RecyclerView.Adapter<AdapterTrackers.Holder>() {
@@ -31,41 +33,38 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         when {
             list[position].isActivity -> {
                 holder.icon.loadIconFromActivityInfo(list[position].activityInfo)
-                holder.name.text = list[position].name
-                holder.packageId.text = list[position].componentName
-                holder.trackerId.text = buildString {
-                    append(list[position].codeSignature)
-                    append(" | ")
-                    append(holder.itemView.context.getString(R.string.activity))
-                }
-
-                holder.switch.isChecked = list[position].isBlocked.invert()
             }
             list[position].isService -> {
                 holder.icon.loadIconFromServiceInfo(list[position].serviceInfo)
-                holder.name.text = list[position].name
-                holder.packageId.text = list[position].componentName
-                holder.trackerId.text = buildString {
-                    append(list[position].codeSignature)
-                    append(" | ")
-                    append(holder.itemView.context.getString(R.string.service))
-                }
-
-                holder.switch.isChecked = list[position].isBlocked.invert()
             }
             list[position].isReceiver -> {
                 holder.icon.loadIconFromActivityInfo(list[position].receiverInfo)
-                holder.name.text = list[position].name
-                holder.packageId.text = list[position].componentName
-                holder.trackerId.text = buildString {
-                    append(list[position].codeSignature)
-                    append(" | ")
-                    append(holder.itemView.context.getString(R.string.receiver))
-                }
-
-                holder.switch.isChecked = list[position].isBlocked.invert()
             }
         }
+
+        holder.name.text = list[position].componentName.fromLastIndexOf(".")
+        holder.packageId.text = list[position].componentName
+        holder.trackerName.text = list[position].name
+        holder.trackerId.text = buildString {
+            when {
+                list[position].isActivity -> {
+                    appendFlag(holder.itemView.context.getString(R.string.activity))
+                }
+                list[position].isService -> {
+                    appendFlag(holder.itemView.context.getString(R.string.service))
+                }
+                list[position].isReceiver -> {
+                    appendFlag(holder.itemView.context.getString(R.string.receiver))
+                }
+            }
+
+            list[position].categories.forEach {
+                appendFlag(it)
+            }
+        }
+
+        AdapterUtils.searchHighlighter(holder.packageId, list[position].codeSignature)
+        holder.switch.isChecked = list[position].isBlocked.invert()
 
         if (isRoot) {
             holder.switch.setOnSwitchCheckedChangeListener {
@@ -108,6 +107,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val trackerId: TypeFaceTextView = itemView.findViewById(R.id.tracker_id)
+        val trackerName: TypeFaceTextView = itemView.findViewById(R.id.tracker_name)
         val switch: Switch = itemView.findViewById(R.id.switch_view)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
 
