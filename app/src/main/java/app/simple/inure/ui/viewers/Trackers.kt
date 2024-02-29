@@ -21,6 +21,7 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.TrackersPreferences
+import app.simple.inure.ui.subviewers.TrackerInfo
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
@@ -70,7 +71,7 @@ class Trackers : SearchBarScopedFragment() {
             val adapterTrackers = AdapterTrackers(trackers, trackersViewModel.keyword)
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {
-                override fun onTrackersClicked(tracker: Tracker, enabled: Boolean, position: Int) {
+                override fun onTrackerSwitchChanged(tracker: Tracker, enabled: Boolean, position: Int) {
                     if (enabled) {
                         trackersViewModel.unblockTrackers(arrayListOf(tracker), position)
                     } else {
@@ -83,6 +84,10 @@ class Trackers : SearchBarScopedFragment() {
                             trackersViewModel.clear()
                         }
                     }
+                }
+
+                override fun onTrackersClicked(tracker: Tracker) {
+                    openFragmentSlide(TrackerInfo.newInstance(tracker), TrackerInfo.TAG)
                 }
             })
 

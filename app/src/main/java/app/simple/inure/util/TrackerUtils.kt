@@ -73,19 +73,17 @@ object TrackerUtils {
                 val categories = tracker.getJSONArray("categories")
                 val documentation = tracker.getJSONArray("documentation")
 
-                codeSignature.split("|").forEach { signature ->
-                    val trackerObject = Tracker()
-                    trackerObject.name = name
-                    trackerObject.codeSignature = signature
-                    trackerObject.networkSignature = networkSignature
-                    trackerObject.website = website
-                    trackerObject.creationDate = creationDate
-                    trackerObject.description = description
-                    trackerObject.categories = categories.toStringArray()
-                    trackerObject.documentation = documentation.toStringArray()
+                val trackerObject = Tracker()
+                trackerObject.name = name
+                trackerObject.codeSignature = codeSignature
+                trackerObject.networkSignature = networkSignature
+                trackerObject.website = website
+                trackerObject.creationDate = creationDate
+                trackerObject.description = description
+                trackerObject.categories = categories.toStringArray()
+                trackerObject.documentation = documentation.toStringArray()
 
-                    trackersList.add(trackerObject)
-                }
+                trackersList.add(trackerObject)
             }
 
             return trackersList.filter {

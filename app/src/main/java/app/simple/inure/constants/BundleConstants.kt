@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    const val trackerInfo = "tracker_info"
     const val packages = "packages"
     const val scrollPosition = "scroll_position"
     const val tag = "tag"

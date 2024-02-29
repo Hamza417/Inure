@@ -93,6 +93,46 @@ object TextViewUtils {
         }
     }
 
+    fun TextView.makeLinksClickable(spanned: Spanned, linkCallbacks: LinkCallbacks) {
+        val links = spanned.toString().fetchLinks()
+        val spannableString = SpannableString(spanned)
+        var startIndexOfLink = -1
+
+        for (link in links) {
+            val clickableSpan = object : ClickableSpan() {
+                override fun updateDrawState(textPaint: TextPaint) {
+                    /**
+                     * use this to change the link color
+                     */
+                    textPaint.color = Color.parseColor("#2e86c1")
+
+                    /**
+                     * Toggle below value to enable/disable
+                     * the underline shown below the clickable text
+                     */
+                    textPaint.isUnderlineText = true
+                }
+
+                override fun onClick(view: View) {
+                    Selection.setSelection((view as TextView).text as Spannable, 0)
+                    view.invalidate()
+                    linkCallbacks.onLinkClicked(link, view)
+                }
+            }
+
+            startIndexOfLink = spanned.toString().indexOf(link, startIndexOfLink + 1)
+            // if(startIndexOfLink == -1) continue // if you want to verify your texts contains links text
+            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        if (links.isNotEmpty()) {
+            this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, links can not be clicked
+            this.setText(spannableString, TextView.BufferType.SPANNABLE)
+        } else {
+            this.text = spanned
+        }
+    }
+
     fun TextView.makeClickable(vararg links: Pair<String, View.OnClickListener>) {
         val spannableString = SpannableString(this.text)
         var startIndexOfLink = -1

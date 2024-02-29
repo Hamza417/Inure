@@ -737,4 +737,7 @@
     <string name="show_user_list">Show Users List</string>
     <string name="show_user_list_desc">Show user selection popup before installing an app.</string>
     <string name="uninstall_downgrade_desc">Would you like to uninstall the current version before proceeding with installation, all data will be lost?</string>
+    <string name="created_on">Created on %1$s</string>
+    <string name="code_signature">Code Signature</string>
+    <string name="network_signature">Network Signature</string>
 </resources>
