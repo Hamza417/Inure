@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.details.AdapterTags
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -26,11 +29,13 @@ class TrackerInfo : ScopedFragment() {
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
+    private lateinit var chips: RecyclerView
     private lateinit var trackerName: TypeFaceTextView
     private lateinit var date: TypeFaceTextView
     private lateinit var description: TypeFaceTextView
     private lateinit var codeSignature: TypeFaceTextView
     private lateinit var networkSignature: TypeFaceTextView
+    private lateinit var website: TypeFaceTextView
 
     private var tracker: Tracker? = null
 
@@ -40,11 +45,13 @@ class TrackerInfo : ScopedFragment() {
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageId = view.findViewById(R.id.package_id)
+        chips = view.findViewById(R.id.chips)
         trackerName = view.findViewById(R.id.tracker_name)
         date = view.findViewById(R.id.date)
         description = view.findViewById(R.id.description)
         codeSignature = view.findViewById(R.id.code_signature)
         networkSignature = view.findViewById(R.id.network_signature)
+        website = view.findViewById(R.id.website)
 
         return view
     }
@@ -64,6 +71,29 @@ class TrackerInfo : ScopedFragment() {
             tracker?.isReceiver == true -> {
                 icon.loadIconFromActivityInfo(tracker?.receiverInfo!!)
             }
+        }
+
+        chips.apply {
+            val data = arrayListOf<String>()
+
+            when {
+                tracker?.isActivity == true -> {
+                    data.add(getString(R.string.activity))
+                }
+                tracker?.isService == true -> {
+                    data.add(getString(R.string.service))
+                }
+                tracker?.isReceiver == true -> {
+                    data.add(getString(R.string.receiver))
+                }
+            }
+
+            tracker?.categories?.forEach {
+                data.add(it)
+            }
+
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = AdapterTags(data, false)
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")
@@ -98,9 +128,24 @@ class TrackerInfo : ScopedFragment() {
         networkSignature.apply {
             val text = tracker?.networkSignature
                 ?.replace("|", MARKDOWN_LINE_BREAK)
+                ?.replace("\\\\", "") // Remove any backslashes for a clean URL
                 ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
 
             Markwon.create(requireContext()).setMarkdown(this, text)
+        }
+
+        website.apply {
+            val text = tracker?.website
+                ?.replace("|", MARKDOWN_LINE_BREAK)
+                ?.replace("\\\\", "") // Remove any backslashes for a clean URL
+                ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
+
+            val markdown = Markwon.create(requireContext())
+            val spanned = markdown.toMarkdown(text)
+
+            makeLinksClickable(spanned, LinkCallbacks { url, _ ->
+                url.toUri().openInBrowser(requireContext())
+            })
         }
     }
 

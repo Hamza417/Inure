@@ -32,21 +32,21 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:textSize="@dimen/info_text_medium"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     app:appFontStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/package_id"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/icon"
                     app:textColorStyle="primary" />
 
@@ -54,19 +54,24 @@
                     android:id="@+id/package_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:textSize="@dimen/desc_text_size"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     app:appFontStyle="regular"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/icon"
+                    app:layout_constraintEnd_toStartOf="@+id/icon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/name"
                     app:textColorStyle="tertiary" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chips"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/popup_padding"
+                android:layout_height="wrap_content" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/tracker_name"
@@ -86,7 +91,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/info_text_small"
-                android:paddingHorizontal="5dp"
                 android:layout_marginTop="@dimen/popup_padding"
                 app:appFontStyle="regular"
                 app:textColorStyle="secondary" />
@@ -136,6 +140,28 @@
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/network_signature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:textSize="@dimen/info_text_large"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/popup_padding"
+                android:text="@string/website"
+                app:appFontStyle="bold"
+                app:drawableStartCompat="@drawable/ic_web_page"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

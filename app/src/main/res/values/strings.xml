@@ -740,4 +740,5 @@
     <string name="created_on">Created on %1$s</string>
     <string name="code_signature">Code Signature</string>
     <string name="network_signature">Network Signature</string>
+    <string name="website">Website</string>
 </resources>
