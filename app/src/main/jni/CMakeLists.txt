@@ -2,6 +2,8 @@
 # library.
 cmake_minimum_required(VERSION 3.4.1)
 
+project(inure)
+
 # Creates the project's shared lib: libnative-lib.so.
 # The lib is loaded by this project's Java code in MainActivity.java:
 #     System.loadLibrary("native-lib");
