@@ -21,14 +21,6 @@ plugins {
 
 apply plugin: "com.autonomousapps.dependency-analysis"
 
-dependencyAnalysis {
-    variantFilter {
-        ignoreVariants {
-            it != 'githubRelease'
-        }
-    }
-}
-
 allprojects {
     repositories {
         google()
