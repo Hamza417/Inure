@@ -730,4 +730,16 @@
     <string name="miscellaneous">Adicionais</string>
     <string name="pending">Pendente</string>
     <string name="selected_apps">%1$d Selecionado</string>
+    <string name="restore">Restaurar</string>
+    <string name="license_key">Chave de Licença</string>
+    <string name="verify">Verificar</string>
+    <string name="licence_verification">Verificação da Licença</string>
+    <string name="enter_license_key">Inserir chave de licença</string>
+    <string name="show_user_list">Mostrar Lista de Usuários</string>
+    <string name="show_user_list_desc">Mostrar pop-up de seleção de usuário antes de instalar um aplicativo.</string>
+    <string name="uninstall_downgrade_desc">Você gostaria de desinstalar a versão atual antes de prosseguir com a instalação, todos os dados serão perdidos?</string>
+    <string name="created_on">Criado em %1$s</string>
+    <string name="code_signature">Código da Assinatura</string>
+    <string name="network_signature">Assinatura da Rede</string>
+    <string name="website">Página Web</string>
 </resources>
