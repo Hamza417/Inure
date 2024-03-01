@@ -54,18 +54,53 @@ public class Chip extends com.google.android.material.chip.Chip {
                         ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()
                 }
         ));
-    
+        
         setShapeAppearanceModel(new ShapeAppearanceModel()
                 .toBuilder()
                 .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
                 .build());
-    
+        
         ViewUtils.INSTANCE.addShadow(this);
         setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
-    
+        
         if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
             setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
             setChipStrokeWidth(1);
         }
+    }
+    
+    public void setChipBackgroundColor(int color) {
+        setChipBackgroundColor(ColorStateList.valueOf(color));
+    }
+    
+    public void setCheckedIconTint(int color) {
+        setCheckedIconTint(ColorStateList.valueOf(color));
+    }
+    
+    public void setChipStrokeColor(int color) {
+        setChipStrokeColor(ColorStateList.valueOf(color));
+    }
+    
+    public void setTextColor(int color) {
+        setTextColor(ColorStateList.valueOf(color));
+    }
+    
+    public void setRippleColor(int color) {
+        setRippleColor(ColorStateList.valueOf(color));
+    }
+    
+    public void setCornerRadius(float radius) {
+        setShapeAppearanceModel(new ShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, radius)
+                .build());
+    }
+    
+    public void setIcon(int icon) {
+        setCheckedIconResource(icon);
+    }
+    
+    public void useRegularTypeface() {
+        setTypeface(TypeFace.INSTANCE.getRegularTypeFace(getContext()));
     }
 }

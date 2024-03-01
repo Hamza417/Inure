@@ -8,7 +8,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterTags
+import app.simple.inure.adapters.details.AdapterTrackerDetails
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -21,6 +21,7 @@ import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.DateUtils.toLong
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.StringUtils.emptyToString
 import app.simple.inure.util.TextViewUtils.makeLinksClickable
 import io.noties.markwon.Markwon
 
@@ -93,7 +94,7 @@ class TrackerInfo : ScopedFragment() {
             }
 
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = AdapterTags(data, false)
+            adapter = AdapterTrackerDetails(data)
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")
@@ -118,7 +119,7 @@ class TrackerInfo : ScopedFragment() {
         }
 
         codeSignature.apply {
-            val text = tracker?.codeSignature
+            val text = tracker?.codeSignature?.emptyToString(getString(R.string.not_available))
                 ?.replace("|", MARKDOWN_LINE_BREAK)
                 ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
 
@@ -126,7 +127,7 @@ class TrackerInfo : ScopedFragment() {
         }
 
         networkSignature.apply {
-            val text = tracker?.networkSignature
+            val text = tracker?.networkSignature?.emptyToString(getString(R.string.not_available))
                 ?.replace("|", MARKDOWN_LINE_BREAK)
                 ?.replace("\\\\", "") // Remove any backslashes for a clean URL
                 ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
@@ -135,7 +136,7 @@ class TrackerInfo : ScopedFragment() {
         }
 
         website.apply {
-            val text = tracker?.website
+            val text = tracker?.website?.emptyToString(getString(R.string.not_available))
                 ?.replace("|", MARKDOWN_LINE_BREAK)
                 ?.replace("\\\\", "") // Remove any backslashes for a clean URL
                 ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
