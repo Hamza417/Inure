@@ -737,4 +737,9 @@
     <string name="enter_license_key">输入授权码</string>
     <string name="show_user_list">显示用户列表</string>
     <string name="show_user_list_desc">在安装应用程序前显示用户选择弹窗</string>
+    <string name="uninstall_downgrade_desc">您想要在继续安装之前卸载当前版本吗？所有数据都将丢失！</string>
+    <string name="created_on">创建于 %1$s</string>
+    <string name="code_signature">代码签名</string>
+    <string name="network_signature">网络签名</string>
+    <string name="website">网站</string>
 </resources>
