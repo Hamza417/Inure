@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterTrackerDetails
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -27,6 +28,8 @@ import io.noties.markwon.Markwon
 
 class TrackerInfo : ScopedFragment() {
 
+    private lateinit var back: DynamicRippleImageButton
+    private lateinit var title: TypeFaceTextView
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
@@ -43,6 +46,8 @@ class TrackerInfo : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_tracker_info, container, false)
 
+        back = view.findViewById(R.id.back)
+        title = view.findViewById(R.id.title)
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageId = view.findViewById(R.id.package_id)
@@ -98,6 +103,7 @@ class TrackerInfo : ScopedFragment() {
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")
+        title.text = tracker?.componentName?.substringAfterLast(".")
         packageId.text = tracker?.componentName
         trackerName.text = tracker?.name
         date.apply {
@@ -107,6 +113,12 @@ class TrackerInfo : ScopedFragment() {
                 .prependIndent(MARKDOWN_BULLET_PREFIX) // Add a bullet point to the start of the string
 
             Markwon.create(requireContext()).setMarkdown(this, text)
+        }
+
+        if (tracker?.isBlocked == true) {
+            name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_block_12dp, 0)
+        } else {
+            name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_play_circle_filled_12dp, 0)
         }
 
         description.apply {
@@ -147,6 +159,10 @@ class TrackerInfo : ScopedFragment() {
             makeLinksClickable(spanned, LinkCallbacks { url, _ ->
                 url.toUri().openInBrowser(requireContext())
             })
+        }
+
+        back.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
