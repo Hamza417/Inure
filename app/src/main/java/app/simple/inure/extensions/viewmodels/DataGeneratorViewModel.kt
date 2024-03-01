@@ -254,25 +254,28 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
                     stringBuilder.append("\n\t\t\t\"play_store_link\": \"https://play.google.com/store/apps/details?id=${app.packageName}\",")
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.FDROID))
-                    stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\"")
+                    stringBuilder.append("\n\t\t\t\"fdroid_link\": \"https://f-droid.org/en/packages/${app.packageName}\",")
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID))
-                    stringBuilder.append("\n\t\t\t\"izzyondroid_link\": \"https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}\"")
+                    stringBuilder.append("\n\t\t\t\"izzyondroid_link\": \"https://apt.izzysoft.de/fdroid/index/apk/${app.packageName}\",")
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE))
-                    stringBuilder.append("\n\t\t\t\"amazon_store_link\": \"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\"")
+                    stringBuilder.append("\n\t\t\t\"amazon_store_link\": \"https://www.amazon.com/gp/mas/dl/android?p=${app.packageName}\",")
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE))
-                    stringBuilder.append("\n\t\t\t\"galaxy_store_link\": \"https://galaxystore.samsung.com/detail/${app.packageName}\"")
+                    stringBuilder.append("\n\t\t\t\"galaxy_store_link\": \"https://galaxystore.samsung.com/detail/${app.packageName}\",")
 
                 stringBuilder.append("\n\t\t},")
             }
-
-            stringBuilder.append("\n\t]")
-            stringBuilder.append("\n}")
-
-            stringBuilder.append("\n")
         }
+
+        // Remove the last comma to avoid a trailing comma error in JSON
+        if (apps.isNotEmpty()) {
+            stringBuilder.setLength(stringBuilder.length - 1)
+        }
+
+        stringBuilder.append("\n\t]")
+        stringBuilder.append("\n}")
 
         return stringBuilder
     }
@@ -685,7 +688,6 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         }
 
         stringBuilder.append("\r\n")
-        stringBuilder.append("</br>\r\n")
 
         return stringBuilder
     }

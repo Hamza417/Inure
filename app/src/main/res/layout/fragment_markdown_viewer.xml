@@ -54,10 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="1px" />
 
-        <app.simple.inure.decorations.views.MarkedView
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
             android:id="@+id/code_viewer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false" />
 

@@ -213,8 +213,12 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
     implementation 'io.github.reandroid:ARSCLib:1.2.4'
-    implementation "io.noties.markwon:core:4.6.2"
+    implementation 'io.noties.markwon:core:4.6.2'
+    implementation 'io.noties.markwon:ext-tables:4.6.2'
+    implementation 'io.noties.markwon:linkify:4.6.2'
+
     githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
     betaImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
     // root
