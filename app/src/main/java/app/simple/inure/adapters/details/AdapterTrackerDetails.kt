@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.views.Chip
 
 class AdapterTrackerDetails(private val data: ArrayList<String>) : RecyclerView.Adapter<AdapterTrackerDetails.Holder>() {
@@ -18,7 +19,7 @@ class AdapterTrackerDetails(private val data: ArrayList<String>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.chip.chipBackgroundColor = ColorStateList.valueOf(getColorBasedOnCategory(data[position]))
+        holder.chip.chipBackgroundColor = ColorStateList.valueOf(Colors.getColors()[position])
         holder.chip.text = holder.itemView.context.getContextString(data[position])
     }
 
@@ -52,54 +53,34 @@ class AdapterTrackerDetails(private val data: ArrayList<String>) : RecyclerView.
 
         return when (category) {
             "Advertisement" -> {
-                Color.colorToHSV(Color.parseColor("#FF6347"), hsv) // Tomato
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#cb4335") // Red
             }
             "Crash reporting" -> {
-                Color.colorToHSV(Color.parseColor("#40E0D0"), hsv) // Turquoise
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#7f8c8d") // Grey
             }
             "Profiling" -> {
-                Color.colorToHSV(Color.parseColor("#800080"), hsv) // Purple
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#2471a3") // Blue
             }
             "Identification" -> {
-                Color.colorToHSV(Color.parseColor("#FFD700"), hsv) // Gold
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#f39c12") // Orange
             }
             "Location" -> {
-                Color.colorToHSV(Color.parseColor("#228B22"), hsv) // Forest Green
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#27ae60") // Green
             }
             "Analytics" -> {
-                Color.colorToHSV(Color.parseColor("#FF4500"), hsv) // Orange Red
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#8e44ad") // Purple
             }
             "Activity" -> {
-                Color.colorToHSV(Color.parseColor("#6A5ACD"), hsv) // Slate Blue
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#f1c40f") // Yellow
             }
             "Service" -> {
-                Color.colorToHSV(Color.parseColor("#2E8B57"), hsv) // Sea Green
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#e74c3c") // Dark Red
             }
             "Receiver" -> {
-                Color.colorToHSV(Color.parseColor("#DB7093"), hsv) // Pale Violet Red
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#2980b9") // Light Blue
             }
             else -> {
-                Color.colorToHSV(Color.parseColor("#808080"), hsv) // Gray for unknown category
-                hsv[1] *= saturationFactor
-                Color.HSVToColor(hsv)
+                Color.parseColor("#34495e") // Dark Grey
             }
         }
     }

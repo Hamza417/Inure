@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterTrackerDetails
@@ -24,6 +23,9 @@ import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.StringUtils.emptyToString
 import app.simple.inure.util.TextViewUtils.makeLinksClickable
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import io.noties.markwon.Markwon
 
 class TrackerInfo : ScopedFragment() {
@@ -98,8 +100,13 @@ class TrackerInfo : ScopedFragment() {
                 data.add(it)
             }
 
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = FlexboxLayoutManager(requireContext()).apply {
+                justifyContent = JustifyContent.FLEX_START
+                flexDirection = FlexDirection.ROW
+            }
+
             adapter = AdapterTrackerDetails(data)
+            scheduleLayoutAnimation()
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")

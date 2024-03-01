@@ -113,6 +113,7 @@
                     android:id="@+id/chips"
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/popup_padding"
+                    android:layoutAnimation="@anim/list_pop_in_animation_controller"
                     android:layout_height="wrap_content" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -154,7 +155,7 @@
                     android:drawablePadding="@dimen/popup_padding"
                     android:text="@string/code_signature"
                     app:appFontStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_search"
+                    app:drawableStartCompat="@drawable/ic_code"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="primary" />
 
@@ -213,6 +214,5 @@
 
             </LinearLayout>
         </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
