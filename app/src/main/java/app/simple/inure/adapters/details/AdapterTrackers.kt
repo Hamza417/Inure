@@ -65,13 +65,13 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         AdapterUtils.searchHighlighter(holder.packageId, list[position].codeSignature)
         holder.switch.isChecked = list[position].isBlocked.invert()
 
+        holder.container.setOnClickListener {
+            trackersCallbacks?.onTrackersClicked(list[position])
+        }
+
         if (isRoot) {
             holder.switch.setOnSwitchCheckedChangeListener {
                 trackersCallbacks?.onTrackerSwitchChanged(list[position], it, position)
-            }
-
-            holder.container.setOnClickListener {
-                trackersCallbacks?.onTrackersClicked(list[position])
             }
 
             holder.switch.visible(animate = false)
