@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.MimeConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -23,11 +24,9 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
-import io.noties.markwon.ext.tables.TableAwareMovementMethod
-import io.noties.markwon.ext.tables.TablePlugin
-import io.noties.markwon.linkify.LinkifyPlugin
-import io.noties.markwon.movement.MovementMethodPlugin
+import io.noties.markwon.core.MarkwonTheme
 import java.io.IOException
 
 class Markdown : ScopedFragment() {
@@ -89,10 +88,13 @@ class Markdown : ScopedFragment() {
 
         textViewerViewModel.getText().observe(viewLifecycleOwner) {
             code = it
+
             val markwon = Markwon.builder(requireContext())
-                .usePlugin(TablePlugin.create(requireContext()))
-                .usePlugin(LinkifyPlugin.create())
-                .usePlugin(MovementMethodPlugin.create(TableAwareMovementMethod.create()))
+                .usePlugin(object : AbstractMarkwonPlugin() {
+                    override fun configureTheme(builder: MarkwonTheme.Builder) {
+                        builder.linkColor(Misc.linkColor)
+                    }
+                })
                 .build()
 
             markwon.setMarkdown(codeView, it)

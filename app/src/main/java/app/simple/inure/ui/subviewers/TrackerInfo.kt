@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterTrackerDetails
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -26,7 +27,9 @@ import app.simple.inure.util.TextViewUtils.makeLinksClickable
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
+import io.noties.markwon.core.MarkwonTheme
 
 class TrackerInfo : ScopedFragment() {
 
@@ -119,7 +122,15 @@ class TrackerInfo : ScopedFragment() {
                 ?.toDate(DATE_FORMAT)) // Convert to fancy date format using the pattern "EEE, yyyy MMM dd"
                 .prependIndent(MARKDOWN_BULLET_PREFIX) // Add a bullet point to the start of the string
 
-            Markwon.create(requireContext()).setMarkdown(this, text)
+            val markwon = Markwon.builder(requireContext())
+                .usePlugin(object : AbstractMarkwonPlugin() {
+                    override fun configureTheme(builder: MarkwonTheme.Builder) {
+                        builder.linkColor(Misc.linkColor)
+                    }
+                })
+                .build()
+
+            markwon.setMarkdown(this, text)
         }
 
         if (tracker?.isBlocked == true) {
@@ -129,8 +140,15 @@ class TrackerInfo : ScopedFragment() {
         }
 
         description.apply {
-            val markdown = Markwon.create(requireContext())
-            val spanned = markdown.toMarkdown(tracker?.description ?: "")
+            val markwon = Markwon.builder(requireContext())
+                .usePlugin(object : AbstractMarkwonPlugin() {
+                    override fun configureTheme(builder: MarkwonTheme.Builder) {
+                        builder.linkColor(Misc.linkColor)
+                    }
+                })
+                .build()
+
+            val spanned = markwon.toMarkdown(tracker?.description ?: "")
 
             makeLinksClickable(spanned, LinkCallbacks { url, _ ->
                 url.toUri().openInBrowser(requireContext())
@@ -151,7 +169,15 @@ class TrackerInfo : ScopedFragment() {
                 ?.replace("\\\\", "") // Remove any backslashes for a clean URL
                 ?.prependIndent(MARKDOWN_BULLET_PREFIX)!!
 
-            Markwon.create(requireContext()).setMarkdown(this, text)
+            val markwon = Markwon.builder(requireContext())
+                .usePlugin(object : AbstractMarkwonPlugin() {
+                    override fun configureTheme(builder: MarkwonTheme.Builder) {
+                        builder.linkColor(Misc.linkColor)
+                    }
+                })
+                .build()
+
+            markwon.setMarkdown(this, text)
         }
 
         website.apply {
