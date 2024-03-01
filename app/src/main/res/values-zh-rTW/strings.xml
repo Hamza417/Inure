@@ -737,4 +737,9 @@
     <string name="enter_license_key">輸入授權金鑰</string>
     <string name="show_user_list">顯示使用者清單</string>
     <string name="show_user_list_desc">在安裝應用程式前顯示使用者選取彈出式視窗。</string>
+    <string name="uninstall_downgrade_desc">您確定要在繼續安裝前解除安裝目前版本嗎？所有的資料將會遺失。</string>
+    <string name="created_on">建立於 %1$s</string>
+    <string name="code_signature">代碼簽章</string>
+    <string name="network_signature">網路簽章</string>
+    <string name="website">網站</string>
 </resources>
