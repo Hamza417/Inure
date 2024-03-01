@@ -59,7 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:padding="@dimen/panel_item_padding"
+            app:appFontStyle="regular"
+            app:textColorStyle="primary" />
 
     </LinearLayout>
 </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
