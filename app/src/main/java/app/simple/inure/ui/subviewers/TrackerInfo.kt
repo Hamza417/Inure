@@ -169,7 +169,7 @@ class TrackerInfo : ScopedFragment() {
         }
 
         back.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            goBack()
         }
     }
 

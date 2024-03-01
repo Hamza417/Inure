@@ -14,8 +14,9 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.StringUtils.optimizeToColoredString
+import app.simple.inure.util.StringUtils.appendFlag
 
 class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerView.Adapter<AdapterBatchTracker.Holder>() {
 
@@ -25,51 +26,44 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        val tracker = trackers[position]
-
-        holder.name.text = tracker.name
-
-        holder.path.text = when {
-            tracker.isActivity -> {
-                holder.icon.loadIconFromActivityInfo(tracker.activityInfo)
-                tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
+        when {
+            trackers[position].isActivity -> {
+                holder.icon.loadIconFromActivityInfo(trackers[position].activityInfo)
             }
-            tracker.isService -> {
-                holder.icon.loadIconFromServiceInfo(tracker.serviceInfo)
-                tracker.serviceInfo.packageName + "/" + tracker.serviceInfo.name
+            trackers[position].isService -> {
+                holder.icon.loadIconFromServiceInfo(trackers[position].serviceInfo)
             }
-            tracker.isReceiver -> {
-                holder.icon.loadIconFromActivityInfo(tracker.activityInfo)
-                tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
+            trackers[position].isReceiver -> {
+                holder.icon.loadIconFromActivityInfo(trackers[position].receiverInfo)
             }
-            else -> holder.itemView.context.getString(R.string.unknown)
         }
 
-        holder.path.text = holder.path.text.optimizeToColoredString("/")
-
+        holder.name.text = trackers[position].componentName.substringAfterLast(".")
+        holder.packageID.text = trackers[position].componentName
+        holder.trackerName.text = trackers[position].name
         holder.details.text = buildString {
-            append(tracker.codeSignature)
-            append(" | ")
             when {
-                tracker.isActivity -> {
-                    append(holder.itemView.context.getString(R.string.activity))
+                trackers[position].isActivity -> {
+                    appendFlag(holder.itemView.context.getString(R.string.activity))
                 }
-                tracker.isService -> {
-                    append(holder.itemView.context.getString(R.string.service))
+                trackers[position].isService -> {
+                    appendFlag(holder.itemView.context.getString(R.string.service))
                 }
-                tracker.isReceiver -> {
-                    append(holder.itemView.context.getString(R.string.receiver))
+                trackers[position].isReceiver -> {
+                    appendFlag(holder.itemView.context.getString(R.string.receiver))
                 }
-                else -> {
-                    append(holder.itemView.context.getString(R.string.unknown))
-                }
+            }
+
+            trackers[position].categories.forEach {
+                appendFlag(it)
             }
         }
 
-        holder.checkBox.isChecked = tracker.isBlocked.invert()
+        AdapterUtils.searchHighlighter(holder.packageID, trackers[position].codeSignature)
+        holder.checkBox.isChecked = trackers[position].isBlocked.invert()
 
         holder.container.setOnClickListener {
-            tracker.isBlocked = !tracker.isBlocked
+            trackers[position].isBlocked = !trackers[position].isBlocked
             holder.checkBox.toggle()
         }
     }
@@ -121,9 +115,10 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
-        val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val packageID: TypeFaceTextView = itemView.findViewById(R.id.package_id)
+        val trackerName: TypeFaceTextView = itemView.findViewById(R.id.tracker_name)
         val details: TypeFaceTextView = itemView.findViewById(R.id.details)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
-        val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
+        val icon: AppIconImageView = itemView.findViewById(R.id.icon)
     }
 }
