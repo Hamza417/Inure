@@ -43,7 +43,7 @@ jobs:
                 id: check_commit_message
 
             -   name: Cancel workflow
-                if: steps.check_commit_message.outputs.cancel_workflow == 'true'
+                if: env.cancel_workflow == 'true'
                 run: |
                     echo "Beta apk not requested. Cancelling workflow..."
                     exit 78

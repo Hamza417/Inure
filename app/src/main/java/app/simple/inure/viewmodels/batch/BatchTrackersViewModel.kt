@@ -216,7 +216,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         PackageManager.GET_ACTIVITIES or
                                 PackageManager.GET_RECEIVERS or
                                 PackageManager.GET_SERVICES or
-                                PackageManager.MATCH_DISABLED_COMPONENTS)!!
+                                PackageManager.MATCH_DISABLED_COMPONENTS or
+                                PackageManager.MATCH_UNINSTALLED_PACKAGES)!!
             } else {
                 @Suppress("DEPRECATION")
                 return packageManager.getPackageInfo(
@@ -224,7 +225,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         PackageManager.GET_ACTIVITIES or
                                 PackageManager.GET_RECEIVERS or
                                 PackageManager.GET_SERVICES or
-                                PackageManager.GET_DISABLED_COMPONENTS)!!
+                                PackageManager.GET_DISABLED_COMPONENTS or
+                                PackageManager.GET_UNINSTALLED_PACKAGES)!!
             }
         } else {
             Log.d("BatchTrackersViewModel", "Package not installed")
