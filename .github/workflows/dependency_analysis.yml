@@ -4,17 +4,17 @@ name: "Dependency Analysis"
 on:
     workflow_dispatch:
     # Allow manual triggering
-    push:
-        paths:
-            - '**/build.gradle'
-            - '**/build.gradle.kts'
-            - '**/gradle.properties'
-            - '**/gradle.properties.kts'
-            - '**/gradle-wrapper.properties'
-            - '**/gradle-wrapper.properties.kts'
-            - '**/settings.gradle'
-            - '**/settings.gradle.kts'
-            - '**/settings.gradle.kts'
+#    push:
+#        paths:
+#            - '**/build.gradle'
+#            - '**/build.gradle.kts'
+#            - '**/gradle.properties'
+#            - '**/gradle.properties.kts'
+#            - '**/gradle-wrapper.properties'
+#            - '**/gradle-wrapper.properties.kts'
+#            - '**/settings.gradle'
+#            - '**/settings.gradle.kts'
+#            - '**/settings.gradle.kts'
 
 jobs:
     validation:

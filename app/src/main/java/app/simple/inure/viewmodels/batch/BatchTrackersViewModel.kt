@@ -78,12 +78,11 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
         viewModelScope.launch(Dispatchers.IO) {
             val trackersData = TrackerUtils.getTrackersData()
             val trackersList = arrayListOf<Tracker>()
-            var index = 0
 
-            packages.parallelStream().forEach {
-                progress.postValue("${index + 1}/${packages.size}\n$it")
+            packages.forEachIndexed { index, packageName ->
+                progress.postValue("${index + 1}/${packages.size}\n$packageName")
 
-                val packageInfo = it.getPackageInfo() ?: return@forEach
+                val packageInfo = packageName.getPackageInfo() ?: return@forEachIndexed
                 trackersList.addAll(packageInfo.getActivityTrackers(trackersData))
                 trackersList.addAll(packageInfo.getServicesTrackers(trackersData))
                 trackersList.addAll(packageInfo.getReceiversTrackers(trackersData))
@@ -94,26 +93,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                 } catch (e: NullPointerException) {
                     Log.e("BatchTrackersViewModel", "Error: ${e.message}")
                 }
-
-                index = index.inc()
             }
-
-            //            trackersList.sortBy {
-            //                when {
-            //                    it.isActivity -> {
-            //                        it.activityInfo.packageName
-            //                    }
-            //                    it.isService -> {
-            //                        it.serviceInfo.packageName
-            //                    }
-            //                    it.isReceiver -> {
-            //                        it.activityInfo.packageName
-            //                    }
-            //                    else -> {
-            //                        it.name
-            //                    }
-            //                }
-            //            }
 
             if (trackersList.size.isZero()) {
                 postWarning(getString(R.string.no_trackers_found))
