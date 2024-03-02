@@ -55,6 +55,14 @@ jobs:
                     java-version: '17'
                     cache: 'gradle'
 
+            -   name: Cache Gradle dependencies
+                uses: actions/cache@v3
+                with:
+                    path: ~/.gradle/caches
+                    key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+                    restore-keys: |
+                        ${{ runner.os }}-gradle-
+
             -   name: Decode Keystore
                 id: decode_keystore
                 uses: timheuer/base64-to-file@v1
@@ -92,9 +100,9 @@ jobs:
                     echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
             -   name: Build APK
-                run: | # Use 'bundleRelease' to build the release bundle
-                    chmod +x ./gradlew
-                    ./gradlew clean assembleBetaRelease
+                run: |
+                    chmod +x ${{ env.GRADLE_PATH }}
+                    ${{ env.GRADLE_PATH }} clean assembleBetaRelease
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
