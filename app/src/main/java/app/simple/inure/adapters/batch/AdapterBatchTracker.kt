@@ -18,7 +18,7 @@ import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StringUtils.appendFlag
 
-class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerView.Adapter<AdapterBatchTracker.Holder>() {
+class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val batchTrackerCallbacks: BatchTrackerCallbacks) : RecyclerView.Adapter<AdapterBatchTracker.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -65,6 +65,11 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         holder.container.setOnClickListener {
             trackers[position].isBlocked = !trackers[position].isBlocked
             holder.checkBox.toggle()
+        }
+
+        holder.container.setOnLongClickListener {
+            batchTrackerCallbacks.onBatchLongPressed(trackers[position])
+            true
         }
     }
 
@@ -120,5 +125,11 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>) : RecyclerVi
         val details: TypeFaceTextView = itemView.findViewById(R.id.details)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val icon: AppIconImageView = itemView.findViewById(R.id.icon)
+    }
+
+    companion object {
+        interface BatchTrackerCallbacks {
+            fun onBatchLongPressed(tracker: Tracker)
+        }
     }
 }

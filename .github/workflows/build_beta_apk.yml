@@ -44,7 +44,9 @@ jobs:
 
             -   name: Cancel workflow
                 if: steps.check_commit_message.outputs.cancel_workflow == 'true'
-                run: exit 78
+                run: |
+                    echo "Beta apk not requested. Cancelling workflow..."
+                    exit 78
 
             -   name: Set up JDK
                 uses: actions/setup-java@v4
