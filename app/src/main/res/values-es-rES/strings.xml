@@ -738,4 +738,8 @@
     <string name="show_user_list">Mostrar lista de usuarios</string>
     <string name="show_user_list_desc">Mostrar ventana emergente de selección de usuario antes de instalar una aplicación.</string>
     <string name="uninstall_downgrade_desc">¿Le gustaría desinstalar la versión actual antes de continuar con la instalación? ¿Se perderán todos los datos?</string>
+    <string name="created_on">Creado en %1$s</string>
+    <string name="code_signature">Firma de código</string>
+    <string name="network_signature">Firma de red</string>
+    <string name="website">Sitio Web</string>
 </resources>
