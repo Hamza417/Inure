@@ -13,7 +13,9 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
+import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptorWithoutTransform
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
+import app.simple.inure.glide.util.AudioCoverUtil.loadFromUriWithoutTransform
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
@@ -26,6 +28,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     var id = MusicPreferences.getLastMusicId()
 
+    private val useFelicityFlowInterface = DevelopmentPreferences.get(DevelopmentPreferences.useFelicityFlowInterface)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         if (headerMode) {
             return when (viewType) {
@@ -34,8 +38,13 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                                .inflate(R.layout.adapter_header_music, parent, false))
                 }
                 RecyclerViewUtils.TYPE_ITEM -> {
-                    Holder(LayoutInflater.from(parent.context)
-                               .inflate(R.layout.adapter_music, parent, false))
+                    if (useFelicityFlowInterface) {
+                        Holder(LayoutInflater.from(parent.context)
+                                   .inflate(R.layout.adapter_music_flow, parent, false))
+                    } else {
+                        Holder(LayoutInflater.from(parent.context)
+                                   .inflate(R.layout.adapter_music, parent, false))
+                    }
                 }
                 else -> {
                     throw IllegalArgumentException("there is no type that matches the type" +
@@ -59,10 +68,18 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
             holder.art.transitionName = list[position].fileUri
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
-                holder.art.loadFromFileDescriptor(list[position].fileUri.toUri())
+            if (useFelicityFlowInterface) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                    holder.art.loadFromFileDescriptorWithoutTransform(list[position].fileUri.toUri())
+                } else {
+                    holder.art.loadFromUriWithoutTransform(Uri.parse(list[position].artUri))
+                }
             } else {
-                holder.art.loadFromUri(Uri.parse(list[position].artUri))
+                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                    holder.art.loadFromFileDescriptor(list[position].fileUri.toUri())
+                } else {
+                    holder.art.loadFromUri(Uri.parse(list[position].artUri))
+                }
             }
 
             holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
@@ -71,7 +88,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 id = list[holder.bindingAdapterPosition.minus(minusValue)].id
                 MusicPreferences.setMusicPosition(holder.bindingAdapterPosition.minus(minusValue))
                 musicCallbacks?.onMusicClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
-                                               holder.art, holder.bindingAdapterPosition.minus(minusValue))
+                                               holder.art,
+                                               holder.bindingAdapterPosition.minus(minusValue))
                 // We need the animations, this will break it
                 // updateHighlightedSongState()
             }
@@ -80,6 +98,10 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
                                                    holder.art, holder.bindingAdapterPosition.minus(minusValue), it)
                 true
+            }
+
+            if (useFelicityFlowInterface) {
+                holder.container.removeRipple()
             }
         } else if (holder is Header) {
             holder.total.text = list.size.toString()

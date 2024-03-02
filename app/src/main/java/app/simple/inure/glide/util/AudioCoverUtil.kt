@@ -129,4 +129,20 @@ object AudioCoverUtil {
             .load(UriCoverModel(this.context, uri))
             .into(this)
     }
+
+    fun ImageView.loadFromUriWithoutTransform(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .dontTransform()
+            .load(UriCoverModel(this.context, uri))
+            .into(this)
+    }
+
+    fun ImageView.loadFromFileDescriptorWithoutTransform(uri: Uri) {
+        GlideApp.with(this)
+            .asBitmap()
+            .dontTransform()
+            .load(DescriptorCoverModel(this.context, uri))
+            .into(this)
+    }
 }

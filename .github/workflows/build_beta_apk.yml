@@ -32,18 +32,18 @@ jobs:
                 run: |
                     if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
                         echo "Workflow was manually dispatched. Skipping commit message check."
-                        echo "::set-output name=cancel_workflow::false" >> $GITHUB_ENV
+                        echo "CANCEL_WORKFLOW=false" >> $GITHUB_ENV
                     else
                         commit_message=$(git log --format=%B -n 1)
                         if [[ ! "$commit_message" == *"build beta"* ]]; then
                             echo "Commit message does not contain 'build beta'. Cancelling workflow."
-                            echo "::set-output name=cancel_workflow::true" >> $GITHUB_ENV
+                            echo "CANCEL_WORKFLOW=true" >> $GITHUB_ENV
                         fi
                     fi
                 id: check_commit_message
 
             -   name: Cancel workflow
-                if: env.cancel_workflow == 'true'
+                if: env.CANCEL_WORKFLOW == 'true'
                 run: |
                     echo "Beta apk not requested. Cancelling workflow..."
                     exit 78

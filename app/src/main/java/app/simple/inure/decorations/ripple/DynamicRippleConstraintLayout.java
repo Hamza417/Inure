@@ -60,6 +60,10 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
         }
     }
     
+    public void removeRipple() {
+        setBackground(null);
+    }
+    
     @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
