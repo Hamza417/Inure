@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.music.AdapterMusic
@@ -27,6 +28,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
 import app.simple.inure.models.AudioModel
 import app.simple.inure.popups.music.PopupMusicMenu
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.viewers.AudioPlayerPager
@@ -163,6 +165,12 @@ class MusicSearch : KeyboardScopedFragment() {
                     }
                 }
             })
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.useFelicityFlowInterface)) {
+                recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+            } else {
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            }
 
             recyclerView.adapter = adapterMusic
 

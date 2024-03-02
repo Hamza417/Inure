@@ -52,8 +52,16 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 }
             }
         } else {
-            return Holder(LayoutInflater.from(parent.context)
-                              .inflate(R.layout.adapter_music, parent, false))
+            return when {
+                useFelicityFlowInterface -> {
+                    Holder(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_music_flow, parent, false))
+                }
+                else -> {
+                    Holder(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_music, parent, false))
+                }
+            }
         }
     }
 
