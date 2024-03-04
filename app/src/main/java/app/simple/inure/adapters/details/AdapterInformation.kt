@@ -1,16 +1,21 @@
 package app.simple.inure.adapters.details
 
+import android.content.Intent
+import android.net.Uri
 import android.text.Spannable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.TextViewUtils.makeLinks
 
 class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -37,6 +42,21 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
 
             holder.container.setOnClickListener {
                 adapterInformationCallbacks?.onInformationClicked(it, list[position].second.toString())
+            }
+
+            if (list[position].first == R.string.apk_base_package || list[position].first == R.string.data || list[position].first == R.string.native_libraries_dir) {
+                holder.data.makeLinks(Pair(list[position].second.toString().split("|").first(), View.OnClickListener {
+                    val selectedUri: Uri = Uri.parse(list[position].second.toString())
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setDataAndType(selectedUri, "resource/folder")
+
+                    if (intent.resolveActivityInfo(holder.data.context.packageManager, 0) != null) {
+                        holder.data.context.startActivity(intent)
+                    } else {
+                        Log.d("Information", "No file explorer app installed on your device")
+                        adapterInformationCallbacks?.onWarning(Warnings.getNoFileExplorerWarning())
+                    }
+                }))
             }
         }
     }
@@ -73,6 +93,7 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
     companion object {
         interface AdapterInformationCallbacks {
             fun onInformationClicked(view: View, string: String)
+            fun onWarning(string: String)
         }
     }
 }

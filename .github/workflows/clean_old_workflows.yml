@@ -1,6 +1,9 @@
 # It only deletes a few workflows at once at most
 # but is enough for most use cases.
 
+# In case you want to delete all the workflows at once
+# you'll need to handle pagination issue
+
 name: Cleanup Old Workflows
 
 on:
