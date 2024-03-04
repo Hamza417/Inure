@@ -20,8 +20,8 @@ on:
                 default: 'The beta build is ready for testing'
 
 jobs:
-    build:
-        name: Build APK
+    validation:
+        name: Commit Validation
         runs-on: ubuntu-latest
 
         steps:
@@ -46,7 +46,16 @@ jobs:
                 if: env.CANCEL_WORKFLOW == 'true'
                 run: |
                     echo "Beta apk not requested. Cancelling workflow..."
-                    exit 78
+    
+
+    build:
+        if: env.CANCEL_WORKFLOW != 'true' # Don't run if the commit message is invalid
+        name: Build APK
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout code
+                uses: actions/checkout@v4
 
             -   name: Set up JDK
                 uses: actions/setup-java@v4
