@@ -340,7 +340,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                             it.serviceInfo.packageName == packageName
                         }
                         it.isReceiver -> {
-                            it.activityInfo.packageName == packageName
+                            it.receiverInfo.packageName == packageName
                         }
                         else -> {
                             false
