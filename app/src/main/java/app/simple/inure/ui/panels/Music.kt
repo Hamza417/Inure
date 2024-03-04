@@ -145,12 +145,12 @@ class Music : KeyboardScopedFragment() {
                 }
             })
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.useFelicityFlowInterface)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.usePeristyleInterface)) {
                 val gridLayoutManager = GridLayoutManager(requireContext(), 2)
 
                 gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
-                        return if (position == 0) {
+                        return if (position % 5 == 0) {
                             2
                         } else {
                             1
@@ -159,6 +159,9 @@ class Music : KeyboardScopedFragment() {
                 }
 
                 recyclerView.layoutManager = gridLayoutManager
+
+                // Remove fading edge effect
+                recyclerView.isVerticalFadingEdgeEnabled = false
             } else {
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
             }

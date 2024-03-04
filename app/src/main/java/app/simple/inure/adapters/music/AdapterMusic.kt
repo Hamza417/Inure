@@ -28,7 +28,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     var id = MusicPreferences.getLastMusicId()
 
-    private val useFelicityFlowInterface = DevelopmentPreferences.get(DevelopmentPreferences.useFelicityFlowInterface)
+    private val useFelicityFlowInterface = DevelopmentPreferences.get(DevelopmentPreferences.usePeristyleInterface)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         if (headerMode) {

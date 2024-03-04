@@ -166,7 +166,7 @@ class MusicSearch : KeyboardScopedFragment() {
                 }
             })
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.useFelicityFlowInterface)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.usePeristyleInterface)) {
                 recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
             } else {
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
