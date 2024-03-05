@@ -21,9 +21,7 @@ object GeneratedDataPreferences {
 
     private const val DEFAULT_FLAGS = NAME or
             PACKAGE_NAME or
-            VERSION or
-            PLAY_STORE or
-            FDROID
+            VERSION
 
     const val TXT = "txt"
     const val XML = "xml"

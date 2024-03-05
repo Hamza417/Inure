@@ -12,6 +12,7 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.dialog.GeneratedDataCallbacks
 import app.simple.inure.popups.app.PopupGeneratedDataFormat
 import app.simple.inure.preferences.GeneratedDataPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.FlagUtils
 import com.google.android.material.chip.ChipGroup
 
@@ -45,6 +46,13 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         setFlags()
         setDataFormat()
         generateButtonState()
+
+        if (AppUtils.isPlayFlavor()) {
+            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.fdroid))
+            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.amazon))
+            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.izzyondroid))
+            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.galaxy_store))
+        }
 
         requiredChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var sourceFlags = GeneratedDataPreferences.getGeneratorFlags()
@@ -115,27 +123,34 @@ class GenerateAppData : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.PLAY_STORE)
             }
 
-            sourceFlags = if (checkedIds.contains(R.id.fdroid)) {
-                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.FDROID)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
-            }
+            if (AppUtils.isGithubFlavor()) {
+                sourceFlags = if (checkedIds.contains(R.id.fdroid)) {
+                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.FDROID)
+                } else {
+                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
+                }
 
-            sourceFlags = if (checkedIds.contains(R.id.izzyondroid)) {
-                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
+                sourceFlags = if (checkedIds.contains(R.id.izzyondroid)) {
+                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
+                } else {
+                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
+                }
+
+                sourceFlags = if (checkedIds.contains(R.id.amazon)) {
+                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
+                } else {
+                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
+                }
+
+                sourceFlags = if (checkedIds.contains(R.id.galaxy_store)) {
+                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
+                } else {
+                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
+                }
             } else {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.amazon)) {
-                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
-            } else {
+                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.galaxy_store)) {
-                FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
-            } else {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
             }
 
