@@ -8,6 +8,8 @@ import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterLanguage
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 
 class Language : ScopedFragment() {
 
@@ -26,6 +28,16 @@ class Language : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         recyclerView.adapter = adapterLanguage
+
+        adapterLanguage.setLanguageCallback(object : AdapterLanguage.Companion.LanguageCallback {
+            override fun onCreditsClicked() {
+                openWebPage(getString(R.string.translate))
+            }
+
+            override fun onParticipateClicked() {
+                CROWDIN_LINK.asUri().openInBrowser(requireContext())
+            }
+        })
     }
 
     companion object {
@@ -35,5 +47,7 @@ class Language : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val CROWDIN_LINK = "https://crowdin.com/project/inure"
     }
 }

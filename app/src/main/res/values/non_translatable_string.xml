@@ -69,4 +69,5 @@
     <string name="nomedia" translatable="false">.nomedia</string>
     <string name="foss" translatable="false">FOSS</string>
     <string name="aosp" translatable="false">AOSP</string>
+    <string name="click_to_participate" translatable="false">Click to participate in the translation on Crowdin.</string>
 </resources>

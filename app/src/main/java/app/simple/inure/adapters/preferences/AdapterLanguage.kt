@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Locales
@@ -18,6 +19,8 @@ import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
 
 class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
+
+    private var languageCallback: LanguageCallback? = null
 
     private var list: MutableList<Locales> = LocaleHelper.localeList.also { it ->
         it.subList(1, it.size).sortBy {
@@ -31,7 +34,7 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
                 Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_locale, parent, false))
             }
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
+                Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_language, parent, false))
             }
             else -> {
                 throw RuntimeException("there is no type that matches the type $viewType + make sure your using types correctly")
@@ -39,8 +42,8 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+    override fun onBindViewHolder(holder: VerticalListViewHolder, positionRaw: Int) {
+        val position = positionRaw - 1
 
         if (holder is Holder) {
             holder.container.isClickable = list[position].localeCode != ConfigurationPreferences.getAppLanguage()
@@ -61,6 +64,14 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
         } else if (holder is Header) {
             holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
             holder.title.setText(R.string.language)
+
+            holder.clickToParticipate.setOnClickListener {
+                languageCallback?.onParticipateClicked()
+            }
+
+            holder.credits.setOnClickListener {
+                languageCallback?.onCreditsClicked()
+            }
         }
     }
 
@@ -79,6 +90,8 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_type_face_total)
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_header_title)
+        val clickToParticipate: DynamicRippleTextView = itemView.findViewById(R.id.click_to_participate)
+        val credits: DynamicRippleTextView = itemView.findViewById(R.id.credits)
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -86,5 +99,16 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
         val language: TypeFaceTextView = itemView.findViewById(R.id.adapter_locale_name)
         val code: TypeFaceTextView = itemView.findViewById(R.id.adapter_locale_code)
         val icon: ThemeIcon = itemView.findViewById(R.id.adapter_locale_check_icon)
+    }
+
+    fun setLanguageCallback(callback: LanguageCallback) {
+        languageCallback = callback
+    }
+
+    companion object {
+        interface LanguageCallback {
+            fun onParticipateClicked()
+            fun onCreditsClicked()
+        }
     }
 }
