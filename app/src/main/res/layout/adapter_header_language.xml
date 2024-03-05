@@ -27,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"
-        app:appFontStyle="regular"
+        app:appFontStyle="medium"
         app:drawableEndCompat="@drawable/ic_open_in_new_tiny"
         app:drawableTintStyle="accent"
         app:textColorStyle="secondary" />
@@ -40,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"
-        app:appFontStyle="regular"
+        app:appFontStyle="medium"
         app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
         app:drawableTintStyle="accent"
         app:textColorStyle="secondary" />
