@@ -161,7 +161,7 @@ FOSS indicator alongside your app, there are two ways this can be done.
    will fetch this info during the runtime and will include your app based on the flag.
 
 ```xml
- <application
+<application
    .....
    >
    
