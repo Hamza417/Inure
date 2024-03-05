@@ -165,13 +165,15 @@ If you are a developer and want your app to be listed in the FOSS panel of Inure
         .....
         >
 
+        <!-- Set to true to indicate the app is open source -->
         <meta-data
             android:name="open_source"
-            android:value="true" /> <!-- Set to true to indicate the app is open source -->
+            android:value="true" />
 
+        <!-- License of your app -->
         <meta-data
             android:name="open_source_license"
-            android:value="GNU GENERAL PUBLIC LICENSE Version 3" /> <!-- License of your app -->
+            android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
 
     </application>
    ```
@@ -180,9 +182,9 @@ If you are a developer and want your app to be listed in the FOSS panel of Inure
 
 #### Developers
 
-Inure's repo doesn't require any special setup, clone/fork the repo and run
-in [Android Studio](https://developer.android.com/studio) and let the initial
-setup finish automatically and you'll be good to go.
+Inure's repo doesn't require any special setup, clone/fork the repo and run in
+[Android Studio](https://developer.android.com/studio) and let the initial setup finish
+automatically and you'll be good to go.
 
 #### Not a developer?
 
