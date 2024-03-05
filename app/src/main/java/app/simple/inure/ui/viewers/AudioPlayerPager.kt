@@ -2,10 +2,16 @@ package app.simple.inure.ui.viewers
 
 import android.animation.Animator
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -379,6 +385,13 @@ class AudioPlayerPager : ScopedFragment() {
         lrcView.setOnPlayIndicatorLineListener { time, _ ->
             audioServicePager?.seek(time.toInt())
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                setLrc()
+                Log.d(TAG, "Lrc refreshed")
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -567,5 +580,7 @@ class AudioPlayerPager : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val TAG = "AudioPlayerPager"
     }
 }

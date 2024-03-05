@@ -13,7 +13,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -324,8 +323,7 @@ public class LrcView extends View {
         }
     
         timeGapBetweenTwoLines = Math.abs(lrcData.get(linePos).getTime() - time);
-        Log.d("LRC", "getUpdateTimeLinePosition: " + timeGapBetweenTwoLines);
-    
+        
         return linePos;
     }
     

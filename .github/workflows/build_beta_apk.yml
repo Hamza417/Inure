@@ -51,10 +51,13 @@ jobs:
                 if: env.CANCEL_WORKFLOW == 'true'
                 run: |
                     echo "Beta apk not requested. Cancelling workflow..."
-    
+
+        outputs:
+            cancel_workflow: ${{ steps.set_output.outputs.CANCEL_WORKFLOW }}
 
     build:
-        if: steps.set_output.outputs.CANCEL_WORKFLOW != 'true'
+        needs: validation
+        if: ${{ needs.validation.outputs.cancel_workflow != 'true' }}
         name: Build APK
         runs-on: ubuntu-latest
 
@@ -109,7 +112,7 @@ jobs:
 
                     # Set these values as environment variables for later steps
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-                    
+
                     # Store the commit ID as an environment variable
                     echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
@@ -158,7 +161,7 @@ jobs:
                     document: ${{ env.APK_PATH }}
                     message: |
                         ${{ github.event.inputs.message }}
-                        
+
                         Current Build Code: ${{ env.VERSION_CODE }}
                         Current Commit ID: ${{ env.COMMIT_ID }}
 
