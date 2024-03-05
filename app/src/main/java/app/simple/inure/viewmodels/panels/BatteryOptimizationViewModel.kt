@@ -126,7 +126,9 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         filtered.getSortedList()
 
                         // Remove duplicates
-                        filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
+                        filtered = filtered.distinctBy {
+                            it.packageInfo.packageName
+                        } as ArrayList<BatteryOptimizationModel>
 
                         batteryOptimizationData.postValue(filtered)
                     }
@@ -209,7 +211,10 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                         }
                     }
 
-                    filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
+                    // Remove duplicates
+                    filtered = filtered.distinctBy {
+                        it.packageInfo.packageName
+                    } as ArrayList<BatteryOptimizationModel>
 
                     for (app in filtered) {
                         kotlin.runCatching {
@@ -219,16 +224,13 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
                     filtered.getSortedList()
 
-                    // Remove duplicates
-                    filtered = filtered.distinct() as ArrayList<BatteryOptimizationModel>
-
                     batteryOptimizationData.postValue(filtered)
                 }
             }.getOrElse {
                 batteryOptimizationData.postValue(arrayListOf())
 
                 if (it is ClassCastException) {
-                    postWarning("ERR: Shizuku didn't respond properly for battery optimization data fetch request, try restarting your device.")
+                    postWarning("ERR: Shizuku didn't respond properly for battery optimization data fetch request, try restarting Shizuku.")
                 } else {
                     postWarning("ERR: ${it.message ?: "Unknown shizuku error while loading battery optimization data"}}")
                 }
@@ -272,14 +274,6 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     fun clearBatteryOptimizationAppData() {
         batteryOptimizationUpdate.value = null
-    }
-
-    fun isBatteryOptimizationDataEmpty(): Boolean {
-        kotlin.runCatching {
-            return batteryOptimizationData.value.isNullOrEmpty()
-        }.getOrElse {
-            return true
-        }
     }
 
     override fun onShellCreated(shell: Shell?) {
