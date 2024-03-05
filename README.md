@@ -43,7 +43,7 @@ An elegant Android app manager.
 - [Top Android Apps! (May 2023) - Sam Beckman](https://youtu.be/g6pMQAFfd3Q?t=220)
 - [8 Legendary Android Apps You Must INSTALL NOW - May 2023!](https://www.youtube.com/watch?v=YbnNmnd5JrE&t=268s)
 - [Apps that Will LEVEL Up Your Smartphone Experience in 2023! - Sam Beckman](https://youtu.be/EtOq5ccjv5s?t=121)
-- [The Most Functional App Ever! - Sam Beckamn](https://www.youtube.com/shorts/WYoWLMKawBg)
+- [The Most Functional App Ever! - Sam Beckman](https://www.youtube.com/shorts/WYoWLMKawBg)
 - [Top 10 Android Apps! (October 2023) - Matt Robb](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
 - [The Best Apps of 2023! - Sam Beckman](https://youtu.be/NYZd7IKn1oY?t=202)
 - [Coolest Open Source projects of the week 🔥 - Ana Mogul](https://console.substack.com/p/console-190)
@@ -153,30 +153,28 @@ Various styles of menus and dialogs used in the app.
 
 ## Include your app in Inure's FOSS panel
 
-If you are a developer and want your app to be listed in the FOSS panel of Inure, there are two ways this can be done.
+If you are a developer and want your app to be listed in the FOSS panel of Inure and show a
+FOSS indicator alongside your app, there are two ways this can be done.
 
 1. You can publish your app on F-Droid. Inure automatically mark the app as FOSS if it's available
    on F-Droid.
-2. You can add `open_source` tag in your app's manifest file and Inure will fetch this info during
-   the runtime and will include your app based on the flag.
+2. You can add `open_source` and `open_source_license` tag in your app's manifest file and Inure
+   will
+   fetch this info during the runtime and will include your app based on the flag.
 
-   ```xml
-    <application
-        .....
-        >
+```xml
+
+<application.....>
 
         <!-- Set to true to indicate the app is open source -->
-        <meta-data
-            android:name="open_source"
-            android:value="true" />
+<meta-data android:name="open_source" android:value="true" />
 
         <!-- License of your app -->
-        <meta-data
-            android:name="open_source_license"
-            android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
+<meta-data android:name="open_source_license"
+android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
 
-    </application>
-   ```
+        </application>
+```
    
 ## Contribute
 
