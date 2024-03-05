@@ -5146,6 +5146,7 @@
     <string name="eu.thedarken.rootvalidator" translatable="false">GPL-3.0-only</string>
     <string name="com.programminghoch10.RotationControl" translatable="false">EUPL-1.2</string>
     <string name="de.felixnuesse.extract" translatable="false">GPL-3.0-only</string>
+    <string name="com.rendox.routinetracker" translatable="false">GPL-3.0-only</string>
     <string name="ca.frozen.rpicameraviewer" translatable="false">MIT</string>
     <string name="com.nerdoftheherd.tasker.rsync" translatable="false">GPL-3.0-only</string>
     <string name="com.github.warren_bank.rtsp_ipcam_viewer" translatable="false">GPL-2.0-only</string>
@@ -5385,6 +5386,7 @@
     <string name="com.freewatermark.app" translatable="false">MIT</string>
     <string name="com.parishod.watomatic" translatable="false">GPL-3.0-only</string>
     <string name="com.sappu.weather" translatable="false">MIT</string>
+    <string name="in.sunilpaulmathew.weatherwidget" translatable="false">GPL-3.0-or-later</string>
     <string name="com.versobit.weatherdoge.foss" translatable="false">GPL-3.0-only</string>
     <string name="me.tangobee.weathernaut" translatable="false">MIT</string>
     <string name="de.kaiserdragon.weathershortcut" translatable="false">MIT</string>
