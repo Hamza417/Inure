@@ -161,17 +161,21 @@ FOSS indicator alongside your app, there are two ways this can be done.
    will fetch this info during the runtime and will include your app based on the flag.
 
 ```xml
+ <application
+   .....
+   >
+   
+   <!-- Set to true to indicate the app is open source -->
+   <meta-data
+      android:name="open_source"
+      android:value="true" />
+   
+   <!-- License of your app -->
+   <meta-data
+      android:name="open_source_license"
+      android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
 
-<application.....>
-
-        <!-- Set to true to indicate the app is open source -->
-<meta-data android:name="open_source" android:value="true" />
-
-        <!-- License of your app -->
-<meta-data android:name="open_source_license"
-android:value="GNU GENERAL PUBLIC LICENSE Version 3" />
-
-        </application>
+</application>
 ```
    
 ## Contribute
