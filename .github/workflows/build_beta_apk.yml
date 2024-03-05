@@ -42,6 +42,11 @@ jobs:
                     fi
                 id: check_commit_message
 
+            -   name: Set output
+                id: set_output
+                run: |
+                    echo "::set-output name=CANCEL_WORKFLOW::$CANCEL_WORKFLOW"
+
             -   name: Cancel workflow
                 if: env.CANCEL_WORKFLOW == 'true'
                 run: |
@@ -49,7 +54,7 @@ jobs:
     
 
     build:
-        if: env.CANCEL_WORKFLOW != 'true' # Don't run if the commit message is invalid
+        if: steps.set_output.outputs.CANCEL_WORKFLOW != 'true'
         name: Build APK
         runs-on: ubuntu-latest
 

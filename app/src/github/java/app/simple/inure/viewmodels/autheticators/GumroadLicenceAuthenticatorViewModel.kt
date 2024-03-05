@@ -79,7 +79,7 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
                  *             "expiry_year": null
                  *         },
                  *         "order_number": 73577183,
-                 *         "sale_id": "3pCnEidfGt923m6Oz41oUQ==",
+                 *         "sale_id": "",
                  *         "sale_timestamp": "2024-02-08T05:06:34Z",
                  *         "purchaser_id": "9140266370222",
                  *         "variants": "(Full Version Unlocker)",
@@ -125,6 +125,11 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
                         TrialPreferences.setFullVersion(false)
                         TrialPreferences.setHasLicenceKey(false)
                         TrialPreferences.setUnlockerVerificationRequired(true)
+                        if (refunded) {
+                            message.postValue("Your purchase has been refunded and the licence key is no longer valid.")
+                        } else {
+                            message.postValue("Licence is not valid. Please check the licence key and try again.")
+                        }
                     }
                 } else {
                     // Licence is invalid
