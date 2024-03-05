@@ -46,6 +46,10 @@ class Certificate : ScopedFragment() {
                 override fun onInformationClicked(view: View, string: String) {
                     PopupInformation(requireView(), string)
                 }
+
+                override fun onWarning(string: String) {
+                    showWarning(string, false)
+                }
             })
 
             recyclerView.adapter = adapterInformation

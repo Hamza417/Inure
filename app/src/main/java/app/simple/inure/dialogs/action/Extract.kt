@@ -29,7 +29,6 @@ class Extract : ScopedBottomSheetFragment() {
 
     private lateinit var loader: LoaderImageView
     private lateinit var progress: TypeFaceTextView
-    private lateinit var status: TypeFaceTextView
     private lateinit var share: DynamicRippleTextView
 
     private lateinit var extractViewModel: ExtractViewModel
@@ -39,7 +38,6 @@ class Extract : ScopedBottomSheetFragment() {
 
         loader = view.findViewById(R.id.extract_loader_indicator)
         progress = view.findViewById(R.id.extracting_progress)
-        status = view.findViewById(R.id.extracting_updates)
         share = view.findViewById(R.id.share)
 
         val extractViewModelFactory = ExtractViewModelFactory(packageInfo, requireArguments().getStringArray(BundleConstants.paths)!!.toSet())
@@ -56,24 +54,27 @@ class Extract : ScopedBottomSheetFragment() {
         }
 
         extractViewModel.getStatus().observe(viewLifecycleOwner) {
-            status.text = it
+            progress.text = it
         }
 
         extractViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 
+        extractViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
+
         extractViewModel.getSuccess().observe(viewLifecycleOwner) {
             if (it) {
-                progress.text = getString(R.string.done)
                 loader.loaded()
                 share.visible(true)
             }
         }
 
         extractViewModel.getFile().observe(viewLifecycleOwner) { file ->
-            status.text = getString(R.string.saved_to, file?.absolutePath)
-            status.makeLinks(Pair(file?.absolutePath!!, View.OnClickListener {
+            progress.text = getString(R.string.saved_to, file?.absolutePath)
+            progress.makeLinks(Pair(file?.absolutePath!!, View.OnClickListener {
                 val selectedUri: Uri = Uri.parse(extractViewModel.getFile().value?.absolutePath)
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.setDataAndType(selectedUri, "resource/folder")

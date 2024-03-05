@@ -12,61 +12,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/dialog_elevation"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="@dimen/dialog_padding">
 
+        <app.simple.inure.decorations.views.LoaderImageView
+            android:id="@+id/extract_loader_indicator"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            app:loaderStyle="rotary"
+            tools:ignore="ContentDescription" />
+
         <app.simple.inure.decorations.typeface.TypeFaceTextView
-            android:id="@+id/extracting_updates"
-            android:layout_width="match_parent"
+            android:id="@+id/extracting_progress"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="@dimen/dialog_padding"
+            android:layout_marginHorizontal="@dimen/popup_padding"
             android:layout_weight="1"
+            android:text="@string/loading"
             android:textSize="@dimen/info_text_small"
-            app:appFontStyle="medium"
-            app:textColorStyle="primary" />
+            app:appFontStyle="bold"
+            app:textColorStyle="secondary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="end"
+            android:layout_marginStart="10dp"
+            android:padding="@dimen/button_padding"
+            android:text="@string/share"
+            android:textSize="@dimen/info_text_small"
+            android:visibility="gone"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
 
-            <app.simple.inure.decorations.views.LoaderImageView
-                android:id="@+id/extract_loader_indicator"
-                android:layout_width="@dimen/button_size"
-                android:layout_height="@dimen/button_size"
-                android:layout_gravity="center_vertical"
-                android:padding="5dp"
-                app:loaderStyle="rotary"
-                tools:ignore="ContentDescription" />
-
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/extracting_progress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="@dimen/popup_padding"
-                android:layout_weight="1"
-                android:text="@string/loading"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="bold"
-                app:textColorStyle="secondary" />
-
-
-            <app.simple.inure.decorations.ripple.DynamicRippleTextView
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="10dp"
-                android:padding="@dimen/button_padding"
-                android:text="@string/share"
-                android:textSize="@dimen/info_text_small"
-                android:visibility="gone"
-                app:appFontStyle="bold"
-                app:textColorStyle="accent" />
-
-        </LinearLayout>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

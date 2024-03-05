@@ -47,10 +47,8 @@ class AdapterTrackerDetails(private val data: ArrayList<String>) : RecyclerView.
      * Service
      * Receiver
      */
+    @Suppress("unused")
     private fun getColorBasedOnCategory(category: String): Int {
-        val hsv = FloatArray(3)
-        val saturationFactor = 0.8f // decrease saturation by 20%
-
         return when (category) {
             "Advertisement" -> {
                 Color.parseColor("#cb4335") // Red

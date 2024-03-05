@@ -45,7 +45,7 @@ jobs:
             -   name: Set output
                 id: set_output
                 run: |
-                    echo "::set-output name=CANCEL_WORKFLOW::$CANCEL_WORKFLOW"
+                    echo "CANCEL_WORKFLOW=$CANCEL_WORKFLOW" >> $GITHUB_ENV
 
             -   name: Cancel workflow
                 if: env.CANCEL_WORKFLOW == 'true'
