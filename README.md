@@ -116,6 +116,10 @@ See the [concise list of features of the app here](./FEATURES.md).
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x1C                                  |                                 0x1D                                  |                                 0x1E                                  |
 
+| ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/36.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/37.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/38.png) |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|                                 0x1F                                  |                                 0x20                                  |                                 0x21                                  |
+
 ### Accessibility
 
 Various accessibility features to make the app more accessible to users.
