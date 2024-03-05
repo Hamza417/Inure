@@ -72,6 +72,9 @@ UI feature of Inure that makes it stand out.
 - Ability to disable animations in the app completely or customize them to your liking.
 - Various accessibility feature to add retro touch in the app if you're used to legacy layouts and
   ease of access for various users.
+- Dynamic interface to support all screen sizes and aspect ratios.
+- Customizable home panel with various options to choose from.
+- Supports seamless operations using keyboard and mouse.
 
 ### Bonus Features
 
