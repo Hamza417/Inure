@@ -49,8 +49,6 @@ object PreferencesSearchConstants {
     private const val accessibility = R.string.accessibility
     private const val terminal = R.string.terminal
     private const val shell = R.string.shell
-    private const val trackers = R.string.trackers
-    private const val batch = R.string.batch
     private const val development = R.string.development
     private const val about = R.string.about
 
@@ -86,7 +84,8 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_route, R.string.path, R.string.desc_app_path, popup, application, configuration),
             PreferenceModel(R.drawable.ic_shortcut, R.string.shortcuts, R.string.shortcuts_desc, multi_toggleable, application, configuration),
             PreferenceModel(R.drawable.ic_su, R.string.use_root_methods, R.string.root_desc, toggleable, root, configuration),
-            PreferenceModel(R.drawable.ic_su, R.string.use_shizuku, R.string.shizuku_desc, toggleable, shizuku, configuration),
+            PreferenceModel(R.drawable.ic_shizuku, R.string.use_shizuku, R.string.shizuku_desc, toggleable, shizuku, configuration),
+            PreferenceModel(R.drawable.ic_people, R.string.show_user_list, R.string.show_user_list_desc, toggleable, application, configuration),
     )
 
     private val formattingData = arrayListOf(
@@ -133,6 +132,7 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.installer_visibility_customization_desc, options, installer, layouts),
             PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.home_visibility_customization_desc, options, home, layouts),
             PreferenceModel(R.drawable.ic_grid_4, R.string.menu_layout, R.string.menu_layout_desc, options, home, layouts),
+            PreferenceModel(R.drawable.ic_linear_scale, R.string.app_information, R.string.info_visibility_customization_desc, options, home, layouts),
     )
 
     private val aboutData = arrayListOf(
