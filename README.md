@@ -59,8 +59,7 @@ work with both Root and Shizuku modes.
 Inure's development was started as an independent learning project which later has become one of the
 most ambitious and intuitive Android apps developed by a single person and is based 100% on custom
 UI APIs developed to be used only in this app with its own native theme engine, crash handler, image
-renderer and a beautiful animation framework. There's also an implementation for PC like mouse hover
-effects and click interactions for tablet and PC users.
+renderer and a beautiful animation framework.
 
 Along with it own UI perks, Inure also supports dynamic Material You colors with dedicated accent
 and theme color modes.
@@ -68,7 +67,7 @@ and theme color modes.
 The app is in stable testing stage. You can join app's [Telegram Group](https://t.me/inure_app_manager)
 and get development related updates or you can [submit your feedbacks about the app](https://github.com/Hamza417/Inure/discussions/286).
 
-## Features
+### Features
 
 See the [concise list of features of the app here](./FEATURES.md).
 
@@ -188,7 +187,7 @@ automatically and you'll be good to go.
 
 You can take participation in app's translation on [Crowdin](https://crowdin.com/project/inure)
 and watch Inure work in your language and make the app more user friendly to
-everyone speaking your tongue... 😎😎
+everyone speaking your tongue.
 
 Alternatively, you can also edit/upload your locale's strings
 from `app/src/main/res/values-locale-code` directory.
@@ -196,7 +195,7 @@ from `app/src/main/res/values-locale-code` directory.
 #### Want to show you were here?
 
 You cannot do the above still wanna show your support? hit the star 🌟 and let me know you were here
-and appreciate the project.. 😄
+and appreciate the project.
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Hamza417/Inure&type=Date)](https://star-history.com/#Hamza417/Inure&Date)
 
