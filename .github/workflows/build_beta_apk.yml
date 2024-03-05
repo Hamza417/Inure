@@ -24,6 +24,9 @@ jobs:
         name: Commit Validation
         runs-on: ubuntu-latest
 
+        outputs:
+            CANCEL_WORKFLOW: ${{ steps.check_commit_message.outputs.CANCEL_WORKFLOW }}
+
         steps:
             -   name: Checkout code
                 uses: actions/checkout@v4
@@ -32,32 +35,20 @@ jobs:
                 run: |
                     if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
                         echo "Workflow was manually dispatched. Skipping commit message check."
-                        echo "CANCEL_WORKFLOW=false" >> $GITHUB_ENV
+                        echo "CANCEL_WORKFLOW=false" >> $GITHUB_OUTPUT
                     else
                         commit_message=$(git log --format=%B -n 1)
                         if [[ ! "$commit_message" == *"build beta"* ]]; then
                             echo "Commit message does not contain 'build beta'. Cancelling workflow."
-                            echo "CANCEL_WORKFLOW=true" >> $GITHUB_ENV
+                            echo "CANCEL_WORKFLOW=true" >> $GITHUB_OUTPUT
                         fi
                     fi
                 id: check_commit_message
 
-            -   name: Set output
-                id: set_output
-                run: |
-                    echo "CANCEL_WORKFLOW=$CANCEL_WORKFLOW" >> $GITHUB_ENV
-
-            -   name: Cancel workflow
-                if: env.CANCEL_WORKFLOW == 'true'
-                run: |
-                    echo "Beta apk not requested. Cancelling workflow..."
-
-        outputs:
-            cancel_workflow: ${{ steps.set_output.outputs.CANCEL_WORKFLOW }}
 
     build:
         needs: validation
-        if: ${{ needs.validation.outputs.cancel_workflow != 'true' }}
+        if: needs.validation.outputs.CANCEL_WORKFLOW == 'false'
         name: Build APK
         runs-on: ubuntu-latest
 
@@ -112,14 +103,19 @@ jobs:
 
                     # Set these values as environment variables for later steps
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-
+                    
                     # Store the commit ID as an environment variable
                     echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
             -   name: Build APK
                 run: |
-                    chmod +x ${{ env.GRADLE_PATH }}
-                    ${{ env.GRADLE_PATH }} clean assembleBetaRelease
+                    if [[ -n "${{ env.GRADLE_PATH }}" ]]; then
+                        chmod +x "${{ env.GRADLE_PATH }}"
+                        ${{ env.GRADLE_PATH }} clean assembleBetaRelease
+                    else
+                        chmod +x ./gradlew
+                        ./gradlew clean assembleBetaRelease
+                    fi
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -161,7 +157,7 @@ jobs:
                     document: ${{ env.APK_PATH }}
                     message: |
                         ${{ github.event.inputs.message }}
-
+                        
                         Current Build Code: ${{ env.VERSION_CODE }}
                         Current Commit ID: ${{ env.COMMIT_ID }}
 
