@@ -27,14 +27,14 @@ class AdapterTrackerSelector(private val trackers: ArrayList<Tracker>, private v
         holder.path.text = when {
             tracker.isActivity -> tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
             tracker.isService -> tracker.serviceInfo.packageName + "/" + tracker.serviceInfo.name
-            tracker.isReceiver -> tracker.activityInfo.packageName + "/" + tracker.activityInfo.name
+            tracker.isReceiver -> tracker.receiverInfo.packageName + "/" + tracker.receiverInfo.name
             else -> holder.itemView.context.getString(R.string.unknown)
         }
 
         holder.path.text = holder.path.text.optimizeToColoredString("/")
 
         holder.tracker.text = buildString {
-            append(tracker.codeSignature)
+            append(tracker.name)
             append(" | ")
             when {
                 tracker.isActivity -> {

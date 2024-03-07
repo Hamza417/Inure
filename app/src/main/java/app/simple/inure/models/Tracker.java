@@ -372,14 +372,20 @@ public class Tracker implements Parcelable {
         if (!Arrays.equals(getDocumentation(), tracker.getDocumentation())) {
             return false;
         }
-        if (!getActivityInfo().equals(tracker.getActivityInfo())) {
-            return false;
+        if (getActivityInfo() != null) {
+            if (!getActivityInfo().equals(tracker.getActivityInfo())) {
+                return false;
+            }
         }
-        if (!getReceiverInfo().equals(tracker.getReceiverInfo())) {
-            return false;
+        if (getReceiverInfo() != null) {
+            if (!getReceiverInfo().equals(tracker.getReceiverInfo())) {
+                return false;
+            }
         }
-        if (!getServiceInfo().equals(tracker.getServiceInfo())) {
-            return false;
+        if (getServiceInfo() != null) {
+            if (!getServiceInfo().equals(tracker.getServiceInfo())) {
+                return false;
+            }
         }
         return getComponentName().equals(tracker.getComponentName());
     }
