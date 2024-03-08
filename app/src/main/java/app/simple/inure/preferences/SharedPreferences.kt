@@ -47,8 +47,7 @@ object SharedPreferences {
             if (isInitialized.not()) {
                 // Delete the encrypted shared preferences if it fails to initialize
                 File(getEncryptedSharedPreferencesPath(context)).delete()
-
-                init(context)
+                initEncrypted(context)
                 isInitialized = true
             }
         }
