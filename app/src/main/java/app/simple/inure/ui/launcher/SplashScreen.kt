@@ -3,9 +3,18 @@ package app.simple.inure.ui.launcher
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AppOpsManager
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.pm.PackageManager
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Environment
+import android.os.IBinder
+import android.os.Process
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,15 +35,30 @@ import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.preferences.*
+import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SetupPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
-import app.simple.inure.ui.panels.Trial
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.launcher.LauncherViewModel
-import app.simple.inure.viewmodels.panels.*
+import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
+import app.simple.inure.viewmodels.panels.AppsViewModel
+import app.simple.inure.viewmodels.panels.BatchViewModel
+import app.simple.inure.viewmodels.panels.BatteryOptimizationViewModel
+import app.simple.inure.viewmodels.panels.BootManagerViewModel
+import app.simple.inure.viewmodels.panels.DebloatViewModel
+import app.simple.inure.viewmodels.panels.HomeViewModel
+import app.simple.inure.viewmodels.panels.NotesViewModel
+import app.simple.inure.viewmodels.panels.SearchViewModel
+import app.simple.inure.viewmodels.panels.TagsViewModel
+import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -323,47 +347,16 @@ class SplashScreen : ScopedFragment() {
 
     private fun openApp() {
         if (BehaviourPreferences.isSkipLoading()) {
-            launch()
+            launchHome()
         } else {
             if (isEverythingLoaded()) {
-                launch()
+                launchHome()
             }
         }
     }
 
-    private fun launch() {
-        if (AppUtils.isPlayFlavor()) {
-            if (MainPreferences.shouldShowRateReminder()) {
-                if (MainPreferences.isShowRateReminder()) {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.app_container, Home.newInstance(), "home")
-                        .commit()
-
-                    requireActivity().supportFragmentManager.executePendingTransactions()
-
-                    openFragmentSlide(Rate.newInstance(), "rate")
-                } else {
-                    if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
-                        openFragmentArc(Home.newInstance(), icon)
-                    } else {
-                        openFragmentSlide(Trial.newInstance())
-                    }
-                }
-            } else {
-                if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
-                    openFragmentArc(Home.newInstance(), icon)
-                } else {
-                    openFragmentSlide(Trial.newInstance())
-                }
-            }
-        } else {
-            if (TrialPreferences.getDaysLeft() != -1) { // Block app launch if shady activity detected
-                openFragmentArc(Home.newInstance(), icon)
-            } else {
-                openFragmentSlide(Trial.newInstance())
-            }
-        }
+    private fun launchHome() {
+        openFragmentArc(Home.newInstance(), icon)
     }
 
     private fun isEverythingLoaded(): Boolean {

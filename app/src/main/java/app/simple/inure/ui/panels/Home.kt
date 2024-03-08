@@ -13,6 +13,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.ui.AdapterHome
@@ -21,6 +22,7 @@ import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.ChangesReminder
+import app.simple.inure.dialogs.app.Rate.Companion.showRateDialog
 import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
@@ -70,7 +72,11 @@ class Home : ScopedFragment() {
         if (MainPreferences.shouldShowChangeLogReminder()) {
             ChangesReminder.newInstance()
                 .show(childFragmentManager, "changes_reminder")
+        } else {
+            MainPreferences.setChangeLogReminder(BuildConfig.VERSION_CODE)
         }
+
+        showRateDialog()
 
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
@@ -277,6 +283,16 @@ class Home : ScopedFragment() {
             .show(childFragmentManager, "apps_menu")
     }
 
+    private fun showRateDialog() {
+        runCatching {
+            if (MainPreferences.shouldShowRateReminder()) {
+                if (MainPreferences.isShowRateReminder()) {
+                    childFragmentManager.showRateDialog()
+                }
+            }
+        }
+    }
+
     companion object {
         fun newInstance(): Home {
             val args = Bundle()
@@ -284,5 +300,7 @@ class Home : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Home"
     }
 }
