@@ -2,6 +2,7 @@ package app.simple.inure.ui.viewers
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -24,6 +25,7 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.ZoomImageView
@@ -191,9 +193,13 @@ class ImageViewer : ScopedFragment() {
                             imageViewerViewModel.path.observe(viewLifecycleOwner) {
                                 hideLoader()
                                 if (it.isNotNull()) {
-                                    filePath = it
-                                    exportImage.launch(it.substringAfterLast("/"))
-                                    imageViewerViewModel.path.removeObservers(viewLifecycleOwner)
+                                    try {
+                                        filePath = it
+                                        exportImage.launch(it.substringAfterLast("/"))
+                                        imageViewerViewModel.path.removeObservers(viewLifecycleOwner)
+                                    } catch (e: ActivityNotFoundException) {
+                                        showError(Warnings.getActivityNotFoundWarning())
+                                    }
                                 }
                             }
                         }

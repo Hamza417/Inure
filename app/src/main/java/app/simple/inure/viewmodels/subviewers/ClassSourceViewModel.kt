@@ -53,6 +53,8 @@ class ClassSourceViewModel(application: Application, val className: String, val 
             sourceData.postValue(reflector.toString().trimStart().highlightJava())
         } catch (e: Exception) {
             e.printStackTrace()
+        } catch (e: OutOfMemoryError) {
+            postError(e)
         } finally {
             uriStream?.close()
         }

@@ -47,4 +47,9 @@ object Warnings {
      * Root service is taking too long to respond
      */
     fun getRootServiceTimeoutWarning(): String = "0x009: Root service is taking too long to respond, try restarting the app."
+
+    /**
+     * Activity not found or not supported by your device
+     */
+    fun getActivityNotFoundWarning(): String = "0x00A: Activity not found or not supported by your device"
 }

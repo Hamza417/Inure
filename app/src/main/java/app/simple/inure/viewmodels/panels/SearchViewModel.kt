@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -26,6 +27,8 @@ import java.util.stream.Collectors
 import kotlin.concurrent.thread
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
+
+    private val TAG = "SearchViewModel"
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var deepApps: ArrayList<PackageInfo> = arrayListOf()
@@ -371,21 +374,25 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
         filteredList.parallelStream().forEach { app ->
-            val searchModel = SearchModel()
-            val pkg = packageManager.getPackageInfo(app.packageName, flags).apply {
-                applicationInfo.name = app.applicationInfo.name
-            }
+            try {
+                val searchModel = SearchModel()
+                val pkg = packageManager.getPackageInfo(app.packageName, flags).apply {
+                    applicationInfo.name = app.applicationInfo.name
+                }
 
-            searchModel.packageInfo = pkg
-            searchModel.permissions = getPermissionCount(keywords, pkg)
-            searchModel.activities = getActivitiesCount(keywords, pkg)
-            searchModel.services = getServicesCount(keywords, pkg)
-            searchModel.receivers = getReceiversCount(keywords, pkg)
-            searchModel.providers = getProvidersCount(keywords, pkg)
-            searchModel.resources = getResourcesCount(keywords, pkg)
+                searchModel.packageInfo = pkg
+                searchModel.permissions = getPermissionCount(keywords, pkg)
+                searchModel.activities = getActivitiesCount(keywords, pkg)
+                searchModel.services = getServicesCount(keywords, pkg)
+                searchModel.receivers = getReceiversCount(keywords, pkg)
+                searchModel.providers = getProvidersCount(keywords, pkg)
+                searchModel.resources = getResourcesCount(keywords, pkg)
 
-            synchronized(list) {
-                list.add(searchModel)
+                synchronized(list) {
+                    list.add(searchModel)
+                }
+            } catch (e: NameNotFoundException) {
+                Log.e(TAG, e.stackTraceToString())
             }
         }
 
