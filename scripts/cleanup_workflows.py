@@ -32,11 +32,13 @@ def delete_workflow_run(run_id, token):
 
 
 def main(token):
-    old_date = datetime.now() - timedelta(days=14)
+    old_date = datetime.now() - timedelta(days=0)
     next_url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs"
 
     while next_url:
         workflow_runs, next_url = get_workflow_runs(next_url, token)
+        print(f"Found {len(workflow_runs)} workflow runs")
+
         for run in workflow_runs:
             created_at = datetime.strptime(run['created_at'], '%Y-%m-%dT%H:%M:%SZ')
             if created_at < old_date:
