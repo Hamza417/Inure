@@ -18,3 +18,4 @@ local.properties
 /app/beta/release/
 /app/github/debug/
 /.idea/deploymentTargetDropDown.xml
+/scripts/secrets.txt

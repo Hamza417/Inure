@@ -10,47 +10,62 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -   name: Cleanup old workflow runs
+            -   name: Checkout code
+                uses: actions/checkout@v4
+
+            -   name: Set up Python
+                uses: actions/setup-python@v5
+                with:
+                    python-version: '3.x'
+
+            -   name: Install dependencies
                 run: |
-                    # Initial URL for fetching workflow runs
-                    url="https://api.github.com/repos/${{ github.repository }}/actions/runs"
+                    python -m pip install --upgrade pip
+                    pip install requests
 
-                    # Get the Unix timestamp of the date 30 days ago
-                    old_date=$(date -d '30 days ago' -u +%s)
-
-                    while [[ -n "$url" ]]; do
-                        # Fetch workflow runs
-                        response=$(curl -s -H "Authorization: token ${{ secrets.PAT }}" $url)
-
-                        # Get all workflow runs
-                        all_runs=$(echo "$response" | jq -c '.workflow_runs[] | {id: .id, created_at: .created_at}')
-
-                        # Loop through all workflow runs
-                        for run in $(echo "${all_runs}"); do
-                            # Get the creation date of the workflow run
-                            created_at=$(echo "$run" | jq -r '.created_at')
-                            # Convert the creation date to a Unix timestamp
-                            created_at_unix=$(date -d"$created_at" +%s)
-
-                            # Compare the creation date with the old date
-                            if (( created_at_unix < old_date )); then
-                                # Get the id of the workflow run
-                                run_id=$(echo "$run" | jq -r '.id')
-
-                                # Delete the workflow run
-                                curl -X DELETE -H "Authorization: token ${{ secrets.PAT }}" \
-                                    "https://api.github.com/repos/${{ github.repository }}/actions/runs/$run_id"
-
-                                echo "Deleted workflow run $run_id"
-                            fi
-                        done
-
-                        # Extract the Link header for pagination
-                        link_header=$(echo "$response" | grep '^Link:' | sed -e 's/^Link: //')
-
-                        # Extract the URL for the next page
-                        url=$(echo "$link_header" | grep -o '<[^>]*>; rel="next"' | sed -e 's/^<//' -e 's/>; rel="next"$//')
-
-                    done
+            -   name: Cleanup old workflow runs
                 env:
-                    PAT: ${{ secrets.PAT }}
+                    TOKEN: ${{ secrets.PAT }}
+                run: |
+                    python - <<EOF
+                    import json
+                    import re
+                    from datetime import datetime, timedelta
+                    import requests
+                    
+                    def get_workflow_runs(url):
+                        headers = {'Authorization': f"token {TOKEN}"}
+                        response = requests.get(url, headers=headers)
+                        if response.status_code != 200:
+                            print(f"Error: {response.text}")
+                            return [], None
+                        link_header = response.headers.get('Link')
+                        next_url_ = None
+                        if link_header:
+                            match = re.search(r'<(https://api.github.com/[^>]+)>;\s*rel="next"', link_header)
+                            if match:
+                                next_url_ = match.group(1)
+                        return json.loads(response.text)['workflow_runs'], next_url_
+                    
+                    def delete_workflow_run(run_id):
+                        url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs/{run_id}"
+                        headers = {'Authorization': f"token {TOKEN}"}
+                        response = requests.delete(url, headers=headers)
+                        if response.status_code != 204:
+                            print(f"Error: {response.text}")
+                        else:
+                            print(f"Deleted workflow run {run_id}")
+                    
+                    old_date = datetime.now() - timedelta(days=14)
+                    next_url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs"
+                    
+                    while next_url:
+                        workflow_runs, next_url = get_workflow_runs(next_url)
+                        for run in workflow_runs:
+                            created_at = datetime.strptime(run['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+                            if created_at < old_date:
+                                delete_workflow_run(run['id'])
+                    
+                    
+                    print("Done")
+                    EOF
