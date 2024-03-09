@@ -1,19 +1,12 @@
+import argparse
 import json
 import re
 from datetime import datetime, timedelta
 
 import requests
 
-token = ""
 
-
-def set_personal_access_token():
-    file_ = open('secrets.txt', 'r')
-    global token
-    token = file_.readline().strip()
-
-
-def get_workflow_runs(url):
+def get_workflow_runs(url, token):
     headers = {'Authorization': f"token {token}"}
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
@@ -28,24 +21,32 @@ def get_workflow_runs(url):
     return json.loads(response.text)['workflow_runs'], next_url_
 
 
-def delete_workflow_run(run_id):
+def delete_workflow_run(run_id, token):
     url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs/{run_id}"
     headers = {'Authorization': f"token {token}"}
     response = requests.delete(url, headers=headers)
     if response.status_code != 204:
         print(f"Error: {response.text}")
-        return
     else:
-        print(f"Deleted workflow run {run_id} with name {run['name']}")
+        print(f"Deleted workflow run {run_id}")
 
 
-old_date = datetime.now() - timedelta(days=14)
-next_url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs"
-set_personal_access_token()
+def main(token):
+    old_date = datetime.now() - timedelta(days=14)
+    next_url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs"
 
-while next_url:
-    workflow_runs, next_url = get_workflow_runs(next_url)
-    for run in workflow_runs:
-        created_at = datetime.strptime(run['created_at'], '%Y-%m-%dT%H:%M:%SZ')
-        if created_at < old_date:
-            delete_workflow_run(run['id'])
+    while next_url:
+        workflow_runs, next_url = get_workflow_runs(next_url, token)
+        for run in workflow_runs:
+            created_at = datetime.strptime(run['created_at'], '%Y-%m-%dT%H:%M:%SZ')
+            if created_at < old_date:
+                delete_workflow_run(run['id'], token)
+
+    print("Done")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("token", help="GitHub token")
+    args = parser.parse_args()
+    main(args.token)
