@@ -135,27 +135,12 @@ Various styles of menus and dialogs used in the app.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
 
-## Behind The Scenes
-
-|             ![01](./assets/01.jpg)              |
-|:-----------------------------------------------:|
-|   Designing of interface skeletons for Inure    | 
-
-|        ![01](./assets/inure_music.png)        |
-|:---------------------------------------------:|
-| Audio Player interface design (later removed) |
-
-|     ![01](./assets/inure_batch.png)     |
-|:---------------------------------------:|
-| Presentation design for Batch interface |
-
-
 ## Include your app in Inure's FOSS panel
 
 If you are a developer and want your app to be listed in the FOSS panel of Inure and show a
 FOSS indicator alongside your app, there are two ways this can be done.
 
-1. You can publish your app on F-Droid. Inure automatically mark the app as FOSS if it's available
+1. You can publish your app on F-Droid. Inure automatically marks the app as FOSS if it's available
    on F-Droid.
 2. You can add `open_source` and `open_source_license` tag in your app's manifest file and Inure
    will fetch this info during the runtime and will include your app based on the flag.
@@ -209,3 +194,17 @@ and appreciate the project.
 **Inure App Manager** is released as open source software under
 the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
 license, see the [LICENSE](./LICENSE) file in the project root for the full license text.
+
+## Behind The Scenes
+
+|             ![01](./assets/01.jpg)              |
+|:-----------------------------------------------:|
+|   Designing of interface skeletons for Inure    | 
+
+|        ![01](./assets/inure_music.png)        |
+|:---------------------------------------------:|
+| Audio Player interface design (later removed) |
+
+|     ![01](./assets/inure_batch.png)     |
+|:---------------------------------------:|
+| Presentation design for Batch interface |
