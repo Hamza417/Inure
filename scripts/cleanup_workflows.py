@@ -32,7 +32,7 @@ def delete_workflow_run(run_id, token):
 
 
 def main(token):
-    old_date = datetime.now() - timedelta(days=0)
+    old_date = datetime.now() - timedelta(days=14)
     next_url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs"
 
     while next_url:
