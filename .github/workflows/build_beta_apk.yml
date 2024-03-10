@@ -41,6 +41,9 @@ jobs:
                         if [[ ! "$commit_message" == *"build beta"* ]]; then
                             echo "Commit message does not contain 'build beta'. Cancelling workflow."
                             echo "CANCEL_WORKFLOW=true" >> $GITHUB_OUTPUT
+                        else
+                            echo "Commit message contains 'build beta'. Proceeding with the workflow."
+                            echo "CANCEL_WORKFLOW=false" >> $GITHUB_OUTPUT
                         fi
                     fi
                 id: check_commit_message
