@@ -29,7 +29,7 @@ import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.FlagUtils
-import app.simple.inure.util.TrackerUtils.getTrackerSignatures
+import app.simple.inure.util.TrackerUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -348,7 +348,7 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     }
                 }
 
-                val trackers = application.getTrackerSignatures()
+                val trackers = TrackerUtils.getTrackerSignatures()
                 var count = 0
 
                 if (packageInfo.activities != null) {

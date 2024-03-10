@@ -14,6 +14,7 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ActivityUtils
+import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ class ActivitiesViewModel(application: Application, private val packageInfo: Pac
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 val list = arrayListOf<ActivityInfoModel>()
-                val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
+                val signatures = TrackerUtils.getTrackerSignatures()
                 val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
                 for (ai in getPackageInfo(isInstalled).activities) {

@@ -7,12 +7,12 @@ import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -40,7 +40,7 @@ class ProvidersViewModel(application: Application, val packageInfo: PackageInfo)
 
                 for (pi in getPackageInfo(isInstalled).providers) {
                     val providerInfoModel = ProviderInfoModel()
-                    val signatures: Array<String> = context.resources.getStringArray(R.array.trackers)
+                    val signatures = TrackerUtils.getTrackerSignatures()
 
                     providerInfoModel.providerInfo = pi
                     providerInfoModel.name = pi.name

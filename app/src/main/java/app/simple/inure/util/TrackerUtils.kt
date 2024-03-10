@@ -2,7 +2,6 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.pm.PackageInfo
-import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.models.Tracker
@@ -32,17 +31,39 @@ import javax.xml.transform.stream.StreamResult
 object TrackerUtils {
 
     private const val TRACKERS_JSON = "/trackers.json"
+    private const val TAG = "TrackersUtils"
 
-    fun Context.getTrackerSignatures(): List<String> {
-        val trackers = resources.getStringArray(R.array.trackers).filter {
-            it.isNullOrEmpty().invert()
+    fun getTrackerSignatures(): List<String> {
+        ProcessUtils.ensureNotOnMainThread {
+            val bufferedReader = BufferedReader(InputStreamReader(
+                    TrackerUtils::class.java.getResourceAsStream(TRACKERS_JSON)))
+            val stringBuilder = StringBuilder()
+            var line: String?
+            while (bufferedReader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
+
+            val json = stringBuilder.toString()
+            val jsonObject = JSONObject(json)
+            val trackers = jsonObject.getJSONObject("trackers")
+            val signatures = arrayListOf<String>()
+
+            val keysIterator = trackers.keys()
+
+            while (keysIterator.hasNext()) {
+                val key = keysIterator.next()
+                val tracker = trackers.getJSONObject(key)
+                val codeSignature = tracker.getString("code_signature")
+
+                codeSignature.split("|").forEach {
+                    if (it.isNotEmpty()) {
+                        signatures.add(it)
+                    }
+                }
+            }
+
+            return signatures
         }
-
-        val oldTrackers = resources.getStringArray(R.array.old_trackers).filter {
-            it.isNullOrEmpty().invert()
-        }
-
-        return (trackers + oldTrackers).distinct()
     }
 
     /**

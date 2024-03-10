@@ -36,7 +36,7 @@ import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import app.simple.inure.util.StringUtils.endsWithAny
-import app.simple.inure.util.TrackerUtils.getTrackerSignatures
+import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.dongliu.apk.parser.bean.ApkMeta
@@ -499,7 +499,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getTrackers(): Pair<Int, Spannable> {
-        val trackers = applicationContext().getTrackerSignatures()
+        val trackers = TrackerUtils.getTrackerSignatures()
         var count = 0
         val list: MutableList<String> = mutableListOf()
 
