@@ -97,7 +97,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                 trackersList.addAll(getReceiversTrackers())
 
                 trackersList.sortBy {
-                    it.name
+                    it.componentName
                 }
 
                 if (trackersList.size.isZero()) {
@@ -275,7 +275,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -295,7 +295,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -315,7 +315,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -385,13 +385,13 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                         val component = components.item(i)
                         val name = component.attributes.getNamedItem("name").nodeValue
 
-                        if (name == "${packageInfo?.packageName}/${tracker.name}") {
+                        if (name == "${packageInfo?.packageName}/${tracker.componentName}") {
                             component.parentNode.removeChild(component)
                         }
                     }
 
                     val componentFilter = doc.createElement("component-filter")
-                    componentFilter.setAttribute("name", "${packageInfo?.packageName}/${tracker.name}")
+                    componentFilter.setAttribute("name", "${packageInfo?.packageName}/${tracker.componentName}")
 
                     if (tracker.isActivity) {
                         // Check if the activity tag exists
@@ -410,7 +410,8 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                              * create another activity tag with block and log attributes
                              * set to true
                              */
-                            if (activity.attributes.getNamedItem("block") != null && activity.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (activity.attributes.getNamedItem("block") != null
+                                    && activity.attributes.getNamedItem("block").nodeValue == "false") {
                                 val activity1 = doc.createElement("activity")
                                 activity1.setAttribute("block", "true")
                                 activity1.setAttribute("log", "false")
@@ -440,7 +441,8 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                              * create another service tag with block and log attributes
                              * set to true
                              */
-                            if (service.attributes.getNamedItem("block") != null && service.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (service.attributes.getNamedItem("block") != null
+                                    && service.attributes.getNamedItem("block").nodeValue == "false") {
                                 val service1 = doc.createElement("service")
                                 service1.setAttribute("block", "true")
                                 service1.setAttribute("log", "false")
@@ -470,7 +472,8 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                              * create another broadcast tag with block and log attributes
                              * set to true
                              */
-                            if (broadcast.attributes.getNamedItem("block") != null && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (broadcast.attributes.getNamedItem("block") != null
+                                    && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
                                 val broadcast1 = doc.createElement("broadcast")
                                 broadcast1.setAttribute("block", "true")
                                 broadcast1.setAttribute("log", "false")
@@ -551,7 +554,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
                         val component = components.item(i)
                         val name = component.attributes.getNamedItem("name").nodeValue
 
-                        if (name == "${packageInfo?.packageName}/${tracker.name}") {
+                        if (name == "${packageInfo?.packageName}/${tracker.componentName}") {
                             component.parentNode.removeChild(component)
                         }
                     }

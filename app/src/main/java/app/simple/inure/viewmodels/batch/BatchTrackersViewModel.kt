@@ -277,7 +277,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -297,7 +297,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -317,7 +317,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -419,13 +419,13 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                     val component = components.item(i)
                     val name = component.attributes.getNamedItem("name").nodeValue
 
-                    if (name == "${packageName}/${tracker.name}") {
+                    if (name == "${packageName}/${tracker.componentName}") {
                         component.parentNode.removeChild(component)
                     }
                 }
 
                 val componentFilter = doc.createElement("component-filter")
-                componentFilter.setAttribute("name", "${packageName}/${tracker.name}")
+                componentFilter.setAttribute("name", "${packageName}/${tracker.componentName}")
 
                 if (tracker.isActivity) {
                     // Check if the activity tag exists
@@ -578,7 +578,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                     val component = components.item(i)
                     val name = component.attributes.getNamedItem("name").nodeValue
 
-                    if (name == "${packageName}/${tracker.name}") {
+                    if (name == "${packageName}/${tracker.componentName}") {
                         component.parentNode.removeChild(component)
                     }
                 }

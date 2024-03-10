@@ -83,7 +83,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                 trackersList.addAll(packageInfo.getReceiversTrackers(trackersData))
 
                 trackersList.sortBy {
-                    it.name
+                    it.componentName
                 }
 
                 if (trackersList.size.isZero()) {
@@ -308,7 +308,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -328,7 +328,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -348,7 +348,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                         val componentFilterElement = componentFilterNode as Element
                         val componentName = componentFilterElement.getAttribute("name")
 
-                        trackersList.find { it.name == componentName.split("/")[1] }?.let {
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
                             it.isBlocked = isBlocked
                         }
                     }
@@ -399,7 +399,6 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                 buffer.flip()
 
                 val xml = String(buffer.array(), Charset.defaultCharset())
-
                 val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
                 val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
                 val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
@@ -418,13 +417,13 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                         val component = components.item(i)
                         val name = component.attributes.getNamedItem("name").nodeValue
 
-                        if (name == "${packageInfo.packageName}/${tracker.name}") {
+                        if (name == "${packageInfo.packageName}/${tracker.componentName}") {
                             component.parentNode.removeChild(component)
                         }
                     }
 
                     val componentFilter = doc.createElement("component-filter")
-                    componentFilter.setAttribute("name", "${packageInfo.packageName}/${tracker.name}")
+                    componentFilter.setAttribute("name", "${packageInfo.packageName}/${tracker.componentName}")
 
                     if (tracker.isActivity) {
                         // Check if the activity tag exists
@@ -443,7 +442,8 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                              * create another activity tag with block and log attributes
                              * set to true
                              */
-                            if (activity.attributes.getNamedItem("block") != null && activity.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (activity.attributes.getNamedItem("block") != null
+                                    && activity.attributes.getNamedItem("block").nodeValue == "false") {
                                 val activity1 = doc.createElement("activity")
                                 activity1.setAttribute("block", "true")
                                 activity1.setAttribute("log", "false")
@@ -473,7 +473,8 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                              * create another service tag with block and log attributes
                              * set to true
                              */
-                            if (service.attributes.getNamedItem("block") != null && service.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (service.attributes.getNamedItem("block") != null
+                                    && service.attributes.getNamedItem("block").nodeValue == "false") {
                                 val service1 = doc.createElement("service")
                                 service1.setAttribute("block", "true")
                                 service1.setAttribute("log", "false")
@@ -503,7 +504,8 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                              * create another broadcast tag with block and log attributes
                              * set to true
                              */
-                            if (broadcast.attributes.getNamedItem("block") != null && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
+                            if (broadcast.attributes.getNamedItem("block") != null
+                                    && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
                                 val broadcast1 = doc.createElement("broadcast")
                                 broadcast1.setAttribute("block", "true")
                                 broadcast1.setAttribute("log", "false")
@@ -584,7 +586,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                         val component = components.item(i)
                         val name = component.attributes.getNamedItem("name").nodeValue
 
-                        if (name == "${packageInfo.packageName}/${tracker.name}") {
+                        if (name == "${packageInfo.packageName}/${tracker.componentName}") {
                             component.parentNode.removeChild(component)
                         }
                     }
