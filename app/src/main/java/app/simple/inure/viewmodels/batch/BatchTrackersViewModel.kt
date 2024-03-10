@@ -10,24 +10,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
-import app.simple.inure.apk.utils.ReceiversUtils
-import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
-import app.simple.inure.util.ActivityUtils
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotNull
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.TrackerUtils
+import app.simple.inure.util.TrackerUtils.getActivityTrackers
+import app.simple.inure.util.TrackerUtils.getReceiverTrackers
+import app.simple.inure.util.TrackerUtils.getServiceTrackers
 import com.topjohnwu.superuser.nio.ExtendedFile
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Document
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
 import java.io.StringReader
 import java.nio.ByteBuffer
@@ -83,13 +79,13 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                 progress.postValue("${index + 1}/${packages.size}\n$packageName")
 
                 val packageInfo = packageName.getPackageInfo() ?: return@forEachIndexed
-                trackersList.addAll(packageInfo.getActivityTrackers(trackersData))
-                trackersList.addAll(packageInfo.getServicesTrackers(trackersData))
-                trackersList.addAll(packageInfo.getReceiversTrackers(trackersData))
+                trackersList.addAll(packageInfo.getActivityTrackers(applicationContext(), trackersData))
+                trackersList.addAll(packageInfo.getServiceTrackers(applicationContext(), trackersData))
+                trackersList.addAll(packageInfo.getReceiverTrackers(applicationContext(), trackersData))
 
                 try {
-                    readIntentFirewallXml(
-                            path.replace(placeHolder, packageInfo.packageName), getFileSystemManager(), trackersList)
+                    TrackerUtils.readIntentFirewallXml(
+                            getFileSystemManager()!!, trackersList, path.replace(placeHolder, packageInfo.packageName))
                 } catch (e: NullPointerException) {
                     Log.e("BatchTrackersViewModel", "Error: ${e.message}")
                 }
@@ -101,111 +97,6 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
 
             trackers.postValue(trackersList)
         }
-    }
-
-    private fun PackageInfo.getActivityTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
-        val activities = activities ?: null
-        val trackersList = arrayListOf<Tracker>()
-
-        if (activities != null) {
-            for (activity in activities) {
-                for (tracker in trackersData) {
-                    tracker.codeSignature.split("|").forEach {
-                        if (activity.name.lowercase().contains(it.lowercase())) {
-                            val tracker1 = Tracker()
-                            tracker.copyBasicTrackerInfo(tracker1)
-
-                            tracker1.activityInfo = activity
-                            tracker1.componentName = activity.name
-                            tracker1.isEnabled = kotlin.runCatching {
-                                ActivityUtils.isEnabled(applicationContext(), packageName, activity.name)
-                            }.getOrElse {
-                                false
-                            }
-                            tracker1.isReceiver = false
-                            tracker1.isService = false
-                            tracker1.isActivity = true
-
-                            trackersList.add(tracker1)
-
-                            return@forEach
-                        }
-                    }
-                }
-            }
-        }
-
-        return trackersList
-    }
-
-    private fun PackageInfo.getServicesTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
-        val services = services ?: null
-        val trackersList = arrayListOf<Tracker>()
-
-        if (services != null) {
-            for (service in services) {
-                for (tracker in trackersData) {
-                    tracker.codeSignature.split("|").forEach {
-                        if (service.name.lowercase().contains(it.lowercase())) {
-                            val tracker1 = Tracker()
-                            tracker.copyBasicTrackerInfo(tracker1)
-
-                            tracker1.serviceInfo = service
-                            tracker1.componentName = service.name
-                            tracker1.isEnabled = kotlin.runCatching {
-                                ServicesUtils.isEnabled(applicationContext(), packageName, service.name)
-                            }.getOrElse {
-                                false
-                            }
-                            tracker1.isReceiver = false
-                            tracker1.isService = true
-                            tracker1.isActivity = false
-
-                            trackersList.add(tracker1)
-
-                            return@forEach
-                        }
-                    }
-                }
-            }
-        }
-
-        return trackersList
-    }
-
-    private fun PackageInfo.getReceiversTrackers(trackersData: ArrayList<Tracker>): ArrayList<Tracker> {
-        val receivers = receivers ?: null
-        val trackersList = arrayListOf<Tracker>()
-
-        if (receivers != null) {
-            for (receiver in receivers) {
-                for (tracker in trackersData) {
-                    tracker.codeSignature.split("|").forEach {
-                        if (receiver.name.lowercase().contains(it.lowercase())) {
-                            val tracker1 = Tracker()
-                            tracker.copyBasicTrackerInfo(tracker1)
-
-                            tracker1.receiverInfo = receiver
-                            tracker1.componentName = receiver.name
-                            tracker1.isEnabled = kotlin.runCatching {
-                                ReceiversUtils.isEnabled(applicationContext(), packageName, receiver.name)
-                            }.getOrElse {
-                                false
-                            }
-                            tracker1.isReceiver = true
-                            tracker1.isService = false
-                            tracker1.isActivity = false
-
-                            trackersList.add(tracker1)
-
-                            return@forEach
-                        }
-                    }
-                }
-            }
-        }
-
-        return trackersList
     }
 
     private fun String.getPackageInfo(): PackageInfo? {
@@ -233,99 +124,6 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
         }
 
         return null
-    }
-
-    /**
-     * <rules>
-     *      <activity block="true" log="false">
-     *          <component-filter name="package_name/component_name" />
-     *      </activity>
-     *      <service block="true" log="false">
-     *          <component-filter name="package_name/component_name" />
-     *      </service>
-     * </rules>
-     *
-     * Parse the file following the above structure
-     */
-    private fun readIntentFirewallXml(path: String, fileSystemManager: FileSystemManager?, trackersList: ArrayList<Tracker>) {
-        if (fileSystemManager?.getFile(path)?.exists()?.invert()!!) {
-            return
-        }
-
-        val channel = fileSystemManager.openChannel(path, FileSystemManager.MODE_READ_WRITE)
-        val capacity = channel.size().toInt()
-        val buffer = ByteBuffer.allocate(capacity)
-        channel.read(buffer)
-        buffer.flip()
-
-        val xml = String(buffer.array(), StandardCharsets.UTF_8)
-        val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
-
-        val activityNodes = document.getElementsByTagName("activity")
-        val serviceNodes = document.getElementsByTagName("service")
-        val broadcastNodes = document.getElementsByTagName("broadcast")
-
-        for (i in 0 until activityNodes.length) {
-            val activityNode: Node = activityNodes.item(i)
-            if (activityNode.nodeType == Node.ELEMENT_NODE) {
-                val activityElement = activityNode as Element
-                val isBlocked = activityElement.getAttribute("block").toBoolean()
-                val componentFilters: NodeList = activityElement.getElementsByTagName("component-filter")
-                for (j in 0 until componentFilters.length) {
-                    val componentFilterNode: Node = componentFilters.item(j)
-                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
-                        val componentFilterElement = componentFilterNode as Element
-                        val componentName = componentFilterElement.getAttribute("name")
-
-                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
-                            it.isBlocked = isBlocked
-                        }
-                    }
-                }
-            }
-        }
-
-        for (i in 0 until serviceNodes.length) {
-            val serviceNode: Node = serviceNodes.item(i)
-            if (serviceNode.nodeType == Node.ELEMENT_NODE) {
-                val serviceElement = serviceNode as Element
-                val isBlocked = serviceElement.getAttribute("block").toBoolean()
-                val componentFilters: NodeList = serviceElement.getElementsByTagName("component-filter")
-                for (j in 0 until componentFilters.length) {
-                    val componentFilterNode: Node = componentFilters.item(j)
-                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
-                        val componentFilterElement = componentFilterNode as Element
-                        val componentName = componentFilterElement.getAttribute("name")
-
-                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
-                            it.isBlocked = isBlocked
-                        }
-                    }
-                }
-            }
-        }
-
-        for (i in 0 until broadcastNodes.length) {
-            val broadcastNode: Node = broadcastNodes.item(i)
-            if (broadcastNode.nodeType == Node.ELEMENT_NODE) {
-                val broadcastElement = broadcastNode as Element
-                val isBlocked = broadcastElement.getAttribute("block").toBoolean()
-                val componentFilters: NodeList = broadcastElement.getElementsByTagName("component-filter")
-                for (j in 0 until componentFilters.length) {
-                    val componentFilterNode: Node = componentFilters.item(j)
-                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
-                        val componentFilterElement = componentFilterNode as Element
-                        val componentName = componentFilterElement.getAttribute("name")
-
-                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
-                            it.isBlocked = isBlocked
-                        }
-                    }
-                }
-            }
-        }
-
-        channel.close()
     }
 
     fun changeTrackerState(trackers: ArrayList<Tracker>, shouldBlock: Boolean, function: () -> Unit) {
