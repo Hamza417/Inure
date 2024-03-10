@@ -13,6 +13,7 @@
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/dialog_padding"
         android:orientation="vertical">
 
         <ImageView
@@ -28,22 +29,21 @@
             android:textSize="@dimen/popup_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/panel_item_padding"
             android:gravity="center"
+            android:layout_marginVertical="@dimen/dialog_padding"
             android:layout_marginHorizontal="32dp"
             android:text="@string/rate_reminder"
             app:appFontStyle="bold"
-            app:textColorStyle="secondary" />
+            app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.theme.ThemeLinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:elevation="@dimen/dialog_elevation"
-            android:orientation="horizontal"
-            android:padding="@dimen/popup_padding">
+            android:orientation="horizontal">
 
             <app.simple.inure.decorations.toggles.CheckBox
                 android:id="@+id/show_again_checkbox"
@@ -89,7 +89,7 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
 
-        </app.simple.inure.decorations.theme.ThemeLinearLayout>
+        </LinearLayout>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 

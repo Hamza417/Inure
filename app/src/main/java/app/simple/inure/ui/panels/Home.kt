@@ -32,6 +32,7 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.terminal.Term
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
@@ -285,9 +286,11 @@ class Home : ScopedFragment() {
 
     private fun showRateDialog() {
         runCatching {
-            if (MainPreferences.shouldShowRateReminder()) {
+            if (AppUtils.isPlayFlavor()) {
                 if (MainPreferences.isShowRateReminder()) {
-                    childFragmentManager.showRateDialog()
+                    if (MainPreferences.shouldShowRateReminder()) {
+                        childFragmentManager.showRateDialog()
+                    }
                 }
             }
         }
