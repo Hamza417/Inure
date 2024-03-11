@@ -21,8 +21,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 10023
-        versionName "Build100.2.3"
+        versionCode 10024
+        versionName "Build100.2.4"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -188,6 +188,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta02'
     implementation 'androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03'
     implementation 'androidx.security:security-crypto:1.1.0-alpha06'
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
 
     // Google
     implementation 'com.google.android.material:material:1.11.0'

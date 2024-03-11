@@ -749,12 +749,6 @@
             android:roundIcon="@mipmap/ic_audio_player_round" />
 
         <service
-            android:name=".services.BatchExtractService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
-
-        <service
             android:name=".services.InstallerService"
             android:enabled="true"
             android:exported="false" />
