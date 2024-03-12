@@ -768,6 +768,12 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name=".services.BatchExtractService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
         <receiver
             android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"
             android:exported="true">
