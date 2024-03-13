@@ -1,6 +1,8 @@
 package app.simple.inure.adapters.menus
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +17,7 @@ import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
@@ -48,6 +51,10 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
             holder.button.setOnClickListener {
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+                holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
+            }
         } else if (holder is HolderContext) {
             holder.button.setImageResource(bottomMenuItems[position].first)
             holder.button.contentDescription = holder.itemView.context.getString(bottomMenuItems[position].second)
@@ -55,6 +62,11 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
 
             holder.container.setOnClickListener {
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
+            }
+
+            if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+                holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                holder.text.setTextColor(Color.WHITE)
             }
         }
     }
