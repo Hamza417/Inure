@@ -349,7 +349,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     }
                 }
                 else -> {
-                    showWarning(it, goBack = false)
+                    showWarning(it)
                 }
             }
         }
