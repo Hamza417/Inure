@@ -55,6 +55,7 @@ class Operations : SearchBarScopedFragment() {
 
         operationsViewModel.getAppOpsData().observe(viewLifecycleOwner) {
             adapterOperations = AdapterOperations(it, searchBox.text.toString().trim())
+            setCount(it.size)
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
                 override fun onCheckedChanged(appOpsModel: AppOpsModel, position: Int) {

@@ -51,6 +51,8 @@ class Graphics : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         graphicsViewModel.getGraphics().observe(viewLifecycleOwner) {
+            setCount(it.size)
+
             if (recyclerView.adapter.isNull()) {
                 adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterGraphics

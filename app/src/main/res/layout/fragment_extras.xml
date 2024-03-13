@@ -31,17 +31,40 @@
             app:tintType="accent"
             tools:ignore="ContentDescription" />
 
-        <app.simple.inure.decorations.typeface.TypeFaceTextView
+        <LinearLayout
             android:id="@+id/extras_title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="@string/extras"
-            android:textSize="@dimen/header_font_size"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:text="@string/extras"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textSize="@dimen/info_text_tiny"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/extras_options"

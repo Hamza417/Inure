@@ -66,6 +66,7 @@ class Permissions : SearchBarScopedFragment() {
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner) { permissionInfos ->
             adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
             recyclerView.adapter = adapterPermissions
+            setCount(permissionInfos.size)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
                 override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {

@@ -53,6 +53,7 @@ class Services : SearchBarScopedFragment() {
         servicesViewModel.getServices().observe(viewLifecycleOwner) {
             adapterServices = AdapterServices(it, packageInfo, searchBox.text.toString().trim())
             recyclerView.adapter = adapterServices
+            setCount(it.size)
 
             adapterServices?.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
                 override fun onServiceClicked(serviceInfoModel: ServiceInfoModel) {

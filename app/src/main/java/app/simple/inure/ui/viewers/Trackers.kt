@@ -61,6 +61,7 @@ class Trackers : SearchBarScopedFragment() {
         startPostponedEnterTransition()
 
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
+            setCount(trackers.size)
             progress.gone(true)
             if (trackers.isNotEmpty()) {
                 search.visible(animate = true)

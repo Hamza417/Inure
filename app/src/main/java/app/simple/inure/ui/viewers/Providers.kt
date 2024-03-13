@@ -53,6 +53,7 @@ class Providers : SearchBarScopedFragment() {
         providersViewModel.getProviders().observe(viewLifecycleOwner) {
             adapterProviders = AdapterProviders(it, packageInfo, searchBox.text.toString().trim())
             recyclerView.adapter = adapterProviders
+            setCount(it.size)
 
             adapterProviders?.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
                 override fun onProvidersClicked(providerInfoModel: ProviderInfoModel) {

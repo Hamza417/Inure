@@ -46,6 +46,8 @@ class Resources : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         componentsViewModel.getResources().observe(viewLifecycleOwner) {
+            setCount(it.size)
+
             if (recyclerView.adapter.isNull()) {
                 val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterResources

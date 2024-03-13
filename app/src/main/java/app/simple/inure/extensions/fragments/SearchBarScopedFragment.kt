@@ -2,6 +2,7 @@ package app.simple.inure.extensions.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerEditText
@@ -13,7 +14,8 @@ import app.simple.inure.util.ViewUtils.visible
 open class SearchBarScopedFragment : KeyboardScopedFragment() {
 
     open lateinit var search: DynamicRippleImageButton
-    open lateinit var title: TypeFaceTextView
+    open lateinit var title: LinearLayout
+    open lateinit var count: TypeFaceTextView
     open lateinit var searchBox: DynamicCornerEditText
 
     private var keywords = ""
@@ -28,6 +30,8 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
         kotlin.runCatching {
             searchBox.setWindowInsetsAnimationCallback()
         }
+
+        count = view.findViewById(R.id.count)
     }
 
     protected fun searchBoxState(animate: Boolean, isVisible: Boolean) {
@@ -46,5 +50,9 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
             searchBox.gone()
             searchBox.hideInput()
         }
+    }
+
+    protected fun setCount(count: Int) {
+        this.count.text = getString(R.string.total, count)
     }
 }

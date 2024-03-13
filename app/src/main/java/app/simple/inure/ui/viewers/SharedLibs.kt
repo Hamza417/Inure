@@ -10,11 +10,11 @@ import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterSharedLibs
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.viewmodels.viewers.SharedLibrariesViewModel
 
-class SharedLibs : ScopedFragment() {
+class SharedLibs : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var sharedLibrariesViewModel: SharedLibrariesViewModel
@@ -37,6 +37,7 @@ class SharedLibs : ScopedFragment() {
 
         sharedLibrariesViewModel.sharedLibraries.observe(viewLifecycleOwner) {
             recyclerView.adapter = AdapterSharedLibs(it)
+            setCount(it.size)
         }
 
         sharedLibrariesViewModel.getError().observe(viewLifecycleOwner) {

@@ -99,9 +99,11 @@ android {
             versionNameSuffix "-test"
 
             // Remove permissions for beta build
-            manifestPlaceholders = [removePermission: "inure.terminal.permission.RUN_SCRIPT"]
-            manifestPlaceholders = [removePermission2: "inure.terminal.permission.APPEND_TO_PATH"]
-            manifestPlaceholders = [removePermission3: "inure.terminal.permission.PREPEND_TO_PATH"]
+            manifestPlaceholders = [
+                removePermission: "inure.terminal.permission.RUN_SCRIPT",
+                removePermission2: "inure.terminal.permission.APPEND_TO_PATH",
+                removePermission3: "inure.terminal.permission.PREPEND_TO_PATH"
+            ]
 
             // Include all github flavor files
             sourceSets {

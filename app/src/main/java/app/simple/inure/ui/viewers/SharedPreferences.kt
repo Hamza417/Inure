@@ -30,6 +30,7 @@ class SharedPreferences : SearchBarScopedFragment() {
 
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.shared_prefs_recycler_view)
+        title = view.findViewById(R.id.shared_prefs_title)
 
         val packageInfoFactory = PackageInfoFactory(packageInfo)
         sharedPreferencesViewModel = ViewModelProvider(this, packageInfoFactory)[SharedPreferencesViewModel::class.java]
@@ -45,6 +46,7 @@ class SharedPreferences : SearchBarScopedFragment() {
         sharedPreferencesViewModel.getSharedPrefs().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             val adapterResources = AdapterResources(it, "")
+            setCount(it.size)
 
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {

@@ -50,6 +50,8 @@ class Extras : SearchBarScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         extrasViewModel.getExtras().observe(viewLifecycleOwner) {
+            setCount(it.size)
+
             if (recyclerView.adapter.isNull()) {
                 adapterExtras = AdapterExtras(it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterExtras

@@ -53,6 +53,7 @@ class Receivers : SearchBarScopedFragment() {
         receiversViewModel.getReceivers().observe(viewLifecycleOwner) {
             adapterReceivers = AdapterReceivers(it, packageInfo, searchBox.text.toString().trim())
             recyclerView.adapter = adapterReceivers
+            setCount(it.size)
 
             adapterReceivers?.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
                 override fun onReceiverClicked(activityInfoModel: ActivityInfoModel) {
