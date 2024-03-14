@@ -15,14 +15,14 @@ interface TagDao {
      * Get all tags
      */
     @Query("SELECT * FROM tags ORDER BY tag COLLATE nocase")
-    fun getTags(): MutableList<Tag>
+    suspend fun getTags(): MutableList<Tag>
 
     /**
      * Get all tags but name only where
      * package is not empty
      */
     @Query("SELECT DISTINCT tag FROM tags ORDER BY tag COLLATE nocase")
-    fun getTagsNameOnly(): MutableList<String>
+    suspend fun getTagsNameOnly(): MutableList<String>
 
     /**
      * Get tag where [Tag.tag] is equal to [tag]
@@ -34,7 +34,7 @@ interface TagDao {
      * Get all tags where [Tag.packages] contains [packageName]
      */
     @Query("SELECT tag FROM tags WHERE packages LIKE '%' || :packageName || '%'")
-    fun getTagsByPackage(packageName: String): MutableList<String>
+    suspend fun getTagsByPackage(packageName: String): MutableList<String>
 
     /**
      * Delete a [Tag] item
@@ -61,5 +61,5 @@ interface TagDao {
      * Delete the entire table
      */
     @Query("DELETE FROM tags")
-    fun nukeTable()
+    suspend fun nukeTable()
 }

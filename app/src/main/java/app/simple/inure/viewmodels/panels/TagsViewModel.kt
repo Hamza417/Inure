@@ -38,53 +38,53 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         refresh()
     }
 
-    private fun loadTags() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
-            val tags = database?.getTagDao()?.getTags()
-            val apps = getInstalledApps() + getUninstalledApps()
+    private suspend fun loadTags() {
+        val database = TagsDatabase.getInstance(application.applicationContext)
+        val tags = database?.getTagDao()?.getTags()
+        val apps = getInstalledApps() + getUninstalledApps()
 
-            /**
-             * Filter all uninstalled apps from [Tag.packages]
-             */
-            tags?.forEach { tag ->
-                tag.packages = tag.packages.split(",").filter { packageName ->
-                    apps.any { app ->
-                        app.packageName == packageName
-                    }
-                }.joinToString(",")
-            }
-
-            /**
-             * Make sure at least one app is installed from the [Tag.packages]
-             * This is to prevent empty tags from showing up
-             */
-            this@TagsViewModel.tags.postValue(tags?.toArrayList()?.filter {
-                it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
-                    apps.any { app ->
-                        app.packageName == packageName
-                    }
+        /**
+         * Filter all uninstalled apps from [Tag.packages]
+         */
+        tags?.forEach { tag ->
+            tag.packages = tag.packages.split(",").filter { packageName ->
+                apps.any { app ->
+                    app.packageName == packageName
                 }
-            }?.toArrayList() ?: ArrayList())
+            }.joinToString(",")
         }
+
+        /**
+         * Make sure at least one app is installed from the [Tag.packages]
+         * This is to prevent empty tags from showing up
+         */
+        val filtered = tags?.toArrayList()?.filter {
+            it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
+                apps.any { app ->
+                    app.packageName == packageName
+                }
+            }
+        }
+
+        this@TagsViewModel.tags.postValue(filtered?.toArrayList())
     }
 
-    private fun loadTagNames() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
-            val tags = database?.getTagDao()?.getTags()
-            val apps = getInstalledApps() + getUninstalledApps()
+    private suspend fun loadTagNames() {
+        val database = TagsDatabase.getInstance(application.applicationContext)
+        val tags = database?.getTagDao()?.getTags()
+        val apps = getInstalledApps() + getUninstalledApps()
 
-            tagNames.postValue(tags?.toArrayList()?.filter {
-                it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
-                    apps.any { app ->
-                        app.packageName == packageName
-                    }
+        val filtered = tags?.toArrayList()?.filter {
+            it.packages.isNotEmpty() && it.packages.split(",").any { packageName ->
+                apps.any { app ->
+                    app.packageName == packageName
                 }
-            }?.map {
-                it.tag
-            }?.toArrayList() ?: ArrayList())
-        }
+            }
+        }?.map {
+            it.tag
+        }?.toArrayList()
+
+        tagNames.postValue(filtered)
     }
 
     fun addTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
@@ -143,8 +143,10 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     fun refresh() {
-        loadTags()
-        loadTagNames()
+        viewModelScope.launch(Dispatchers.IO) {
+            loadTags()
+            loadTagNames()
+        }
     }
 
     fun deleteTag(tag: Tag) {
