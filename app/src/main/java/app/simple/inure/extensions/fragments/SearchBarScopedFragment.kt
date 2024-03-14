@@ -55,4 +55,8 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
     protected fun setCount(count: Int) {
         this.count.text = getString(R.string.total, count)
     }
+
+    protected fun setCount(count: String) {
+        this.count.text = count
+    }
 }

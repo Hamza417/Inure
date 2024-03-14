@@ -49,7 +49,7 @@
                 android:text="@string/preferences"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:textSize="@dimen/info_text_large"
+                android:textSize="@dimen/header_font_size"
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
 
@@ -63,6 +63,7 @@
                 android:singleLine="true"
                 android:text="@string/app_name_full"
                 android:textSize="@dimen/info_text_tiny"
+                android:visibility="gone"
                 app:appFontStyle="regular"
                 app:textColorStyle="secondary" />
 

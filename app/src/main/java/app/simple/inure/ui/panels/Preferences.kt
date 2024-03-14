@@ -88,6 +88,7 @@ class Preferences : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
+        // setCount(getString(R.string.app_name_full) + " | " + BuildConfig.VERSION_NAME)
 
         preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
             postponeEnterTransition()
