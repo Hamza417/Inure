@@ -1,6 +1,7 @@
 package app.simple.inure.ui.launcher
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -21,7 +22,6 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.toggles.CheckBox
@@ -32,7 +32,9 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
+import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
@@ -54,6 +56,7 @@ class Setup : ScopedFragment() {
     private lateinit var storageUri: TypeFaceTextView
     private lateinit var rootSwitchView: Switch
     private lateinit var shizukuSwitchView: Switch
+    private lateinit var shizukuPermissionState: TypeFaceTextView
     private lateinit var startApp: DynamicRippleTextView
     private lateinit var skip: DynamicRippleTextView
     private lateinit var dontShowAgainCheckBox: CheckBox
@@ -79,6 +82,7 @@ class Setup : ScopedFragment() {
         storageUri = view.findViewById(R.id.status_storage_uri)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         shizukuSwitchView = view.findViewById(R.id.setup_shizuku_switch_view)
+        shizukuPermissionState = view.findViewById(R.id.shizuku_permission_state)
         startApp = view.findViewById(R.id.start_app_now)
         skip = view.findViewById(R.id.skip_setup)
         dontShowAgainCheckBox = view.findViewById(R.id.show_again_checkbox)
@@ -116,6 +120,7 @@ class Setup : ScopedFragment() {
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         dontShowAgainCheckBox.isChecked = SetupPreferences.isDontShowAgain()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
+        setShizukuPermissionState()
 
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -192,19 +197,14 @@ class Setup : ScopedFragment() {
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
             if (it) {
-                if (checkPermission(requestCode)) {
-                    if (isShizukuPermissionGranted()) {
-                        Log.d("ConfigurationScreen", "Shizuku permission granted")
-                    } else {
-                        showWarning(Warnings.getShizukuFailedWarning(), false)
-                    }
-                } else {
-                    ConfigurationPreferences.setUsingShizuku(false)
-                    shizukuSwitchView.setChecked(false)
+                if (checkPermission()) {
+                    ConfigurationPreferences.setUsingShizuku(true)
                 }
             } else {
                 ConfigurationPreferences.setUsingShizuku(false)
             }
+
+            setShizukuPermissionState()
         }
 
         dontShowAgainCheckBox.setOnCheckedChangeListener {
@@ -290,7 +290,7 @@ class Setup : ScopedFragment() {
 
     private fun isShizukuPermissionGranted(): Boolean {
         return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
-            requireActivity().checkSelfPermission(ShizukuProvider.PERMISSION) == PackageManager.PERMISSION_GRANTED
+            false
         } else {
             Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
@@ -305,29 +305,68 @@ class Setup : ScopedFragment() {
         }
     }
 
-    private fun checkPermission(code: Int): Boolean {
+    private fun setShizukuPermissionState() {
+        shizukuPermissionState.text = buildString {
+            if (Shizuku.isPreV11().invert()) {
+                if (isShizukuPermissionGranted()) {
+                    appendFlag(getString(R.string.granted))
+                } else {
+                    appendFlag(getString(R.string.rejected))
+
+                    if (Shizuku.shouldShowRequestPermissionRationale()) {
+                        appendFlag(getString(R.string.not_available))
+                    }
+                }
+
+                if (ConfigurationPreferences.isUsingShizuku()) {
+                    appendFlag(getString(R.string.enabled))
+                } else {
+                    appendFlag(getString(R.string.disabled))
+                }
+            } else {
+                appendFlag("Pre-v11 is unsupported")
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun checkPermission(): Boolean {
         if (Shizuku.isPreV11()) {
             // Pre-v11 is unsupported
+            shizukuPermissionState.text = "Pre-v11 is unsupported"
             return false
         }
-        return if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-            // Granted
-            true
-        } else if (Shizuku.shouldShowRequestPermissionRationale()) {
-            // Users choose "Deny and don't ask again"
-            false
-        } else {
-            // Request the permission
-            Shizuku.requestPermission(code)
-            false
+
+        return when {
+            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED -> {
+                // Granted
+                shizukuSwitchView.check(true)
+                true
+            }
+            Shizuku.shouldShowRequestPermissionRationale() -> {
+                // Users choose "Deny and don't ask again"
+                shizukuSwitchView.uncheck(true)
+                false
+            }
+            else -> {
+                // Request the permission
+                Shizuku.requestPermission(requestCode)
+                false
+            }
         }
     }
 
     private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
         val granted: Boolean = grantResult == PackageManager.PERMISSION_GRANTED
         Log.d("ConfigurationScreen", "onRequestPermissionsResult: $granted with requestCode: $requestCode")
-        shizukuSwitchView.setChecked(granted)
         ConfigurationPreferences.setUsingShizuku(granted)
+        setShizukuPermissionState()
+
+        if (granted) {
+            shizukuSwitchView.check(true)
+        } else {
+            shizukuSwitchView.uncheck(true)
+        }
     }
 
     companion object {

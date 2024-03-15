@@ -150,7 +150,7 @@ class ConfigurationScreen : ScopedFragment() {
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener {
             if (it) {
-                if (checkPermission(requestCode)) {
+                if (checkPermission()) {
                     ConfigurationPreferences.setUsingShizuku(true)
                 }
             } else {
@@ -180,7 +180,7 @@ class ConfigurationScreen : ScopedFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun checkPermission(code: Int): Boolean {
+    private fun checkPermission(): Boolean {
         if (Shizuku.isPreV11()) {
             // Pre-v11 is unsupported
             shizukuPermissionState.text = "Pre-v11 is unsupported"
@@ -202,7 +202,7 @@ class ConfigurationScreen : ScopedFragment() {
             }
             else -> {
                 // Request the permission
-                Shizuku.requestPermission(code)
+                Shizuku.requestPermission(requestCode)
                 Log.d("ConfigurationScreen", "checkPermission: requestPermission")
                 false
             }
@@ -215,7 +215,7 @@ class ConfigurationScreen : ScopedFragment() {
                 if (isShizukuPermissionGranted()) {
                     appendFlag(getString(R.string.granted))
                 } else {
-                    appendFlag(getString(R.string.not_granted))
+                    appendFlag(getString(R.string.rejected))
 
                     if (Shizuku.shouldShowRequestPermissionRationale()) {
                         appendFlag(getString(R.string.not_available))
@@ -236,9 +236,14 @@ class ConfigurationScreen : ScopedFragment() {
     private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
         val granted: Boolean = grantResult == PackageManager.PERMISSION_GRANTED
         Log.d("ConfigurationScreen", "onRequestPermissionsResult: $granted with requestCode: $requestCode")
-        shizukuSwitchView.check(true)
         ConfigurationPreferences.setUsingShizuku(granted)
         setShizukuPermissionState()
+
+        if (granted) {
+            shizukuSwitchView.check(true)
+        } else {
+            shizukuSwitchView.uncheck(true)
+        }
     }
 
     companion object {
