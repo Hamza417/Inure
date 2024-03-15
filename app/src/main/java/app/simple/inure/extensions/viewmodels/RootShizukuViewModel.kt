@@ -1,6 +1,7 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
@@ -35,12 +36,12 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
         if (Shizuku.isPreV11()) {
             postWarning("Shizuku pre-v11 is not supported")
         } else {
-            Log.d("RootViewModel", "Shizuku initialization successful")
+            Log.d("RootViewModel", "Shizuku binder received")
         }
     }
 
     private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
-        Log.d("RootViewModel", "Shizuku initialization failed")
+        Log.d("RootViewModel", "Shizuku binder dead")
     }
 
     init {
@@ -105,7 +106,12 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            onShizukuCreated()
+            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+                onShizukuCreated()
+            } else {
+                onShizukuDenied()
+                Log.d("RootViewModel", "Shizuku permission denied")
+            }
         } else {
             onShizukuDenied()
         }

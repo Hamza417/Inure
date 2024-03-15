@@ -499,10 +499,12 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     }
     
     private void animateEverything() {
+        clearAnimation();
         animateThumbX();
         animateThumbY();
         animateBackgroundColor();
         animateElevation();
+        animateThumbSize(false);
     }
     
     /**

@@ -512,6 +512,7 @@
                     app:textColorStyle="secondary" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/configuration_shizuku"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
@@ -543,7 +544,7 @@
                         app:appFontStyle="bold"
                         app:drawableEndCompat="@drawable/ic_warning_tiny"
                         app:drawableTintStyle="warning"
-                        app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView16"
+                        app:layout_constraintBottom_toTopOf="@+id/shizuku_permission_state"
                         app:layout_constraintEnd_toStartOf="@+id/configuration_shizuku_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/shizuku_icon"
@@ -564,8 +565,22 @@
                         app:layout_constraintEnd_toStartOf="@+id/configuration_shizuku_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/shizuku_icon"
-                        app:layout_constraintTop_toBottomOf="@id/typeFaceTextView11"
+                        app:layout_constraintTop_toBottomOf="@id/shizuku_permission_state"
                         app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/shizuku_permission_state"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/desc_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toTopOf="@id/typeFaceTextView16"
+                        app:layout_constraintEnd_toStartOf="@+id/configuration_shizuku_switch_view"
+                        app:layout_constraintStart_toEndOf="@+id/shizuku_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView11"
+                        app:textColorStyle="accent" />
 
                     <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/configuration_shizuku_switch_view"

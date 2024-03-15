@@ -121,6 +121,10 @@ class BatteryOptimization : ScopedFragment() {
                 startPostponedEnterTransition()
             }
         }
+
+        batteryOptimizationViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

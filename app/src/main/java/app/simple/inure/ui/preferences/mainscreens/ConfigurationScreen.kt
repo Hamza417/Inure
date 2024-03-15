@@ -1,20 +1,20 @@
 package app.simple.inure.ui.preferences.mainscreens
 
-import android.content.SharedPreferences
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.toggles.Switch
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.configuration.AppPath.Companion.showAppPathDialog
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
@@ -23,13 +23,14 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
+import app.simple.inure.util.StringUtils.appendFlag
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
-import rikka.shizuku.ShizukuProvider
 
 class ConfigurationScreen : ScopedFragment() {
 
@@ -41,8 +42,13 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var showUsersSwitch: Switch
     private lateinit var rootSwitchView: Switch
     private lateinit var shizukuSwitchView: Switch
+    private lateinit var shizukuPermissionState: TypeFaceTextView
 
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+    private val requestCode = 100
+
+    private val requestPermissionResultListener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+        onRequestPermissionsResult(requestCode, grantResult)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
@@ -55,22 +61,7 @@ class ConfigurationScreen : ScopedFragment() {
         showUsersSwitch = view.findViewById(R.id.configuration_show_user_list_switch)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
-
-        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            permissions.forEach {
-                when (it.key) {
-                    ShizukuProvider.PERMISSION -> {
-                        if (it.value) {
-                            ConfigurationPreferences.setUsingShizuku(true)
-                            shizukuSwitchView.isChecked = true
-                        } else {
-                            ConfigurationPreferences.setUsingShizuku(false)
-                            shizukuSwitchView.isChecked = false
-                        }
-                    }
-                }
-            }
-        }
+        shizukuPermissionState = view.findViewById(R.id.shizuku_permission_state)
 
         return view
     }
@@ -83,6 +74,7 @@ class ConfigurationScreen : ScopedFragment() {
         showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
+        setShizukuPermissionState()
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -158,28 +150,95 @@ class ConfigurationScreen : ScopedFragment() {
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener {
             if (it) {
-                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
+                if (checkPermission(requestCode)) {
+                    ConfigurationPreferences.setUsingShizuku(true)
+                }
             } else {
                 ConfigurationPreferences.setUsingShizuku(false)
             }
+
+            setShizukuPermissionState()
         }
     }
 
-    @Suppress("unused")
     private fun isShizukuPermissionGranted(): Boolean {
         return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
-            requireActivity().checkSelfPermission(ShizukuProvider.PERMISSION) == PackageManager.PERMISSION_GRANTED
+            false
         } else {
             Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-            ConfigurationPreferences.isUsingRoot -> {
-                // rootSwitchView.setChecked(ConfigurationPreferences.isUsingRoot())
+    override fun onResume() {
+        super.onResume()
+        Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun checkPermission(code: Int): Boolean {
+        if (Shizuku.isPreV11()) {
+            // Pre-v11 is unsupported
+            shizukuPermissionState.text = "Pre-v11 is unsupported"
+            return false
+        }
+
+        return when {
+            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED -> {
+                // Granted
+                shizukuSwitchView.check(true)
+                Log.d("ConfigurationScreen", "checkPermission: granted")
+                true
+            }
+            Shizuku.shouldShowRequestPermissionRationale() -> {
+                // Users choose "Deny and don't ask again"
+                shizukuSwitchView.uncheck(true)
+                Log.d("ConfigurationScreen", "checkPermission: shouldShowRequestPermissionRationale")
+                false
+            }
+            else -> {
+                // Request the permission
+                Shizuku.requestPermission(code)
+                Log.d("ConfigurationScreen", "checkPermission: requestPermission")
+                false
             }
         }
+    }
+
+    private fun setShizukuPermissionState() {
+        shizukuPermissionState.text = buildString {
+            if (Shizuku.isPreV11().invert()) {
+                if (isShizukuPermissionGranted()) {
+                    appendFlag(getString(R.string.granted))
+                } else {
+                    appendFlag(getString(R.string.not_granted))
+
+                    if (Shizuku.shouldShowRequestPermissionRationale()) {
+                        appendFlag(getString(R.string.not_available))
+                    }
+                }
+
+                if (ConfigurationPreferences.isUsingShizuku()) {
+                    appendFlag(getString(R.string.enabled))
+                } else {
+                    appendFlag(getString(R.string.disabled))
+                }
+            } else {
+                appendFlag("Pre-v11 is unsupported")
+            }
+        }
+    }
+
+    private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
+        val granted: Boolean = grantResult == PackageManager.PERMISSION_GRANTED
+        Log.d("ConfigurationScreen", "onRequestPermissionsResult: $granted with requestCode: $requestCode")
+        shizukuSwitchView.check(true)
+        ConfigurationPreferences.setUsingShizuku(granted)
+        setShizukuPermissionState()
     }
 
     companion object {

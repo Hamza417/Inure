@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.toggles.CheckBox
@@ -38,6 +40,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
 
 class Setup : ScopedFragment() {
@@ -57,6 +60,12 @@ class Setup : ScopedFragment() {
     private lateinit var dontShowAgain: DynamicRippleTextView
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+
+    private val requestCode = 100
+
+    private val requestPermissionResultListener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+        onRequestPermissionsResult(requestCode, grantResult)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_setup, container, false)
@@ -183,7 +192,16 @@ class Setup : ScopedFragment() {
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
             if (it) {
-                requestPermissionLauncher.launch(arrayOf(ShizukuProvider.PERMISSION))
+                if (checkPermission(requestCode)) {
+                    if (isShizukuPermissionGranted()) {
+                        Log.d("ConfigurationScreen", "Shizuku permission granted")
+                    } else {
+                        showWarning(Warnings.getShizukuFailedWarning(), false)
+                    }
+                } else {
+                    ConfigurationPreferences.setUsingShizuku(false)
+                    shizukuSwitchView.setChecked(false)
+                }
             } else {
                 ConfigurationPreferences.setUsingShizuku(false)
             }
@@ -214,6 +232,12 @@ class Setup : ScopedFragment() {
         }
 
         showStartAppButton()
+        Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
     }
 
     private fun showStartAppButton() {
@@ -264,6 +288,14 @@ class Setup : ScopedFragment() {
         }
     }
 
+    private fun isShizukuPermissionGranted(): Boolean {
+        return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
+            requireActivity().checkSelfPermission(ShizukuProvider.PERMISSION) == PackageManager.PERMISSION_GRANTED
+        } else {
+            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
     private fun checkStoragePermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
@@ -271,6 +303,31 @@ class Setup : ScopedFragment() {
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
         }
+    }
+
+    private fun checkPermission(code: Int): Boolean {
+        if (Shizuku.isPreV11()) {
+            // Pre-v11 is unsupported
+            return false
+        }
+        return if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+            // Granted
+            true
+        } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+            // Users choose "Deny and don't ask again"
+            false
+        } else {
+            // Request the permission
+            Shizuku.requestPermission(code)
+            false
+        }
+    }
+
+    private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
+        val granted: Boolean = grantResult == PackageManager.PERMISSION_GRANTED
+        Log.d("ConfigurationScreen", "onRequestPermissionsResult: $granted with requestCode: $requestCode")
+        shizukuSwitchView.setChecked(granted)
+        ConfigurationPreferences.setUsingShizuku(granted)
     }
 
     companion object {
