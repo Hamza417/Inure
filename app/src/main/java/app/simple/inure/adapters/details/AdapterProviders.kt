@@ -13,12 +13,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.models.ProviderInfoModel
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 
 class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterProviders.Holder>() {
 
     private lateinit var providersCallbacks: ProvidersCallbacks
+    private var isUsingRoot = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_providers, parent, false))
@@ -51,20 +53,22 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         holder.status.append(providers[position].status)
         holder.name.setTrackingIcon(providers[position].trackingId.isNullOrEmpty().not())
 
-        holder.container.setOnLongClickListener {
-            providersCallbacks
+        if (isUsingRoot) {
+            holder.container.setOnLongClickListener {
+                providersCallbacks
                     .onProvidersLongPressed(
-                        providers[holder.absoluteAdapterPosition].name,
-                        packageInfo,
-                        it,
-                        ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[holder.absoluteAdapterPosition].name),
-                        holder.absoluteAdapterPosition)
-            true
+                            providers[holder.absoluteAdapterPosition].name,
+                            packageInfo,
+                            it,
+                            ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[holder.absoluteAdapterPosition].name),
+                            holder.absoluteAdapterPosition)
+                true
+            }
         }
 
         holder.container.setOnClickListener {
             providersCallbacks
-                    .onProvidersClicked(providers[holder.absoluteAdapterPosition])
+                .onProvidersClicked(providers[holder.absoluteAdapterPosition])
         }
 
         if (keyword.isNotBlank()) {
