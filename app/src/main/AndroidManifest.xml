@@ -450,6 +450,11 @@
                 <data android:host="*" />
                 <data android:mimeType="image/*" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -536,6 +541,11 @@
                 <data android:host="*" />
                 <data android:mimeType="text/xml" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -577,6 +587,11 @@
                 <data android:scheme="https" />
                 <data android:scheme="content" />
                 <data android:host="*" />
+                <data android:mimeType="font/ttf" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="font/ttf" />
             </intent-filter>
         </activity>

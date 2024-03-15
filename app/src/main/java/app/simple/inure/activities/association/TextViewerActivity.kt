@@ -1,11 +1,13 @@
 package app.simple.inure.activities.association
 
+import android.content.Intent
 import android.os.Bundle
 import app.simple.inure.R
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.association.Text
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ParcelUtils.parcelable
 
 class TextViewerActivity : BaseActivity() {
 
@@ -25,6 +27,12 @@ class TextViewerActivity : BaseActivity() {
     }
 
     private fun hasAppPath(): Boolean {
-        return intent.data?.path?.contains(packageName)!!
+        val uri = if (intent?.action == Intent.ACTION_SEND) {
+            intent.parcelable(Intent.EXTRA_STREAM)
+        } else {
+            intent.data
+        }
+
+        return uri?.path?.contains(packageName) ?: false
     }
 }

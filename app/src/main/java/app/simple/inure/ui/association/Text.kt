@@ -3,6 +3,7 @@ package app.simple.inure.ui.association
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
@@ -30,6 +31,7 @@ import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.text.EditTextHelper.findMatches
+import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import com.anggrayudi.storage.file.fullName
@@ -53,6 +55,7 @@ class Text : KeyboardScopedFragment() {
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var count: TypeFaceTextView
 
+    private var uri: Uri? = null
     private var matches: ArrayList<Pair<Int, Int>>? = null
     private var position = -1
 
@@ -96,8 +99,14 @@ class Text : KeyboardScopedFragment() {
         clear = view.findViewById(R.id.clear)
         count = view.findViewById(R.id.count)
 
+        uri = if (requireActivity().intent?.action == Intent.ACTION_SEND) {
+            requireActivity().intent.parcelable(Intent.EXTRA_STREAM)
+        } else {
+            requireActivity().intent.data
+        }
+
         path.text = kotlin.runCatching {
-            DocumentFile.fromSingleUri(requireContext(), requireActivity().intent!!.data!!)!!.fullName
+            DocumentFile.fromSingleUri(requireContext(), uri!!)!!.fullName
         }.getOrElse {
             getString(R.string.not_available)
         }
@@ -114,7 +123,7 @@ class Text : KeyboardScopedFragment() {
         lifecycleScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 withTimeout(3000) {
-                    val string = requireActivity().contentResolver.openInputStream(requireActivity().intent.data!!)!!.use { inputStream ->
+                    val string = requireActivity().contentResolver.openInputStream(uri!!)!!.use { inputStream ->
                         inputStream.bufferedReader().use {
                             it.readText()
                         }
