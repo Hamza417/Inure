@@ -64,8 +64,10 @@ renderer and a beautiful animation framework.
 Along with it own UI perks, Inure also supports dynamic Material You colors with dedicated accent
 and theme color modes.
 
-The app is in stable testing stage. You can join app's [Telegram Group](https://t.me/inure_app_manager)
-and get development related updates or you can [submit your feedbacks about the app](https://github.com/Hamza417/Inure/discussions/286).
+The app is in stable testing stage. You can join
+app's [Telegram Group](https://t.me/inure_app_manager)
+and get development related updates or you
+can [submit your feedbacks about the app](https://github.com/Hamza417/Inure/discussions/286).
 
 ### Features
 
@@ -121,7 +123,13 @@ See the [concise list of features of the app here](./FEATURES.md).
 
 ### Accessibility
 
-Various accessibility features to make the app more accessible to users.
+Various accessibility features to make the app more accessible to users. Inure also supports an
+option to add more colors to interface of various
+types including Pastel, Coffee (soothing) and Retro (color blocked) for users who don't prefer
+monochromatic interface or have difficulty using it.
+
+Including that, Inure also supports highlighting clickable elements and divider for users who
+have difficulty in differentiating spaces between interface elements.
 
 | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/27.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/29.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/30.png) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
@@ -162,7 +170,7 @@ FOSS indicator alongside your app, there are two ways this can be done.
 
 </application>
 ```
-   
+
 ## Contribute
 
 #### Developers
@@ -195,9 +203,9 @@ license, see the [LICENSE](./LICENSE) file in the project root for the full lice
 
 ## Behind The Scenes
 
-|             ![01](./assets/01.jpg)              |
-|:-----------------------------------------------:|
-|   Designing of interface skeletons for Inure    | 
+|           ![01](./assets/01.jpg)           |
+|:------------------------------------------:|
+| Designing of interface skeletons for Inure | 
 
 |        ![01](./assets/inure_music.png)        |
 |:---------------------------------------------:|
