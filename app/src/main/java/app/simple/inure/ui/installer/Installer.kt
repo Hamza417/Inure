@@ -10,6 +10,7 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -392,11 +393,14 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
                 launch.setOnClickListener {
                     kotlin.runCatching {
-                        PackageUtils.launchThisPackage(requireContext(), packageInfo.packageName)
+                        Log.d("LaunchApp", "Attempting to launch app") // Log before attempting to launch the app
+                        PackageUtils.launchThisPackage(requireActivity().applicationContext, packageInfo.packageName)
                         if (requireActivity() is ApkInstallerActivity) {
-                            requireActivity().finish()
+                            requireActivity().finishAfterTransition()
                         }
                     }.onFailure {
+                        it.printStackTrace()
+                        Log.e("LaunchApp", "Failed to launch app", it) // Log the error if the app fails to launch
                         showError(it.stackTraceToString())
                     }
                 }
@@ -404,6 +408,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 launch.gone(animate = false)
             }
         } catch (e: UninitializedPropertyAccessException) {
+            e.printStackTrace()
             launch.gone(animate = false)
             showWarning(e.message ?: "Err: 0x000788")
         }
