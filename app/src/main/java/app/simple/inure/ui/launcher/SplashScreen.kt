@@ -459,7 +459,7 @@ class SplashScreen : ScopedFragment() {
         try {
             requireContext().unbindService(serviceConnection!!)
         } catch (e: java.lang.IllegalArgumentException) {
-            e.printStackTrace()
+            e.printStackTrace() // Should crash if moving to another [Setup] fragment
         }
 
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)

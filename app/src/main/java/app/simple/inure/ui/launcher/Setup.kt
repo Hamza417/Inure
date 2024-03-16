@@ -70,6 +70,15 @@ class Setup : ScopedFragment() {
         onRequestPermissionsResult(requestCode, grantResult)
     }
 
+    private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
+        Log.d(TAG, "Shizuku binder received")
+        setShizukuPermissionState()
+    }
+
+    private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
+        Log.d(TAG, "Shizuku binder dead")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_setup, container, false)
 
@@ -97,6 +106,8 @@ class Setup : ScopedFragment() {
                             showStartAppButton()
                         }
                     }
+
+                    // Unused
                     ShizukuProvider.PERMISSION -> {
                         if (it.value) {
                             ConfigurationPreferences.setUsingShizuku(true)
@@ -110,6 +121,12 @@ class Setup : ScopedFragment() {
             }
         }
 
+        runCatching {
+            Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+            Shizuku.addBinderReceivedListenerSticky(onBinderReceivedListener)
+            Shizuku.addBinderDeadListener(onBinderDeadListener)
+        }
+
         return view
     }
 
@@ -120,7 +137,6 @@ class Setup : ScopedFragment() {
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         dontShowAgainCheckBox.isChecked = SetupPreferences.isDontShowAgain()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
-        setShizukuPermissionState()
 
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
@@ -232,12 +248,14 @@ class Setup : ScopedFragment() {
         }
 
         showStartAppButton()
-        Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
+        runCatching {
+            // Since this panel will only be opened once, we can skip managing the memory leak if it occurs
+            Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
+        }
     }
 
     private fun showStartAppButton() {
@@ -377,5 +395,7 @@ class Setup : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val TAG = "Setup"
     }
 }

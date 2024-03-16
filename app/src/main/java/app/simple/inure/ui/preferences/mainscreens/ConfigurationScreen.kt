@@ -171,12 +171,16 @@ class ConfigurationScreen : ScopedFragment() {
 
     override fun onResume() {
         super.onResume()
-        Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+        runCatching {
+            Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
+        runCatching {
+            Shizuku.removeRequestPermissionResultListener(requestPermissionResultListener)
+        }
     }
 
     @SuppressLint("SetTextI18n")

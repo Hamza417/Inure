@@ -32,6 +32,10 @@ import rikka.shizuku.SystemServiceHelper;
 public class ShizukuUtils {
     
     private static final String TAG = "ShizukuUtils";
+    
+    /**
+     * @noinspection unused
+     */
     private static final String rishPath = "/data/local/tmp/rish";
     
     @SuppressLint ("PrivateApi")
@@ -52,9 +56,9 @@ public class ShizukuUtils {
         Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
         Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
         iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
-    
+        
         setApplicationEnabledSetting = iPmClass.getMethod("setApplicationEnabledSetting", String.class, int.class, int.class, int.class, String.class);
-    
+        
         for (String packageName : pkgNames) {
             setApplicationEnabledSetting.invoke(iPmInstance, packageName,
                     disabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER : PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, 0, Os.getuid() / 100000,
@@ -76,14 +80,14 @@ public class ShizukuUtils {
         Log.d("ShizukuHider", "setAppHidden: " + hidden);
         Method setApplicationHiddenSetting;
         Object iPmInstance;
-    
+        
         Class <?> iPmClass = Class.forName("android.content.pm.IPackageManager");
         Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
         Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
         iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
-    
+        
         setApplicationHiddenSetting = iPmClass.getMethod("setApplicationHiddenSettingAsUser", String.class, boolean.class, int.class, int.class);
-    
+        
         for (String packageName : pkgNames) {
             setApplicationHiddenSetting.invoke(iPmInstance, packageName, hidden, 0, Os.getuid() / 100000);
             Log.i("ShizukuHider", "Hid app: " + packageName);
@@ -173,7 +177,7 @@ public class ShizukuUtils {
                 } catch (Exception e) {
                     stdOutD.interrupt();
                     stdErrD.interrupt();
-    
+                    
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         process.destroyForcibly();
                     } else {
@@ -187,7 +191,7 @@ public class ShizukuUtils {
             process.waitFor();
             stdOutD.join();
             stdErrD.join();
-    
+            
             return new Shell.Result(command, process.exitValue(), stdOutSb.toString().trim(), stdErrSb.toString().trim());
         } catch (Exception e) {
             Log.w(TAG, "Unable execute command: ");
@@ -218,7 +222,9 @@ public class ShizukuUtils {
                 }
                 
                 // Set read only
+                //noinspection ResultOfMethodCallIgnored
                 outFile.setExecutable(true);
+                
                 if (outFile.setReadOnly()) {
                     Log.i("Shizuku", "Set read only: " + outFile.getAbsolutePath());
                 } else {
