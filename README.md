@@ -131,7 +131,7 @@ monochromatic interface or have difficulty using it.
 Including that, Inure also supports highlighting clickable elements and divider for users who
 have difficulty in differentiating spaces between interface elements.
 
-Further more, it's also possible to disable all animations from the app to reduce excessive motion in the
+Further more, it's also possible to disable all animations to reduce excessive motion in the
 app. Inure has options to adjust animation requirements over multiple levels from all animations to no 
 animations with fine granularity.
 
