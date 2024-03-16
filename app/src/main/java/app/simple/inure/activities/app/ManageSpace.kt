@@ -113,6 +113,7 @@ class ManageSpace : BaseActivity() {
                         if (errors.isNotEmpty()) {
                             showWarning(errors.joinToString("\n"), goBack = false)
                         } else {
+                            appDataLoader.gone(animate = true)
                             showWarning(R.string.done, goBack = false)
                         }
 
@@ -124,11 +125,6 @@ class ManageSpace : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     appDataLoader.gone(animate = true)
                     showWarning(it.message ?: "Unknown error", false)
-                }
-            }.onSuccess {
-                withContext(Dispatchers.Main) {
-                    appDataLoader.gone(animate = true)
-                    showWarning(R.string.done, goBack = false)
                 }
             }
         }

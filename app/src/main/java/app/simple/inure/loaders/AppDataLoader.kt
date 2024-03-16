@@ -136,7 +136,10 @@ object AppDataLoader {
 
         val zipPath = filesDir.path + "/backup/" +
                 "/${filename.replace("@date", System.currentTimeMillis().toString())}"
-        ZipFile(zipPath).addFiles(paths)
+
+        ZipFile(zipPath).use {
+            it.addFiles(paths)
+        }
 
         // Reopen databases
         SharedPreferences.init(this)
