@@ -131,17 +131,25 @@ monochromatic interface or have difficulty using it.
 Including that, Inure also supports highlighting clickable elements and divider for users who
 have difficulty in differentiating spaces between interface elements.
 
+Further more, it's also possible to disable all animations from the app to reduce excessive motion in the
+app. Inure has options to adjust animation requirements over multiple levels from all animations to no 
+animations with fine granularity.
+
 | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/27.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/29.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/30.png) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
 
 ### Menus and Dialogs
 
-Various styles of menus and dialogs used in the app.
+Inure has 3 different styles of Menu and Dialogs type depending on how they're required, the popup type used for quick actions follows the user thumb on the screen,
+the modal dialog is used to adjust panel level preferences and chip style dialog for managing filter flags and tags. These three work together to refine a good level
+of UX and UI without overloading the user with a lot of options.
 
 | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/32.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/33.png) | ![01](fastlane/metadata/android/en-US/images/phoneScreenshots/34.png) |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
+
+If you've any questions or suggestions for design, please initiate a discussion or an issue.
 
 ## Include your app in Inure's FOSS panel
 
