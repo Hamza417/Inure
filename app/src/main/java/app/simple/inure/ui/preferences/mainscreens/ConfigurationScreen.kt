@@ -50,6 +50,15 @@ class ConfigurationScreen : ScopedFragment() {
         onRequestPermissionsResult(requestCode, grantResult)
     }
 
+    private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
+        Log.d(TAG, "Shizuku binder received")
+        setShizukuPermissionState()
+    }
+
+    private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
+        Log.d(TAG, "Shizuku binder dead")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_configuration, container, false)
 
@@ -63,6 +72,12 @@ class ConfigurationScreen : ScopedFragment() {
         shizukuSwitchView = view.findViewById(R.id.configuration_shizuku_switch_view)
         shizukuPermissionState = view.findViewById(R.id.shizuku_permission_state)
 
+        runCatching {
+            Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
+            Shizuku.addBinderReceivedListenerSticky(onBinderReceivedListener)
+            Shizuku.addBinderDeadListener(onBinderDeadListener)
+        }
+
         return view
     }
 
@@ -74,7 +89,7 @@ class ConfigurationScreen : ScopedFragment() {
         showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
-        setShizukuPermissionState()
+        Shizuku.pingBinder()
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -169,13 +184,6 @@ class ConfigurationScreen : ScopedFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        runCatching {
-            Shizuku.addRequestPermissionResultListener(requestPermissionResultListener)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         runCatching {
@@ -257,5 +265,7 @@ class ConfigurationScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        private const val TAG = "ConfigurationScreen"
     }
 }
