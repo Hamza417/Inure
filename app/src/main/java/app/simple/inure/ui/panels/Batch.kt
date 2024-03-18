@@ -40,11 +40,14 @@ import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
 import app.simple.inure.dialogs.tags.AddedTag.Companion.showAddedApps
+import app.simple.inure.dialogs.tags.TagPicker
+import app.simple.inure.dialogs.tags.TagPicker.Companion.showTagPicker
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.BatchProfile
+import app.simple.inure.models.Tag
 import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -196,6 +199,14 @@ class Batch : ScopedFragment() {
                                             }
                                         }
                                     }
+                                }
+                            })
+                        }
+
+                        override fun onTagPicker() {
+                            childFragmentManager.showTagPicker().setTagPickerCallbacks(object : TagPicker.Companion.TagPickerCallbacks {
+                                override fun onTagPicked(tag: Tag) {
+                                    adapterBatch?.createSelectionFromTags(tag)
                                 }
                             })
                         }

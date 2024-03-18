@@ -741,4 +741,5 @@
     <string name="code_signature">Code Signature</string>
     <string name="network_signature">Network Signature</string>
     <string name="website">Website</string>
+    <string name="create_selection_from_tags">Create Selection from Tags</string>
 </resources>

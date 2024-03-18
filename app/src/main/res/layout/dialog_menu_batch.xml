@@ -117,6 +117,14 @@
             android:text="@string/save_selection_profile"
             android:padding="@dimen/dialog_padding" />
 
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/create_selection_from_tags"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
+            android:layout_height="wrap_content"
+            android:text="@string/create_selection_from_tags"
+            android:padding="@dimen/dialog_padding" />
+
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"
             android:layout_height="1px"

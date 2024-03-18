@@ -27,6 +27,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
     private lateinit var highlightSelected: Switch
     private lateinit var loadSelectionProfile: DynamicRippleLinearLayout
     private lateinit var saveSelectionProfile: DynamicRippleTextView
+    private lateinit var createSelectionFromTags: DynamicRippleTextView
     private lateinit var currentProfile: TypeFaceTextView
     private lateinit var openSettings: DynamicRippleTextView
     private lateinit var filter: DynamicRippleImageButton
@@ -40,6 +41,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
         highlightSelected = view.findViewById(R.id.highlight_selected)
         loadSelectionProfile = view.findViewById(R.id.load_selection_profile)
         saveSelectionProfile = view.findViewById(R.id.save_selection_profile)
+        createSelectionFromTags = view.findViewById(R.id.create_selection_from_tags)
         currentProfile = view.findViewById(R.id.current_profile)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
         filter = view.findViewById(R.id.filter)
@@ -71,6 +73,12 @@ class BatchMenu : ScopedBottomSheetFragment() {
         saveSelectionProfile.setOnClickListener {
             batchMenuListener.onSaveProfile()
             dismiss()
+        }
+
+        createSelectionFromTags.setOnClickListener {
+            batchMenuListener.onTagPicker().also {
+                dismiss()
+            }
         }
 
         openSettings.setOnClickListener {
@@ -125,6 +133,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
         interface BatchMenuListener {
             fun onSaveProfile()
             fun onLoadProfile()
+            fun onTagPicker()
         }
     }
 }
