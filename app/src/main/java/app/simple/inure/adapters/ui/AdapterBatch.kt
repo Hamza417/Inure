@@ -300,11 +300,13 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         return apps.stream().allMatch { it.isSelected }
     }
 
-    fun deselectAll() {
+    private fun deselectAll() {
         for (i in apps.indices) {
             apps[i].isSelected = false
             notifyItemChanged(i.plus(1))
         }
+
+        notifyItemChanged(0) // header
     }
 
     fun getSelectedAppsCount(): Int {

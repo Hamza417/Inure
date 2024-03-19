@@ -50,7 +50,9 @@ class TagPicker : ScopedBottomSheetFragment() {
             adapterTags.setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                 override fun onTagClicked(tag: String) {
                     tags.find { it.tag == tag }?.let {
-                        tagPickerCallbacks?.onTagPicked(it)
+                        tagPickerCallbacks?.onTagPicked(it).also {
+                            dismiss()
+                        }
                     }
                 }
 
