@@ -127,7 +127,7 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Cycle through windows\nCtrl-Shift-N: New Window\nCtrl-Shift-V: Paste.</string>
 
     <string name="help">Help</string>
-    <string name="activity_term_here_title">Term here</string>
+    <string name="activity_term_here_title">Term Here</string>
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Term Shortcut</string>

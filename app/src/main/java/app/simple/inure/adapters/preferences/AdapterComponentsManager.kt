@@ -12,12 +12,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Class<out BaseActivity>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Class<out Any>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -33,18 +32,18 @@ class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Clas
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_.minus(1)
+    override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
+        val position1 = holder.bindingAdapterPosition.minus(1)
 
         if (holder is Holder) {
-            holder.icon.setImageResource(list[position].first)
-            holder.name.setText(list[position].second)
+            holder.icon.setImageResource(list[position1].first)
+            holder.name.setText(list[position1].second)
 
-            holder.checkBox.isChecked = when (holder.context.packageManager.getComponentEnabledSetting(ComponentName(holder.context, list[position].third))) {
+            holder.checkBox.isChecked = when (holder.context.packageManager.getComponentEnabledSetting(ComponentName(holder.context, list[position1].third))) {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
                 PackageManager.COMPONENT_ENABLED_STATE_DEFAULT -> {
-                    ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position].third.name)
+                    ActivityUtils.isEnabled(holder.context, holder.context.packageName, list[position1].third.name)
                 }
                 else -> false
             }
@@ -52,10 +51,14 @@ class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Clas
             holder.checkBox.setOnCheckedChangeListener {
                 if (it) {
                     holder.context.packageManager.setComponentEnabledSetting(
-                            ComponentName(holder.context, list[position].third), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(holder.context, list[position1].third),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP)
                 } else {
                     holder.context.packageManager.setComponentEnabledSetting(
-                            ComponentName(holder.context, list[position].third), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP)
+                            ComponentName(holder.context, list[position1].third),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP)
                 }
             }
 

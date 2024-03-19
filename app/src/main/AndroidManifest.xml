@@ -639,7 +639,8 @@
         </activity>
 
         <activity-alias
-            android:name="TermHere"
+            android:name=".activities.alias.TermHere"
+            android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_terminal"
             android:label="@string/activity_term_here_title"
