@@ -33,6 +33,8 @@
 
 -keep class app.simple.inure.activities.alias.TerminalAlias
 -keep class app.simple.inure.terminal.TermInternal
+-keep class app.simple.inure.activities.alias.TermHere
+-keep class app.simple.inure.play.activities.alias.TermHere
 
 -keep class app.simple.inure.play.database.** { *; }
 -keep class app.simple.inure.database.** { *; }
