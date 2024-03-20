@@ -93,7 +93,7 @@
     <string name="title_use_keyboard_shortcuts">Usar atalhos do teclado</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Ciclo através de janelas\nCtrl-Shift-N: Nova janela\nCtrl-Shift-V: Colar.</string>
     <string name="help">Ajuda</string>
-    <string name="activity_term_here_title">Termo aqui</string>
+    <string name="activity_term_here_title">Termo Aqui</string>
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Atalho de termo</string>
