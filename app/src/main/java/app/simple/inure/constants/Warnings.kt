@@ -52,4 +52,9 @@ object Warnings {
      * Activity not found or not supported by your device
      */
     fun getActivityNotFoundWarning(): String = "0x00A: Activity not found or not supported by your device"
+
+    /**
+     * Shizuku binder is not ready
+     */
+    const val SHIZUKU_BINDER_NOT_READY = "0x00B: Shizuku binder is not ready"
 }

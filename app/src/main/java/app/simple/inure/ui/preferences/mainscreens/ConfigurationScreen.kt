@@ -11,6 +11,7 @@ import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.toggles.Switch
@@ -45,6 +46,7 @@ class ConfigurationScreen : ScopedFragment() {
     private lateinit var shizukuPermissionState: TypeFaceTextView
 
     private val requestCode = 100
+    private var isBinderReceived = false
 
     private val requestPermissionResultListener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
         onRequestPermissionsResult(requestCode, grantResult)
@@ -52,11 +54,13 @@ class ConfigurationScreen : ScopedFragment() {
 
     private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
         Log.d(TAG, "Shizuku binder received")
+        isBinderReceived = true
         setShizukuPermissionState()
     }
 
     private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
         Log.d(TAG, "Shizuku binder dead")
+        isBinderReceived = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -89,7 +93,6 @@ class ConfigurationScreen : ScopedFragment() {
         showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
-        Shizuku.pingBinder()
 
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
@@ -164,15 +167,20 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener {
-            if (it) {
-                if (checkPermission()) {
-                    ConfigurationPreferences.setUsingShizuku(true)
+            if (isBinderReceived) {
+                if (it) {
+                    if (checkPermission()) {
+                        ConfigurationPreferences.setUsingShizuku(true)
+                    }
+                } else {
+                    ConfigurationPreferences.setUsingShizuku(false)
                 }
-            } else {
-                ConfigurationPreferences.setUsingShizuku(false)
-            }
 
-            setShizukuPermissionState()
+                setShizukuPermissionState()
+            } else {
+                shizukuSwitchView.uncheck(true)
+                showWarning(Warnings.SHIZUKU_BINDER_NOT_READY, false)
+            }
         }
     }
 

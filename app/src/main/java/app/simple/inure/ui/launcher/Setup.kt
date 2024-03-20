@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.toggles.CheckBox
@@ -65,6 +66,7 @@ class Setup : ScopedFragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
 
     private val requestCode = 100
+    private var isBinderReceived = false
 
     private val requestPermissionResultListener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
         onRequestPermissionsResult(requestCode, grantResult)
@@ -72,11 +74,13 @@ class Setup : ScopedFragment() {
 
     private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
         Log.d(TAG, "Shizuku binder received")
+        isBinderReceived = true
         setShizukuPermissionState()
     }
 
     private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
         Log.d(TAG, "Shizuku binder dead")
+        isBinderReceived = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -212,15 +216,19 @@ class Setup : ScopedFragment() {
         }
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
-            if (it) {
-                if (checkPermission()) {
-                    ConfigurationPreferences.setUsingShizuku(true)
+            if (isBinderReceived) {
+                if (it) {
+                    if (checkPermission()) {
+                        ConfigurationPreferences.setUsingShizuku(true)
+                    }
+                } else {
+                    ConfigurationPreferences.setUsingShizuku(false)
                 }
-            } else {
-                ConfigurationPreferences.setUsingShizuku(false)
-            }
 
-            setShizukuPermissionState()
+                setShizukuPermissionState()
+            } else {
+                showWarning(Warnings.SHIZUKU_BINDER_NOT_READY, goBack = false)
+            }
         }
 
         dontShowAgainCheckBox.setOnCheckedChangeListener {
