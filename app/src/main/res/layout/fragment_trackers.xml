@@ -131,7 +131,7 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:layoutAnimation="@anim/list_animation_controller"
-        app:isFastScrollRequired="true"
+        app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
