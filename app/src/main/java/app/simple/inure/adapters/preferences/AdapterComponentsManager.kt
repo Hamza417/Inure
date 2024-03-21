@@ -12,11 +12,12 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Class<out Any>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterComponentsManager(private val list: ArrayList<Triple<Int, Int, Class<out BaseActivity>>>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {

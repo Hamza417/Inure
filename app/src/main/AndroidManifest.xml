@@ -640,7 +640,7 @@
 
         <activity-alias
             android:name=".activities.alias.TermHere"
-            android:enabled="true"
+            android:enabled="false"
             android:exported="true"
             android:icon="@mipmap/ic_terminal"
             android:label="@string/activity_term_here_title"
@@ -648,6 +648,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <data android:mimeType="*/*" />
+                <data android:scheme="file" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
