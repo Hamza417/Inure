@@ -1,6 +1,7 @@
 package app.simple.inure.ui.subviewers
 
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -147,6 +148,8 @@ class TrackerInfo : ScopedFragment() {
                     }
                 })
                 .build()
+
+            movementMethod = LinkMovementMethod.getInstance()
 
             val spanned = markwon.toMarkdown(tracker?.description ?: "")
 
