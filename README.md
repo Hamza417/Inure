@@ -34,20 +34,20 @@ An elegant Android app manager.
 
 ## Featured
 
-- [Android Weekly Issue #465](https://androidweekly.net/issues/issue-465)
-- ["Inure, a beautifully animated Android App Manager." - Android Dev Notes](https://twitter.com/androiddevnotes/status/1389111968670179340)
-- [Top 5 Android Apps of the Week - NextPit](https://www.nextpit.com/apps-of-the-week-51-2021)
-- [5 Super Useful OPENSOURCE Apps for Android - TechDoc](https://youtu.be/vlf0jEFHR74)
-- [Best Android Apps - February 2023 - HowToMen](https://youtu.be/kOrnfQOz4rg?t=112)
-- [5 Magnificent Open Source Android Apps To Download Right NOW! - Anubhav Roy](https://youtu.be/kvM9hGJJ2wA?t=357)
-- [Top Android Apps! (May 2023) - Sam Beckman](https://youtu.be/g6pMQAFfd3Q?t=220)
-- [8 Legendary Android Apps You Must INSTALL NOW - May 2023!](https://www.youtube.com/watch?v=YbnNmnd5JrE&t=268s)
-- [Apps that Will LEVEL Up Your Smartphone Experience in 2023! - Sam Beckman](https://youtu.be/EtOq5ccjv5s?t=121)
-- [The Most Functional App Ever! - Sam Beckman](https://www.youtube.com/shorts/WYoWLMKawBg)
-- [Top 10 Android Apps! (October 2023) - Matt Robb](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
-- [The Best Apps of 2023! - Sam Beckman](https://youtu.be/NYZd7IKn1oY?t=202)
-- [Coolest Open Source projects of the week 🔥 - Ana Mogul](https://console.substack.com/p/console-190)
-- [10 Reasons to Root Your Phone in 2024! - Sam Beckman](https://youtu.be/5Nxd9HLixO8?t=254)
+- [**Android Weekly Issue #465**](https://androidweekly.net/issues/issue-465)
+- [**"Inure, a beautifully animated Android App Manager."** - _Android Dev Notes_](https://twitter.com/androiddevnotes/status/1389111968670179340)
+- [**Top 5 Android Apps of the Week** - _NextPit_](https://www.nextpit.com/apps-of-the-week-51-2021)
+- [**5 Super Useful OPENSOURCE Apps for Android** - _TechDoc_](https://youtu.be/vlf0jEFHR74)
+- [**Best Android Apps - February 2023** - _HowToMen_](https://youtu.be/kOrnfQOz4rg?t=112)
+- [**5 Magnificent Open Source Android Apps To Download Right NOW!** - _Anubhav Roy_](https://youtu.be/kvM9hGJJ2wA?t=357)
+- [**Top Android Apps! (May 2023)** - _Sam Beckman_](https://youtu.be/g6pMQAFfd3Q?t=220)
+- [**8 Legendary Android Apps You Must INSTALL NOW - May 2023!** -  _Mr Android FHD_](https://www.youtube.com/watch?v=YbnNmnd5JrE&t=268s)
+- [**Apps that Will LEVEL Up Your Smartphone Experience in 2023!** - _Sam Beckman_](https://youtu.be/EtOq5ccjv5s?t=121)
+- [**The Most Functional App Ever!** - _Sam Beckman_](https://www.youtube.com/shorts/WYoWLMKawBg)
+- [**Top 10 Android Apps! (October 2023)** - _Matt Robb_](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
+- [**The Best Apps of 2023!** - _Sam Beckman_](https://youtu.be/NYZd7IKn1oY?t=202)
+- [**Coolest Open Source projects of the week 🔥** - _Ana Mogul_](https://console.substack.com/p/console-190)
+- [**10 Reasons to Root Your Phone in 2024!** - _Sam Beckman_](https://youtu.be/5Nxd9HLixO8?t=254)
 
 ## About
 
