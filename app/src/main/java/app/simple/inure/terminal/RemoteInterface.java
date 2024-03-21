@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.File;
@@ -81,10 +80,14 @@ public class RemoteInterface extends BaseActivity {
             /* "permission.RUN_SCRIPT" not required as this is merely opening a new window. */
             Object extraStream = myIntent.getExtras().get(Intent.EXTRA_STREAM);
             if (extraStream instanceof Uri) {
-                String path = ((Uri) extraStream).getPath();
-                File file = new File(path);
-                String dirPath = file.isDirectory() ? path : file.getParent();
-                openNewWindow("cd " + quoteForBash(dirPath));
+                if (!isContentUri((Uri) extraStream)) {
+                    String path = ((Uri) extraStream).getPath();
+                    File file = new File(path);
+                    String dirPath = file.isDirectory() ? path : file.getParent();
+                    openNewWindow("cd " + quoteForBash(dirPath));
+                } else {
+                    showWarning("Cannot open content:// URIs post SDK 25", true);
+                }
             }
         } else {
             // Intent sender may not have permissions, ignore any extras
@@ -97,10 +100,10 @@ public class RemoteInterface extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        
+        SharedPreferences prefs = app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences(this);
         termSettings = new TermSettings(getResources(), prefs);
-    
+        
         Intent TSIntent = new Intent(this, TermService.class);
         termServiceIntent = TSIntent;
         startService(TSIntent);
@@ -120,16 +123,18 @@ public class RemoteInterface extends BaseActivity {
             TermService service = termService;
             if (service != null) {
                 SessionList sessions = service.getSessions();
-                if (sessions == null || sessions.size() == 0) {
+                if (sessions == null || sessions.isEmpty()) {
                     stopService(termServiceIntent);
                 }
             }
-    
+            
             terminalServiceConnection = null;
             termService = null;
         }
         super.finish();
-    }    private ServiceConnection terminalServiceConnection = new ServiceConnection() {
+    }
+    
+    private ServiceConnection terminalServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             TermService.TSBinder binder = (TermService.TSBinder) service;
             termService = binder.getService();
@@ -145,11 +150,10 @@ public class RemoteInterface extends BaseActivity {
     protected TermService getTermService() {
         return termService;
     }
-
     
     protected String openNewWindow(String iInitialCommand) {
         TermService service = getTermService();
-    
+        
         String initialCommand = ShellPreferences.INSTANCE.getInitialCommand();
         Log.d(TermDebug.LOG_TAG, "initialCommand: " + initialCommand);
         if (iInitialCommand != null) {
@@ -221,5 +225,10 @@ public class RemoteInterface extends BaseActivity {
         startActivity(intent);
         
         return handle;
+    }
+    
+    private boolean isContentUri(Uri uri) {
+        String scheme = uri.getScheme();
+        return scheme != null && scheme.equals("content");
     }
 }

@@ -30,14 +30,12 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -86,7 +84,6 @@ import app.simple.inure.extensions.activities.BaseActivity;
 import app.simple.inure.popups.terminal.PopupTerminalWindows;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.preferences.TerminalPreferences;
-import app.simple.inure.terminal.compat.ActionBarCompat;
 import app.simple.inure.terminal.compat.ActivityCompat;
 import app.simple.inure.terminal.compat.AndroidCompat;
 import app.simple.inure.terminal.util.SessionList;
@@ -127,12 +124,10 @@ public class Term extends BaseActivity implements UpdateCallback,
     private final static int SEND_CONTROL_KEY_ID = 3;
     private final static int SEND_FN_KEY_ID = 4;
     
-    private boolean alreadyStarted = false;
     private boolean stopServiceOnFinish = false;
     
-    private Intent TSIntent;
+    private Intent termServiceIntent;
     
-    public static final int REQUEST_CHOOSE_WINDOW = 1;
     public static final String EXTRA_WINDOW_ID = "inure.terminal.window_id";
     private int onResumeSelectWindow = -1;
     private ComponentName privateAlias;
@@ -143,7 +138,6 @@ public class Term extends BaseActivity implements UpdateCallback,
     private static final int WIFI_MODE_FULL_HIGH_PERF = 3;
     
     private boolean wilLResume = false;
-    private boolean backKeyPressed = false;
     
     private static final String ACTION_CLOSE = "inure.terminal.close";
     private static final String ACTION_PATH_BROADCAST = "inure.terminal.broadcast.APPEND_TO_PATH";
@@ -155,7 +149,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     private BroadcastReceiver closeBroadcastReceiver;
     
     private TermService termService;
-    private int actionBarMode = TermSettings.ACTION_BAR_MODE_NONE;
+    
     private BroadcastReceiver pathReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String path = makePathFromBundle(getResultExtras(false));
@@ -173,6 +167,23 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     };
     
+    private final ActivityResultLauncher<Intent> windowListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+            int position = result.getData().getIntExtra(EXTRA_WINDOW_ID, -2);
+            if (position >= 0) {
+                onResumeSelectWindow = position;
+            } else if (position == -1) {
+                doCreateNewWindow(true);
+                onResumeSelectWindow = termSessions.size() - 1;
+            }
+        } else {
+            if (termSessions == null || termSessions.isEmpty()) {
+                stopServiceOnFinish = true;
+                supportFinishAfterTransition();
+            }
+        }
+    });
+    
     private final ActivityResultLauncher <String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -184,6 +195,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                             termService.reshowNotification();
                         }
                     } catch (IllegalStateException e) {
+                        //noinspection CallToPrintStackTrace
                         e.printStackTrace();
                         Log.d(TAG, "Failed to show notification");
                     }
@@ -192,10 +204,8 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
             });
     
-    // Available on API 12 and later
+    /** @noinspection unused*/ // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
-    @SuppressWarnings ("unused")
-    private ActionBarCompat actionBarCompat;
     
     private void populateViewFlipper() {
         if (termService != null) {
@@ -206,7 +216,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                 wilLResume = false;
             }
             
-            if (termSessions.size() == 0) {
+            if (termSessions.isEmpty()) {
                 try {
                     termSessions.add(createTermSession(null));
                 } catch (IOException e) {
@@ -284,9 +294,9 @@ public class Term extends BaseActivity implements UpdateCallback,
             onNewIntent(getIntent());
         }
         
-        final SharedPreferences mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        settings = new TermSettings(getResources(), mPrefs);
-        mPrefs.registerOnSharedPreferenceChangeListener(this);
+        final SharedPreferences preferences = app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences(this);
+        settings = new TermSettings(getResources(), preferences);
+        preferences.registerOnSharedPreferenceChangeListener(this);
         
         Intent broadcast = new Intent(ACTION_PATH_BROADCAST);
         broadcast.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
@@ -300,21 +310,8 @@ public class Term extends BaseActivity implements UpdateCallback,
         pendingPathBroadcasts++;
         sendOrderedBroadcast(broadcast, PERMISSION_PATH_PREPEND_BROADCAST, pathReceiver, null, RESULT_OK, null, null);
         
-        TSIntent = new Intent(this, TermService.class);
-        startService(TSIntent);
-        
-        if (AndroidCompat.SDK >= 11) {
-            int actionBarMode = settings.actionBarMode();
-            this.actionBarMode = actionBarMode;
-            switch (actionBarMode) {
-                case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE ->
-                        setTheme(R.style.Theme_AppCompat_DayNight_DarkActionBar);
-                case TermSettings.ACTION_BAR_MODE_HIDES ->
-                        setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
-            }
-        } else {
-            actionBarMode = TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE;
-        }
+        termServiceIntent = new Intent(this, TermService.class);
+        startService(termServiceIntent);
         
         setContentView(R.layout.activity_terminal);
         viewFlipper = findViewById(R.id.view_flipper);
@@ -327,6 +324,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         
         content.setBackgroundColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         
+        //noinspection CodeBlock2Expr
         add.setOnClickListener(v -> {
             doCreateNewWindow(false);
         });
@@ -343,7 +341,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             terminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
                     case 0 -> {
-                        startActivityForResult(new Intent(Term.this, WindowList.class), REQUEST_CHOOSE_WINDOW);
+                        windowListLauncher.launch(new Intent(Term.this, WindowList.class));
                     }
                     case 1 -> {
                         doToggleSoftKeyboard();
@@ -380,6 +378,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             try {
                 popupTerminalWindows = new PopupTerminalWindows(v, adapterWindows);
             } catch (NullPointerException e) {
+                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
             }
         });
@@ -393,10 +392,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
         
         wifiLock = wm.createWifiLock(wifiLockMode, TermDebug.LOG_TAG);
-        haveFullHwKeyboard = checkHaveFullHwKeyboard(getResources().getConfiguration());
-        
         updatePrefs();
-        alreadyStarted = true;
         
         closeBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -405,8 +401,8 @@ public class Term extends BaseActivity implements UpdateCallback,
                     if (intent.getAction().equals(ACTION_CLOSE)) {
                         supportFinishAfterTransition();
                     }
-                } catch (
-                        NullPointerException e) {
+                } catch (NullPointerException e) {
+                    //noinspection CallToPrintStackTrace
                     e.printStackTrace();
                 }
             }
@@ -420,16 +416,14 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     @Override
     public void onDestroy() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
-        
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(closeBroadcastReceiver);
         pathReceiver = null;
         
         super.onDestroy();
         
         if (stopServiceOnFinish) {
-            stopService(TSIntent);
+            stopService(termServiceIntent);
         }
         
         termService = null;
@@ -442,8 +436,6 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     }
     
-    private boolean haveFullHwKeyboard = false;
-    
     private class EmulatorViewGestureListener extends SimpleOnGestureListener {
         private final EmulatorView view;
         
@@ -452,7 +444,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
         
         @Override
-        public boolean onSingleTapUp(MotionEvent e) {
+        public boolean onSingleTapUp(@NonNull MotionEvent e) {
             // Let the EmulatorView handle taps if mouse tracking is active
             if (view.isMouseTrackingActive()) {
                 return false;
@@ -462,14 +454,13 @@ public class Term extends BaseActivity implements UpdateCallback,
             String link = view.getURLat(e.getX(), e.getY());
             if (link != null) {
                 execURL(link);
-            } else {
-                doUIToggle((int) e.getX(), (int) e.getY(), view.getVisibleWidth(), view.getVisibleHeight());
             }
+            
             return true;
         }
         
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
             float absVelocityX = Math.abs(velocityX);
             float absVelocityY = Math.abs(velocityY);
             if (absVelocityX > Math.max(1000.0f, 2.0 * absVelocityY)) {
@@ -502,10 +493,6 @@ public class Term extends BaseActivity implements UpdateCallback,
                         if (position != viewFlipper.getDisplayedChild()) {
                             if (position >= viewFlipper.getChildCount()) {
                                 viewFlipper.addView(createEmulatorView(termSessions.get(position - 1)));
-                            }
-                            
-                            if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES) {
-                                actionBarCompat.hide();
                             }
                             
                             viewFlipper.setDisplayedChild(position);
@@ -542,7 +529,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         super.onStart();
         ThemeManager.INSTANCE.addListener(this);
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(closeBroadcastReceiver, new IntentFilter(ACTION_CLOSE));
-        if (!bindService(TSIntent, TSConnection, BIND_AUTO_CREATE)) {
+        if (!bindService(termServiceIntent, TSConnection, BIND_AUTO_CREATE)) {
             throw new IllegalStateException("Failed to bind to TermService!");
         }
     }
@@ -640,8 +627,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         /**
          * Make sure the back button always leaves the application.
          */
+        @SuppressLint ("GestureBackNavigation")
         private boolean backKeyInterceptor(int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && actionBarCompat != null && actionBarCompat.isShowing()) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
                 /* We need to intercept the key event before the view sees it,
                    otherwise the view will handle it before we get it */
                 onKeyUp(keyCode, event);
@@ -665,7 +653,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     private String makePathFromBundle(Bundle extras) {
-        if (extras == null || extras.size() == 0) {
+        if (extras == null || extras.isEmpty()) {
             return "";
         }
         
@@ -677,7 +665,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         StringBuilder path = new StringBuilder();
         for (String key : keys) {
             String dir = extras.getString(key);
-            if (dir != null && !dir.equals("")) {
+            if (dir != null && !dir.isEmpty()) {
                 path.append(dir);
                 path.append(":");
             }
@@ -724,24 +712,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
         
         if (withTitle) {
-            TerminalSessionTitle terminalSessionTitle = TerminalSessionTitle.Companion.newInstance();
-            
-            terminalSessionTitle.setTerminalSessionTitleCallbacks(title -> {
-                try {
-                    TermSession session = createTermSession(title);
-                    
-                    termSessions.add(session);
-                    
-                    TermView view = createEmulatorView(session);
-                    view.updatePrefs(settings);
-                    
-                    viewFlipper.addView(view);
-                    viewFlipper.setDisplayedChild(viewFlipper.getChildCount() - 1);
-                } catch (IOException e) {
-                    Toast.makeText(Term.this, "Failed to create a session", Toast.LENGTH_SHORT).show();
-                }
-            });
-            
+            TerminalSessionTitle terminalSessionTitle = getTerminalSessionTitle();
             terminalSessionTitle.show(getSupportFragmentManager(), "TerminalSessionTitle");
         } else {
             try {
@@ -760,10 +731,26 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     }
     
-    @SuppressLint ("UnsafeIntentLaunch")
-    private void restart() {
-        startActivity(getIntent());
-        finish();
+    @NonNull
+    private TerminalSessionTitle getTerminalSessionTitle() {
+        TerminalSessionTitle terminalSessionTitle = TerminalSessionTitle.Companion.newInstance();
+        
+        terminalSessionTitle.setTerminalSessionTitleCallbacks(title -> {
+            try {
+                TermSession session = createTermSession(title);
+                
+                termSessions.add(session);
+                
+                TermView view = createEmulatorView(session);
+                view.updatePrefs(settings);
+                
+                viewFlipper.addView(view);
+                viewFlipper.setDisplayedChild(viewFlipper.getChildCount() - 1);
+            } catch (IOException e) {
+                Toast.makeText(Term.this, "Failed to create a session", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return terminalSessionTitle;
     }
     
     @Override
@@ -796,37 +783,21 @@ public class Term extends BaseActivity implements UpdateCallback,
     @SuppressLint ("GestureBackNavigation")
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK -> {
-                if (actionBarMode == TermSettings.ACTION_BAR_MODE_HIDES && actionBarCompat != null && actionBarCompat.isShowing()) {
-                    actionBarCompat.hide();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
+                case TermSettings.BACK_KEY_STOPS_SERVICE:
+                    stopServiceOnFinish = true;
+                case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
+                    supportFinishAfterTransition();
                     return true;
-                }
-                switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
-                    case TermSettings.BACK_KEY_STOPS_SERVICE:
-                        stopServiceOnFinish = true;
-                    case TermSettings.BACK_KEY_CLOSES_ACTIVITY:
-                        supportFinishAfterTransition();
-                        return true;
-                    case TermSettings.BACK_KEY_CLOSES_WINDOW:
-                        doCloseWindow();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-            case KeyEvent.KEYCODE_MENU -> {
-                if (actionBarCompat != null && !actionBarCompat.isShowing()) {
-                    actionBarCompat.show();
+                case TermSettings.BACK_KEY_CLOSES_WINDOW:
+                    doCloseWindow();
                     return true;
-                } else {
-                    return super.onKeyUp(keyCode, event);
-                }
-            }
-            default -> {
-                return super.onKeyUp(keyCode, event);
+                default:
+                    return false;
             }
         }
+        return super.onKeyUp(keyCode, event);
     }
     
     protected static TermSession createTermSession(Context context, TermSettings settings, String initialCommand) throws IOException {
@@ -854,18 +825,6 @@ public class Term extends BaseActivity implements UpdateCallback,
         }.start();
     }
     
-    private void doToggleActionBar() {
-        ActionBarCompat bar = actionBarCompat;
-        if (bar == null) {
-            return;
-        }
-        if (bar.isShowing()) {
-            bar.hide();
-        } else {
-            bar.show();
-        }
-    }
-    
     private TermSession getCurrentTermSession() {
         SessionList sessions = termSessions;
         if (sessions == null) {
@@ -882,8 +841,6 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        
-        haveFullHwKeyboard = checkHaveFullHwKeyboard(newConfig);
         
         EmulatorView v = (EmulatorView) viewFlipper.getCurrentView();
         if (v != null) {
@@ -917,11 +874,6 @@ public class Term extends BaseActivity implements UpdateCallback,
         ActivityCompat.invalidateOptionsMenu(this);
     }
     
-    private boolean checkHaveFullHwKeyboard(Configuration configuration) {
-        return (configuration.keyboard == Configuration.KEYBOARD_QWERTY) &&
-                (configuration.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO);
-    }
-    
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -952,7 +904,7 @@ public class Term extends BaseActivity implements UpdateCallback,
             return;
         }
         
-        if (sessions.size() == 0) {
+        if (sessions.isEmpty()) {
             stopServiceOnFinish = true;
             supportFinishAfterTransition();
         } else if (sessions.size() < viewFlipper.getChildCount()) {
@@ -986,79 +938,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         view.onPause();
         session.finish();
         viewFlipper.removeView(view);
-        if (termSessions.size() != 0) {
+        if (!termSessions.isEmpty()) {
             viewFlipper.showNext();
         }
-    }
-    
-    @Override
-    protected void onActivityResult(int request, int result, Intent data) {
-        super.onActivityResult(request, result, data);
-        if (request == REQUEST_CHOOSE_WINDOW) {
-            if (result == RESULT_OK && data != null) {
-                int position = data.getIntExtra(EXTRA_WINDOW_ID, -2);
-                if (position >= 0) {
-                    // Switch windows after session list is in sync, not here
-                    onResumeSelectWindow = position;
-                } else if (position == -1) {
-                    doCreateNewWindow(true);
-                    onResumeSelectWindow = termSessions.size() - 1;
-                }
-            } else {
-                // Close the activity if user closed all sessions
-                // TODO the left path will be invoked when nothing happened, but this Activity was destroyed!
-                if (termSessions == null || termSessions.size() == 0) {
-                    stopServiceOnFinish = true;
-                    supportFinishAfterTransition();
-                }
-            }
-        }
-    }
-    
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /* The pre-Eclair default implementation of onKeyDown() would prevent
-           our handling of the Back key in onKeyUp() from taking effect, so
-           ignore it here */
-        if (AndroidCompat.SDK < 5 && keyCode == KeyEvent.KEYCODE_BACK) {
-            /* Android pre-Eclair has no key event tracking, and a back key
-               down event delivered to an activity above us in the back stack
-               could be succeeded by a back key up event to us, so we need to
-               keep track of our own back key presses */
-            backKeyPressed = true;
-            return true;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
-    
-    @SuppressWarnings ("unused")
-    private void doUIToggle(int x, int y, int width, int height) {
-        switch (actionBarMode) {
-            case TermSettings.ACTION_BAR_MODE_NONE:
-                if (AndroidCompat.SDK >= 11 && (haveFullHwKeyboard || y < height / 2)) {
-                    openOptionsMenu();
-                    return;
-                } else {
-                    doToggleSoftKeyboard();
-                }
-                break;
-            case TermSettings.ACTION_BAR_MODE_ALWAYS_VISIBLE:
-                if (!haveFullHwKeyboard) {
-                    doToggleSoftKeyboard();
-                }
-                break;
-            case TermSettings.ACTION_BAR_MODE_HIDES:
-                if (haveFullHwKeyboard || y < height / 2) {
-                    doToggleActionBar();
-                    return;
-                } else {
-                    doToggleSoftKeyboard();
-                }
-                break;
-        }
-        
-        getCurrentEmulatorView().requestFocus();
     }
     
     private boolean canPaste() {
@@ -1100,20 +982,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         getCurrentEmulatorView().sendFnKey();
     }
     
-    private String formatMessage(int keyId, int disabledKeyId, Resources r, int arrayId, int enabledId, int disabledId, String regex) {
-        if (keyId == disabledKeyId) {
-            return r.getString(disabledId);
-        }
-        String[] keyNames = r.getStringArray(arrayId);
-        String keyName = keyNames[keyId];
-        String template = r.getString(enabledId);
-        return template.replaceAll(regex, keyName);
-    }
-    
     private void doToggleSoftKeyboard() {
-        InputMethodManager imm = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         
     }
     
@@ -1127,7 +998,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         Intent openLink = new Intent(Intent.ACTION_VIEW, webLink);
         PackageManager pm = getPackageManager();
         List <ResolveInfo> handlers = pm.queryIntentActivities(openLink, 0);
-        if (handlers.size() > 0) {
+        if (!handlers.isEmpty()) {
             startActivity(openLink);
         }
     }
