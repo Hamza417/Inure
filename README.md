@@ -47,6 +47,7 @@ An elegant Android app manager.
 - [Top 10 Android Apps! (October 2023) - Matt Robb](https://youtu.be/Aiz2yqCHvwQ?t=2m49s)
 - [The Best Apps of 2023! - Sam Beckman](https://youtu.be/NYZd7IKn1oY?t=202)
 - [Coolest Open Source projects of the week 🔥 - Ana Mogul](https://console.substack.com/p/console-190)
+- [10 Reasons to Root Your Phone in 2024! - Sam Beckman](https://youtu.be/5Nxd9HLixO8?t=254)
 
 ## About
 
