@@ -160,7 +160,7 @@ public class ShellTermSession extends GenericTermSession {
             write("clear && echo \"Welcome to Inure Terminal v_" + BuildConfig.VERSION_NAME + " !\"" + '\r');
         }
     
-        if (initialCommand.length() > 0) {
+        if (!initialCommand.isEmpty()) {
             write(initialCommand + '\r');
         }
     }
