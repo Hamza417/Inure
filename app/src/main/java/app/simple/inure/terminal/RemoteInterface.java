@@ -176,7 +176,6 @@ public class RemoteInterface extends BaseActivity {
         try {
             TermSession session = Term.createTermSession(this, termSettings, initialCommand);
             
-            session.write("echo $TERM\n");
             session.setFinishCallback(service);
             service.getSessions().add(session);
             service.setWindowId(service.getSessions().indexOf(session));
