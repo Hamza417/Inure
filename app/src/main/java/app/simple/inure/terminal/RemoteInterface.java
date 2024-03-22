@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -69,6 +68,7 @@ public class RemoteInterface extends BaseActivity {
     
     protected void handleIntent() {
         TermService service = getTermService();
+        
         if (service == null) {
             finish();
             return;
@@ -76,15 +76,21 @@ public class RemoteInterface extends BaseActivity {
         
         Intent myIntent = getIntent();
         String action = myIntent.getAction();
-        if (action.equals(Intent.ACTION_SEND) && myIntent.hasExtra(Intent.EXTRA_STREAM)) {
-            /* "permission.RUN_SCRIPT" not required as this is merely opening a new window. */
-            Object extraStream = myIntent.getExtras().get(Intent.EXTRA_STREAM);
-            if (extraStream instanceof Uri) {
-                if (!isContentUri((Uri) extraStream)) {
-                    String path = ((Uri) extraStream).getPath();
-                    File file = new File(path);
-                    String dirPath = file.isDirectory() ? path : file.getParent();
-                    openNewWindow("cd " + quoteForBash(dirPath));
+        if (action.equals(Intent.ACTION_VIEW) || action.equals("org.openintents.action.VIEW_DIRECTORY")) {
+            Uri data = myIntent.getData();
+            if (data != null) {
+                String path = data.getPath();
+                if (path != null) {
+                    Log.d(TermDebug.LOG_TAG, "Opening path: " + path);
+                    String lastSegment = path.substring(path.lastIndexOf("/") + 1);
+                    if (lastSegment.contains(".")) {
+                        // This is a file
+                        String dirPath = path.substring(0, path.lastIndexOf("/"));
+                        openNewWindow("cd " + quoteForBash(dirPath));
+                    } else {
+                        // This is a directory
+                        openNewWindow("cd " + quoteForBash(path));
+                    }
                 } else {
                     showWarning("Cannot open content:// URIs post SDK 25", true);
                 }
@@ -170,6 +176,7 @@ public class RemoteInterface extends BaseActivity {
         try {
             TermSession session = Term.createTermSession(this, termSettings, initialCommand);
             
+            session.write("echo $TERM\n");
             session.setFinishCallback(service);
             service.getSessions().add(session);
             service.setWindowId(service.getSessions().indexOf(session));

@@ -628,15 +628,20 @@
 
         <activity-alias
             android:name=".activities.alias.TermHere"
-            android:enabled="false"
+            android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_terminal"
             android:label="@string/activity_term_here_title"
             android:targetActivity=".terminal.RemoteInterface">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <data android:mimeType="*/*" />
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="resource/folder" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.openintents.action.VIEW_DIRECTORY" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
             </intent-filter>
         </activity-alias>
 
