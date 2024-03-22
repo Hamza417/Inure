@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import app.simple.inure.BuildConfig;
 import app.simple.inure.preferences.ConfigurationPreferences;
 import app.simple.inure.preferences.DevelopmentPreferences;
@@ -46,7 +47,7 @@ public class ShellTermSession extends GenericTermSession {
     private final String initialCommand;
     private final Handler msgHandler = new Handler(Looper.getMainLooper()) {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NonNull Message msg) {
             if (!isRunning()) {
                 return;
             }
@@ -87,30 +88,30 @@ public class ShellTermSession extends GenericTermSession {
         TermSettings settings = termSettings;
         
         String path = System.getenv("PATH");
-    
+        
         if (ShellPreferences.INSTANCE.getAllowPathExtensionsState()) {
             String appendPath = settings.getAppendPath();
-            if (appendPath != null && appendPath.length() > 0) {
+            if (appendPath != null && !appendPath.isEmpty()) {
                 path = path + ":" + appendPath;
             }
-        
+            
             if (ShellPreferences.INSTANCE.getAllowPathPrependState()) {
                 String prependPath = settings.getPrependPath();
-                if (prependPath != null && prependPath.length() > 0) {
+                if (prependPath != null && !prependPath.isEmpty()) {
                     path = prependPath + ":" + path;
                 }
             }
         }
-    
+        
         if (ShellPreferences.INSTANCE.getVerifyPathEntriesState()) {
             path = checkPath(path);
         }
-    
+        
         String[] env = new String[3];
         env[0] = "TERM=" + ShellPreferences.INSTANCE.getTerminalType();
         env[1] = "PATH=" + path;
         env[2] = "HOME=" + ShellPreferences.INSTANCE.getHomePath();
-    
+        
         processId = createSubprocess(ShellPreferences.INSTANCE.getCommandLine(), env);
     }
     
@@ -155,11 +156,11 @@ public class ShellTermSession extends GenericTermSession {
                 write("clear && echo Shizuku is not enabled!" + '\r');
             }
         }
-    
+        
         if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.showGreetingInTerminal)) {
             write("clear && echo \"Welcome to Inure Terminal v_" + BuildConfig.VERSION_NAME + " !\"" + '\r');
         }
-    
+        
         if (!initialCommand.isEmpty()) {
             write(initialCommand + '\r');
         }
@@ -186,10 +187,15 @@ public class ShellTermSession extends GenericTermSession {
             arg0 = argList.get(0);
             args = argList.toArray(new String[1]);
         }
-    
+        
         return TermExec.createSubprocess(termParcelFileDescriptor, arg0, args, env);
     }
     
+    /**
+     * @noinspection unused
+     *
+     * I simple ran a command in the terminal and it worked. I don't know what this is for.
+     */
     private int createShizukuRishSubprocess(String shell, String[] env) throws IOException {
         ArrayList <String> argList = parse(shell);
         String arg0;
