@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -74,23 +75,31 @@ public class RemoteInterface extends BaseActivity {
             return;
         }
         
-        Intent myIntent = getIntent();
-        String action = myIntent.getAction();
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        
         if (action.equals(Intent.ACTION_VIEW) || action.equals("org.openintents.action.VIEW_DIRECTORY")) {
-            Uri data = myIntent.getData();
+            Uri data = intent.getData();
+            
             if (data != null) {
                 String path = data.getPath();
+                
                 if (path != null) {
-                    Log.d(TermDebug.LOG_TAG, "Opening path: " + path);
-                    String lastSegment = path.substring(path.lastIndexOf("/") + 1);
-                    if (lastSegment.contains(".")) {
-                        // This is a file
-                        String dirPath = path.substring(0, path.lastIndexOf("/"));
-                        openNewWindow("cd " + quoteForBash(dirPath));
+                    File file = new File(path);
+                    String dirPath;
+                    
+                    if (file.canRead()) {
+                        Log.d(TermDebug.LOG_TAG, "File can be read");
+                        dirPath = file.isDirectory() ? file.getPath() : file.getParent();
                     } else {
-                        // This is a directory
-                        openNewWindow("cd " + quoteForBash(path));
+                        Log.d(TermDebug.LOG_TAG, "File cannot be read");
+                        dirPath = file.getPath();
                     }
+                    
+                    String initialCommand = "cd " + quoteForBash(dirPath);
+                    
+                    Log.d(TermDebug.LOG_TAG, "Opening directory: " + dirPath + "from path: " + path);
+                    openNewWindow(initialCommand);
                 } else {
                     showWarning("Cannot open content:// URIs post SDK 25", true);
                 }
