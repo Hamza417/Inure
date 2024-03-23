@@ -90,4 +90,6 @@
     <dimen name="info_text_tiny">11sp</dimen>
     <dimen name="chip_vertical_spacing">-8dp</dimen>
     <dimen name="chip_icon_size">12dp</dimen>
+    <dimen name="divider_height">1px</dimen>
+    <dimen name="divider_width">1px</dimen>
 </resources>
