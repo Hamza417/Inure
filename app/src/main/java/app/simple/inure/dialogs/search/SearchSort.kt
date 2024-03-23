@@ -166,10 +166,6 @@ class SearchSort : ScopedBottomSheetFragment() {
             filterChipGroup.check(R.id.uninstalled)
         }
 
-        if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
-            filterChipGroup.check(R.id.combine_flags)
-        }
-
         filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var sourceFlags = SearchPreferences.getAppsFilter()
 
@@ -201,12 +197,6 @@ class SearchSort : ScopedBottomSheetFragment() {
                 FlagUtils.setFlag(sourceFlags, SortConstant.UNINSTALLED)
             } else {
                 FlagUtils.unsetFlag(sourceFlags, SortConstant.UNINSTALLED)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.combine_flags)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
             }
 
             SearchPreferences.setAppsFilter(sourceFlags)
