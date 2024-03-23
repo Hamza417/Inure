@@ -15,12 +15,12 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.models.SearchModel
+import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
-class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterDeepSearch.Holder>() {
+class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterDeepSearch.Holder>() {
 
     private lateinit var adapterDeepSearchCallbacks: AdapterDeepSearchCallbacks
     var ignoreCasing = SearchPreferences.isCasingIgnored()
@@ -91,13 +91,13 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<SearchModel>, priv
     }
 
     @SuppressLint("SetTextI18n")
-    private fun Holder.setDeepInfo(searchModel: SearchModel) {
-        permissions.text = "${searchModel.permissions} ${context.getString(R.string.permissions)}"
-        activities.text = "${searchModel.activities} ${context.getString(R.string.activities)}"
-        services.text = "${searchModel.services} ${context.getString(R.string.services)}"
-        receivers.text = "${searchModel.receivers} ${context.getString(R.string.receivers)}"
-        providers.text = "${searchModel.providers} ${context.getString(R.string.providers)}"
-        resources.text = "${searchModel.resources} ${context.getString(R.string.resources)}"
+    private fun Holder.setDeepInfo(search: Search) {
+        permissions.text = "${search.permissions} ${context.getString(R.string.permissions)}"
+        activities.text = "${search.activities} ${context.getString(R.string.activities)}"
+        services.text = "${search.services} ${context.getString(R.string.services)}"
+        receivers.text = "${search.receivers} ${context.getString(R.string.receivers)}"
+        providers.text = "${search.providers} ${context.getString(R.string.providers)}"
+        resources.text = "${search.resources} ${context.getString(R.string.resources)}"
     }
 
     fun setOnItemClickListener(adapterCallbacks: AdapterDeepSearchCallbacks) {

@@ -196,7 +196,7 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
             dismissUninstaller()
         }
 
-        searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             isSearchLoaded = true
             dismissUninstaller()
         }

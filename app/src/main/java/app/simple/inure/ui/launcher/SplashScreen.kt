@@ -254,7 +254,7 @@ class SplashScreen : ScopedFragment() {
             openApp()
         }
 
-        searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             Log.d(TAG, "Deep search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isSearchLoaded = true
             openApp()

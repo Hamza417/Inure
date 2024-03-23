@@ -215,7 +215,7 @@ object APKParser {
     /**
      * Get list of all xml files within an APK file
      */
-    fun getXmlFiles(path: String?, keyword: String): MutableList<String> {
+    fun getXmlFiles(path: String?, keyword: String, ignoreCase: Boolean = true): MutableList<String> {
         val xmlFiles: MutableList<String> = ArrayList()
         var zipFile: ZipFile? = null
         try {
@@ -224,8 +224,10 @@ object APKParser {
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
                 val name: String = entry!!.name
-                if (name.endsWith(".xml") && name != "AndroidManifest.xml") {
-                    if (name.contains(keyword)) xmlFiles.add(name)
+                if (name.lowercase().endsWith(".xml") && name != "AndroidManifest.xml") {
+                    if (name.contains(keyword, ignoreCase)) {
+                        xmlFiles.add(name)
+                    }
                 }
             }
         } catch (e: IOException) {

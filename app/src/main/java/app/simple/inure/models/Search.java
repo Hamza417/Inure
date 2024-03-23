@@ -4,7 +4,7 @@ import android.content.pm.PackageInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SearchModel implements Parcelable {
+public class Search implements Parcelable {
     
     private PackageInfo packageInfo;
     private int permissions = 0;
@@ -16,7 +16,7 @@ public class SearchModel implements Parcelable {
     
     private int trackers = 0;
     
-    public SearchModel(PackageInfo packageInfo, int permissions, int activities, int services, int resources, int receivers, int providers, int trackers) {
+    public Search(PackageInfo packageInfo, int permissions, int activities, int services, int resources, int receivers, int providers, int trackers) {
         this.packageInfo = packageInfo;
         this.permissions = permissions;
         this.activities = activities;
@@ -27,10 +27,14 @@ public class SearchModel implements Parcelable {
         this.trackers = trackers;
     }
     
-    public SearchModel() {
+    public Search(PackageInfo packageInfo) {
+        this.packageInfo = packageInfo;
     }
     
-    protected SearchModel(Parcel in) {
+    public Search() {
+    }
+    
+    protected Search(Parcel in) {
         packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
         permissions = in.readInt();
         activities = in.readInt();
@@ -58,15 +62,15 @@ public class SearchModel implements Parcelable {
         return 0;
     }
     
-    public static final Creator <SearchModel> CREATOR = new Creator <SearchModel>() {
+    public static final Creator <Search> CREATOR = new Creator <Search>() {
         @Override
-        public SearchModel createFromParcel(Parcel in) {
-            return new SearchModel(in);
+        public Search createFromParcel(Parcel in) {
+            return new Search(in);
         }
         
         @Override
-        public SearchModel[] newArray(int size) {
-            return new SearchModel[size];
+        public Search[] newArray(int size) {
+            return new Search[size];
         }
     };
     

@@ -102,4 +102,34 @@ object ArrayUtils {
         }
         return list.toTypedArray()
     }
+
+    fun <T> ArrayList<T>.addIfNotExists(element: T?, comparator: (T?, T?) -> Boolean) {
+        synchronized(this) {
+            if (any { comparator(it, element) }.not()) {
+                element?.let {
+                    add(it)
+                }
+            }
+        }
+    }
+
+    fun <T> ArrayList<T>.removeIfExists(element: T, comparator: (T, T) -> Boolean) {
+        synchronized(this) {
+            if (any { comparator(it, element) }) {
+                remove(element)
+            }
+        }
+    }
+
+    fun <T> ArrayList<T>.getMatchedCount(keyword: String, fieldExtractor: (T) -> String): Int {
+        return this.filter {
+            fieldExtractor(it).contains(keyword, ignoreCase = true)
+        }.size
+    }
+
+    fun <T> Array<T?>.getMatchedCount(keyword: String, ignoreCase: Boolean, fieldExtractor: (T?) -> String): Int {
+        return this.filter {
+            it != null && fieldExtractor(it).contains(keyword, ignoreCase = ignoreCase)
+        }.size
+    }
 }

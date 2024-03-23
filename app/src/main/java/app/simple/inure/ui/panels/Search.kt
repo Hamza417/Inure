@@ -30,6 +30,7 @@ import app.simple.inure.ui.viewers.Providers
 import app.simple.inure.ui.viewers.Receivers
 import app.simple.inure.ui.viewers.Resources
 import app.simple.inure.ui.viewers.Services
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.SearchViewModel
@@ -75,7 +76,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             hideLoader()
-            if (!SearchPreferences.isDeepSearchEnabled()) {
+            if (SearchPreferences.isDeepSearchEnabled().invert()) {
                 postponeEnterTransition()
                 searchView.hideLoader()
                 searchView.setNewNumber(it.size)
@@ -104,7 +105,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
         }
 
-        searchViewModel.getDeepSearchData().observe(viewLifecycleOwner) {
+        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             hideLoader()
             if (SearchPreferences.isDeepSearchEnabled()) {
                 postponeEnterTransition()
