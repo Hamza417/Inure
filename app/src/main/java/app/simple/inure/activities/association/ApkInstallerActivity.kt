@@ -6,7 +6,7 @@ import android.os.Bundle
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.ui.installer.Installer
+import app.simple.inure.ui.panels.Installer
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable

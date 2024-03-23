@@ -1,4 +1,4 @@
-package app.simple.inure.ui.installer
+package app.simple.inure.ui.panels
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver

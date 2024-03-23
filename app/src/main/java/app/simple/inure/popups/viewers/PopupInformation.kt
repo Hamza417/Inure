@@ -11,7 +11,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 
-class PopupInformation(anchor: View, string: String) : BasePopupWindow() {
+class PopupInformation(anchor: View, string: String, showAsDropDown: Boolean = true) : BasePopupWindow() {
     init {
         val contentView = LayoutInflater.from(anchor.context).inflate(R.layout.popup_information_menu, PopupLinearLayout(anchor.context))
 
@@ -22,6 +22,10 @@ class PopupInformation(anchor: View, string: String) : BasePopupWindow() {
             dismiss()
         }
 
-        init(contentView, anchor, Misc.xOffset, Misc.yOffset)
+        if (showAsDropDown) {
+            init(contentView, anchor, Misc.xOffset, Misc.yOffset)
+        } else {
+            initAtLocation(contentView, anchor, Misc.xOffset, Misc.yOffset)
+        }
     }
 }

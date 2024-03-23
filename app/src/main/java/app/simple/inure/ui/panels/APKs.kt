@@ -16,7 +16,6 @@ import androidx.core.content.FileProvider
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.selection.*
 import app.simple.inure.R
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.adapters.ui.AdapterApks
@@ -39,7 +38,6 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.preferences.ApkBrowserPreferences
-import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.ApksSearch
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile

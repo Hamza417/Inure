@@ -36,6 +36,12 @@ open class BasePopupWindow : PopupWindow() {
         showAsDropDown(view, xOff.toInt().minus(width.div(2)), yOff.toInt().minus(height.div(2)))
     }
 
+    fun initAtLocation(contentView: View, view: View, xOff: Float, yOff: Float) {
+        setContentView(contentView)
+        init()
+        showAtLocation(view, Gravity.NO_GRAVITY, xOff.toInt().minus(width.div(2)), yOff.toInt().minus(height.div(2)))
+    }
+
     fun init(contentView: View, view: View) {
         setContentView(contentView)
         init()
@@ -82,6 +88,12 @@ open class BasePopupWindow : PopupWindow() {
 
     override fun showAsDropDown(anchor: View?) {
         super.showAsDropDown(anchor)
+        valueAnimator = animateElevation(20F)
+        dimBehind(contentView, isBlurEnabled)
+    }
+
+    override fun showAtLocation(parent: View?, gravity: Int, x: Int, y: Int) {
+        super.showAtLocation(parent, gravity, x, y)
         valueAnimator = animateElevation(20F)
         dimBehind(contentView, isBlurEnabled)
     }

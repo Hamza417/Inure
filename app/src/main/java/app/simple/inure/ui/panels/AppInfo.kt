@@ -64,7 +64,6 @@ import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.ui.editor.NotesEditor
-import app.simple.inure.ui.installer.Installer
 import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.Activities
 import app.simple.inure.ui.viewers.Boot
