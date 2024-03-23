@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterTrackerDetails
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -23,11 +21,9 @@ import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.DateUtils.toLong
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.ParcelUtils.parcelable
+import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.StringUtils.emptyToString
 import app.simple.inure.util.TextViewUtils.makeLinksClickable
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
 import io.noties.markwon.core.MarkwonTheme
@@ -39,7 +35,7 @@ class TrackerInfo : ScopedFragment() {
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
-    private lateinit var chips: RecyclerView
+    private lateinit var tags: TypeFaceTextView
     private lateinit var trackerName: TypeFaceTextView
     private lateinit var date: TypeFaceTextView
     private lateinit var description: TypeFaceTextView
@@ -57,7 +53,7 @@ class TrackerInfo : ScopedFragment() {
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageId = view.findViewById(R.id.package_id)
-        chips = view.findViewById(R.id.chips)
+        tags = view.findViewById(R.id.tags)
         trackerName = view.findViewById(R.id.tracker_name)
         date = view.findViewById(R.id.date)
         description = view.findViewById(R.id.description)
@@ -85,32 +81,32 @@ class TrackerInfo : ScopedFragment() {
             }
         }
 
-        chips.apply {
-            val data = arrayListOf<String>()
-
+        tags.text = buildString {
             when {
                 tracker?.isActivity == true -> {
-                    data.add(getString(R.string.activity))
+                    appendFlag(getString(R.string.activity))
                 }
                 tracker?.isService == true -> {
-                    data.add(getString(R.string.service))
+                    appendFlag(getString(R.string.service))
                 }
                 tracker?.isReceiver == true -> {
-                    data.add(getString(R.string.receiver))
+                    appendFlag(getString(R.string.receiver))
                 }
             }
 
             tracker?.categories?.forEach {
-                data.add(it)
+                appendFlag(it)
             }
 
-            layoutManager = FlexboxLayoutManager(requireContext()).apply {
-                justifyContent = JustifyContent.FLEX_START
-                flexDirection = FlexDirection.ROW
+            if (tracker?.isBlocked == true) {
+                appendFlag(getString(R.string.blocked))
             }
 
-            adapter = AdapterTrackerDetails(data)
-            scheduleLayoutAnimation()
+            if (tracker?.isEnabled == true) {
+                appendFlag(getString(R.string.enabled))
+            } else {
+                appendFlag(getString(R.string.disabled))
+            }
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")
@@ -137,7 +133,7 @@ class TrackerInfo : ScopedFragment() {
         if (tracker?.isBlocked == true) {
             name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_block_12dp, 0)
         } else {
-            name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_play_circle_filled_12dp, 0)
+            name.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_toggle_on_tiny, 0)
         }
 
         description.apply {
