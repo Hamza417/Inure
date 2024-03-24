@@ -47,7 +47,9 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     }
 
     private val searchedBloatList: MutableLiveData<ArrayList<Bloat>> by lazy {
-        MutableLiveData<ArrayList<Bloat>>()
+        MutableLiveData<ArrayList<Bloat>>().also {
+            loadSearchResults(keyword)
+        }
     }
 
     fun getBloatList(): LiveData<ArrayList<Bloat>> {

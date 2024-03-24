@@ -1,6 +1,5 @@
 package app.simple.inure.ui.subpanels
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.DebloatViewModel
@@ -32,9 +30,6 @@ class DebloatSearch : KeyboardScopedFragment() {
     private lateinit var debloatViewModel: DebloatViewModel
     private var adapterMusic: AdapterDebloat? = null
 
-    private var deletedId = -1L
-    private var displayHeight: Int = 0
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_debloat_search, container, false)
 
@@ -43,9 +38,6 @@ class DebloatSearch : KeyboardScopedFragment() {
         clear = view.findViewById(R.id.clear)
         searchContainer = view.findViewById(R.id.search_container)
         debloatViewModel = ViewModelProvider(requireActivity())[DebloatViewModel::class.java]
-
-        displayHeight = StatusBarHeight.getDisplayHeight(requireContext()) +
-                StatusBarHeight.getStatusBarHeight(requireContext().resources)
 
         return view
     }
@@ -65,27 +57,22 @@ class DebloatSearch : KeyboardScopedFragment() {
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
-                DebloatPreferences.setSearchKeyword(text.toString())
-                debloatViewModel.keyword = text.toString()
+                if (DebloatPreferences.setSearchKeyword(text.toString())) {
+                    debloatViewModel.keyword = text.toString()
+                }
             }
 
             clearButtonState()
         }
 
         debloatViewModel.getSearchedBloatList().observe(viewLifecycleOwner) {
-            adapterMusic = AdapterDebloat(it, false)
+            adapterMusic = AdapterDebloat(it, false, DebloatPreferences.getSearchKeyword())
             recyclerView.adapter = adapterMusic
         }
 
         clear.setOnClickListener {
             searchBox.text?.clear()
             DebloatPreferences.setSearchKeyword("")
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        when (key) {
-
         }
     }
 

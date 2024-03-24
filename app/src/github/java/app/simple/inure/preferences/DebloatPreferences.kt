@@ -75,8 +75,8 @@ object DebloatPreferences {
 
     // ---------------------------------------------------------------------------------------------- //
 
-    fun setSearchKeyword(keyword: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(this.SEARCH_KEYWORD, keyword).apply()
+    fun setSearchKeyword(keyword: String): Boolean {
+        return SharedPreferences.getSharedPreferences().edit().putString(this.SEARCH_KEYWORD, keyword).commit()
     }
 
     fun getSearchKeyword(): String {
