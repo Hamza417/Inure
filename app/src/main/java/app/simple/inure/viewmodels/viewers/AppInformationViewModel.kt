@@ -499,17 +499,19 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getTrackers(): Pair<Int, Spannable> {
-        val trackers = TrackerUtils.getTrackerSignatures()
+        val trackers = TrackerUtils.getTrackersData()
         var count = 0
         val list: MutableList<String> = mutableListOf()
 
         if (packageInfo.activities != null) {
             for (activity in packageInfo.activities) {
                 for (tracker in trackers) {
-                    if (activity.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        list.add(activity.name)
-                        break
+                    tracker.codeSignature.split("|").forEach {
+                        if (activity.name.lowercase().contains(it.lowercase())) {
+                            count++
+                            list.add(tracker.name)
+                            return@forEach
+                        }
                     }
                 }
             }
@@ -518,10 +520,12 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         if (packageInfo.services != null) {
             for (service in packageInfo.services) {
                 for (tracker in trackers) {
-                    if (service.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        list.add(service.name)
-                        break
+                    tracker.codeSignature.split("|").forEach {
+                        if (service.name.lowercase().contains(it.lowercase())) {
+                            count++
+                            list.add(tracker.name)
+                            return@forEach
+                        }
                     }
                 }
             }
@@ -530,17 +534,19 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         if (packageInfo.receivers != null) {
             for (receiver in packageInfo.receivers) {
                 for (tracker in trackers) {
-                    if (receiver.name.lowercase().contains(tracker.lowercase())) {
-                        count++
-                        list.add(receiver.name)
-                        break
+                    tracker.codeSignature.split("|").forEach {
+                        if (receiver.name.lowercase().contains(it.lowercase())) {
+                            count++
+                            list.add(tracker.name)
+                            return@forEach
+                        }
                     }
                 }
             }
         }
 
         buildString {
-            for (tracker in list) {
+            for (tracker in list.distinct()) {
                 if (this.isEmpty()) {
                     append(getString(R.string.trackers_count, count))
                     append("\n\n")
