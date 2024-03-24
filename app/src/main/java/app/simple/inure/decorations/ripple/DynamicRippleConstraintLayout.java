@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import app.simple.inure.R;
+import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
+import app.simple.inure.models.Bloat;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
@@ -50,14 +52,21 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
         if (selected) {
             setBackgroundTintList(null);
             setBackgroundTintList(ColorStateList.valueOf(ColorUtils.INSTANCE.changeAlpha(
-                    ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent),
-                    25)));
-    
+                    ColorUtils.INSTANCE.resolveAttrColor(getContext(), R.attr.colorAppAccent), Misc.highlightColorAlpha)));
+            
             LayoutBackground.setBackground(getContext(), this, null);
         } else {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground()));
         }
+    }
+    
+    public void setBloatWarningBackground(Bloat bloat) {
+        setBackgroundTintList(null);
+        setBackgroundTintList(ColorStateList.valueOf(
+                ColorUtils.INSTANCE.changeAlpha(bloat.getBloatWarningColor(), Misc.highlightColorAlpha)));
+        
+        LayoutBackground.setBackground(getContext(), this, null);
     }
     
     public void removeRipple() {

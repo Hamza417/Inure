@@ -1,6 +1,7 @@
 package app.simple.inure.models;
 
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -186,5 +187,20 @@ public class Bloat implements Parcelable {
         }
         
         return false;
+    }
+    
+    public int getBloatWarningColor() {
+        return switch (removal) {
+            case ADVANCED ->
+                    Color.parseColor("#e74c3c");
+            case EXPERT ->
+                    Color.parseColor("#9b59b6");
+            case RECOMMENDED ->
+                    Color.parseColor("#45b39d");
+            case UNSAFE ->
+                    Color.parseColor("#7b241c");
+            case UNLISTED ->
+                    Color.parseColor("#b2babb");
+        };
     }
 }

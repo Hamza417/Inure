@@ -62,6 +62,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])
                 holder.checkBox.isChecked = bloats[pos].isSelected
+                holder.container.setBloatWarningBackground(bloats[pos])
 
                 holder.desc.makeLinksClickable(bloats[pos].description.trim(), LinkCallbacks { url, _ ->
                     url?.asUri()?.openInBrowser(holder.desc.context)

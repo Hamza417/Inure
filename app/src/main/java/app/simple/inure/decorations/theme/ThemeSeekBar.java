@@ -112,7 +112,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         shape.getPaint().setStyle(Paint.Style.STROKE);
         shape.getPaint().setStrokeWidth(4);
         shape.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        shape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        shape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 0.8F));
         shape.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
         
         ShapeDrawable shapeD = new ShapeDrawable();
@@ -127,7 +127,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         secondary.getPaint().setStyle(Paint.Style.STROKE);
         secondary.getPaint().setStrokeWidth(4);
         secondary.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        secondary.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 216));
+        secondary.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 0.8F));
         secondary.getPaint().setColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getDividerBackground());
         ClipDrawable secondaryProgress = new ClipDrawable(secondary, Gravity.START, ClipDrawable.HORIZONTAL);
         
@@ -163,9 +163,9 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         
         if (!isInEditMode()) {
             if (BehaviourPreferences.INSTANCE.isColoredShadow()) {
-                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 232));
+                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 0.85F));
             } else {
-                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 216));
+                backgroundShape.getPaint().setShadowLayer(shadowRadius, 0, dY, ColorUtils.INSTANCE.changeAlpha(Color.GRAY, 0.8F));
             }
         }
         
@@ -174,20 +174,13 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
          * abilities, however it's left here for revision and reference
          * purposes here.
          */
-        GradientDrawable bgGradDrawable = new GradientDrawable(bgGradDirection, new int[] {
-                ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground(),
-                ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()});
-        bgGradDrawable.setShape(GradientDrawable.RECTANGLE);
-        if (!isInEditMode()) {
-            bgGradDrawable.setCornerRadius(cornerRadius / divideFactor);
-        }
-        ClipDrawable backgroundClip = new ClipDrawable(bgGradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
+        ClipDrawable backgroundClip = getClipDrawable(cornerRadius, bgGradDirection, divideFactor);
         backgroundClip.setLevel(10000);
         
         //SecondaryProgress
         GradientDrawable fg2GradDrawable = new GradientDrawable(fgGradDirection, new int[] {
-                ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 96),
-                ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 96)});
+                ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 0.37F),
+                ColorUtils.INSTANCE.changeAlpha(AppearancePreferences.INSTANCE.getAccentColor(), 0.37F)});
         fg2GradDrawable.setShape(GradientDrawable.RECTANGLE);
         fg2GradDrawable.setCornerRadius(cornerRadius / divideFactor);
         ClipDrawable fg2clip = new ClipDrawable(fg2GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
@@ -198,14 +191,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
                 AppearancePreferences.INSTANCE.getAccentColor()});
         fg1GradDrawable.setShape(GradientDrawable.RECTANGLE);
         fg1GradDrawable.setCornerRadius(cornerRadius / divideFactor);
-        ClipDrawable fg1clip = new ClipDrawable(fg1GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
-        
-        //Setup LayerDrawable and assign to progressBar
-        Drawable[] progressDrawables = {backgroundShape, fg2clip, fg1clip};
-        LayerDrawable progressLayerDrawable = new LayerDrawable(progressDrawables);
-        progressLayerDrawable.setId(0, android.R.id.background);
-        progressLayerDrawable.setId(1, android.R.id.secondaryProgress);
-        progressLayerDrawable.setId(2, android.R.id.progress);
+        LayerDrawable progressLayerDrawable = getLayerDrawable(fg1GradDrawable, backgroundShape, fg2clip);
         
         //Copy the existing ProgressDrawable bounds to the new one.
         Rect bounds = getProgressDrawable().getBounds();
@@ -214,6 +200,31 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
         
         //now force a redraw
         invalidate();
+    }
+    
+    @NonNull
+    private ClipDrawable getClipDrawable(float cornerRadius, GradientDrawable.Orientation bgGradDirection, int divideFactor) {
+        GradientDrawable bgGradDrawable = new GradientDrawable(bgGradDirection, new int[] {
+                ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground(),
+                ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()});
+        bgGradDrawable.setShape(GradientDrawable.RECTANGLE);
+        if (!isInEditMode()) {
+            bgGradDrawable.setCornerRadius(cornerRadius / divideFactor);
+        }
+        return new ClipDrawable(bgGradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
+    }
+    
+    @NonNull
+    private static LayerDrawable getLayerDrawable(GradientDrawable fg1GradDrawable, ShapeDrawable backgroundShape, ClipDrawable fg2clip) {
+        ClipDrawable fg1clip = new ClipDrawable(fg1GradDrawable, Gravity.START, ClipDrawable.HORIZONTAL);
+        
+        //Setup LayerDrawable and assign to progressBar
+        Drawable[] progressDrawables = {backgroundShape, fg2clip, fg1clip};
+        LayerDrawable progressLayerDrawable = new LayerDrawable(progressDrawables);
+        progressLayerDrawable.setId(0, android.R.id.background);
+        progressLayerDrawable.setId(1, android.R.id.secondaryProgress);
+        progressLayerDrawable.setId(2, android.R.id.progress);
+        return progressLayerDrawable;
     }
     
     @Override
