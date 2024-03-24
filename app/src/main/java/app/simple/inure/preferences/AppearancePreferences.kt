@@ -69,9 +69,9 @@ object AppearancePreferences {
     @ColorInt
     fun getAccentColorLight(context: Context): Int {
         return if (ThemeUtils.isNightMode(context.resources)) {
-            getSharedPreferences().getInt(accentColorLight, ColorUtils.darkenColor(getAccentColor(), 0.2F))
+            getSharedPreferences().getInt(accentColorLight, ColorUtils.changeAlpha(getAccentColor(), 0.8F))
         } else {
-            getSharedPreferences().getInt(accentColorLight, ColorUtils.lightenColor(getAccentColor(), 0.4F))
+            getSharedPreferences().getInt(accentColorLight, ColorUtils.changeAlpha(getAccentColor(), 0.4F))
         }
     }
 

@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.debloat.DebloatMenu.Companion.showDebloatMenu
 import app.simple.inure.dialogs.debloat.DebloatSelect
 import app.simple.inure.dialogs.debloat.DebloatSelect.Companion.showDebloatSelectionDialog
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
@@ -111,7 +113,7 @@ class Debloat : ScopedFragment() {
                         childFragmentManager.showDebloatFilter()
                     }
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                        childFragmentManager.showDebloatMenu()
                     }
                     R.drawable.ic_search -> {
                         openFragmentSlide(DebloatSearch.newInstance(), DebloatSearch.TAG)
@@ -131,6 +133,7 @@ class Debloat : ScopedFragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
@@ -142,6 +145,14 @@ class Debloat : ScopedFragment() {
             DebloatPreferences.SORTING_STYLE -> {
                 adapterDebloat?.setLoading(true)
                 debloatViewModel?.refreshBloatList()
+            }
+
+            DebloatPreferences.RECOMMENDED_HIGHLIGHT,
+            DebloatPreferences.ADVANCED_HIGHLIGHT,
+            DebloatPreferences.EXPERT_HIGHLIGHT,
+            DebloatPreferences.UNSAFE_HIGHLIGHT,
+            DebloatPreferences.UNLISTED_HIGHLIGHT -> {
+                adapterDebloat?.notifyDataSetChanged()
             }
         }
     }

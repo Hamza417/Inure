@@ -62,7 +62,12 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])
                 holder.checkBox.isChecked = bloats[pos].isSelected
-                holder.container.setBloatWarningBackground(bloats[pos])
+
+                if (bloats[pos].shouldHighlightBloat()) {
+                    holder.container.setBloatWarningBackground(bloats[pos])
+                } else {
+                    holder.container.setDefaultBackground(false)
+                }
 
                 holder.desc.makeLinksClickable(bloats[pos].description.trim(), LinkCallbacks { url, _ ->
                     url?.asUri()?.openInBrowser(holder.desc.context)
@@ -253,6 +258,29 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                 Removal.UNSAFE.method -> {
                     appendFlag(this@setBloatFlags.context.getString(R.string.unsafe))
                 }
+            }
+        }
+    }
+
+    private fun Bloat.shouldHighlightBloat(): Boolean {
+        return when (this.removal.method) {
+            Removal.ADVANCED.method -> {
+                DebloatPreferences.getAdvancedHighlight()
+            }
+            Removal.EXPERT.method -> {
+                DebloatPreferences.getExpertHighlight()
+            }
+            Removal.RECOMMENDED.method -> {
+                DebloatPreferences.getRecommendedHighlight()
+            }
+            Removal.UNLISTED.method -> {
+                DebloatPreferences.getUnlistedHighlight()
+            }
+            Removal.UNSAFE.method -> {
+                DebloatPreferences.getUnsafeHighlight()
+            }
+            else -> {
+                false
             }
         }
     }
