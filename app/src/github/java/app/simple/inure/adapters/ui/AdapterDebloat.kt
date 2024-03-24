@@ -20,6 +20,7 @@ import app.simple.inure.interfaces.parsers.LinkCallbacks
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
+import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.IntentHelper.asUri
@@ -28,7 +29,7 @@ import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.TextViewUtils.makeLinksClickable
 
-class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: Boolean = true, private val keyword: String = "") : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var adapterDebloatCallback: AdapterDebloatCallback? = null
     private var isLoading = false
@@ -48,7 +49,12 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
-        val pos = holder.bindingAdapterPosition.minus(1)
+        val pos = if (header) {
+            holder.bindingAdapterPosition.minus(1)
+        } else {
+            holder.bindingAdapterPosition
+        }
+
         when (holder) {
             is Holder -> {
                 holder.name.text = bloats[pos].packageInfo.applicationInfo.name
@@ -69,7 +75,9 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.checkBox.setOnCheckedChangeListener {
                     bloats[pos].isSelected = it
                     adapterDebloatCallback?.onBloatSelected(bloats[pos])
-                    notifyItemChanged(0) // Header
+                    if (header) {
+                        notifyItemChanged(0) // Header
+                    }
                 }
 
                 holder.container.setOnClickListener {
@@ -79,6 +87,13 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
                 holder.container.setOnLongClickListener {
                     adapterDebloatCallback?.onBloatLongPressed(bloats[pos])
                     true
+                }
+
+                if (keyword.isNotEmpty()) {
+                    AdapterUtils.searchHighlighter(holder.name, keyword)
+                    AdapterUtils.searchHighlighter(holder.packageName, keyword)
+                    AdapterUtils.searchHighlighter(holder.flags, keyword)
+                    AdapterUtils.searchHighlighter(holder.desc, keyword)
                 }
             }
             is Header -> {
@@ -129,11 +144,15 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>) : RecyclerView.Adapte
     }
 
     override fun getItemCount(): Int {
-        return bloats.size.plus(1)
+        return if (header) {
+            bloats.size.plus(1)
+        } else {
+            bloats.size
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == 0) {
+        return if (header && position == 0) {
             RecyclerViewUtils.TYPE_HEADER
         } else {
             RecyclerViewUtils.TYPE_ITEM

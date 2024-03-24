@@ -20,6 +20,7 @@ import app.simple.inure.dialogs.miscellaneous.PackageStateResult.Companion.showP
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.ui.subpanels.DebloatSearch
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.NullSafety.isNotNull
@@ -113,7 +114,7 @@ class Debloat : ScopedFragment() {
                         openFragmentSlide(Preferences.newInstance(), "preferences")
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
+                        openFragmentSlide(DebloatSearch.newInstance(), DebloatSearch.TAG)
                     }
                 }
             }
@@ -133,12 +134,12 @@ class Debloat : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            DebloatPreferences.applicationType,
-            DebloatPreferences.listType,
-            DebloatPreferences.removalType,
-            DebloatPreferences.sort,
-            DebloatPreferences.state,
-            DebloatPreferences.sortingStyle -> {
+            DebloatPreferences.APPLICATION_TYPE,
+            DebloatPreferences.LIST_TYPE,
+            DebloatPreferences.REMOVAL_TYPE,
+            DebloatPreferences.SORT,
+            DebloatPreferences.STATE,
+            DebloatPreferences.SORTING_STYLE -> {
                 adapterDebloat?.setLoading(true)
                 debloatViewModel?.refreshBloatList()
             }
