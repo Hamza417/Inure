@@ -21,10 +21,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/dialog_padding"
@@ -35,7 +35,8 @@
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/highlighter"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 app:selectionRequired="false"
@@ -47,6 +48,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/recommended" />
 
                 <app.simple.inure.decorations.views.Button
@@ -55,6 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/advanced" />
 
                 <app.simple.inure.decorations.views.Button
@@ -63,6 +66,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/expert" />
 
                 <app.simple.inure.decorations.views.Button
@@ -71,6 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/unsafe" />
 
                 <app.simple.inure.decorations.views.Button
@@ -79,6 +84,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:text="@string/unlisted" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
