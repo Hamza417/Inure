@@ -72,7 +72,20 @@ public class Button extends MaterialButton implements ThemeChangedListener {
         setAllCaps(false);
     }
     
-    
+    public void setButtonCheckedColor(int color) {
+        setBackgroundTintList(new ColorStateList(new int[][] {
+                new int[] {-android.R.attr.state_checked}, // This is for the unchecked state
+                new int[] {android.R.attr.state_enabled}, // This is for the enabled state
+                new int[] {-android.R.attr.state_enabled} // This is for the disabled state
+        },
+                new int[] {
+                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground(), // Color for the unchecked state
+                        color, // Color for the enabled state
+                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground() // Color for the disabled state
+                }));
+        
+        invalidate();
+    }
     
     @Override
     protected void onAttachedToWindow() {

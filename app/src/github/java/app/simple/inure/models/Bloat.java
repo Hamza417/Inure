@@ -203,4 +203,24 @@ public class Bloat implements Parcelable {
                     Color.parseColor("#b2babb");
         };
     }
+    
+    public int getAdvancedColor() {
+        return Color.parseColor("#e74c3c");
+    }
+    
+    public int getExpertColor() {
+        return Color.parseColor("#9b59b6");
+    }
+    
+    public int getRecommendedColor() {
+        return Color.parseColor("#45b39d");
+    }
+    
+    public int getUnsafeColor() {
+        return Color.parseColor("#7b241c");
+    }
+    
+    public int getUnlistedColor() {
+        return Color.parseColor("#b2babb");
+    }
 }

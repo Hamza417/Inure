@@ -8,14 +8,22 @@ import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.views.Button
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import com.google.android.material.button.MaterialButtonToggleGroup
 
 class DebloatMenu : ScopedBottomSheetFragment() {
 
     private lateinit var highlighterGroup: MaterialButtonToggleGroup
+    private lateinit var recommended: Button
+    private lateinit var advanced: Button
+    private lateinit var expert: Button
+    private lateinit var unsafe: Button
+    private lateinit var unlisted: Button
     private lateinit var filter: DynamicRippleImageButton
     private lateinit var openSettings: DynamicRippleTextView
 
@@ -23,6 +31,11 @@ class DebloatMenu : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_menu_debloat, container, false)
 
         highlighterGroup = view.findViewById(R.id.highlighter)
+        recommended = view.findViewById(R.id.recommended)
+        advanced = view.findViewById(R.id.advanced)
+        expert = view.findViewById(R.id.expert)
+        unsafe = view.findViewById(R.id.unsafe)
+        unlisted = view.findViewById(R.id.unlisted)
         filter = view.findViewById(R.id.filter)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
@@ -34,7 +47,17 @@ class DebloatMenu : ScopedBottomSheetFragment() {
 
         setButtonState()
 
-        highlighterGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+        if (DevelopmentPreferences.get(DevelopmentPreferences.useCorrespondingColorOnHighlight)) {
+            with(Bloat()) {
+                recommended.setButtonCheckedColor(recommendedColor)
+                advanced.setButtonCheckedColor(advancedColor)
+                expert.setButtonCheckedColor(expertColor)
+                unsafe.setButtonCheckedColor(unsafeColor)
+                unlisted.setButtonCheckedColor(unlistedColor)
+            }
+        }
+
+        highlighterGroup.addOnButtonCheckedListener { group, _, _ ->
             val checkedButtonIds = group.checkedButtonIds
 
             DebloatPreferences.setRecommendedHighlight(checkedButtonIds.contains(R.id.recommended))

@@ -36,6 +36,7 @@ object DevelopmentPreferences {
     const val useColorfulHighlight = "is_colorful_highlight_enabled"
     const val usePeristyleInterface = "is_felicity_flow_interface_enabled"
     const val useAccentColorOnBottomMenu = "is_accent_color_on_bottom_menu_enabled"
+    const val useCorrespondingColorOnHighlight = "is_corresponding_color_on_highlight_enabled"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -196,6 +197,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Accent Color On Bottom Menu",
                                             "Use accent color on bottom menu items.",
                                             useAccentColorOnBottomMenu,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Use Corresponding Color while Highlighting",
+                                            "Use corresponding color on highlight buttons instead of the default accent color in Debloat panel.",
+                                            useCorrespondingColorOnHighlight,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
