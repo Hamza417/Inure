@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.DebloatPreferences
 import com.google.android.material.button.MaterialButtonToggleGroup
@@ -14,12 +16,14 @@ import com.google.android.material.button.MaterialButtonToggleGroup
 class DebloatMenu : ScopedBottomSheetFragment() {
 
     private lateinit var highlighterGroup: MaterialButtonToggleGroup
+    private lateinit var filter: DynamicRippleImageButton
     private lateinit var openSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_debloat, container, false)
 
         highlighterGroup = view.findViewById(R.id.highlighter)
+        filter = view.findViewById(R.id.filter)
         openSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -41,7 +45,13 @@ class DebloatMenu : ScopedBottomSheetFragment() {
         }
 
         openSettings.setOnClickListener {
-            // Open settings
+            openSettings()
+        }
+
+        filter.setOnClickListener {
+            parentFragmentManager.showDebloatFilter().also {
+                dismiss()
+            }
         }
     }
 
