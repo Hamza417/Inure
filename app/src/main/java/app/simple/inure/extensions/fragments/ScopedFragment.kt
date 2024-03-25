@@ -141,10 +141,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BehaviourPreferences.transitionType -> {
+            BehaviourPreferences.TRANSITION_TYPE -> {
                 setTransitions()
             }
-            BehaviourPreferences.arcType -> {
+            BehaviourPreferences.ARC_TYPE -> {
                 setArcTransitions(resources.getInteger(R.integer.animation_duration).toLong())
             }
         }

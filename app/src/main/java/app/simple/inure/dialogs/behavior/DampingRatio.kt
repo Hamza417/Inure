@@ -21,7 +21,7 @@ class DampingRatio : ScopedBottomSheetFragment() {
     private lateinit var set: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
 
-    private var oldStiffness = BehaviourPreferences.getStiffness()
+    private var oldDampingRatio = BehaviourPreferences.getDampingRatio()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_stiffness, container, false)
@@ -37,12 +37,12 @@ class DampingRatio : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        seekbar.max = 100
+        seekbar.max = MAX_DAMPING_RATIO
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            seekbar.min = 10
+            seekbar.min = MIN_DAMPING_RATIO
         }
-        seekbar.progress = (BehaviourPreferences.getDampingRatio() * 100F).toInt()
-        value.text = (BehaviourPreferences.getDampingRatio() * 100F).toInt().toString()
+        seekbar.progress = (BehaviourPreferences.getDampingRatio() * MAX_DAMPING_RATIO).toInt()
+        value.text = (BehaviourPreferences.getDampingRatio() * MAX_DAMPING_RATIO).toInt().toString()
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -61,12 +61,12 @@ class DampingRatio : ScopedBottomSheetFragment() {
         })
 
         set.setOnClickListener {
-            BehaviourPreferences.setDampingRatio(seekbar.progress / 100F)
+            BehaviourPreferences.setDampingRatio(seekbar.progress / MAX_DAMPING_RATIO.toFloat())
             dismiss()
         }
 
         cancel.setOnClickListener {
-            BehaviourPreferences.setDampingRatio(oldStiffness)
+            BehaviourPreferences.setDampingRatio(oldDampingRatio)
             dismiss()
         }
     }
@@ -81,7 +81,12 @@ class DampingRatio : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showDampingRatioDialog() {
             val dialog = newInstance()
-            dialog.show(this, "DampingRatio")
+            dialog.show(this, TAG)
         }
+
+        private const val MAX_DAMPING_RATIO = 100
+        private const val MIN_DAMPING_RATIO = 10
+
+        const val TAG = "DampingRatio"
     }
 }

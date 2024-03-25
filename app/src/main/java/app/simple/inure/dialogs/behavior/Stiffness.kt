@@ -36,7 +36,7 @@ class Stiffness : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        seekbar.max = 10_000
+        seekbar.max = MAX_STIFFNESS
         seekbar.progress = BehaviourPreferences.getStiffness().toInt()
         value.text = BehaviourPreferences.getStiffness().toInt().toString()
 
@@ -76,7 +76,12 @@ class Stiffness : ScopedBottomSheetFragment() {
         }
 
         fun FragmentManager.showStiffnessDialog() {
-            newInstance().show(this, "stiffness")
+            newInstance().show(this, TAG)
         }
+
+        private const val MAX_STIFFNESS = 2_500
+        private const val MIN_STIFFNESS = 1_000
+
+        const val TAG = "stiffness"
     }
 }

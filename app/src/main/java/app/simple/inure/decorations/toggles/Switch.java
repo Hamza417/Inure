@@ -648,7 +648,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (key) {
-            case BehaviourPreferences.coloredShadows -> {
+            case BehaviourPreferences.COLORED_SHADOWS -> {
                 animateElevation();
             }
         }

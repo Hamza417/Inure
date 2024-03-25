@@ -165,16 +165,16 @@ class BehaviourScreen : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BehaviourPreferences.dampingRatio -> {
+            BehaviourPreferences.DAMPING_RATIO -> {
                 // setDampingRatio()
             }
-            BehaviourPreferences.stiffness -> {
+            BehaviourPreferences.STIFFNESS -> {
                 // setStiffness()
             }
-            BehaviourPreferences.transitionType -> {
+            BehaviourPreferences.TRANSITION_TYPE -> {
                 setTransitionType()
             }
-            BehaviourPreferences.arcType -> {
+            BehaviourPreferences.ARC_TYPE -> {
                 setArcType()
             }
         }

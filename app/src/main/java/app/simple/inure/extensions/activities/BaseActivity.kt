@@ -12,7 +12,11 @@ import android.os.StrictMode
 import android.transition.ArcMotion
 import android.transition.Fade
 import android.util.Log
-import android.view.*
+import android.view.OrientationEventListener
+import android.view.Surface
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -36,12 +40,19 @@ import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
-import app.simple.inure.preferences.*
+import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferencesListener
 import app.simple.inure.preferences.SharedPreferences.unregisterEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.SharedPreferences.unregisterListener
+import app.simple.inure.preferences.ShellPreferences
 import app.simple.inure.preferences.ShellPreferences.getHomePath
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
@@ -53,7 +64,12 @@ import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDCard
-import com.google.android.material.transition.platform.*
+import com.google.android.material.transition.platform.MaterialArcMotion
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
+import com.google.android.material.transition.platform.MaterialElevationScale
+import com.google.android.material.transition.platform.MaterialFadeThrough
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -573,11 +589,11 @@ open class BaseActivity : AppCompatActivity(),
                 setNavColor()
             }
 
-            BehaviourPreferences.arcType -> {
+            BehaviourPreferences.ARC_TYPE -> {
                 // setArc()
             }
 
-            BehaviourPreferences.transitionType -> {
+            BehaviourPreferences.TRANSITION_TYPE -> {
                 // setTransitions()
             }
 
