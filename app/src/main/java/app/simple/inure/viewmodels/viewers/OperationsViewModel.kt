@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.ops.AppOps
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
-import app.simple.inure.models.AppOpsModel
+import app.simple.inure.models.AppOp
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -15,31 +15,31 @@ import kotlinx.coroutines.launch
 
 class OperationsViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
-    private val appOpsData: MutableLiveData<ArrayList<AppOpsModel>> by lazy {
-        MutableLiveData<ArrayList<AppOpsModel>>().also {
+    private val appOpsData: MutableLiveData<ArrayList<AppOp>> by lazy {
+        MutableLiveData<ArrayList<AppOp>>().also {
             initShell()
         }
     }
 
-    private val appOpsState: MutableLiveData<Pair<AppOpsModel, Int>> by lazy {
-        MutableLiveData<Pair<AppOpsModel, Int>>()
+    private val appOpsState: MutableLiveData<Pair<AppOp, Int>> by lazy {
+        MutableLiveData<Pair<AppOp, Int>>()
     }
 
-    fun getAppOpsData(): LiveData<ArrayList<AppOpsModel>> {
+    fun getAppOpsData(): LiveData<ArrayList<AppOp>> {
         return appOpsData
     }
 
-    fun getAppOpsState(): LiveData<Pair<AppOpsModel, Int>> {
+    fun getAppOpsState(): LiveData<Pair<AppOp, Int>> {
         return appOpsState
     }
 
     fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val ops = AppOps.getOps(context, packageInfo.packageName)
-            val filtered = arrayListOf<AppOpsModel>()
+            val filtered = arrayListOf<AppOp>()
 
             for (op in ops) {
-                if (op.title.lowercase().contains(keyword) || op.description.lowercase().contains(keyword)) {
+                if (op.permission.lowercase().contains(keyword)) {
                     filtered.add(op)
                 }
             }
@@ -48,7 +48,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
-    fun updateAppOpsState(appsOpsModel: AppOpsModel, position: Int) {
+    fun updateAppOpsState(appsOpsModel: AppOp, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 Shell.cmd(getStateChangeCommand(appsOpsModel)).exec().let {
@@ -57,7 +57,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                         appOpsState.postValue(Pair(appsOpsModel, position))
                     } else {
                         appOpsState.postValue(Pair(appsOpsModel, position))
-                        postWarning("Failed to change state of ${appsOpsModel.title} : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                        postWarning("Failed to change state of ${appsOpsModel.permission} : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
                     }
                 }
             }.getOrElse {
@@ -66,12 +66,12 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
-    private fun getStateChangeCommand(appsOpsModel: AppOpsModel): String {
+    private fun getStateChangeCommand(appsOpsModel: AppOp): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append("appops set ")
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
-        stringBuilder.append(appsOpsModel.title + if (appsOpsModel.isEnabled) " deny" else " allow")
+        stringBuilder.append(appsOpsModel.permission + if (appsOpsModel.isEnabled) " deny" else " allow")
         return stringBuilder.toString()
     }
 

@@ -5,14 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PermissionUtils.getPermissionDescription
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.models.AppOpsModel
+import app.simple.inure.models.AppOp
 import app.simple.inure.util.AdapterUtils
 
-class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
+class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
 
     private var adapterOpsCallbacks: AdapterOpsCallbacks? = null
 
@@ -21,8 +22,8 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = ops[position].title
-        holder.desc.text = ops[position].description
+        holder.name.text = ops[position].permission
+        holder.desc.text = holder.context.getPermissionDescription(ops[position].id)
         holder.checkBox.isChecked = ops[position].isEnabled
 
         AdapterUtils.searchHighlighter(holder.name, keyword)
@@ -41,8 +42,8 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
         return ops.size
     }
 
-    fun updateOperation(appOpsModel: AppOpsModel, position: Int) {
-        ops[position] = appOpsModel
+    fun updateOperation(appOp: AppOp, position: Int) {
+        ops[position] = appOp
         notifyItemChanged(position)
     }
 
@@ -59,7 +60,7 @@ class AdapterOperations(private val ops: ArrayList<AppOpsModel>, val keyword: St
 
     companion object {
         interface AdapterOpsCallbacks {
-            fun onCheckedChanged(appOpsModel: AppOpsModel, position: Int)
+            fun onCheckedChanged(appOp: AppOp, position: Int)
         }
     }
 }

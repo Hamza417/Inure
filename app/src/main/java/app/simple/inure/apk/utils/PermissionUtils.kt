@@ -53,6 +53,30 @@ object PermissionUtils {
         }
     }
 
+    fun getPermissionMap(context: Context): HashMap<String, String> {
+        val map = HashMap<String, String>()
+        val pm = context.packageManager
+        val permissionGroups = pm.getAllPermissionGroups(0)
+
+        // Get permissions that are part of a group
+        for (group in permissionGroups) {
+            val permissions = pm.queryPermissionsByGroup(group.name, 0)
+            for (permission in permissions) {
+                val shortName = permission.name.substring(permission.name.lastIndexOf(".") + 1)
+                map[shortName] = permission.name
+            }
+        }
+
+        // Get permissions that are not part of any group
+        val permissionsNoGroup = pm.queryPermissionsByGroup(null, 0)
+        for (permission in permissionsNoGroup) {
+            val shortName = permission.name.substring(permission.name.lastIndexOf(".") + 1)
+            map[shortName] = permission.name
+        }
+
+        return map
+    }
+
     fun PermissionInfo.isException(): Boolean {
         return name in exceptionPermissions
     }
@@ -129,9 +153,9 @@ object PermissionUtils {
         return protection
     }
 
-    fun Context.getPermissionDescription(name: String): String {
+    fun Context.getPermissionDescription(name: String?): String {
         kotlin.runCatching {
-            return name.getPermissionInfo(this)!!.loadDescription(packageManager).toString()
+            return name!!.getPermissionInfo(this)!!.loadDescription(packageManager).toString()
         }.getOrElse {
             return getString(R.string.desc_not_available)
         }

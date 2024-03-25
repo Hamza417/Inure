@@ -17,7 +17,7 @@ import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.models.AppOpsModel
+import app.simple.inure.models.AppOp
 import app.simple.inure.preferences.OperationsPreferences
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.OperationsViewModel
@@ -58,14 +58,14 @@ class Operations : SearchBarScopedFragment() {
             setCount(it.size)
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
-                override fun onCheckedChanged(appOpsModel: AppOpsModel, position: Int) {
+                override fun onCheckedChanged(appOp: AppOp, position: Int) {
                     childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                         override fun onSure() {
-                            operationsViewModel.updateAppOpsState(appOpsModel, position)
+                            operationsViewModel.updateAppOpsState(appOp, position)
                         }
 
                         override fun onCancel() {
-                            adapterOperations?.updateOperation(appOpsModel, position)
+                            adapterOperations?.updateOperation(appOp, position)
                         }
                     })
                 }
