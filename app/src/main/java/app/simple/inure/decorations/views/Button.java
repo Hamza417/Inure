@@ -16,6 +16,12 @@ import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TypeFace;
 
 public class Button extends MaterialButton implements ThemeChangedListener {
+    
+    /** @noinspection FieldCanBeLocal*/
+    private final int MAX_CORNER_RADIUS = 30;
+    /** @noinspection FieldCanBeLocal*/
+    private final int TEXT_SIZE = 10;
+    
     public Button(@NonNull Context context) {
         super(context);
         init();
@@ -40,8 +46,8 @@ public class Button extends MaterialButton implements ThemeChangedListener {
             setElevation(0);
             
             int cornerRadius = (int) AppearancePreferences.INSTANCE.getCornerRadius();
-            if (cornerRadius > 25) {
-                cornerRadius = 25;
+            if (cornerRadius > MAX_CORNER_RADIUS) {
+                cornerRadius = MAX_CORNER_RADIUS;
             }
             setCornerRadius(cornerRadius);
             
@@ -68,7 +74,7 @@ public class Button extends MaterialButton implements ThemeChangedListener {
                     }));
         }
         
-        setTextSize(10);
+        setTextSize(TEXT_SIZE);
         setAllCaps(false);
     }
     
