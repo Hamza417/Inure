@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.simple.inure.database.dao.TagDao
 import app.simple.inure.models.Tag
-import app.simple.inure.util.ConditionUtils.isNull
+import app.simple.inure.util.NullSafety.isNull
 
 @Database(entities = [Tag::class], exportSchema = true, version = 3)
 abstract class TagsDatabase : RoomDatabase() {

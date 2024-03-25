@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
-import app.simple.inure.util.ConditionUtils.isNotNull
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.XMLUtils.formatXML
 import app.simple.inure.util.XMLUtils.getPrettyXML
 import com.topjohnwu.superuser.Shell

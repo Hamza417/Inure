@@ -44,6 +44,7 @@ import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.util.AudioUtils.toBitrate
 import app.simple.inure.util.IntentHelper
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils
@@ -388,8 +389,10 @@ class AudioPlayerPager : ScopedFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                setLrc()
-                Log.d(TAG, "Lrc refreshed")
+                if (audioModel.isNotNull()) {
+                    setLrc()
+                    Log.d(TAG, "Lrc refreshed")
+                }
             }
         }
     }

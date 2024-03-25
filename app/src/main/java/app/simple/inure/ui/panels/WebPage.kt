@@ -11,9 +11,9 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.math.Extensions.percentOf
-import app.simple.inure.util.ConditionUtils.isNull
 import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.NullSafety.isNull
 
 class WebPage : ScopedFragment() {
 

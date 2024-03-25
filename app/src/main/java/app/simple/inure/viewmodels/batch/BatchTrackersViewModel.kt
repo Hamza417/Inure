@@ -12,8 +12,8 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
-import app.simple.inure.util.ConditionUtils.isNotNull
 import app.simple.inure.util.ConditionUtils.isZero
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.TrackerUtils
 import app.simple.inure.util.TrackerUtils.getActivityTrackers
 import app.simple.inure.util.TrackerUtils.getReceiverTrackers
