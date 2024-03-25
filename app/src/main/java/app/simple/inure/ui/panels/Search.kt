@@ -47,6 +47,8 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var tagsViewModel: TagsViewModel
 
+    private var keywords = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_search, container, false)
 
@@ -81,7 +83,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 searchView.hideLoader()
                 searchView.setNewNumber(it.size)
 
-                appsAdapterSearchSmall = AdapterSearch(it, searchViewModel.getSearchKeywords().value ?: "")
+                appsAdapterSearchSmall = AdapterSearch(it, keywords)
                 recyclerView.adapter = appsAdapterSearchSmall
 
                 appsAdapterSearchSmall.setOnItemClickListener(object : AdapterCallbacks {
@@ -91,7 +93,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        childFragmentManager.showAppsMenu(packageInfo, searchViewModel.getSearchKeywords().value ?: "").onDismissListener = {
+                        childFragmentManager.showAppsMenu(packageInfo, keywords).onDismissListener = {
                             postDelayed(250) {
                                 // searchView.showInput()
                             }
@@ -113,7 +115,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 searchView.setNewNumber(it.size)
                 searchView.hideLoader()
 
-                adapterDeepSearch = AdapterDeepSearch(it, searchViewModel.getSearchKeywords().value ?: "")
+                adapterDeepSearch = AdapterDeepSearch(it, keywords)
                 recyclerView.adapter = adapterDeepSearch
 
                 adapterDeepSearch.setOnItemClickListener(object : AdapterDeepSearch.Companion.AdapterDeepSearchCallbacks {
@@ -121,7 +123,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Permissions.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "permission")
+                                            packageInfo, keywords), "permission")
                         }
                     }
 
@@ -129,7 +131,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Activities.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "activities")
+                                            packageInfo, keywords), "activities")
                         }
                     }
 
@@ -137,7 +139,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Services.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "services")
+                                            packageInfo, keywords), "services")
                         }
                     }
 
@@ -145,7 +147,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Receivers.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "receivers")
+                                            packageInfo, keywords), "receivers")
                         }
                     }
 
@@ -153,7 +155,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Providers.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "providers")
+                                            packageInfo, keywords), "providers")
                         }
                     }
 
@@ -161,7 +163,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Resources.newInstance(
-                                            packageInfo, searchViewModel.getSearchKeywords().value ?: ""), "resources")
+                                            packageInfo, keywords), "resources")
                         }
                     }
 
@@ -172,7 +174,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: AppIconImageView) {
-                        childFragmentManager.showAppsMenu(packageInfo, searchViewModel.getSearchKeywords().value ?: "").onDismissListener = {
+                        childFragmentManager.showAppsMenu(packageInfo, keywords).onDismissListener = {
                             // Open keyboard after menu is dismissed
                             //                            postDelayed(250) {
                             //                                searchView.showInput()
@@ -221,6 +223,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
+                this@Search.keywords = keywords
                 removeHandlerCallbacks()
                 if (keywords.isNotEmpty()) {
                     postDelayed(1000L) { // Todo : Find a better way to do this
