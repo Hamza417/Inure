@@ -40,6 +40,7 @@ public class AppOps {
                 ops.add(new AppOp(name, id, mode.equals("allow"), time, duration, rejectTime));
             }
         }
+        
         return ops;
     }
     

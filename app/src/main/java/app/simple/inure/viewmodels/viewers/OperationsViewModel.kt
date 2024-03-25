@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.ops.AppOps
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.models.AppOp
@@ -35,16 +36,20 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val ops = AppOps.getOps(context, packageInfo.packageName)
-            val filtered = arrayListOf<AppOp>()
+            try {
+                val ops = AppOps.getOps(context, packageInfo.packageName)
+                val filtered = arrayListOf<AppOp>()
 
-            for (op in ops) {
-                if (op.permission.lowercase().contains(keyword)) {
-                    filtered.add(op)
+                for (op in ops) {
+                    if (op.permission.lowercase().contains(keyword)) {
+                        filtered.add(op)
+                    }
                 }
-            }
 
-            appOpsData.postValue(filtered)
+                appOpsData.postValue(filtered)
+            } catch (e: ArrayIndexOutOfBoundsException) {
+                postWarning(getString(R.string.not_available))
+            }
         }
     }
 
@@ -57,7 +62,8 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                         appOpsState.postValue(Pair(appsOpsModel, position))
                     } else {
                         appOpsState.postValue(Pair(appsOpsModel, position))
-                        postWarning("Failed to change state of ${appsOpsModel.permission} : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                        postWarning("Failed to change state of ${appsOpsModel.permission}" +
+                                            " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
                     }
                 }
             }.getOrElse {

@@ -79,7 +79,7 @@ class Operations : SearchBarScopedFragment() {
         }
 
         operationsViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, goBack = false)
+            showWarning(it)
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

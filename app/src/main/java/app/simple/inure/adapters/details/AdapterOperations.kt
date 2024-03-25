@@ -8,7 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionDescription
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
-import app.simple.inure.decorations.toggles.CheckBox
+import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.AppOp
 import app.simple.inure.util.AdapterUtils
@@ -24,16 +24,16 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = ops[position].permission
         holder.desc.text = holder.context.getPermissionDescription(ops[position].id)
-        holder.checkBox.isChecked = ops[position].isEnabled
+        holder.switch.isChecked = ops[position].isEnabled
 
         AdapterUtils.searchHighlighter(holder.name, keyword)
         AdapterUtils.searchHighlighter(holder.desc, keyword)
 
         holder.container.setOnClickListener {
-            holder.checkBox.toggle()
+            holder.switch.toggle()
         }
 
-        holder.checkBox.setOnCheckedChangeListener {
+        holder.switch.setOnSwitchCheckedChangeListener {
             adapterOpsCallbacks?.onCheckedChanged(ops[position], position)
         }
     }
@@ -54,7 +54,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
-        val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+        val switch: Switch = itemView.findViewById(R.id.adapter_ops_switch)
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
     }
 
