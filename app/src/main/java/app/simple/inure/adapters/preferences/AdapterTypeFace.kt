@@ -77,9 +77,9 @@ class AdapterTypeFace : RecyclerView.Adapter<VerticalListViewHolder>() {
             }
             is Header -> {
                 holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
-
-                // TODO - Find the exact cause of why the typeface is not changing
-                holder.title.typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), TypeFace.TypefaceStyle.BOLD.style, holder.itemView.context)
+                holder.title.typeface =
+                    TypeFace.getTypeFace(AppearancePreferences.getAppFont(),
+                                         TypeFace.TypefaceStyle.BOLD.style, holder.itemView.context)
             }
         }
     }
