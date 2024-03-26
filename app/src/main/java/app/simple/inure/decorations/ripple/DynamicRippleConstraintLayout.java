@@ -16,7 +16,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import app.simple.inure.R;
 import app.simple.inure.constants.Misc;
 import app.simple.inure.decorations.corners.LayoutBackground;
-import app.simple.inure.models.Bloat;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.util.ColorUtils;
 import app.simple.inure.util.ViewUtils;
@@ -61,10 +60,10 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
         }
     }
     
-    public void setBloatWarningBackground(Bloat bloat) {
+    public void setWarningBackground(int color) {
         setBackgroundTintList(null);
         setBackgroundTintList(ColorStateList.valueOf(
-                ColorUtils.INSTANCE.changeAlpha(bloat.getBloatWarningColor(), Misc.highlightColorAlpha)));
+                ColorUtils.INSTANCE.changeAlpha(color, Misc.highlightColorAlpha)));
         
         LayoutBackground.setBackground(getContext(), this, null);
     }

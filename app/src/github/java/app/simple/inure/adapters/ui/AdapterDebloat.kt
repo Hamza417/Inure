@@ -64,7 +64,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                 holder.checkBox.isChecked = bloats[pos].isSelected
 
                 if (bloats[pos].shouldHighlightBloat()) {
-                    holder.container.setBloatWarningBackground(bloats[pos])
+                    holder.container.setWarningBackground(bloats[pos].bloatWarningColor)
                 } else {
                     holder.container.setDefaultBackground(false)
                 }
