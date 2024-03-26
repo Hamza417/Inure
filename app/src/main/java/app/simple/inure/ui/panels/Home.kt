@@ -13,6 +13,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
@@ -50,6 +51,9 @@ class Home : ScopedFragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var quickAppViewModel: QuickAppsViewModel
+    private lateinit var adapterHome: AdapterHome
+
+    private var data: List<Pair<Int, Int>>? = null
 
     private fun getHomeLayout(): Int {
         return R.layout.fragment_home
@@ -82,32 +86,11 @@ class Home : ScopedFragment() {
 
         homeViewModel.getMenuItems().observe(viewLifecycleOwner) {
             postponeEnterTransition()
+            data = it
+            adapterHome = AdapterHome(it)
+            setLayoutManager()
 
-            when (HomePreferences.getMenuLayout()) {
-                PopupMenuLayout.GRID -> {
-                    val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
-
-                    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-                            return if (it[position].first.isZero() || it[position].first == 1) {
-                                getInteger(R.integer.span_count)
-                            } else {
-                                1
-                            }
-                        }
-                    }
-
-                    navigationRecyclerView.layoutManager = gridLayoutManager
-                }
-
-                PopupMenuLayout.VERTICAL -> {
-                    navigationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-                }
-            }
-
-            val adapter = AdapterHome(it)
-
-            adapter.setOnAppInfoMenuCallback(object : AdapterHome.AdapterHomeMenuCallbacks {
+            adapterHome.setOnAppInfoMenuCallback(object : AdapterHome.AdapterHomeMenuCallbacks {
                 override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.apps -> {
@@ -238,7 +221,7 @@ class Home : ScopedFragment() {
                 }
             })
 
-            navigationRecyclerView.adapter = adapter
+            navigationRecyclerView.adapter = adapterHome
 
             if (AccessibilityPreferences.isAnimationReduced().invert()) {
                 navigationRecyclerView.scheduleLayoutAnimation()
@@ -275,7 +258,7 @@ class Home : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             HomePreferences.homeMenuLayout -> {
-                homeViewModel.refreshMenuItems()
+                setLayoutManager()
             }
         }
     }
@@ -283,6 +266,39 @@ class Home : ScopedFragment() {
     private fun openAppMenu(packageInfo: PackageInfo) {
         AppsMenu.newInstance(packageInfo)
             .show(childFragmentManager, "apps_menu")
+    }
+
+    private fun setLayoutManager() {
+        // Clear the adapter
+        navigationRecyclerView.adapter = null
+
+        when (HomePreferences.getMenuLayout()) {
+            PopupMenuLayout.GRID -> {
+                val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
+
+                gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int {
+                        return if (data?.get(position)?.first?.isZero() == true || data?.get(position)?.first == 1) {
+                            getInteger(R.integer.span_count)
+                        } else {
+                            1
+                        }
+                    }
+                }
+
+                navigationRecyclerView.layoutManager = gridLayoutManager
+            }
+
+            PopupMenuLayout.VERTICAL -> {
+                navigationRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
+
+        navigationRecyclerView.adapter = adapterHome
+
+        navigationRecyclerView.post {
+            TransitionManager.beginDelayedTransition(navigationRecyclerView)
+        }
     }
 
     private fun showRateDialog() {
