@@ -57,5 +57,7 @@ class InstallerCustomization : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "installer_visibility"
     }
 }

@@ -57,19 +57,7 @@
                 android:clipToPadding="false"
                 android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
-                <app.simple.inure.decorations.theme.ThemeDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="1px" />
-
-                <app.simple.inure.decorations.typeface.TypeFaceTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/installer"
-                    app:appFontStyle="medium"
-                    app:textColorStyle="accent" />
+                <!-- Reserved for future uses -->
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
                     android:id="@+id/installer_visibility_customization"

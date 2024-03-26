@@ -27,6 +27,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -36,6 +37,7 @@ import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.installer.Downgrade.Companion.showDowngradeDialog
 import app.simple.inure.dialogs.installer.InstallAnyway.Companion.showInstallAnyway
+import app.simple.inure.dialogs.installer.InstallerMenu.Companion.showInstallerMenu
 import app.simple.inure.dialogs.installer.Users
 import app.simple.inure.dialogs.installer.Users.Companion.showUsers
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -64,6 +66,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
     private lateinit var version: TypeFaceTextView
+    private lateinit var settings: DynamicRippleImageButton
     private lateinit var install: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var launch: DynamicRippleTextView
@@ -84,6 +87,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         name = view.findViewById(R.id.name)
         packageName = view.findViewById(R.id.package_id)
         version = view.findViewById(R.id.version)
+        settings = view.findViewById(R.id.settings)
         install = view.findViewById(R.id.install)
         cancel = view.findViewById(R.id.cancel)
         launch = view.findViewById(R.id.launch)
@@ -363,6 +367,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         cancel.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        settings.setOnClickListener {
+            childFragmentManager.showInstallerMenu()
         }
     }
 

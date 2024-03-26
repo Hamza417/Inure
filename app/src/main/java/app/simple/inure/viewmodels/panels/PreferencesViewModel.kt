@@ -49,9 +49,9 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
                     Pair(R.drawable.ic_terminal_black, R.string.terminal),
                     Pair(R.drawable.ic_shell, R.string.shell),
                     Pair(0, 0), // Divider
-                    Pair(R.drawable.ic_layouts, R.string.layouts),
+                    // Pair(R.drawable.ic_layouts, R.string.layouts),
                     // Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
-                    Pair(0, 0), // Divider
+                    // Pair(0, 0), // Divider
                     Pair(R.drawable.ic_data_object, R.string.development),
                     Pair(R.drawable.ic_audio_placeholder, R.string.about)
             )
