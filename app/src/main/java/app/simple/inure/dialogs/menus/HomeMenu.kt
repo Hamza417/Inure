@@ -11,18 +11,19 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.HomePreferences
+import app.simple.inure.ui.preferences.subscreens.HomeCustomization
 
 class HomeMenu : ScopedBottomSheetFragment() {
 
     private lateinit var layout: DynamicRippleTextView
+    private lateinit var visibility: DynamicRippleTextView
     private lateinit var openAppSettings: DynamicRippleTextView
-
-    private var callbacks: HomeMenuCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_home, container, false)
 
         layout = view.findViewById(R.id.popup_menu_layout)
+        visibility = view.findViewById(R.id.visibility)
         openAppSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -37,8 +38,12 @@ class HomeMenu : ScopedBottomSheetFragment() {
             PopupMenuLayout(layout)
         }
 
+        visibility.setOnClickListener {
+            openFragmentSlide(HomeCustomization.newInstance(), HomeCustomization.TAG)
+        }
+
         openAppSettings.setOnClickListener {
-            callbacks?.onOpenSettings()
+            openSettings()
         }
     }
 
@@ -57,10 +62,6 @@ class HomeMenu : ScopedBottomSheetFragment() {
         }
     }
 
-    fun setOnHomeMenuCallbacks(callbacks: HomeMenuCallbacks) {
-        this.callbacks = callbacks
-    }
-
     companion object {
         fun newInstance(): HomeMenu {
             val args = Bundle()
@@ -73,10 +74,6 @@ class HomeMenu : ScopedBottomSheetFragment() {
             val fragment = newInstance()
             fragment.show(this, fragment.tag)
             return fragment
-        }
-
-        interface HomeMenuCallbacks {
-            fun onOpenSettings()
         }
     }
 }

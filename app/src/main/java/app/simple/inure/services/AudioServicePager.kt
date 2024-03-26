@@ -291,6 +291,7 @@ class AudioServicePager : Service(),
                     @Suppress("DEPRECATION")
                     stopForeground(true)
                 }
+
                 stopSelf()
             }
 
@@ -303,8 +304,6 @@ class AudioServicePager : Service(),
             }
         })
 
-        @Suppress("deprecation")
-        mediaSessionCompat!!.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS)
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
         mediaSessionCompat!!.isActive = true
         mediaControllerCompat = mediaSessionCompat!!.controller
@@ -315,13 +314,8 @@ class AudioServicePager : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
-                    .setActions(PlaybackStateCompat.ACTION_PLAY or
-                                        PlaybackStateCompat.ACTION_PAUSE or
-                                        PlaybackStateCompat.ACTION_PLAY_PAUSE or
-                                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
-                                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
-                                        PlaybackStateCompat.ACTION_SEEK_TO or
-                                        PlaybackStateCompat.ACTION_STOP)
+                    .setActions(
+                                    PlaybackStateCompat.ACTION_STOP)
                     .build()
         )
     }
@@ -628,8 +622,7 @@ class AudioServicePager : Service(),
             .addAction(previous) /* Previous Action */
             .addAction(next) /* Next Action */
             .addAction(close) /* Close Action */
-            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken)
-                          .setShowActionsInCompactView(0, 1, 2, 3))
+            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken).setShowActionsInCompactView(0, 1, 3))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         val notification: Notification = builder!!.build()

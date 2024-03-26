@@ -24,6 +24,7 @@ import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.ChangesReminder
 import app.simple.inure.dialogs.app.Rate.Companion.showRateDialog
 import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.menus.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -227,7 +228,7 @@ class Home : ScopedFragment() {
                         }
 
                         R.string.preferences -> {
-                            openFragmentArc(Preferences.newInstance(), icon, "preferences")
+                            childFragmentManager.showHomeMenu()
                         }
 
                         R.string.purchase -> {
