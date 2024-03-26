@@ -158,7 +158,7 @@ object PreferencesSearchConstants {
                 accessibilityData +
                 terminalData +
                 shellData +
-                layoutData +
+                // layoutData +
                 // developmentData +
                 aboutData
 
