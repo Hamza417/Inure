@@ -56,5 +56,5 @@ object Warnings {
     /**
      * Shizuku binder is not ready
      */
-    const val SHIZUKU_BINDER_NOT_READY = "0x00B: Shizuku binder is not ready"
+    const val SHIZUKU_BINDER_NOT_READY = "0x00B: Shizuku binder is not ready, check if Shizuku is running properly."
 }
