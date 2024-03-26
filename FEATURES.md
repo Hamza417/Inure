@@ -47,6 +47,7 @@ These features require root access to work in the app.
 - View and modify shared preferences of any app.
 - Run installer in root mode to seamlessly install apps.
 - Run Terminal in root mode.
+- Change **AppOps** permissions of any app.
 
 ### Shizuku Features
 
