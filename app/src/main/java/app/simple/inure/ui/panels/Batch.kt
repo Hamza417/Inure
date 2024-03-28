@@ -23,6 +23,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.batch.BatchActions.Companion.showBatchActions
 import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.dialogs.batch.BatchForceStop.Companion.showBatchForceStop
@@ -147,18 +148,8 @@ class Batch : ScopedFragment() {
             bottomRightCornerMenu?.setInitialized(false)
         }
 
-        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, view ->
+        bottomRightCornerMenu?.initBottomMenuWithRecyclerView(getBatchMenuItems(), recyclerView) { id, _ ->
             when (id) {
-                R.drawable.ic_select_all -> {
-                    showLoader(manualOverride = true)
-
-                    if (adapterBatch?.isAllSelected() == true) {
-                        batchViewModel.deselectAllBatchItems()
-                    } else {
-                        batchViewModel.selectAllBatchItems()
-                    }
-                }
-
                 R.drawable.ic_filter -> {
                     childFragmentManager.showBatchSort()
                 }
@@ -213,141 +204,158 @@ class Batch : ScopedFragment() {
                     })
                 }
 
-                R.drawable.ic_delete -> {
-                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
-                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                            override fun onSure() {
-                                if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
-                                    BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
-                                        .show(childFragmentManager, "batch_uninstaller")
+                R.drawable.ic_extension -> {
+                    childFragmentManager.showBatchActions().setBatchActionCallbackListener { iconId, view ->
+                        when (iconId) {
+                            R.drawable.ic_select_all -> {
+                                showLoader(manualOverride = true)
+
+                                if (adapterBatch?.isAllSelected() == true) {
+                                    batchViewModel.deselectAllBatchItems()
                                 } else {
-                                    for (app in adapterBatch?.getCurrentAppsList()!!) {
-                                        @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-                                        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
-                                        intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
-                                        intent.data = Uri.parse("package:${app.packageInfo.packageName}")
-                                        appUninstallObserver.launch(intent)
-                                    }
-                                }
-                            }
-                        })
-                    } else {
-                        showWarning("RESTRICTION: Cannot uninstall all apps at once", goBack = false)
-                    }
-                }
-
-                R.drawable.ic_hide_source -> {
-                    if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
-                        PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
-                            override fun onEnableAll() {
-                                onSure {
-                                    childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
-                                        for (app in adapterBatch!!.getCurrentAppsList()) {
-                                            adapterBatch!!.updateBatchItem(app)
-                                        }
-                                    }
+                                    batchViewModel.selectAllBatchItems()
                                 }
                             }
 
-                            override fun onDisableAll() {
-                                onSure {
-                                    childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), false) {
-                                        for (app in adapterBatch!!.getCurrentAppsList()) {
-                                            adapterBatch!!.updateBatchItem(app)
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                    } else {
-                        showWarning("RESTRICTION: Cannot change state of all apps at once", goBack = false)
-                    }
-                }
-
-                R.drawable.ic_send -> {
-                    /* no-op */
-                }
-
-                R.drawable.ic_downloading -> {
-                    if (batchExtractService?.isExtracting()?.invert() == true) {
-                        childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                            override fun onSure() {
-                                if (requireContext().checkStoragePermission()) {
-                                    initiateExtractProcess()
-                                } else {
-                                    childFragmentManager.showStoragePermissionDialog()
-                                        .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
-                                            override fun onStoragePermissionGranted() {
-                                                initiateExtractProcess()
+                            R.drawable.ic_delete -> {
+                                if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
+                                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                        override fun onSure() {
+                                            if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
+                                                BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
+                                                    .show(childFragmentManager, "batch_uninstaller")
+                                            } else {
+                                                for (app in adapterBatch?.getCurrentAppsList()!!) {
+                                                    @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+                                                    intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+                                                    intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
+                                                    intent.data = Uri.parse("package:${app.packageInfo.packageName}")
+                                                    appUninstallObserver.launch(intent)
+                                                }
                                             }
-                                        })
+                                        }
+                                    })
+                                } else {
+                                    showWarning("RESTRICTION: Cannot uninstall all apps at once", goBack = false)
                                 }
                             }
-                        })
-                    } else {
-                        showWarning("ERR: a process is already running", goBack = false)
-                    }
-                }
 
-                R.drawable.ic_text_snippet -> {
-                    childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
-                        showLoader(manualOverride = true)
-                        adapterBatch?.getCurrentAppsList()?.let {
-                            batchViewModel.generateAppsData(it)
-                        }
-                    }
-                }
+                            R.drawable.ic_hide_source -> {
+                                if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
+                                    PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
+                                        override fun onEnableAll() {
+                                            onSure {
+                                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
+                                                    for (app in adapterBatch!!.getCurrentAppsList()) {
+                                                        adapterBatch!!.updateBatchItem(app)
+                                                    }
+                                                }
+                                            }
+                                        }
 
-                R.drawable.ic_tags -> {
-                    childFragmentManager.showAddTagDialog().onTag = {
-                        tagsViewModel.addMultipleAppsToTag(adapterBatch?.getCurrentAppsList()!!, it) {
-                            showLoader(manualOverride = true)
-                            postDelayed {
-                                hideLoader()
-                                childFragmentManager.showAddedApps(it)
+                                        override fun onDisableAll() {
+                                            onSure {
+                                                childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), false) {
+                                                    for (app in adapterBatch!!.getCurrentAppsList()) {
+                                                        adapterBatch!!.updateBatchItem(app)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    showWarning("RESTRICTION: Cannot change state of all apps at once", goBack = false)
+                                }
+                            }
+
+                            R.drawable.ic_send -> {
+                                /* no-op */
+                            }
+
+                            R.drawable.ic_downloading -> {
+                                if (batchExtractService?.isExtracting()?.invert() == true) {
+                                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                        override fun onSure() {
+                                            if (requireContext().checkStoragePermission()) {
+                                                initiateExtractProcess()
+                                            } else {
+                                                childFragmentManager.showStoragePermissionDialog()
+                                                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                                                        override fun onStoragePermissionGranted() {
+                                                            initiateExtractProcess()
+                                                        }
+                                                    })
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    showWarning("ERR: a process is already running", goBack = false)
+                                }
+                            }
+
+                            R.drawable.ic_text_snippet -> {
+                                childFragmentManager.showGeneratedDataTypeSelector().onGenerateData {
+                                    showLoader(manualOverride = true)
+                                    adapterBatch?.getCurrentAppsList()?.let {
+                                        batchViewModel.generateAppsData(it)
+                                    }
+                                }
+                            }
+
+                            R.drawable.ic_tags -> {
+                                childFragmentManager.showAddTagDialog().onTag = {
+                                    tagsViewModel.addMultipleAppsToTag(adapterBatch?.getCurrentAppsList()!!, it) {
+                                        showLoader(manualOverride = true)
+                                        postDelayed {
+                                            hideLoader()
+                                            childFragmentManager.showAddedApps(it)
+                                        }
+                                    }
+                                }
+                            }
+
+                            R.drawable.ic_settings_power -> {
+                                childFragmentManager.showBatchBatteryOptimization(adapterBatch?.getCurrentAppsList()!!)
+                            }
+
+                            R.drawable.ic_radiation_nuclear -> {
+                                openFragmentSlide(
+                                        BatchTracker.newInstance(adapterBatch?.getCurrentAppsList()!!.map {
+                                            it.packageInfo.packageName
+                                        } as ArrayList<String>), "batch_tracker")
+                            }
+
+                            R.drawable.ic_checklist -> {
+                                openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
+                            }
+
+                            R.drawable.ic_refresh -> {
+                                showLoader(manualOverride = true)
+                                batchViewModel.refreshPackageData()
+                            }
+
+                            R.drawable.ic_close -> {
+                                onSure {
+                                    childFragmentManager.showBatchForceStop(adapterBatch?.getCurrentAppsList()!!)
+                                }
+                            }
+
+                            R.drawable.ic_broom -> {
+                                onSure {
+                                    showLoader(manualOverride = true)
+
+                                    batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
+                                        hideLoader()
+
+                                        if (it.isNotNull()) {
+                                            showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
+                                        }
+                                    }
+
+                                    batchViewModel.clearSelectedAppsCache(adapterBatch?.getCurrentAppsList()!!)
+                                }
                             }
                         }
-                    }
-                }
-
-                R.drawable.ic_settings_power -> {
-                    childFragmentManager.showBatchBatteryOptimization(adapterBatch?.getCurrentAppsList()!!)
-                }
-
-                R.drawable.ic_radiation_nuclear -> {
-                    openFragmentSlide(
-                            BatchTracker.newInstance(adapterBatch?.getCurrentAppsList()!!.map {
-                                it.packageInfo.packageName
-                            } as ArrayList<String>), "batch_tracker")
-                }
-
-                R.drawable.ic_checklist -> {
-                    openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
-                }
-
-                R.drawable.ic_refresh -> {
-                    showLoader(manualOverride = true)
-                    batchViewModel.refreshPackageData()
-                }
-
-                R.drawable.ic_close -> {
-                    onSure {
-                        childFragmentManager.showBatchForceStop(adapterBatch?.getCurrentAppsList()!!)
-                    }
-                }
-                R.drawable.ic_broom -> {
-                    onSure {
-                        showLoader(manualOverride = true)
-
-                        batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
-                            hideLoader()
-
-                            if (it.isNotNull()) {
-                                showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
-                            }
-                        }
-
-                        batchViewModel.clearSelectedAppsCache(adapterBatch?.getCurrentAppsList()!!)
                     }
                 }
             }
@@ -414,7 +422,7 @@ class Batch : ScopedFragment() {
     private fun getBatchMenuItems(): ArrayList<Pair<Int, Int>> {
         for (batch in adapterBatch?.getCurrentAppsList()!!) {
             if (batch.isSelected) {
-                return BottomMenuConstants.getBatchMenu()
+                return BottomMenuConstants.getBatchSelectedMenu()
             }
         }
 
