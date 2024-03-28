@@ -747,4 +747,5 @@
     <string name="website">Веб-сайт</string>
     <string name="create_selection_from_tags">Создать выбранное из тегов</string>
     <string name="blocked">Заблокировано</string>
+    <string name="actions">Действия</string>
 </resources>
