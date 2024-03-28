@@ -138,7 +138,7 @@ class BatchActions : ScopedBottomSheetFragment() {
                     Pair(R.drawable.ic_close, R.string.force_stop),
                     divider,
                     Pair(R.drawable.ic_downloading, R.string.extract),
-                    Pair(R.drawable.ic_text_snippet, R.string.data),
+                    Pair(R.drawable.ic_text_snippet, R.string.generate_apps_list),
                     Pair(R.drawable.ic_tags, R.string.tags),
                     divider,
                     Pair(R.drawable.ic_checklist, R.string.checklist),
