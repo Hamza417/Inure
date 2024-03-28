@@ -744,4 +744,5 @@
     <string name="website">Página Web</string>
     <string name="create_selection_from_tags">Criar seleção a partir das Tags</string>
     <string name="blocked">Bloqueado</string>
+    <string name="actions">Ações</string>
 </resources>
