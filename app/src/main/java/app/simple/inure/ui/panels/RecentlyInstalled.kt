@@ -87,5 +87,7 @@ class RecentlyInstalled : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "recently_installed"
     }
 }

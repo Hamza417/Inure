@@ -302,5 +302,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Search"
     }
 }

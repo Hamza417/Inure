@@ -83,5 +83,7 @@ class Disabled : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "disabled"
     }
 }

@@ -13,5 +13,7 @@ class Debloat : ScopedFragment() {
 
     companion object {
         fun newInstance() = Debloat()
+
+        const val TAG = "Debloat"
     }
 }

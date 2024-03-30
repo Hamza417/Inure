@@ -140,7 +140,12 @@ class BatteryOptimization : ScopedFragment() {
 
     companion object {
         fun newInstance(): BatteryOptimization {
-            return BatteryOptimization()
+            val args = Bundle()
+            val fragment = BatteryOptimization()
+            fragment.arguments = args
+            return fragment
         }
+
+        const val TAG = "BatteryOptimization"
     }
 }

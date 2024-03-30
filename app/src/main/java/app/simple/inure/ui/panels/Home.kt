@@ -112,92 +112,92 @@ class Home : ScopedFragment() {
                         }
 
                         R.string.usage_statistics -> {
-                            openFragmentArc(Statistics.newInstance(), icon, "stats")
+                            openFragmentArc(Statistics.newInstance(), icon, Statistics.TAG)
                         }
 
                         R.string.device_info -> {
-                            openFragmentArc(DeviceInfo.newInstance(), icon, "info")
+                            openFragmentArc(DeviceInfo.newInstance(), icon, DeviceInfo.TAG)
                         }
                         //                        R.string.sensors -> {
                         //                            openFragmentArc(Sensors.newInstance(), icon, "sensors")
                         //                        }
                         R.string.batch -> {
-                            openFragmentArc(Batch.newInstance(), icon, "batch")
+                            openFragmentArc(Batch.newInstance(), icon, Batch.TAG)
                         }
 
                         R.string.notes -> {
-                            openFragmentArc(Notes.newInstance(), icon, "notes")
+                            openFragmentArc(Notes.newInstance(), icon, Notes.TAG)
                         }
 
                         R.string.tags -> {
-                            openFragmentArc(Tags.newInstance(), icon, "tags")
+                            openFragmentArc(Tags.newInstance(), icon, Tags.TAG)
                         }
 
                         R.string.music -> {
-                            openFragmentArc(Music.newInstance(), icon, "music")
+                            openFragmentArc(Music.newInstance(), icon, Music.TAG)
                         }
 
                         R.string.recently_installed -> {
-                            openFragmentArc(RecentlyInstalled.newInstance(), icon, "recently_installed")
+                            openFragmentArc(RecentlyInstalled.newInstance(), icon, RecentlyInstalled.TAG)
                         }
 
                         R.string.recently_updated -> {
-                            openFragmentArc(RecentlyUpdated.newInstance(), icon, "recently_updated")
+                            openFragmentArc(RecentlyUpdated.newInstance(), icon, RecentlyUpdated.TAG)
                         }
 
                         R.string.most_used -> {
-                            openFragmentArc(MostUsed.newInstance(), icon, "most_used")
+                            openFragmentArc(MostUsed.newInstance(), icon, MostUsed.TAG)
                         }
 
                         R.string.uninstalled -> {
-                            openFragmentArc(Uninstalled.newInstance(), icon, "uninstalled")
+                            openFragmentArc(Uninstalled.newInstance(), icon, Uninstalled.TAG)
                         }
 
                         R.string.disabled -> {
-                            openFragmentArc(Disabled.newInstance(), icon, "disabled")
+                            openFragmentArc(Disabled.newInstance(), icon, Disabled.TAG)
                         }
 
                         R.string.foss -> {
-                            openFragmentArc(FOSS.newInstance(), icon, "foss")
+                            openFragmentArc(FOSS.newInstance(), icon, FOSS.TAG)
                         }
 
                         R.string.debloat -> {
-                            openFragmentArc(Debloat.newInstance(), icon, "debloat")
+                            openFragmentArc(Debloat.newInstance(), icon, Debloat.TAG)
                         }
 
                         R.string.hidden -> {
-                            openFragmentArc(Hidden.newInstance(), icon, "hidden")
+                            openFragmentArc(Hidden.newInstance(), icon, Hidden.TAG)
                         }
 
                         R.string.crash_report -> {
-                            openFragmentArc(StackTraces.newInstance(), icon, "stacktraces")
+                            openFragmentArc(StackTraces.newInstance(), icon, StackTraces.TAG)
                         }
 
                         R.string.battery_optimization -> {
                             if (ConfigurationPreferences.isUsingRoot()) {
-                                openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                openFragmentArc(BatteryOptimization.newInstance(), icon, BatteryOptimization.TAG)
                             } else
                                 if (ConfigurationPreferences.isUsingShizuku()) {
                                     if (Shizuku.pingBinder()) {
-                                        openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                        openFragmentArc(BatteryOptimization.newInstance(), icon, BatteryOptimization.TAG)
                                     } else {
                                         showWarning(Warnings.getShizukuFailedWarning(), goBack = false)
                                     }
                                 } else {
-                                    openFragmentArc(BatteryOptimization.newInstance(), icon, "battery_optimization")
+                                    openFragmentArc(BatteryOptimization.newInstance(), icon, BatteryOptimization.TAG)
                                 }
                         }
 
                         R.string.boot_manager -> {
-                            openFragmentArc(BootManager.newInstance(), icon, "boot_manager")
+                            openFragmentArc(BootManager.newInstance(), icon, BootManager.TAG)
                         }
 
                         R.string.terminal_commands -> {
-                            openFragmentArc(TerminalCommands.newInstance(), icon, "saved_commands")
+                            openFragmentArc(TerminalCommands.newInstance(), icon, TerminalCommands.TAG)
                         }
 
                         R.string.APKs -> {
-                            openFragmentArc(APKs.newInstance(), icon, "apks")
+                            openFragmentArc(APKs.newInstance(), icon, APKs.TAG)
                         }
 
                         // Header
@@ -207,7 +207,7 @@ class Home : ScopedFragment() {
                         }
 
                         R.string.search -> {
-                            openFragmentArc(Search.newInstance(firstLaunch = true), icon, "search")
+                            openFragmentArc(Search.newInstance(firstLaunch = true), icon, Search.TAG)
                         }
 
                         R.string.preferences -> {
@@ -215,7 +215,7 @@ class Home : ScopedFragment() {
                         }
 
                         R.string.purchase -> {
-                            openFragmentSlide(Trial.newInstance(), "trial")
+                            openFragmentSlide(Trial.newInstance(), Trial.TAG)
                         }
                     }
                 }
