@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -85,5 +86,13 @@ class Send : ScopedBottomSheetFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        fun FragmentManager.showSend(packageInfo: PackageInfo): Send {
+            val dialog = newInstance(packageInfo)
+            dialog.show(this, TAG)
+            return dialog
+        }
+
+        const val TAG = "send"
     }
 }

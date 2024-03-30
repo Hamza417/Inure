@@ -149,5 +149,7 @@ class Activities : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "activities"
     }
 }

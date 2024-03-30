@@ -455,6 +455,7 @@ class NotesEditor : KeyboardScopedFragment() {
             return fragment
         }
 
+        const val TAG = "notes_editor"
         const val NOTES_UPDATED = "notes_updated"
     }
 }

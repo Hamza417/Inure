@@ -302,5 +302,7 @@ class XMLViewerTextView : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "xml_viewer"
     }
 }

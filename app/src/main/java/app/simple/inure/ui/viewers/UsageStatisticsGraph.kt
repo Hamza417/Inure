@@ -341,6 +341,8 @@ class UsageStatisticsGraph : ScopedFragment() {
             return fragment
         }
 
+        const val TAG = "usage_statistics_graph"
+
         val BAR_COLORS = arrayListOf(
                 ColorTemplate.rgb("#576F72"), // Cadet
                 ColorTemplate.rgb("#F7CE76"), // Rajah

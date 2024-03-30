@@ -22,9 +22,9 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.views.GridRecyclerView
-import app.simple.inure.dialogs.app.ChangesReminder
+import app.simple.inure.dialogs.app.ChangesReminder.Companion.showChangesReminder
 import app.simple.inure.dialogs.app.Rate.Companion.showRateDialog
-import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
 import app.simple.inure.dialogs.menus.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
@@ -76,8 +76,7 @@ class Home : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (MainPreferences.shouldShowChangeLogReminder()) {
-            ChangesReminder.newInstance()
-                .show(childFragmentManager, "changes_reminder")
+            childFragmentManager.showChangesReminder()
         } else {
             MainPreferences.setChangeLogReminder(BuildConfig.VERSION_CODE)
         }
@@ -247,7 +246,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onQuickAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    openAppMenu(packageInfo)
+                    childFragmentManager.showAppsMenu(packageInfo)
                 }
             })
 
@@ -261,11 +260,6 @@ class Home : ScopedFragment() {
                 setLayoutManager()
             }
         }
-    }
-
-    private fun openAppMenu(packageInfo: PackageInfo) {
-        AppsMenu.newInstance(packageInfo)
-            .show(childFragmentManager, "apps_menu")
     }
 
     private fun setLayoutManager() {

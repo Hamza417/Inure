@@ -21,7 +21,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.dialogs.action.Send
+import app.simple.inure.dialogs.action.Send.Companion.showSend
 import app.simple.inure.dialogs.foss.MarkFoss.Companion.showMarkFossDialog
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
@@ -187,54 +187,55 @@ class AppsMenu : ScopedDialogFragment() {
         }
 
         appInformation.setOnClickListener {
-            openFragmentSlide(Information.newInstance(packageInfo), "information")
+            openFragmentSlide(Information.newInstance(packageInfo), Information.TAG)
         }
 
         send.setOnClickListener {
-            Send.newInstance(packageInfo)
-                .show(childFragmentManager, "send")
+            parentFragmentManager.showSend(packageInfo).also {
+                dismiss()
+            }
         }
 
         usageStatistics.setOnClickListener {
-            openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), "usage_stats")
+            openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), UsageStatisticsGraph.TAG)
         }
 
         components.setOnClickListener {
-            openFragmentSlide(Components.newInstance(packageInfo), "components")
+            openFragmentSlide(Components.newInstance(packageInfo), Components.TAG)
         }
 
         permissions.setOnClickListener {
             openFragmentSlide(Permissions.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "permissions")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Permissions.TAG)
         }
 
         activities.setOnClickListener {
             openFragmentSlide(Activities.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "activities")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Activities.TAG)
         }
 
         services.setOnClickListener {
             openFragmentSlide(Services.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "services")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Activities.TAG)
         }
 
         receivers.setOnClickListener {
             openFragmentSlide(Receivers.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "receivers")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Receivers.TAG)
         }
 
         providers.setOnClickListener {
             openFragmentSlide(Providers.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "providers")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Providers.TAG)
         }
 
         trackers.setOnClickListener {
-            openFragmentSlide(Trackers.newInstance(packageInfo), "trackers")
+            openFragmentSlide(Trackers.newInstance(packageInfo), Trackers.TAG)
         }
 
         resources.setOnClickListener {
             openFragmentSlide(Resources.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), "resources")
+                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Resources.TAG)
         }
 
         manifest.setOnClickListener {
@@ -243,12 +244,12 @@ class AppsMenu : ScopedDialogFragment() {
                         packageInfo, "AndroidManifest.xml"), "xml")
             } else {
                 openFragmentSlide(XMLViewerTextView.newInstance(
-                        packageInfo, true, "AndroidManifest.xml"), "xml")
+                        packageInfo, true, "AndroidManifest.xml"), XMLViewerTextView.TAG)
             }
         }
 
         notes.setOnClickListener {
-            openFragmentSlide(NotesEditor.newInstance(packageInfo), "notes_editor")
+            openFragmentSlide(NotesEditor.newInstance(packageInfo), NotesEditor.TAG)
         }
 
         quickAppsViewModel.getSimpleQuickAppList().observe(viewLifecycleOwner) {
@@ -325,8 +326,10 @@ class AppsMenu : ScopedDialogFragment() {
 
         fun FragmentManager.showAppsMenu(packageInfo: PackageInfo, keywords: String? = null): AppsMenu {
             val dialog = newInstance(packageInfo, keywords)
-            dialog.show(this, "apps_menu")
+            dialog.show(this, TAG)
             return dialog
         }
+
+        const val TAG = "apps_menu"
     }
 }
