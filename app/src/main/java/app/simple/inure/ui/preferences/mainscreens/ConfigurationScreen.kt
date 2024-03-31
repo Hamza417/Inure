@@ -230,25 +230,33 @@ class ConfigurationScreen : ScopedFragment() {
     }
 
     private fun setShizukuPermissionState() {
-        shizukuPermissionState.text = buildString {
-            if (Shizuku.isPreV11().invert()) {
-                if (isShizukuPermissionGranted()) {
-                    appendFlag(getString(R.string.granted))
-                } else {
-                    appendFlag(getString(R.string.rejected))
+        handler.post {
+            try {
+                shizukuPermissionState.text = buildString {
+                    if (Shizuku.isPreV11().invert()) {
+                        if (isShizukuPermissionGranted()) {
+                            appendFlag(getString(R.string.granted))
+                        } else {
+                            appendFlag(getString(R.string.rejected))
 
-                    if (Shizuku.shouldShowRequestPermissionRationale()) {
-                        appendFlag(getString(R.string.not_available))
+                            if (Shizuku.shouldShowRequestPermissionRationale()) {
+                                appendFlag(getString(R.string.not_available))
+                            }
+                        }
+
+                        if (ConfigurationPreferences.isUsingShizuku()) {
+                            appendFlag(getString(R.string.enabled))
+                        } else {
+                            appendFlag(getString(R.string.disabled))
+                        }
+                    } else {
+                        appendFlag("Pre-v11 is unsupported")
                     }
                 }
-
-                if (ConfigurationPreferences.isUsingShizuku()) {
-                    appendFlag(getString(R.string.enabled))
-                } else {
-                    appendFlag(getString(R.string.disabled))
-                }
-            } else {
-                appendFlag("Pre-v11 is unsupported")
+            } catch (e: IllegalStateException) {
+                // Since the fragment is destroyed, the view is not available
+                // So, we catch the exception and ignore it
+                Log.e(TAG, "setShizukuPermissionState: $e")
             }
         }
     }
