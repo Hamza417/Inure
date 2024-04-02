@@ -49,6 +49,10 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
         return deleted
     }
 
+    fun shouldShowLoader(): Boolean {
+        return songs.value.isNullOrEmpty()
+    }
+
     private fun loadData() {
         viewModelScope.launch(Dispatchers.Default) {
             try {

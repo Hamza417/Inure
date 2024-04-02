@@ -63,6 +63,10 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         return clearedCacheSize
     }
 
+    fun shouldShowLoader(): Boolean {
+        return batchData.value.isNullOrEmpty()
+    }
+
     @Suppress("UNCHECKED_CAST")
     private fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {

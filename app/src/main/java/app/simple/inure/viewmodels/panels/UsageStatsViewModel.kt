@@ -30,6 +30,10 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
     val progress = MutableLiveData<Int>()
     val max = MutableLiveData<Int>()
 
+    fun shouldShowLoader(): Boolean {
+        return usageData.value.isNullOrEmpty()
+    }
+
     fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
             var list = when (StatisticsPreferences.getEngine()) {

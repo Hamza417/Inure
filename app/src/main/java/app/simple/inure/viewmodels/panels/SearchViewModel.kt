@@ -61,6 +61,10 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         return tags
     }
 
+    fun shouldShowLoader(): Boolean {
+        return searchData.value.isNullOrEmpty()
+    }
+
     fun initiateSearch(keywords: String) {
         thread?.interrupt()
         thread = thread(priority = 10, name = keywords) {

@@ -70,6 +70,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // super.onViewCreated(view, savedInstanceState)
 
+        if (searchViewModel.shouldShowLoader()) {
+            showLoader(manualOverride = true)
+        }
+
         postponeEnterTransition()
 
         recyclerView.addHeightKeyboardCallbacks()

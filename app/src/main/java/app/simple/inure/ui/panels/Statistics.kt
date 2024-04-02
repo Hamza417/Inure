@@ -42,8 +42,12 @@ class Statistics : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showLoader()
-        fullVersionCheck()
+
+        if (fullVersionCheck()) {
+            if (usageStatsViewModel.shouldShowLoader()) {
+                showLoader(manualOverride = true)
+            }
+        }
 
         if (!requireContext().checkForUsageAccessPermission()) {
             childFragmentManager.showUsageStatsPermissionDialog()

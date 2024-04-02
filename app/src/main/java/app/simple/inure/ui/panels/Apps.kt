@@ -51,8 +51,11 @@ class Apps : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showLoader()
         postponeEnterTransition()
+
+        if (appsViewModel.shouldShowLoader()) {
+            showLoader(manualOverride = true)
+        }
 
         appsViewModel.getAppData().observe(viewLifecycleOwner) { it ->
             postponeEnterTransition()

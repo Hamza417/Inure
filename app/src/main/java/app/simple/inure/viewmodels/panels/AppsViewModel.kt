@@ -38,6 +38,10 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         return appData.value.isNullOrEmpty()
     }
 
+    fun shouldShowLoader(): Boolean {
+        return appData.value.isNullOrEmpty()
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
