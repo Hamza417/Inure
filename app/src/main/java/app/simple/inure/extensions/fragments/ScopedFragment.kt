@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsAnimation
@@ -354,14 +355,18 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 }
             }
         } else {
-            parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
-                if (goBack) {
-                    try {
-                        requireActivity().onBackPressedDispatcher.onBackPressed()
-                    } catch (e: IllegalStateException) {
-                        // do nothing
+            try {
+                parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+                    if (goBack) {
+                        try {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        } catch (e: IllegalStateException) {
+                            // do nothing
+                        }
                     }
                 }
+            } catch (e: IllegalStateException) {
+                Log.e(TAG, "showWarning: ", e)
             }
         }
     }
@@ -562,7 +567,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     protected fun openAppSearch() {
-        openFragmentSlide(Search.newInstance(true), "search")
+        openFragmentSlide(Search.newInstance(true), Search.TAG)
     }
 
     private fun getPackageInfoFromBundle(): PackageInfo {
@@ -654,5 +659,9 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     protected fun removeHandlerCallbacks() {
         handler.removeCallbacksAndMessages(null)
+    }
+
+    companion object {
+        private const val TAG = "ScopedFragment"
     }
 }
