@@ -18,15 +18,13 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:padding="@dimen/popup_padding"
-        android:translationZ="1dp">
+        android:padding="@dimen/header_padding">
 
         <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/preferences_header_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
-            android:padding="5dp"
             android:transitionName="@string/preferences"
             app:srcCompat="@drawable/ic_app_icon_settings"
             app:tintType="accent"
@@ -38,7 +36,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="@dimen/popup_padding"
             android:orientation="vertical">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
