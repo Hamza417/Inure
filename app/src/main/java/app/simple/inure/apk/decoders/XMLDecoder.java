@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-
 package app.simple.inure.apk.decoders;
 
 import android.os.Build;
@@ -148,6 +146,7 @@ public class XMLDecoder {
                             
                             int nsStart = parser.getNamespaceCount(parser.getDepth() - 1);
                             int nsEnd = parser.getNamespaceCount(parser.getDepth());
+                            
                             for (int i = nsStart; i < nsEnd; ++i) {
                                 out.printf("\n%sxmlns:%s=\"%s\"", indent,
                                         parser.getNamespacePrefix(i),
@@ -161,6 +160,7 @@ public class XMLDecoder {
                                         parser.getAttributeName(i),
                                         parser.getAttributeValue(i));
                             }
+                            
                             out.println(">");
                             break;
                         }

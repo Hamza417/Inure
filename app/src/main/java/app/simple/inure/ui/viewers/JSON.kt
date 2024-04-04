@@ -153,5 +153,7 @@ class JSON : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "json_viewer"
     }
 }

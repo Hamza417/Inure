@@ -142,5 +142,7 @@ class Markdown : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "markdown_viewer"
     }
 }

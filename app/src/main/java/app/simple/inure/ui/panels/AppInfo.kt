@@ -765,5 +765,7 @@ class AppInfo : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "app_info"
     }
 }

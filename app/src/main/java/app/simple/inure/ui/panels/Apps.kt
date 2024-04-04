@@ -70,7 +70,7 @@ class Apps : ScopedFragment() {
 
             adapter.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, "app_info")
+                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
@@ -104,7 +104,7 @@ class Apps : ScopedFragment() {
                     }
 
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
 
                     R.drawable.ic_refresh -> {
@@ -130,22 +130,22 @@ class Apps : ScopedFragment() {
                 when {
                     path.endsWithAny(*generatedDataTextExtension) -> {
                         openFragmentSlide(XML.newInstance(
-                                PackageInfo(), false /* Not needed? */, path, true), "xml_viewer")
+                                PackageInfo(), false /* Not needed? */, path, true), XML.TAG)
                     }
 
                     path.endsWith(htmlExtension) -> {
                         openFragmentSlide(HTML.newInstance(
-                                PackageInfo(), path, true), "web_page")
+                                PackageInfo(), path, true), HTML.TAG)
                     }
 
                     path.endsWith((jsonExtension)) -> {
                         openFragmentSlide(JSON.newInstance(
-                                PackageInfo(), path, true), "json_viewer")
+                                PackageInfo(), path, true), JSON.TAG)
                     }
 
                     path.endsWithAny(*markdownExtensions) -> {
                         openFragmentSlide(Markdown.newInstance(
-                                PackageInfo(), path, true), "markdown_viewer")
+                                PackageInfo(), path, true), Markdown.TAG)
                     }
                 }
 
