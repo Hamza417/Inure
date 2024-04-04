@@ -31,7 +31,11 @@
                 android:padding="@dimen/dialog_padding"
                 android:text="@string/move_selection_on_top"
                 android:textSize="@dimen/info_text_small"
+                android:gravity="center_vertical"
+                android:drawablePadding="5dp"
                 app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_warning_tiny"
+                app:drawableTintStyle="warning"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.toggles.Switch

@@ -471,21 +471,21 @@ class Batch : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BatchPreferences.moveSelectionsToTop -> {
+            BatchPreferences.MOVE_SELECTIONS_TO_TOP -> {
                 adapterBatch?.moveSelectedItemsToTheTop()
             }
 
-            BatchPreferences.highlightSelected -> {
+            BatchPreferences.HIGHLIGHT_SELECTED -> {
                 adapterBatch?.updateSelectionsHighlights(BatchPreferences.isSelectedBatchHighlighted())
             }
 
-            BatchPreferences.isSortingReversed,
-            BatchPreferences.listAppsCategory,
-            BatchPreferences.sortStyle,
-            BatchPreferences.listAppsFilter -> {
+            BatchPreferences.IS_SORTING_REVERSED,
+            BatchPreferences.LIST_APPS_CATEGORY,
+            BatchPreferences.SORT_STYLE,
+            BatchPreferences.LIST_APPS_FILTER -> {
                 batchViewModel.refresh()
             }
-            BatchPreferences.lastSelectedProfile -> {
+            BatchPreferences.LAST_SELECTED_PROFILE -> {
                 Log.d("Batch", "Profile changed")
             }
         }

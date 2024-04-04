@@ -106,7 +106,7 @@ class BatchMenu : ScopedBottomSheetFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            BatchPreferences.lastSelectedProfile -> {
+            BatchPreferences.LAST_SELECTED_PROFILE -> {
                 setCurrentProfileName()
             }
         }
