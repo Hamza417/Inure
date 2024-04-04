@@ -1297,7 +1297,7 @@
   },
   "com.vzw.hss.myverizon": {
     "list": "Carrier",
-    "description": "Verizon Call Filter (https://play.google.com/store/apps/details?id=com.vzw.ecid)\nNOTE : Never trust a company which promotes call ID/spam blocking features.\n \nMy Verizon (https://play.google.com/store/apps/details?id=com.vzw.hss.myverizon)\n",
+    "description": "MyVerizon app",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -5889,6 +5889,14 @@
     "neededBy": [],
     "labels": [],
     "removal": "Recommended"
+  },
+  "com.sec.knox.switcher": {
+    "list": "Oem",
+    "description": "Knox Secure Folder",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
   },
   "com.sec.location.nsflp2": {
     "list": "Oem",
@@ -29409,11 +29417,11 @@
   },
   "com.android.phone": {
     "list": "Aosp",
-    "description": "AOSP Dialer",
+    "description": "AOSP Dialer\nRemoving this package breaks the software update/download and install screen on Samsung",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Unsafe"
+    "removal": "Expert"
   },
   "com.t2m.euiccoverlay": {
     "list": "Oem",
