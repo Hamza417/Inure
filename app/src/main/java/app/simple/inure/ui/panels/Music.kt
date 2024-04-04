@@ -21,6 +21,8 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.miscellaneous.StoragePermission
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.interfaces.menus.PopupMusicMenuCallbacks
@@ -33,6 +35,7 @@ import app.simple.inure.services.AudioServicePager
 import app.simple.inure.ui.subpanels.MusicSearch
 import app.simple.inure.ui.viewers.AudioPlayerPager
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.viewmodels.panels.MusicViewModel
 
@@ -61,12 +64,23 @@ class Music : KeyboardScopedFragment() {
         postponeEnterTransition()
 
         if (fullVersionCheck()) {
-            if (musicViewModel.shouldShowLoader()) {
-                showLoader(true)
+            if (requireContext().checkStoragePermission()) {
+                if (musicViewModel.shouldShowLoader()) {
+                    showLoader(true)
+                }
+            } else {
+                childFragmentManager.showStoragePermissionDialog()
+                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                        override fun onStoragePermissionGranted() {
+                            showLoader(true)
+                            musicViewModel.refresh()
+                        }
+                    })
             }
         }
 
         musicViewModel.getSongs().observe(viewLifecycleOwner) { audioModels ->
+            hideLoader()
             adapterMusic = AdapterMusic(audioModels, headerMode = true)
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
