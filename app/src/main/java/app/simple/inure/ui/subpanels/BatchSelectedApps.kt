@@ -21,7 +21,7 @@ class BatchSelectedApps : ScopedFragment() {
     private lateinit var batchViewModel: BatchViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_selected_batch_apps, container, false)
+        val view = inflater.inflate(R.layout.fragment_batch_checklist, container, false)
 
         recyclerView = view.findViewById(R.id.batch_selected_apps_rv)
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]

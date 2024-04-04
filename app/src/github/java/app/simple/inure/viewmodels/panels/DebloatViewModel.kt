@@ -52,6 +52,12 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         }
     }
 
+    private val selectedBloatList: MutableLiveData<ArrayList<Bloat>> by lazy {
+        MutableLiveData<ArrayList<Bloat>>().also {
+            loadSelectedBloatList()
+        }
+    }
+
     fun getBloatList(): LiveData<ArrayList<Bloat>> {
         return bloatList
     }
@@ -62,6 +68,10 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
     fun getSearchedBloatList(): LiveData<ArrayList<Bloat>> {
         return searchedBloatList
+    }
+
+    fun getSelectedBloatList(): LiveData<ArrayList<Bloat>> {
+        return selectedBloatList
     }
 
     fun shouldShowLoader(): Boolean {
@@ -176,6 +186,19 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             }.collect(Collectors.toList()) as ArrayList<Bloat>
 
             searchedBloatList.postValue(bloats)
+        }
+    }
+
+    fun loadSelectedBloatList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val selectedBloats = ArrayList<Bloat>()
+            bloatList.value?.forEach {
+                if (it.isSelected) {
+                    selectedBloats.add(it)
+                }
+            }
+
+            selectedBloatList.postValue(selectedBloats)
         }
     }
 

@@ -168,6 +168,7 @@ object BottomMenuConstants {
             Pair(R.drawable.ic_help, R.string.help),
             divider,
             Pair(R.drawable.ic_select_all, R.string.select_all),
+            Pair(R.drawable.ic_checklist, R.string.checklist),
             divider,
             Pair(R.drawable.ic_refresh, R.string.refresh),
             divider,

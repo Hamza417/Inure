@@ -22,6 +22,7 @@ import app.simple.inure.dialogs.miscellaneous.PackageStateResult.Companion.showP
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.ui.subpanels.DebloatChecklist
 import app.simple.inure.ui.subpanels.DebloatSearch
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
@@ -59,6 +60,7 @@ class Debloat : ScopedFragment() {
             adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
                 override fun onBloatSelected(bloat: Bloat) {
                     bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()))
+                    debloatViewModel?.loadSelectedBloatList()
                 }
 
                 override fun onBloatLongPressed(bloat: Bloat) {
@@ -81,6 +83,9 @@ class Debloat : ScopedFragment() {
                                 adapterDebloat?.updateSelections(mode)
                             }
                         })
+                    }
+                    R.drawable.ic_checklist -> {
+                        openFragmentSlide(DebloatChecklist.newInstance(), DebloatChecklist.TAG)
                     }
                     R.drawable.ic_recycling -> {
                         childFragmentManager.showUninstallMethodChoice().onUninstallMethodSelected = { uninstall ->
