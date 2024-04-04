@@ -9,6 +9,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
@@ -127,14 +128,7 @@ class AudioServicePager : Service(),
                 }
 
                 ServiceConstants.actionQuitMusicServicePager -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        stopForeground(STOP_FOREGROUND_REMOVE)
-                    } else {
-                        @Suppress("DEPRECATION")
-                        stopForeground(true)
-                    }
-                    stopSelf()
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicServicePager, applicationContext)
+                    quitService()
                 }
             }
         }
@@ -261,7 +255,11 @@ class AudioServicePager : Service(),
     }
 
     private fun setupMediaSession() {
-        mediaSessionCompat?.release()
+        mediaSessionCompat?.run {
+            isActive = false
+            release()
+        }
+
         val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
@@ -302,6 +300,18 @@ class AudioServicePager : Service(),
             override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
                 return MediaButtonIntentReceiver.handleIntent(this@AudioServicePager, mediaButtonEvent)
             }
+
+            override fun onCustomAction(action: String?, extras: Bundle?) {
+                when (action) {
+                    ServiceConstants.actionQuitMusicServicePager -> {
+                        quitService()
+                    }
+
+                    else -> {
+                        /* no-op */
+                    }
+                }
+            }
         })
 
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
@@ -314,17 +324,31 @@ class AudioServicePager : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
-                    .setActions(PlaybackStateCompat.ACTION_PLAY or
-                                        PlaybackStateCompat.ACTION_PAUSE or
-                                        PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                    .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE or
                                         PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
                                         PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
                                         PlaybackStateCompat.ACTION_SEEK_TO or
                                         PlaybackStateCompat.ACTION_STOP)
-                    .setActions(
-                            PlaybackStateCompat.ACTION_STOP)
+                    .addCustomAction(
+                            PlaybackStateCompat.CustomAction.Builder(
+                                    ServiceConstants.actionQuitMusicServicePager,
+                                    "Close",
+                                    R.drawable.ic_close
+                            ).build())
                     .build()
         )
+    }
+
+    private fun quitService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            @Suppress("DEPRECATION")
+            stopForeground(true)
+        }
+
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicServicePager, applicationContext)
+        stopSelf()
     }
 
     private fun setupMetadata() {
@@ -350,8 +374,8 @@ class AudioServicePager : Service(),
                     setupMediaSession()
                     mediaSessionCompat?.setMetadata(mediaMetadataCompat)
                     createNotificationChannel()
-                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
                     setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
                 }
             }
@@ -629,7 +653,9 @@ class AudioServicePager : Service(),
             .addAction(previous) /* Previous Action */
             .addAction(next) /* Next Action */
             .addAction(close) /* Close Action */
-            .setStyle(MediaStyle().setMediaSession(mediaSessionCompat!!.sessionToken).setShowActionsInCompactView(0, 1, 3))
+            .setStyle(MediaStyle()
+                          .setMediaSession(mediaSessionCompat!!.sessionToken)
+                          .setShowActionsInCompactView(0, 1, 2, 3))
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         val notification: Notification = builder!!.build()
@@ -658,7 +684,12 @@ class AudioServicePager : Service(),
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
-        mediaSessionCompat?.release()
+
+        mediaSessionCompat?.run {
+            isActive = false
+            release()
+        }
+
         hasReleased = true
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)

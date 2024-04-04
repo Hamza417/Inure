@@ -36,7 +36,7 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
         val tag: String = MediaButtonIntentReceiver::class.java.simpleName
         private const val MSG_HEADSET_DOUBLE_CLICK_TIMEOUT = 2
         private const val DOUBLE_CLICK = 400
-        private var mWakeLock: PowerManager.WakeLock? = null
+        private var wakeLock: PowerManager.WakeLock? = null
         private var mClickCounter = 0
         private var mLastClickTime: Long = 0
 
@@ -132,15 +132,15 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
         }
 
         private fun acquireWakeLockAndSendMessage(context: Context, msg: Message, delay: Long) {
-            if (mWakeLock == null) {
+            if (wakeLock == null) {
                 val appContext: Context = context.applicationContext
                 val powerManager = appContext.getSystemService(Context.POWER_SERVICE) as PowerManager
-                mWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "felicit:headset_button")
-                mWakeLock?.setReferenceCounted(false)
+                wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "felicit:headset_button")
+                wakeLock?.setReferenceCounted(false)
             }
             if (DEBUG) Log.v(tag, "Acquiring wake lock and sending " + msg.what)
             // Make sure we don't indefinitely hold the wake lock under any circumstances
-            mWakeLock!!.acquire(10000)
+            wakeLock!!.acquire(10000)
             mHandler.sendMessageDelayed(msg, delay)
         }
 
@@ -149,10 +149,10 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
                 if (DEBUG) Log.v(tag, "Handler still has messages pending, not releasing wake lock")
                 return
             }
-            if (mWakeLock != null) {
+            if (wakeLock != null) {
                 if (DEBUG) Log.v(tag, "Releasing wake lock")
-                mWakeLock!!.release()
-                mWakeLock = null
+                wakeLock!!.release()
+                wakeLock = null
             }
         }
     }

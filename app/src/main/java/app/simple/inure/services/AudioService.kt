@@ -10,6 +10,7 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
@@ -118,14 +119,7 @@ class AudioService : Service(),
                     changePlayerState()
                 }
                 ServiceConstants.actionQuitMusicService -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        stopForeground(STOP_FOREGROUND_REMOVE)
-                    } else {
-                        @Suppress("DEPRECATION")
-                        stopForeground(true)
-                    }
-                    stopSelf()
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
+                    quitService()
                 }
             }
         }
@@ -266,13 +260,7 @@ class AudioService : Service(),
             }
 
             override fun onStop() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    stopForeground(STOP_FOREGROUND_DETACH)
-                } else {
-                    @Suppress("DEPRECATION")
-                    stopForeground(true)
-                }
-                stopSelf()
+                quitService()
             }
 
             override fun onSeekTo(pos: Long) {
@@ -281,6 +269,18 @@ class AudioService : Service(),
 
             override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
                 return MediaButtonIntentReceiver.handleIntent(this@AudioService, mediaButtonEvent)
+            }
+
+            override fun onCustomAction(action: String?, extras: Bundle?) {
+                when (action) {
+                    ServiceConstants.actionQuitMusicService -> {
+                        quitService()
+                    }
+
+                    else -> {
+                        /* no-op */
+                    }
+                }
             }
         })
 
@@ -296,11 +296,17 @@ class AudioService : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
-                    .setActions(PlaybackStateCompat.ACTION_SEEK_TO
-                                        or PlaybackStateCompat.ACTION_PLAY
-                                        or PlaybackStateCompat.ACTION_PAUSE
-                                        or PlaybackStateCompat.ACTION_PLAY_PAUSE
-                                        or PlaybackStateCompat.ACTION_STOP)
+                    .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                                        PlaybackStateCompat.ACTION_SEEK_TO or
+                                        PlaybackStateCompat.ACTION_STOP)
+                    .addCustomAction(
+                            PlaybackStateCompat.CustomAction.Builder(
+                                    ServiceConstants.actionQuitMusicService,
+                                    "Close",
+                                    R.drawable.ic_close
+                            ).build())
                     .build()
         )
     }
@@ -331,6 +337,18 @@ class AudioService : Service(),
                 IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaError, applicationContext, it.stackTraceToString())
             }
         }
+    }
+
+    private fun quitService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            @Suppress("DEPRECATION")
+            stopForeground(true)
+        }
+
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicServicePager, applicationContext)
+        stopSelf()
     }
 
     private fun requestAudioFocus(): Boolean {
