@@ -28,7 +28,7 @@ import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import java.io.IOException
 
-class HtmlViewer : ScopedFragment() {
+class HTML : ScopedFragment() {
 
     private lateinit var scrollView: PaddingAwareNestedScrollView
     private lateinit var html: CustomWebView
@@ -132,12 +132,12 @@ class HtmlViewer : ScopedFragment() {
          *               If true, [packageInfo] can be null however it's recommended
          *               to pass the empty [PackageInfo] object
          */
-        fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): HtmlViewer {
+        fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): HTML {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.path, path)
             args.putBoolean(BundleConstants.isRaw, isRaw)
-            val fragment = HtmlViewer()
+            val fragment = HTML()
             fragment.arguments = args
             return fragment
         }

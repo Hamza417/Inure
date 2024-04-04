@@ -57,10 +57,10 @@ import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreference
 import app.simple.inure.services.BatchExtractService
 import app.simple.inure.ui.subpanels.BatchSelectedApps
 import app.simple.inure.ui.subpanels.BatchTracker
-import app.simple.inure.ui.viewers.HtmlViewer
+import app.simple.inure.ui.viewers.HTML
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
-import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.ui.viewers.XML
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.NullSafety.isNotNull
@@ -371,7 +371,7 @@ class Batch : ScopedFragment() {
                             it.endsWith(".txt") ||
                             it.endsWith(".csv") -> {
                         openFragmentSlide(
-                                XMLViewerTextView
+                                XML
                                     .newInstance(packageInfo = PackageInfo(), /* Empty package info */
                                                  isManifest = false,
                                                  pathToXml = it,
@@ -380,7 +380,7 @@ class Batch : ScopedFragment() {
 
                     it.endsWith(".html") -> {
                         openFragmentSlide(
-                                HtmlViewer
+                                HTML
                                     .newInstance(packageInfo = PackageInfo(), it,
                                                  isRaw = true), "web_page")
                     }

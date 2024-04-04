@@ -21,10 +21,10 @@ import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGene
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AppsPreferences
-import app.simple.inure.ui.viewers.HtmlViewer
+import app.simple.inure.ui.viewers.HTML
 import app.simple.inure.ui.viewers.JSON
 import app.simple.inure.ui.viewers.Markdown
-import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.ui.viewers.XML
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.StringUtils.endsWithAny
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -129,12 +129,12 @@ class Apps : ScopedFragment() {
                  */
                 when {
                     path.endsWithAny(*generatedDataTextExtension) -> {
-                        openFragmentSlide(XMLViewerTextView.newInstance(
+                        openFragmentSlide(XML.newInstance(
                                 PackageInfo(), false /* Not needed? */, path, true), "xml_viewer")
                     }
 
                     path.endsWith(htmlExtension) -> {
-                        openFragmentSlide(HtmlViewer.newInstance(
+                        openFragmentSlide(HTML.newInstance(
                                 PackageInfo(), path, true), "web_page")
                     }
 

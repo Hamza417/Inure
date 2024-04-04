@@ -54,7 +54,7 @@ class Dexs : SearchBarScopedFragment() {
 
                 adapter.onDetailsClicked = { dexClass ->
                     openFragmentSlide(
-                            ClassSourceViewer.newInstance(dexClass, packageInfo),
+                            ClassSource.newInstance(dexClass, packageInfo),
                             "class_source_viewer")
                 }
 

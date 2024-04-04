@@ -83,8 +83,8 @@ import app.simple.inure.ui.viewers.SharedLibs
 import app.simple.inure.ui.viewers.Trackers
 import app.simple.inure.ui.viewers.UsageStatistics
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
-import app.simple.inure.ui.viewers.XMLViewerTextView
-import app.simple.inure.ui.viewers.XMLViewerWebView
+import app.simple.inure.ui.viewers.XML
+import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
@@ -276,10 +276,10 @@ class AppInfo : ScopedFragment() {
                     when (source) {
                         R.string.manifest -> {
                             if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                                openFragmentArc(XMLViewerWebView.newInstance(
+                                openFragmentArc(XMLWebView.newInstance(
                                         packageInfo, "AndroidManifest.xml"), icon, "manifest")
                             } else {
-                                openFragmentArc(XMLViewerTextView.newInstance(
+                                openFragmentArc(XML.newInstance(
                                         packageInfo, true, "AndroidManifest.xml"), icon, "manifest")
                             }
                         }

@@ -48,7 +48,7 @@ import java.io.File
 import java.io.IOException
 import kotlin.math.abs
 
-class ImageViewer : ScopedFragment() {
+class Image : ScopedFragment() {
 
     private lateinit var image: SubsamplingScaleImageView
     private lateinit var gif: ZoomImageView
@@ -309,11 +309,11 @@ class ImageViewer : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(pathToApk: String, imagePath: String): ImageViewer {
+        fun newInstance(pathToApk: String, imagePath: String): Image {
             val args = Bundle()
             args.putString(BundleConstants.pathToApk, pathToApk)
             args.putString(BundleConstants.pathToImage, imagePath)
-            val fragment = ImageViewer()
+            val fragment = Image()
             fragment.arguments = args
             return fragment
         }

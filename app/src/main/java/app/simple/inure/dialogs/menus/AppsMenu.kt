@@ -39,8 +39,8 @@ import app.simple.inure.ui.viewers.Resources
 import app.simple.inure.ui.viewers.Services
 import app.simple.inure.ui.viewers.Trackers
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
-import app.simple.inure.ui.viewers.XMLViewerTextView
-import app.simple.inure.ui.viewers.XMLViewerWebView
+import app.simple.inure.ui.viewers.XML
+import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.InfoStripUtils.setAppInfo
@@ -240,11 +240,11 @@ class AppsMenu : ScopedDialogFragment() {
 
         manifest.setOnClickListener {
             if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                openFragmentSlide(XMLViewerWebView.newInstance(
+                openFragmentSlide(XMLWebView.newInstance(
                         packageInfo, "AndroidManifest.xml"), "xml")
             } else {
-                openFragmentSlide(XMLViewerTextView.newInstance(
-                        packageInfo, true, "AndroidManifest.xml"), XMLViewerTextView.TAG)
+                openFragmentSlide(XML.newInstance(
+                        packageInfo, true, "AndroidManifest.xml"), XML.TAG)
             }
         }
 

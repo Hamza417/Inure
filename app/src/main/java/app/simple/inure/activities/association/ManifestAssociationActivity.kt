@@ -12,7 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.ui.viewers.XMLViewerTextView
+import app.simple.inure.ui.viewers.XML
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
@@ -84,7 +84,7 @@ class ManifestAssociationActivity : BaseActivity() {
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, XMLViewerTextView
+                                .replace(R.id.app_container, XML
                                     .newInstance(packageInfo,
                                                  true,
                                                  "AndroidManifest.xml",

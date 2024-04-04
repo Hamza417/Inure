@@ -13,12 +13,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.core.text.PrecomputedTextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.MimeConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
@@ -27,21 +31,21 @@ import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.menus.CodeViewerMenu
 import app.simple.inure.dialogs.miscellaneous.LargeString.Companion.showLargeStringDialog
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
-import app.simple.inure.factories.panels.SharedPrefsViewerViewModelFactory
-import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.popups.viewers.PopupSharedPrefsViewer
+import app.simple.inure.factories.panels.XMLViewerViewModelFactory
+import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.text.EditTextHelper.findMatches
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.viewers.SharedPreferencesViewerViewModel
+import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 
-class SharedPrefsViewer : KeyboardScopedFragment() {
+class XML : KeyboardScopedFragment() {
 
     private lateinit var text: TypeFaceEditText
     private lateinit var icon: ImageView
@@ -58,14 +62,13 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var count: TypeFaceTextView
 
-    private lateinit var sharedPreferencesViewerViewModel: SharedPreferencesViewerViewModel
-    private lateinit var sharedPrefsViewerViewModelFactory: SharedPrefsViewerViewModelFactory
+    private lateinit var componentsViewModel: XMLViewerViewModel
+    private lateinit var applicationInfoFactory: XMLViewerViewModelFactory
 
     private var matches: ArrayList<Pair<Int, Int>>? = null
     private var position = -1
-    private val requestCode = 555
 
-    private val exportManifest = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri: Uri? ->
+    private val exportManifest = registerForActivityResult(CreateDocument(MimeConstants.xmlType)) { uri: Uri? ->
         if (uri == null) {
             // Back button pressed.
             return@registerForActivityResult
@@ -103,8 +106,11 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
 
         name.text = requireArguments().getString(BundleConstants.pathToXml)!!
 
-        sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToXml)!!, packageInfo)
-        sharedPreferencesViewerViewModel = ViewModelProvider(this, sharedPrefsViewerViewModelFactory)[SharedPreferencesViewerViewModel::class.java]
+        applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
+                                                           requireArguments().getString(BundleConstants.pathToXml)!!,
+                                                           requireArguments().getBoolean(BundleConstants.isRaw, false))
+
+        componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -122,43 +128,55 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
 
         startPostponedEnterTransition()
 
-        sharedPreferencesViewerViewModel.getSpanned().observe(viewLifecycleOwner) {
+        componentsViewModel.getSpanned().observe(viewLifecycleOwner) {
             if (it.length > FormattingPreferences.getLargeStringLimit()) {
                 childFragmentManager.showLargeStringDialog(it.length) {
                     postDelayed {
-                        text.setText(it)
+                        val params = TextViewCompat.getTextMetricsParams(text)
+
+                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                            val precomputedText = PrecomputedTextCompat.create(it, params)
+                            launch(Dispatchers.Main) {
+                                TextViewCompat.setPrecomputedText(text, precomputedText)
+                                progress.gone()
+                                options.visible(true)
+                                settings.visible(true)
+                                search.visible(animate = true)
+                            }
+                        }
                     }
                 }
             } else {
-                text.setText(it)
-            }
+                postDelayed {
+                    val params = TextViewCompat.getTextMetricsParams(text)
 
-            progress.gone()
-            options.visible(true)
-            settings.visible(true)
+                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                        val precomputedText = PrecomputedTextCompat.create(it, params)
+                        launch(Dispatchers.Main) {
+                            TextViewCompat.setPrecomputedText(text, precomputedText)
+                            progress.gone()
+                            options.visible(true)
+                            settings.visible(true)
+                            search.visible(animate = true)
+                        }
+                    }
+                }
+            }
         }
 
-        sharedPreferencesViewerViewModel.getError().observe(viewLifecycleOwner) {
+        componentsViewModel.getError().observe(viewLifecycleOwner) {
             progress.gone()
             showError(it)
         }
 
         options.setOnClickListener {
-            PopupSharedPrefsViewer(it).setOnPopupClickedListener(object : PopupSharedPrefsViewer.PopupSharedPrefsCallbacks {
+            PopupXmlViewer(it).setOnPopupClickedListener(object : PopupXmlViewer.PopupXmlCallbacks {
                 override fun onPopupItemClicked(source: String) {
                     when (source) {
                         getString(R.string.copy) -> {
                             val clipboard: ClipboardManager? = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                            val clip = ClipData.newPlainText("SharedPref", text.text.toString())
+                            val clip = ClipData.newPlainText("xml", text.text.toString())
                             clipboard?.setPrimaryClip(clip)
-                        }
-                        getString(R.string.save) -> {
-                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                                override fun onSure() {
-                                    progress.visible(true)
-                                    sharedPreferencesViewerViewModel.writePreferencesTextToFile(text.text.toString(), requestCode)
-                                }
-                            })
                         }
                         getString(R.string.export) -> {
                             val name = with(name.text.toString()) {
@@ -171,19 +189,6 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
                     }
                 }
             })
-        }
-
-        sharedPreferencesViewerViewModel.getLoaderCode().observe(viewLifecycleOwner) {
-            if (it == requestCode) {
-                Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-                progress.gone()
-            } else {
-                progress.gone()
-            }
-        }
-
-        sharedPreferencesViewerViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, goBack = false)
         }
 
         settings.setOnClickListener {
@@ -277,13 +282,27 @@ class SharedPrefsViewer : KeyboardScopedFragment() {
     }
 
     companion object {
-        fun newInstance(path: String, packageInfo: PackageInfo): SharedPrefsViewer {
+
+        /**
+         * @param packageInfo: PackageInfo of the app
+         * @param isManifest: true if the xml is manifest
+         * @param pathToXml: path to the xml file
+         * @param isRaw: true if the file is specified directly from the
+         *               app and not needed to be fetched from the [PackageInfo],
+         *               If true, [packageInfo] can be null however it's recommended
+         *               to pass the empty [PackageInfo] object
+         */
+        fun newInstance(packageInfo: PackageInfo?, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XML {
             val args = Bundle()
-            args.putString(BundleConstants.pathToXml, path)
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = SharedPrefsViewer()
+            args.putBoolean(BundleConstants.isManifest, isManifest)
+            args.putBoolean(BundleConstants.isRaw, isRaw)
+            args.putString(BundleConstants.pathToXml, pathToXml)
+            val fragment = XML()
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "xml_viewer"
     }
 }

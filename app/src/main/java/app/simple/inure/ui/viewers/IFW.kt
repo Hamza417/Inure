@@ -34,7 +34,7 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.viewers.IFWViewerViewModel
 import java.io.IOException
 
-class IFWViewer : KeyboardScopedFragment() {
+class IFW : KeyboardScopedFragment() {
 
     private lateinit var text: TypeFaceEditText
     private lateinit var icon: ImageView
@@ -152,10 +152,10 @@ class IFWViewer : KeyboardScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): IFWViewer {
+        fun newInstance(packageInfo: PackageInfo): IFW {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = IFWViewer()
+            val fragment = IFW()
             fragment.arguments = args
             return fragment
         }
