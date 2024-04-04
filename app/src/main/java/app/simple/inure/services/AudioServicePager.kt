@@ -314,8 +314,15 @@ class AudioServicePager : Service(),
         mediaSessionCompat?.setPlaybackState(
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
+                    .setActions(PlaybackStateCompat.ACTION_PLAY or
+                                        PlaybackStateCompat.ACTION_PAUSE or
+                                        PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
+                                        PlaybackStateCompat.ACTION_SEEK_TO or
+                                        PlaybackStateCompat.ACTION_STOP)
                     .setActions(
-                                    PlaybackStateCompat.ACTION_STOP)
+                            PlaybackStateCompat.ACTION_STOP)
                     .build()
         )
     }
