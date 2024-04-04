@@ -347,7 +347,7 @@ class AudioService : Service(),
             stopForeground(true)
         }
 
-        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicServicePager, applicationContext)
+        IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicService, applicationContext)
         stopSelf()
     }
 
