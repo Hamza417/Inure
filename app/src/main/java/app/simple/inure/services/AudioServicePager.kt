@@ -10,7 +10,9 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -66,6 +68,7 @@ class AudioServicePager : Service(),
     private var builder: NotificationCompat.Builder? = null
     private var timer: Timer? = null
     private var timerTask: TimerTask? = null
+    private var handler: Handler = Handler(Looper.getMainLooper())
 
     private val volumeFadeDuration: Int = 250
     private var iVolume = 0
@@ -207,8 +210,9 @@ class AudioServicePager : Service(),
 
     override fun onPrepared(mp: MediaPlayer?) {
         if (requestAudioFocus()) {
-            mp?.start()
-            play()
+            handler.postDelayed({
+                play()
+            }, 1000)
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreparedPager, applicationContext)
             setupMetadata()
         }
@@ -432,6 +436,7 @@ class AudioServicePager : Service(),
     }
 
     fun setCurrentPosition(currentPosition: Int) {
+        handler.removeCallbacksAndMessages(null)
         this.currentPosition = currentPosition
 
         if (audioModels!![currentPosition].id != MusicPreferences.getLastMusicId()) {
@@ -682,6 +687,7 @@ class AudioServicePager : Service(),
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeCallbacksAndMessages(null)
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
