@@ -1,6 +1,5 @@
 package app.simple.inure.ui.viewers
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.ComponentName
@@ -442,23 +441,9 @@ class AudioPlayerPager : ScopedFragment() {
                         .alpha(1F)
                         .setInterpolator(AccelerateInterpolator())
                         .setDuration(resources.getInteger(R.integer.animation_duration).toLong())
-                        .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(animation: Animator) {
-                                lrcView.visibility = View.VISIBLE
-                            }
-
-                            override fun onAnimationEnd(animation: Animator) {
-                                /* no-op */
-                            }
-
-                            override fun onAnimationCancel(animation: Animator) {
-                                /* no-op */
-                            }
-
-                            override fun onAnimationRepeat(animation: Animator) {
-                                /* no-op */
-                            }
-                        })
+                        .withStartAction {
+                            lrcView.visibility = View.VISIBLE
+                        }
                         .start()
                 } else {
                     delay(1000)
@@ -466,23 +451,9 @@ class AudioPlayerPager : ScopedFragment() {
                         .alpha(0F)
                         .setInterpolator(AccelerateInterpolator())
                         .setDuration(resources.getInteger(R.integer.animation_duration).toLong())
-                        .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(animation: Animator) {
-                                /* no-op */
-                            }
-
-                            override fun onAnimationEnd(animation: Animator) {
-                                lrcView.visibility = View.INVISIBLE
-                            }
-
-                            override fun onAnimationCancel(animation: Animator) {
-                                /* no-op */
-                            }
-
-                            override fun onAnimationRepeat(animation: Animator) {
-                                /* no-op */
-                            }
-                        })
+                        .withEndAction {
+                            lrcView.visibility = View.INVISIBLE
+                        }
                         .start()
                 }
             }
