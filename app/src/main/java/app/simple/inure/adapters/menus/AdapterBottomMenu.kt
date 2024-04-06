@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor
@@ -55,6 +56,15 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
             if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
                 holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
             }
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
+                        android.R.attr.state_enabled
+                ), intArrayOf()), intArrayOf(
+                        Colors.getColors()[position],
+                        Colors.getColors()[position]
+                ))
+            }
         } else if (holder is HolderContext) {
             holder.button.setImageResource(bottomMenuItems[position].first)
             holder.button.contentDescription = holder.itemView.context.getString(bottomMenuItems[position].second)
@@ -67,6 +77,15 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
             if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
                 holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
                 holder.text.setTextColor(Color.WHITE)
+            }
+
+            if (AccessibilityPreferences.isColorfulIcons()) {
+                holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
+                        android.R.attr.state_enabled
+                ), intArrayOf()), intArrayOf(
+                        Colors.getColors()[position],
+                        Colors.getColors()[position]
+                ))
             }
         }
     }

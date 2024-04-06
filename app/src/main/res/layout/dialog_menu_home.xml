@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
             android:padding="@dimen/dialog_padding"
             android:text="@string/visibility_customization"
             android:textSize="@dimen/info_text_small"
