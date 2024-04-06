@@ -745,4 +745,5 @@
     <string name="create_selection_from_tags">Crear selección a partir de etiquetas</string>
     <string name="blocked">Bloqueado</string>
     <string name="actions">Acciones</string>
+    <string name="lock_task_warning">La aplicación está fijada y no se puede cerrar.</string>
 </resources>
