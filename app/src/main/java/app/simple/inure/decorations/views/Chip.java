@@ -8,8 +8,8 @@ import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
 import app.simple.inure.R;
+import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
-import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TypeFace;
 import app.simple.inure.util.ViewUtils;
@@ -63,7 +63,7 @@ public class Chip extends com.google.android.material.chip.Chip {
         ViewUtils.INSTANCE.addShadow(this);
         setRippleColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColorLight(getContext())));
         
-        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.removeStrokeFromChips)) {
+        if (AccessibilityPreferences.INSTANCE.isHighlightStroke()) {
             setChipStrokeColor(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
             setChipStrokeWidth(1);
         }
