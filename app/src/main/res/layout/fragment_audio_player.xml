@@ -193,7 +193,7 @@
             android:layout_weight="1"
             android:drawablePadding="@dimen/popup_padding"
             android:gravity="center_vertical"
-            android:text="Inure Mini Player"
+            android:text="@string/app_name_full"
             app:appFontStyle="regular"
             app:drawableLeftCompat="@drawable/ic_main_app_icon_regular"
             app:drawableTintStyle="accent"
