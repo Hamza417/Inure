@@ -76,7 +76,8 @@ class AudioPlayerActivity : BaseActivity() {
         /*
          * For ACTION_VIEW, the Activity is being asked to display data.
          * Get the URI.
-         */if (Intent.ACTION_VIEW == action && type != null) {
+         */
+        if (Intent.ACTION_VIEW == action && type != null) {
             if (type.startsWith("audio/")) {
                 // Get the URI from the Intent
                 val uri = intent.data!!
@@ -87,6 +88,7 @@ class AudioPlayerActivity : BaseActivity() {
                 }
             }
         }
+
         return "not a path"
     }
 
@@ -98,7 +100,7 @@ class AudioPlayerActivity : BaseActivity() {
         return copiedFile.getParent()
     }
 
-    fun handleContentUri(beamUri: Uri?): String? {
+    private fun handleContentUri(beamUri: Uri?): String? {
         // Position of the filename in the query Cursor
         val filenameIndex: Int
         // File object for the filename
@@ -107,22 +109,18 @@ class AudioPlayerActivity : BaseActivity() {
         val fileName: String
         // Test the authority of the URI
         return if (!TextUtils.equals(beamUri!!.authority, MediaStore.AUTHORITY)) {
-            /*
-                  * Handle content URIs for other content providers
-                  */
+            // Handle content URIs for other content providers
             // For a MediaStore content URI
             getPath(baseContext, beamUri)
         } else {
             // Get the column that contains the file name
             val projection = arrayOf(MediaStore.MediaColumns.DATA)
-            val pathCursor = contentResolver.query(beamUri, projection,
-                                                   null, null, null)
+            val pathCursor = contentResolver
+                .query(beamUri, projection, null, null, null)
             // Check for a valid cursor
-            if (pathCursor != null &&
-                    pathCursor.moveToFirst()) {
+            if (pathCursor != null && pathCursor.moveToFirst()) {
                 // Get the column index in the Cursor
-                filenameIndex = pathCursor.getColumnIndex(
-                        MediaStore.MediaColumns.DATA)
+                filenameIndex = pathCursor.getColumnIndex(MediaStore.MediaColumns.DATA)
                 // Get the full file name including path
                 fileName = pathCursor.getString(filenameIndex)
                 // Create a File object for the filename
@@ -205,18 +203,17 @@ class AudioPlayerActivity : BaseActivity() {
      * @return The value of the _data column, which is typically a file path.
      */
     private fun getDataColumn(context: Context, uri: Uri?, selection: String?,
-                      selectionArgs: Array<String>?): String? {
+                              selectionArgs: Array<String>?): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(
                 column
         )
         try {
-            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs,
-                                                   null)
+            cursor = context.contentResolver.query(uri!!, projection, selection, selectionArgs, null)
             if (cursor != null && cursor.moveToFirst()) {
-                val column_index = cursor.getColumnIndexOrThrow(column)
-                return cursor.getString(column_index)
+                val columnIndex = cursor.getColumnIndexOrThrow(column)
+                return cursor.getString(columnIndex)
             }
         } finally {
             cursor?.close()
