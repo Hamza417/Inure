@@ -222,9 +222,9 @@
                 android:layout_weight="1"
                 android:drawablePadding="@dimen/popup_padding"
                 android:gravity="center_vertical"
-                android:text="Felicity Mini Player"
+                android:text="@string/app_name_full"
                 app:appFontStyle="regular"
-                app:drawableLeftCompat="@drawable/ic_felicity"
+                app:drawableLeftCompat="@drawable/ic_main_app_icon_regular"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="white"
                 tools:ignore="HardcodedText" />

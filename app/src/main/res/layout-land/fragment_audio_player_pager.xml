@@ -64,9 +64,9 @@
             android:layout_marginHorizontal="@dimen/dialog_padding"
             android:drawablePadding="@dimen/popup_padding"
             android:gravity="center_vertical"
-            android:text="Felicity Mini Player"
+            android:text="@string/app_name_full"
             app:appFontStyle="regular"
-            app:drawableLeftCompat="@drawable/ic_felicity"
+            app:drawableLeftCompat="@drawable/ic_main_app_icon_regular"
             app:drawableTintStyle="accent"
             app:textColorStyle="tertiary"
             tools:ignore="HardcodedText" />
