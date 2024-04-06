@@ -193,7 +193,6 @@ class AudioPlayerPager : ScopedFragment() {
                                 currentSeekPosition = 0
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
                                 audioServicePager?.setCurrentPosition(artPager.currentItem)
-                                MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                                 setMetaData(artPager.currentItem)
                             }
                         }
@@ -238,7 +237,6 @@ class AudioPlayerPager : ScopedFragment() {
                                 handler.removeCallbacks(progressRunnable)
                                 currentSeekPosition = 0
                                 MusicPreferences.setMusicPosition(artPager.currentItem)
-                                MusicPreferences.setLastMusicId(audioModels!![artPager.currentItem].id)
                                 audioServicePager?.setCurrentPosition(artPager.currentItem)
                                 setMetaData(artPager.currentItem)
                             }
