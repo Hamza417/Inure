@@ -5,7 +5,7 @@ import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
-import app.simple.inure.R
+import app.simple.inure.glide.util.GlideUtils.getGeneratedAppIconBitmap
 import app.simple.inure.util.BitmapHelper.toBitmap
 import app.simple.inure.util.BitmapHelper.toGrayscale
 import com.bumptech.glide.Priority
@@ -57,12 +57,10 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                     callback.onDataReady(b.toBitmap()?.toGrayscale())
                 }
             }
-        } catch (e: PackageManager.NameNotFoundException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context))
-        } catch (e: NullPointerException) {
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(appIcon.context))
-        } catch (e: Exception) {
-            callback.onLoadFailed(e)
+        } catch (_: PackageManager.NameNotFoundException) {
+        } catch (_: NullPointerException) {
+        } catch (_: Exception) {
+            callback.onDataReady(appIcon.context.getGeneratedAppIconBitmap())
         }
     }
 

@@ -1,9 +1,22 @@
 package app.simple.inure.util
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BlurMaskFilter
 import android.graphics.BlurMaskFilter.Blur
+import android.graphics.Canvas
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.LinearGradient
+import android.graphics.Matrix
 import android.graphics.Matrix.ScaleToFit
+import android.graphics.Paint
+import android.graphics.Picture
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RadialGradient
+import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
 import androidx.core.content.ContextCompat
@@ -31,6 +44,48 @@ object BitmapHelper {
             this.compress(Bitmap.CompressFormat.PNG, 100, it)
             return ByteArrayInputStream(it.toByteArray())
         }
+    }
+
+    fun Bitmap.addLinearGradient(array: IntArray): Bitmap {
+        val width = width
+        val height = height
+        val updatedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(updatedBitmap)
+        canvas.drawBitmap(this, 0f, 0f, null)
+        val paint = Paint()
+        val shader = LinearGradient(0f, 0f, width.toFloat(), height.toFloat(), array[0], array[1], Shader.TileMode.CLAMP)
+        paint.shader = shader
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        return updatedBitmap
+    }
+
+    fun addLinearGradient(originalBitmap: Bitmap, array: IntArray, verticalOffset: Float): Bitmap {
+        val width = originalBitmap.width
+        val height = originalBitmap.height
+        val updatedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(updatedBitmap)
+        canvas.drawBitmap(originalBitmap, 0f, 0f, null)
+        val paint = Paint()
+        val shader = LinearGradient(0f, verticalOffset, 0f, height.toFloat(), array[0], array[1], Shader.TileMode.CLAMP)
+        paint.shader = shader
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        return updatedBitmap
+    }
+
+    fun addRadialGradient(originalBitmap: Bitmap, int: Int): Bitmap {
+        val width = originalBitmap.width
+        val height = originalBitmap.height
+        val updatedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(updatedBitmap)
+        canvas.drawBitmap(originalBitmap, 0f, 0f, null)
+        val paint = Paint()
+        val shader = RadialGradient(width.div(2F), height.div(2F), 200f, 0x000000, int, Shader.TileMode.CLAMP)
+        paint.shader = shader
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        return updatedBitmap
     }
 
     /**
@@ -74,7 +129,7 @@ object BitmapHelper {
     }
 
     //Convert Picture to Bitmap
-    fun Picture.toBitmap(): Bitmap? {
+    fun Picture.toBitmap(): Bitmap {
         val pd = PictureDrawable(this)
         val bitmap = Bitmap.createBitmap(pd.intrinsicWidth, pd.intrinsicHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
@@ -90,7 +145,7 @@ object BitmapHelper {
         return bmp
     }
 
-    fun Drawable.toBitmap(dimension: Int = 300): Bitmap? {
+    fun Drawable.toBitmap(dimension: Int = 300): Bitmap {
         val bitmap = Bitmap.createBitmap(dimension, dimension, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         setBounds(0, 0, dimension, dimension)

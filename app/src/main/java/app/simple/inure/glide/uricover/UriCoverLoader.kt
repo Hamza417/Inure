@@ -9,6 +9,7 @@ import com.bumptech.glide.signature.ObjectKey
 import java.io.InputStream
 
 class UriCoverLoader : ModelLoader<UriCoverModel, InputStream> {
+
     override fun buildLoadData(uriCoverModel: UriCoverModel, width: Int, height: Int, options: Options): ModelLoader.LoadData<InputStream> {
         return ModelLoader.LoadData(ObjectKey(uriCoverModel), UriCoverFetcher(uriCoverModel))
     }

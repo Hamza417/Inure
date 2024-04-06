@@ -4,9 +4,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
-import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getCachedDir
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.glide.util.GlideUtils.getGeneratedAppIconBitmap
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.util.BitmapHelper.toBitmap
 import com.bumptech.glide.Priority
@@ -74,7 +74,7 @@ class ApkIconFetcher internal constructor(private val apkIcon: ApkIcon) : DataFe
             }
         }.getOrElse {
             it.printStackTrace()
-            callback.onDataReady(R.drawable.ic_app_icon.toBitmap(apkIcon.context))
+            callback.onDataReady(apkIcon.context.getGeneratedAppIconBitmap())
         }
     }
 
