@@ -51,7 +51,7 @@ public class Chip extends com.google.android.material.chip.Chip {
                 }},
                 new int[] {
                         AppearancePreferences.INSTANCE.getAccentColorLight(getContext()),
-                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground()
+                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()
                 }
         ));
         

@@ -51,7 +51,7 @@ public class TagChip extends Chip {
                 }},
                 new int[] {
                         AppearancePreferences.INSTANCE.getAccentColor(), // Ripple color
-                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getViewerBackground() // Background color
+                        ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground() // Background color
                 }
         ));
         
