@@ -531,7 +531,7 @@ class AudioPlayerPager : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MusicPreferences.musicRepeat -> {
+            MusicPreferences.MUSIC_REPEAT -> {
                 replayButtonStatus(animate = true)
             }
         }

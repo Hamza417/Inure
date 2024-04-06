@@ -1,7 +1,12 @@
 package app.simple.inure.ui.viewers
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -411,7 +416,7 @@ class AudioPlayer : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MusicPreferences.musicRepeat -> {
+            MusicPreferences.MUSIC_REPEAT -> {
                 replayButtonStatus(animate = true)
             }
         }

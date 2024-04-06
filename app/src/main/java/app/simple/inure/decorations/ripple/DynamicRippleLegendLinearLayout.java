@@ -156,8 +156,8 @@ public class DynamicRippleLegendLinearLayout extends LinearLayout implements The
     @Override
     public void onSharedPreferenceChanged(@Nullable SharedPreferences sharedPreferences, @Nullable String key) {
         if (Objects.equals(key, AppearancePreferences.accentColor) ||
-                Objects.equals(key, AccessibilityPreferences.isHighlightStroke) ||
-                Objects.equals(key, AccessibilityPreferences.isHighlightMode)) {
+                Objects.equals(key, AccessibilityPreferences.IS_HIGHLIGHT_STROKE) ||
+                Objects.equals(key, AccessibilityPreferences.IS_HIGHLIGHT_MODE)) {
             setHighlightBackgroundColor();
         }
     }

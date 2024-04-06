@@ -5,82 +5,83 @@ import app.simple.inure.util.SortMusic
 
 object MusicPreferences {
 
-    const val searchKeyword = "music_search_keyword"
-    const val lastMusicId = "last_music_id"
-    const val musicSort = "music_sort"
-    const val musicSortReverse = "music_sort_reverse"
-    const val musicRepeat = "music_repeat"
-    const val musicPosition = "music_position"
-    const val fromSearch = "from_search"
+    const val SEARCH_KEYWORD = "music_search_keyword"
+    const val LAST_MUSIC_ID = "last_music_id"
+    const val MUSIC_SORT = "music_sort"
+    const val MUSIC_SORT_REVERSE = "music_sort_reverse"
+    const val MUSIC_REPEAT = "music_repeat"
+
+    private const val MUSIC_POSITION = "music_position"
+    private const val FROM_SEARCH = "from_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchKeyword(value: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(searchKeyword, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putString(SEARCH_KEYWORD, value).apply()
     }
 
     fun getSearchKeyword(): String {
-        return SharedPreferences.getSharedPreferences().getString(searchKeyword, "") ?: ""
+        return SharedPreferences.getSharedPreferences().getString(SEARCH_KEYWORD, "") ?: ""
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setLastMusicId(value: Long) {
-        SharedPreferences.getSharedPreferences().edit().putLong(lastMusicId, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putLong(LAST_MUSIC_ID, value).apply()
     }
 
     fun getLastMusicId(): Long {
-        return SharedPreferences.getSharedPreferences().getLong(lastMusicId, 0)
+        return SharedPreferences.getSharedPreferences().getLong(LAST_MUSIC_ID, 0)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setMusicSort(value: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(musicSort, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putString(MUSIC_SORT, value).apply()
     }
 
     fun getMusicSort(): String {
-        return SharedPreferences.getSharedPreferences().getString(musicSort, SortMusic.NAME) ?: SortMusic.NAME
+        return SharedPreferences.getSharedPreferences().getString(MUSIC_SORT, SortMusic.NAME) ?: SortMusic.NAME
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setMusicSortReverse(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(musicSortReverse, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(MUSIC_SORT_REVERSE, value).apply()
     }
 
     fun getMusicSortReverse(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(musicSortReverse, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(MUSIC_SORT_REVERSE, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setMusicRepeat(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(musicRepeat, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(MUSIC_REPEAT, value).apply()
     }
 
     fun getMusicRepeat(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(musicRepeat, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(MUSIC_REPEAT, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     @SuppressLint("ApplySharedPref")
     fun setMusicPosition(value: Int) {
-        SharedPreferences.getSharedPreferences().edit().putInt(musicPosition, value).commit()
+        SharedPreferences.getSharedPreferences().edit().putInt(MUSIC_POSITION, value).commit()
     }
 
     fun getMusicPosition(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(musicPosition, 0)
+        return SharedPreferences.getSharedPreferences().getInt(MUSIC_POSITION, 0)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setFromSearch(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(fromSearch, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(FROM_SEARCH, value).apply()
     }
 
     fun getFromSearch(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(fromSearch, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(FROM_SEARCH, false)
     }
 }

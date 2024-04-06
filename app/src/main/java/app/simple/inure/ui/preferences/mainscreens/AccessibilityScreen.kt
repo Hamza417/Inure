@@ -168,7 +168,7 @@ class AccessibilityScreen : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            AccessibilityPreferences.colorfulIconsPalette -> {
+            AccessibilityPreferences.COLORFUL_ICONS_PALETTE -> {
                 palette.setPalette()
                 paletteRecyclerView.animate()
                     .alpha(0F)
@@ -185,7 +185,7 @@ class AccessibilityScreen : ScopedFragment() {
                     .start()
             }
 
-            AccessibilityPreferences.bottomMenuContext -> {
+            AccessibilityPreferences.BOTTOM_MENU_CONTEXT -> {
                 /**
                  * Reset the bottom menu height so that it can be reinitialized
                  * with the updated height later in [app.simple.inure.decorations.views.BottomMenuRecyclerView].

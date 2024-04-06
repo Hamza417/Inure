@@ -216,14 +216,14 @@ class MusicSearch : KeyboardScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MusicPreferences.searchKeyword -> {
+            MusicPreferences.SEARCH_KEYWORD -> {
                 musicViewModel.loadSearched(MusicPreferences.getSearchKeyword())
             }
-            MusicPreferences.lastMusicId -> {
+            MusicPreferences.LAST_MUSIC_ID -> {
                 adapterMusic?.updateHighlightedSongState()
             }
-            MusicPreferences.musicSort,
-            MusicPreferences.musicSortReverse -> {
+            MusicPreferences.MUSIC_SORT,
+            MusicPreferences.MUSIC_SORT_REVERSE -> {
                 MusicPreferences.setMusicPosition(-1)
                 musicViewModel.sortSongs()
             }
