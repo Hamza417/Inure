@@ -485,7 +485,6 @@ class AudioServicePager : Service(),
         try {
             if (hasReleased.invert()) {
                 mediaPlayer.seekTo(to)
-                setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
             }
         } catch (e: IllegalStateException) {
             Log.d("AudioService", "IllegalStateException: ${e.message}")
