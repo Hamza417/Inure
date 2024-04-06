@@ -330,7 +330,7 @@ class AudioService : Service(),
                     mediaSessionCompat?.setMetadata(mediaMetadataCompat)
                     createNotificationChannel()
                     showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                    setPlayingState()
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaData, applicationContext)
                 }
             }.getOrElse {
@@ -384,6 +384,15 @@ class AudioService : Service(),
         mediaPlayer.prepareAsync()
     }
 
+    private fun setPlayingState() {
+        // Make sure the notification state remains consistent and updated
+        if (isPlaying()) {
+            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+        } else {
+            setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+        }
+    }
+
     internal fun getProgress(): Int {
         return kotlin.runCatching {
             mediaPlayer.currentPosition
@@ -400,12 +409,7 @@ class AudioService : Service(),
         try {
             if (hasReleased.invert()) {
                 mediaPlayer.seekTo(to)
-
-                if (isPlaying()) {
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
-                } else {
-                    setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
-                }
+                setPlayingState()
             }
         } catch (e: IllegalStateException) {
             Log.d("AudioService", "IllegalStateException: ${e.message}")
@@ -448,7 +452,7 @@ class AudioService : Service(),
                         // Pause music
                         if (mediaPlayer.isPlaying) {
                             mediaPlayer.pause()
-                            setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                            setPlayingState()
                             kotlin.runCatching {
                                 showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlay))
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -493,7 +497,7 @@ class AudioService : Service(),
         if (!mediaPlayer.isPlaying) {
             if (requestAudioFocus()) {
                 mediaPlayer.start()
-                setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                setPlayingState()
                 kotlin.runCatching {
                     showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPause))
                 }

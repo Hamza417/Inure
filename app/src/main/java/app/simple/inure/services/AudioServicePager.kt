@@ -373,7 +373,7 @@ class AudioServicePager : Service(),
                     setupMediaSession()
                     mediaSessionCompat?.setMetadata(mediaMetadataCompat)
                     createNotificationChannel()
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                    setPlayingState()
                     showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
                     IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
                 }
@@ -485,15 +485,19 @@ class AudioServicePager : Service(),
         try {
             if (hasReleased.invert()) {
                 mediaPlayer.seekTo(to)
-
-                if (isPlaying()) {
-                    setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
-                } else {
-                    setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
-                }
+                setPlayingState()
             }
         } catch (e: IllegalStateException) {
             Log.d("AudioService", "IllegalStateException: ${e.message}")
+        }
+    }
+
+    private fun setPlayingState() {
+        // Make sure the notification state remains consistent and updated
+        if (isPlaying()) {
+            setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+        } else {
+            setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
         }
     }
 
@@ -532,7 +536,7 @@ class AudioServicePager : Service(),
                     // Pause music
                     if (mediaPlayer.isPlaying) {
                         mediaPlayer.pause()
-                        setPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                        setPlayingState()
                         kotlin.runCatching {
                             showNotification(generateAction(R.drawable.ic_play, "play", ServiceConstants.actionPlayPager))
                             //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -568,7 +572,7 @@ class AudioServicePager : Service(),
         if (!mediaPlayer.isPlaying) {
             if (requestAudioFocus()) {
                 mediaPlayer.start()
-                setPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                setPlayingState()
                 kotlin.runCatching {
                     showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
                 }
