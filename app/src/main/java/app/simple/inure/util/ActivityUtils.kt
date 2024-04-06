@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -76,6 +77,11 @@ object ActivityUtils {
         launchIntent.action = action
         launchIntent.component = ComponentName(packageName, packageId)
         startActivity(context, launchIntent, null)
+    }
+
+    fun Context.isAppInLockTaskMode(): Boolean {
+        val activityManager: ActivityManager = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return (activityManager.lockTaskModeState != ActivityManager.LOCK_TASK_MODE_NONE)
     }
 
     @kotlin.jvm.Throws(java.lang.IllegalArgumentException::class)

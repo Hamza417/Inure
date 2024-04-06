@@ -39,6 +39,7 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioService
+import app.simple.inure.util.ActivityUtils.isAppInLockTaskMode
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.IntentHelper
@@ -330,8 +331,12 @@ class AudioPlayer : ScopedFragment() {
         }
 
         close.setOnClickListener {
-            handler.removeCallbacks(progressRunnable)
-            stopService()
+            if (requireContext().isAppInLockTaskMode().invert()) {
+                handler.removeCallbacks(progressRunnable)
+                stopService()
+            } else {
+                showWarning(getString(R.string.lock_task_warning), false)
+            }
         }
     }
 

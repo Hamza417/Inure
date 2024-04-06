@@ -744,4 +744,5 @@
     <string name="create_selection_from_tags">Create Selection from Tags</string>
     <string name="blocked">Blocked</string>
     <string name="actions">Actions</string>
+    <string name="lock_task_warning">App is pinned and cannot be closed.</string>
 </resources>
