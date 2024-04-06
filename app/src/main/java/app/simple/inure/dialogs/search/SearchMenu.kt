@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.menus
+package app.simple.inure.dialogs.search
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -13,7 +13,7 @@ import app.simple.inure.adapters.home.AdapterRecentlyInstalled
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.menus.AppsMenu
+import app.simple.inure.dialogs.app.AppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.viewmodels.panels.HomeViewModel
@@ -57,7 +57,7 @@ class RecentlyInstalled : ScopedFragment() {
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppsMenu.newInstance(packageInfo)
+                    AppMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
             })

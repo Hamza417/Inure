@@ -22,10 +22,10 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.views.GridRecyclerView
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.dialogs.app.ChangesReminder.Companion.showChangesReminder
 import app.simple.inure.dialogs.app.Rate.Companion.showRateDialog
-import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
-import app.simple.inure.dialogs.menus.HomeMenu.Companion.showHomeMenu
+import app.simple.inure.dialogs.home.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -246,7 +246,7 @@ class Home : ScopedFragment() {
                 }
 
                 override fun onQuickAppLongClicked(packageInfo: PackageInfo, icon: ImageView, anchor: ViewGroup) {
-                    childFragmentManager.showAppsMenu(packageInfo)
+                    childFragmentManager.showAppMenu(packageInfo)
                 }
             })
 

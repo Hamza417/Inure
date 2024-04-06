@@ -17,7 +17,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.action.PermissionStatus.Companion.showPermissionStatus
-import app.simple.inure.dialogs.menus.PermissionsMenu
+import app.simple.inure.dialogs.permissions.PermissionsMenu
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.PermissionInfo

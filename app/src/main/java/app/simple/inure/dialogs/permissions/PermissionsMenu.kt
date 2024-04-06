@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.menus
+package app.simple.inure.dialogs.permissions
 
 import android.content.SharedPreferences
 import android.os.Bundle

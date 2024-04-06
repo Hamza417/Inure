@@ -12,12 +12,12 @@ import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.dialogs.debloat.DebloatMenu.Companion.showDebloatMenu
 import app.simple.inure.dialogs.debloat.DebloatSelect
 import app.simple.inure.dialogs.debloat.DebloatSelect.Companion.showDebloatSelectionDialog
 import app.simple.inure.dialogs.debloat.DebloatSort.Companion.showDebloatFilter
 import app.simple.inure.dialogs.debloat.UninstallMethodChoice.Companion.showUninstallMethodChoice
-import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
 import app.simple.inure.dialogs.miscellaneous.PackageStateResult.Companion.showPackageStateResult
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
@@ -64,7 +64,7 @@ class Debloat : ScopedFragment() {
                 }
 
                 override fun onBloatLongPressed(bloat: Bloat) {
-                    childFragmentManager.showAppsMenu(bloat.packageInfo)
+                    childFragmentManager.showAppMenu(bloat.packageInfo)
                 }
             })
 

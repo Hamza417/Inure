@@ -25,6 +25,9 @@ import app.simple.inure.services.BatchExtractService
 import app.simple.inure.services.InstallerService
 import app.simple.inure.util.ParcelUtils.parcelable
 
+/**
+ * What is this used for??? 🤔🤔
+ */
 class InstallerServiceMode : ScopedBottomSheetFragment() {
 
     private var installerService: InstallerService? = null

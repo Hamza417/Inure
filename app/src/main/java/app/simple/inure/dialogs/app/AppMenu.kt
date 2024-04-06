@@ -1,4 +1,4 @@
-package app.simple.inure.dialogs.menus
+package app.simple.inure.dialogs.app
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -53,7 +53,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AppsMenu : ScopedDialogFragment() {
+class AppMenu : ScopedDialogFragment() {
 
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
@@ -315,16 +315,16 @@ class AppsMenu : ScopedDialogFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo, keywords: String? = null): AppsMenu {
+        fun newInstance(packageInfo: PackageInfo, keywords: String? = null): AppMenu {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             args.putString(BundleConstants.keywords, keywords)
-            val fragment = AppsMenu()
+            val fragment = AppMenu()
             fragment.arguments = args
             return fragment
         }
 
-        fun FragmentManager.showAppsMenu(packageInfo: PackageInfo, keywords: String? = null): AppsMenu {
+        fun FragmentManager.showAppMenu(packageInfo: PackageInfo, keywords: String? = null): AppMenu {
             val dialog = newInstance(packageInfo, keywords)
             dialog.show(this, TAG)
             return dialog

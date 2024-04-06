@@ -19,8 +19,8 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.dialogs.menus.AppsMenu.Companion.showAppsMenu
-import app.simple.inure.dialogs.menus.SearchMenu
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
+import app.simple.inure.dialogs.search.SearchMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
@@ -97,7 +97,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        childFragmentManager.showAppsMenu(packageInfo, keywords).onDismissListener = {
+                        childFragmentManager.showAppMenu(packageInfo, keywords).onDismissListener = {
                             postDelayed(250) {
                                 // searchView.showInput()
                             }
@@ -178,7 +178,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: AppIconImageView) {
-                        childFragmentManager.showAppsMenu(packageInfo, keywords).onDismissListener = {
+                        childFragmentManager.showAppMenu(packageInfo, keywords).onDismissListener = {
                             // Open keyboard after menu is dismissed
                             //                            postDelayed(250) {
                             //                                searchView.showInput()

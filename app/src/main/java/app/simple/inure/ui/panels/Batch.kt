@@ -22,6 +22,7 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.IntentConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.app.AppMenu
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.batch.BatchActions.Companion.showBatchActions
 import app.simple.inure.dialogs.batch.BatchBatteryOptimization.Companion.showBatchBatteryOptimization
@@ -35,7 +36,6 @@ import app.simple.inure.dialogs.batch.BatchSaveProfile.Companion.showBatchProfil
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
 import app.simple.inure.dialogs.batch.BatchUninstaller
-import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
@@ -124,7 +124,7 @@ class Batch : ScopedFragment() {
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppsMenu.newInstance(packageInfo)
+                    AppMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
 

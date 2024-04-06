@@ -14,9 +14,9 @@ import app.simple.inure.adapters.ui.AdapterApps
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.dialogs.apps.AppsPanelMenu.Companion.newAppsMenuInstance
+import app.simple.inure.dialogs.app.AppMenu
+import app.simple.inure.dialogs.apps.AppsMenu.Companion.newAppsMenuInstance
 import app.simple.inure.dialogs.apps.AppsSort.Companion.showAppsSortDialog
-import app.simple.inure.dialogs.menus.AppsMenu
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
@@ -74,7 +74,7 @@ class Apps : ScopedFragment() {
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppsMenu.newInstance(packageInfo)
+                    AppMenu.newInstance(packageInfo)
                         .show(childFragmentManager, "apps_menu")
                 }
             })
