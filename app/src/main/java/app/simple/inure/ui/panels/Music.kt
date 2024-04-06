@@ -12,7 +12,7 @@ import android.widget.ImageView
 import androidx.core.app.SharedElementCallback
 import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
@@ -44,7 +44,7 @@ class Music : KeyboardScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
     private var adapterMusic: AdapterMusic? = null
-    private val musicViewModel: MusicViewModel by viewModels()
+    private val musicViewModel: MusicViewModel by activityViewModels()
 
     private var deletedId = -1L
     private var displayHeight: Int = 0
