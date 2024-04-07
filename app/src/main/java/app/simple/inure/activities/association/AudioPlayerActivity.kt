@@ -15,6 +15,7 @@ import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.activities.BaseActivity
+import app.simple.inure.models.AudioModel
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.ui.viewers.AudioPlayer
@@ -34,15 +35,19 @@ class AudioPlayerActivity : BaseActivity() {
             kotlin.runCatching {
                 if (intent.hasExtra(BundleConstants.audioModel)) {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), "audio_player")
+                        .replace(R.id.app_container, AudioPlayer.newInstance(AudioModel(), fromActivity = true), "audio_player")
                         .commit()
                 } else {
-                    uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("audio/") == true) {
-                        intent.parcelable(Intent.EXTRA_STREAM)
-                    } else if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
-                        intent.getStringExtra(Intent.EXTRA_TEXT)?.toUri()
-                    } else {
-                        intent!!.data
+                    uri = when {
+                        intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("audio/") == true -> {
+                            intent.parcelable(Intent.EXTRA_STREAM)
+                        }
+                        intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain" -> {
+                            intent.getStringExtra(Intent.EXTRA_TEXT)?.toUri()
+                        }
+                        else -> {
+                            intent!!.data
+                        }
                     }
 
                     supportFragmentManager.beginTransaction()
@@ -66,8 +71,6 @@ class AudioPlayerActivity : BaseActivity() {
     }
 
     private fun handleIntent(): String? {
-        // A File object containing the path to the transferred files
-
         // Get intent, action and MIME type
         val intent = intent
         val action = intent.action
@@ -77,19 +80,43 @@ class AudioPlayerActivity : BaseActivity() {
          * For ACTION_VIEW, the Activity is being asked to display data.
          * Get the URI.
          */
-        if (Intent.ACTION_VIEW == action && type != null) {
-            if (type.startsWith("audio/")) {
+        when {
+            Intent.ACTION_VIEW == action && type?.startsWith("audio/") == true -> {
                 // Get the URI from the Intent
                 val uri = intent.data!!
-                if (TextUtils.equals(uri.scheme, "file")) {
-                    return handleFileUri(uri)
-                } else if (TextUtils.equals(uri.scheme, "content")) {
-                    return handleContentUri(uri)
+                when {
+                    TextUtils.equals(uri.scheme, "file") -> {
+                        return uri.toString()
+                    }
+                    TextUtils.equals(uri.scheme, "content") -> {
+                        return uri.toString()
+                    }
                 }
+            }
+            action == Intent.ACTION_SEND && type?.startsWith("audio/") == true -> {
+                val uri: Uri? = intent.parcelable(Intent.EXTRA_STREAM)
+
+                return when {
+                    TextUtils.equals(uri!!.scheme, "file") -> {
+                        handleFileUri(uri)
+                    }
+                    TextUtils.equals(uri.scheme, "content") -> {
+                        handleContentUri(uri)
+                    }
+                    else -> {
+                        uri.toString()
+                    }
+                }
+            }
+            action == Intent.ACTION_SEND && type == "text/plain" -> {
+                return intent.getStringExtra(Intent.EXTRA_TEXT)
+            }
+            else -> {
+                return intent!!.data.toString()
             }
         }
 
-        return "not a path"
+        return null
     }
 
     private fun handleFileUri(beamUri: Uri?): String? {
