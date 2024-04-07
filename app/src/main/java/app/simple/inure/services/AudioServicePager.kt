@@ -505,13 +505,13 @@ class AudioServicePager : Service(),
 
     internal fun changePlayerState(): Boolean {
         return if (mediaPlayer.isNotNull()) {
-            if (mediaPlayer.isPlaying) {
+            if (isPlaying()) {
                 pause()
             } else {
                 play()
             }
 
-            mediaPlayer.isPlaying
+            isPlaying()
         } else {
             false
         }
@@ -536,7 +536,7 @@ class AudioServicePager : Service(),
                 updateVolume(-1)
                 if (iVolume == intVolumeMin) {
                     // Pause music
-                    if (mediaPlayer.isPlaying) {
+                    if (isPlaying()) {
                         mediaPlayer.pause()
                         setPlayingState()
                         kotlin.runCatching {
