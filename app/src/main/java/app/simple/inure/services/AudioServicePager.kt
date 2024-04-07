@@ -208,7 +208,7 @@ class AudioServicePager : Service(),
 
     override fun onPrepared(mp: MediaPlayer?) {
         if (requestAudioFocus()) {
-            play()
+            mp?.start()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreparedPager, applicationContext)
             setupMetadata()
         }
@@ -255,11 +255,7 @@ class AudioServicePager : Service(),
     }
 
     private fun setupMediaSession() {
-        mediaSessionCompat?.run {
-            isActive = false
-            release()
-        }
-
+        mediaSessionCompat?.release()
         val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
         mediaButtonIntent.component = mediaButtonReceiverComponentName
@@ -315,7 +311,6 @@ class AudioServicePager : Service(),
         })
 
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
-        mediaSessionCompat!!.isActive = true
         mediaControllerCompat = mediaSessionCompat!!.controller
         // mediaMetadataCompat = mediaControllerCompat!!.metadata
     }
@@ -325,6 +320,8 @@ class AudioServicePager : Service(),
                 PlaybackStateCompat.Builder()
                     .setState(playbackState, mediaPlayer.currentPosition.toLong(), 1f)
                     .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE or
+                                        PlaybackStateCompat.ACTION_PLAY or
+                                        PlaybackStateCompat.ACTION_PAUSE or
                                         PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
                                         PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
                                         PlaybackStateCompat.ACTION_SEEK_TO or
@@ -695,12 +692,7 @@ class AudioServicePager : Service(),
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.release()
-
-        mediaSessionCompat?.run {
-            isActive = false
-            release()
-        }
-
+        mediaSessionCompat?.release()
         hasReleased = true
         removeAudioFocus()
         unregisterReceiver(becomingNoisyReceiver)
