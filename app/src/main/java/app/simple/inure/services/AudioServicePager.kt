@@ -78,6 +78,7 @@ class AudioServicePager : Service(),
 
     private var wasPlaying = false
     private var hasReleased = false
+    private var isFirstInit = true
 
     @set:Synchronized
     @get:Synchronized
@@ -416,6 +417,7 @@ class AudioServicePager : Service(),
             mediaPlayer.setDataSource(applicationContext, audioModels!![currentPosition].fileUri.toUri())
             mediaPlayer.prepareAsync()
             MusicPreferences.setLastMusicId(audioModels!![currentPosition].id)
+            isFirstInit = false
         }.onFailure {
             // Unknown error maybe?
             it.printStackTrace()
@@ -433,7 +435,7 @@ class AudioServicePager : Service(),
     fun setCurrentPosition(currentPosition: Int) {
         this.currentPosition = currentPosition
 
-        if (audioModels!![currentPosition].id != MusicPreferences.getLastMusicId()) {
+        if (audioModels!![currentPosition].id != MusicPreferences.getLastMusicId() || isFirstInit) {
             initAudioPlayer()
         } else {
             setupMetadata()
