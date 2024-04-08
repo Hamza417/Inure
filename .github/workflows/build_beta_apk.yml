@@ -56,16 +56,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            -   name: Notify Group Members
-                run: |
-                    curl -X POST \
-                     -H 'Content-Type: application/json' \
-                     -d "{\"chat_id\": \"${{ secrets.TG_GROUP_ID }}\", \"text\": \"Building APK for beta testing...\"}" \
-                     "https://api.telegram.org/bot${{ secrets.TG_BOT_KEY }}/sendMessage"
-                env:
-                    TG_BOT_KEY: ${{ secrets.TG_BOT_KEY }}
-                    TG_GROUP_ID: ${{ secrets.TG_TO }}
-
             -   name: Checkout code
                 uses: actions/checkout@v4
 
