@@ -57,7 +57,7 @@ public class Chip extends com.google.android.material.chip.Chip {
         
         setShapeAppearanceModel(new ShapeAppearanceModel()
                 .toBuilder()
-                .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius())
+                .setAllCorners(CornerFamily.ROUNDED, AppearancePreferences.INSTANCE.getCornerRadius() / 2)
                 .build());
         
         ViewUtils.INSTANCE.addShadow(this);
