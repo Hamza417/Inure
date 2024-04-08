@@ -150,7 +150,7 @@ class AudioService : Service(),
     override fun onAudioFocusChange(focusChange: Int) {
         when (focusChange) {
             AudioManager.AUDIOFOCUS_GAIN -> {
-                if (!mediaPlayer.isPlaying) {
+                if (!isPlaying()) {
                     if (wasPlaying) {
                         play()
                     }
@@ -160,21 +160,20 @@ class AudioService : Service(),
              * Lost focus for an unbounded amount of time: stop playback and release media player
              */
             AudioManager.AUDIOFOCUS_LOSS,
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
-            -> {
-                wasPlaying = mediaPlayer.isPlaying
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
+                wasPlaying = isPlaying()
 
                 /**
                  * Lost focus for a short time, but we have to stop
                  * playback. We don't release the media player because playback
                  * is likely to resume
                  */
-                if (mediaPlayer.isPlaying) {
+                if (isPlaying()) {
                     pause()
                 }
             }
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK -> {
-                if (mediaPlayer.isPlaying) {
+                if (isPlaying()) {
                     mediaPlayer.setVolume(.1f, .1f)
                 }
             }
@@ -415,13 +414,13 @@ class AudioService : Service(),
     }
 
     internal fun changePlayerState(): Boolean {
-        if (mediaPlayer.isPlaying) {
+        if (isPlaying()) {
             pause()
         } else {
             play()
         }
 
-        return mediaPlayer.isPlaying
+        return isPlaying()
     }
 
     private fun pause() {
@@ -448,7 +447,7 @@ class AudioService : Service(),
                     updateVolume(-1)
                     if (iVolume == intVolumeMin) {
                         // Pause music
-                        if (mediaPlayer.isPlaying) {
+                        if (isPlaying()) {
                             mediaPlayer.pause()
                             setPlayingState()
                             kotlin.runCatching {
@@ -492,7 +491,7 @@ class AudioService : Service(),
         updateVolume(0)
 
         // Play music
-        if (!mediaPlayer.isPlaying) {
+        if (!isPlaying()) {
             if (requestAudioFocus()) {
                 mediaPlayer.start()
                 setPlayingState()
