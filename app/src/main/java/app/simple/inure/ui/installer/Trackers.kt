@@ -13,6 +13,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.Tracker
+import app.simple.inure.ui.subviewers.TrackerInfo
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerTrackersViewModel
 import java.io.File
@@ -60,7 +61,7 @@ class Trackers : ScopedFragment() {
                 }
 
                 override fun onTrackersClicked(tracker: Tracker) {
-                    // TODO - open tracker info menu
+                    openFragmentSlide(TrackerInfo.newInstance(tracker), TrackerInfo.TAG)
                 }
             })
 

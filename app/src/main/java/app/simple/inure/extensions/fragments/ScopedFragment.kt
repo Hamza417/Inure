@@ -118,6 +118,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 it.visible(animate = false)
             }
         }
+
         registerSharedPreferenceChangeListener()
     }
 
@@ -225,7 +226,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    internal fun clearTransitions() {
+    private fun clearTransitions() {
         clearEnterTransition()
         clearExitTransition()
         clearReEnterTransition()
