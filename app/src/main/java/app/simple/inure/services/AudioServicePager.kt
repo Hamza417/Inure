@@ -332,8 +332,7 @@ class AudioServicePager : Service(),
                                     "Close",
                                     R.drawable.ic_close
                             ).build())
-                    .build()
-        )
+                    .build())
     }
 
     private fun quitService() {

@@ -56,7 +56,7 @@ import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Tags
 import app.simple.inure.ui.panels.Uninstalled
 import app.simple.inure.ui.subpanels.TaggedApps
-import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
@@ -223,7 +223,7 @@ class MainActivity : BaseActivity() {
 
             ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(AudioPlayerPager.newInstance(MusicPreferences.getMusicPosition()), "audio_player_pager")
+                openFragment(AudioPlayer.newInstance(MusicPreferences.getMusicPosition()), "audio_player_pager")
             }
 
             "open_device_info" -> {

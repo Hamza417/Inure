@@ -18,7 +18,7 @@ import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.models.AudioModel
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeUtils
-import app.simple.inure.ui.viewers.AudioPlayer
+import app.simple.inure.ui.association.AudioPlayer
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import java.io.File

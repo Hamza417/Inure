@@ -31,7 +31,7 @@ import app.simple.inure.popups.music.PopupMusicMenu
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
-import app.simple.inure.ui.viewers.AudioPlayerPager
+import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
@@ -103,14 +103,14 @@ class MusicSearch : KeyboardScopedFragment() {
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
-                    openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), art, "audio_player_pager")
+                    openFragmentArc(AudioPlayer.newInstance(position, fromSearch = true), art, "audio_player_pager")
                     requireArguments().putInt(BundleConstants.position, position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int, container: View) {
                     PopupMusicMenu(requireView(), audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayerPager.newInstance(position, fromSearch = true), view, "audio_player_pager")
+                            openFragmentArc(AudioPlayer.newInstance(position, fromSearch = true), view, "audio_player_pager")
                             MusicPreferences.setMusicPosition(position)
                             MusicPreferences.setLastMusicId(audioModel.id)
                         }
