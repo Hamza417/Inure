@@ -23,12 +23,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
 import app.simple.inure.adapters.menus.AdapterBottomMenu;
-import app.simple.inure.constants.BottomMenuConstants;
 import app.simple.inure.decorations.corners.LayoutBackground;
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView;
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.DevelopmentPreferences;
+import app.simple.inure.preferences.MainPreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.util.ViewUtils;
 import kotlin.Pair;
@@ -113,7 +113,6 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         
         post(() -> {
             scrollToPosition(bottomMenuItems.size() - 1);
-            
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
             
             layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
@@ -122,8 +121,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
-            BottomMenuConstants.INSTANCE.setBottomMenuHeight(getHeight() - layoutParams.topMargin - layoutParams.bottomMargin);
-            
+            MainPreferences.INSTANCE.setBottomMenuHeight(getHeight() - layoutParams.topMargin - layoutParams.bottomMargin);
             setLayoutParams(layoutParams);
             
             if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.centerBottomMenu)) {

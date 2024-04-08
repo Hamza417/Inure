@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -19,6 +18,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
 class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
@@ -137,7 +137,7 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
 
         init {
             val layoutParams = divider.layoutParams
-            layoutParams.height = BottomMenuConstants.getBottomMenuHeight()
+            layoutParams.height = MainPreferences.getBottomMenuHeight()
             divider.layoutParams = layoutParams
         }
     }

@@ -8,24 +8,25 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
  */
 object MainPreferences {
 
-    private const val launchCount = "main_app_launch_count"
-    private const val dayNightMode = "is_day_night_mode"
-    private const val appLanguage = "current_language_locale"
-    private const val changeLogReminder = "change_log_reminder"
-    private const val firstLaunchDate = "first_launch_date"
-    private const val unlockerWarningCount = "unlocker_warning_count"
-    private const val isAppFullVersionEnabled = "is_full_version_enabled"
-    private const val disclaimerAgreed = "disclaimer_agreed"
-    private const val isRateReminderShown = "is_rate_reminder_shown_2"
+    private const val LAUNCH_COUNT = "main_app_launch_count"
+    private const val DAY_NIGHT_MODE = "is_day_night_mode"
+    private const val APP_LANGUAGE = "current_language_locale"
+    private const val CHANGE_LOG_REMINDER = "change_log_reminder"
+    private const val FIRST_LAUNCH_DATE = "first_launch_date"
+    private const val UNLOCKER_WARNING_COUNT = "unlocker_warning_count"
+    private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_enabled"
+    private const val DISCLAIMER_AGREED = "disclaimer_agreed"
+    private const val IS_RATE_REMINDER_SHOWN = "is_rate_reminder_shown_2"
+    private const val BOTTOM_MENU_HEIGHT = "bottom_menu_height"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setLaunchCount(value: Int) {
-        getSharedPreferences().edit().putInt(launchCount, value).apply()
+        getSharedPreferences().edit().putInt(LAUNCH_COUNT, value).apply()
     }
 
     fun getLaunchCount(): Int {
-        return getSharedPreferences().getInt(launchCount, 0)
+        return getSharedPreferences().getInt(LAUNCH_COUNT, 0)
     }
 
     fun shouldShowRateReminder(): Boolean {
@@ -40,58 +41,58 @@ object MainPreferences {
 
     // Day/Night Auto
     fun setDayNight(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(dayNightMode, value).apply()
+        getSharedPreferences().edit().putBoolean(DAY_NIGHT_MODE, value).apply()
     }
 
     fun isDayNightOn(): Boolean {
-        return getSharedPreferences().getBoolean(dayNightMode, false)
+        return getSharedPreferences().getBoolean(DAY_NIGHT_MODE, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAppLanguage(locale: String) {
-        getSharedPreferences().edit().putString(appLanguage, locale).apply()
+        getSharedPreferences().edit().putString(APP_LANGUAGE, locale).apply()
     }
 
     fun getAppLanguage(): String? {
-        return getSharedPreferences().getString(appLanguage, "default")
+        return getSharedPreferences().getString(APP_LANGUAGE, "default")
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun getFirstLaunchDateLegacy(): Long {
-        return getSharedPreferences().getLong(firstLaunchDate, System.currentTimeMillis())
+        return getSharedPreferences().getLong(FIRST_LAUNCH_DATE, System.currentTimeMillis())
     }
 
     fun isFullVersionEnabledLegacy(): Boolean {
-        return getSharedPreferences().getBoolean(isAppFullVersionEnabled, false)
+        return getSharedPreferences().getBoolean(IS_APP_FULL_VERSION_ENABLED, false)
     }
 
     fun getUnlockerWarningCountLegacy(): Int {
-        return getSharedPreferences().getInt(unlockerWarningCount, 0)
+        return getSharedPreferences().getInt(UNLOCKER_WARNING_COUNT, 0)
     }
 
     fun removeLegacyPreferences() {
-        getSharedPreferences().edit().remove(firstLaunchDate).apply()
-        getSharedPreferences().edit().remove(isAppFullVersionEnabled).apply()
-        getSharedPreferences().edit().remove(unlockerWarningCount).apply()
+        getSharedPreferences().edit().remove(FIRST_LAUNCH_DATE).apply()
+        getSharedPreferences().edit().remove(IS_APP_FULL_VERSION_ENABLED).apply()
+        getSharedPreferences().edit().remove(UNLOCKER_WARNING_COUNT).apply()
     }
 
     fun addLegacyPreferences() {
-        getSharedPreferences().edit().putLong(firstLaunchDate, TrialPreferences.getFirstLaunchDate()).apply()
-        getSharedPreferences().edit().putBoolean(isAppFullVersionEnabled, TrialPreferences.isAppFullVersionEnabled()).apply()
-        getSharedPreferences().edit().putInt(unlockerWarningCount, TrialPreferences.getUnlockerWarningCount()).apply()
+        getSharedPreferences().edit().putLong(FIRST_LAUNCH_DATE, TrialPreferences.getFirstLaunchDate()).apply()
+        getSharedPreferences().edit().putBoolean(IS_APP_FULL_VERSION_ENABLED, TrialPreferences.isAppFullVersionEnabled()).apply()
+        getSharedPreferences().edit().putInt(UNLOCKER_WARNING_COUNT, TrialPreferences.getUnlockerWarningCount()).apply()
         TrialPreferences.setLegacyMigrated(value = false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setChangeLogReminder(value: Int) {
-        getSharedPreferences().edit().putInt(changeLogReminder, value).apply()
+        getSharedPreferences().edit().putInt(CHANGE_LOG_REMINDER, value).apply()
     }
 
     private fun getChangeLogReminder(): Int {
-        return getSharedPreferences().getInt(changeLogReminder, BuildConfig.VERSION_CODE)
+        return getSharedPreferences().getInt(CHANGE_LOG_REMINDER, BuildConfig.VERSION_CODE)
     }
 
     fun shouldShowChangeLogReminder(): Boolean {
@@ -101,20 +102,30 @@ object MainPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setDisclaimerAgreed(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(disclaimerAgreed, value).apply()
+        getSharedPreferences().edit().putBoolean(DISCLAIMER_AGREED, value).apply()
     }
 
     fun isDisclaimerAgreed(): Boolean {
-        return getSharedPreferences().getBoolean(disclaimerAgreed, false)
+        return getSharedPreferences().getBoolean(DISCLAIMER_AGREED, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setShowRateReminder(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(isRateReminderShown, value).apply()
+        getSharedPreferences().edit().putBoolean(IS_RATE_REMINDER_SHOWN, value).apply()
     }
 
     fun isShowRateReminder(): Boolean {
-        return getSharedPreferences().getBoolean(isRateReminderShown, true)
+        return getSharedPreferences().getBoolean(IS_RATE_REMINDER_SHOWN, true)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setBottomMenuHeight(value: Int) {
+        getSharedPreferences().edit().putInt(BOTTOM_MENU_HEIGHT, value).apply()
+    }
+
+    fun getBottomMenuHeight(): Int {
+        return getSharedPreferences().getInt(BOTTOM_MENU_HEIGHT, 0)
     }
 }

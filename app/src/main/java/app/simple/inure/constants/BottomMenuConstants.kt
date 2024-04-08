@@ -8,19 +8,6 @@ object BottomMenuConstants {
     private val divider = Pair(-1, -1)
     private val refresh = Pair(R.drawable.ic_refresh, R.string.refresh)
 
-    /**
-     * Use this to set the height of the bottom menu divider.
-     */
-    private var bottomMenuHeight = 0
-
-    fun setBottomMenuHeight(height: Int) {
-        bottomMenuHeight = height
-    }
-
-    fun getBottomMenuHeight(): Int {
-        return bottomMenuHeight
-    }
-
     private val genericBottomMenuItems: ArrayList<Pair<Int, Int>> = arrayListOf(
             refresh,
             divider,
