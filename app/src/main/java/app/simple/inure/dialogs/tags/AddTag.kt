@@ -122,6 +122,7 @@ class AddTag : ScopedDialogFragment() {
                 }
             } else {
                 add.gone(animate = false)
+                count.setTextColor(ColorStateList.valueOf(Color.RED))
             }
         }
 
