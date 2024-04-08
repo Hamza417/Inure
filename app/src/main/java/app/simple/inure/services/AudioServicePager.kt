@@ -143,6 +143,7 @@ class AudioServicePager : Service(),
         registerSharedPreferenceChangeListener()
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
@@ -155,6 +156,7 @@ class AudioServicePager : Service(),
         }
 
         registerReceiver(becomingNoisyReceiver, audioBecomingNoisyFilter)
+        setupMediaSession()
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
@@ -367,7 +369,7 @@ class AudioServicePager : Service(),
                 }
 
                 withContext(Dispatchers.Main) {
-                    setupMediaSession()
+                    // setupMediaSession()
                     mediaSessionCompat?.setMetadata(mediaMetadataCompat)
                     createNotificationChannel()
                     setPlayingState()
@@ -635,8 +637,6 @@ class AudioServicePager : Service(),
 
     @Throws(NullPointerException::class)
     private fun showNotification(action: NotificationCompat.Action) {
-        notificationManager = baseContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
         val notificationClick = with(Intent(this, MainActivity::class.java)) {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             this.action = ShortcutConstants.AUDIO_PLAYER_ACTION
