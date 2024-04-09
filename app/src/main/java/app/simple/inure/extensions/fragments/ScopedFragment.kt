@@ -226,7 +226,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    private fun clearTransitions() {
+    fun clearTransitions() {
         clearEnterTransition()
         clearExitTransition()
         clearReEnterTransition()

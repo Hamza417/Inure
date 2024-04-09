@@ -61,6 +61,7 @@ class Trackers : ScopedFragment() {
                 }
 
                 override fun onTrackersClicked(tracker: Tracker) {
+                    (parentFragment as ScopedFragment).clearTransitions()
                     openFragmentSlide(TrackerInfo.newInstance(tracker), TrackerInfo.TAG)
                 }
             })
