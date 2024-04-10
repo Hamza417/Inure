@@ -540,6 +540,16 @@ class AppInfo : ScopedFragment() {
                                 }
                             })
                         }
+
+                        R.string.manage_space -> {
+                            try {
+                                startActivity(Intent().apply {
+                                    setClassName(packageInfo.packageName, packageInfo.applicationInfo.manageSpaceActivityName)
+                                })
+                            } catch (e: SecurityException) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            }
+                        }
                     }
                 }
             })

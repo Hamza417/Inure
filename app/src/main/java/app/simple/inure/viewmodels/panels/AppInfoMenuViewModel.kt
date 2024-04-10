@@ -156,6 +156,10 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 }
             }
 
+            packageInfo.applicationInfo.manageSpaceActivityName?.let {
+                list.add(Pair(R.drawable.ic_sd_storage, R.string.manage_space))
+            }
+
             menuOptions.postValue(list)
         }
     }
