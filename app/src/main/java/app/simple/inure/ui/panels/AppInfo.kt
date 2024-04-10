@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.app.SearchManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -49,6 +50,7 @@ import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.action.UpdatesUninstaller.Companion.showUpdatesUninstaller
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
+import app.simple.inure.dialogs.appinfo.SearchBox.Companion.showSearchBox
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
@@ -56,6 +58,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.interfaces.appinfo.SearchBoxCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.tags.PopupTagMenu
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -518,6 +521,24 @@ class AppInfo : ScopedFragment() {
                                     }
                                 }
                             }
+                        }
+
+                        R.string.search -> {
+                            childFragmentManager.showSearchBox(SearchBoxCallbacks { query ->
+                                try {
+                                    requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_SEARCH), 0)
+                                        .forEach {
+                                            if (it.activityInfo.packageName == packageInfo.packageName) {
+                                                startActivity(Intent(Intent.ACTION_SEARCH).apply {
+                                                    setClassName(packageInfo.packageName, it.activityInfo.name)
+                                                    putExtra(SearchManager.QUERY, query)
+                                                })
+                                            }
+                                        }
+                                } catch (e: SecurityException) {
+                                    showWarning(e.message ?: getString(R.string.error), goBack = false)
+                                }
+                            })
                         }
                     }
                 }

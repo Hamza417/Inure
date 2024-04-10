@@ -145,6 +145,17 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 }
             }
 
+            packageManager.queryIntentActivities(Intent().apply {
+                action = Intent.ACTION_SEARCH
+            }, 0).let { resolveInfos ->
+                for (resolveInfo in resolveInfos) {
+                    if (resolveInfo.activityInfo.packageName == packageInfo.packageName) {
+                        list.add(Pair(R.drawable.ic_search, R.string.search))
+                        break
+                    }
+                }
+            }
+
             menuOptions.postValue(list)
         }
     }
