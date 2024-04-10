@@ -109,7 +109,6 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
         if (Shizuku.pingBinder()) {
             shizukuServiceHelper = ShizukuServiceHelper()
             shizukuServiceHelper!!.bindUserService {
-                Log.d("RootViewModel", "Shizuku service bound")
                 onShizukuCreated(shizukuServiceHelper!!)
             }
         } else {

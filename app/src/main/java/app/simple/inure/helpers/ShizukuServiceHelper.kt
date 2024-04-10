@@ -17,7 +17,7 @@ class ShizukuServiceHelper {
 
     private var _service: IUserService? = null
     val service get() = _service
-    val isServiceBound get() = _service != null
+    private val isServiceBound get() = _service != null
     val onServiceConnectedListeners = mutableListOf<Runnable>()
 
     private val userServiceConnection: ServiceConnection = object : ServiceConnection {
@@ -30,9 +30,6 @@ class ShizukuServiceHelper {
                     Log.d(TAG, "onServiceConnected: $componentName")
                 }
 
-                if (_service == null) {
-                    Log.e(TAG, "onServiceConnected: service is null")
-                }
             }
 
             onServiceConnectedListeners.forEach { it.run() }

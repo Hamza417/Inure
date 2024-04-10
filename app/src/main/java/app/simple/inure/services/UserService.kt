@@ -33,6 +33,7 @@ class UserService() : IUserService.Stub() {
         val exitCode = process.waitFor()
         val error = process.errorStream.readBytes().decodeToString()
         val output = process.inputStream.readBytes().decodeToString()
+        Log.d(TAG, "output: \n$output")
         return@runBlocking ExecuteResult(exitCode, error, output)
     }
 

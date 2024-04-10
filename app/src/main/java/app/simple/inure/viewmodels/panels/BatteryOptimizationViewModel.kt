@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -73,10 +74,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
                                 if (outData.isNotNull()) {
                                     val batteryOptimizationModel = BatteryOptimizationModel()
-
                                     val type = outData!!.subSequence(0, endIndex = outData.indexOf(",")).trim()
-                                    // val packageName = outData.subSequence(outData.indexOf(",").plus(1), outData.lastIndexOf(",")).trim()
-                                    // val uid = outData.subSequence(outData.lastIndexOf(",").plus(1), outData.length).trim()
 
                                     batteryOptimizationModel.packageInfo = packageInfo
                                     batteryOptimizationModel.type = type.toString()
@@ -140,7 +138,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
         }
     }
 
-    private fun loadBatteryOptimizationShizuku() {
+    private fun loadBatteryOptimizationShizuku(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             var apps = getInstalledApps()
 
@@ -159,18 +157,17 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
             }
 
             kotlin.runCatching {
-                ShizukuUtils.execInternal(Command("dumpsys deviceidle whitelist"), null).let { result ->
-                    // Log.d("BatteryOptimizationShizukuViewModel", "loadBatteryOptimizationShizuku:\n${result.out}")
+                shizukuServiceHelper.service!!.execute(arrayListOf("dumpsys", "deviceidle", "whitelist"), null, null).let { result ->
                     apps.forEach { packageInfo ->
                         kotlin.runCatching {
-                            val outData = result.out.split("\n").find { out ->
+                            val outData = result.output!!.trim().split("\n").find { out ->
                                 packageInfo.packageName == out.subSequence(out.indexOf(",").plus(1), out.lastIndexOf(",")).trim()
                             }
 
-                            if (outData.isNotNull()) {
+                            if (outData != null) {
                                 val batteryOptimizationModel = BatteryOptimizationModel()
 
-                                val type = outData!!.subSequence(0, endIndex = outData.indexOf(",")).trim()
+                                val type = outData.subSequence(0, endIndex = outData.indexOf(",")).trim()
                                 // val packageName = outData.subSequence(outData.indexOf(",").plus(1), outData.lastIndexOf(",")).trim()
                                 // val uid = outData.subSequence(outData.lastIndexOf(",").plus(1), outData.length).trim()
 
@@ -189,9 +186,12 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                                 }
                                 batteryOptimizationArrayList.add(batteryOptimizationModel)
                             }
+                        }.onFailure {
+                            it.printStackTrace()
                         }
                     }
 
+                    Log.d("BatteryOptimizationViewModel", "loadBatteryOptimizationShizuku: ${batteryOptimizationArrayList.size}")
                     var filtered = arrayListOf<BatteryOptimizationModel>()
 
                     for (app in batteryOptimizationArrayList) {
@@ -292,7 +292,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         super.onShizukuCreated(shizukuServiceHelper)
-        loadBatteryOptimizationShizuku()
+        loadBatteryOptimizationShizuku(shizukuServiceHelper)
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
