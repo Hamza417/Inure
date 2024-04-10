@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.shizuku.Shell.Command
 import app.simple.inure.shizuku.ShizukuUtils
@@ -29,8 +30,8 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
         runRootCommand()
     }
 
-    override fun onShizukuCreated() {
-        super.onShizukuCreated()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        super.onShizukuCreated(shizukuServiceHelper)
         runShizukuCommand()
     }
 

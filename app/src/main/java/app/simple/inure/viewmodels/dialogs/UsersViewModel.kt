@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
 import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
@@ -28,8 +29,8 @@ class UsersViewModel(application: Application) : RootShizukuViewModel(applicatio
         loadUsersRoot()
     }
 
-    override fun onShizukuCreated() {
-        super.onShizukuCreated()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        super.onShizukuCreated(shizukuServiceHelper)
         loadUsersShizuku()
     }
 

@@ -12,6 +12,7 @@ import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.Bloat
 import app.simple.inure.models.PackageStateResult
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -482,8 +483,8 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         startDebloating(currentMethod)
     }
 
-    override fun onShizukuCreated() {
-        super.onShizukuCreated()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        super.onShizukuCreated(shizukuServiceHelper)
         startDebloating(currentMethod)
     }
 

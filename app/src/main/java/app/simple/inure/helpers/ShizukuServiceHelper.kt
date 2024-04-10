@@ -6,7 +6,7 @@ import android.os.IBinder
 import android.util.Log
 import app.simple.inure.BuildConfig
 import app.simple.inure.IUserService
-import app.simple.inure.services.ShizukuService
+import app.simple.inure.services.UserService
 import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.UserServiceArgs
 
@@ -26,19 +26,27 @@ class ShizukuServiceHelper {
                 _service = if (it) IUserService.Stub.asInterface(binder) else null
                 if (!it) {
                     Log.e(TAG, "onServiceConnected: invalid binder for $componentName received")
+                } else {
+                    Log.d(TAG, "onServiceConnected: $componentName")
+                }
+
+                if (_service == null) {
+                    Log.e(TAG, "onServiceConnected: service is null")
                 }
             }
+
             onServiceConnectedListeners.forEach { it.run() }
             onServiceConnectedListeners.clear()
         }
 
         override fun onServiceDisconnected(componentName: ComponentName) {
+            Log.d(TAG, "onServiceDisconnected: $componentName")
             _service = null
         }
     }
 
     private val userServiceArgs =
-        UserServiceArgs(ComponentName(BuildConfig.APPLICATION_ID, ShizukuService::class.java.name))
+        UserServiceArgs(ComponentName(BuildConfig.APPLICATION_ID, UserService::class.java.name))
             .daemon(false)
             .processNameSuffix("service")
             .debuggable(BuildConfig.DEBUG)
@@ -49,6 +57,7 @@ class ShizukuServiceHelper {
             onBound?.invoke()
             return
         }
+
         if (isSupported()) {
             val runnable = onBound?.let { Runnable { it.invoke() } }
             runCatching {

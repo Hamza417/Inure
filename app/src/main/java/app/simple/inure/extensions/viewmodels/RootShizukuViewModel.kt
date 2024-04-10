@@ -1,11 +1,11 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.shizuku.ShizukuUtils
@@ -19,6 +19,7 @@ import rikka.shizuku.Shizuku
 abstract class RootShizukuViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var shell: Shell? = null
+    private var shizukuServiceHelper: ShizukuServiceHelper? = null
 
     /**
      * Initialize the shell or shizuku depending on the user's preference.
@@ -106,11 +107,10 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                onShizukuCreated()
-            } else {
-                onShizukuDenied()
-                Log.d("RootViewModel", "Shizuku permission denied")
+            shizukuServiceHelper = ShizukuServiceHelper()
+            shizukuServiceHelper!!.bindUserService {
+                Log.d("RootViewModel", "Shizuku service bound")
+                onShizukuCreated(shizukuServiceHelper!!)
             }
         } else {
             onShizukuDenied()
@@ -120,6 +120,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
     override fun onCleared() {
         super.onCleared()
         shell?.close()
+        shizukuServiceHelper?.unbindUserService()
 
         kotlin.runCatching {
             Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
@@ -145,7 +146,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     }
 
-    open fun onShizukuCreated() {
+    open fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
 
     }
 

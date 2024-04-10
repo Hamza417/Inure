@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.ops.AppOps
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
@@ -89,7 +90,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         /* no-op */
     }
 
-    override fun onShizukuCreated() {
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
 
     }
 }

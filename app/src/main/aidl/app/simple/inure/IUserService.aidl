@@ -11,4 +11,6 @@ interface IUserService {
     ExecuteResult execute(in List<String> cmdarray, in List<String> envp, String dir) = 2;
 
     ExecuteResult simpleExecute(in String command) = 3;
+
+    boolean forceStopApp(in String packageName) = 4;
 }

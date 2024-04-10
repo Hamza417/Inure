@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -289,8 +290,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
         refresh()
     }
 
-    override fun onShizukuCreated() {
-        super.onShizukuCreated()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        super.onShizukuCreated(shizukuServiceHelper)
         loadBatteryOptimizationShizuku()
     }
 

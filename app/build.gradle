@@ -239,7 +239,7 @@ dependencies {
     implementation "com.github.topjohnwu.libsu:nio:${libsuVersion}"
 
     // Shizuku
-    def shizukuVersion = '13.1.0'
+    def shizukuVersion = '13.1.5'
     //noinspection GradleDependency
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
     //noinspection GradleDependency
