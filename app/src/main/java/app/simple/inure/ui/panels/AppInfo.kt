@@ -507,7 +507,7 @@ class AppInfo : ScopedFragment() {
                                 if (packageInfo.packageName == requireContext().packageName) {
                                     openFragmentArc(Preferences.newInstance(), icon, "preferences")
                                 } else {
-                                    try {
+                                    runCatching {
                                         requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0)
                                             .forEach {
                                                 if (it.activityInfo.packageName == packageInfo.packageName) {
@@ -516,8 +516,8 @@ class AppInfo : ScopedFragment() {
                                                     })
                                                 }
                                             }
-                                    } catch (e: SecurityException) {
-                                        showWarning(e.message ?: getString(R.string.error), goBack = false)
+                                    }.onFailure {
+                                        showWarning(it.message ?: getString(R.string.error), goBack = false)
                                     }
                                 }
                             }
@@ -525,7 +525,7 @@ class AppInfo : ScopedFragment() {
 
                         R.string.search -> {
                             childFragmentManager.showSearchBox(SearchBoxCallbacks { query ->
-                                try {
+                                runCatching {
                                     requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_SEARCH), 0)
                                         .forEach {
                                             if (it.activityInfo.packageName == packageInfo.packageName) {
@@ -535,19 +535,19 @@ class AppInfo : ScopedFragment() {
                                                 })
                                             }
                                         }
-                                } catch (e: SecurityException) {
-                                    showWarning(e.message ?: getString(R.string.error), goBack = false)
+                                }.onFailure {
+                                    showWarning(it.message ?: getString(R.string.error), goBack = false)
                                 }
                             })
                         }
 
                         R.string.manage_space -> {
-                            try {
+                            runCatching {
                                 startActivity(Intent().apply {
                                     setClassName(packageInfo.packageName, packageInfo.applicationInfo.manageSpaceActivityName)
                                 })
-                            } catch (e: SecurityException) {
-                                showWarning(e.message ?: getString(R.string.error))
+                            }.onFailure {
+                                showWarning(it.message ?: getString(R.string.error))
                             }
                         }
                     }
