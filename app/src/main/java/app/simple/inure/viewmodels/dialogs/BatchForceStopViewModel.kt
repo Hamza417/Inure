@@ -7,8 +7,6 @@ import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,20 +27,11 @@ class BatchForceStopViewModel(application: Application, private val apps: ArrayL
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         super.onShizukuCreated(shizukuServiceHelper)
-        runShizuku()
-    }
-
-    override fun onShellCreated(shell: Shell?) {
-        super.onShellCreated(shell)
-        runRootCommand()
-    }
-
-    private fun runRootCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 buildString {
                     apps.forEach { batchPackageInfo ->
-                        Shell.cmd("am force-stop ${batchPackageInfo.packageInfo.packageName}").exec().let { result ->
+                        shizukuServiceHelper.service!!.simpleExecute("am force-stop ${batchPackageInfo.packageInfo.packageName}").let { result ->
                             if (result.isSuccess) {
                                 if (isEmpty()) {
                                     append("${getString(R.string.closed)} - ${batchPackageInfo.packageInfo.packageName}")
@@ -69,13 +58,17 @@ class BatchForceStopViewModel(application: Application, private val apps: ArrayL
         }
     }
 
-    private fun runShizuku() {
+    override fun onShellCreated(shell: Shell?) {
+        super.onShellCreated(shell)
+        runRootCommand()
+    }
+
+    private fun runRootCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 buildString {
                     apps.forEach { batchPackageInfo ->
-                        ShizukuUtils.execInternal(Command(
-                                "am force-stop ${batchPackageInfo.packageInfo.packageName}"), null).let { result ->
+                        Shell.cmd("am force-stop ${batchPackageInfo.packageInfo.packageName}").exec().let { result ->
                             if (result.isSuccess) {
                                 if (isEmpty()) {
                                     append("${getString(R.string.closed)} - ${batchPackageInfo.packageInfo.packageName}")
