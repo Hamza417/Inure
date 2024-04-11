@@ -137,6 +137,8 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
         return shell != null
     }
 
+    protected fun getShizukuService() = shizukuServiceHelper?.service!!
+
     open fun onShellCreated(shell: Shell?) {
 
     }

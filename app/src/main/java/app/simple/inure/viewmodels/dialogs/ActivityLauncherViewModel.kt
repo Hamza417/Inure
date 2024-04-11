@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,7 +10,6 @@ import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,7 +78,7 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
         }
     }
 
-    fun runActionCommand(action: String?) {
+    private fun runActionCommand(action: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 Shell.cmd(formLaunchCommand(action)).submit { shellResult ->
@@ -119,9 +117,7 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
     private fun runShizuku(action: String? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(formLaunchCommand(action)), null).let {
-                    Log.d("Shizuku", it.toString())
-                }
+                getShizukuService().simpleExecute(formLaunchCommand(action))
             }.onSuccess {
                 success.postValue("Done")
             }.onFailure {

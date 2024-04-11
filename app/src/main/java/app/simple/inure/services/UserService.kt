@@ -37,13 +37,13 @@ class UserService() : IUserService.Stub() {
         return@runBlocking ExecuteResult(exitCode, error, output)
     }
 
-    override fun simpleExecute(command: String?): ExecuteResult = runBlocking(Dispatchers.IO) {
+    override fun simpleExecute(command: String?): ExecuteResult {
         Log.d("ShizukuService", "simpleExecute: $command")
-        val process = Runtime.getRuntime().exec(command)
+        val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
         val exitCode = process.waitFor()
         val error = process.errorStream.readBytes().decodeToString()
         val output = process.inputStream.readBytes().decodeToString()
-        return@runBlocking ExecuteResult(exitCode, error, output)
+        return ExecuteResult(exitCode, error, output)
     }
 
     override fun forceStopApp(packageName: String?): Boolean {
