@@ -70,20 +70,6 @@ class StateViewModel(application: Application, private val packageInfo: PackageI
         }
     }
 
-    private fun useShizuku() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                ShizukuUtils.setAppDisabled(packageInfo.applicationInfo.enabled, setOf(packageInfo.packageName))
-            }.onFailure {
-                success.postValue("Failed")
-            }.onSuccess {
-                success.postValue("Done")
-            }.getOrElse {
-                success.postValue("Failed")
-            }
-        }
-    }
-
     private fun formStateCommand(): String {
         return if (packageInfo.applicationInfo.enabled) {
             "pm disable ${packageInfo.packageName}"
@@ -102,6 +88,16 @@ class StateViewModel(application: Application, private val packageInfo: PackageI
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        useShizuku()
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                ShizukuUtils.setAppDisabled(packageInfo.applicationInfo.enabled, setOf(packageInfo.packageName))
+            }.onFailure {
+                success.postValue("Failed")
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                success.postValue("Failed")
+            }
+        }
     }
 }

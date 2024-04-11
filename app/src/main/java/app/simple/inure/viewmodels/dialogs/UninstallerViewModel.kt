@@ -10,8 +10,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,24 +54,6 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    private fun runShizuku() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                ShizukuUtils.execInternal(Command(formUninstallCommand()), null).let {
-                    Log.d("Shizuku", it.toString())
-                }
-            }.onFailure {
-                success.postValue("Failed")
-                postError(it)
-            }.onSuccess {
-                success.postValue("Done")
-            }.getOrElse {
-                success.postValue("Failed")
-                postError(it)
-            }
-        }
-    }
-
     private fun formUninstallCommand(): String {
         return if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             "pm uninstall --user current ${packageInfo.packageName}"
@@ -92,7 +72,20 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        Log.d("Shizuku", "Created")
-        runShizuku()
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                shizukuServiceHelper.service!!.simpleExecute(formUninstallCommand()).let {
+                    Log.d("Shizuku", it.toString())
+                }
+            }.onFailure {
+                success.postValue("Failed")
+                postError(it)
+            }.onSuccess {
+                success.postValue("Done")
+            }.getOrElse {
+                success.postValue("Failed")
+                postError(it)
+            }
+        }
     }
 }

@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,8 +9,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -83,7 +80,6 @@ class ForceCloseViewModel(application: Application, val packageInfo: PackageInfo
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         super.onShizukuCreated(shizukuServiceHelper)
         viewModelScope.launch(Dispatchers.Default) {
-            Log.d("ForceCloseViewModel", "forceStopApp: ${packageInfo.packageName}")
             if (shizukuServiceHelper.service!!.forceStopApp(packageInfo.packageName)) {
                 success.postValue("Done")
             } else {

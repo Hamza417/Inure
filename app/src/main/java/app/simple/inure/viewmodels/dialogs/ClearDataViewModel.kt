@@ -10,8 +10,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,10 +72,19 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
         }
     }
 
-    private fun runShizuku() {
+    override fun onShellCreated(shell: Shell?) {
+        runCommand()
+    }
+
+    override fun onShellDenied() {
+        warning.postValue(Warnings.getNoRootConnectionWarning())
+        success.postValue("Failed")
+    }
+
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                ShizukuUtils.execInternal(Command("pm clear ${packageInfo.packageName}"), null).let {
+                shizukuServiceHelper.service!!.simpleExecute("pm clear ${packageInfo.packageName}").let {
                     result.postValue("\n" + it)
                     Log.d("ClearData", it.toString())
                 }
@@ -93,18 +100,5 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
                 postError(it)
             }
         }
-    }
-
-    override fun onShellCreated(shell: Shell?) {
-        runCommand()
-    }
-
-    override fun onShellDenied() {
-        warning.postValue(Warnings.getNoRootConnectionWarning())
-        success.postValue("Failed")
-    }
-
-    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        runShizuku()
     }
 }

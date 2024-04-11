@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +30,26 @@ class UsersViewModel(application: Application) : RootShizukuViewModel(applicatio
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         super.onShizukuCreated(shizukuServiceHelper)
-        loadUsersShizuku()
+        viewModelScope.launch(Dispatchers.Default) {
+            runCatching {
+                shizukuServiceHelper.service!!.simpleExecute("pm list users").let {
+                    if (it.isSuccess) {
+                        val users = ArrayList<User>()
+                        it.output?.split("\n")?.forEach { line ->
+                            if (line.contains("UserInfo") && line.contains("{") && line.contains("}")) {
+                                val split = line.substringAfter("{").substringBefore("}").split(":")
+                                users.add(User(split[0].toInt(), split[1], split[2]))
+                            }
+                        }
+
+                        users.sortBy { user -> user.id }
+                        this@UsersViewModel.users.postValue(users)
+                    } else {
+                        postWarning(it.error.toString())
+                    }
+                }
+            }
+        }
     }
 
     private fun loadUsersRoot() {
@@ -63,29 +81,6 @@ class UsersViewModel(application: Application) : RootShizukuViewModel(applicatio
                 }
             }.onFailure {
                 postError(it)
-            }
-        }
-    }
-
-    private fun loadUsersShizuku() {
-        viewModelScope.launch(Dispatchers.Default) {
-            runCatching {
-                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("pm list users"), null).let {
-                    if (it.isSuccess) {
-                        val users = ArrayList<User>()
-                        it.out.split("\n").forEach { line ->
-                            if (line.contains("UserInfo") && line.contains("{") && line.contains("}")) {
-                                val split = line.substringAfter("{").substringBefore("}").split(":")
-                                users.add(User(split[0].toInt(), split[1], split[2]))
-                            }
-                        }
-
-                        users.sortBy { user -> user.id }
-                        this@UsersViewModel.users.postValue(users)
-                    } else {
-                        postWarning(it.err.toString())
-                    }
-                }
             }
         }
     }
