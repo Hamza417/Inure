@@ -20,11 +20,12 @@ import app.simple.inure.dialogs.action.PermissionStatus.Companion.showPermission
 import app.simple.inure.dialogs.permissions.PermissionsMenu
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.PermissionPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.viewmodels.viewers.PermissionsViewModel
+import com.anggrayudi.storage.extension.postToUi
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -105,27 +106,26 @@ class Permissions : SearchBarScopedFragment() {
                         } else if (ConfigurationPreferences.isUsingShizuku()) {
                             kotlin.runCatching {
                                 if (Shizuku.pingBinder()) {
-                                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(
-                                            "pm $mode ${packageInfo.packageName} ${permissionInfo.name}"), null).let {
-                                        if (it.isSuccess) {
-                                            withContext(Dispatchers.Main) {
-                                                adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
-                                            }
-                                        } else {
-                                            withContext(Dispatchers.Main) {
-                                                showWarning("ERR: failed to $mode permission", goBack = false)
-                                                adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                    ShizukuServiceHelper.getInstance().getBoundService { shizukuService ->
+                                        shizukuService.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
+                                            postToUi {
+                                                if (it.isSuccess) {
+                                                    adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
+                                                } else {
+                                                    showWarning("ERR: failed to $mode permission", goBack = false)
+                                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                                }
                                             }
                                         }
                                     }
                                 } else {
-                                    withContext(Dispatchers.Main) {
+                                    postToUi {
                                         showWarning("ERR: failed to acquire Shizuku", goBack = false)
                                         adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                     }
                                 }
                             }.getOrElse {
-                                withContext(Dispatchers.Main) {
+                                postToUi {
                                     showWarning("ERR: failed to acquire Shizuku", goBack = false)
                                     adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                 }

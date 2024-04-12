@@ -15,8 +15,6 @@ import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SortBatteryOptimization.getSortedList
@@ -254,7 +252,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                 }
             } else if (ConfigurationPreferences.isUsingShizuku()) {
                 kotlin.runCatching {
-                    ShizukuUtils.execInternal(Command(cmd), null).let {
+                    getShizukuService().simpleExecute(cmd).let {
                         if (it.isSuccess) {
                             // Invert the state here
                             batteryOptimizationModel.isOptimized = !batteryOptimizationModel.isOptimized

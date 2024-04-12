@@ -13,12 +13,12 @@ import rikka.shizuku.Shizuku.UserServiceArgs
 /**
  * 用于简化 Shizuku 绑定、解绑的过程。
  * */
-class ShizukuServiceHelper {
+class ShizukuServiceHelper private constructor() {
 
     private var _service: IUserService? = null
     val service get() = _service
     private val isServiceBound get() = _service != null
-    val onServiceConnectedListeners = mutableListOf<Runnable>()
+    val onServiceConnectedListeners = mutableSetOf<Runnable>()
 
     private val userServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, binder: IBinder) {
@@ -76,6 +76,12 @@ class ShizukuServiceHelper {
         }
     }
 
+    fun getBoundService(onServiceConnected: (IUserService) -> Unit) {
+        bindUserService {
+            _service?.let { onServiceConnected(it) }
+        }
+    }
+
     fun unbindUserService() {
         if (!isServiceBound) return
         if (isSupported()) {
@@ -87,6 +93,14 @@ class ShizukuServiceHelper {
 
     companion object {
         private const val TAG = "ShizukuHelper"
+        private var INSTANCE: ShizukuServiceHelper? = null
+
+        fun getInstance(): ShizukuServiceHelper {
+            if (INSTANCE == null) {
+                INSTANCE = ShizukuServiceHelper()
+            }
+            return INSTANCE!!
+        }
 
         fun isSupported(): Boolean {
             return Shizuku.getVersion() >= 10

@@ -18,8 +18,6 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.escapeSpecialCharactersForUnixPath
@@ -304,14 +302,6 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         val uri = FileProvider.getUriForFile(applicationContext(),
                                                              "${applicationContext().packageName}.provider", file)
 
-                        context.contentResolver.openInputStream(uri).use { inputStream ->
-                            ShizukuUtils.execInternal(
-                                    Command("pm install-write -S $size $sessionId base-"), inputStream).let {
-                                Log.d("Installer", "Output: ${it.out}")
-                                Log.d("Installer", "Error: ${it.err}")
-                            }
-                        }
-
                         context.contentResolver.openFileDescriptor(uri, "r").use {
                             getShizukuService().executeInputStream(arrayListOf("pm", "install-write", "-S", "$size", sessionId, "base-"), null, null, it).let { result ->
                                 Log.d("Installer", "Output: ${result.output}")
@@ -342,10 +332,6 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d("Installer", "Error: ${result.error}")
                         postWarning(result.output)
                     }
-                }
-
-                ShizukuUtils.execInternal(Command("pm install-commit $sessionId"), null).let { result ->
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -430,16 +416,16 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             kotlin.runCatching {
                 val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
 
-                ShizukuUtils.execInternal(Command("pm install --bypass-low-target-sdk-block $path"), null).let {
+                getShizukuService().simpleExecute("pm install --bypass-low-target-sdk-block $path").let {
                     if (it.isSuccess) {
                         success.postValue((0..50).random())
                     } else {
-                        postWarning(it.out)
-                        Log.e("Installer", "Error: ${it.err}")
-                        Log.e("Installer", "Output: ${it.out}")
+                        postWarning(it.output)
+                        Log.e("Installer", "Error: ${it.error}")
+                        Log.e("Installer", "Output: ${it.output}")
                     }
 
-                    Log.d("Installer", "Output: ${it.out}")
+                    Log.d("Installer", "Output: ${it.output}")
                 }
             }.onFailure {
                 postWarning(it.message ?: "Unknown error")

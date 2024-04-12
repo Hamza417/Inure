@@ -8,7 +8,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.NoShellException
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -107,7 +106,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            shizukuServiceHelper = ShizukuServiceHelper()
+            shizukuServiceHelper = ShizukuServiceHelper.getInstance()
             shizukuServiceHelper!!.bindUserService {
                 onShizukuCreated(shizukuServiceHelper!!)
             }
@@ -166,9 +165,9 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                 }
             } else if (ConfigurationPreferences.isUsingShizuku()) {
                 kotlin.runCatching {
-                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("am get-current-user"), null)
+                    getShizukuService().simpleExecute("am get-current-user")
                 }.onSuccess {
-                    user = it.out.toInt()
+                    user = it.output?.toInt() ?: 0
                 }.onFailure {
                     postError(it)
                 }

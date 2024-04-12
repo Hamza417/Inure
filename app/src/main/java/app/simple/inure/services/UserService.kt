@@ -52,12 +52,12 @@ class UserService() : IUserService.Stub() {
         return@runBlocking ExecuteResult(exitCode, error, output)
     }
 
-    override fun simpleExecute(command: String?): ExecuteResult {
-        val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
+    override fun simpleExecute(command: String?): ExecuteResult = runBlocking(Dispatchers.IO) {
+        val process = Runtime.getRuntime().exec(command)
         val exitCode = process.waitFor()
         val error = process.errorStream.readBytes().decodeToString()
         val output = process.inputStream.readBytes().decodeToString()
-        return ExecuteResult(exitCode, error, output)
+        return@runBlocking ExecuteResult(exitCode, error, output)
     }
 
     override fun forceStopApp(packageName: String?): Boolean {
