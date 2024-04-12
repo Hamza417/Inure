@@ -1,6 +1,7 @@
 package app.simple.inure.services
 
 import android.content.Context
+import android.os.ParcelFileDescriptor
 import android.util.Log
 import androidx.annotation.Keep
 import app.simple.inure.IUserService
@@ -37,8 +38,21 @@ class UserService() : IUserService.Stub() {
         return@runBlocking ExecuteResult(exitCode, error, output)
     }
 
+    override fun executeInputStream(cmdarray: MutableList<String>?, envp: MutableList<String>?, dir: String?, inputPipe: ParcelFileDescriptor?): ExecuteResult = runBlocking(Dispatchers.IO) {
+        val process = Runtime.getRuntime().exec(cmdarray?.toTypedArray(), envp?.toTypedArray(), dir?.let {
+            File(it)
+        })
+        process.outputStream.write(inputPipe?.let {
+            val inputStream = ParcelFileDescriptor.AutoCloseInputStream(it)
+            inputStream.readBytes()
+        })
+        val exitCode = process.waitFor()
+        val error = process.errorStream.readBytes().decodeToString()
+        val output = process.inputStream.readBytes().decodeToString()
+        return@runBlocking ExecuteResult(exitCode, error, output)
+    }
+
     override fun simpleExecute(command: String?): ExecuteResult {
-        Log.d("ShizukuService", "simpleExecute: $command")
         val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))
         val exitCode = process.waitFor()
         val error = process.errorStream.readBytes().decodeToString()
