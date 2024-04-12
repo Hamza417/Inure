@@ -70,6 +70,16 @@ class UserService() : IUserService.Stub() {
         }
     }
 
+    override fun install(paths: MutableList<String>?, opt: MutableList<String>?): Boolean {
+        Log.d(TAG, "install: paths=$paths, opt=$opt")
+        return try {
+            Runtime.getRuntime().exec("pm install ${paths?.joinToString(" ")} ${opt?.joinToString(" ")}").waitFor() == 0
+        } catch (e: Exception) {
+            Log.e(TAG, "install: $e")
+            false
+        }
+    }
+
     companion object {
         private const val TAG = "UserService"
     }

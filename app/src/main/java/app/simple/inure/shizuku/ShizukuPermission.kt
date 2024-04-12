@@ -6,7 +6,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import rikka.shizuku.Shizuku
 
-class ShizukuUtil {
+class ShizukuPermission {
     companion object {
         const val PERMISSION = "moe.shizuku.manager.permission.API_V23"
         const val URL_GUIDE = "https://shizuku.rikka.app/zh-hans/guide/setup/"

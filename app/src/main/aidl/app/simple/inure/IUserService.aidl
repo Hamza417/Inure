@@ -16,4 +16,6 @@ interface IUserService {
     boolean forceStopApp(in String packageName) = 4;
 
     ExecuteResult executeInputStream(in List<String> cmdarray, in List<String> envp, String dir, in ParcelFileDescriptor inputPipe) = 5;
+
+    boolean install(in List<String> paths, in List<String> opt) = 6;
 }

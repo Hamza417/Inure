@@ -5,6 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
     id 'kotlin-kapt'
+    id 'dev.rikka.tools.refine' version '4.4.0'
 }
 
 android {
@@ -171,6 +172,7 @@ android {
 }
 
 dependencies {
+    // compileOnly project(':hidden-api-stub')
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -244,6 +246,15 @@ dependencies {
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
     //noinspection GradleDependency
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
+
+    // Refine
+    annotationProcessor "dev.rikka.tools.refine:annotation-processor:4.4.0"
+    compileOnly "dev.rikka.tools.refine:annotation:4.4.0"
+
+    // Hidden API
+    def hiddenApiVersion = '4.3.3'
+    implementation "dev.rikka.hidden:compat:$hiddenApiVersion"
+    compileOnly "dev.rikka.hidden:stub:$hiddenApiVersion"
 
     // Room
     implementation 'androidx.room:room-ktx:2.6.1'
