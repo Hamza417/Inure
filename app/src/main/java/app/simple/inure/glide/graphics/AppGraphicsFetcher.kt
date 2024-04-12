@@ -8,8 +8,12 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.caverock.androidsvg.SVG
-import java.io.*
-import java.util.*
+import java.io.BufferedInputStream
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -38,7 +42,7 @@ class AppGraphicsFetcher internal constructor(private val appGraphicsModel: AppG
                             }
                         }
 
-                        bitmap!!.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
+                        bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
 
                         ByteArrayInputStream(byteArrayOutputStream.toByteArray()).use {
                             callback.onDataReady(it)

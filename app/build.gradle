@@ -249,12 +249,12 @@ dependencies {
 
     // Refine
     annotationProcessor "dev.rikka.tools.refine:annotation-processor:4.4.0"
-    compileOnly "dev.rikka.tools.refine:annotation:4.4.0"
+    //noinspection GradleDependency
+    compileOnly "dev.rikka.tools.refine:annotation:4.3.0"
 
     // Hidden API
-    def hiddenApiVersion = '4.3.3'
-    implementation "dev.rikka.hidden:compat:$hiddenApiVersion"
-    compileOnly "dev.rikka.hidden:stub:$hiddenApiVersion"
+    implementation "dev.rikka.hidden:compat:4.3.3"
+    compileOnly "dev.rikka.hidden:stub:4.3.3"
 
     // Room
     implementation 'androidx.room:room-ktx:2.6.1'

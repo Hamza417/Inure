@@ -23,7 +23,7 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                 if (appIcon.enabled) {
                     callback.onDataReady(activityList.getIcon(0).toBitmap())
                 } else {
-                    callback.onDataReady(activityList.getIcon(0).toBitmap()?.toGrayscale())
+                    callback.onDataReady(activityList.getIcon(0).toBitmap().toGrayscale())
                 }
             }.onFailure {
                 // Loading proper icon failed, try loading default icon
@@ -37,7 +37,7 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                         callback.onDataReady(
                                 appIcon.context.packageManager
                                     .getApplicationIcon(appIcon.packageName)
-                                    .toBitmap()?.toGrayscale())
+                                    .toBitmap().toGrayscale())
                     }
                 }.onFailure {
                     // Loading default icon failed, load icon from APK
@@ -54,7 +54,7 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                     p0!!.applicationInfo.sourceDir = appIcon.file.absolutePath
                     p0.applicationInfo.publicSourceDir = appIcon.file.absolutePath
                     val b = appIcon.context.packageManager.getApplicationIcon(p0.applicationInfo)
-                    callback.onDataReady(b.toBitmap()?.toGrayscale())
+                    callback.onDataReady(b.toBitmap().toGrayscale())
                 }
             }
         } catch (_: PackageManager.NameNotFoundException) {

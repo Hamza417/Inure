@@ -27,7 +27,7 @@ class SVGFetcher(private val svg: SVG) : DataFetcher<InputStream> {
             }
         }
 
-        bitmap!!.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, byteArrayOutputStream)
 
         ByteArrayInputStream(byteArrayOutputStream.toByteArray()).use {
             callback.onDataReady(it)
