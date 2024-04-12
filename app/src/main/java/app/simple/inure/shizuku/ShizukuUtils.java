@@ -157,6 +157,7 @@ public class ShizukuUtils {
         Log.i("ShizukuHider", "Updated component state: " + packageName);
     }
     
+    @Deprecated
     public static Shell.Result execInternal(Shell.Command command, @Nullable InputStream inputPipe) {
         StringBuilder stdOutSb = new StringBuilder();
         StringBuilder stdErrSb = new StringBuilder();
@@ -164,8 +165,6 @@ public class ShizukuUtils {
         try {
             Shell.Command.Builder shCommand = new Shell.Command.Builder("sh", "-c", command.toString());
             
-            //noinspection deprecation
-            // ShizukuRemoteProcess process = Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
             ShizukuRemoteProcess process = null; // Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
             
             Thread stdOutD = IOUtils.writeStreamToStringBuilder(stdOutSb, process.getInputStream());

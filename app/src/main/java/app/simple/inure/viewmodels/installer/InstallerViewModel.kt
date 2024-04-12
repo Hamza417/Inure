@@ -18,6 +18,7 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.shizuku.PackageInstaller
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.escapeSpecialCharactersForUnixPath
@@ -238,108 +239,6 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         }
     }
 
-    private fun shizukuInstall() {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Installer", "Shizuku install")
-
-            try {
-                val totalSizeOfAllApks = files!!.getLength()
-                Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
-                val sessionId = with(getShizukuService().simpleExecute("pm install-create -S $totalSizeOfAllApks")) {
-                    Log.d("Installer", "Output: $output")
-                    with(output!!) {
-                        if (isNotEmpty()) {
-                            "${substringAfter("[").substringBefore("]").toInt()}"
-                        } else {
-                            postWarning("ERR: unable to get session id")
-                            return@launch
-                        }
-                    }
-                }
-
-                /**
-                 * Install base apk
-                 */
-                context.contentResolver.openFileDescriptor(FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", baseApk!!), "r").use {
-                    getShizukuService().executeInputStream(arrayListOf("pm", "install-write", "-S", "${baseApk?.length()}", "$sessionId base-"), null, null, it).let { result ->
-                        Log.d("Installer", "Output: ${result.output}")
-                        Log.d("Installer", "Error: ${result.error}")
-                    }
-                }
-
-                Log.d("Installer", "Session id: $sessionId")
-                for (file in splitApkFiles!!) {
-                    if (file.exists() && file.name.endsWith(".apk") && splitApkFiles!!.size >= 1) {
-                        val size = file.length()
-                        Log.d("Installer", "Size of ${file.name}: $size")
-                        val splitName = file.name.substringBeforeLast(".")
-                        Log.d("Installer", "Split name: $splitName")
-                        val idx = splitApkFiles?.indexOf(file)
-                        Log.d("Installer", "Index: $idx")
-                        val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
-                        Log.d("Installer", "Path: $path")
-
-                        // create uri from file
-                        val uri = FileProvider.getUriForFile(applicationContext(),
-                                                             "${applicationContext().packageName}.provider", file)
-
-                        /**
-                         * Install split apks
-                         */
-                        context.contentResolver.openFileDescriptor(uri, "r").use {
-                            getShizukuService().executeInputStream(arrayListOf("pm", "install-write", "-S", "$size", sessionId, "$splitName-"), null, null, it).let { result ->
-                                Log.d("Installer", "Output: ${result.output}")
-                                Log.d("Installer", "Error: ${result.error}")
-                            }
-                        }
-                    } else { // Not a split apk
-                        val size = file.length()
-                        Log.d("Installer", "Size of ${file.name}: $size")
-                        val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
-                        Log.d("Installer", "Path: $path")
-
-                        // create uri from file
-                        val uri = FileProvider.getUriForFile(applicationContext(),
-                                                             "${applicationContext().packageName}.provider", file)
-
-                        context.contentResolver.openFileDescriptor(uri, "r").use {
-                            getShizukuService().executeInputStream(arrayListOf("pm", "install-write", "-S", "$size", sessionId, "base-"), null, null, it).let { result ->
-                                Log.d("Installer", "Output: ${result.output}")
-                                Log.d("Installer", "Error: ${result.error}")
-                            }
-                        }
-                    }
-                }
-
-                getShizukuService().simpleExecute("pm install-commit $sessionId").let { result ->
-                    if (result.isSuccess) {
-                        Log.d("Installer", "Output: ${result.output}")
-                        Log.d("Installer", "Error: ${result.error}")
-                        success.postValue((0..50).random())
-
-                        Log.d("Installer", "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
-                        getShizukuService().simpleExecute("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}")
-                            .let {
-                                if (it.isSuccess) {
-                                    Log.d("Installer", "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
-                                } else {
-                                    Log.d("Installer", "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
-                                    Log.e("Installer", "Output: ${it.output}")
-                                }
-                            }
-                    } else {
-                        Log.d("Installer", "Output: ${result.output}")
-                        Log.d("Installer", "Error: ${result.error}")
-                        postWarning(result.output)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                postError(e)
-            }
-        }
-    }
-
     fun install(user: User?) {
         this.user = user
 
@@ -359,7 +258,22 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        shizukuInstall()
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d("Installer", "Shizuku install")
+
+            try {
+                val uris = files!!.map { file ->
+                    FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+                }
+
+                val packageInstaller = PackageInstaller()
+                packageInstaller.install(uris, applicationContext())
+                success.postValue((0..50).random())
+            } catch (e: Exception) {
+                e.printStackTrace()
+                postWarning(e.message ?: "Unknown error")
+            }
+        }
     }
 
     override fun onShizukuDenied() {

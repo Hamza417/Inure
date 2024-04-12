@@ -98,5 +98,6 @@
     </inspection_tool>
     <inspection_tool class="OptionalOfNullableMisuseMerged" />
     <inspection_tool class="RedundantLabeledSwitchRuleCodeBlock" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
+    <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="TEXT ATTRIBUTES" enabled_by_default="true" editorAttributes="NOT_USED_ELEMENT_ATTRIBUTES" />
   </profile>
 </component>
