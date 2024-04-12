@@ -20,10 +20,10 @@ import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -456,25 +456,27 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                         batteryOptimization.postValue(batteryOptimizationModel)
                     }
                     ConfigurationPreferences.isUsingShizuku() -> {
-                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("dumpsys deviceidle whitelist"), null).let { result ->
-                            if (result.isSuccess) {
-                                if (result.out.isNotEmpty()) {
-                                    val lines = result.out.split("\n")
-                                    for (line in lines) {
-                                        if (line.contains(packageInfo.packageName)) {
-                                            batteryOptimizationModel.isOptimized = false
-                                            break
-                                        } else {
-                                            batteryOptimizationModel.isOptimized = true
+                        ShizukuServiceHelper.getInstance().getBoundService { service ->
+                            service.simpleExecute("dumpsys deviceidle whitelist").let { result ->
+                                if (result.isSuccess) {
+                                    if (result.output?.isNotEmpty() == true) {
+                                        val lines = result.output.split("\n")
+                                        for (line in lines) {
+                                            if (line.contains(packageInfo.packageName)) {
+                                                batteryOptimizationModel.isOptimized = false
+                                                break
+                                            } else {
+                                                batteryOptimizationModel.isOptimized = true
+                                            }
                                         }
+                                    } else {
+                                        batteryOptimizationModel.isOptimized = true
                                     }
-                                } else {
-                                    batteryOptimizationModel.isOptimized = true
                                 }
                             }
-                        }
 
-                        batteryOptimization.postValue(batteryOptimizationModel)
+                            batteryOptimization.postValue(batteryOptimizationModel)
+                        }
                     }
                 }
             }
@@ -505,19 +507,23 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 }
                 ConfigurationPreferences.isUsingShizuku() -> {
                     if (optimize) {
-                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("cmd deviceidle whitelist -${packageInfo.packageName}"), null).let {
-                            if (it.isSuccess) {
-                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
-                            } else {
-                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                        ShizukuServiceHelper.getInstance().getBoundService { service ->
+                            service.simpleExecute("cmd deviceidle whitelist -${packageInfo.packageName}").let { result ->
+                                if (result.isSuccess) {
+                                    batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                                } else {
+                                    batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                                }
                             }
                         }
                     } else {
-                        ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("cmd deviceidle whitelist +${packageInfo.packageName}"), null).let {
-                            if (it.isSuccess) {
-                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
-                            } else {
-                                batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                        ShizukuServiceHelper.getInstance().getBoundService { service ->
+                            service.simpleExecute("cmd deviceidle whitelist +${packageInfo.packageName}").let { result ->
+                                if (result.isSuccess) {
+                                    batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, false))
+                                } else {
+                                    batteryOptimization.postValue(BatteryOptimizationModel(packageInfo, true))
+                                }
                             }
                         }
                     }

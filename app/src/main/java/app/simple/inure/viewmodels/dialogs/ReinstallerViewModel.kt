@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
-import app.simple.inure.shizuku.ShizukuUtils
+import app.simple.inure.helpers.ShizukuServiceHelper
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,22 +33,6 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    private fun runShizuku() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(formReinstallCommand()), null)
-            }.onSuccess {
-                success.postValue("Done")
-            }.onFailure {
-                success.postValue("Failed")
-                postError(it)
-            }.getOrElse {
-                success.postValue("Failed")
-                postError(it)
-            }
-        }
-    }
-
     private fun formReinstallCommand(): String {
         return "pm install -r ${packageInfo.applicationInfo.sourceDir}"
     }
@@ -61,7 +45,23 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
 
     }
 
-    override fun onShizukuCreated() {
-        runShizuku()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                shizukuServiceHelper.service!!.simpleExecute(formReinstallCommand()).let {
+                    if (it.isSuccess) {
+                        success.postValue("Done")
+                    } else {
+                        success.postValue("Failed")
+                    }
+                }
+            }.onFailure {
+                success.postValue("Failed")
+                postError(it)
+            }.getOrElse {
+                success.postValue("Failed")
+                postError(it)
+            }
+        }
     }
 }

@@ -24,7 +24,6 @@ import androidx.annotation.Nullable;
 import app.simple.inure.BuildConfig;
 import app.simple.inure.preferences.ShellPreferences;
 import app.simple.inure.util.IOUtils;
-import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuBinderWrapper;
 import rikka.shizuku.ShizukuRemoteProcess;
 import rikka.shizuku.SystemServiceHelper;
@@ -166,7 +165,8 @@ public class ShizukuUtils {
             Shell.Command.Builder shCommand = new Shell.Command.Builder("sh", "-c", command.toString());
             
             //noinspection deprecation
-            ShizukuRemoteProcess process = Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
+            // ShizukuRemoteProcess process = Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
+            ShizukuRemoteProcess process = null; // Shizuku.newProcess(shCommand.build().toStringArray(), null, null);
             
             Thread stdOutD = IOUtils.writeStreamToStringBuilder(stdOutSb, process.getInputStream());
             Thread stdErrD = IOUtils.writeStreamToStringBuilder(stdErrSb, process.getErrorStream());

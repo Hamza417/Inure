@@ -1,14 +1,13 @@
 package app.simple.inure.extensions.viewmodels
 
 import android.app.Application
-import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.constants.Warnings
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.NoShellException
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +18,7 @@ import rikka.shizuku.Shizuku
 abstract class RootShizukuViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var shell: Shell? = null
+    private var shizukuServiceHelper: ShizukuServiceHelper? = null
 
     /**
      * Initialize the shell or shizuku depending on the user's preference.
@@ -106,11 +106,9 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                onShizukuCreated()
-            } else {
-                onShizukuDenied()
-                Log.d("RootViewModel", "Shizuku permission denied")
+            shizukuServiceHelper = ShizukuServiceHelper.getInstance()
+            shizukuServiceHelper!!.bindUserService {
+                onShizukuCreated(shizukuServiceHelper!!)
             }
         } else {
             onShizukuDenied()
@@ -120,6 +118,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
     override fun onCleared() {
         super.onCleared()
         shell?.close()
+        shizukuServiceHelper?.unbindUserService()
 
         kotlin.runCatching {
             Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
@@ -137,6 +136,8 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
         return shell != null
     }
 
+    protected fun getShizukuService() = shizukuServiceHelper?.service!!
+
     open fun onShellCreated(shell: Shell?) {
 
     }
@@ -145,7 +146,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     }
 
-    open fun onShizukuCreated() {
+    open fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
 
     }
 
@@ -164,9 +165,9 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                 }
             } else if (ConfigurationPreferences.isUsingShizuku()) {
                 kotlin.runCatching {
-                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command("am get-current-user"), null)
+                    getShizukuService().simpleExecute("am get-current-user")
                 }.onSuccess {
-                    user = it.out.toInt()
+                    user = it.output?.toInt() ?: 0
                 }.onFailure {
                     postError(it)
                 }

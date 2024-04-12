@@ -9,9 +9,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,12 +61,12 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
         warning.postValue(Warnings.getNoRootConnectionWarning())
     }
 
-    override fun onShizukuCreated() {
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             buildString {
                 for (app in list) {
                     runCatching {
-                        ShizukuUtils.execInternal(Command(app.packageInfo.getUninstallCommand()), null).let {
+                        shizukuServiceHelper.service!!.simpleExecute(app.packageInfo.getUninstallCommand()).let {
                             if (it.isSuccess) {
                                 append(getString(R.string.uninstalled) + " -> ${app.packageInfo.packageName}\n")
                             } else {

@@ -6,9 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
-import app.simple.inure.shizuku.Shell.Command
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,9 +50,7 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
             }
         }
 
-        command.removeSuffix(" && ") // remove the last " && " :)
-
-        return command.toString()
+        return command.removeSuffix(" && ").toString() // remove the last " && " :)
     }
 
     private fun runSuCommand() {
@@ -66,11 +63,12 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
         }
     }
 
-    private fun runShizukuCommand() {
+    private fun runShizukuCommand(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                ShizukuUtils.execInternal(Command(createCommand(), null), null).let {
-                    result.postValue(it.out.toString())
+                shizukuServiceHelper.service!!.simpleExecute(createCommand()).let {
+                    Log.d("BatchBatteryOptimizationViewModel", "runShizukuCommand: ${it.output}")
+                    result.postValue(it.output.toString())
                 }
             }.onFailure {
                 Log.d("BatchBatteryOptimizationViewModel", "runShizukuCommand: ${it.message}")
@@ -87,7 +85,7 @@ class BatchBatteryOptimizationViewModel(application: Application, val apps: Arra
 
     }
 
-    override fun onShizukuCreated() {
-        runShizukuCommand()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        runShizukuCommand(shizukuServiceHelper)
     }
 }

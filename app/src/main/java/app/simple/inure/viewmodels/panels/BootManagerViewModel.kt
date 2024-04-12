@@ -15,6 +15,7 @@ import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.FlagUtils
@@ -64,7 +65,7 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
         loadBootComponents()
     }
 
-    override fun onShizukuCreated() {
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
 
     }
 

@@ -12,11 +12,11 @@ import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.enums.Removal
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.Bloat
 import app.simple.inure.models.PackageStateResult
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DebloatPreferences
-import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.sort.DebloatSort.getSortedList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
@@ -482,8 +482,8 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
         startDebloating(currentMethod)
     }
 
-    override fun onShizukuCreated() {
-        super.onShizukuCreated()
+    override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
+        super.onShizukuCreated(shizukuServiceHelper)
         startDebloating(currentMethod)
     }
 
@@ -513,7 +513,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
             bloats.forEach { bloat ->
                 kotlin.runCatching {
-                    ShizukuUtils.execInternal(app.simple.inure.shizuku.Shell.Command(getCommand(method, user, bloat.id)), null).let { result ->
+                    getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
                         if (result.isSuccess) {
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
                         } else {

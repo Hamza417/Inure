@@ -1,6 +1,7 @@
 package app.simple.inure;
 
 import app.simple.inure.util.ExecuteResult;
+import android.os.ParcelFileDescriptor;
 
 interface IUserService {
 
@@ -11,4 +12,8 @@ interface IUserService {
     ExecuteResult execute(in List<String> cmdarray, in List<String> envp, String dir) = 2;
 
     ExecuteResult simpleExecute(in String command) = 3;
+
+    boolean forceStopApp(in String packageName) = 4;
+
+    ExecuteResult executeInputStream(in List<String> cmdarray, in List<String> envp, String dir, in ParcelFileDescriptor inputPipe) = 5;
 }
