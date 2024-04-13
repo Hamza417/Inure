@@ -13,7 +13,9 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
+import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
@@ -28,7 +30,7 @@ class DebloatSearch : KeyboardScopedFragment() {
     private lateinit var searchContainer: LinearLayout
 
     private lateinit var debloatViewModel: DebloatViewModel
-    private var adapterMusic: AdapterDebloat? = null
+    private var adapterDebloat: AdapterDebloat? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_debloat_search, container, false)
@@ -66,8 +68,17 @@ class DebloatSearch : KeyboardScopedFragment() {
         }
 
         debloatViewModel.getSearchedBloatList().observe(viewLifecycleOwner) {
-            adapterMusic = AdapterDebloat(it, false, DebloatPreferences.getSearchKeyword())
-            recyclerView.adapter = adapterMusic
+            adapterDebloat = AdapterDebloat(it, false, DebloatPreferences.getSearchKeyword())
+            adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
+                override fun onBloatSelected(bloat: Bloat) {
+                    debloatViewModel.loadSelectedBloatList()
+                }
+
+                override fun onBloatLongPressed(bloat: Bloat) {
+                    childFragmentManager.showAppMenu(bloat.packageInfo)
+                }
+            })
+            recyclerView.adapter = adapterDebloat
         }
 
         clear.setOnClickListener {
