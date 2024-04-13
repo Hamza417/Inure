@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.ui.AdapterDebloat
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.models.Bloat
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
 class DebloatChecklist : ScopedFragment() {
@@ -31,6 +33,15 @@ class DebloatChecklist : ScopedFragment() {
 
         debloatViewModel.getSelectedBloatList().observe(viewLifecycleOwner) { bloats ->
             recyclerView.adapter = AdapterDebloat(bloats, false)
+            (recyclerView.adapter as AdapterDebloat).setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
+                override fun onBloatSelected(bloat: Bloat) {
+                    // debloatViewModel.loadSelectedBloatList()
+                }
+
+                override fun onBloatLongPressed(bloat: Bloat) {
+                    childFragmentManager.showAppMenu(bloat.packageInfo)
+                }
+            })
         }
     }
 
