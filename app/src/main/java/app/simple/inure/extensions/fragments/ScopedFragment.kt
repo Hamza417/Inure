@@ -1,11 +1,14 @@
 package app.simple.inure.extensions.fragments
 
+import android.animation.ValueAnimator
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -19,6 +22,7 @@ import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -38,6 +42,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
@@ -86,6 +91,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * Fragments own loader instance
      */
     private var loader: Loader? = null
+    private var blurAnimator: ValueAnimator? = null
 
     protected var bottomRightCornerMenu: BottomMenuRecyclerView? = null
 
@@ -107,6 +113,28 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         kotlin.runCatching {
             bottomRightCornerMenu = requireActivity().findViewById(R.id.bottom_menu)
         }
+
+        animateBlur()
+    }
+
+    private fun animateBlur() {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.USE_BLUR_BETWEEN_PANELS)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                blurAnimator = ValueAnimator.ofFloat(30F, 0F)
+                blurAnimator?.addUpdateListener {
+                    val value = it.animatedValue as Float
+                    if (value > 1F) {
+                        requireView().setRenderEffect(
+                                RenderEffect.createBlurEffect(value, value, Shader.TileMode.CLAMP))
+                    } else {
+                        requireView().setRenderEffect(null)
+                    }
+                }
+                blurAnimator?.interpolator = LinearOutSlowInInterpolator()
+                blurAnimator?.duration = 1000
+                blurAnimator?.start()
+            }
+        }
     }
 
     override fun onResume() {
@@ -120,11 +148,13 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         registerSharedPreferenceChangeListener()
+        animateBlur()
     }
 
     override fun onStop() {
         bottomRightCornerMenu?.clearAnimation()
         bottomRightCornerMenu?.gone()
+        blurAnimator?.cancel()
         super.onStop()
     }
 
