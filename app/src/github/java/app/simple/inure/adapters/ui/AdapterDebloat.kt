@@ -317,6 +317,32 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                     }
                 }
             }
+            DebloatSortConstants.ADVANCED -> {
+                when {
+                    bloats.filter { it.removal.method == Removal.ADVANCED.method }.any {
+                        it.removal.method == Removal.ADVANCED.method && it.isSelected.invert()
+                    } -> {
+                        deselectAny()
+
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.ADVANCED.method) {
+                                bloats[i].isSelected = true
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                    bloats.filter { it.removal.method == Removal.ADVANCED.method }.all {
+                        it.removal.method == Removal.ADVANCED.method && it.isSelected
+                    } -> {
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.ADVANCED.method) {
+                                bloats[i].isSelected = false
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                }
+            }
             DebloatSortConstants.EXPERT -> {
                 when {
                     bloats.filter { it.removal.method == Removal.EXPERT.method }.any {
@@ -336,6 +362,58 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                     } -> {
                         for (i in bloats.indices) {
                             if (bloats[i].removal.method == Removal.EXPERT.method) {
+                                bloats[i].isSelected = false
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                }
+            }
+            DebloatSortConstants.UNSAFE -> {
+                when {
+                    bloats.filter { it.removal.method == Removal.UNSAFE.method }.any {
+                        it.removal.method == Removal.UNSAFE.method && it.isSelected.invert()
+                    } -> {
+                        deselectAny()
+
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.UNSAFE.method) {
+                                bloats[i].isSelected = true
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                    bloats.filter { it.removal.method == Removal.UNSAFE.method }.all {
+                        it.removal.method == Removal.UNSAFE.method && it.isSelected
+                    } -> {
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.UNSAFE.method) {
+                                bloats[i].isSelected = false
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                }
+            }
+            DebloatSortConstants.UNLISTED -> {
+                when {
+                    bloats.filter { it.removal.method == Removal.UNLISTED.method }.any {
+                        it.removal.method == Removal.UNLISTED.method && it.isSelected.invert()
+                    } -> {
+                        deselectAny()
+
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.UNLISTED.method) {
+                                bloats[i].isSelected = true
+                                notifyItemChanged(i.plus(1))
+                            }
+                        }
+                    }
+                    bloats.filter { it.removal.method == Removal.UNLISTED.method }.all {
+                        it.removal.method == Removal.UNLISTED.method && it.isSelected
+                    } -> {
+                        for (i in bloats.indices) {
+                            if (bloats[i].removal.method == Removal.UNLISTED.method) {
                                 bloats[i].isSelected = false
                                 notifyItemChanged(i.plus(1))
                             }

@@ -13,7 +13,10 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 class DebloatSelect : ScopedBottomSheetFragment() {
 
     private lateinit var recommended: DynamicRippleTextView
+    private lateinit var advanced: DynamicRippleTextView
     private lateinit var expert: DynamicRippleTextView
+    private lateinit var unsafe: DynamicRippleTextView
+    private lateinit var unlisted: DynamicRippleTextView
     private lateinit var all: DynamicRippleTextView
 
     private var debloatSelectCallback: DebloatSelectCallback? = null
@@ -22,7 +25,10 @@ class DebloatSelect : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_debloat_select, container, false)
 
         recommended = view.findViewById(R.id.select_recommended)
+        advanced = view.findViewById(R.id.select_advanced)
         expert = view.findViewById(R.id.select_expert)
+        unsafe = view.findViewById(R.id.select_unsafe)
+        unlisted = view.findViewById(R.id.select_unlisted)
         all = view.findViewById(R.id.select_all)
 
         return view
@@ -36,8 +42,23 @@ class DebloatSelect : ScopedBottomSheetFragment() {
             dismiss()
         }
 
+        advanced.setOnClickListener {
+            debloatSelectCallback?.onModeSelected(DebloatSortConstants.ADVANCED)
+            dismiss()
+        }
+
         expert.setOnClickListener {
             debloatSelectCallback?.onModeSelected(DebloatSortConstants.EXPERT)
+            dismiss()
+        }
+
+        unsafe.setOnClickListener {
+            debloatSelectCallback?.onModeSelected(DebloatSortConstants.UNSAFE)
+            dismiss()
+        }
+
+        unlisted.setOnClickListener {
+            debloatSelectCallback?.onModeSelected(DebloatSortConstants.UNLISTED)
             dismiss()
         }
 
