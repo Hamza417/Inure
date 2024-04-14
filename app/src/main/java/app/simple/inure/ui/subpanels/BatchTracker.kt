@@ -16,6 +16,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.batch.BatchTrackersFactory
 import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.ui.subviewers.TrackerInfo
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -54,6 +55,14 @@ class BatchTracker : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         loader.visible(animate = false)
+
+        if (ConfigurationPreferences.isUsingRoot()) {
+            block.text = getString(R.string.block)
+            unblock.text = getString(R.string.unblock)
+        } else {
+            block.gone()
+            unblock.gone()
+        }
 
         batchTrackersViewModel?.getTrackers()?.observe(viewLifecycleOwner) {
             loader.gone(animate = true)

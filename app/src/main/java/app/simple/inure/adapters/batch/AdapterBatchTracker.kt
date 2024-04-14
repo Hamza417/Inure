@@ -14,11 +14,16 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StringUtils.appendFlag
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val batchTrackerCallbacks: BatchTrackerCallbacks) : RecyclerView.Adapter<AdapterBatchTracker.Holder>() {
+
+    private val isRooted = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -62,9 +67,21 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
         AdapterUtils.searchHighlighter(holder.packageID, trackers[position].codeSignature)
         holder.checkBox.isChecked = trackers[position].isBlocked.invert()
 
-        holder.container.setOnClickListener {
-            trackers[position].isBlocked = !trackers[position].isBlocked
-            holder.checkBox.toggle()
+        if (isRooted) {
+            holder.checkBox.visible(false)
+        } else {
+            holder.checkBox.gone(false)
+        }
+
+        if (isRooted) {
+            holder.container.setOnClickListener {
+                trackers[position].isBlocked = !trackers[position].isBlocked
+                holder.checkBox.toggle()
+            }
+        } else {
+            holder.container.setOnClickListener {
+                batchTrackerCallbacks.onBatchLongPressed(trackers[position])
+            }
         }
 
         holder.container.setOnLongClickListener {
