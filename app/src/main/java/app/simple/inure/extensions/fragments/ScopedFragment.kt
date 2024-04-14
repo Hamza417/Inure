@@ -120,6 +120,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     private fun animateBlur() {
         if (DevelopmentPreferences.get(DevelopmentPreferences.USE_BLUR_BETWEEN_PANELS)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                blurAnimator?.cancel()
                 blurAnimator = ValueAnimator.ofFloat(30F, 0F)
                 blurAnimator?.addUpdateListener {
                     val value = it.animatedValue as Float
@@ -148,7 +149,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         registerSharedPreferenceChangeListener()
-        animateBlur()
     }
 
     override fun onStop() {

@@ -200,8 +200,8 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Blur Between Panels",
-                                            "Use blur while switching between panels in the app. It's available in" +
-                                                    " Android 12+ only and please use it with caution and on your own discretion.",
+                                            "Use blur effects while switching between panels in the app. It's available in" +
+                                                    " Android 12+ only. Highly unstable, please use it with caution and on your own discretion.",
                                             USE_BLUR_BETWEEN_PANELS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
