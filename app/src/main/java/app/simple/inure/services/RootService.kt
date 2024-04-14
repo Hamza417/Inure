@@ -10,10 +10,9 @@ import java.util.UUID
 
 class RootService : com.topjohnwu.superuser.ipc.RootService() {
 
-    private val tag = javaClass.simpleName
-    private val uuid: String = UUID.randomUUID().toString()
-
     companion object {
+        private const val TAG = "RootService"
+
         init {
             // Only load the library when this class is loaded in a root process.
             // The classloader will load this class (and call this static block) in the non-root
@@ -21,9 +20,9 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
             // Add this check so we don't unnecessarily load native code that'll never be used.
             if (Process.myUid() == 0) {
                 System.loadLibrary("inure_su")
-                Log.d("RootService", "Loaded native library")
+                Log.d(TAG, "Loaded native library")
             } else {
-                Log.d("RootService", "Not root process, native library not loaded")
+                Log.d(TAG, "Not root process, native library not loaded")
             }
         }
 
@@ -32,6 +31,8 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
     }
 
     internal class RootIPC : IRootService.Stub() {
+        private val uuid: String = UUID.randomUUID().toString()
+
         override fun getPid(): Int {
             return Process.myPid()
         }
@@ -51,33 +52,33 @@ class RootService : com.topjohnwu.superuser.ipc.RootService() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(tag, "AIDLService: onCreate, $uuid")
+        Log.i(TAG, "AIDLService: onCreate")
     }
 
     override fun onRebind(intent: Intent) {
         super.onRebind(intent)
         // This callback will be called when we are reusing a previously started root process
-        Log.d(tag, "AIDLService: onRebind, daemon process reused")
+        Log.i(TAG, "AIDLService: onRebind, daemon process reused")
     }
 
     override fun onBind(intent: Intent): IBinder {
-        Log.d(tag, "AIDLService: onBind")
+        Log.i(TAG, "AIDLService: onBind")
         return RootIPC()
     }
 
     override fun onUnbind(intent: Intent): Boolean {
-        Log.d(tag, "AIDLService: onUnbind, client process unbound")
+        Log.i(TAG, "AIDLService: onUnbind, client process unbound")
         // Return true here so onRebind will be called
         return false
     }
 
     override fun stopService(name: Intent?): Boolean {
-        Log.d(tag, "AIDLService: stopService")
+        Log.i(TAG, "AIDLService: stopService")
         return super.stopService(name)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(tag, "AIDLService: onDestroy")
+        Log.i(TAG, "AIDLService: onDestroy")
     }
 }
