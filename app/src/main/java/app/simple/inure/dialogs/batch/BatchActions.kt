@@ -77,7 +77,6 @@ class BatchActions : ScopedBottomSheetFragment() {
         private const val TAG = "BatchActions"
 
         private val divider = Pair(-1, -1)
-        private val refresh = Pair(R.drawable.ic_refresh, R.string.refresh)
 
         fun newInstance(): BatchActions {
             val args = Bundle()
@@ -94,16 +93,13 @@ class BatchActions : ScopedBottomSheetFragment() {
 
         private val batchMenuNonRoot: ArrayList<Pair<Int, Int>> by lazy {
             arrayListOf(
+                    Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
+                    divider,
                     Pair(R.drawable.ic_delete, R.string.uninstall),
                     divider,
                     Pair(R.drawable.ic_downloading, R.string.extract),
                     Pair(R.drawable.ic_text_snippet, R.string.generate_apps_list),
                     Pair(R.drawable.ic_tags, R.string.tags),
-                    divider,
-                    Pair(R.drawable.ic_checklist, R.string.checklist),
-                    Pair(R.drawable.ic_select_all, R.string.select_all),
-                    divider,
-                    refresh,
             )
         }
 
@@ -120,18 +116,13 @@ class BatchActions : ScopedBottomSheetFragment() {
                     Pair(R.drawable.ic_downloading, R.string.extract),
                     Pair(R.drawable.ic_text_snippet, R.string.generate_apps_list),
                     Pair(R.drawable.ic_tags, R.string.tags),
-                    divider,
-                    Pair(R.drawable.ic_checklist, R.string.checklist),
-                    Pair(R.drawable.ic_select_all, R.string.select_all),
-                    divider,
-                    refresh,
             )
         }
 
         private val batchMenuShizuku: ArrayList<Pair<Int, Int>> by lazy {
             arrayListOf(
                     Pair(R.drawable.ic_settings_power, R.string.battery),
-                    // Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
+                    Pair(R.drawable.ic_radiation_nuclear, R.string.trackers),
                     divider,
                     Pair(R.drawable.ic_hide_source, R.string.state),
                     Pair(R.drawable.ic_delete, R.string.uninstall),
@@ -140,11 +131,6 @@ class BatchActions : ScopedBottomSheetFragment() {
                     Pair(R.drawable.ic_downloading, R.string.extract),
                     Pair(R.drawable.ic_text_snippet, R.string.generate_apps_list),
                     Pair(R.drawable.ic_tags, R.string.tags),
-                    divider,
-                    Pair(R.drawable.ic_checklist, R.string.checklist),
-                    Pair(R.drawable.ic_select_all, R.string.select_all),
-                    divider,
-                    refresh,
             )
         }
     }

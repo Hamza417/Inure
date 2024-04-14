@@ -79,6 +79,9 @@ object BottomMenuConstants {
     )
 
     private val batchUnselectedMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
+            Pair(R.drawable.ic_checklist, R.string.checklist),
+            Pair(R.drawable.ic_select_all, R.string.select_all),
+            divider,
             refresh,
             Pair(R.drawable.ic_filter, R.string.filter),
             Pair(R.drawable.ic_settings, R.string.preferences),
@@ -89,10 +92,13 @@ object BottomMenuConstants {
     private val batchSelectedMenu: ArrayList<Pair<Int, Int>> = arrayListOf(
             Pair(R.drawable.ic_extension, R.string.actions),
             divider,
+            Pair(R.drawable.ic_checklist, R.string.checklist),
+            Pair(R.drawable.ic_select_all, R.string.select_all),
+            divider,
             refresh,
             Pair(R.drawable.ic_filter, R.string.filter),
-            Pair(R.drawable.ic_settings, R.string.preferences),
             divider,
+            Pair(R.drawable.ic_settings, R.string.preferences),
             Pair(R.drawable.ic_search, R.string.search),
     )
 

@@ -206,19 +206,28 @@ class Batch : ScopedFragment() {
                     })
                 }
 
+                R.drawable.ic_checklist -> {
+                    openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
+                }
+
+                R.drawable.ic_refresh -> {
+                    showLoader(manualOverride = true)
+                    batchViewModel.refreshPackageData()
+                }
+
+                R.drawable.ic_select_all -> {
+                    showLoader(manualOverride = true)
+
+                    if (adapterBatch?.isAllSelected() == true) {
+                        batchViewModel.deselectAllBatchItems()
+                    } else {
+                        batchViewModel.selectAllBatchItems()
+                    }
+                }
+
                 R.drawable.ic_extension -> {
                     childFragmentManager.showBatchActions().setBatchActionCallbackListener { iconId, view ->
                         when (iconId) {
-                            R.drawable.ic_select_all -> {
-                                showLoader(manualOverride = true)
-
-                                if (adapterBatch?.isAllSelected() == true) {
-                                    batchViewModel.deselectAllBatchItems()
-                                } else {
-                                    batchViewModel.selectAllBatchItems()
-                                }
-                            }
-
                             R.drawable.ic_delete -> {
                                 if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
                                     childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
@@ -325,15 +334,6 @@ class Batch : ScopedFragment() {
                                         BatchTracker.newInstance(adapterBatch?.getCurrentAppsList()!!.map {
                                             it.packageInfo.packageName
                                         } as ArrayList<String>), "batch_tracker")
-                            }
-
-                            R.drawable.ic_checklist -> {
-                                openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
-                            }
-
-                            R.drawable.ic_refresh -> {
-                                showLoader(manualOverride = true)
-                                batchViewModel.refreshPackageData()
                             }
 
                             R.drawable.ic_close -> {
