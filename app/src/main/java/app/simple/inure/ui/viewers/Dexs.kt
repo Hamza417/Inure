@@ -30,7 +30,6 @@ class Dexs : SearchBarScopedFragment() {
         search = view.findViewById(R.id.search)
         searchBox = view.findViewById(R.id.search_edit_text)
         title = view.findViewById(R.id.dex_title)
-
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)

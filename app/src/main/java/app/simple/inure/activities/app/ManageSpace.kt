@@ -44,6 +44,9 @@ class ManageSpace : BaseActivity() {
     private lateinit var clearImagesData: DynamicRippleTextView
     private lateinit var imagesSize: TypeFaceTextView
     private lateinit var clearAppDataLoader: CustomProgressBar
+    private lateinit var cacheLoader: CustomProgressBar
+    private lateinit var cacheSize: TypeFaceTextView
+    private lateinit var clearCache: DynamicRippleTextView
     private lateinit var imagesLoader: CustomProgressBar
     private lateinit var appDataLoader: CustomProgressBar
     private lateinit var import: DynamicRippleTextView
@@ -137,6 +140,9 @@ class ManageSpace : BaseActivity() {
 
         clearData = findViewById(R.id.clear_app_data)
         clearAppDataLoader = findViewById(R.id.clear_app_data_loader)
+        cacheLoader = findViewById(R.id.cache_loader)
+        cacheSize = findViewById(R.id.cache_size)
+        clearCache = findViewById(R.id.clear_cache)
         clearImagesData = findViewById(R.id.clear_image_data)
         imagesSize = findViewById(R.id.image_cache_size)
         imagesLoader = findViewById(R.id.image_cache_loader)
@@ -201,6 +207,25 @@ class ManageSpace : BaseActivity() {
                     override fun onSure() {
                         imagesLoader.visible(animate = true)
                         manageSpaceViewModel.clearImagesData()
+                    }
+                })
+
+                p.show(supportFragmentManager, "sure")
+            }
+        }
+
+        manageSpaceViewModel.getAppCacheSize().observe(this) {
+            cacheSize.visible(animate = true)
+            cacheSize.text = it
+            cacheLoader.gone(animate = true)
+            clearCache.visible(animate = true)
+
+            clearCache.setOnClickListener {
+                val p = Sure.newInstance()
+                p.setOnSureCallbackListener(object : SureCallbacks {
+                    override fun onSure() {
+                        cacheLoader.visible(animate = true)
+                        manageSpaceViewModel.clearCache()
                     }
                 })
 

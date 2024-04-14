@@ -17,14 +17,14 @@ import rikka.shizuku.SystemServiceHelper;
 
 public class ShizukuSystemServerApi {
 
-    private static final Singleton <IPackageManager> PACKAGE_MANAGER = new Singleton<IPackageManager>() {
+    private static final Singleton <IPackageManager> PACKAGE_MANAGER = new Singleton <>() {
         @Override
         protected IPackageManager create() {
             return IPackageManager.Stub.asInterface(new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
         }
     };
 
-    private static final Singleton<IUserManager> USER_MANAGER = new Singleton<IUserManager>() {
+    private static final Singleton<IUserManager> USER_MANAGER = new Singleton <>() {
         @Override
         protected IUserManager create() {
             return IUserManager.Stub.asInterface(new ShizukuBinderWrapper(SystemServiceHelper.getSystemService(Context.USER_SERVICE)));
