@@ -35,9 +35,11 @@ import app.simple.inure.R
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
+import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
+import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.ApkBrowserPreferences
@@ -573,6 +575,14 @@ open class BaseActivity : AppCompatActivity(),
 
     open fun hideLoader() {
         loader?.dismiss()
+    }
+
+    protected fun onSure(onSure: () -> Unit) {
+        supportFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+            override fun onSure() {
+                onSure()
+            }
+        })
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
