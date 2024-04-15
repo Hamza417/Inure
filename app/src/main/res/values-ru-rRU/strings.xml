@@ -691,7 +691,6 @@
     <string name="info_visibility_customization_desc">Настройка информационной панели некоторых основных приложений.</string>
     <string name="group">Группа</string>
     <string name="channel">Канал</string>
-    <string name="rate_reminder">Вы запустили Inure %1$d начиная с %2$s, хотите написать отзыв и поделиться своим опытом?</string>
     <string name="create_shortcut">Создать ярлык</string>
     <string name="block">Заблокировать</string>
     <string name="unblock">Разблокировать</string>

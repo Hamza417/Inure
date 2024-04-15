@@ -688,7 +688,6 @@
     <string name="info_visibility_customization_desc">自訂部分主要應用程式面板清單的資訊條。</string>
     <string name="group">群組</string>
     <string name="channel">頻道</string>
-    <string name="rate_reminder">自從 %2$s 以來，您已經啟動 Inure %1$d 次，要為 Inure 撰寫評論並讓我們瞭解您的體驗嗎？</string>
     <string name="create_shortcut">建立捷徑</string>
     <string name="block">封鎖</string>
     <string name="unblock">解除封鎖</string>

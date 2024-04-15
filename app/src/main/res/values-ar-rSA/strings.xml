@@ -687,7 +687,6 @@
     <string name="info_visibility_customization_desc">تخصيص شريط المعلومات لبعض قوائم لوحات التطبيقات الرئيسية.</string>
     <string name="group">مجموعة</string>
     <string name="channel">قناة</string>
-    <string name="rate_reminder">لقد تم تشغيل Inure %1$d مرات منذ %2$s، هل تود كتابة مراجعة وإخباري بتجربتك؟</string>
     <string name="create_shortcut">إنشاء اختصار</string>
     <string name="block">حظر</string>
     <string name="unblock">إلغاء الحظر</string>

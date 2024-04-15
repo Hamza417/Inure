@@ -687,7 +687,6 @@
     <string name="info_visibility_customization_desc">Customize the information strip of some main apps\' panel lists.</string>
     <string name="group">Group</string>
     <string name="channel">Channel</string>
-    <string name="rate_reminder">You\'ve launched Inure %1$d times since %2$s, would you like to write a review and let me know your experience?</string>
     <string name="create_shortcut">Create Shortcut</string>
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>

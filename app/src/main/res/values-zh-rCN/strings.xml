@@ -688,7 +688,6 @@
     <string name="info_visibility_customization_desc">自定义一些主要应用面板列表的信息条</string>
     <string name="group">组</string>
     <string name="channel">频道</string>
-    <string name="rate_reminder">自 %2$s以来，您已启动 Inure %1$d 次，您愿意进行评分并告诉我您的使用体验吗？</string>
     <string name="create_shortcut">创建快捷方式</string>
     <string name="block">屏蔽</string>
     <string name="unblock">取消屏蔽</string>

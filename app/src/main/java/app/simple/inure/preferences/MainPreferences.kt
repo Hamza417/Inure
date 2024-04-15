@@ -21,16 +21,16 @@ object MainPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setLaunchCount(value: Int) {
+    private fun setLaunchCount(value: Int) {
         getSharedPreferences().edit().putInt(LAUNCH_COUNT, value).apply()
     }
 
-    fun getLaunchCount(): Int {
+    private fun getLaunchCount(): Int {
         return getSharedPreferences().getInt(LAUNCH_COUNT, 0)
     }
 
     fun shouldShowRateReminder(): Boolean {
-        return getLaunchCount() % (5..10).random() == 0
+        return getLaunchCount() > 10
     }
 
     fun incrementLaunchCount() {

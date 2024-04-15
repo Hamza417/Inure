@@ -24,7 +24,6 @@ import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.dialogs.app.ChangesReminder.Companion.showChangesReminder
-import app.simple.inure.dialogs.app.Rate.Companion.showRateDialog
 import app.simple.inure.dialogs.home.HomeMenu.Companion.showHomeMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.home.PopupMenuLayout
@@ -39,6 +38,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
+import app.simple.inure.utils.GooglePlayUtils.showAppReview
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 import rikka.shizuku.Shizuku
@@ -298,10 +298,8 @@ class Home : ScopedFragment() {
     private fun showRateDialog() {
         runCatching {
             if (AppUtils.isPlayFlavor()) {
-                if (MainPreferences.isShowRateReminder()) {
-                    if (MainPreferences.shouldShowRateReminder()) {
-                        childFragmentManager.showRateDialog()
-                    }
+                if (MainPreferences.shouldShowRateReminder()) {
+                    requireActivity().showAppReview()
                 }
             }
         }

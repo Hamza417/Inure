@@ -687,7 +687,6 @@
     <string name="info_visibility_customization_desc">Personalizza la striscia di informazioni degli elenchi dei pannelli di alcune applicazioni principali.</string>
     <string name="group">Gruppo</string>
     <string name="channel">Canale</string>
-    <string name="rate_reminder">Hai avviato Inure %1$d volte dal %2$s, ti piacerebbe scrivere una recensione e farmi sapere la tua esperienza?</string>
     <string name="create_shortcut">Crea collegamento</string>
     <string name="block">Blocca</string>
     <string name="unblock">Sblocca</string>
