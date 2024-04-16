@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
+import java.io.IOException
 import java.io.StringReader
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
@@ -62,9 +63,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
 
     override fun runRootProcess(fileSystemManager: FileSystemManager?) {
         if (fileSystemManager.isNotNull()) {
-            fileSystemManager?.let {
-                scanTrackers()
-            }
+            scanTrackers()
         } else {
             postWarning("ERR: Could not acquire file system manager with root access")
         }
@@ -88,6 +87,8 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                             getFileSystemManager()!!, trackersList, path.replace(placeHolder, packageInfo.packageName))
                 } catch (e: NullPointerException) {
                     Log.e("BatchTrackersViewModel", "Error: ${e.message}")
+                } catch (e: IOException) {
+                    Log.e("BatchTrackersViewModel", "Error: ${e.message} on $path")
                 }
             }
 

@@ -2,6 +2,7 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.util.Log
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.models.Tracker
@@ -15,6 +16,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import org.xml.sax.InputSource
+import org.xml.sax.SAXParseException
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStreamReader
@@ -246,7 +248,10 @@ object TrackerUtils {
 
     fun readIntentFirewallXml(fileSystemManager: FileSystemManager, trackersList: ArrayList<Tracker>, path: String) {
         with(fileSystemManager.getFile(path)) {
-            if (this.exists().invert()) {
+            if (this.exists()) {
+                // Read and check if file has the valid structure
+
+            } else {
                 this.newOutputStream().use {
                     it.write("<rules>\n</rules>".toByteArray())
                 }
@@ -259,7 +264,20 @@ object TrackerUtils {
         channel.read(buffer)
         buffer.flip()
 
-        val xml = String(buffer.array(), Charset.defaultCharset())
+        var xml = String(buffer.array(), Charset.defaultCharset())
+
+        if (isValidXmlStructure(xml).invert()) {
+            Log.d(TAG, "Invalid XML structure for path: $path")
+            fileSystemManager.getFile(path).newOutputStream().use {
+                // Empty the file
+                it.write("<rules>\n</rules>".toByteArray())
+                Log.d(TAG, "Created new XML structure for path: $path")
+                xml = "<rules>\n</rules>"
+            }
+        }
+
+        Log.d(TAG, path)
+        Log.d(TAG, xml + "\n\n")
         val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
 
         val activityNodes = document.getElementsByTagName("activity")
@@ -552,5 +570,33 @@ object TrackerUtils {
         transformer.transform(source, result)
 
         channel.close()
+    }
+
+    private fun isValidXmlStructure(xml: String): Boolean {
+        try {
+            val docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+            Log.d(TAG, xml)
+            val doc = docBuilder.parse(InputSource(StringReader(xml)))
+
+            val root = doc.documentElement
+
+            // Check if root element is "rules"
+            if (root.nodeName != "rules") {
+                return false
+            }
+
+            // Check if all child elements are either "activity", "service", or "broadcast"
+            val children = root.childNodes
+            for (i in 0 until children.length) {
+                val child = children.item(i)
+                if (child.nodeName != "activity" && child.nodeName != "service" && child.nodeName != "broadcast") {
+                    return false
+                }
+            }
+
+            return true
+        } catch (e: SAXParseException) {
+            return false
+        }
     }
 }
