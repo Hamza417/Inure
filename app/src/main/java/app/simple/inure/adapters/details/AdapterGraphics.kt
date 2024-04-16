@@ -7,20 +7,22 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
+import app.simple.inure.ui.viewers.Graphic
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.StringUtils.highlightExtensions
-import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-class AdapterGraphics(val path: String, var list: MutableList<String>, var keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var graphicsCallbacks: GraphicsCallbacks
     private var xOff = 0f
@@ -39,12 +41,14 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = if (isHighlighted) {
-            list[position].optimizeToColoredString("/").highlightExtensions()
+            list[position].name.toSpannable().highlightExtensions()
         } else {
-            list[position].optimizeToColoredString("/")
+            list[position].name
         }
+        holder.path.text = list[position].path
+        holder.size.text = list[position].size.toSize()
 
-        holder.image.loadGraphics(path, list[position])
+        holder.image.loadGraphics(path, list[position].path)
 
         holder.container.setOnTouchListener { _, event ->
             when (event!!.action) {
@@ -80,7 +84,7 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(list: MutableList<String>, keyword: String) {
+    fun updateData(list: MutableList<Graphic>, keyword: String) {
         this.keyword = keyword
         this.list = list
         notifyDataSetChanged()
@@ -95,9 +99,11 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_graphics_container)
-        val image: ImageView = itemView.findViewById(R.id.adapter_graphics_iv)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_graphics_name)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_graphics_container)
+        val image: ImageView = itemView.findViewById(R.id.icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val path: TypeFaceTextView = itemView.findViewById(R.id.path)
+        val size: TypeFaceTextView = itemView.findViewById(R.id.size)
 
         init {
             name.enableSelection()
@@ -116,7 +122,7 @@ class AdapterGraphics(val path: String, var list: MutableList<String>, var keywo
     }
 
     interface GraphicsCallbacks {
-        fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float)
-        fun onGraphicsLongPressed(filePath: String)
+        fun onGraphicsClicked(path: String, graphics: Graphic, view: ViewGroup, xOff: Float, yOff: Float)
+        fun onGraphicsLongPressed(graphic: Graphic)
     }
 }

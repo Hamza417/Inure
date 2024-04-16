@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.ui.viewers.Graphic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
 class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -19,13 +20,13 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
             getGraphicsData()
         }
 
-    private val graphics: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>().also {
+    private val graphics: MutableLiveData<MutableList<Graphic>> by lazy {
+        MutableLiveData<MutableList<Graphic>>().also {
             getGraphicsData()
         }
     }
 
-    fun getGraphics(): LiveData<MutableList<String>> {
+    fun getGraphics(): LiveData<MutableList<Graphic>> {
         return graphics
     }
 
@@ -37,7 +38,7 @@ class GraphicsViewModel(application: Application, val packageInfo: PackageInfo) 
 
                     graphics.postValue(apply {
                         sortBy {
-                            it.lowercase(Locale.getDefault())
+                            it.name.lowercase(Locale.getDefault())
                         }
                     })
                 }

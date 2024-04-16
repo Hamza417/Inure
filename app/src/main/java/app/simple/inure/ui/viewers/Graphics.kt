@@ -58,15 +58,15 @@ class Graphics : SearchBarScopedFragment() {
                 recyclerView.adapter = adapterGraphics
 
                 adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
-                    override fun onGraphicsClicked(path: String, filePath: String, view: ViewGroup, xOff: Float, yOff: Float) {
-                        openFragmentSlide(Image.newInstance(packageInfo.applicationInfo.sourceDir, filePath), "image_viewer")
+                    override fun onGraphicsClicked(path: String, graphics: Graphic, view: ViewGroup, xOff: Float, yOff: Float) {
+                        openFragmentSlide(Image.newInstance(packageInfo.applicationInfo.sourceDir, graphics.path), "image_viewer")
                     }
 
-                    override fun onGraphicsLongPressed(filePath: String) {
+                    override fun onGraphicsLongPressed(graphic: Graphic) {
                         if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                            openFragmentSlide(XMLWebView.newInstance(packageInfo, filePath), "wv_xml")
+                            openFragmentSlide(XMLWebView.newInstance(packageInfo, graphic.path), "wv_xml")
                         } else {
-                            openFragmentSlide(XML.newInstance(packageInfo, false, filePath), "tv_xml")
+                            openFragmentSlide(XML.newInstance(packageInfo, false, graphic.path), "tv_xml")
                         }
                     }
                 })

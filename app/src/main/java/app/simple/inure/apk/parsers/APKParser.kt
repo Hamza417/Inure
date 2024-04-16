@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
+import app.simple.inure.ui.viewers.Graphic
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.isImageFile
 import net.dongliu.apk.parser.ApkFile
@@ -250,9 +251,9 @@ object APKParser {
     /**
      * Get list of all raster image files within an APK file
      */
-    fun getGraphicsFiles(path: String?, keyword: String): MutableList<String> {
+    fun getGraphicsFiles(path: String?, keyword: String): MutableList<Graphic> {
 
-        val graphicsFiles: MutableList<String> = ArrayList()
+        val graphicsFiles: MutableList<Graphic> = ArrayList()
         var zipFile: ZipFile? = null
         try {
             zipFile = ZipFile(path)
@@ -260,24 +261,38 @@ object APKParser {
             while (entries.hasMoreElements()) {
 
                 val entry: ZipEntry? = entries.nextElement()
-                val name: String = entry!!.name
+                val entryPath: String = entry!!.name // is a path
+                val graphic = Graphic()
 
-                if (keyword.lowercase().startsWith("$")) {
-                    if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
-                        if (name.lowercase().isImageFile()) {
-                            graphicsFiles.add(name)
+                when {
+                    keyword.lowercase().startsWith("$") -> {
+                        if (entryPath.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
+                            if (entryPath.lowercase().isImageFile()) {
+                                graphic.path = entryPath
+                                graphic.name = entryPath.substringAfterLast("/")
+                                graphic.size = entry.size
+                                graphicsFiles.add(graphic)
+                            }
                         }
                     }
-                } else if (keyword.lowercase().endsWith("$")) {
-                    if (name.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
-                        if (name.lowercase().isImageFile()) {
-                            graphicsFiles.add(name)
+                    keyword.lowercase().endsWith("$") -> {
+                        if (entryPath.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
+                            if (entryPath.lowercase().isImageFile()) {
+                                graphic.path = entryPath
+                                graphic.name = entryPath.substringAfterLast("/")
+                                graphic.size = entry.size
+                                graphicsFiles.add(graphic)
+                            }
                         }
                     }
-                } else {
-                    if (name.lowercase().contains(keyword.lowercase())) {
-                        if (name.lowercase().isImageFile()) {
-                            graphicsFiles.add(name)
+                    else -> {
+                        if (entryPath.lowercase().contains(keyword.lowercase())) {
+                            if (entryPath.lowercase().isImageFile()) {
+                                graphic.path = entryPath
+                                graphic.name = entryPath.substringAfterLast("/")
+                                graphic.size = entry.size
+                                graphicsFiles.add(graphic)
+                            }
                         }
                     }
                 }
@@ -292,7 +307,7 @@ object APKParser {
                 }
             }
         }
-        graphicsFiles.sort()
+
         return graphicsFiles
     }
 
