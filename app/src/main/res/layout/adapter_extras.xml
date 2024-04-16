@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:padding="5dp">
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+    android:layout_margin="@dimen/popup_padding"
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/name"
@@ -25,12 +15,10 @@
         android:ellipsize="middle"
         android:maxLines="1"
         android:textSize="@dimen/info_text_medium"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:appFontStyle="medium"
         app:layout_constraintBottom_toTopOf="@+id/path"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:textColorStyle="primary" />
 
@@ -41,11 +29,10 @@
         android:ellipsize="middle"
         android:maxLines="1"
         android:textSize="@dimen/desc_text_size"
-        android:layout_marginStart="8dp"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@+id/size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
         app:textColorStyle="accent" />
 
@@ -57,12 +44,10 @@
         android:ellipsize="middle"
         android:maxLines="1"
         android:textSize="@dimen/info_text_tiny"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/path"
         app:textColorStyle="tertiary" />
 

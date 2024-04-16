@@ -108,15 +108,19 @@ object StringUtils {
      *
      * @return [Spannable]
      */
-    fun Spannable.highlightExtensions(): Spannable {
-        kotlin.runCatching {
-            val spannable: Spannable = SpannableString(this)
-            spannable.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
-                              this.lastIndexOf("."),
-                              this.length,
-                              Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            return spannable
-        }.getOrElse {
+    fun String.highlightExtensions(isHighlighted: Boolean): Spannable {
+        if (isHighlighted) {
+            kotlin.runCatching {
+                val spannable: Spannable = SpannableString(this)
+                spannable.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
+                                  this.lastIndexOf("."),
+                                  this.length,
+                                  Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                return spannable
+            }.getOrElse {
+                return this.toSpannable()
+            }
+        } else {
             return this.toSpannable()
         }
     }

@@ -8,15 +8,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.models.Extra
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
 
-
-class AdapterExtras(var list: MutableList<String>, var keyword: String) : RecyclerView.Adapter<AdapterExtras.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
+class AdapterExtras(var list: MutableList<Extra>, var keyword: String) : RecyclerView.Adapter<AdapterExtras.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var extrasCallbacks: ExtrasCallbacks
     private var isHighlighted = ExtrasPreferences.isExtensionsHighlighted()
@@ -27,29 +29,28 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_resources, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_extras, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.extra.text = if (isHighlighted) {
-            list[position].optimizeToColoredString("/").highlightExtensions()
-        } else {
-            list[position].optimizeToColoredString("/")
-        }
+        holder.name.text = list[position].name.highlightExtensions(isHighlighted) // Bad optimization??
+        holder.path.text = list[position].path
+        holder.size.text = list[position].size.toSize()
 
-        list[position].optimizeToColoredString("...") // fade ellipsis maybe?
+        list[position].path.optimizeToColoredString("...") // fade ellipsis maybe?
 
-        holder.extra.setOnClickListener {
+        holder.container.setOnClickListener {
             extrasCallbacks.onExtrasClicked(list[position])
         }
 
-        holder.extra.setOnLongClickListener {
+        holder.container.setOnLongClickListener {
             extrasCallbacks.onExtrasLongClicked(list[position])
             true
         }
 
         if (keyword.isNotBlank()) {
-            AdapterUtils.searchHighlighter(holder.extra, keyword)
+            AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.path, keyword)
         }
     }
 
@@ -69,7 +70,7 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(list: MutableList<String>, keyword: String) {
+    fun updateData(list: MutableList<Extra>, keyword: String) {
         this.keyword = keyword
         this.list = list
         notifyDataSetChanged()
@@ -84,15 +85,18 @@ class AdapterExtras(var list: MutableList<String>, var keyword: String) : Recycl
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val extra: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val path: TypeFaceTextView = itemView.findViewById(R.id.path)
+        val size: TypeFaceTextView = itemView.findViewById(R.id.size)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
 
         init {
-            extra.enableSelection()
+            name.enableSelection()
         }
     }
 
     interface ExtrasCallbacks {
-        fun onExtrasClicked(path: String)
-        fun onExtrasLongClicked(path: String)
+        fun onExtrasClicked(extra: Extra)
+        fun onExtrasLongClicked(extra: Extra)
     }
 }

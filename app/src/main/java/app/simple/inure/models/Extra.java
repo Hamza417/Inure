@@ -1,24 +1,24 @@
-package app.simple.inure.ui.viewers;
+package app.simple.inure.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Graphic implements Parcelable {
+public class Extra implements Parcelable {
     
     private String path;
     private String name;
     private long size;
     
-    public Graphic(String path, String name, long size) {
+    public Extra(String path, String name, long size) {
         this.path = path;
         this.name = name;
         this.size = size;
     }
     
-    public Graphic() {
+    public Extra() {
     }
     
-    protected Graphic(Parcel in) {
+    protected Extra(Parcel in) {
         path = in.readString();
         name = in.readString();
         size = in.readLong();
@@ -36,15 +36,15 @@ public class Graphic implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Graphic> CREATOR = new Creator <Graphic>() {
+    public static final Creator <Extra> CREATOR = new Creator <Extra>() {
         @Override
-        public Graphic createFromParcel(Parcel in) {
-            return new Graphic(in);
+        public Extra createFromParcel(Parcel in) {
+            return new Extra(in);
         }
         
         @Override
-        public Graphic[] newArray(int size) {
-            return new Graphic[size];
+        public Extra[] newArray(int size) {
+            return new Extra[size];
         }
     };
     

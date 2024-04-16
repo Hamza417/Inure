@@ -16,14 +16,14 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.models.ShortcutModel
+import app.simple.inure.models.Shortcut
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.HtmlHelper
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterShortcuts(private val list: List<ShortcutModel>,
+class AdapterShortcuts(private val list: List<Shortcut>,
                        private val shortcuts: MutableList<ShortcutInfoCompat>,
                        private val onShortcutLongPressed: (ShortcutInfoCompat, View) -> Unit) :
         RecyclerView.Adapter<VerticalListViewHolder>() {

@@ -11,10 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterExtras
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Extensions
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.models.Extra
 import app.simple.inure.popups.viewers.PopupExtrasMenu
 import app.simple.inure.preferences.ExtrasPreferences
 import app.simple.inure.util.NullSafety.isNull
@@ -57,51 +59,39 @@ class Extras : SearchBarScopedFragment() {
                 recyclerView.adapter = adapterExtras
 
                 adapterExtras?.setOnResourceClickListener(object : AdapterExtras.ExtrasCallbacks {
-                    override fun onExtrasClicked(path: String) {
+                    override fun onExtrasClicked(extra: Extra) {
                         when {
-                            path.endsWith(".ttf") -> {
-                                openFragmentSlide(Font.newInstance(packageInfo, path), "ttf_viewer")
+                            extra.path.endsWith(Extensions.TTF) -> {
+                                openFragmentSlide(Font.newInstance(packageInfo, extra.path), Font.TAG)
                             }
-                            path.endsWith(".html") -> {
-                                openFragmentSlide(XML.newInstance(packageInfo, false, path), "html_viewer")
+                            extra.path.endsWith(Extensions.HTML) -> {
+                                openFragmentSlide(XML.newInstance(packageInfo, false, extra.path), XML.TAG)
                             }
-                            path.endsWith(".java") -> {
-                                openFragmentSlide(Java.newInstance(packageInfo, path), "java_viewer")
+                            extra.path.endsWith(Extensions.JAVA) -> {
+                                openFragmentSlide(Java.newInstance(packageInfo, extra.path), Java.TAG)
                             }
-                            path.endsWith(".md") -> {
-                                openFragmentSlide(Markdown.newInstance(packageInfo, path), "md_viewer")
+                            extra.path.endsWith(Extensions.MD) -> {
+                                openFragmentSlide(Markdown.newInstance(packageInfo, extra.path), Markdown.TAG)
                             }
-                            path.endsWith(".json") -> {
-                                openFragmentSlide(JSON.newInstance(packageInfo, path), "json_viewer")
+                            extra.path.endsWith(Extensions.JSON) -> {
+                                openFragmentSlide(JSON.newInstance(packageInfo, extra.path), JSON.TAG)
                             }
-                            /**
-                             * TODO - Add a delicious looking code viewers
-                             *
-                             * JSON done
-                             * JAVA done
-                             */
                             else -> {
-                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
+                                openFragmentSlide(Text.newInstance(packageInfo, extra.path), Text.TAG)
                             }
                         }
                     }
 
-                    override fun onExtrasLongClicked(path: String) {
+                    override fun onExtrasLongClicked(extra: Extra) {
                         when {
-                            path.endsWith(".ttf") -> {
-                                openFragmentSlide(Font.newInstance(packageInfo, path), "ttf_viewer")
+                            extra.path.endsWith(Extensions.TTF) -> {
+                                openFragmentSlide(Font.newInstance(packageInfo, extra.path), Font.TAG)
                             }
-                            path.endsWith(".html") ||
-                                    path.endsWith(".java") ||
-                                    path.endsWith(".css") ||
-                                    path.endsWith(".json") ||
-                                    path.endsWith(".proto") ||
-                                    path.endsWith(".js") ||
-                                    path.endsWith(".md") -> {
-                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
+                            extra.isTextFile() -> {
+                                openFragmentSlide(Text.newInstance(packageInfo, extra.path), Text.TAG)
                             }
                             else -> {
-                                openFragmentSlide(Text.newInstance(packageInfo, path), "text_viewer")
+                                openFragmentSlide(Text.newInstance(packageInfo, extra.path), Text.TAG)
                             }
                         }
                     }
@@ -132,6 +122,19 @@ class Extras : SearchBarScopedFragment() {
                 searchBox.text?.clear()
             }
         }
+    }
+
+    private fun Extra.isTextFile(): Boolean {
+        val textExtensions = listOf(
+                Extensions.HTML,
+                Extensions.JAVA,
+                Extensions.CSS,
+                Extensions.JSON,
+                Extensions.PROTO,
+                Extensions.JS,
+                Extensions.MD)
+
+        return textExtensions.any { path.endsWith(it) }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

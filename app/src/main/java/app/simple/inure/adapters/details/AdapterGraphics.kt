@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -15,12 +14,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
+import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.GraphicsPreferences
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
-import app.simple.inure.ui.viewers.Graphic
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.StringUtils.highlightExtensions
+import app.simple.inure.util.StringUtils.optimizeToColoredString
 
 class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -40,15 +40,12 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = if (isHighlighted) {
-            list[position].name.toSpannable().highlightExtensions()
-        } else {
-            list[position].name
-        }
+        holder.name.text = list[position].name.highlightExtensions(isHighlighted) // Bad optimization??
         holder.path.text = list[position].path
         holder.size.text = list[position].size.toSize()
 
         holder.image.loadGraphics(path, list[position].path)
+        list[position].path.optimizeToColoredString("...") // fade ellipsis maybe?
 
         holder.container.setOnTouchListener { _, event ->
             when (event!!.action) {
@@ -71,6 +68,7 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
 
         if (keyword.isNotBlank()) {
             AdapterUtils.searchHighlighter(holder.name, keyword)
+            AdapterUtils.searchHighlighter(holder.path, keyword)
         }
     }
 
@@ -99,7 +97,7 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_graphics_container)
+        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val image: ImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.StringRes;
 
-public class ShortcutModel implements Parcelable {
+public class Shortcut implements Parcelable {
     private int icon;
     private String id;
     private String action;
@@ -13,14 +13,14 @@ public class ShortcutModel implements Parcelable {
     @StringRes
     private int name;
     
-    public ShortcutModel(int icon, String id, String action, int name) {
+    public Shortcut(int icon, String id, String action, int name) {
         this.icon = icon;
         this.id = id;
         this.action = action;
         this.name = name;
     }
     
-    protected ShortcutModel(Parcel in) {
+    protected Shortcut(Parcel in) {
         icon = in.readInt();
         id = in.readString();
         action = in.readString();
@@ -40,15 +40,15 @@ public class ShortcutModel implements Parcelable {
         return 0;
     }
     
-    public static final Creator <ShortcutModel> CREATOR = new Creator <>() {
+    public static final Creator <Shortcut> CREATOR = new Creator <>() {
         @Override
-        public ShortcutModel createFromParcel(Parcel in) {
-            return new ShortcutModel(in);
+        public Shortcut createFromParcel(Parcel in) {
+            return new Shortcut(in);
         }
         
         @Override
-        public ShortcutModel[] newArray(int size) {
-            return new ShortcutModel[size];
+        public Shortcut[] newArray(int size) {
+            return new Shortcut[size];
         }
     };
     

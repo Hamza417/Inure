@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.models.Extra
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Locale
 
 class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -19,13 +20,13 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
             getExtrasData()
         }
 
-    private val extras: MutableLiveData<MutableList<String>> by lazy {
-        MutableLiveData<MutableList<String>>().also {
+    private val extras: MutableLiveData<MutableList<Extra>> by lazy {
+        MutableLiveData<MutableList<Extra>>().also {
             getExtrasData()
         }
     }
 
-    fun getExtras(): LiveData<MutableList<String>> {
+    fun getExtras(): LiveData<MutableList<Extra>> {
         return extras
     }
 
@@ -37,7 +38,7 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
 
                     extras.postValue(apply {
                         sortBy {
-                            it.lowercase(Locale.getDefault())
+                            it.name.lowercase(Locale.getDefault())
                         }
                     })
                 }

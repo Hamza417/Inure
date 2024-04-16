@@ -39,7 +39,7 @@ import app.simple.inure.constants.ShortcutConstants.UNINSTALLED_ID
 import app.simple.inure.constants.ShortcutConstants.USAGE_STATS_ACTION
 import app.simple.inure.constants.ShortcutConstants.USAGE_STATS_ID
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.models.ShortcutModel
+import app.simple.inure.models.Shortcut
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.AppUtils
 import kotlinx.coroutines.Dispatchers
@@ -47,43 +47,43 @@ import kotlinx.coroutines.launch
 
 class ShortcutsViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val shortcuts: MutableLiveData<List<ShortcutModel>> by lazy {
-        MutableLiveData<List<ShortcutModel>>().also {
+    private val shortcuts: MutableLiveData<List<Shortcut>> by lazy {
+        MutableLiveData<List<Shortcut>>().also {
             loadShortcuts()
         }
     }
 
-    fun getShortcuts(): LiveData<List<ShortcutModel>> {
+    fun getShortcuts(): LiveData<List<Shortcut>> {
         return shortcuts
     }
 
     private fun loadShortcuts() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf(
-                    ShortcutModel(R.drawable.sc_apps, APPS_ID, APPS_ACTION, R.string.apps),
-                    ShortcutModel(R.drawable.sc_terminal, TERMINAL_ID, TERMINAL_ACTION, R.string.terminal),
-                    ShortcutModel(R.drawable.sc_batch, BATCH_ID, BATCH_ACTION, R.string.batch),
-                    ShortcutModel(R.drawable.sc_stats, USAGE_STATS_ID, USAGE_STATS_ACTION, R.string.usage_statistics),
-                    ShortcutModel(R.drawable.sc_analytics, ANALYTICS_ID, ANALYTICS_ACTION, R.string.analytics),
-                    ShortcutModel(R.drawable.sc_notes, NOTES_ID, NOTES_ACTION, R.string.notes),
-                    ShortcutModel(R.drawable.sc_recently_installed, RECENTLY_INSTALLED_ID, RECENTLY_INSTALLED_ACTION, R.string.recently_installed),
-                    ShortcutModel(R.drawable.sc_recently_updated, RECENTLY_UPDATED_ID, RECENTLY_UPDATED_ACTION, R.string.recently_updated),
-                    ShortcutModel(R.drawable.sc_most_used, MOST_USED_ID, MOST_USED_ACTION, R.string.most_used),
-                    ShortcutModel(R.drawable.sc_uninstalled, UNINSTALLED_ID, UNINSTALLED_ACTION, R.string.uninstalled),
-                    ShortcutModel(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, R.string.preferences),
-                    ShortcutModel(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search),
-                    ShortcutModel(R.drawable.sc_tags, TAGS_ID, TAGS_ACTION, R.string.tags),
-                    ShortcutModel(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss),
+                    Shortcut(R.drawable.sc_apps, APPS_ID, APPS_ACTION, R.string.apps),
+                    Shortcut(R.drawable.sc_terminal, TERMINAL_ID, TERMINAL_ACTION, R.string.terminal),
+                    Shortcut(R.drawable.sc_batch, BATCH_ID, BATCH_ACTION, R.string.batch),
+                    Shortcut(R.drawable.sc_stats, USAGE_STATS_ID, USAGE_STATS_ACTION, R.string.usage_statistics),
+                    Shortcut(R.drawable.sc_analytics, ANALYTICS_ID, ANALYTICS_ACTION, R.string.analytics),
+                    Shortcut(R.drawable.sc_notes, NOTES_ID, NOTES_ACTION, R.string.notes),
+                    Shortcut(R.drawable.sc_recently_installed, RECENTLY_INSTALLED_ID, RECENTLY_INSTALLED_ACTION, R.string.recently_installed),
+                    Shortcut(R.drawable.sc_recently_updated, RECENTLY_UPDATED_ID, RECENTLY_UPDATED_ACTION, R.string.recently_updated),
+                    Shortcut(R.drawable.sc_most_used, MOST_USED_ID, MOST_USED_ACTION, R.string.most_used),
+                    Shortcut(R.drawable.sc_uninstalled, UNINSTALLED_ID, UNINSTALLED_ACTION, R.string.uninstalled),
+                    Shortcut(R.drawable.sc_preferences, PREFERENCES_ID, PREFERENCES_ACTION, R.string.preferences),
+                    Shortcut(R.drawable.sc_search, SEARCH_ID, SEARCH_ACTION, R.string.search),
+                    Shortcut(R.drawable.sc_tags, TAGS_ID, TAGS_ACTION, R.string.tags),
+                    Shortcut(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss),
             )
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    list.add(ShortcutModel(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
+                    list.add(Shortcut(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
                 }
             }
 
             if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
-                ShortcutModel(R.drawable.sc_recycling, DEBLOAT_ID, DEBLOAT_ACTION, R.string.debloat).also {
+                Shortcut(R.drawable.sc_recycling, DEBLOAT_ID, DEBLOAT_ACTION, R.string.debloat).also {
                     list.add(it)
                 }
             }

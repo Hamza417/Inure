@@ -2,6 +2,18 @@ package app.simple.inure.constants
 
 object Extensions {
 
+    const val TTF = ".ttf"
+    const val HTML = ".html"
+    const val JAVA = ".java"
+    const val KOTLIN = ".kt"
+    const val XML = ".xml"
+    const val MD = ".md"
+    const val JSON = ".json"
+    const val JS = ".js"
+    const val CSS = ".css"
+    const val PROTO = ".proto"
+    const val KTS = ".kts"
+
     /**
      * List of all the image extensions
      */

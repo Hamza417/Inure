@@ -5,7 +5,8 @@ import android.content.pm.ApplicationInfo
 import app.simple.inure.R
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
-import app.simple.inure.ui.viewers.Graphic
+import app.simple.inure.models.Extra
+import app.simple.inure.models.Graphic
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.isImageFile
 import net.dongliu.apk.parser.ApkFile
@@ -314,9 +315,9 @@ object APKParser {
     /**
      * Get list of all raster image files within an APK file
      */
-    fun getExtraFiles(path: String?, keyword: String): MutableList<String> {
+    fun getExtraFiles(path: String?, keyword: String): MutableList<Extra> {
 
-        val extraFiles: MutableList<String> = ArrayList()
+        val extraFiles: MutableList<Extra> = ArrayList()
         var zipFile: ZipFile? = null
 
         try {
@@ -324,7 +325,8 @@ object APKParser {
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
             while (entries.hasMoreElements()) {
                 val entry: ZipEntry? = entries.nextElement()
-                val name: String = entry!!.name
+                val name: String = entry!!.name // is a path
+                val extra = Extra()
 
                 if (keyword.lowercase().startsWith("$")) {
                     if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
@@ -335,7 +337,10 @@ object APKParser {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {
-                                extraFiles.add(name)
+                                extra.path = name
+                                extra.name = name.substringAfterLast("/")
+                                extra.size = entry.size
+                                extraFiles.add(extra)
                             }
                         }
                     }
@@ -348,7 +353,10 @@ object APKParser {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {
-                                extraFiles.add(name)
+                                extra.path = name
+                                extra.name = name.substringAfterLast("/")
+                                extra.size = entry.size
+                                extraFiles.add(extra)
                             }
                         }
                     }
@@ -361,7 +369,10 @@ object APKParser {
                             continue
                         } else {
                             if (name.isImageFile().invert()) {
-                                extraFiles.add(name)
+                                extra.path = name
+                                extra.name = name.substringAfterLast("/")
+                                extra.size = entry.size
+                                extraFiles.add(extra)
                             }
                         }
                     }
@@ -373,10 +384,6 @@ object APKParser {
             kotlin.runCatching {
                 zipFile?.close()
             }
-        }
-
-        extraFiles.sortBy {
-            it.lowercase()
         }
 
         return extraFiles
