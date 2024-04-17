@@ -252,6 +252,7 @@ object TrackerUtils {
                 // Read and check if file has the valid structure
 
             } else {
+                checkAndCreateIFWDirectory(fileSystemManager, path)
                 this.newOutputStream().use {
                     it.write("<rules>\n</rules>".toByteArray())
                 }
@@ -373,6 +374,7 @@ object TrackerUtils {
         val file: ExtendedFile = fileSystemManager.getFile(path)
 
         if (!file.exists()) {
+            checkAndCreateIFWDirectory(fileSystemManager, path)
             file.newOutputStream().use {
                 it.write("<rules>\n</rules>".toByteArray())
             }
@@ -596,6 +598,13 @@ object TrackerUtils {
             return true
         } catch (e: SAXParseException) {
             return false
+        }
+    }
+
+    private fun checkAndCreateIFWDirectory(fileSystemManager: FileSystemManager, path: String) {
+        val file = fileSystemManager.getFile(path.substringBeforeLast("/") + "/")
+        if (!file.exists()) {
+            file.mkdirs()
         }
     }
 }

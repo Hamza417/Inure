@@ -67,6 +67,10 @@ public class LoaderImageView extends AppCompatImageView {
         setVisibility(View.VISIBLE);
     }
     
+    public void start() {
+        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
+    }
+    
     private void animateColor(int toColor) {
         ValueAnimator valueAnimator = ValueAnimator.ofArgb(getDefaultColor(), toColor);
         valueAnimator.setInterpolator(new LinearOutSlowInInterpolator());

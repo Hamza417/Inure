@@ -95,8 +95,8 @@ class BatchTracker : ScopedFragment() {
 
         block.setOnClickListener {
             loader.visible(animate = true)
-            batchTrackersViewModel
-                ?.changeTrackerState((recyclerView.adapter as AdapterBatchTracker).getSelectedPackages(), true) {
+            loader.start()
+            batchTrackersViewModel?.changeTrackerState((recyclerView.adapter as AdapterBatchTracker).getSelectedPackages(), true) {
                     postDelayed {
                         loader.gone(animate = true)
                         showWarning(getString(R.string.done), false)
@@ -106,6 +106,7 @@ class BatchTracker : ScopedFragment() {
 
         unblock.setOnClickListener {
             loader.visible(animate = true)
+            loader.start()
             batchTrackersViewModel
                 ?.changeTrackerState((recyclerView.adapter as AdapterBatchTracker).getSelectedPackages(), false) {
                     postDelayed {

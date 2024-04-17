@@ -106,7 +106,6 @@ object ViewUtils {
 
     fun View.gone(animate: Boolean) {
         if (animate) {
-            clearAnimation()
             this.animate()
                 .scaleY(0F)
                 .scaleX(0F)
@@ -120,6 +119,7 @@ object ViewUtils {
 
                     override fun onAnimationEnd(animation: Animator) {
                         this@gone.visibility = View.GONE
+                        clearAnimation()
                     }
 
                     override fun onAnimationCancel(animation: Animator) {

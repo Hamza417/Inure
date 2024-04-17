@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:padding="@dimen/popup_padding"
+        android:padding="@dimen/dialog_padding"
         android:animateLayoutChanges="true"
         android:orientation="horizontal">
 
@@ -62,7 +62,7 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="@dimen/loader_size"
             android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/popup_padding"
+            android:layout_marginHorizontal="@dimen/popup_padding"
             android:layout_height="@dimen/loader_size" />
 
         <Space
