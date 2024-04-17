@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.content.pm.PackageInfo
 import app.simple.inure.BuildConfig
 
 @Suppress("KotlinConstantConditions")
@@ -33,5 +34,12 @@ object AppUtils {
      */
     fun isDebug(): Boolean {
         return BuildConfig.DEBUG
+    }
+
+    /**
+     * Returns true if the package name is the unlocker package name
+     */
+    fun PackageInfo.isUnlocker(): Boolean {
+        return packageName == unlockerPackageName
     }
 }

@@ -25,6 +25,7 @@ import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.AppUtils
+import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
@@ -207,13 +208,18 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
         viewModelScope.launch(Dispatchers.Default) {
             val list = arrayListOf<Pair<Int, Int>>()
 
-            list.add(Pair(R.drawable.ic_downloading, R.string.extract))
+            if (packageInfo.isUnlocker().invert()) {
+                list.add(Pair(R.drawable.ic_downloading, R.string.extract))
+            }
+
             list.add(Pair(R.drawable.ic_play_store, R.string.play_store))
 
             if (AppUtils.isGithubFlavor()) {
-                list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
-                list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
-                list.add(Pair(R.drawable.ic_galaxy_appstore, R.string.galaxy_store))
+                if (packageInfo.isUnlocker().invert()) {
+                    list.add(Pair(R.drawable.ic_fdroid, R.string.fdroid))
+                    list.add(Pair(R.drawable.ic_amazon, R.string.amazon))
+                    list.add(Pair(R.drawable.ic_galaxy_appstore, R.string.galaxy_store))
+                }
             }
 
             miscellaneousItems.postValue(list)
@@ -225,7 +231,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             add(Pair(R.drawable.ic_launch, R.string.launch))
         }
 
-        add(Pair(R.drawable.ic_send, R.string.send))
+        if (packageInfo.isUnlocker().invert()) {
+            add(Pair(R.drawable.ic_send, R.string.send))
+        }
 
         if (isNotThisApp()) {
             add(Pair(R.drawable.ic_delete, R.string.uninstall))
@@ -267,7 +275,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             add(Pair(R.drawable.ic_launch, R.string.launch))
         }
 
-        add(Pair(R.drawable.ic_send, R.string.send))
+        if (packageInfo.isUnlocker().invert()) {
+            add(Pair(R.drawable.ic_send, R.string.send))
+        }
 
         if (isNotThisApp()) {
             add(Pair(R.drawable.ic_delete, R.string.uninstall))
@@ -310,7 +320,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 add(Pair(R.drawable.ic_launch, R.string.launch))
             }
 
-            add(Pair(R.drawable.ic_send, R.string.send))
+            if (packageInfo.isUnlocker().invert()) {
+                add(Pair(R.drawable.ic_send, R.string.send))
+            }
 
             if (isNotThisApp()) {
                 add(Pair(R.drawable.ic_delete, R.string.uninstall))
@@ -320,7 +332,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                 add(Pair(R.drawable.ic_launch, R.string.launch))
             }
 
-            add(Pair(R.drawable.ic_send, R.string.send))
+            if (packageInfo.isUnlocker().invert()) {
+                add(Pair(R.drawable.ic_send, R.string.send))
+            }
 
             if (isNotThisApp()) {
                 if (packageInfo.isUpdateInstalled()) {
