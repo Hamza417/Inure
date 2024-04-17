@@ -18,6 +18,7 @@ class DebloatSelect : ScopedBottomSheetFragment() {
     private lateinit var unsafe: DynamicRippleTextView
     private lateinit var unlisted: DynamicRippleTextView
     private lateinit var all: DynamicRippleTextView
+    private lateinit var close: DynamicRippleTextView
 
     private var debloatSelectCallback: DebloatSelectCallback? = null
 
@@ -30,6 +31,7 @@ class DebloatSelect : ScopedBottomSheetFragment() {
         unsafe = view.findViewById(R.id.select_unsafe)
         unlisted = view.findViewById(R.id.select_unlisted)
         all = view.findViewById(R.id.select_all)
+        close = view.findViewById(R.id.close)
 
         return view
     }
@@ -64,6 +66,10 @@ class DebloatSelect : ScopedBottomSheetFragment() {
 
         all.setOnClickListener {
             debloatSelectCallback?.onModeSelected(DebloatSortConstants.ALL_REMOVAL)
+            dismiss()
+        }
+
+        close.setOnClickListener {
             dismiss()
         }
     }
