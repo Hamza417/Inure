@@ -86,9 +86,9 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                     TrackerUtils.readIntentFirewallXml(
                             getFileSystemManager()!!, trackersList, path.replace(placeHolder, packageInfo.packageName))
                 } catch (e: NullPointerException) {
-                    Log.e("BatchTrackersViewModel", "Error: ${e.message}")
+                    Log.e(TAG, "Error: ${e.message}")
                 } catch (e: IOException) {
-                    Log.e("BatchTrackersViewModel", "Error: ${e.message} on $path")
+                    Log.e(TAG, "Error: ${e.message} on $path")
                 }
             }
 
@@ -333,7 +333,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
 
             channel.close()
         }.getOrElse {
-            Log.e("TrackerBlocker", "Error: ${it.message}")
+            Log.e(TAG, "Error: ${it.message}")
             postError(it)
         }
     }
@@ -343,7 +343,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
 
             if (!file.exists()) {
-                Log.d("BatchTrackersViewModel", "File does not exist at $path")
+                Log.d(TAG, "File does not exist at $path")
 
                 /**
                  * Cancel the process
@@ -399,5 +399,9 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
             Log.e("TrackerBlocker", "Error: ${it.message}")
             postError(it)
         }
+    }
+
+    companion object {
+        private const val TAG = "BatchTrackersViewModel"
     }
 }

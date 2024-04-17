@@ -265,8 +265,10 @@ object TrackerUtils {
         buffer.flip()
 
         var xml = String(buffer.array(), Charset.defaultCharset())
+        Log.d(TAG, path)
+        Log.d(TAG, xml + "\n\n")
 
-        if (isValidXmlStructure(xml).invert()) {
+        if (isValidXMLStructure(xml).invert()) {
             Log.d(TAG, "Invalid XML structure for path: $path")
             fileSystemManager.getFile(path).newOutputStream().use {
                 // Empty the file
@@ -276,8 +278,6 @@ object TrackerUtils {
             }
         }
 
-        Log.d(TAG, path)
-        Log.d(TAG, xml + "\n\n")
         val document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(InputSource(StringReader(xml)))
 
         val activityNodes = document.getElementsByTagName("activity")
@@ -572,12 +572,10 @@ object TrackerUtils {
         channel.close()
     }
 
-    private fun isValidXmlStructure(xml: String): Boolean {
+    private fun isValidXMLStructure(xml: String): Boolean {
         try {
             val docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-            Log.d(TAG, xml)
             val doc = docBuilder.parse(InputSource(StringReader(xml)))
-
             val root = doc.documentElement
 
             // Check if root element is "rules"
@@ -589,7 +587,8 @@ object TrackerUtils {
             val children = root.childNodes
             for (i in 0 until children.length) {
                 val child = children.item(i)
-                if (child.nodeName != "activity" && child.nodeName != "service" && child.nodeName != "broadcast") {
+                if (child.nodeType == Node.ELEMENT_NODE
+                        && child.nodeName != "activity" && child.nodeName != "service" && child.nodeName != "broadcast") {
                     return false
                 }
             }
