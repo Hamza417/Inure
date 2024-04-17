@@ -266,8 +266,6 @@ object TrackerUtils {
         buffer.flip()
 
         var xml = String(buffer.array(), Charset.defaultCharset())
-        Log.d(TAG, path)
-        Log.d(TAG, xml + "\n\n")
 
         if (isValidXMLStructure(xml).invert()) {
             Log.d(TAG, "Invalid XML structure for path: $path")
@@ -370,13 +368,18 @@ object TrackerUtils {
      *
      * @param trackers The list of trackers to be added to the file
      */
-    fun PackageInfo.blockTrackers(trackers: ArrayList<Tracker>, fileSystemManager: FileSystemManager, path: String) {
+    fun blockTrackers(trackers: ArrayList<Tracker>, fileSystemManager: FileSystemManager, path: String, packageName: String) {
         val file: ExtendedFile = fileSystemManager.getFile(path)
 
-        if (!file.exists()) {
-            checkAndCreateIFWDirectory(fileSystemManager, path)
-            file.newOutputStream().use {
-                it.write("<rules>\n</rules>".toByteArray())
+        with(file) {
+            if (this.exists()) {
+                // Read and check if file has the valid structure
+
+            } else {
+                checkAndCreateIFWDirectory(fileSystemManager, path)
+                this.newOutputStream().use {
+                    it.write("<rules>\n</rules>".toByteArray())
+                }
             }
         }
 
@@ -386,7 +389,16 @@ object TrackerUtils {
         channel.read(buffer)
         buffer.flip()
 
-        val xml = String(buffer.array(), Charset.defaultCharset())
+        var xml = String(buffer.array(), Charset.defaultCharset())
+
+        if (isValidXMLStructure(xml).invert()) {
+            fileSystemManager.getFile(path).newOutputStream().use {
+                // Empty the file
+                it.write("<rules>\n</rules>".toByteArray())
+                xml = "<rules>\n</rules>"
+            }
+        }
+
         val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
         val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
         val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
@@ -521,7 +533,7 @@ object TrackerUtils {
         channel.close()
     }
 
-    fun PackageInfo.unblockTrackers(trackers: ArrayList<Tracker>, fileSystemManager: FileSystemManager, path: String) {
+    fun unblockTrackers(trackers: ArrayList<Tracker>, fileSystemManager: FileSystemManager, path: String, packageName: String) {
         val file: ExtendedFile = fileSystemManager.getFile(path)
 
         if (!file.exists()) {
