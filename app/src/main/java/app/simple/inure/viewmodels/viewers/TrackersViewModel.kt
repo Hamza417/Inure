@@ -19,21 +19,9 @@ import app.simple.inure.util.TrackerUtils
 import app.simple.inure.util.TrackerUtils.getActivityTrackers
 import app.simple.inure.util.TrackerUtils.getReceiverTrackers
 import app.simple.inure.util.TrackerUtils.getServiceTrackers
-import com.topjohnwu.superuser.nio.ExtendedFile
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Document
-import org.xml.sax.InputSource
-import java.io.StringReader
-import java.nio.ByteBuffer
-import java.nio.charset.Charset
-import javax.xml.parsers.DocumentBuilder
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.Transformer
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.dom.DOMSource
-import javax.xml.transform.stream.StreamResult
 
 class TrackersViewModel(application: Application, private val packageInfo: PackageInfo) : RootServiceViewModel(application) {
 
@@ -176,153 +164,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     fun blockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
-
-                if (!file.exists()) {
-                    file.newOutputStream().use {
-                        it.write("<rules>\n</rules>".toByteArray())
-                    }
-                }
-
-                val channel = getFileSystemManager()!!.openChannel(path, FileSystemManager.MODE_READ_WRITE)
-                val capacity = channel.size().toInt()
-                val buffer = ByteBuffer.allocate(capacity)
-                channel.read(buffer)
-                buffer.flip()
-
-                val xml = String(buffer.array(), Charset.defaultCharset())
-                val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
-                val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
-                val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
-
-                // Modify the XML document
-                val rules = doc.getElementsByTagName("rules").item(0)
-
-                for (tracker in trackers) {
-                    val components = doc.getElementsByTagName("component-filter")
-
-                    /**
-                     * Remove the component if it already exists
-                     * This is to prevent duplicate entries
-                     */
-                    for (i in 0 until components.length) {
-                        val component = components.item(i)
-                        val name = component.attributes.getNamedItem("name").nodeValue
-
-                        if (name == "${packageInfo.packageName}/${tracker.componentName}") {
-                            component.parentNode.removeChild(component)
-                        }
-                    }
-
-                    val componentFilter = doc.createElement("component-filter")
-                    componentFilter.setAttribute("name", "${packageInfo.packageName}/${tracker.componentName}")
-
-                    if (tracker.isActivity) {
-                        // Check if the activity tag exists
-                        val activity = doc.getElementsByTagName("activity").item(0)
-
-                        if (activity == null) {
-                            val activity1 = doc.createElement("activity")
-                            activity1.setAttribute("block", "true")
-                            activity1.setAttribute("log", "false")
-                            activity1.appendChild(componentFilter)
-
-                            rules.appendChild(activity1)
-                        } else {
-                            /**
-                             * Check if block already exists and is true, if false
-                             * create another activity tag with block and log attributes
-                             * set to true
-                             */
-                            if (activity.attributes.getNamedItem("block") != null
-                                    && activity.attributes.getNamedItem("block").nodeValue == "false") {
-                                val activity1 = doc.createElement("activity")
-                                activity1.setAttribute("block", "true")
-                                activity1.setAttribute("log", "false")
-                                activity1.appendChild(componentFilter)
-
-                                rules.appendChild(activity1)
-                            } else {
-                                activity.appendChild(componentFilter)
-                            }
-                        }
-                    }
-
-                    if (tracker.isService) {
-                        // Check if the service tag exists
-                        val service = doc.getElementsByTagName("service").item(0)
-
-                        if (service == null) {
-                            val service1 = doc.createElement("service")
-                            service1.setAttribute("block", "true")
-                            service1.setAttribute("log", "false")
-                            service1.appendChild(componentFilter)
-
-                            rules.appendChild(service1)
-                        } else {
-                            /**
-                             * Check if block already exists and is true, if false
-                             * create another service tag with block and log attributes
-                             * set to true
-                             */
-                            if (service.attributes.getNamedItem("block") != null
-                                    && service.attributes.getNamedItem("block").nodeValue == "false") {
-                                val service1 = doc.createElement("service")
-                                service1.setAttribute("block", "true")
-                                service1.setAttribute("log", "false")
-                                service1.appendChild(componentFilter)
-
-                                rules.appendChild(service1)
-                            } else {
-                                service.appendChild(componentFilter)
-                            }
-                        }
-                    }
-
-                    if (tracker.isReceiver) {
-                        // Check if the broadcast tag exists
-                        val broadcast = doc.getElementsByTagName("broadcast").item(0)
-
-                        if (broadcast == null) {
-                            val broadcast1 = doc.createElement("broadcast")
-                            broadcast1.setAttribute("block", "true")
-                            broadcast1.setAttribute("log", "false")
-                            broadcast1.appendChild(componentFilter)
-
-                            rules.appendChild(broadcast1)
-                        } else {
-                            /**
-                             * Check if block already exists and is true, if false
-                             * create another broadcast tag with block and log attributes
-                             * set to true
-                             */
-                            if (broadcast.attributes.getNamedItem("block") != null
-                                    && broadcast.attributes.getNamedItem("block").nodeValue == "false") {
-                                val broadcast1 = doc.createElement("broadcast")
-                                broadcast1.setAttribute("block", "true")
-                                broadcast1.setAttribute("log", "false")
-                                broadcast1.appendChild(componentFilter)
-
-                                rules.appendChild(broadcast1)
-                            } else {
-                                broadcast.appendChild(componentFilter)
-                            }
-                        }
-                    }
-                }
-
-                // Write the XML document back to the file
-                val transformerFactory: TransformerFactory = TransformerFactory.newInstance()
-                val transformer: Transformer = transformerFactory.newTransformer()
-                val source = DOMSource(doc)
-
-                channel.truncate(0)
-
-                val outputStream = file.newOutputStream()
-                val result = StreamResult(outputStream)
-                transformer.transform(source, result)
-
-                channel.close()
+                TrackerUtils.blockTrackers(trackers, getFileSystemManager()!!, path, packageInfo.packageName)
 
                 // Update the trackers list
                 if (trackers.size == 1 && position != -1) {
@@ -332,7 +174,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                     scanTrackers()
                 }
             }.getOrElse {
-                Log.e("TrackerBlocker", "Error: ${it.message}")
+                Log.e(TAG, "Error: ${it.message}")
                 postWarning("Error: ${it.message}")
             }
         }
@@ -341,61 +183,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     fun unblockTrackers(trackers: ArrayList<Tracker>, position: Int = -1) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val file: ExtendedFile = getFileSystemManager()!!.getFile(path)
-
-                if (!file.exists()) {
-                    postWarning(getString(R.string.no_rules_file_found))
-
-                    /**
-                     * Cancel the process
-                     */
-                    return@launch
-                }
-
-                val channel = getFileSystemManager()!!.openChannel(path, FileSystemManager.MODE_READ_WRITE)
-                val capacity = channel.size().toInt()
-                val buffer = ByteBuffer.allocate(capacity)
-                channel.read(buffer)
-                buffer.flip()
-
-                val xml = String(buffer.array(), Charset.defaultCharset())
-
-                val docFactory: DocumentBuilderFactory = DocumentBuilderFactory.newInstance()
-                val docBuilder: DocumentBuilder = docFactory.newDocumentBuilder()
-                val doc: Document = docBuilder.parse(InputSource(StringReader(xml)))
-
-                // Modify the XML document
-                // val rules = doc.getElementsByTagName("rules").item(0)
-
-                for (tracker in trackers) {
-                    val components = doc.getElementsByTagName("component-filter")
-
-                    /**
-                     * Remove the component if it already exists
-                     * This is to prevent duplicate entries
-                     */
-                    for (i in 0 until components.length) {
-                        val component = components.item(i)
-                        val name = component.attributes.getNamedItem("name").nodeValue
-
-                        if (name == "${packageInfo.packageName}/${tracker.componentName}") {
-                            component.parentNode.removeChild(component)
-                        }
-                    }
-                }
-
-                // Write the XML document back to the file
-                val transformerFactory: TransformerFactory = TransformerFactory.newInstance()
-                val transformer: Transformer = transformerFactory.newTransformer()
-                val source = DOMSource(doc)
-
-                channel.truncate(0)
-
-                val outputStream = file.newOutputStream()
-                val result = StreamResult(outputStream)
-                transformer.transform(source, result)
-
-                channel.close()
+                TrackerUtils.unblockTrackers(trackers, getFileSystemManager()!!, path, packageInfo.packageName)
 
                 // Update the trackers list
                 if (trackers.size == 1 && position != -1) {
@@ -405,9 +193,13 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                     scanTrackers()
                 }
             }.getOrElse {
-                Log.e("TrackerBlocker", "Error: ${it.message}")
+                Log.e(TAG, "Error: ${it.message}")
                 postWarning("Error: ${it.message}")
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "TrackersViewModel"
     }
 }
