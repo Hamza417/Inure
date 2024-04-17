@@ -24,6 +24,7 @@ import app.simple.inure.util.LocaleHelper
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.StatusBarHeight
+import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.visible
 import java.util.concurrent.TimeUnit
 
@@ -65,10 +66,15 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
             holder.icon.transitionName = apps[position].packageInfo?.packageName
             holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
             holder.name.text = apps[position].packageInfo!!.applicationInfo.name
-            holder.dataUp.text = apps[position].mobileData?.tx?.toSize()
-            holder.dataDown.text = apps[position].mobileData?.rx?.toSize()
-            holder.wifiUp.text = apps[position].wifiData?.tx?.toSize()
-            holder.wifiDown.text = apps[position].wifiData?.rx?.toSize()
+            holder.mobileData.text = buildString {
+                appendFlag(apps[position].mobileData?.tx?.toSize())
+                appendFlag(apps[position].mobileData?.rx?.toSize())
+            }
+
+            holder.wifi.text = buildString {
+                appendFlag(apps[position].wifiData?.tx?.toSize())
+                appendFlag(apps[position].wifiData?.rx?.toSize())
+            }
 
             holder.name.setStrikeThru(apps[position].packageInfo?.applicationInfo?.enabled ?: false)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
@@ -229,10 +235,8 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
         val icon: AppIconImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val time: TypeFaceTextView = itemView.findViewById(R.id.total_time_used)
-        val dataUp: TypeFaceTextView = itemView.findViewById(R.id.total_data_up_used)
-        val dataDown: TypeFaceTextView = itemView.findViewById(R.id.total_data_down_used)
-        val wifiUp: TypeFaceTextView = itemView.findViewById(R.id.total_wifi_up_used)
-        val wifiDown: TypeFaceTextView = itemView.findViewById(R.id.total_wifi_down_used)
+        val mobileData: TypeFaceTextView = itemView.findViewById(R.id.mobile_data)
+        val wifi: TypeFaceTextView = itemView.findViewById(R.id.wifi)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

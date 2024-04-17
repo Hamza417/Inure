@@ -184,8 +184,8 @@ object StringUtils {
         }
     }
 
-    fun StringBuilder.appendFlag(string: String) {
-        if (isEmpty()) {
+    fun StringBuilder.appendFlag(string: String?) {
+        if (isNullOrEmpty()) {
             append(string)
         } else {
             append(" | $string")
