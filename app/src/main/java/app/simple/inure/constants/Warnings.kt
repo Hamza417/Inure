@@ -57,4 +57,9 @@ object Warnings {
      * Shizuku binder is not ready
      */
     const val SHIZUKU_BINDER_NOT_READY = "0x00B: Shizuku binder is not ready, please check if Shizuku is running properly."
+
+    /**
+     * Shizuku permission denied, please open the Shizuku app and grant the permission
+     */
+    const val SHIZUKU_PERMISSION_DENIED = "0x00C: Shizuku permission denied, please open the Shizuku app and grant the permission manually."
 }

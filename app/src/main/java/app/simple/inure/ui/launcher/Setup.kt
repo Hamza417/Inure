@@ -379,7 +379,9 @@ class Setup : ScopedFragment() {
             }
             Shizuku.shouldShowRequestPermissionRationale() -> {
                 // Users choose "Deny and don't ask again"
-                shizukuSwitchView.uncheck(true)
+                shizukuSwitchView.uncheck(false)
+                shizukuSwitchView.gone()
+                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
                 false
             }
             else -> {

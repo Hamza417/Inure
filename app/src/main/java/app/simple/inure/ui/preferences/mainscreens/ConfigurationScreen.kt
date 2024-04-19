@@ -211,13 +211,15 @@ class ConfigurationScreen : ScopedFragment() {
             Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED -> {
                 // Granted
                 shizukuSwitchView.check(true)
-                Log.d("ConfigurationScreen", "checkPermission: granted")
+                Log.d(TAG, "checkPermission: granted")
                 true
             }
             Shizuku.shouldShowRequestPermissionRationale() -> {
                 // Users choose "Deny and don't ask again"
-                shizukuSwitchView.uncheck(true)
-                Log.d("ConfigurationScreen", "checkPermission: shouldShowRequestPermissionRationale")
+                shizukuSwitchView.uncheck(false)
+                shizukuSwitchView.gone()
+                Log.d(TAG, "checkPermission: shouldShowRequestPermissionRationale")
+                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
                 false
             }
             else -> {
