@@ -27,6 +27,7 @@ import app.simple.inure.ui.preferences.subscreens.Shortcuts
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.StringUtils.appendFlag
+import app.simple.inure.util.ViewUtils.gone
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -236,20 +237,21 @@ class ConfigurationScreen : ScopedFragment() {
             try {
                 shizukuPermissionState.text = buildString {
                     if (Shizuku.isPreV11().invert()) {
-                        if (isShizukuPermissionGranted()) {
-                            appendFlag(getString(R.string.granted))
+                        if (Shizuku.shouldShowRequestPermissionRationale()) {
+                            appendFlag(Warnings.SHIZUKU_PERMISSION_DENIED)
+                            shizukuSwitchView.gone(animate = false)
                         } else {
-                            appendFlag(getString(R.string.rejected))
-
-                            if (Shizuku.shouldShowRequestPermissionRationale()) {
-                                appendFlag(getString(R.string.not_available))
+                            if (isShizukuPermissionGranted()) {
+                                appendFlag(getString(R.string.granted))
+                            } else {
+                                appendFlag(getString(R.string.rejected))
                             }
-                        }
 
-                        if (ConfigurationPreferences.isUsingShizuku()) {
-                            appendFlag(getString(R.string.enabled))
-                        } else {
-                            appendFlag(getString(R.string.disabled))
+                            if (ConfigurationPreferences.isUsingShizuku()) {
+                                appendFlag(getString(R.string.enabled))
+                            } else {
+                                appendFlag(getString(R.string.disabled))
+                            }
                         }
                     } else {
                         appendFlag("Pre-v11 is unsupported")
@@ -265,7 +267,7 @@ class ConfigurationScreen : ScopedFragment() {
 
     private fun onRequestPermissionsResult(requestCode: Int, grantResult: Int) {
         val granted: Boolean = grantResult == PackageManager.PERMISSION_GRANTED
-        Log.d("ConfigurationScreen", "onRequestPermissionsResult: $granted with requestCode: $requestCode")
+        Log.d(TAG, "onRequestPermissionsResult: $granted with requestCode: $requestCode")
         ConfigurationPreferences.setUsingShizuku(granted)
         setShizukuPermissionState()
 
@@ -273,6 +275,10 @@ class ConfigurationScreen : ScopedFragment() {
             shizukuSwitchView.check(true)
         } else {
             shizukuSwitchView.uncheck(true)
+            if (Shizuku.shouldShowRequestPermissionRationale()) {
+                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
+                shizukuSwitchView.gone(animate = false)
+            }
         }
     }
 

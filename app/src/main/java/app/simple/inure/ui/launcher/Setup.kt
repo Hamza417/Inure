@@ -336,20 +336,21 @@ class Setup : ScopedFragment() {
             try {
                 shizukuPermissionState.text = buildString {
                     if (Shizuku.isPreV11().invert()) {
-                        if (isShizukuPermissionGranted()) {
-                            appendFlag(getString(R.string.granted))
+                        if (Shizuku.shouldShowRequestPermissionRationale()) {
+                            appendFlag(Warnings.SHIZUKU_PERMISSION_DENIED)
+                            shizukuSwitchView.gone(animate = false)
                         } else {
-                            appendFlag(getString(R.string.rejected))
-
-                            if (Shizuku.shouldShowRequestPermissionRationale()) {
-                                appendFlag(getString(R.string.not_available))
+                            if (isShizukuPermissionGranted()) {
+                                appendFlag(getString(R.string.granted))
+                            } else {
+                                appendFlag(getString(R.string.rejected))
                             }
-                        }
 
-                        if (ConfigurationPreferences.isUsingShizuku()) {
-                            appendFlag(getString(R.string.enabled))
-                        } else {
-                            appendFlag(getString(R.string.disabled))
+                            if (ConfigurationPreferences.isUsingShizuku()) {
+                                appendFlag(getString(R.string.enabled))
+                            } else {
+                                appendFlag(getString(R.string.disabled))
+                            }
                         }
                     } else {
                         appendFlag("Pre-v11 is unsupported")
@@ -380,7 +381,7 @@ class Setup : ScopedFragment() {
             Shizuku.shouldShowRequestPermissionRationale() -> {
                 // Users choose "Deny and don't ask again"
                 shizukuSwitchView.uncheck(false)
-                shizukuSwitchView.gone()
+                shizukuSwitchView.gone(animate = false)
                 shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
                 false
             }
@@ -402,6 +403,10 @@ class Setup : ScopedFragment() {
             shizukuSwitchView.check(true)
         } else {
             shizukuSwitchView.uncheck(true)
+            if (Shizuku.shouldShowRequestPermissionRationale()) {
+                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
+                shizukuSwitchView.gone(animate = false)
+            }
         }
     }
 
