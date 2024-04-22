@@ -515,7 +515,6 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
                         } else {
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
-                            postWarning(result.output + "\n" + result.error)// TODO remove this
                         }
                     }
                 }.getOrElse {
