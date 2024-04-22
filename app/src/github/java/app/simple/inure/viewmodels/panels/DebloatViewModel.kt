@@ -3,7 +3,6 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -467,11 +466,9 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
         when {
             ConfigurationPreferences.isUsingRoot() -> {
-                Log.d("DebloatViewModel", "startDebloating: Root")
                 debloatRoot(selectedBloats, method)
             }
             ConfigurationPreferences.isUsingShizuku() -> {
-                Log.d("DebloatViewModel", "startDebloating: Shizuku")
                 debloatShizuku(selectedBloats, method)
             }
         }
@@ -518,6 +515,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
                         } else {
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                            postWarning(result.output + "\n" + result.error)// TODO remove this
                         }
                     }
                 }.getOrElse {

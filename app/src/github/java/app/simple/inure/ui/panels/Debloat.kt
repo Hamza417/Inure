@@ -136,6 +136,16 @@ class Debloat : ScopedFragment() {
                 debloatViewModel?.refreshBloatList()
             }
         }
+
+        debloatViewModel?.getWarning()?.observe(viewLifecycleOwner) {
+            hideLoader()
+            showWarning(it, false)
+        }
+
+        debloatViewModel?.getError()?.observe(viewLifecycleOwner) {
+            hideLoader()
+            showError(it, false)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
