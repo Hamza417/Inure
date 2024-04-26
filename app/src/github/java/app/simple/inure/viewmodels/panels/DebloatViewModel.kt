@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
+import app.simple.inure.constants.Warnings
 import app.simple.inure.enums.Removal
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -482,6 +483,11 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         super.onShizukuCreated(shizukuServiceHelper)
         startDebloating(currentMethod)
+    }
+
+    override fun onShizukuDenied() {
+        super.onShizukuDenied()
+        postWarning(Warnings.SHIZUKU_BINDER_NOT_READY)
     }
 
     private fun debloatRoot(bloats: ArrayList<Bloat>, method: String) {

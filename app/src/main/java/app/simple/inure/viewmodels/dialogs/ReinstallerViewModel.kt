@@ -53,7 +53,6 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
                         success.postValue("Done")
                     } else {
                         success.postValue("Failed")
-                        postWarning(it.output + "\n" + it.error)
                     }
                 }
             }.onFailure {
