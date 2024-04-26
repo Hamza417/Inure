@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -37,11 +38,12 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     private fun getClassesOfPackage(packageName: String): ArrayList<String> {
         val appContext = applicationContext().createPackageContext(packageName, 0)
         val packageCodePath: String = appContext.packageCodePath
-        val df = DexFile(packageCodePath)
-        val iter = df.entries()
+        Log.d("DexDataViewModel", "Package code path: $packageCodePath")
+        val dexFile = DexFile(packageCodePath)
+        val enumeration = dexFile.entries()
 
-        while (iter.hasMoreElements()) {
-            val className = iter.nextElement()
+        while (enumeration.hasMoreElements()) {
+            val className = enumeration.nextElement()
             classes.add(className)
         }
 

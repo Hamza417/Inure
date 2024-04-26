@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.details.AdapterDexData
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -44,6 +45,10 @@ class Dexs : SearchBarScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (packageInfo.packageName == "android") {
+            showWarning(Warnings.ANDROID_SYSTEM_DEX_CLASSES)
+        }
 
         dexDataViewModel.getDexClasses().observe(viewLifecycleOwner) {
             setCount(it.size)
