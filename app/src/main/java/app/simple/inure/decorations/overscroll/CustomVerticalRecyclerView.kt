@@ -283,7 +283,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppearancePreferences.accentColor -> {
+            AppearancePreferences.ACCENT_COLOR -> {
                 edgeColor = AppearancePreferences.getAccentColor()
                 fastScrollerBuilder?.updateAesthetics()
             }

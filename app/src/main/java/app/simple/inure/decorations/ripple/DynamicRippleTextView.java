@@ -163,7 +163,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         super.onSharedPreferenceChanged(sharedPreferences, key);
         try {
             switch (key) {
-                case AppearancePreferences.accentColor,
+                case AppearancePreferences.ACCENT_COLOR,
                         AccessibilityPreferences.IS_HIGHLIGHT_STROKE,
                         AccessibilityPreferences.IS_HIGHLIGHT_MODE -> {
                     setHighlightBackgroundColor();

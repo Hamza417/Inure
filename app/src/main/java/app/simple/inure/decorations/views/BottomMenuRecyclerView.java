@@ -89,7 +89,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         setClipToPadding(false);
         setClipChildren(true);
         
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+        if (AppearancePreferences.INSTANCE.isAccentColorOnBottomMenu()) {
             setBackgroundTintList(AppearancePreferences.INSTANCE.getAccentColorStateList());
         }
         
@@ -290,7 +290,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     @Override
     public void onThemeChanged(@NonNull Theme theme, boolean animate) {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+        if (AppearancePreferences.INSTANCE.isAccentColorOnBottomMenu()) {
             setBackgroundTintList(AppearancePreferences.INSTANCE.getAccentColorStateList());
         } else {
             super.onThemeChanged(theme, animate);

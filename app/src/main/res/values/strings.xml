@@ -744,4 +744,6 @@
     <string name="blocked">Blocked</string>
     <string name="actions">Actions</string>
     <string name="lock_task_warning">App is pinned and cannot be closed.</string>
+    <string name="accents_on_bottom_menu">Accent Color on Bottom Menu</string>
+    <string name="desc_accent_on_bottom_menu">Use Accent Color as Bottom Menu background.</string>
 </resources>

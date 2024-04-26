@@ -65,7 +65,7 @@ public class AppIconImageView extends AppCompatImageView implements SharedPrefer
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(AppearancePreferences.iconSize)) {
+        if (key.equals(AppearancePreferences.ICON_SIZE)) {
             setSize(AppearancePreferences.INSTANCE.getIconSize());
         }
     }

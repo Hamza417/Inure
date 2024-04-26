@@ -44,7 +44,7 @@ public class DynamicCornerAccentColor extends FrameLayout implements android.con
     
     @Override
     public void onSharedPreferenceChanged(android.content.SharedPreferences sharedPreferences, @Nullable String s) {
-        if (s.equals(AppearancePreferences.accentColor)) {
+        if (s.equals(AppearancePreferences.ACCENT_COLOR)) {
             LayoutBackground.setBackground(getContext(), this, null, 1.4F);
         }
     }

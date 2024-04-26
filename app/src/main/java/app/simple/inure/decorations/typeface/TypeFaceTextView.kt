@@ -312,7 +312,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppearancePreferences.accentColor -> {
+            AppearancePreferences.ACCENT_COLOR -> {
                 setTextColor(animate = true)
                 setDrawableTint(animate = true)
             }

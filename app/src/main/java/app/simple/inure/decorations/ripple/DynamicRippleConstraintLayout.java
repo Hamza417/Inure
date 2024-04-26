@@ -126,7 +126,7 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+        if (Objects.equals(key, AppearancePreferences.ACCENT_COLOR)) {
             init();
         }
     }

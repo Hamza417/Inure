@@ -34,7 +34,6 @@ object DevelopmentPreferences {
     const val isSwitchFancyDraggable = "is_switch_fancy_draggable"
     const val useColorfulHighlight = "is_colorful_highlight_enabled"
     const val usePeristyleInterface = "is_felicity_flow_interface_enabled"
-    const val useAccentColorOnBottomMenu = "is_accent_color_on_bottom_menu_enabled"
     const val useCorrespondingColorOnHighlight = "is_corresponding_color_on_highlight_enabled"
     const val USE_BLUR_BETWEEN_PANELS = "is_blur_between_panels_enabled"
 
@@ -188,10 +187,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Peristyle Interface",
                                             "Use basic Peristyle Interface in the music panel of the app.",
                                             usePeristyleInterface,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-                DevelopmentPreferencesModel("Use Accent Color On Bottom Menu",
-                                            "Use accent color on bottom menu items.",
-                                            useAccentColorOnBottomMenu,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Corresponding Color while Highlighting",

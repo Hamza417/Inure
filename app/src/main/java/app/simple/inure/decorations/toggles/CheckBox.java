@@ -487,7 +487,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, @Nullable String key) {
         switch (key) {
-            case AppearancePreferences.accentColor, AppearancePreferences.theme, BehaviourPreferences.COLORED_SHADOWS -> {
+            case AppearancePreferences.ACCENT_COLOR, AppearancePreferences.THEME, BehaviourPreferences.COLORED_SHADOWS -> {
                 animateFinalState();
             }
         }

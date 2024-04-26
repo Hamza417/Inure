@@ -593,8 +593,8 @@ open class BaseActivity : AppCompatActivity(),
                 fixNavigationBarOverlap()
             }
 
-            AppearancePreferences.accentColor,
-            AppearancePreferences.accentOnNav -> {
+            AppearancePreferences.ACCENT_COLOR,
+            AppearancePreferences.ACCENT_ON_NAV -> {
                 Log.d("BaseActivity", "Accent color changed")
                 setNavColor()
             }

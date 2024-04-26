@@ -296,7 +296,7 @@ public class ThemeSeekBar extends AppCompatSeekBar implements ThemeChangedListen
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+        if (Objects.equals(key, AppearancePreferences.ACCENT_COLOR)) {
             setColors(AppearancePreferences.INSTANCE.getCornerRadius());
             setThumb(AppearancePreferences.INSTANCE.getCornerRadius());
         }

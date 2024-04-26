@@ -119,7 +119,7 @@ public class ThemeIcon extends AppCompatImageView implements ThemeChangedListene
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (Objects.equals(key, AppearancePreferences.accentColor)) {
+        if (Objects.equals(key, AppearancePreferences.ACCENT_COLOR)) {
             setTintColor(tintMode, true);
         }
     }

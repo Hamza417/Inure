@@ -17,7 +17,7 @@ import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -53,7 +53,7 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
                 holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
             }
 
@@ -74,7 +74,7 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.useAccentColorOnBottomMenu)) {
+            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
                 holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
                 holder.text.setTextColor(Color.WHITE)
             }
