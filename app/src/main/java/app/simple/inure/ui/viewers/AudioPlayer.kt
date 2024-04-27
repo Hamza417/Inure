@@ -559,6 +559,6 @@ class AudioPlayer : ScopedFragment() {
             return fragment
         }
 
-        private const val TAG = "AudioPlayerPager"
+        const val TAG = "AudioPlayerPager"
     }
 }

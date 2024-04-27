@@ -85,27 +85,13 @@ class Music : KeyboardScopedFragment() {
 
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
-                    //                    val intent = Intent(requireContext(), AudioPlayerActivity::class.java)
-                    //                    intent.data = uri
-                    //
-                    //                    if (BehaviourPreferences.isArcAnimationOn()) {
-                    //                        Log.d("Music", art.transitionName)
-                    //                        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), art, art.transitionName)
-                    //                        startActivity(intent, options.toBundle())
-                    //                    } else {
-                    //                        startActivity(intent)
-                    //                    }
-
-                    openFragmentArc(AudioPlayer.newInstance(position), art, "audio_player_pager")
-                    requireArguments().putInt(BundleConstants.position, position)
+                    openAudioPlayer(position, art)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int, container: View) {
                     PopupMusicMenu(requireView(), audioModel.fileUri.toUri()).setOnPopupMusicMenuCallbacks(object : PopupMusicMenuCallbacks {
                         override fun onPlay(uri: Uri) {
-                            openFragmentArc(AudioPlayer.newInstance(position), view, "audio_player_pager")
-                            MusicPreferences.setMusicPosition(position)
-                            MusicPreferences.setLastMusicId(audioModel.id)
+                            openAudioPlayer(position, view)
                         }
 
                         override fun onDelete(uri: Uri) {
@@ -250,6 +236,11 @@ class Music : KeyboardScopedFragment() {
                 }
             }
         })
+    }
+
+    private fun openAudioPlayer(position: Int, view: View) {
+        requireArguments().putInt(BundleConstants.position, position)
+        openFragmentArc(AudioPlayer.newInstance(position), view, AudioPlayer.TAG)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
