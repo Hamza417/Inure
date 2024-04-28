@@ -6,7 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
-import java.util.*
+import java.util.Locale
 
 open class ContextUtils(context: Context) : ContextWrapper(context) {
     companion object {
@@ -22,10 +22,10 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
          */
         fun updateLocale(baseContext: Context, languageCode: String): ContextWrapper {
             val localeToSwitchTo = if (languageCode == "default") {
-                if (LocaleHelper.isOneOfTraditionalChinese()) {
+                if (LocaleUtils.isOneOfTraditionalChinese()) {
                     Locale.forLanguageTag("zh-TW")
                 } else {
-                    Locale.forLanguageTag(LocaleHelper.getSystemLanguageCode())
+                    Locale.forLanguageTag(LocaleUtils.getSystemLanguageCode())
                 }
             } else {
                 Locale.forLanguageTag(languageCode)

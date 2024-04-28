@@ -19,7 +19,7 @@ import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.LocaleHelper.isRTL
+import app.simple.inure.util.LocaleUtils.isRTL
 import app.simple.inure.util.ViewUtils
 
 @SuppressLint("ClickableViewAccessibility")

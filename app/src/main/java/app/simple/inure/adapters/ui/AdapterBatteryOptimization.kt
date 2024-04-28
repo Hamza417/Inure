@@ -17,8 +17,11 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
-import app.simple.inure.util.*
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.LocaleUtils
+import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.SortBatteryOptimization
+import app.simple.inure.util.StatusBarHeight
 
 class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -27,7 +30,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_battery_optimization_ru, parent, false))
                 } else {

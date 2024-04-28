@@ -17,8 +17,11 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.preferences.BootManagerPreferences
-import app.simple.inure.util.*
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.LocaleUtils
+import app.simple.inure.util.RecyclerViewUtils
+import app.simple.inure.util.SortBootManager
+import app.simple.inure.util.StatusBarHeight
 
 class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -27,7 +30,7 @@ class AdapterBootManager(private val components: ArrayList<BootManagerModel>) : 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_boot_manager_ru, parent, false))
                 } else {

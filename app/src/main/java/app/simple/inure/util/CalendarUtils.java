@@ -387,7 +387,7 @@ public class CalendarUtils {
     
     public static Date convertStringToDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat(FormattingPreferences.INSTANCE.getDateFormat(),
-                LocaleHelper.INSTANCE.getAppLocale());
+                LocaleUtils.INSTANCE.getAppLocale());
         try {
             return format.parse(date);
         } catch (ParseException e) {
@@ -397,7 +397,7 @@ public class CalendarUtils {
     
     public static String convertDateToString(Date date) {
         SimpleDateFormat format = new SimpleDateFormat(FormattingPreferences.INSTANCE.getDateFormat(),
-                LocaleHelper.INSTANCE.getAppLocale());
+                LocaleUtils.INSTANCE.getAppLocale());
         return format.format(date);
     }
     

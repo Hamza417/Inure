@@ -13,7 +13,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Locales
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.isZero
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
@@ -22,7 +22,7 @@ class AdapterLanguage : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var languageCallback: LanguageCallback? = null
 
-    private var list: MutableList<Locales> = LocaleHelper.localeList.also { it ->
+    private var list: MutableList<Locales> = LocaleUtils.localeList.also { it ->
         it.subList(1, it.size).sortBy {
             it.language
         }

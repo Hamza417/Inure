@@ -63,7 +63,7 @@ import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.themes.manager.ThemeUtils.setTheme
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ContextUtils
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDCard
 import com.google.android.material.transition.platform.MaterialArcMotion
@@ -181,7 +181,7 @@ open class BaseActivity : AppCompatActivity(),
         /**
          * Keeps the instance of current locale of the app
          */
-        LocaleHelper.setAppLocale(ConfigurationCompat.getLocales(resources.configuration)[0]!!)
+        LocaleUtils.setAppLocale(ConfigurationCompat.getLocales(resources.configuration)[0]!!)
 
         ThemeUtils.setBarColors(resources, window)
         setNavColor()

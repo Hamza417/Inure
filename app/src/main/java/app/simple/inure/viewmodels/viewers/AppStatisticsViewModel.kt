@@ -18,7 +18,6 @@ import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 class AppStatisticsViewModel(application: Application, private val packageInfo: PackageInfo) : UsageStatsViewModel(application) {
 

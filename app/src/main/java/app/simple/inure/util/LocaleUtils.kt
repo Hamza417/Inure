@@ -4,9 +4,9 @@ import android.content.res.Resources
 import android.os.Build
 import android.view.View
 import app.simple.inure.models.Locales
-import java.util.*
+import java.util.Locale
 
-object LocaleHelper {
+object LocaleUtils {
 
     private var appLocale = Locale.getDefault()
 
@@ -69,6 +69,8 @@ object LocaleHelper {
             Locales("Español (Spanish)", "es-ES"),
             // Arabic
             Locales("العربية (Arabic)", "ar"),
+            // Turkish
+            Locales("Türkçe (Turkish)", "tr-TR"),
     )
 
     fun getAppLocale(): Locale {

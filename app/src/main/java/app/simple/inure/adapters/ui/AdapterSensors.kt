@@ -12,7 +12,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.SensorsPreferences
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortSensors
 import app.simple.inure.util.StatusBarHeight
@@ -24,7 +24,7 @@ class AdapterSensors(private val sensors: MutableList<Sensor>) : RecyclerView.Ad
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_sensors_ru, parent, false))
                 } else {

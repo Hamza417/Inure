@@ -22,11 +22,11 @@ import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.setAppInfo
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
 import app.simple.inure.util.StatusBarHeight
-import java.util.*
+import java.util.Locale
 
 class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
 
@@ -35,7 +35,7 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_all_apps_ru, parent, false))
                 } else {

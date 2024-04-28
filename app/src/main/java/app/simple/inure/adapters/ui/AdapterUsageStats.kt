@@ -20,7 +20,7 @@ import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.StatusBarHeight
@@ -41,7 +41,7 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_usage_stats_ru, parent, false))
                 } else {

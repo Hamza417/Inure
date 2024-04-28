@@ -24,7 +24,7 @@ import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.LocaleHelper
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
 import app.simple.inure.util.SortBatch.getSortedList
@@ -40,7 +40,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                if (LocaleHelper.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
                     Header(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_header_batch_ru, parent, false))
                 } else {
