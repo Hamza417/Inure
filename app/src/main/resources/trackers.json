@@ -633,7 +633,7 @@
             ],
             "id": 148,
             "name": "SAP CDC (Gigya)",
-            "network_signature": "cdn1\\.gigya\\.com|cdn2\\.gigya\\.com|cdn3\\.gigya\\.com|cdn\\.gigya\\.com|cdns\\.us1\\.gigya\\.com",
+            "network_signature": "cdn1\\.gigya\\.com|cdn2\\.gigya\\.com|cdn3\\.gigya\\.com|cdn\\.gigya\\.com|cdns\\.us1\\.gigya\\.com|david\\.gigya-cs\\.com",
             "website": "https://www.sap.com/products/crm/customer-data-management.html"
         },
         "149": {
