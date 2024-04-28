@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">Yeni pencere</string>
+    <string name="close_window">Pencereyi kapat</string>
+    <string name="window_list">Pencereler</string>
+    <string name="prev_window">Önceki pencere</string>
+    <string name="next_window">Sonraki pencere</string>
+    <string name="special_keys">Özel tuşlar</string>
+    <string name="toggle_soft_keyboard">Yumuşak klavyeyi göster/gizle</string>
+    <string name="reset_toast_notification">Bu pencerenin uçbirim durumu sıfırlandı.</string>
+    <string name="enable_wakelock">WakeLock\'u al</string>
+    <string name="disable_wakelock">WakeLock\'u bırak</string>
+    <string name="enable_wifilock">WifiLock\'u al</string>
+    <string name="disable_wifilock">WifiLock\'u bırak</string>
+    <string name="select_text">Metni seç</string>
+    <string name="copy_all">Tümünü kopyala</string>
+    <string name="paste">Yapıştır</string>
+    <string name="send_control_key">Kontrol tuşunu gönder</string>
+    <string name="send_fn_key">Fn tuşunu gönder</string>
+    <string name="window_title">Pencere %1$d</string>
+    <string name="service_notify_text">Uçbirim oturumu çalışıyor</string>
+    <string name="process_exit_message">Uçbirim oturumu sona erdi</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">Ekran</string>
+    <string name="title_cursorblink_preference">İmleçin Yanıp Sönmesi</string>
+    <string name="summary_cursorblink_preference">Uçbirim pencerelerinde imleç periyodik olarak yanıp söner.</string>
+    <string name="text_preferences">Metin</string>
+    <string name="title_utf8_by_default_preference">Varsayılan UTF-8</string>
+    <string name="summary_utf8_by_default_preference">UTF-8 modunun varsayılan olarak etkin olup olmadığı.</string>
+    <string name="title_fontsize_preference">Yazı Tipi Boyutu</string>
+    <string name="summary_fontsize_preference">Karakter yüksekliğini nokta cinsinden seçin.</string>
+    <string name="dialog_title_fontsize_preference">Yazı tipi boyutu</string>
+    <string name="title_color_preference">Renkler</string>
+    <string name="summary_color_preference">Metin rengini seçin.</string>
+    <string name="dialog_title_color_preference">Metin rengi</string>
+    <string name="keyboard_preferences">Klavye</string>
+    <string name="title_backaction_preference">Geri tuşu davranışı</string>
+    <string name="summary_backaction_preference">Geri düğmesine basmanın ne yapacağını seçin.</string>
+    <string name="title_controlkey_preference">Kontrol tuşu</string>
+    <string name="summary_controlkey_preference">Kontrol tuşunu seçin.</string>
+    <string name="title_fnkey_preference">Fn anahtarı</string>
+    <string name="summary_fnkey_preference">Fn anahtarını seçin.</string>
+    <string name="title_ime_preference">Giriş yöntemi</string>
+    <string name="summary_ime_preference">Yumuşak klavye için giriş yöntemi seçin.</string>
+    <string name="title_shell_preference">Komut satırı</string>
+    <string name="summary_shell_preference">Kabuk komut satırını belirtin.</string>
+    <string name="title_initialcommand_preference">Başlangıç komutu</string>
+    <string name="summary_initialcommand_preference">Başladığında kabuğa gönderilir.</string>
+    <string name="title_termtype_preference">Uçbirim tipi</string>
+    <string name="summary_termtype_preference">Kabuğa bildirilecek uçbirim tipi.</string>
+    <string name="title_close_window_on_process_exit_preference">Çıkışta pencereyi kapat</string>
+    <string name="summary_close_window_on_process_exit_preference">Kabuk çıktığında bir pencerenin kapanıp kapanmaması.</string>
+    <string name="title_verify_path_preference">PATH girişlerini doğrula</string>
+    <string name="summary_verify_path_preference">Erişilemeyen dizinlerin PATH\'den kaldırılıp kaldırılmayacağı.</string>
+    <string name="title_do_path_extensions_preference">PATH uzantılarına izin ver</string>
+    <string name="summary_do_path_extensions_preference">Diğer uygulamaların ek komutlar sağlamasına izin verilip verilmeyeceği (PATH\'e ekleme).</string>
+    <string name="title_allow_prepend_path_preference">PATH\'in başına eklenmesine izin ver</string>
+    <string name="summary_allow_prepend_path_preference">Diğer uygulamaların mevcut komutları geçersiz kılmasına izin verilip verilmeyeceği (PATH\'in başına ekleyin).</string>
+    <string name="title_home_path_preference">HOME klasörü</string>
+    <string name="summary_home_path_preference">HOME olarak kullanılacak yazılabilir bir klasörün yolu.</string>
+    <string name="control_key_dialog_title">Kontrol ve Fonksiyon Tuşları</string>
+    <string name="control_key_dialog_control_disabled_text">Kontrol anahtarı ayarlanmadı.</string>
+    <string name="control_key_dialog_fn_disabled_text">İşlev tuşu ayarlanmadı.</string>
+    <string name="confirm_window_close_message">Pencere kapatılsın mı?</string>
+    <string name="perm_run_script">Uçbirim Emülatör\'da rastgele komutlar çalıştırın</string>
+    <string name="permdesc_run_script">Uygulamanın Android için Uçbirim Emülatörü\'nde yeni pencereler açmasına ve bu pencerelerde internet ve SD kartınıza erişim de dahil olmak üzere Uçbirim Emülatörü\'nün tüm izinleriyle komutlar çalıştırmasına izin verir.</string>
+    <string name="perm_append_to_path">Uçbirim Emülatörü\'ne komutlar ekleyin</string>
+    <string name="permdesc_append_to_path">Uygulamanın Uçbirim Emülatörü için ek komutlar sağlamasına (PATH\'e dizin eklemesine) izin verir.</string>
+    <string name="perm_prepend_to_path">Uçbirim Emülatörü\'nde komutları geçersiz kılın</string>
+    <string name="permdesc_prepend_to_path">Uygulamanın Uçbirim Emülatöründe mevcut komutları kendi sürümleriyle geçersiz kılmasına izin verir (PATH\'e dizin ekler).</string>
+    <string name="email_transcript_chooser_title">Transkripti kullanarak postala:</string>
+    <string name="email_transcript_no_email_activity_found">Transkript göndermek için bir e-posta etkinliği seçilemedi.</string>
+    <string name="alt_sends_esc">Alt tuşu ESC\'yi gönderir</string>
+    <string name="title_mouse_tracking_preference">Fare etkinliklerini gönder</string>
+    <string name="summary_mouse_tracking_preference">Dokunma ve kaydırma olaylarının terminale kaçış dizileri olarak gönderilip gönderilmeyeceği.</string>
+    <string name="title_use_rish">RISH kullan</string>
+    <string name="summary_use_rish">Shizuku\'nun RISH (Remote Interactive Shell Host) kullanıp kullanmayacağı.\n\nShizuku erişimi gereklidir.</string>
+    <string name="title_use_keyboard_shortcuts">Klavye Kısayollarını Kullan</string>
+    <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Pencereler arasında geçiş\nCtrl-Shift-N: Yeni Pencere\nCtrl-Shift-V: Yapıştır.</string>
+    <string name="help">Yardım</string>
+    <string name="activity_term_here_title">Terim Buraya</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">Terim Kısayolu</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">Komut</string>
+    <string name="addshortcut_button_find_command">Komut bul</string>
+    <string name="addshortcut_navigator_title">KISAYOL HEDEFİNİ SEÇİN</string>
+    <string name="addshortcut_command_window_instructions">Komut penceresi tam yol gerektirir, argüman gerektirmez. Diğer komutlar için Argümanlar penceresini kullanın (örn: cd /sdcard).</string>
+    <string name="addshortcut_arguments_label">Argümanlar</string>
+    <string name="addshortcut_shortcut_label">Kısayol Etiketi</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">KİLİT</string>
+    <string name="colorvalue_icon_text_entry_hint">Simge metnini girin</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
