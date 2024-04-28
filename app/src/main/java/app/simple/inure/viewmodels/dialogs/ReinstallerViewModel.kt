@@ -28,13 +28,27 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
             if (shellResult.isSuccess) {
                 success.postValue("Done")
             } else {
-                success.postValue("Failed")
+                if (shellResult.err.contains(ERR_3001)) {
+                    Shell.cmd(formInstallExistingCommand()).submit { result ->
+                        if (result.isSuccess) {
+                            success.postValue("Done")
+                        } else {
+                            success.postValue("Failed")
+                        }
+                    }
+                } else {
+                    success.postValue("Failed")
+                }
             }
         }
     }
 
     private fun formReinstallCommand(): String {
         return "pm install -r ${packageInfo.applicationInfo.sourceDir}"
+    }
+
+    private fun formInstallExistingCommand(): String {
+        return "pm install-existing ${packageInfo.packageName}"
     }
 
     override fun onShellCreated(shell: Shell?) {
@@ -52,7 +66,17 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
                     if (it.isSuccess) {
                         success.postValue("Done")
                     } else {
-                        success.postValue("Failed")
+                        if (it.error?.contains(ERR_3001) == true) {
+                            shizukuServiceHelper.service!!.simpleExecute(formInstallExistingCommand()).let { result ->
+                                if (result.isSuccess) {
+                                    success.postValue("Done")
+                                } else {
+                                    success.postValue("Failed")
+                                }
+                            }
+                        } else {
+                            success.postValue("Failed")
+                        }
                     }
                 }
             }.onFailure {
@@ -63,5 +87,9 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
                 postError(it)
             }
         }
+    }
+
+    companion object {
+        private const val ERR_3001 = "INSTALL_FAILED_REJECTED_BY_BUILD_TYPE"
     }
 }
