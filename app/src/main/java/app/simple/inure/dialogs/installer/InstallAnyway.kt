@@ -41,7 +41,9 @@ class InstallAnyway : ScopedBottomSheetFragment() {
         }
 
         close.setOnClickListener {
-            requireActivity().finish()
+            dismiss().also {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
     }
 
