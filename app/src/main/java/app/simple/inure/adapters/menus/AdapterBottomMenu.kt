@@ -53,17 +53,18 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
 
-            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
-                holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
-            }
-
-            if (AccessibilityPreferences.isColorfulIcons()) {
-                holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
-                        android.R.attr.state_enabled
-                ), intArrayOf()), intArrayOf(
-                        Colors.getColors()[position],
-                        Colors.getColors()[position]
-                ))
+            when {
+                AppearancePreferences.isAccentColorOnBottomMenu() -> {
+                    holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                }
+                AccessibilityPreferences.isColorfulIcons() -> {
+                    holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
+                            android.R.attr.state_enabled
+                    ), intArrayOf()), intArrayOf(
+                            Colors.getColors()[position],
+                            Colors.getColors()[position]
+                    ))
+                }
             }
         } else if (holder is HolderContext) {
             holder.button.setImageResource(bottomMenuItems[position].first)
@@ -74,18 +75,19 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
 
-            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
-                holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
-                holder.text.setTextColor(Color.WHITE)
-            }
-
-            if (AccessibilityPreferences.isColorfulIcons()) {
-                holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
-                        android.R.attr.state_enabled
-                ), intArrayOf()), intArrayOf(
-                        Colors.getColors()[position],
-                        Colors.getColors()[position]
-                ))
+            when {
+                AppearancePreferences.isAccentColorOnBottomMenu() -> {
+                    holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                    holder.text.setTextColor(Color.WHITE)
+                }
+                AccessibilityPreferences.isColorfulIcons() -> {
+                    holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
+                            android.R.attr.state_enabled
+                    ), intArrayOf()), intArrayOf(
+                            Colors.getColors()[position],
+                            Colors.getColors()[position]
+                    ))
+                }
             }
         }
     }
