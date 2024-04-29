@@ -92,6 +92,6 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     companion object {
-        private const val ERR_3001 = "INSTALL_FAILED_REJECTED_BY_BUILD_TYPE"
+        private const val ERR_3001 = "INSTALL_FAILED_REJECTED_BY_BUILDTYPE"
     }
 }
