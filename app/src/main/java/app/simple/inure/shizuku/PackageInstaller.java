@@ -34,7 +34,7 @@ public class PackageInstaller {
     
     public ShizukuInstall install(List <Uri> uris, Context context) throws Exception {
         android.content.pm.PackageInstaller packageInstaller;
-        android.content.pm.PackageInstaller.Session session = null;
+        android.content.pm.PackageInstaller.Session session;
         ContentResolver contentResolver = context.getContentResolver();
         
         String installerPackageName;
@@ -78,7 +78,7 @@ public class PackageInstaller {
             throws IOException, NoSuchFieldException, IllegalAccessException {
         android.content.pm.PackageInstaller.SessionParams params = new android.content.pm.PackageInstaller.SessionParams(android.content.pm.PackageInstaller.SessionParams.MODE_FULL_INSTALL);
         int installFlags = PackageInstallerUtils.getInstallFlags(params);
-        installFlags |= 0x00000004 /* PackageManager.INSTALL_ALLOW_TEST */ | 0x00000002 /* PackageManager.INSTALL_REPLACE_EXISTING */;
+        installFlags |= 0x00000004 /* PackageManager.INSTALL_ALLOW_TEST */ | 0x00000002 /* PackageManager.INSTALL_REPLACE_EXISTING */ | 0x01000000 /* PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK */;
         PackageInstallerUtils.setInstallFlags(params, installFlags);
         
         return packageInstaller.createSession(params);

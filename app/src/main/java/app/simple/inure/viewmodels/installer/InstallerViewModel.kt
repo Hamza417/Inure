@@ -330,41 +330,6 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         }
     }
 
-    fun installAnywayShizuku() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
-
-                getShizukuService().simpleExecute("run-as ${application.packageName}").let {
-                    if (it.isSuccess) {
-                        Log.d(TAG, "run-as success: ${it.output}")
-                        Log.d(TAG, "installAnywayShizuku: run-as success")
-                    } else {
-                        postWarning(it.output)
-                        Log.e(TAG, "Error: ${it.error}")
-                        Log.e(TAG, "Output: ${it.output}")
-                    }
-
-                    Log.d(TAG, "Output: ${it.output}")
-                }
-
-                getShizukuService().simpleExecute("pm install --bypass-low-target-sdk-block $path").let {
-                    if (it.isSuccess) {
-                        success.postValue((0..50).random())
-                    } else {
-                        postWarning(it.output)
-                        Log.e(TAG, "Error: ${it.error}")
-                        Log.e(TAG, "Output: ${it.output}")
-                    }
-
-                    Log.d(TAG, "Output: ${it.output}")
-                }
-            }.onFailure {
-                postWarning(it.message ?: "Unknown error")
-            }
-        }
-    }
-
     companion object {
         private const val TAG = "InstallerViewModel"
     }

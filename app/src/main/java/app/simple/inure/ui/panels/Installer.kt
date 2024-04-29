@@ -322,16 +322,19 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         installerViewModel.getWarning().observe(viewLifecycleOwner) {
             when {
+                /**
+                 * This error is thrown when the app is installed on a device with
+                 * a lower SDK version than the app's minimum SDK version. For root
+                 * users, we can install the app anyway if they want to. The error
+                 * is bypassed already for Shizuku users in [app.simple.inure.shizuku.PackageInstaller.createSession].
+                 *
+                 * @see [app.simple.inure.shizuku.PackageInstaller.createSession]
+                 */
                 it.contains("INSTALL_FAILED_DEPRECATED_SDK_VERSION") -> {
                     when {
                         ConfigurationPreferences.isUsingRoot() -> {
                             parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
                                 installerViewModel.installAnyway()
-                            }
-                        }
-                        ConfigurationPreferences.isUsingShizuku() -> {
-                            parentFragmentManager.showInstallAnyway(it).setInstallAnywayCallback {
-                                installerViewModel.installAnywayShizuku()
                             }
                         }
                         else -> {
