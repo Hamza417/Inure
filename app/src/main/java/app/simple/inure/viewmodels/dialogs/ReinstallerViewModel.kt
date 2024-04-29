@@ -24,12 +24,12 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun runCommand() {
-        Shell.cmd(formReinstallCommand()).submit { shellResult ->
+        Shell.cmd(getReinstallCommand()).submit { shellResult ->
             if (shellResult.isSuccess) {
                 success.postValue("Done")
             } else {
                 if (shellResult.err.contains(ERR_3001) || shellResult.out.contains(ERR_3001)) {
-                    Shell.cmd(formInstallExistingCommand()).exec().let { result ->
+                    Shell.cmd(getInstallExistingCommand()).exec().let { result ->
                         if (result.isSuccess) {
                             success.postValue("Done")
                         } else {
@@ -43,11 +43,11 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    private fun formReinstallCommand(): String {
+    private fun getReinstallCommand(): String {
         return "pm install -r ${packageInfo.applicationInfo.sourceDir}"
     }
 
-    private fun formInstallExistingCommand(): String {
+    private fun getInstallExistingCommand(): String {
         return "pm install-existing ${packageInfo.packageName}"
     }
 
@@ -62,12 +62,12 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                shizukuServiceHelper.service!!.simpleExecute(formReinstallCommand()).let {
+                shizukuServiceHelper.service!!.simpleExecute(getReinstallCommand()).let {
                     if (it.isSuccess) {
                         success.postValue("Done")
                     } else {
                         if (it.error?.contains(ERR_3001) == true || it.output?.contains(ERR_3001) == true) {
-                            shizukuServiceHelper.service!!.simpleExecute(formInstallExistingCommand()).let { result ->
+                            shizukuServiceHelper.service!!.simpleExecute(getInstallExistingCommand()).let { result ->
                                 if (result.isSuccess) {
                                     success.postValue("Done")
                                 } else {

@@ -110,6 +110,11 @@ jobs:
                     # Store the commit ID as an environment variable
                     echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
+            -   name: Set Current Commit Message
+                run: |
+                    # Set the commit message as an environment variable
+                    echo "COMMIT_MESSAGE=$(git log --format=%B -n 1)" >> $GITHUB_ENV
+
             -   name: Build APK
                 run: |
                     if [[ -n "${{ env.GRADLE_PATH }}" ]]; then
@@ -163,6 +168,7 @@ jobs:
                         
                         Current Build Code: ${{ env.VERSION_CODE }}
                         Current Commit ID: ${{ env.COMMIT_ID }}
+                        Commit Message: ${{ env.COMMIT_MESSAGE }}
 
             -   name: Archive APK
                 uses: actions/upload-artifact@v4
