@@ -267,8 +267,13 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
 
                 val packageInstaller = PackageInstaller()
-                packageInstaller.install(uris, applicationContext())
-                success.postValue((0..50).random())
+                val shizukuInstall = packageInstaller.install(uris, applicationContext())
+
+                if (shizukuInstall.status == android.content.pm.PackageInstaller.STATUS_SUCCESS) {
+                    success.postValue((0..50).random())
+                } else {
+                    postWarning("ERR: ${shizukuInstall.status} : ${shizukuInstall.message}")
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 postWarning(e.message ?: "Unknown error")
