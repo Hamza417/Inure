@@ -177,52 +177,52 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 Shell.cmd("run-as ${application.packageName}").exec()
 
                 val totalSizeOfAllApks = files!!.getLength()
-                Log.d("Installer", "Total size of all apks: $totalSizeOfAllApks")
+                Log.d(TAG, "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
-                    Log.d("Installer", "Output: $out")
+                    Log.d(TAG, "Output: $out")
                     with(out[0]) {
                         substringAfter("[").substringBefore("]").toInt()
                     }
                 }
 
-                Log.d("Installer", "Session id: $sessionId")
+                Log.d(TAG, "Session id: $sessionId")
                 for (file in files!!) {
                     if (file.exists() && file.name.endsWith(".apk")) {
                         val size = file.length()
-                        Log.d("Installer", "Size of ${file.name}: $size")
+                        Log.d(TAG, "Size of ${file.name}: $size")
                         val splitName = file.name.substringBeforeLast(".")
-                        Log.d("Installer", "Split name: $splitName")
+                        Log.d(TAG, "Split name: $splitName")
                         val idx = files?.indexOf(file)
-                        Log.d("Installer", "Index: $idx")
+                        Log.d(TAG, "Index: $idx")
 
                         val path = file.absolutePath.escapeSpecialCharactersForUnixPath()
-                        Log.d("Installer", "Path: $path")
+                        Log.d(TAG, "Path: $path")
 
                         Shell.cmd("pm install-write -S $size $sessionId $idx $path").exec().let {
-                            Log.d("Installer", "Output: ${it.out}")
-                            Log.d("Installer", "Error: ${it.err}")
+                            Log.d(TAG, "Output: ${it.out}")
+                            Log.d(TAG, "Error: ${it.err}")
                         }
                     }
                 }
 
                 Shell.cmd("pm install-commit $sessionId").exec().let { result ->
                     if (result.isSuccess) {
-                        Log.d("Installer", "Output: ${result.out}")
-                        Log.d("Installer", "Error: ${result.err}")
+                        Log.d(TAG, "Output: ${result.out}")
+                        Log.d(TAG, "Error: ${result.err}")
                         success.postValue((0..50).random())
 
-                        Log.d("Installer", "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                        Log.d(TAG, "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
                         Shell.cmd("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}").exec().let {
                             if (it.isSuccess) {
-                                Log.d("Installer", "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                Log.d(TAG, "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
                             } else {
-                                Log.d("Installer", "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
-                                Log.e("Installer", "Output: ${it.out}")
+                                Log.d(TAG, "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                Log.e(TAG, "Output: ${it.out}")
                             }
                         }
                     } else {
-                        Log.d("Installer", "Output: ${result.out}")
-                        Log.d("Installer", "Error: ${result.err}")
+                        Log.d(TAG, "Output: ${result.out}")
+                        Log.d(TAG, "Error: ${result.err}")
                         postWarning(result.out.joinToString())
                     }
                 }
@@ -259,7 +259,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Installer", "Shizuku install")
+            Log.d(TAG, "Shizuku install")
 
             try {
                 val uris = files!!.map { file ->
@@ -319,10 +319,10 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         success.postValue((0..50).random())
                     } else {
                         postWarning(it.err.joinToString())
-                        Log.e("Installer", "Error: ${it.err}")
+                        Log.e(TAG, "Error: ${it.err}")
                     }
 
-                    Log.d("Installer", "Output: ${it.out}")
+                    Log.d(TAG, "Output: ${it.out}")
                 }
             }.onFailure {
                 postWarning(it.message ?: "Unknown error")
@@ -335,20 +335,37 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             kotlin.runCatching {
                 val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
 
+                getShizukuService().simpleExecute("run-as ${application.packageName}").let {
+                    if (it.isSuccess) {
+                        Log.d(TAG, "run-as success: ${it.output}")
+                        Log.d(TAG, "installAnywayShizuku: run-as success")
+                    } else {
+                        postWarning(it.output)
+                        Log.e(TAG, "Error: ${it.error}")
+                        Log.e(TAG, "Output: ${it.output}")
+                    }
+
+                    Log.d(TAG, "Output: ${it.output}")
+                }
+
                 getShizukuService().simpleExecute("pm install --bypass-low-target-sdk-block $path").let {
                     if (it.isSuccess) {
                         success.postValue((0..50).random())
                     } else {
                         postWarning(it.output)
-                        Log.e("Installer", "Error: ${it.error}")
-                        Log.e("Installer", "Output: ${it.output}")
+                        Log.e(TAG, "Error: ${it.error}")
+                        Log.e(TAG, "Output: ${it.output}")
                     }
 
-                    Log.d("Installer", "Output: ${it.output}")
+                    Log.d(TAG, "Output: ${it.output}")
                 }
             }.onFailure {
                 postWarning(it.message ?: "Unknown error")
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "InstallerViewModel"
     }
 }
