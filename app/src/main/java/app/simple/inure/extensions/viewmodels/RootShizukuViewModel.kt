@@ -167,7 +167,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                 kotlin.runCatching {
                     getShizukuService().simpleExecute("am get-current-user")
                 }.onSuccess {
-                    user = it.output?.toInt() ?: 0
+                    user = it.output?.trim()?.toIntOrNull() ?: 0
                 }.onFailure {
                     postError(it)
                 }
