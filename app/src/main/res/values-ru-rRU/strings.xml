@@ -748,4 +748,6 @@
     <string name="blocked">Заблокировано</string>
     <string name="actions">Действия</string>
     <string name="lock_task_warning">Приложение закреплено и не может быть закрыто.</string>
+    <string name="accents_on_bottom_menu">Цвет акцента в нижнем меню</string>
+    <string name="desc_accent_on_bottom_menu">Использовать цвет акцента как фон нижнего меню.</string>
 </resources>
