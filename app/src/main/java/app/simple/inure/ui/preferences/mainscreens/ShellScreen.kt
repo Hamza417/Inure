@@ -125,5 +125,7 @@ class ShellScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "shell_screen"
     }
 }

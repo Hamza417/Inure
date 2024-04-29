@@ -290,6 +290,6 @@ class ConfigurationScreen : ScopedFragment() {
             return fragment
         }
 
-        private const val TAG = "ConfigurationScreen"
+        const val TAG = "ConfigurationScreen"
     }
 }

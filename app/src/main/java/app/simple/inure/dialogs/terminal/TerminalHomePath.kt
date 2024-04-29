@@ -52,5 +52,7 @@ class TerminalHomePath : ScopedDialogFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "TerminalHomePath"
     }
 }

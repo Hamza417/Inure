@@ -124,8 +124,10 @@ class AppPath : ScopedDialogFragment() {
 
         fun FragmentManager.showAppPathDialog(): AppPath {
             val fragment = newInstance()
-            fragment.show(this, "app_path")
+            fragment.show(this, TAG)
             return fragment
         }
+
+        const val TAG = "app_path"
     }
 }

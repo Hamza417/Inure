@@ -49,5 +49,7 @@ class Language : ScopedFragment() {
         }
 
         private const val CROWDIN_LINK = "https://crowdin.com/project/inure"
+
+        const val TAG = "Language"
     }
 }

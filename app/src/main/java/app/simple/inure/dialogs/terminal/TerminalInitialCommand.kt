@@ -51,5 +51,7 @@ class TerminalInitialCommand : ScopedDialogFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "TerminalInitialCommand"
     }
 }

@@ -157,5 +157,7 @@ class AboutScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "AboutScreen"
     }
 }

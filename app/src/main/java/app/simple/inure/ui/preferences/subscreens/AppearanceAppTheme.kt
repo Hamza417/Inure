@@ -64,5 +64,7 @@ class AppearanceAppTheme : ScopedFragment(), ThemeChangedListener {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "AppearanceAppTheme"
     }
 }

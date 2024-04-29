@@ -92,5 +92,7 @@ class RoundedCorner : ScopedBottomSheetFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "RoundedCorner"
     }
 }

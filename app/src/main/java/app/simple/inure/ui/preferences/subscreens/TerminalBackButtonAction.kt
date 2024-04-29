@@ -35,5 +35,7 @@ class TerminalBackButtonAction : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "TerminalBackButtonAction"
     }
 }

@@ -187,5 +187,7 @@ class BehaviourScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "behaviour_screen"
     }
 }

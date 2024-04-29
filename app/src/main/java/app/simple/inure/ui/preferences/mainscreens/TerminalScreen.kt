@@ -144,5 +144,7 @@ class TerminalScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "terminal_screen"
     }
 }

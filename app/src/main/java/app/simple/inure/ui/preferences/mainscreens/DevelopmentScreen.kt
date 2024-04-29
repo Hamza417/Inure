@@ -36,5 +36,7 @@ class DevelopmentScreen : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "DevelopmentScreen"
     }
 }
