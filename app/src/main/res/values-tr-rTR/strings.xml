@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="unknown">Bilinmeyen</string>
+    <string name="unknown">Unknown</string>
     <string name="not_available">N/A</string>
     <string name="app_information">Uygulama Bilgileri</string>
     <string name="launch">Aç</string>
