@@ -28,7 +28,7 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
         }
 
         reinstallerViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, false)
+            showWarning(it)
         }
 
         reinstallerViewModel.getSuccessStatus().observe(viewLifecycleOwner) {
