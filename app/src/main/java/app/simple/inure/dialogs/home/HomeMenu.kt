@@ -49,7 +49,7 @@ class HomeMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            HomePreferences.homeMenuLayout -> {
+            HomePreferences.HOME_MENU_LAYOUT -> {
                 updateLayout()
             }
         }

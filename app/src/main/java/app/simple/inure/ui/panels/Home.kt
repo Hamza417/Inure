@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -210,6 +211,11 @@ class Home : ScopedFragment() {
                         }
 
                         R.string.preferences -> {
+                            Log.d(TAG, "onMenuItemClicked: ${icon.transitionName}")
+                            openFragmentArc(Preferences.newInstance(), icon, Preferences.TAG)
+                        }
+
+                        R.string.menus -> {
                             childFragmentManager.showHomeMenu()
                         }
 
@@ -256,7 +262,7 @@ class Home : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            HomePreferences.homeMenuLayout -> {
+            HomePreferences.HOME_MENU_LAYOUT -> {
                 setLayoutManager()
             }
         }

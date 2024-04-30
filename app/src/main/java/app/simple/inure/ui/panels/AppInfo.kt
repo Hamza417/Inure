@@ -505,7 +505,7 @@ class AppInfo : ScopedFragment() {
                         R.string.preferences -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 if (packageInfo.packageName == requireContext().packageName) {
-                                    openFragmentArc(Preferences.newInstance(), icon, "preferences")
+                                    openFragmentArc(Preferences.newInstance(), icon, Preferences.TAG)
                                 } else {
                                     runCatching {
                                         requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_APPLICATION_PREFERENCES), 0)

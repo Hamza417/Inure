@@ -270,11 +270,11 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_app_icon, R.string.apps))
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isTerminalVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_TERMINAL_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_terminal, R.string.terminal))
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isUsageStatisticsVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_USAGE_STATISTICS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
             }
 
@@ -282,7 +282,7 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isAnalyticsVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_ANALYTICS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
             }
 
@@ -293,7 +293,7 @@ class HomeViewModel(application: Application) :
                 list.add(Pair(R.drawable.ic_memory, R.string.device_info))
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isSavedCommandsVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
             }
 
@@ -301,15 +301,15 @@ class HomeViewModel(application: Application) :
             list.add(Pair(R.drawable.ic_apps_category_recently_installed, R.string.recently_installed))
             list.add(Pair(R.drawable.ic_apps_category_recently_updated, R.string.recently_updated))
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isMostUsedVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_MOST_USED_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_apps_category_most_used, R.string.most_used))
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isUninstalledVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_UNINSTALLED_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_apps_category_deleted_apps, R.string.uninstalled))
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isDisabledVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_DISABLED_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_disable, R.string.disabled))
             }
 
@@ -322,18 +322,18 @@ class HomeViewModel(application: Application) :
             list.add(Pair(0, 0)) // Divider
 
             if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
-                if (HomePreferences.isPanelVisible(HomePreferences.isBatteryOptimizationVisible)) {
+                if (HomePreferences.isPanelVisible(HomePreferences.IS_BATTERY_OPTIMIZATION_VISIBLE)) {
                     list.add(Pair(R.drawable.ic_settings_power, R.string.battery_optimization))
                 }
             }
 
             if (ConfigurationPreferences.isUsingRoot()) {
-                if (HomePreferences.isPanelVisible(HomePreferences.isBootManagerVisible)) {
+                if (HomePreferences.isPanelVisible(HomePreferences.IS_BOOT_MANAGER_VISIBLE)) {
                     list.add(Pair(R.drawable.ic_power_off, R.string.boot_manager))
                 }
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isAPKsVisible)) {
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_APKS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_adb, R.string.APKs))
             }
 
@@ -351,9 +351,13 @@ class HomeViewModel(application: Application) :
                 }
             }
 
-            if (HomePreferences.isPanelVisible(HomePreferences.isStackTracesVisible)
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_STACKTRACES_VISIBLE)
                     && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                 list.add(Pair(R.drawable.ic_stacktrace, R.string.crash_report))
+            }
+
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_PREFERENCES_VISIBLE)) {
+                list.add(Pair(R.drawable.ic_settings, R.string.preferences))
             }
 
             // Add a last divider
@@ -367,17 +371,18 @@ class HomeViewModel(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf<VisibilityCustomizationModel>()
 
-            list.add(VisibilityCustomizationModel(R.string.terminal, R.drawable.ic_terminal, HomePreferences.isTerminalVisible))
-            list.add(VisibilityCustomizationModel(R.string.usage_statistics, R.drawable.ic_stats, HomePreferences.isUsageStatisticsVisible))
-            list.add(VisibilityCustomizationModel(R.string.analytics, R.drawable.ic_analytics, HomePreferences.isAnalyticsVisible))
-            list.add(VisibilityCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.isMostUsedVisible))
-            list.add(VisibilityCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.isUninstalledVisible))
-            list.add(VisibilityCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.isDisabledVisible))
-            list.add(VisibilityCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.isStackTracesVisible))
-            list.add(VisibilityCustomizationModel(R.string.terminal_commands, R.drawable.ic_push_pin, HomePreferences.isSavedCommandsVisible))
-            list.add(VisibilityCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.isBatteryOptimizationVisible))
-            list.add(VisibilityCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.isBootManagerVisible))
-            list.add(VisibilityCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.isAPKsVisible))
+            list.add(VisibilityCustomizationModel(R.string.terminal, R.drawable.ic_terminal, HomePreferences.IS_TERMINAL_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.usage_statistics, R.drawable.ic_stats, HomePreferences.IS_USAGE_STATISTICS_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.analytics, R.drawable.ic_analytics, HomePreferences.IS_ANALYTICS_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.most_used, R.drawable.ic_apps_category_most_used, HomePreferences.IS_MOST_USED_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.uninstalled, R.drawable.ic_apps_category_deleted_apps, HomePreferences.IS_UNINSTALLED_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.IS_DISABLED_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.IS_STACKTRACES_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.terminal_commands, R.drawable.ic_push_pin, HomePreferences.IS_SAVED_COMMANDS_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.IS_BATTERY_OPTIMIZATION_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.IS_BOOT_MANAGER_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.IS_APKS_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.preferences, R.drawable.ic_settings, HomePreferences.IS_PREFERENCES_VISIBLE))
 
             customizableMenuItems.postValue(list)
         }
@@ -419,16 +424,18 @@ class HomeViewModel(application: Application) :
             ConfigurationPreferences.isUsingRoot,
             ConfigurationPreferences.isUsingShizuku,
             DevelopmentPreferences.enableHiddenApps,
-            HomePreferences.isTerminalVisible,
-            HomePreferences.isUsageStatisticsVisible,
-            HomePreferences.isAnalyticsVisible,
-            HomePreferences.isMostUsedVisible,
-            HomePreferences.isUninstalledVisible,
-            HomePreferences.isDisabledVisible,
-            HomePreferences.isStackTracesVisible,
-            HomePreferences.isSavedCommandsVisible,
-            HomePreferences.isBatteryOptimizationVisible,
-            HomePreferences.isBootManagerVisible
+            HomePreferences.IS_TERMINAL_VISIBLE,
+            HomePreferences.IS_USAGE_STATISTICS_VISIBLE,
+            HomePreferences.IS_ANALYTICS_VISIBLE,
+            HomePreferences.IS_MOST_USED_VISIBLE,
+            HomePreferences.IS_UNINSTALLED_VISIBLE,
+            HomePreferences.IS_DISABLED_VISIBLE,
+            HomePreferences.IS_STACKTRACES_VISIBLE,
+            HomePreferences.IS_SAVED_COMMANDS_VISIBLE,
+            HomePreferences.IS_BATTERY_OPTIMIZATION_VISIBLE,
+            HomePreferences.IS_BOOT_MANAGER_VISIBLE,
+            HomePreferences.IS_APKS_VISIBLE,
+            HomePreferences.IS_PREFERENCES_VISIBLE
             -> {
                 loadItems()
             }

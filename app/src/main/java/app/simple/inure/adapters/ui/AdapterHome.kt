@@ -103,7 +103,7 @@ class AdapterHome(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter
             }
 
             holder.settings.setOnClickListener {
-                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.preferences, holder.settings)
+                adapterHomeMenuCallbacks.onMenuItemClicked(R.string.menus, holder.settings)
             }
         }
     }

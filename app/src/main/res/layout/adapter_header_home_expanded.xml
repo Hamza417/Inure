@@ -79,7 +79,6 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_settings"
             android:contentDescription="@string/preferences"
-            android:transitionName="@string/preferences"
             app:buttonTintType="regular" />
 
     </LinearLayout>

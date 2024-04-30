@@ -36,7 +36,6 @@ import app.simple.inure.popups.behavior.PopupDampingRatio
 import app.simple.inure.popups.behavior.PopupStiffness
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.preferences.RecyclerViewPreferences
 import app.simple.inure.ui.preferences.mainscreens.AboutScreen
 import app.simple.inure.ui.preferences.mainscreens.AccessibilityScreen
 import app.simple.inure.ui.preferences.mainscreens.AppearanceScreen
@@ -92,14 +91,10 @@ class Preferences : SearchBarScopedFragment() {
         // setCount(getString(R.string.app_name_full) + " | " + BuildConfig.VERSION_NAME)
 
         preferencesViewModel.getPreferences().observe(viewLifecycleOwner) {
-            postponeEnterTransition()
-
             adapterPreferences = AdapterPreferences(it)
 
             adapterPreferences.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
-                    RecyclerViewPreferences.setViewTag(tag)
-                    RecyclerViewPreferences.setViewPosition(position)
                     val duration = (position + 1).toDouble().pow(2.0).toLong().coerceIn(500L, 800L)
 
                     when (category) {
@@ -411,5 +406,7 @@ class Preferences : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Preferences"
     }
 }
