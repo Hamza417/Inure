@@ -114,6 +114,30 @@ class HomeViewModel(application: Application) :
         return customizableMenuItems
     }
 
+    fun shouldShowRecentlyInstalledLoader(): Boolean {
+        return recentlyInstalledAppData.value.isNullOrEmpty()
+    }
+
+    fun shouldShowRecentlyUpdatedLoader(): Boolean {
+        return recentlyUpdatedAppData.value.isNullOrEmpty()
+    }
+
+    fun shouldShowMostUsedLoader(): Boolean {
+        return mostUsedAppData.value.isNullOrEmpty()
+    }
+
+    fun shouldShowUninstalledLoader(): Boolean {
+        return uninstalled.value.isNullOrEmpty()
+    }
+
+    fun shouldShowDisabledLoader(): Boolean {
+        return disabled.value.isNullOrEmpty()
+    }
+
+    fun shouldShowFOSSLoader(): Boolean {
+        return foss.value.isNullOrEmpty()
+    }
+
     private fun loadRecentlyInstalledAppData() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()

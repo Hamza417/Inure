@@ -38,6 +38,10 @@ class Uninstalled : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (homeViewModel.shouldShowUninstalledLoader()) {
+            showLoader(manualOverride = true)
+        }
+
         homeViewModel.getUninstalledPackages().observe(viewLifecycleOwner) {
             hideLoader()
             postponeEnterTransition()

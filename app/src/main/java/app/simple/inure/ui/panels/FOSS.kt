@@ -39,6 +39,10 @@ class FOSS : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (homeViewModel.shouldShowFOSSLoader()) {
+            showLoader(manualOverride = true)
+        }
+
         homeViewModel.getFossApps().observe(viewLifecycleOwner) {
             hideLoader()
             postponeEnterTransition()

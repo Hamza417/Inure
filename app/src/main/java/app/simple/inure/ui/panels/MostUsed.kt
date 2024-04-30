@@ -41,7 +41,10 @@ class MostUsed : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showLoader()
+
+        if (homeViewModel.shouldShowMostUsedLoader()) {
+            showLoader(manualOverride = true)
+        }
 
         if (!requireContext().checkForUsageAccessPermission()) {
             childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {

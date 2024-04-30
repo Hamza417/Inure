@@ -38,7 +38,9 @@ class RecentlyInstalled : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showLoader()
+        if (homeViewModel.shouldShowRecentlyInstalledLoader()) {
+            showLoader(manualOverride = true)
+        }
 
         homeViewModel.getRecentlyInstalled().observe(viewLifecycleOwner) {
             postponeEnterTransition()

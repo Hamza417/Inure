@@ -39,7 +39,9 @@ class RecentlyUpdated : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showLoader()
+        if (homeViewModel.shouldShowRecentlyUpdatedLoader()) {
+            showLoader(manualOverride = true)
+        }
 
         homeViewModel.getRecentlyUpdated().observe(viewLifecycleOwner) {
             postponeEnterTransition()

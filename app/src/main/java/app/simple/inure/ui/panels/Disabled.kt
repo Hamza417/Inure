@@ -37,6 +37,10 @@ class Disabled : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (homeViewModel.shouldShowDisabledLoader()) {
+            showLoader(manualOverride = true)
+        }
+
         homeViewModel.getDisabledApps().observe(viewLifecycleOwner) {
             postponeEnterTransition()
             hideLoader()
