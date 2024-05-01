@@ -112,8 +112,8 @@ jobs:
 
             -   name: Set Current Commit Message
                 run: |
-                    # Set the commit message as an environment variable
-                    echo "COMMIT_MESSAGE=$(git log --format=%B -n 1)" >> $GITHUB_ENV
+                    # Set the first line of the commit message as an environment variable
+                    echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 | head -n 1)" >> $GITHUB_ENV
 
             -   name: Build APK
                 run: |
