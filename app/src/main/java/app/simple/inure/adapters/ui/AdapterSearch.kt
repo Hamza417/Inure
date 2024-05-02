@@ -17,7 +17,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class AdapterSearch(private var apps: ArrayList<Search>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterSearch.Holder>() {
@@ -33,7 +33,7 @@ class AdapterSearch(private var apps: ArrayList<Search>, private var searchKeywo
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = apps[position].packageInfo.packageName
-        holder.icon.loadAppIcon(apps[position].packageInfo.packageName, apps[position].packageInfo.applicationInfo.enabled, apps[position].packageInfo.applicationInfo.sourceDir.toFile())
+        holder.icon.loadAppIcon(apps[position].packageInfo.packageName, apps[position].packageInfo.applicationInfo.enabled, apps[position].packageInfo.applicationInfo.sourceDir.toFileOrNull())
         holder.name.text = apps[position].packageInfo.applicationInfo.name
         holder.packageId.text = apps[position].packageInfo.packageName
 

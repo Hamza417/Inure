@@ -1,5 +1,6 @@
 package app.simple.inure.ui.viewers
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -24,6 +25,7 @@ import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.MimeConstants
 import app.simple.inure.constants.Misc
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -179,12 +181,16 @@ class XML : KeyboardScopedFragment() {
                             clipboard?.setPrimaryClip(clip)
                         }
                         getString(R.string.export) -> {
-                            val name = with(name.text.toString()) {
-                                substring(lastIndexOf("/") + 1, length)
-                            }
+                            try {
+                                val name = with(name.text.toString()) {
+                                    substring(lastIndexOf("/") + 1, length)
+                                }
 
-                            val fileName: String = packageInfo.packageName + "_" + name
-                            exportManifest.launch(fileName)
+                                val fileName: String = packageInfo.packageName + "_" + name
+                                exportManifest.launch(fileName)
+                            } catch (e: ActivityNotFoundException) {
+                                showWarning(Warnings.getActivityNotFoundWarning())
+                            }
                         }
                     }
                 }

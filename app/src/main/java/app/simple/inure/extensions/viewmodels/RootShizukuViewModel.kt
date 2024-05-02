@@ -106,9 +106,13 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
 
     private fun initShizuku() {
         if (Shizuku.pingBinder()) {
-            shizukuServiceHelper = ShizukuServiceHelper.getInstance()
-            shizukuServiceHelper!!.bindUserService {
-                onShizukuCreated(shizukuServiceHelper!!)
+            try {
+                shizukuServiceHelper = ShizukuServiceHelper.getInstance()
+                shizukuServiceHelper!!.bindUserService {
+                    onShizukuCreated(shizukuServiceHelper!!)
+                }
+            } catch (e: SecurityException) {
+                onShizukuDenied()
             }
         } else {
             onShizukuDenied()

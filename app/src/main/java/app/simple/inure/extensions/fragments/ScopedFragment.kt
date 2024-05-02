@@ -124,11 +124,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                 blurAnimator = ValueAnimator.ofFloat(30F, 0F)
                 blurAnimator?.addUpdateListener {
                     val value = it.animatedValue as Float
-                    if (value > 1F) {
-                        requireView().setRenderEffect(
-                                RenderEffect.createBlurEffect(value, value, Shader.TileMode.CLAMP))
-                    } else {
-                        requireView().setRenderEffect(null)
+                    try {
+                        if (value > 1F) {
+                            requireView().setRenderEffect(
+                                    RenderEffect.createBlurEffect(value, value, Shader.TileMode.CLAMP))
+                        } else {
+                            requireView().setRenderEffect(null)
+                        }
+                    } catch (e: IllegalStateException) {
+                        Log.e(TAG, "animateBlur: ", e)
                     }
                 }
                 blurAnimator?.interpolator = LinearOutSlowInInterpolator()

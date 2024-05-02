@@ -406,18 +406,7 @@ class Batch : ScopedFragment() {
             }
         }
 
-        batchExtractServiceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: android.content.ComponentName?, service: android.os.IBinder?) {
-                val binder = service as BatchExtractService.BatchExtractServiceBinder
-                batchExtractService = binder.getService()
-                isServiceBound = true
-            }
-
-            override fun onServiceDisconnected(name: android.content.ComponentName?) {
-                isServiceBound = false
-            }
-        }
-
+        initServiceConnection()
         bindService()
     }
 
@@ -429,6 +418,20 @@ class Batch : ScopedFragment() {
         }
 
         return BottomMenuConstants.getBatchUnselectedMenu()
+    }
+
+    private fun initServiceConnection() {
+        batchExtractServiceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: android.content.ComponentName?, service: android.os.IBinder?) {
+                val binder = service as BatchExtractService.BatchExtractServiceBinder
+                batchExtractService = binder.getService()
+                isServiceBound = true
+            }
+
+            override fun onServiceDisconnected(name: android.content.ComponentName?) {
+                isServiceBound = false
+            }
+        }
     }
 
     private fun initiateExtractProcess() {
@@ -447,7 +450,9 @@ class Batch : ScopedFragment() {
         if (!isServiceBound) {
             val intent = BatchExtractService.newIntent(requireContext())
             requireContext().startService(intent)
-            requireContext().bindService(intent, batchExtractServiceConnection!!, Context.BIND_AUTO_CREATE)
+            batchExtractServiceConnection?.let {
+                requireContext().bindService(intent, it, Context.BIND_AUTO_CREATE)
+            }
         }
     }
 

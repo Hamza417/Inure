@@ -122,6 +122,15 @@ object FileUtils {
         return File(this)
     }
 
+    fun String.toFileOrNull(): File? {
+        return try {
+            File(this)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
+    }
+
     fun Uri.getMimeType(context: Context): String? {
         return if (ContentResolver.SCHEME_CONTENT == scheme) {
             context.contentResolver.getType(this)

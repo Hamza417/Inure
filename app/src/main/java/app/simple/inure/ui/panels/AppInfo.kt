@@ -611,7 +611,11 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.play_store -> {
-                            MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
+                            try {
+                                MarketUtils.openAppOnPlayStore(requireContext(), packageInfo.packageName)
+                            } catch (e: Exception) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            }
                         }
 
                         R.string.amazon -> {
