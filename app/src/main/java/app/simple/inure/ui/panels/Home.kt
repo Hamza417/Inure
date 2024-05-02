@@ -33,6 +33,7 @@ import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.terminal.Term
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
@@ -305,7 +306,9 @@ class Home : ScopedFragment() {
         runCatching {
             if (AppUtils.isPlayFlavor()) {
                 if (MainPreferences.shouldShowRateReminder()) {
-                    requireActivity().showAppReview()
+                    if (TrialPreferences.isFullVersion()) { // Pop up the rate dialog only if the user has the full version
+                        requireActivity().showAppReview()
+                    }
                 }
             }
         }
