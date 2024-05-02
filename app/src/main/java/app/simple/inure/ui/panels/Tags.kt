@@ -19,6 +19,7 @@ import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.dialogs.tags.TagsMenu.Companion.showTagsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Tag
 import app.simple.inure.popups.tags.PopupTagsMenu
@@ -67,13 +68,13 @@ class Tags : ScopedFragment() {
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) {
             val adapter = AdapterTags(it, object : AdapterTags.Companion.TagsCallback {
                 override fun onTagClicked(tag: Tag) {
-                    openFragmentSlide(TaggedApps.newInstance(tag.tag), "tagged_apps")
+                    openFragmentSlide(TaggedApps.newInstance(tag.tag), TaggedApps.TAG)
                 }
 
                 override fun onTagLongClicked(tag: Tag) {
                     PopupTagsMenu(requireView(), object : PopupTagsMenu.Companion.TagsMenuCallback {
                         override fun onOpenClicked() {
-                            openFragmentSlide(TaggedApps.newInstance(tag.tag), "tagged_apps")
+                            openFragmentSlide(TaggedApps.newInstance(tag.tag), TaggedApps.TAG)
                         }
 
                         override fun onDeleteClicked() {
@@ -116,10 +117,10 @@ class Tags : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                        childFragmentManager.showTagsMenu()
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                     R.drawable.ic_refresh -> {
                         tagsViewModel?.refresh()

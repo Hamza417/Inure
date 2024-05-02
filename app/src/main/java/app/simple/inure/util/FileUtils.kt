@@ -122,9 +122,9 @@ object FileUtils {
         return File(this)
     }
 
-    fun String.toFileOrNull(): File? {
+    fun String?.toFileOrNull(): File? {
         return try {
-            File(this)
+            File(this!!)
         } catch (ex: Exception) {
             ex.printStackTrace()
             null

@@ -3,7 +3,11 @@ package app.simple.inure.decorations.views
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.GestureDetector
@@ -15,7 +19,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
 import androidx.core.animation.doOnCancel
 import androidx.core.animation.doOnEnd
-import androidx.core.view.ViewCompat
 import kotlin.math.absoluteValue
 
 /**
@@ -132,7 +135,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                         flingRunnable.lastX.toInt(), flingRunnable.lastY.toInt(), -velocityX.toInt(),
                         -velocityY.toInt(), 0, maxX, 0, maxY
                 )
-                ViewCompat.postOnAnimation(this@ZoomImageView, flingRunnable)
+                postOnAnimation(flingRunnable)
                 return true
             }
 
@@ -159,12 +162,11 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
                 panImage((curX - lastX), (curY - lastY))
                 lastX = curX
                 lastY = curY
-                ViewCompat.postOnAnimation(this@ZoomImageView, this)
+                postOnAnimation(this)
             }
         }
     }
 
-    @Suppress("KotlinConstantConditions")
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val disallowIntercept =
