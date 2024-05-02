@@ -747,4 +747,5 @@
     <string name="lock_task_warning">La aplicación está fijada y no se puede cerrar.</string>
     <string name="accents_on_bottom_menu">Color de acento en el menú inferior</string>
     <string name="desc_accent_on_bottom_menu">Utilice el color de acento como fondo del menú inferior.</string>
+    <string name="auto_tag">Auto etiqueta</string>
 </resources>
