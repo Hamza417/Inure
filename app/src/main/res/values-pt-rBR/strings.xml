@@ -747,4 +747,5 @@
     <string name="lock_task_warning">O app está fixado e não pode ser fechado.</string>
     <string name="accents_on_bottom_menu">Cor de Destaque no Menu Inferior</string>
     <string name="desc_accent_on_bottom_menu">Usar cor do Acento como fundo do Menu inferior.</string>
+    <string name="auto_tag">Marcação automática</string>
 </resources>
