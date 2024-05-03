@@ -43,12 +43,12 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                     // Loading default icon failed, load icon from APK
                     val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         appIcon.context.packageManager
-                            .getPackageArchiveInfo(appIcon.file?.absolutePath!!,
+                            .getPackageArchiveInfo(appIcon.file!!.absolutePath,
                                                    PackageManager.PackageInfoFlags.of(PackageManager.GET_META_DATA.toLong()))
                     } else {
                         @Suppress("DEPRECATION")
                         appIcon.context.packageManager
-                            .getPackageArchiveInfo(appIcon.file?.absolutePath!!,
+                            .getPackageArchiveInfo(appIcon.file!!.absolutePath,
                                                    PackageManager.GET_META_DATA)
                     }
                     p0!!.applicationInfo.sourceDir = appIcon.file.absolutePath
@@ -57,9 +57,11 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                     callback.onDataReady(b.toBitmap().toGrayscale())
                 }
             }
-        } catch (_: PackageManager.NameNotFoundException) {
-        } catch (_: NullPointerException) {
-        } catch (_: Exception) {
+        } catch (e: PackageManager.NameNotFoundException) {
+            callback.onDataReady(appIcon.context.getGeneratedAppIconBitmap())
+        } catch (e: NullPointerException) {
+            callback.onDataReady(appIcon.context.getGeneratedAppIconBitmap())
+        } catch (e: Exception) {
             callback.onDataReady(appIcon.context.getGeneratedAppIconBitmap())
         }
     }
@@ -78,5 +80,9 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
 
     override fun getDataSource(): DataSource {
         return DataSource.LOCAL
+    }
+
+    companion object {
+        private const val TAG = "AppIconFetcher"
     }
 }

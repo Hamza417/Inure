@@ -20,7 +20,7 @@ public class Tag implements Parcelable {
     @ColumnInfo (name = "icon")
     private int icon;
     
-    public static final Creator <Tag> CREATOR = new Creator <Tag>() {
+    public static final Creator <Tag> CREATOR = new Creator <>() {
         @Override
         public Tag createFromParcel(Parcel in) {
             return new Tag(in);

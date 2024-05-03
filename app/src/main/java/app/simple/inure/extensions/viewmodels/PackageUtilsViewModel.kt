@@ -2,7 +2,12 @@ package app.simple.inure.extensions.viewmodels
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -95,6 +100,10 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
         return dataLoaderService!!.getUninstalledApps()
+    }
+
+    fun getCompleteApps(): List<PackageInfo> {
+        return getInstalledApps() + getUninstalledApps()
     }
 
     fun refreshPackageData() {

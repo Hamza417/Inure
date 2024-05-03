@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AnalyticsDataAdapter
+import app.simple.inure.adapters.tags.AdapterTaggedApps
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -71,7 +72,7 @@ class TaggedApps : ScopedFragment() {
             count.text = getString(R.string.total_apps, it.size.toString())
             loader.gone(animate = true)
 
-            with(AnalyticsDataAdapter(it)) {
+            with(AdapterTaggedApps(it)) {
                 recyclerView.adapter = this
                 setOnAdapterCallbacks(object : AdapterCallbacks {
 
