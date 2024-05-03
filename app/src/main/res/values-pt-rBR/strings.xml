@@ -748,4 +748,6 @@
     <string name="accents_on_bottom_menu">Cor de Destaque no Menu Inferior</string>
     <string name="desc_accent_on_bottom_menu">Usar cor do Acento como fundo do Menu inferior.</string>
     <string name="auto_tag">Marcação automática</string>
+    <string name="create_tags">Criar Etiqueta</string>
+    <string name="auto_tag_desc">Criar etiquetas automaticamente para apps com base nas informações disponíveis.</string>
 </resources>
