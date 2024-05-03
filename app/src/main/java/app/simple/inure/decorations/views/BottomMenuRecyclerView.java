@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -45,6 +46,8 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
     private boolean isScrollListenerAdded = false;
     private boolean isInitialized = false;
     private boolean isBottomMenuVisible = true;
+    
+    private final int MIN_ITEMS_THRESHOLD = 12;
     
     public static final String ACTION_CLOSE_BOTTOM_MENU = "app.simple.inure.ACTION_CLOSE_BOTTOM_MENU";
     public static final String ACTION_OPEN_BOTTOM_MENU = "app.simple.inure.ACTION_OPEN_BOTTOM_MENU";
@@ -189,9 +192,10 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                             super.onScrollStateChanged(recyclerView, newState);
                             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                if (getTranslationY() > 0) {
-                                    if (recyclerView.getAdapter().getItemCount() > 6) {
-                                        if (recyclerView.canScrollVertically(1)) {
+                                Log.d(TAG, "onScrollStateChanged: SCROLL_STATE_IDLE");
+                                if (getTranslationY() >= 0) {
+                                    if (recyclerView.getAdapter().getItemCount() > MIN_ITEMS_THRESHOLD) {
+                                        if (recyclerView.canScrollVertically(1 /* down */)) {
                                             animate()
                                                     .translationY(0)
                                                     .setDuration(250)
@@ -207,6 +211,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                                     }
                                 }
                             } else if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                                Log.d(TAG, "onScrollStateChanged: SCROLL_STATE_DRAGGING");
                                 if (getTranslationY() == 0) {
                                     animate()
                                             .translationY(containerHeight)

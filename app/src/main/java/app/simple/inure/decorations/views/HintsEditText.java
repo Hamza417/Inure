@@ -10,7 +10,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
-import androidx.core.view.GestureDetectorCompat;
 import app.simple.inure.decorations.corners.DynamicCornerEditText;
 
 public class HintsEditText extends DynamicCornerEditText {
@@ -18,7 +17,7 @@ public class HintsEditText extends DynamicCornerEditText {
     private Paint matchedPaint;
     private Paint hintPaint;
     
-    private GestureDetectorCompat gestureDetectorCompat;
+    private GestureDetector gestureDetectorCompat;
     
     private String matchedHint = "";
     private String remainingHint = "";
@@ -47,7 +46,7 @@ public class HintsEditText extends DynamicCornerEditText {
         hintPaint.setAntiAlias(true);
         hintPaint.setTypeface(getTypeface());
         
-        gestureDetectorCompat = new GestureDetectorCompat(getContext(), new HintGestureListener());
+        gestureDetectorCompat = new GestureDetector(getContext(), new HintGestureListener());
     }
     
     @Override
@@ -110,7 +109,7 @@ public class HintsEditText extends DynamicCornerEditText {
     
     @SuppressLint ("SetTextI18n")
     public void appendHintToText() {
-        if (getRemainingHint().length() > 0) {
+        if (!getRemainingHint().isEmpty()) {
             if (getFinalVerificationHint().toLowerCase().equals(getMatchedHint().toLowerCase() + getRemainingHint().toLowerCase())) {
                 setText(getFinalVerificationHint());
             } else {
