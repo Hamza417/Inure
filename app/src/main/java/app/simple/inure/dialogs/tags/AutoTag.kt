@@ -9,6 +9,8 @@ import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 import com.google.android.material.chip.ChipGroup
 
 class AutoTag : ScopedBottomSheetFragment() {
@@ -31,6 +33,8 @@ class AutoTag : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        addTag.gone()
 
         tagsChipGroup.setOnCheckedStateChangeListener { _, ids ->
             storedTags = 0
@@ -93,6 +97,15 @@ class AutoTag : ScopedBottomSheetFragment() {
                 FlagUtils.setFlag(storedTags, FOSS)
             } else {
                 FlagUtils.unsetFlag(storedTags, FOSS)
+            }
+
+            when {
+                storedTags != 0L -> {
+                    addTag.visible()
+                }
+                else -> {
+                    addTag.gone()
+                }
             }
         }
 

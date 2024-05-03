@@ -19,6 +19,7 @@ import app.simple.inure.adapters.ui.AdapterTags
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.dialogs.tags.AutoTag.Companion.showAutoTag
@@ -127,9 +128,13 @@ class Tags : ScopedFragment() {
                             override fun onAutoTag() {
                                 childFragmentManager.showAutoTag().setAutoTagCallback(object : AutoTag.Companion.AutoTagCallback {
                                     override fun onAutoTag(tags: Long) {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            showLoader(manualOverride = true)
-                                            tagsViewModel?.autoTag(tags)
+                                        if (tags != 0L) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                showLoader(manualOverride = true)
+                                                tagsViewModel?.autoTag(tags)
+                                            }
+                                        } else {
+                                            showWarning(Warnings.EMPTY_FLAGS, false)
                                         }
                                     }
                                 })

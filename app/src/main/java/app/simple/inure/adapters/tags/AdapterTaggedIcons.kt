@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import com.bumptech.glide.Glide
 
 class AdapterTaggedIcons(private val packageNames: List<String>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -40,6 +41,18 @@ class AdapterTaggedIcons(private val packageNames: List<String>)
 
     override fun getItemCount(): Int {
         return packageNames.size
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        super.onViewRecycled(holder)
+        when (holder) {
+            is Holder -> {
+                Glide.with(holder.icon.context).clear(holder.icon)
+            }
+            is HolderLinear -> {
+                Glide.with(holder.icon.context).clear(holder.icon)
+            }
+        }
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

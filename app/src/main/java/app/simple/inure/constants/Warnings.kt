@@ -63,6 +63,13 @@ object Warnings {
      */
     const val SHIZUKU_PERMISSION_DENIED = "0x00C: Shizuku permission denied, please open the Shizuku app and grant the permission manually."
 
-    // Android System dex classes are not supported
+    /**
+     * Android System dex classes are not supported
+     */
     const val ANDROID_SYSTEM_DEX_CLASSES = "0x00D: Android System dex classes are not supported"
+
+    /**
+     * Empty flags
+     */
+    const val EMPTY_FLAGS = "0x00E: Empty flags"
 }
