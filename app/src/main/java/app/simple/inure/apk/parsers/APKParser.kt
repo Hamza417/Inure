@@ -3,12 +3,12 @@ package app.simple.inure.apk.parsers
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import app.simple.inure.R
+import app.simple.inure.constants.Extensions.isExtrasFile
+import app.simple.inure.constants.Extensions.isImageFile
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.models.Extra
 import app.simple.inure.models.Graphic
-import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FileUtils.isImageFile
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
@@ -18,6 +18,7 @@ import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
+@Suppress("ConstPropertyName")
 object APKParser {
 
     private const val ARMEABI = "armeabi"
@@ -330,50 +331,29 @@ object APKParser {
 
                 if (keyword.lowercase().startsWith("$")) {
                     if (name.lowercase().endsWith(keyword.lowercase().replace("$", ""))) {
-                        if (name.endsWith(".xml") ||
-                                name.endsWith(".so") ||
-                                name.endsWith(".dex") ||
-                                name.endsWith(".arsc")) {
-                            continue
-                        } else {
-                            if (name.isImageFile().invert()) {
-                                extra.path = name
-                                extra.name = name.substringAfterLast("/")
-                                extra.size = entry.size
-                                extraFiles.add(extra)
-                            }
+                        if (name.isExtrasFile()) {
+                            extra.path = name
+                            extra.name = name.substringAfterLast("/")
+                            extra.size = entry.size
+                            extraFiles.add(extra)
                         }
                     }
                 } else if (keyword.lowercase().endsWith("$")) {
                     if (name.lowercase().startsWith(keyword.lowercase().replace("$", ""))) {
-                        if (name.endsWith(".xml") ||
-                                name.endsWith(".so") ||
-                                name.endsWith(".dex") ||
-                                name.endsWith(".arsc")) {
-                            continue
-                        } else {
-                            if (name.isImageFile().invert()) {
-                                extra.path = name
-                                extra.name = name.substringAfterLast("/")
-                                extra.size = entry.size
-                                extraFiles.add(extra)
-                            }
+                        if (name.isExtrasFile()) {
+                            extra.path = name
+                            extra.name = name.substringAfterLast("/")
+                            extra.size = entry.size
+                            extraFiles.add(extra)
                         }
                     }
                 } else {
                     if (name.lowercase().contains(keyword.lowercase())) {
-                        if (name.endsWith(".xml") ||
-                                name.endsWith(".so") ||
-                                name.endsWith(".dex") ||
-                                name.endsWith(".arsc")) {
-                            continue
-                        } else {
-                            if (name.isImageFile().invert()) {
-                                extra.path = name
-                                extra.name = name.substringAfterLast("/")
-                                extra.size = entry.size
-                                extraFiles.add(extra)
-                            }
+                        if (name.isExtrasFile()) {
+                            extra.path = name
+                            extra.name = name.substringAfterLast("/")
+                            extra.size = entry.size
+                            extraFiles.add(extra)
                         }
                     }
                 }

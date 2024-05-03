@@ -10,7 +10,6 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
-import app.simple.inure.constants.Extensions
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -180,10 +179,6 @@ object FileUtils {
             ex.printStackTrace()
             null
         }
-    }
-
-    fun String.isImageFile(): Boolean {
-        return Extensions.imageExtensions.contains(this.substring(this.lastIndexOf(".") + 1))
     }
 
     fun String.makePathBashCompatible(): String {
