@@ -598,7 +598,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     protected fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        openFragmentArc(AppInfo.newInstance(packageInfo), icon, "app_info_${packageInfo.packageName}")
+        openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
     }
 
     protected fun openAppSearch() {

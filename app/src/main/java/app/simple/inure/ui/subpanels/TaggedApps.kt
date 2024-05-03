@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.adapters.analytics.AnalyticsDataAdapter
 import app.simple.inure.adapters.tags.AdapterTaggedApps
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -82,7 +81,7 @@ class TaggedApps : ScopedFragment() {
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
                         AppMenu.newInstance(packageInfo)
-                            .show(childFragmentManager, "apps_menu")
+                            .show(childFragmentManager, AppMenu.TAG)
                     }
                 })
             }
@@ -109,8 +108,8 @@ class TaggedApps : ScopedFragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
             // Remove swiped item from list and notify the RecyclerView
             val position = viewHolder.bindingAdapterPosition
-            val packageName = (recyclerView.adapter as AnalyticsDataAdapter).getPackageInfo(position).packageName
-            (recyclerView.adapter as AnalyticsDataAdapter).removeItem(position)
+            val packageName = (recyclerView.adapter as AdapterTaggedApps).getPackageInfo(position).packageName
+            (recyclerView.adapter as AdapterTaggedApps).removeItem(position)
 
             tagsListViewModel.deleteTaggedApp(requireArguments().getString(BundleConstants.tag)!!, packageName) {
                 tagsViewModel.refresh()
