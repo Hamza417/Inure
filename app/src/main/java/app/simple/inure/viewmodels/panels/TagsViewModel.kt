@@ -1,16 +1,24 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
+import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.database.instances.TagsDatabase
+import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FlagUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -192,6 +200,122 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
                 refresh()
                 function()
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun autoTag(storedFlags: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val database = TagsDatabase.getInstance(application.applicationContext)
+            val tags = database?.getTagDao()?.getTagsNameOnly()
+            val apps = getInstalledApps() + getUninstalledApps()
+
+            val flags = longArrayOf(
+                    AutoTag.GAME,
+                    AutoTag.AUDIO,
+                    AutoTag.VIDEO,
+                    AutoTag.IMAGE,
+                    AutoTag.SOCIAL,
+                    AutoTag.NEWS,
+                    AutoTag.MAPS,
+                    AutoTag.PRODUCTIVITY,
+                    AutoTag.XPOSED_MODULE,
+                    AutoTag.FOSS)
+
+            flags.forEach { flag ->
+                if (FlagUtils.isFlagSet(storedFlags, flag)) {
+                    val tag = getTagFromFlag(flag)
+                    val filtered = apps.filter { it.doesAppHasFlag(flag) }
+
+                    if (filtered.isNotEmpty()) {
+                        if (tags.isNullOrEmpty().invert()) {
+                            if (tags!!.contains(tag)) {
+                                database.getTagDao()!!.getTag(tag).apply {
+                                    packages = packages.plus("," + filtered.joinToString(",") {
+                                        it.packageName
+                                    })
+
+                                    // Remove duplicates
+                                    packages = packages.split(",").distinct().joinToString(",")
+
+                                    database.getTagDao()!!.updateTag(this)
+                                }
+                            } else {
+                                database.getTagDao()!!.insertTag(Tag(tag, filtered.joinToString(",") {
+                                    it.packageName
+                                }, -1))
+                            }
+                        } else {
+                            database?.getTagDao()!!.insertTag(Tag(tag, filtered.joinToString(",") {
+                                it.packageName
+                            }, -1))
+                        }
+                    }
+                }
+            }
+
+            refresh()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun PackageInfo.doesAppHasFlag(flag: Long): Boolean {
+        return when (flag) {
+            AutoTag.GAME -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_GAME
+            }
+            AutoTag.AUDIO -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO
+            }
+            AutoTag.VIDEO -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO
+            }
+            AutoTag.IMAGE -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE
+            }
+            AutoTag.SOCIAL -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL
+            }
+            AutoTag.NEWS -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_NEWS
+            }
+            AutoTag.MAPS -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_MAPS
+            }
+            AutoTag.PRODUCTIVITY -> {
+                applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY
+            }
+            AutoTag.ACCESSIBILITY -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY
+                } else {
+                    false
+                }
+            }
+            AutoTag.XPOSED_MODULE -> {
+                applicationInfo.isXposedModule()
+            }
+            AutoTag.FOSS -> {
+                FOSSParser.isPackageFOSS(this)
+            }
+            else -> false
+        }
+    }
+
+    private fun getTagFromFlag(flags: Long): String {
+        return when {
+            FlagUtils.isFlagSet(flags, AutoTag.GAME) -> getString(R.string.game)
+            FlagUtils.isFlagSet(flags, AutoTag.AUDIO) -> getString(R.string.audio)
+            FlagUtils.isFlagSet(flags, AutoTag.VIDEO) -> getString(R.string.video)
+            FlagUtils.isFlagSet(flags, AutoTag.IMAGE) -> getString(R.string.image)
+            FlagUtils.isFlagSet(flags, AutoTag.SOCIAL) -> getString(R.string.social)
+            FlagUtils.isFlagSet(flags, AutoTag.NEWS) -> getString(R.string.news)
+            FlagUtils.isFlagSet(flags, AutoTag.MAPS) -> getString(R.string.maps)
+            FlagUtils.isFlagSet(flags, AutoTag.PRODUCTIVITY) -> getString(R.string.productivity)
+            FlagUtils.isFlagSet(flags, AutoTag.ACCESSIBILITY) -> getString(R.string.accessibility)
+            FlagUtils.isFlagSet(flags, AutoTag.XPOSED_MODULE) -> "Xposed_Module"
+            FlagUtils.isFlagSet(flags, AutoTag.FOSS) -> getString(R.string.foss)
+            else -> ""
         }
     }
 
