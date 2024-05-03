@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
 class TagsMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var autoTag: DynamicRippleTextView
+    private lateinit var autoTag: DynamicRippleLinearLayout
     private lateinit var openSettings: DynamicRippleTextView
 
     private var callback: TagsMenuCallback? = null

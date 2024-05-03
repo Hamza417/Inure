@@ -101,7 +101,7 @@
             android:layout_marginTop="@dimen/dialog_padding"
             android:gravity="center"
             android:padding="@dimen/dialog_padding"
-            android:text="@string/auto_tag"
+            android:text="@string/create_tags"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
             app:textColorStyle="accent" />
