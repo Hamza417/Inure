@@ -748,4 +748,6 @@
     <string name="accents_on_bottom_menu">Color de acento en el menú inferior</string>
     <string name="desc_accent_on_bottom_menu">Utilice el color de acento como fondo del menú inferior.</string>
     <string name="auto_tag">Auto etiqueta</string>
+    <string name="create_tags">Crear etiquetas</string>
+    <string name="auto_tag_desc">Crea automáticamente etiquetas para las aplicaciones según la información disponible.</string>
 </resources>
