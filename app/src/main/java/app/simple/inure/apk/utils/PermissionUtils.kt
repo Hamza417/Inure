@@ -155,7 +155,13 @@ object PermissionUtils {
 
     fun Context.getPermissionDescription(name: String?): String {
         kotlin.runCatching {
-            return name!!.getPermissionInfo(this)!!.loadDescription(packageManager).toString()
+            val desc = name!!.getPermissionInfo(this)!!.loadDescription(packageManager)
+
+            return if (desc.isNullOrEmpty()) {
+                getString(R.string.desc_not_available)
+            } else {
+                desc.toString()
+            }
         }.getOrElse {
             return getString(R.string.desc_not_available)
         }
