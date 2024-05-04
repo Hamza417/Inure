@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipChildren="false"
+    android:layout_gravity="bottom"
     android:clipToPadding="false">
 
     <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dialog_padding"
-            android:animateLayoutChanges="true"
+            android:animateLayoutChanges="false"
             android:orientation="horizontal">
 
             <View

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -69,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/dialog_padding"
-            android:animateLayoutChanges="true"
+            android:animateLayoutChanges="false"
             android:orientation="horizontal">
 
             <View
