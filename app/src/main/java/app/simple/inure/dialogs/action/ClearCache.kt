@@ -37,7 +37,7 @@ class ClearCache : ScopedActionDialogBottomFragment() {
                         }
                         val postSize = size - sizeNow
                         if (postSize > 0) {
-                            status.text = (size - sizeNow).toSize() + " " + getString(R.string.cleared)
+                            status.text = postSize.toSize() + " " + getString(R.string.cleared)
                         } else {
                             status.setText(R.string.no_cache_found)
                         }

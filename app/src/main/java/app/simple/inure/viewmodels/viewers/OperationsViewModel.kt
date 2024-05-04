@@ -1,17 +1,21 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
+import android.content.Context
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.ops.AppOps
+import app.simple.inure.apk.utils.PermissionUtils.getPermissionMap
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.ShellUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,7 +23,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     private val appOpsData: MutableLiveData<ArrayList<AppOp>> by lazy {
         MutableLiveData<ArrayList<AppOp>>().also {
-            initShell()
+            initializeCoreFramework()
         }
     }
 
@@ -38,7 +42,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val ops = AppOps.getOps(context, packageInfo.packageName)
+                val ops = getOps(context, packageInfo.packageName)
                 val filtered = arrayListOf<AppOp>()
 
                 for (op in ops) {
@@ -57,14 +61,34 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun updateAppOpsState(appsOpsModel: AppOp, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd(getStateChangeCommand(appsOpsModel)).exec().let {
-                    if (it.isSuccess) {
-                        appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
-                        appOpsState.postValue(Pair(appsOpsModel, position))
-                    } else {
-                        appOpsState.postValue(Pair(appsOpsModel, position))
-                        postWarning("Failed to change state of ${appsOpsModel.permission}" +
-                                            " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                when {
+                    ConfigurationPreferences.isUsingRoot() -> {
+                        Shell.cmd(getStateChangeCommand(appsOpsModel)).exec().let {
+                            if (it.isSuccess) {
+                                appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
+                                appOpsState.postValue(Pair(appsOpsModel, position))
+                            } else {
+                                appOpsState.postValue(Pair(appsOpsModel, position))
+                                postWarning("Failed to change state of ${appsOpsModel.permission}" +
+                                                    " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                            }
+                        }
+                    }
+                    ConfigurationPreferences.isUsingShizuku() -> {
+                        getShizukuService().simpleExecute(getStateChangeCommand(appsOpsModel)).let {
+                            if (it.isSuccess) {
+                                appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
+                                appOpsState.postValue(Pair(appsOpsModel, position))
+                            } else {
+                                appOpsState.postValue(Pair(appsOpsModel, position))
+                                postWarning("Failed to change state of ${appsOpsModel.permission}" +
+                                                    " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                            }
+                        }
+                    }
+                    else -> {
+                        // This should be unreachable
+                        throw IllegalStateException("No root or shizuku, please enable one of them to use this feature.")
                     }
                 }
             }.getOrElse {
@@ -82,6 +106,67 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         return stringBuilder.toString()
     }
 
+    private fun getOps(context: Context?, packageName: String): java.util.ArrayList<AppOp> {
+        val ops = java.util.ArrayList<AppOp>()
+        val permissions = getPermissionMap(context!!)
+        for (line in runAndGetOutput("appops get $packageName").split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+            val splitOp = line.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val name = splitOp[0].trim { it <= ' ' }
+            if (line != "No operations." && name != "Uid mode") {
+                val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+                var time: String? = null
+                var duration: String? = null
+                var rejectTime: String? = null
+                val id = permissions[name]
+                if (splitOp[1].contains("time=")) {
+                    time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+                }
+                if (splitOp[1].contains("duration=")) {
+                    duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+                }
+                if (splitOp[1].contains("rejectTime=")) {
+                    rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].trim { it <= ' ' }
+                }
+                ops.add(AppOp(name, id, mode == "allow", time, duration, rejectTime))
+            }
+        }
+        return ops
+    }
+
+    private fun runAndGetOutput(command: String?): String {
+        val sb = java.lang.StringBuilder()
+        return try {
+            when {
+                ConfigurationPreferences.isUsingRoot() -> {
+                    val outputs = Shell.cmd(command).exec().out
+                    if (ShellUtils.isValidOutput(outputs)) {
+                        for (output in outputs) {
+                            Log.d("AppOp -> ", output!!)
+                            sb.append(output).append("\n")
+                        }
+                    }
+                }
+                ConfigurationPreferences.isUsingShizuku() -> {
+                    val outputs = getShizukuService().simpleExecute(command).output?.split("\n".toRegex())?.toTypedArray()
+                    if (outputs?.isNotEmpty() == true) {
+                        for (output in outputs) {
+                            Log.d("AppOp -> ", output)
+                            sb.append(output).append("\n")
+                        }
+                    }
+                }
+                else -> {
+                    // This should be unreachable
+                    throw IllegalStateException("No root or shizuku, please enable one of them to use this feature.")
+                }
+            }
+
+            sb.trim().toString()
+        } catch (e: Exception) {
+            ""
+        }
+    }
+
     override fun onShellCreated(shell: Shell?) {
         loadAppOpsData("")
     }
@@ -91,6 +176,6 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-
+        loadAppOpsData("")
     }
 }
