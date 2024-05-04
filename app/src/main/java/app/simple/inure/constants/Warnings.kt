@@ -72,4 +72,9 @@ object Warnings {
      * Empty flags
      */
     const val EMPTY_FLAGS = "0x00E: Empty flags"
+
+    /**
+     * Usage stats access blocked
+     */
+    const val USAGE_STATS_ACCESS_BLOCKED = "0x00F: Usage stats access blocked"
 }

@@ -66,12 +66,21 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
+
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/operations_option_btn"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="5dp"
+            android:layout_marginHorizontal="5dp"
             android:src="@drawable/ic_more_vert"
             app:buttonTintType="accent" />
 

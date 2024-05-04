@@ -171,38 +171,43 @@ class HomeViewModel(application: Application) :
 
     private fun loadMostUsed() {
         viewModelScope.launch(Dispatchers.IO) {
-            val stats = with(UsageInterval.getTimeInterval()) {
-                (application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
-                    .queryAndAggregateUsageStats(startTime, endTime)
-            }
-
-            val apps = getInstalledApps().stream()
-                .filter { stats.containsKey(it.packageName) }
-                .collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            var list = arrayListOf<PackageStats>()
-
-            for (app in apps) {
-                kotlin.runCatching {
-                    val packageStats = PackageStats()
-
-                    packageStats.packageInfo = app
-
-                    packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
-
-                    list.add(packageStats)
-                }.getOrElse {
-                    // The app or data proly got deleted
-                    // Move to next app
+            try {
+                val stats = with(UsageInterval.getTimeInterval()) {
+                    (application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
+                        .queryAndAggregateUsageStats(startTime, endTime)
                 }
+
+                val apps = getInstalledApps().stream()
+                    .filter { stats.containsKey(it.packageName) }
+                    .collect(Collectors.toList()) as ArrayList<PackageInfo>
+
+                var list = arrayListOf<PackageStats>()
+
+                for (app in apps) {
+                    kotlin.runCatching {
+                        val packageStats = PackageStats()
+
+                        packageStats.packageInfo = app
+
+                        packageStats.totalTimeUsed += stats[app.packageName]?.totalTimeInForeground ?: 0
+
+                        list.add(packageStats)
+                    }.getOrElse {
+                        // The app or data proly got deleted
+                        // Move to next app
+                    }
+                }
+
+                list = list
+                    .filter { it.totalTimeUsed > 0L }
+                    .sortedByDescending { it.totalTimeUsed }
+                    .toCollection(ArrayList())
+
+                mostUsedAppData.postValue(list)
+            } catch (e: SecurityException) {
+                // Usage stats permission not granted
+                mostUsedAppData.postValue(arrayListOf())
             }
-
-            list = list
-                .filter { it.totalTimeUsed > 0L }
-                .sortedByDescending { it.totalTimeUsed }
-                .toCollection(ArrayList())
-
-            mostUsedAppData.postValue(list)
         }
     }
 

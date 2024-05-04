@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.SortConstant
+import app.simple.inure.constants.Warnings
 import app.simple.inure.models.DataUsage
 import app.simple.inure.models.PackageStats
 import app.simple.inure.popups.usagestats.PopupUsageStatsEngine
@@ -36,46 +37,51 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
 
     fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
-            var list = when (StatisticsPreferences.getEngine()) {
-                PopupUsageStatsEngine.INURE -> {
-                    getUsageStats()
+            try {
+                var list = when (StatisticsPreferences.getEngine()) {
+                    PopupUsageStatsEngine.INURE -> {
+                        getUsageStats()
+                    }
+                    PopupUsageStatsEngine.ANDROID -> {
+                        getUsageEvents()
+                    }
+                    else -> {
+                        StatisticsPreferences.setEngine(PopupUsageStatsEngine.INURE)
+                        throw java.lang.IllegalStateException("Unknown engine type detected by Inure" +
+                                                                      " - app will reset engine preferences")
+                    }
                 }
-                PopupUsageStatsEngine.ANDROID -> {
-                    getUsageEvents()
+
+                when (StatisticsPreferences.getAppsCategory()) {
+                    SortConstant.SYSTEM -> {
+                        list = list.stream().filter { p ->
+                            p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        }.collect(Collectors.toList()) as ArrayList<PackageStats>
+                    }
+                    SortConstant.USER -> {
+                        list = list.stream().filter { p ->
+                            p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        }.collect(Collectors.toList()) as ArrayList<PackageStats>
+                    }
                 }
-                else -> {
-                    StatisticsPreferences.setEngine(PopupUsageStatsEngine.INURE)
-                    throw java.lang.IllegalStateException("Unknown engine type detected by Inure" +
-                                                                  " - app will reset engine preferences")
+
+                for (app in list) {
+                    app.packageInfo!!.applicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.applicationInfo)
                 }
+
+                if (StatisticsPreferences.areUnusedAppHidden()) {
+                    list = list.filter {
+                        it.totalTimeUsed != 0L
+                    } as ArrayList<PackageStats>
+                }
+
+                list.sortStats()
+
+                usageData.postValue(list)
+            } catch (e: SecurityException) {
+                postWarning(Warnings.USAGE_STATS_ACCESS_BLOCKED)
+                usageData.postValue(arrayListOf())
             }
-
-            when (StatisticsPreferences.getAppsCategory()) {
-                SortConstant.SYSTEM -> {
-                    list = list.stream().filter { p ->
-                        p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageStats>
-                }
-                SortConstant.USER -> {
-                    list = list.stream().filter { p ->
-                        p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageStats>
-                }
-            }
-
-            for (app in list) {
-                app.packageInfo!!.applicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.applicationInfo)
-            }
-
-            if (StatisticsPreferences.areUnusedAppHidden()) {
-                list = list.filter {
-                    it.totalTimeUsed != 0L
-                } as ArrayList<PackageStats>
-            }
-
-            list.sortStats()
-
-            usageData.postValue(list)
         }
     }
 

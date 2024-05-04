@@ -13,6 +13,7 @@ import app.simple.inure.adapters.details.AdapterOperations
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.AppOp
@@ -24,6 +25,7 @@ class Operations : SearchBarScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var options: DynamicRippleImageButton
+    private lateinit var progressBar: CustomProgressBar
     private lateinit var operationsViewModel: OperationsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private var adapterOperations: AdapterOperations? = null
@@ -36,6 +38,7 @@ class Operations : SearchBarScopedFragment() {
         search = view.findViewById(R.id.operations_search_btn)
         searchBox = view.findViewById(R.id.operations_search)
         title = view.findViewById(R.id.operations_title)
+        progressBar = view.findViewById(R.id.progress_bar)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         operationsViewModel = ViewModelProvider(this, packageInfoFactory)[OperationsViewModel::class.java]
@@ -52,6 +55,7 @@ class Operations : SearchBarScopedFragment() {
         searchBoxState(false, OperationsPreferences.isSearchVisible())
 
         operationsViewModel.getAppOpsData().observe(viewLifecycleOwner) {
+            progressBar.gone(animate = true)
             adapterOperations = AdapterOperations(it, searchBox.text.toString().trim())
             setCount(it.size)
 
@@ -62,6 +66,10 @@ class Operations : SearchBarScopedFragment() {
             })
 
             recyclerView.adapter = adapterOperations
+
+            if (it.isEmpty()) {
+                showWarning(R.string.no_operations_found)
+            }
         }
 
         operationsViewModel.getAppOpsState().observe(viewLifecycleOwner) {
