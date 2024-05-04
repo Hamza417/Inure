@@ -27,6 +27,7 @@ object Extensions {
             "js" to true,
             "css" to true,
             "kts" to true,
+            "txt" to true,
     )
 
     /**
