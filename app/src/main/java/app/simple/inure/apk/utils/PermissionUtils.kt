@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
 import android.os.Build
 import app.simple.inure.R
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 object PermissionUtils {
 
@@ -53,25 +55,15 @@ object PermissionUtils {
         }
     }
 
-    fun getPermissionMap(context: Context): HashMap<String, String> {
+    fun getPermissionMap(): HashMap<String, String> {
+        val bufferedReader = BufferedReader(
+                InputStreamReader(PermissionUtils::class.java.getResourceAsStream("/permissions.txt")))
+        val permissionList = bufferedReader.readLines()
         val map = HashMap<String, String>()
-        val pm = context.packageManager
-        val permissionGroups = pm.getAllPermissionGroups(0)
 
-        // Get permissions that are part of a group
-        for (group in permissionGroups) {
-            val permissions = pm.queryPermissionsByGroup(group.name, 0)
-            for (permission in permissions) {
-                val shortName = permission.name.substring(permission.name.lastIndexOf(".") + 1)
-                map[shortName] = permission.name
-            }
-        }
-
-        // Get permissions that are not part of any group
-        val permissionsNoGroup = pm.queryPermissionsByGroup(null, 0)
-        for (permission in permissionsNoGroup) {
-            val shortName = permission.name.substring(permission.name.lastIndexOf(".") + 1)
-            map[shortName] = permission.name
+        permissionList.forEach {
+            val shortName = it.substring(it.lastIndexOf(".") + 1)
+            map[shortName] = it
         }
 
         return map

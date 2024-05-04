@@ -1,7 +1,6 @@
 package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
-import android.content.Context
 import android.content.pm.PackageInfo
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -42,7 +41,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun loadAppOpsData(keyword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val ops = getOps(context, packageInfo.packageName)
+                val ops = getOps(packageInfo.packageName)
                 val filtered = arrayListOf<AppOp>()
 
                 for (op in ops) {
@@ -106,26 +105,36 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         return stringBuilder.toString()
     }
 
-    private fun getOps(context: Context?, packageName: String): java.util.ArrayList<AppOp> {
+    private fun getOps(packageName: String): java.util.ArrayList<AppOp> {
         val ops = java.util.ArrayList<AppOp>()
-        val permissions = getPermissionMap(context!!)
+        val permissions = getPermissionMap()
+
         for (line in runAndGetOutput("appops get $packageName").split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
             val splitOp = line.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val name = splitOp[0].trim { it <= ' ' }
+
             if (line != "No operations." && name != "Uid mode") {
                 val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
                 var time: String? = null
                 var duration: String? = null
                 var rejectTime: String? = null
                 val id = permissions[name]
+
                 if (splitOp[1].contains("time=")) {
-                    time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+                    time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()[0].trim { it <= ' ' }
                 }
+
                 if (splitOp[1].contains("duration=")) {
-                    duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+                    duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()[0].trim { it <= ' ' }
                 }
+
                 if (splitOp[1].contains("rejectTime=")) {
-                    rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].trim { it <= ' ' }
+                    rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()[1].trim { it <= ' ' }
                 }
                 ops.add(AppOp(name, id, mode == "allow", time, duration, rejectTime))
             }
@@ -177,5 +186,9 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         loadAppOpsData("")
+    }
+
+    companion object {
+        private const val TAG = "OperationsViewModel"
     }
 }
