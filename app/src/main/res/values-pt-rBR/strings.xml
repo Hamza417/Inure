@@ -750,4 +750,6 @@
     <string name="auto_tag">Marcação automática</string>
     <string name="create_tags">Criar Etiqueta</string>
     <string name="auto_tag_desc">Criar etiquetas automaticamente para apps com base nas informações disponíveis.</string>
+    <string name="no_cache_found">Nenhum cache encontrado</string>
+    <string name="no_operations_found">Nenhuma Operação Encontrada</string>
 </resources>
