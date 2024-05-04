@@ -1,11 +1,13 @@
 package app.simple.inure.dialogs.tags
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.util.FlagUtils
@@ -16,7 +18,8 @@ import com.google.android.material.chip.ChipGroup
 class AutoTag : ScopedBottomSheetFragment() {
 
     private lateinit var tagsChipGroup: ChipGroup
-    private lateinit var addTag: DynamicRippleTextView
+    private lateinit var create: DynamicRippleTextView
+    private lateinit var selectAll: DynamicRippleImageButton
 
     private var autoTagCallback: AutoTagCallback? = null
 
@@ -26,7 +29,8 @@ class AutoTag : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_auto_tag, container, false)
 
         tagsChipGroup = view.findViewById(R.id.tag_chip_group)
-        addTag = view.findViewById(R.id.auto_tag)
+        create = view.findViewById(R.id.auto_tag)
+        selectAll = view.findViewById(R.id.select_all)
 
         return view
     }
@@ -34,7 +38,11 @@ class AutoTag : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addTag.gone()
+        create.gone()
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            tagsChipGroup.removeView(view.findViewById(R.id.accessibility))
+        }
 
         tagsChipGroup.setOnCheckedStateChangeListener { _, ids ->
             storedTags = 0
@@ -101,17 +109,38 @@ class AutoTag : ScopedBottomSheetFragment() {
 
             when {
                 storedTags != 0L -> {
-                    addTag.visible()
+                    create.visible()
                 }
                 else -> {
-                    addTag.gone()
+                    create.gone()
                 }
             }
         }
 
-        addTag.setOnClickListener {
+        create.setOnClickListener {
             autoTagCallback?.onAutoTag(storedTags).also {
                 dismiss()
+            }
+        }
+
+        selectAll.setOnClickListener {
+            if (tagsChipGroup.checkedChipIds.size < tagsChipGroup.childCount) {
+                tagsChipGroup.check(R.id.game)
+                tagsChipGroup.check(R.id.audio)
+                tagsChipGroup.check(R.id.video)
+                tagsChipGroup.check(R.id.image)
+                tagsChipGroup.check(R.id.social)
+                tagsChipGroup.check(R.id.news)
+                tagsChipGroup.check(R.id.maps)
+                tagsChipGroup.check(R.id.productivity)
+                tagsChipGroup.check(R.id.xposed_module)
+                tagsChipGroup.check(R.id.foss)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    tagsChipGroup.check(R.id.accessibility)
+                }
+            } else {
+                tagsChipGroup.clearCheck()
             }
         }
     }

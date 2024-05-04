@@ -93,18 +93,38 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/auto_tag"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginTop="@dimen/dialog_padding"
-            android:gravity="center"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/create_tags"
-            android:textSize="@dimen/info_text_small"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                android:id="@+id/select_all"
+                android:layout_width="@dimen/button_size"
+                android:layout_height="@dimen/button_size"
+                android:src="@drawable/ic_select_all"
+                android:layout_gravity="center_vertical"
+                app:buttonTintType="accent" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/auto_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/create_tags"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
