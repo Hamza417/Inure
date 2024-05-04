@@ -1,4 +1,4 @@
-package app.simple.inure.adapters.details
+package app.simple.inure.adapters.viewers
 
 import android.content.pm.ResolveInfo
 import android.view.LayoutInflater
@@ -15,7 +15,6 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
 class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keyword: String)

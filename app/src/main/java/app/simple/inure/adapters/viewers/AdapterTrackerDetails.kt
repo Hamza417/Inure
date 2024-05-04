@@ -1,4 +1,4 @@
-package app.simple.inure.adapters.details
+package app.simple.inure.adapters.viewers
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -51,34 +51,34 @@ class AdapterTrackerDetails(private val data: ArrayList<String>) : RecyclerView.
     private fun getColorBasedOnCategory(category: String): Int {
         return when (category) {
             "Advertisement" -> {
-                Color.parseColor("#cb4335") // Red
+                0xFFCB4335.toInt() // Red
             }
             "Crash reporting" -> {
-                Color.parseColor("#7f8c8d") // Grey
+                0xFF7F8C8D.toInt() // Grey
             }
             "Profiling" -> {
-                Color.parseColor("#2471a3") // Blue
+                0xFF2471A3.toInt() // Blue
             }
             "Identification" -> {
-                Color.parseColor("#f39c12") // Orange
+                0xFFF39C12.toInt() // Orange
             }
             "Location" -> {
-                Color.parseColor("#27ae60") // Green
+                0xFF27AE60.toInt() // Green
             }
             "Analytics" -> {
-                Color.parseColor("#8e44ad") // Purple
+                0xFF8E44AD.toInt() // Purple
             }
             "Activity" -> {
-                Color.parseColor("#f1c40f") // Yellow
+                0xFFF1C40F.toInt() // Yellow
             }
             "Service" -> {
-                Color.parseColor("#e74c3c") // Dark Red
+                0xFFE74C3C.toInt() // Dark Red
             }
             "Receiver" -> {
-                Color.parseColor("#2980b9") // Light Blue
+                0xFF2980B9.toInt() // Light Blue
             }
             else -> {
-                Color.parseColor("#34495e") // Dark Grey
+                0xFF34495E.toInt() // Dark Grey
             }
         }
     }

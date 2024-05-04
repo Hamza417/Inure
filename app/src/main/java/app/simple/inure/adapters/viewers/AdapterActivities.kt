@@ -1,4 +1,4 @@
-package app.simple.inure.adapters.details
+package app.simple.inure.adapters.viewers
 
 import android.content.pm.PackageInfo
 import android.view.LayoutInflater

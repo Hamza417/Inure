@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.details.AdapterExtras
+import app.simple.inure.adapters.viewers.AdapterExtras
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Extensions
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
