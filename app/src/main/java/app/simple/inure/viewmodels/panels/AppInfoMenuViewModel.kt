@@ -200,7 +200,12 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             if (ConfigurationPreferences.isRootOrShizuku() && isInstalled) {
                 if (isNotThisApp()) {
                     list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.operations))
-                    list.add(Pair(R.drawable.sc_preferences, R.string.shared_prefs))
+                }
+            }
+
+            if (ConfigurationPreferences.isUsingRoot()) {
+                if (isNotThisApp()) {
+                    list.add(Pair(R.drawable.ic_settings, R.string.shared_prefs))
                 }
             }
 

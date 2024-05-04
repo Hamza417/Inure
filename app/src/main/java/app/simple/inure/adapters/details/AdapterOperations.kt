@@ -12,6 +12,7 @@ import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.AppOp
 import app.simple.inure.util.AdapterUtils
+import java.util.Locale
 
 class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
 
@@ -22,7 +23,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.name.text = ops[position].permission
+        holder.name.text = ops[position].permission.sanitize()
         holder.desc.text = holder.context.getPermissionDescription(ops[position].id)
         holder.switch.isChecked = ops[position].isEnabled
 
@@ -49,6 +50,16 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
 
     fun setOnOpsCheckedChangeListener(adapterOpsCallbacks: AdapterOpsCallbacks) {
         this.adapterOpsCallbacks = adapterOpsCallbacks
+    }
+
+    private fun String.sanitize(): String {
+        return this.replace("_", " ").lowercase().replaceFirstChar {
+            if (it.isLowerCase()) {
+                it.titlecase(Locale.ROOT)
+            } else {
+                it.toString()
+            }
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
