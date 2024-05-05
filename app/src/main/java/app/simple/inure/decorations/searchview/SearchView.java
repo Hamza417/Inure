@@ -70,16 +70,14 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         loader = view.findViewById(R.id.loader);
         
         if (!isInEditMode()) {
-            if (SearchPreferences.INSTANCE.getLastSearchKeyword().length() > 0) {
+            if (!SearchPreferences.INSTANCE.getLastSearchKeyword().isEmpty()) {
                 ViewUtils.INSTANCE.visible(clear, false);
                 ViewUtils.INSTANCE.visible(refresh, false);
                 editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
                 
                 if (SearchPreferences.INSTANCE.getLastSearchKeyword().startsWith("#")) {
-                    if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
-                        editText.getText().setSpan(
-                                new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
-                    }
+                    editText.getText().setSpan(
+                            new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
                 }
             } else {
                 ViewUtils.INSTANCE.gone(clear, true);
@@ -92,7 +90,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         
         TextViewUtils.INSTANCE.doOnTextChanged(editText, (s, start, before, count) -> {
             Log.d("SearchView", "onTextChanged: " + s.toString().trim());
-            boolean isValidCount = s.toString().trim().replace("#", "").length() > 0;
+            boolean isValidCount = !s.toString().trim().replace("#", "").isEmpty();
             
             if (editText.isFocused()) {
                 if (!s.toString().trim().equals(SearchPreferences.INSTANCE.getLastSearchKeyword())) {
@@ -117,10 +115,8 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             }
             
             if (s.toString().trim().startsWith("#")) {
-                if (!SearchPreferences.INSTANCE.isDeepSearchEnabled()) {
-                    editText.getText().setSpan(
-                            new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
-                }
+                editText.getText().setSpan(
+                        new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
             } else {
                 if (editText.getText().getSpans(0, 1, ForegroundColorSpan.class).length > 0) {
                     // Remove the spans

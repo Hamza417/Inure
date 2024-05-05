@@ -96,7 +96,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         val sanitizedKeyword = if (keywords.startsWith("#")) {
             try {
-                Log.d(TAG, "loadSearchData: ${keywords.split(" ")[1]}")
                 keywords.split(" ")[1]
             } catch (e: IndexOutOfBoundsException) {
                 ""
@@ -109,30 +108,34 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         apps.applyFilters(filteredList)
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        when {
-            SearchPreferences.isDeepSearchEnabled() -> {
-                if (deepPackageInfos.isEmpty()) {
-                    loadDataForDeepSearch(filteredList)
+        if (sanitizedKeyword.isNotEmpty()) {
+            when {
+                SearchPreferences.isDeepSearchEnabled() -> {
+                    if (deepPackageInfos.isEmpty()) {
+                        loadDataForDeepSearch(filteredList)
+                    }
+
+                    list.addDeepSearchData(sanitizedKeyword, deepPackageInfos)
+
+                    // Filter out apps with no results
+                    list = if (list.isNotEmpty()) {
+                        list.filter { search ->
+                            hasValidCounts(search) || hasMatchingNames(search, sanitizedKeyword)
+                        } as ArrayList<Search>
+                    } else {
+                        arrayListOf()
+                    }
                 }
-    
-                list.addDeepSearchData(sanitizedKeyword, deepPackageInfos)
-    
-                // Filter out apps with no results
-                list = if (list.isNotEmpty()) {
-                    list.filter { search ->
-                        hasValidCounts(search) || hasMatchingNames(search, sanitizedKeyword)
-                    } as ArrayList<Search>
-                } else {
-                    arrayListOf()
+                else -> {
+                    Log.d(TAG, "loadSearchData: ${filteredList.size}")
+                    list.addAll(filteredList.map { Search(it) }.filter { search ->
+                        Log.d(TAG, "loadSearchData: ${search.packageInfo.packageName}")
+                        hasMatchingNames(search, sanitizedKeyword)
+                    } as ArrayList<Search>)
                 }
             }
-            else -> {
-                Log.d(TAG, "loadSearchData: ${filteredList.size}")
-                list.addAll(filteredList.map { Search(it) }.filter { search ->
-                    Log.d(TAG, "loadSearchData: ${search.packageInfo.packageName}")
-                    hasMatchingNames(search, sanitizedKeyword)
-                } as ArrayList<Search>)
-            }
+        } else {
+            list.addAll(filteredList.map { Search(it) } as ArrayList<Search>)
         }
 
         if (Thread.currentThread().name == thread?.name) {

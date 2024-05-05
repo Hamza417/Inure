@@ -79,6 +79,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         recyclerView.addHeightKeyboardCallbacks()
         searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
+        keywords = SearchPreferences.getLastSearchKeyword()
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             hideLoader()
@@ -87,7 +88,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 searchView.hideLoader()
                 searchView.setNewNumber(it.size)
 
-                appsAdapterSearchSmall = AdapterSearch(it, keywords)
+                appsAdapterSearchSmall = AdapterSearch(it, keywords.sanitizeKeyword())
                 recyclerView.adapter = appsAdapterSearchSmall
 
                 appsAdapterSearchSmall.setOnItemClickListener(object : AdapterCallbacks {
@@ -97,7 +98,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        childFragmentManager.showAppMenu(packageInfo, keywords).onDismissListener = {
+                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword()).onDismissListener = {
                             postDelayed(250) {
                                 // searchView.showInput()
                             }
@@ -119,7 +120,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 searchView.setNewNumber(it.size)
                 searchView.hideLoader()
 
-                adapterDeepSearch = AdapterDeepSearch(it, keywords)
+                adapterDeepSearch = AdapterDeepSearch(it, keywords.sanitizeKeyword())
                 recyclerView.adapter = adapterDeepSearch
 
                 adapterDeepSearch.setOnItemClickListener(object : AdapterDeepSearch.Companion.AdapterDeepSearchCallbacks {
@@ -127,7 +128,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Permissions.newInstance(
-                                            packageInfo, keywords), Permissions.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Permissions.TAG)
                         }
                     }
 
@@ -135,7 +136,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Activities.newInstance(
-                                            packageInfo, keywords), Activities.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Activities.TAG)
                         }
                     }
 
@@ -143,7 +144,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Services.newInstance(
-                                            packageInfo, keywords), Services.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Services.TAG)
                         }
                     }
 
@@ -151,7 +152,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Receivers.newInstance(
-                                            packageInfo, keywords), Receivers.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Receivers.TAG)
                         }
                     }
 
@@ -159,7 +160,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Providers.newInstance(
-                                            packageInfo, keywords), Providers.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Providers.TAG)
                         }
                     }
 
@@ -167,7 +168,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Resources.newInstance(
-                                            packageInfo, keywords), Resources.TAG)
+                                            packageInfo, keywords.sanitizeKeyword()), Resources.TAG)
                         }
                     }
 
@@ -178,7 +179,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: AppIconImageView) {
-                        childFragmentManager.showAppMenu(packageInfo, keywords).onDismissListener = {
+                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword()).onDismissListener = {
                             // Open keyboard after menu is dismissed
                             //                            postDelayed(250) {
                             //                                searchView.showInput()
@@ -252,18 +253,26 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     }
 
     private fun setTagsStripState(keywords: String) {
-        if (SearchPreferences.isDeepSearchEnabled()) {
-            tags.gone(animate = false)
-        } else {
-            kotlin.runCatching {
-                (tags.adapter as? AdapterTags)?.highlightedTag = keywords.removePrefix("#")
-            }
+        kotlin.runCatching {
+            (tags.adapter as? AdapterTags)?.highlightedTag = keywords.removePrefix("#").split(" ")[0]
+        }
 
-            if (keywords.startsWith("#")) {
-                tags.visible(animate = false)
-            } else {
-                tags.gone(animate = false)
+        if (keywords.startsWith("#")) {
+            tags.visible(animate = false)
+        } else {
+            tags.gone(animate = false)
+        }
+    }
+
+    private fun String.sanitizeKeyword(): String {
+        return if (startsWith("#")) {
+            try {
+                split(" ")[1]
+            } catch (e: IndexOutOfBoundsException) {
+                ""
             }
+        } else {
+            this
         }
     }
 
@@ -278,7 +287,6 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
             SearchPreferences.deepSearch -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
-                setTagsStripState(SearchPreferences.getLastSearchKeyword())
             }
 
             SearchPreferences.ignoreCasing -> {
