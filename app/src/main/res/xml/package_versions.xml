@@ -1547,7 +1547,7 @@
     <string name="com.graphhopper.maps" translatable="false">Apache-2.0</string>
     <string name="org.happysanta.gd" translatable="false">GPL-2.0-only</string>
     <string name="com.gravityplay" translatable="false">GPL-2.0-only</string>
-    <string name="at.linuxtage.companion" translatable="false">Apache-2.0</string>
+    <string name="at.linuxtage.Eventfahrplan" translatable="false">Apache-2.0</string>
     <string name="org.cyanogenmod.great.freedom" translatable="false">Apache-2.0</string>
     <string name="com.github.jtjj222.sudburytransit" translatable="false">GPL-3.0-only</string>
     <string name="com.anysoftkeyboard.languagepack.greek" translatable="false">Apache-2.0</string>
@@ -1884,6 +1884,7 @@
     <string name="fr.neamar.kiss" translatable="false">GPL-3.0-only</string>
     <string name="com.leinardi.kitchentimer" translatable="false">GPL-3.0-only</string>
     <string name="com.tombursch.kitchenowl" translatable="false">AGPL-3.0-only</string>
+    <string name="io.github.drumber.kitsune" translatable="false">Apache-2.0</string>
     <string name="org.kiwix.kiwixmobile" translatable="false">GPL-3.0-only</string>
     <string name="org.nerdcircus.android.klaxon" translatable="false">Apache-2.0</string>
     <string name="com.koshai_limited.klock" translatable="false">GPL-3.0-or-later</string>
@@ -2191,6 +2192,7 @@
     <string name="com.sanskritbasics.memory" translatable="false">GPL-3.0-or-later</string>
     <string name="de.yazo_games.mensaguthaben" translatable="false">GPL-3.0-only</string>
     <string name="de.csicar.mensaplan" translatable="false">GPL-2.0-only</string>
+    <string name="de.ciluvien.mensen" translatable="false">AGPL-3.0-or-later</string>
     <string name="it.skarafaz.mercury" translatable="false">GPL-2.0-only</string>
     <string name="it.belloworld.mercurygram" translatable="false">GPL-2.0-or-later</string>
     <string name="info.spotcomms.wlanbackend" translatable="false">GPL-3.0-or-later</string>
@@ -2633,6 +2635,7 @@
     <string name="fr.witchdoctors.c4ffein.oosfirmwareextractor" translatable="false">MIT</string>
     <string name="com.euedge.openaviationmap.android" translatable="false">GPL-3.0-only</string>
     <string name="pro.dbro.bart" translatable="false">GPL-3.0-only</string>
+    <string name="io.open_biking" translatable="false">AGPL-3.0-or-later</string>
     <string name="wtf.nbd.obw" translatable="false">Apache-2.0</string>
     <string name="net.sourceforge.opencamera" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.corruptedark.openchaoschess" translatable="false">GPL-3.0-or-later</string>
@@ -3325,6 +3328,7 @@
     <string name="com.ariwilson.seismowallpaper" translatable="false">GPL-3.0-only</string>
     <string name="com.example.sekreto" translatable="false">GPL-3.0-only</string>
     <string name="me.zhanghai.android.textselectionwebsearch" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.github.rahul_gill.attendance" translatable="false">GPL-3.0-only</string>
     <string name="de.selfnet.wifisetup" translatable="false">Apache-2.0</string>
     <string name="pro.kherel.selfprivacy" translatable="false">GPL-2.0-or-later</string>
     <string name="com.mrbimc.selinux" translatable="false">GPL-3.0-only</string>
