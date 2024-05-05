@@ -94,29 +94,45 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             return
         }
 
-        apps = apps.filterCategories()
+        val sanitizedKeyword = if (keywords.startsWith("#")) {
+            try {
+                Log.d(TAG, "loadSearchData: ${keywords.split(" ")[1]}")
+                keywords.split(" ")[1]
+            } catch (e: IndexOutOfBoundsException) {
+                ""
+            }
+        } else {
+            keywords
+        }
+
+        apps = apps.filterCategories(keywords)
         apps.applyFilters(filteredList)
         filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
 
-        if (SearchPreferences.isDeepSearchEnabled()) {
-            if (deepPackageInfos.isEmpty()) {
-                loadDataForDeepSearch(filteredList)
+        when {
+            SearchPreferences.isDeepSearchEnabled() -> {
+                if (deepPackageInfos.isEmpty()) {
+                    loadDataForDeepSearch(filteredList)
+                }
+    
+                list.addDeepSearchData(sanitizedKeyword, deepPackageInfos)
+    
+                // Filter out apps with no results
+                list = if (list.isNotEmpty()) {
+                    list.filter { search ->
+                        hasValidCounts(search) || hasMatchingNames(search, sanitizedKeyword)
+                    } as ArrayList<Search>
+                } else {
+                    arrayListOf()
+                }
             }
-
-            list.addDeepSearchData(keywords, deepPackageInfos)
-
-            // Filter out apps with no results
-            list = if (list.isNotEmpty()) {
-                list.filter { search ->
-                    hasValidCounts(search) || hasMatchingNames(search, keywords)
-                } as ArrayList<Search>
-            } else {
-                arrayListOf()
+            else -> {
+                Log.d(TAG, "loadSearchData: ${filteredList.size}")
+                list.addAll(filteredList.map { Search(it) }.filter { search ->
+                    Log.d(TAG, "loadSearchData: ${search.packageInfo.packageName}")
+                    hasMatchingNames(search, sanitizedKeyword)
+                } as ArrayList<Search>)
             }
-        } else {
-            list.addAll(filteredList.map { Search(it) }.filter { search ->
-                hasMatchingNames(search, keywords)
-            } as ArrayList<Search>)
         }
 
         if (Thread.currentThread().name == thread?.name) {
@@ -130,6 +146,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun hasMatchingNames(search: Search, keywords: String): Boolean {
+        Log.d(TAG, "hasMatchingNames: keywords: $keywords")
         return search.packageInfo.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
                 search.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
     }
@@ -207,17 +224,30 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    private fun ArrayList<PackageInfo>.filterCategories(): ArrayList<PackageInfo> {
-        when (SearchPreferences.getAppsCategory()) {
-            SortConstant.SYSTEM -> {
+    private fun ArrayList<PackageInfo>.filterCategories(keywords: String): ArrayList<PackageInfo> {
+        when {
+            keywords.startsWith("#") -> {
+                val tagsDatabase = TagsDatabase.getInstance(application.applicationContext)
+                val tag = keywords.split(" ")[0].substring(1)
+                val tagApps = tagsDatabase?.getTagDao()?.getTag(tag)?.packages?.split(",")
+
                 return parallelStream().filter { packageInfo ->
-                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    tagApps?.contains(packageInfo.packageName) == true
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
-            SortConstant.USER -> {
-                return parallelStream().filter { packageInfo ->
-                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            else -> {
+                when (SearchPreferences.getAppsCategory()) {
+                    SortConstant.SYSTEM -> {
+                        return parallelStream().filter { packageInfo ->
+                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                    }
+                    SortConstant.USER -> {
+                        return parallelStream().filter { packageInfo ->
+                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+                    }
+                }
             }
         }
 

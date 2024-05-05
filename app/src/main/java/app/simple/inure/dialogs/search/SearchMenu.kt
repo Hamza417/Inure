@@ -67,5 +67,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "SearchMenu"
     }
 }

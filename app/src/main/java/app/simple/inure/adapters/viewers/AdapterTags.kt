@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.Colors
+import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.views.TagChip
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
@@ -98,7 +99,7 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
         }
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {
         val tag: TagChip = itemView.findViewById(R.id.tag_chip)
     }
 

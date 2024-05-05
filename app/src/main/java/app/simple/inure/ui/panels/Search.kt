@@ -127,7 +127,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Permissions.newInstance(
-                                            packageInfo, keywords), "permission")
+                                            packageInfo, keywords), Permissions.TAG)
                         }
                     }
 
@@ -135,7 +135,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Activities.newInstance(
-                                            packageInfo, keywords), "activities")
+                                            packageInfo, keywords), Activities.TAG)
                         }
                     }
 
@@ -143,7 +143,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Services.newInstance(
-                                            packageInfo, keywords), "services")
+                                            packageInfo, keywords), Services.TAG)
                         }
                     }
 
@@ -151,7 +151,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Receivers.newInstance(
-                                            packageInfo, keywords), "receivers")
+                                            packageInfo, keywords), Receivers.TAG)
                         }
                     }
 
@@ -159,7 +159,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Providers.newInstance(
-                                            packageInfo, keywords), "providers")
+                                            packageInfo, keywords), Providers.TAG)
                         }
                     }
 
@@ -167,7 +167,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                         if (SearchPreferences.setSearchKeywordMode(true)) {
                             openFragmentSlide(
                                     Resources.newInstance(
-                                            packageInfo, keywords), "resources")
+                                            packageInfo, keywords), Resources.TAG)
                         }
                     }
 
@@ -223,7 +223,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
                 SearchMenu.newInstance()
-                    .show(childFragmentManager, "search_list_config")
+                    .show(childFragmentManager, SearchMenu.TAG)
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
