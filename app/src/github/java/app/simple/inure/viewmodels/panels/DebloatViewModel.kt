@@ -459,6 +459,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
     private fun startDebloating(method: String) {
         val selectedBloats = ArrayList<Bloat>()
+
         bloatList.value?.forEach {
             if (it.isSelected) {
                 selectedBloats.add(it)

@@ -59,7 +59,7 @@ class Debloat : ScopedFragment() {
 
             adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
                 override fun onBloatSelected(bloat: Bloat) {
-                    bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()))
+                    updateBottomMenu()
                     debloatViewModel?.loadSelectedBloatList()
                 }
 
@@ -81,6 +81,7 @@ class Debloat : ScopedFragment() {
                         childFragmentManager.showDebloatSelectionDialog().setOnDebloatSelectCallback(object : DebloatSelect.Companion.DebloatSelectCallback {
                             override fun onModeSelected(mode: Int) {
                                 adapterDebloat?.updateSelections(mode)
+                                updateBottomMenu()
                             }
                         })
                     }
@@ -146,6 +147,10 @@ class Debloat : ScopedFragment() {
             hideLoader()
             showError(it, false)
         }
+    }
+
+    private fun updateBottomMenu() {
+        bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()))
     }
 
     @SuppressLint("NotifyDataSetChanged")
