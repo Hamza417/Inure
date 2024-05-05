@@ -17,6 +17,7 @@ import app.simple.inure.models.Bloat
 import app.simple.inure.models.PackageStateResult
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.sort.DebloatSort.getSortedList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
@@ -517,10 +518,20 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
             bloats.forEach { bloat ->
                 kotlin.runCatching {
-                    getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
-                        if (result.isSuccess) {
+                    if (method == METHOD_UNINSTALL) {
+                        getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
+                            if (result.isSuccess) {
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                            } else {
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                            }
+                        }
+                    } else {
+                        kotlin.runCatching {
+                            ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                        }.onSuccess {
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
-                        } else {
+                        }.getOrElse { e ->
                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                         }
                     }
