@@ -518,21 +518,24 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
             bloats.forEach { bloat ->
                 kotlin.runCatching {
-                    if (method == METHOD_UNINSTALL) {
-                        getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
-                            if (result.isSuccess) {
-                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
-                            } else {
-                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                    when (method) {
+                        METHOD_UNINSTALL -> {
+                            getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
+                                if (result.isSuccess) {
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                } else {
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                }
                             }
                         }
-                    } else {
-                        kotlin.runCatching {
-                            ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
-                        }.onSuccess {
-                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
-                        }.getOrElse { e ->
-                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                        else -> {
+                            kotlin.runCatching {
+                                ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                            }.onSuccess {
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                            }.getOrElse { e ->
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                            }
                         }
                     }
                 }.getOrElse {
