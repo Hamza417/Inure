@@ -21,14 +21,14 @@ def get_workflow_runs(url, token):
     return json.loads(response.text)['workflow_runs'], next_url_
 
 
-def delete_workflow_run(run_id, token):
+def delete_workflow_run(run_id, name, token):
     url = f"https://api.github.com/repos/Hamza417/Inure/actions/runs/{run_id}"
     headers = {'Authorization': f"token {token}"}
     response = requests.delete(url, headers=headers)
     if response.status_code != 204:
         print(f"Error: {response.text}")
     else:
-        print(f"Deleted workflow run {run_id}")
+        print(f"Deleted workflow run {run_id} : {name}")
 
 
 def main(token):
@@ -37,12 +37,12 @@ def main(token):
 
     while next_url:
         workflow_runs, next_url = get_workflow_runs(next_url, token)
-        print(f"Found {len(workflow_runs)} workflow runs")
+        print(f"\nFound {len(workflow_runs)} workflow runs")
 
         for run in workflow_runs:
             created_at = datetime.strptime(run['created_at'], '%Y-%m-%dT%H:%M:%SZ')
             if created_at < old_date:
-                delete_workflow_run(run['id'], token)
+                delete_workflow_run(run['id'], run['name'], token)
 
     print("Done")
 
