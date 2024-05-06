@@ -12,8 +12,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.constants.IntentConstants
+import app.simple.inure.constants.LicenseConstants
+import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.AppUtils
@@ -21,7 +22,7 @@ import app.simple.inure.util.AppUtils
 class License : ScopedBottomSheetFragment() {
 
     private lateinit var status: TypeFaceTextView
-    private lateinit var progress: LoaderImageView
+    private lateinit var progress: ThemeIcon
 
     private var broadcastReceiver: BroadcastReceiver? = null
     private var intentFilter: IntentFilter? = null
@@ -39,30 +40,21 @@ class License : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progress.start()
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: android.content.Context?, intent: Intent?) {
                 when (intent?.getIntExtra(IntentConstants.EXTRA_LICENSE, -1)) {
-                    0 -> {
-                        status.text = getString(R.string.full_version_activated)
+                    LicenseConstants.LICENSED -> {
+                        status.setTextWithAnimation(getString(R.string.full_version_activated))
                         TrialPreferences.setFullVersion(true)
-                        progress.loaded()
                     }
-                    1 -> {
-                        status.text = getString(R.string.failed)
+                    LicenseConstants.NOT_LICENSED, LicenseConstants.ERROR -> {
+                        status.setTextWithAnimation(getString(R.string.failed_to_activate_full_version))
                         TrialPreferences.setFullVersion(false)
-                        progress.error()
                     }
-                    2 -> {
-                        status.text = getString(R.string.failed_to_activate_full_version)
-                        TrialPreferences.setFullVersion(false)
-                        progress.error()
-                    }
-                    -1 -> {
+                    LicenseConstants.UNSPECIFIED -> {
                         status.text = getString(R.string.unspecified_failure)
                         TrialPreferences.setFullVersion(false)
-                        progress.error()
                     }
                 }
             }

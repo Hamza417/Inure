@@ -14,15 +14,17 @@
         android:elevation="@dimen/dialog_elevation"
         android:padding="@dimen/dialog_padding">
 
-        <app.simple.inure.decorations.views.LoaderImageView
+        <app.simple.inure.decorations.theme.ThemeIcon
             android:id="@+id/loader"
             android:layout_width="@dimen/button_size"
             android:layout_height="@dimen/button_size"
             android:padding="5dp"
+            android:src="@drawable/ic_main_app_icon_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:loaderStyle="rotary"
+            app:tintType="accent"
             tools:ignore="ContentDescription" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -30,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/dialog_padding"
+            android:layout_marginHorizontal="@dimen/popup_padding"
             android:layout_weight="1"
             android:text="@string/verifying_license"
             android:textSize="@dimen/info_text_medium"

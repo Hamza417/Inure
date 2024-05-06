@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.constants.IntentConstants
+import app.simple.inure.constants.LicenseConstants
 import app.simple.inure.preferences.TrialPreferences
 
 class LicenceVerificationReceiver : BroadcastReceiver() {
@@ -13,20 +14,20 @@ class LicenceVerificationReceiver : BroadcastReceiver() {
         if (intent?.action == IntentConstants.ACTION_VERIFICATION_RESPONSE) {
             Log.i(TAG, "Received license status: ${intent.getIntExtra(IntentConstants.EXTRA_LICENSE, -1)}")
             when (intent.getIntExtra(IntentConstants.EXTRA_LICENSE, -1)) {
-                0 -> {
+                LicenseConstants.LICENSED -> {
                     Log.i(TAG, "Licensed")
                     TrialPreferences.setFullVersion(true)
                     TrialPreferences.setLastVerificationDate(System.currentTimeMillis())
                 }
-                1 -> {
+                LicenseConstants.NOT_LICENSED -> {
                     Log.i(TAG, "Not Licensed")
                     TrialPreferences.setFullVersion(false)
                 }
-                2 -> {
+                LicenseConstants.ERROR -> {
                     Log.i(TAG, "Error")
                     TrialPreferences.setFullVersion(false)
                 }
-                -1 -> {
+                LicenseConstants.UNSPECIFIED -> {
                     Log.i(TAG, "Invalid status")
                     TrialPreferences.setFullVersion(false)
                 }
