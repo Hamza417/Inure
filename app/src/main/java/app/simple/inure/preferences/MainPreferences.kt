@@ -81,7 +81,6 @@ object MainPreferences {
     fun addLegacyPreferences() {
         getSharedPreferences().edit().putLong(FIRST_LAUNCH_DATE, TrialPreferences.getFirstLaunchDate()).apply()
         getSharedPreferences().edit().putBoolean(IS_APP_FULL_VERSION_ENABLED, TrialPreferences.isAppFullVersionEnabled()).apply()
-        getSharedPreferences().edit().putInt(UNLOCKER_WARNING_COUNT, TrialPreferences.getUnlockerWarningCount()).apply()
         TrialPreferences.setLegacyMigrated(value = false)
     }
 

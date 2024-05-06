@@ -10,7 +10,6 @@ object TrialPreferences {
 
     private const val FIRST_LAUNCH = "first_launch_"
     private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_"
-    private const val UNLOCKER_WARNING_COUNT = "unlocker_warning_count_"
     private const val IS_LEGACY_MIGRATED = "is_legacy_migrated_"
     private const val IS_UNLOCKER_VERIFICATION_REQUIRED = "is_unlocker_verification_required_"
     private const val LAST_VERIFICATION_DATE = "last_verification_date_"
@@ -36,20 +35,6 @@ object TrialPreferences {
         }.getOrElse {
             -1
         }
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    private fun setUnlockerWarningCount(value: Int) {
-        SharedPreferences.getEncryptedSharedPreferences().edit().putInt(UNLOCKER_WARNING_COUNT, value).apply()
-    }
-
-    fun getUnlockerWarningCount(): Int {
-        return SharedPreferences.getEncryptedSharedPreferences().getInt(UNLOCKER_WARNING_COUNT, 0)
-    }
-
-    fun incrementUnlockerWarningCount() {
-        setUnlockerWarningCount(getUnlockerWarningCount() + 1)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -80,18 +65,12 @@ object TrialPreferences {
 
     fun reset() {
         setFirstLaunchDate(-1)
-        setUnlockerWarningCount(0)
         setFullVersion(false)
-    }
-
-    fun resetUnlockerWarningCount() {
-        setUnlockerWarningCount(0)
     }
 
     fun migrateLegacy() {
         if (!isLegacyMigrated()) {
             setFirstLaunchDate(MainPreferences.getFirstLaunchDateLegacy())
-            setUnlockerWarningCount(MainPreferences.getUnlockerWarningCountLegacy())
             setFullVersion(MainPreferences.isFullVersionEnabledLegacy())
 
             setLegacyMigrated(true)

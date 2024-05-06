@@ -109,7 +109,6 @@ class MainActivity : BaseActivity() {
                         kotlin.runCatching {
                             if (TrialPreferences.setFullVersion(value = true)) {
                                 showWarning(R.string.full_version_activated, goBack = false)
-                                TrialPreferences.resetUnlockerWarningCount()
                             }
                         }.getOrElse {
                             it.printStackTrace()
@@ -124,7 +123,6 @@ class MainActivity : BaseActivity() {
         launcherViewModel.getWarning().observe(this@MainActivity) {
             showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
             TrialPreferences.setFullVersion(false)
-            TrialPreferences.resetUnlockerWarningCount()
         }
     }
 

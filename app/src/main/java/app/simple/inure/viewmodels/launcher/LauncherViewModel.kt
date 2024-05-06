@@ -1,11 +1,9 @@
 package app.simple.inure.viewmodels.launcher
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -45,9 +43,6 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
                 val file = packageInfo?.applicationInfo?.sourceDir?.toFile()
                 val certificates: Array<X509Certificate> = APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
                 val fingerPrint = computeFingerPrint(certificates[0].encoded)
-
-                Log.i(TAG, "Fingerprint: $fingerPrint")
-                shouldVerify.postValue(SHA1.contains(fingerPrint) || BuildConfig.DEBUG)
 
                 if (packageInfo.isNewerUnlocker()) {
                     if (SHA1.contains(fingerPrint)) { // Signature is valid
