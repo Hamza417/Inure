@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -50,12 +49,12 @@ public class LoaderImageView extends AppCompatImageView {
     
     public void loaded() {
         clearAnimation();
-        animateColor(Color.parseColor("#27ae60"));
+        animateColor(0xFF27AE60);
     }
     
     public void error() {
         clearAnimation();
-        animateColor(Color.parseColor("#a93226"));
+        animateColor(0xFFA93226);
     }
     
     public void reset() {

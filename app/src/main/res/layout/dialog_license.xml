@@ -33,13 +33,9 @@
             android:layout_marginStart="@dimen/dialog_padding"
             android:layout_weight="1"
             android:text="@string/verifying_license"
-            android:textSize="@dimen/info_text_large"
+            android:textSize="@dimen/info_text_medium"
             app:appFontStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/scan_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/loaderImageView"
-            app:layout_constraintTop_toTopOf="@+id/loaderImageView"
-            app:textColorStyle="primary" />
+            app:textColorStyle="secondary" />
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
