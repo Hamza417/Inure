@@ -1,4 +1,4 @@
-![Banner](assets/banner.png)
+![Banner](assets/images/banner.png)
 
 # Inure App Manager
 
@@ -211,14 +211,14 @@ license, see the [LICENSE](./LICENSE) file in the project root for the full lice
 
 ## Behind The Scenes
 
-|           ![01](./assets/01.jpg)           |
+|           ![01](assets/images/01.jpg)           |
 |:------------------------------------------:|
 | Designing of interface skeletons for Inure | 
 
-|        ![01](./assets/inure_music.png)        |
+|        ![01](assets/images/inure_music.png)        |
 |:---------------------------------------------:|
 | Audio Player interface design (later removed) |
 
-|     ![01](./assets/inure_batch.png)     |
+|     ![01](assets/images/inure_batch.png)     |
 |:---------------------------------------:|
 | Presentation design for Batch interface |

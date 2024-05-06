@@ -1,0 +1,26 @@
+{
+    "com.reddit.frontpage.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION": {
+        "label": "Dynamic receiver not exported",
+        "description": "Dynamic Receiver Not Exported Permission",
+        "protectionLevel": "signature|signatureOrSystem",
+        "group": "Unexported Components"
+    },
+    "com.sec.android.provider.badge.permission.READ": {
+        "label": "com.sec.android.provider.badge.permission.READ",
+        "description": "Allows an application to read to the Badges content provider.",
+        "protectionLevel": "signature",
+        "group": "Undefined"
+    },
+    "com.sec.android.provider.badge.permission.WRITE": {
+        "label": "com.sec.android.provider.badge.permission.WRITE",
+        "description": "Allows an application to write to the Badges content provider",
+        "protectionLevel": "signature",
+        "group": "Undefined"
+    },
+    "com.sonyericsson.home.permission.BROADCAST_BADGE": {
+        "label": "com.sonyericsson.home.permission.BROADCAST_BADGE",
+        "description": "",
+        "protectionLevel": "signature",
+        "group": "Undefined"
+    }
+}
