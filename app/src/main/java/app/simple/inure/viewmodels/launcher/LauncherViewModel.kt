@@ -1,8 +1,6 @@
 package app.simple.inure.viewmodels.launcher
 
 import android.app.Application
-import android.content.pm.PackageInfo
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +13,7 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.AppUtils
+import app.simple.inure.util.AppUtils.isNewerUnlocker
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import kotlinx.coroutines.Dispatchers
@@ -32,13 +31,7 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
     )
 
     private val shouldVerify: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>().also {
-            if (TrialPreferences.isUnlockerVerificationRequired()) {
-                if (packageManager.isPackageInstalled(AppUtils.UNLOCKER_PACKAGE_NAME)) {
-                    verifyCertificate()
-                }
-            }
-        }
+        MutableLiveData<Boolean>()
     }
 
     fun getShouldVerify(): LiveData<Boolean> {
@@ -72,15 +65,6 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
             }.getOrElse {
                 postWarning(Warnings.getUnableToVerifyUnlockerWarning())
             }
-        }
-    }
-
-    private fun PackageInfo.isNewerUnlocker(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            longVersionCode >= 13L
-        } else {
-            @Suppress("DEPRECATION")
-            versionCode >= 13
         }
     }
 

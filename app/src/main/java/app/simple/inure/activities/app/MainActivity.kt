@@ -58,6 +58,7 @@ import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.ActivityUtils.getTopFragment
 import app.simple.inure.util.AppUtils
+import app.simple.inure.util.AppUtils.isNewerUnlocker
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.launcher.LauncherViewModel
@@ -101,7 +102,20 @@ class MainActivity : BaseActivity() {
 
         launcherViewModel.getShouldVerify().observe(this@MainActivity) { it ->
             if (it) {
-                supportFragmentManager.showLicense()
+                if (applicationContext.isNewerUnlocker()) {
+                    supportFragmentManager.showLicense()
+                } else {
+                    if (TrialPreferences.isFullVersion().invert()) {
+                        kotlin.runCatching {
+                            if (TrialPreferences.setFullVersion(value = true)) {
+                                showWarning(R.string.full_version_activated, goBack = false)
+                                TrialPreferences.resetUnlockerWarningCount()
+                            }
+                        }.getOrElse {
+                            it.printStackTrace()
+                        }
+                    }
+                }
             } else {
                 Log.i("License", "Verification not required")
             }

@@ -1,7 +1,10 @@
 package app.simple.inure.util
 
+import android.content.Context
 import android.content.pm.PackageInfo
+import android.os.Build
 import app.simple.inure.BuildConfig
+import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 
 @Suppress("KotlinConstantConditions")
 object AppUtils {
@@ -42,5 +45,18 @@ object AppUtils {
      */
     fun PackageInfo.isUnlocker(): Boolean {
         return packageName == UNLOCKER_PACKAGE_NAME
+    }
+
+    fun PackageInfo.isNewerUnlocker(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            longVersionCode >= 13L
+        } else {
+            @Suppress("DEPRECATION")
+            versionCode >= 13
+        }
+    }
+
+    fun Context.isNewerUnlocker(): Boolean {
+        return packageManager.getPackageInfo(UNLOCKER_PACKAGE_NAME)?.isNewerUnlocker() ?: false
     }
 }
