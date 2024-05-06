@@ -17,14 +17,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
-import app.simple.inure.constants.IntentConstants
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReporter
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
+import app.simple.inure.dialogs.app.License.Companion.showLicense
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.preferences.AppearancePreferences
@@ -104,10 +103,14 @@ class MainActivity : BaseActivity() {
             if (it) {
                 if (TrialPreferences.isFullVersion().invert()) {
                     kotlin.runCatching {
-                        if (TrialPreferences.setFullVersion(value = true)) {
-                            showWarning(R.string.full_version_activated, goBack = false)
-                            TrialPreferences.resetUnlockerWarningCount()
-                        }
+                        supportFragmentManager.showLicense()
+
+                        //                        if (TrialPreferences.setFullVersion(value = true)) {
+                        //                            // showWarning(R.string.full_version_activated, goBack = false)
+                        //
+                        //                        }
+
+                        TrialPreferences.resetUnlockerWarningCount()
                     }.getOrElse {
                         it.printStackTrace()
                     }
@@ -229,41 +232,6 @@ class MainActivity : BaseActivity() {
             "open_device_info" -> {
                 openHome(isNewIntent)
                 openFragment(DeviceInfo.newInstance(), "device_info")
-            }
-
-            IntentConstants.ACTION_UNLOCK -> {
-                if (TrialPreferences.isUnlockerVerificationRequired()) {
-                    if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
-                        if (TrialPreferences.isFullVersion()) {
-                            showWarning(R.string.full_version_already_activated, goBack = false)
-
-                            supportFragmentManager.beginTransaction()
-                                .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                .commit()
-                        } else {
-                            if (TrialPreferences.setFullVersion(value = true)) {
-                                showWarning(R.string.full_version_activated, goBack = false)
-                                TrialPreferences.resetUnlockerWarningCount()
-
-                                supportFragmentManager.beginTransaction()
-                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                    .commit()
-                            } else {
-                                showWarning(R.string.failed_to_activate_full_version, goBack = false)
-
-                                supportFragmentManager.beginTransaction()
-                                    .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                                    .commit()
-                            }
-                        }
-                    } else {
-                        showWarning(Warnings.gtUnknownAppStateWarning(), goBack = false)
-
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
-                            .commit()
-                    }
-                }
             }
 
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {

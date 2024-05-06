@@ -852,6 +852,15 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".receivers.LicenceVerificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="app.simple.inureunlocker.action.LICENCE_VERIFICATION_RESPONSE" />
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
             android:authorities="${applicationId}.shizuku"

@@ -533,7 +533,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                                 ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
                             }.onSuccess {
                                 debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
-                            }.getOrElse { e ->
+                            }.getOrElse {
                                 debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                             }
                         }

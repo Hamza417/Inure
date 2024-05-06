@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.BuildConfig
 import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -31,7 +32,7 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
     private val hasValidCertificate: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().also {
             if (TrialPreferences.isUnlockerVerificationRequired()) {
-                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                if (packageManager.isPackageInstalled(AppUtils.UNLOCKER_PACKAGE_NAME)) {
                     verifyCertificate()
                 }
             }
@@ -45,14 +46,13 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
     private fun verifyCertificate() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                val packageInfo = packageManager.getPackageInfo(AppUtils.unlockerPackageName)
+                val packageInfo = packageManager.getPackageInfo(AppUtils.UNLOCKER_PACKAGE_NAME)
                 val file = packageInfo?.applicationInfo?.sourceDir?.toFile()
                 val certificates: Array<X509Certificate> = APKCertificateUtils(file, packageInfo!!.packageName, applicationContext()).x509Certificates
                 val fingerPrint = computeFingerPrint(certificates[0].encoded)
 
-                Log.d("LauncherViewModel", "FingerPrint SHA1: $fingerPrint")
-
-                hasValidCertificate.postValue(SHA1.contains(fingerPrint))
+                Log.i(TAG, "Fingerprint: $fingerPrint")
+                hasValidCertificate.postValue(SHA1.contains(fingerPrint) || BuildConfig.DEBUG)
             }.getOrElse {
                 postWarning(Warnings.getUnableToVerifyUnlockerWarning())
             }
@@ -84,12 +84,16 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
     fun initCheck() {
         viewModelScope.launch(Dispatchers.Default) {
             if (TrialPreferences.isFullVersion().invert()) {
-                if (packageManager.isPackageInstalled(AppUtils.unlockerPackageName)) {
+                if (packageManager.isPackageInstalled(AppUtils.UNLOCKER_PACKAGE_NAME)) {
                     if (TrialPreferences.isUnlockerVerificationRequired()) {
                         verifyCertificate()
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "LauncherViewModel"
     }
 }

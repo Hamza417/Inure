@@ -428,7 +428,7 @@ class SplashScreen : ScopedFragment() {
                 Log.d(TAG, "Licence key mode")
                 daysLeft.gone()
             } else {
-                if (requirePackageManager().isPackageInstalled(AppUtils.unlockerPackageName)) {
+                if (requirePackageManager().isPackageInstalled(AppUtils.UNLOCKER_PACKAGE_NAME)) {
                     daysLeft.gone()
                 } else {
                     if (TrialPreferences.getUnlockerWarningCount() < 3) {

@@ -87,7 +87,7 @@ class Purchase : ScopedBottomSheetFragment() {
 
         playStore.setOnClickListener {
             // Open in Play Store
-            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.unlockerPackageName)
+            MarketUtils.openAppOnPlayStore(requireContext(), AppUtils.UNLOCKER_PACKAGE_NAME)
         }
 
         close.setOnClickListener {

@@ -6,7 +6,8 @@ import app.simple.inure.BuildConfig
 @Suppress("KotlinConstantConditions")
 object AppUtils {
 
-    const val unlockerPackageName = "app.simple.inureunlocker"
+    const val UNLOCKER_PACKAGE_NAME = "app.simple.inureunlocker"
+    const val RECEIVER_PACKAGE_NAME = "$UNLOCKER_PACKAGE_NAME.receivers.LicenceVerificationReceiver"
 
     /**
      * Returns true if the flavor is play store
@@ -40,6 +41,6 @@ object AppUtils {
      * Returns true if the package name is the unlocker package name
      */
     fun PackageInfo.isUnlocker(): Boolean {
-        return packageName == unlockerPackageName
+        return packageName == UNLOCKER_PACKAGE_NAME
     }
 }
