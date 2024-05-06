@@ -99,27 +99,18 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        launcherViewModel.getHasValidCertificate().observe(this@MainActivity) { it ->
+        launcherViewModel.getShouldVerify().observe(this@MainActivity) { it ->
             if (it) {
-                if (TrialPreferences.isFullVersion().invert()) {
-                    kotlin.runCatching {
-                        supportFragmentManager.showLicense()
-
-                        //                        if (TrialPreferences.setFullVersion(value = true)) {
-                        //                            // showWarning(R.string.full_version_activated, goBack = false)
-                        //
-                        //                        }
-
-                        TrialPreferences.resetUnlockerWarningCount()
-                    }.getOrElse {
-                        it.printStackTrace()
-                    }
-                }
+                supportFragmentManager.showLicense()
             } else {
-                showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
-                TrialPreferences.setFullVersion(false)
-                TrialPreferences.resetUnlockerWarningCount()
+                Log.i("License", "Verification not required")
             }
+        }
+
+        launcherViewModel.getWarning().observe(this@MainActivity) {
+            showWarning(Warnings.getInvalidUnlockerWarning(), goBack = false)
+            TrialPreferences.setFullVersion(false)
+            TrialPreferences.resetUnlockerWarningCount()
         }
     }
 
@@ -334,7 +325,7 @@ class MainActivity : BaseActivity() {
                 recreate() // update the language in context wrapper
             }
 
-            TrialPreferences.hasLicenseKey -> {
+            TrialPreferences.HAS_LICENSE_KEY -> {
                 if (TrialPreferences.isFullVersion()) {
                     if (TrialPreferences.isUnlockerVerificationRequired().invert()) {
                         showWarning(R.string.full_version_activated, goBack = false)

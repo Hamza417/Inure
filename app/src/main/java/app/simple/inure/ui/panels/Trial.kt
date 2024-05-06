@@ -57,7 +57,7 @@ class Trial : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            TrialPreferences.hasLicenseKey -> {
+            TrialPreferences.HAS_LICENSE_KEY -> {
                 if (TrialPreferences.isFullVersion()) {
                     requireActivity().runOnUiThread {
                         validTill.text = getString(R.string.full_version_activated)

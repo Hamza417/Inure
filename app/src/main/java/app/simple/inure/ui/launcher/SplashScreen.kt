@@ -395,7 +395,7 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun unlockStateChecker() {
-        launcherViewModel.getHasValidCertificate().observe(viewLifecycleOwner) { it ->
+        launcherViewModel.getShouldVerify().observe(viewLifecycleOwner) { it ->
             if (it) {
                 if (TrialPreferences.isFullVersion().invert()) {
                     kotlin.runCatching {

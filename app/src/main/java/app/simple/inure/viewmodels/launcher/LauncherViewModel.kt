@@ -1,6 +1,8 @@
 package app.simple.inure.viewmodels.launcher
 
 import android.app.Application
+import android.content.pm.PackageInfo
+import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +31,7 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
             "8592E01F4AC28B2CA1E423573773D71A1EC82849"
     )
 
-    private val hasValidCertificate: MutableLiveData<Boolean> by lazy {
+    private val shouldVerify: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>().also {
             if (TrialPreferences.isUnlockerVerificationRequired()) {
                 if (packageManager.isPackageInstalled(AppUtils.UNLOCKER_PACKAGE_NAME)) {
@@ -39,8 +41,8 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
         }
     }
 
-    fun getHasValidCertificate(): LiveData<Boolean> {
-        return hasValidCertificate
+    fun getShouldVerify(): LiveData<Boolean> {
+        return shouldVerify
     }
 
     private fun verifyCertificate() {
@@ -52,10 +54,33 @@ class LauncherViewModel(application: Application) : WrappedViewModel(application
                 val fingerPrint = computeFingerPrint(certificates[0].encoded)
 
                 Log.i(TAG, "Fingerprint: $fingerPrint")
-                hasValidCertificate.postValue(SHA1.contains(fingerPrint) || BuildConfig.DEBUG)
+                shouldVerify.postValue(SHA1.contains(fingerPrint) || BuildConfig.DEBUG)
+
+                if (packageInfo.isNewerUnlocker()) {
+                    if (SHA1.contains(fingerPrint)) { // Signature is valid
+                        if (TrialPreferences.getLastVerificationDate() == -1L || TrialPreferences.getLastVerificationDate() < packageInfo.firstInstallTime) {
+                            shouldVerify.postValue(true)
+                        } else {
+                            shouldVerify.postValue(false)
+                        }
+                    } else {
+                        postWarning(Warnings.getUnableToVerifyUnlockerWarning())
+                    }
+                } else {
+                    shouldVerify.postValue(SHA1.contains(fingerPrint))
+                }
             }.getOrElse {
                 postWarning(Warnings.getUnableToVerifyUnlockerWarning())
             }
+        }
+    }
+
+    private fun PackageInfo.isNewerUnlocker(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            longVersionCode >= 13L
+        } else {
+            @Suppress("DEPRECATION")
+            versionCode >= 13
         }
     }
 

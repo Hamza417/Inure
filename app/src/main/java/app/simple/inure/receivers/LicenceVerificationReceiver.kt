@@ -16,6 +16,7 @@ class LicenceVerificationReceiver : BroadcastReceiver() {
                 0 -> {
                     Log.i(TAG, "Licensed")
                     TrialPreferences.setFullVersion(true)
+                    TrialPreferences.setLastVerificationDate(System.currentTimeMillis())
                 }
                 1 -> {
                     Log.i(TAG, "Not Licensed")
