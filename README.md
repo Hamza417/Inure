@@ -151,7 +151,9 @@ of UX and UI without overloading the user with a lot of options.
 
 If you've any questions or suggestions for design, please initiate a discussion or an issue.
 
-## Include your app in Inure's FOSS panel
+## Contribute
+
+#### Include your app in Inure's FOSS panel
 
 If you are a developer and want your app to be listed in the FOSS panel of Inure and show a
 FOSS indicator alongside your app, there are two ways this can be done.
@@ -179,11 +181,9 @@ FOSS indicator alongside your app, there are two ways this can be done.
 </application>
 ```
 
-## Participate in Community Permission Descriptions
+#### Participate in Community Permission Descriptions
 Community permissions descriptions of some OEM or Developer defined permissions for native framework or system apps whose details Android doesn't or cannot provide.
-You can read the complete [guidelines here](https://github.com/Hamza417/Inure/blob/master/community/permissions/community_permissions_guide.md) o how to contribute.
-
-## Contribute
+You can read the complete [guidelines here](https://github.com/Hamza417/Inure/blob/master/community/permissions/community_permissions_guide.md) on how to contribute.
 
 #### Developers
 
