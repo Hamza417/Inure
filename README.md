@@ -179,6 +179,10 @@ FOSS indicator alongside your app, there are two ways this can be done.
 </application>
 ```
 
+## Participate in Community Permission Descriptions
+Community permissions descriptions of some OEM or Developer defined permissions for native framework or system apps whose details Android doesn't or cannot provide.
+You can read the complete [guidelines here](https://github.com/Hamza417/Inure/blob/master/community/permissions/community_permissions_guide.md) o how to contribute.
+
 ## Contribute
 
 #### Developers
