@@ -450,5 +450,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Installer"
     }
 }

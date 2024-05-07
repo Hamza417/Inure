@@ -95,7 +95,7 @@ class APKs : ScopedFragment() {
                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                     requireArguments().putInt(BundleConstants.position, position)
                     // icon.transitionName = adapterApks.paths[position].absolutePath
-                    openFragmentArc(Installer.newInstance(uri), icon, "installer")
+                    openFragmentArc(Installer.newInstance(uri), icon, Installer.TAG)
                 }
 
                 override fun onApkLongClicked(view: View, position: Int, icon: ImageView) {
@@ -110,7 +110,7 @@ class APKs : ScopedFragment() {
                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                             requireArguments().putInt(BundleConstants.position, position)
                             // icon.transitionName = adapterApks.paths[position].absolutePath
-                            openFragmentArc(Installer.newInstance(uri), icon, "installer")
+                            openFragmentArc(Installer.newInstance(uri), icon, Installer.TAG)
                         }
 
                         override fun onDeleteClicked() {
