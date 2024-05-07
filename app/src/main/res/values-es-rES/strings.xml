@@ -750,4 +750,6 @@
     <string name="auto_tag">Auto etiqueta</string>
     <string name="create_tags">Crear etiquetas</string>
     <string name="auto_tag_desc">Crea automáticamente etiquetas para las aplicaciones según la información disponible.</string>
+    <string name="no_cache_found">Caché no encontrado</string>
+    <string name="no_operations_found">No se encontraron operaciones</string>
 </resources>
