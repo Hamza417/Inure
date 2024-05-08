@@ -2,7 +2,6 @@ package app.simple.inure.preferences
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
@@ -42,7 +41,7 @@ object AppearancePreferences {
     @ColorInt
     fun getAccentColor(): Int {
         // Possibly solve the no color issue?
-        return getSharedPreferences().getInt(ACCENT_COLOR, Color.parseColor("#ff8c68"))
+        return getSharedPreferences().getInt(ACCENT_COLOR, 0xFFFF8C68.toInt())
     }
 
     fun getAccentColorStateList(): ColorStateList {

@@ -91,6 +91,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/foss" />
 
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/tracker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trackers" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <LinearLayout

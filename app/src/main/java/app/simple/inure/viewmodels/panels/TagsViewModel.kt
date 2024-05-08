@@ -16,9 +16,13 @@ import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
+import app.simple.inure.models.Tracker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.util.TrackerUtils
+import app.simple.inure.util.TrackerUtils.getComponentsPackageInfo
+import app.simple.inure.util.TrackerUtils.hasTrackers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -209,6 +213,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             val database = TagsDatabase.getInstance(application.applicationContext)
             val tags = database?.getTagDao()?.getTagsNameOnly()
             val apps = getInstalledApps() + getUninstalledApps()
+            val trackersData = TrackerUtils.getTrackersData()
 
             val flags = longArrayOf(
                     AutoTag.GAME,
@@ -220,12 +225,13 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
                     AutoTag.MAPS,
                     AutoTag.PRODUCTIVITY,
                     AutoTag.XPOSED_MODULE,
-                    AutoTag.FOSS)
+                    AutoTag.FOSS,
+                    AutoTag.TRACKER)
 
             flags.forEach { flag ->
                 if (FlagUtils.isFlagSet(storedFlags, flag)) {
                     val tag = getTagFromFlag(flag)
-                    val filtered = apps.filter { it.doesAppHasFlag(flag) }
+                    val filtered = apps.filter { it.doesAppHasFlag(flag, trackersData) }
 
                     if (filtered.isNotEmpty()) {
                         if (tags.isNullOrEmpty().invert()) {
@@ -259,7 +265,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun PackageInfo.doesAppHasFlag(flag: Long): Boolean {
+    private fun PackageInfo.doesAppHasFlag(flag: Long, trackersData: ArrayList<Tracker>): Boolean {
         return when (flag) {
             AutoTag.GAME -> {
                 applicationInfo.category == ApplicationInfo.CATEGORY_GAME
@@ -298,6 +304,9 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             AutoTag.FOSS -> {
                 FOSSParser.isPackageFOSS(this)
             }
+            AutoTag.TRACKER -> {
+                getComponentsPackageInfo(applicationContext()).hasTrackers(trackersData)
+            }
             else -> false
         }
     }
@@ -315,6 +324,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
             FlagUtils.isFlagSet(flags, AutoTag.ACCESSIBILITY) -> getString(R.string.accessibility)
             FlagUtils.isFlagSet(flags, AutoTag.XPOSED_MODULE) -> "Xposed_Module"
             FlagUtils.isFlagSet(flags, AutoTag.FOSS) -> getString(R.string.foss)
+            FlagUtils.isFlagSet(flags, AutoTag.TRACKER) -> getString(R.string.trackers)
             else -> ""
         }
     }

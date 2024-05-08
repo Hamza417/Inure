@@ -354,7 +354,7 @@
             android:exported="true"
             android:label="@string/installer"
             android:theme="@style/Inure.Transparent"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

@@ -107,6 +107,20 @@ class AutoTag : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(storedTags, FOSS)
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                storedTags = if (ids.contains(R.id.accessibility)) {
+                    FlagUtils.setFlag(storedTags, ACCESSIBILITY)
+                } else {
+                    FlagUtils.unsetFlag(storedTags, ACCESSIBILITY)
+                }
+            }
+
+            storedTags = if (ids.contains(R.id.tracker)) {
+                FlagUtils.setFlag(storedTags, TRACKER)
+            } else {
+                FlagUtils.unsetFlag(storedTags, TRACKER)
+            }
+
             when {
                 storedTags != 0L -> {
                     create.visible()
@@ -135,6 +149,7 @@ class AutoTag : ScopedBottomSheetFragment() {
                 tagsChipGroup.check(R.id.productivity)
                 tagsChipGroup.check(R.id.xposed_module)
                 tagsChipGroup.check(R.id.foss)
+                tagsChipGroup.check(R.id.tracker)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     tagsChipGroup.check(R.id.accessibility)
@@ -180,5 +195,6 @@ class AutoTag : ScopedBottomSheetFragment() {
         const val ACCESSIBILITY = 1L shl 10
         const val XPOSED_MODULE = 1L shl 11
         const val FOSS = 1L shl 12
+        const val TRACKER = 1L shl 13
     }
 }

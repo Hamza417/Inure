@@ -2,6 +2,8 @@ package app.simple.inure.util
 
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
@@ -244,6 +246,70 @@ object TrackerUtils {
         }
 
         return trackersList
+    }
+
+    fun PackageInfo.hasTrackers(trackersData: ArrayList<Tracker>): Boolean {
+        val activities = activities ?: null
+        val services = services ?: null
+        val receivers = receivers ?: null
+
+        if (activities != null) {
+            for (activity in activities) {
+                for (tracker in trackersData) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (activity.name.contains(it)) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+
+        if (services != null) {
+            for (service in services) {
+                for (tracker in trackersData) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (service.name.contains(it)) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+
+        if (receivers != null) {
+            for (receiver in receivers) {
+                for (tracker in trackersData) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (receiver.name.contains(it)) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+
+        return false
+    }
+
+    fun PackageInfo.getComponentsPackageInfo(context: Context): PackageInfo {
+        val packageManager = context.packageManager
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.MATCH_DISABLED_COMPONENTS or
+                    PackageManager.MATCH_UNINSTALLED_PACKAGES
+        } else {
+            @Suppress("DEPRECATION")
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_DISABLED_COMPONENTS or
+                    PackageManager.GET_UNINSTALLED_PACKAGES
+        }
+
+        return packageManager.getPackageInfo(packageName, flags)
     }
 
     fun readIntentFirewallXml(fileSystemManager: FileSystemManager, trackersList: ArrayList<Tracker>, path: String) {
