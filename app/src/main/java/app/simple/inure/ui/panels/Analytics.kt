@@ -245,7 +245,7 @@ class Analytics : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            AnalyticsPreferences.sdkValue -> {
+            AnalyticsPreferences.SDK_VALUE -> {
                 analyticsViewModel.refreshPackageData()
             }
         }

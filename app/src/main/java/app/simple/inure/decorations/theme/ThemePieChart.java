@@ -106,7 +106,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         //noinspection SwitchStatementWithTooFewBranches
         switch (key) {
-            case AnalyticsPreferences.pieHoleRadius -> {
+            case AnalyticsPreferences.PIE_HOLE_RADIUS -> {
                 animateHoleRadius(AnalyticsPreferences.INSTANCE.getPieHoleRadiusValue());
             }
         }

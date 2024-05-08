@@ -58,7 +58,7 @@ class AnalyticsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AnalyticsPreferences.sdkValue -> {
+            AnalyticsPreferences.SDK_VALUE -> {
                 setSdkValue()
             }
         }

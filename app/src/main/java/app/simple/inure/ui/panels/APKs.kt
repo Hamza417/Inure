@@ -322,21 +322,21 @@ class APKs : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ApkBrowserPreferences.loadSplitIcon -> {
+            ApkBrowserPreferences.LOAD_SPLIT_ICON -> {
                 adapterApks.loadSplitIcon()
             }
 
-            ApkBrowserPreferences.apkFilter -> {
+            ApkBrowserPreferences.APK_FILTER -> {
                 apkBrowserViewModel.filter()
             }
 
-            ApkBrowserPreferences.reversed,
-            ApkBrowserPreferences.sortStyle,
+            ApkBrowserPreferences.REVERSED,
+            ApkBrowserPreferences.SORT_STYLE,
             -> {
                 apkBrowserViewModel.sort()
             }
 
-            ApkBrowserPreferences.externalStorage -> {
+            ApkBrowserPreferences.EXTERNAL_STORAGE -> {
                 apkBrowserViewModel.refresh()
                 apkScanner = childFragmentManager.showApkScanner()
             }

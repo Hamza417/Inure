@@ -2,27 +2,27 @@ package app.simple.inure.preferences
 
 object AnalyticsPreferences {
 
-    const val sdkValue = "analytics_sdk_value"
-    const val pieHoleRadius = "pie_hole_radius"
+    const val SDK_VALUE = "analytics_sdk_value"
+    const val PIE_HOLE_RADIUS = "pie_hole_radius"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSDKValue(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(sdkValue, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(SDK_VALUE, value).apply()
     }
 
     fun getSDKValue(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(sdkValue, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(SDK_VALUE, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setPieHoleRadiusValue(value: Float) {
-        SharedPreferences.getSharedPreferences().edit().putFloat(pieHoleRadius, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putFloat(PIE_HOLE_RADIUS, value).apply()
     }
 
     fun getPieHoleRadiusValue(): Float {
-        return SharedPreferences.getSharedPreferences().getFloat(pieHoleRadius, 50F)
+        return SharedPreferences.getSharedPreferences().getFloat(PIE_HOLE_RADIUS, 50F)
     }
 
 }

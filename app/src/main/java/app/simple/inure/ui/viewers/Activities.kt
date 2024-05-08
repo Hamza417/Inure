@@ -134,7 +134,7 @@ class Activities : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ActivitiesPreferences.activitySearch -> {
+            ActivitiesPreferences.ACTIVITY_SEARCH -> {
                 searchBoxState(true, ActivitiesPreferences.isSearchVisible())
             }
         }

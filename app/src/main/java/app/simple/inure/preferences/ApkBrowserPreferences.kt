@@ -6,70 +6,71 @@ import app.simple.inure.util.SortApks
 
 object ApkBrowserPreferences {
 
-    const val loadSplitIcon = "load_split_icon"
-    const val sortStyle = "apk_sort_style"
-    const val reversed = "apk_sort_reversed"
-    const val apkFilter = "apk_filter"
-    const val searchKeyword = "apk_search_keyword"
-    const val externalStorage = "apk_external_storage"
+    const val LOAD_SPLIT_ICON = "load_split_icon"
+    const val SORT_STYLE = "apk_sort_style"
+    const val REVERSED = "apk_sort_reversed"
+    const val APK_FILTER = "apk_filter"
+    const val EXTERNAL_STORAGE = "apk_external_storage"
+
+    private const val SEARCH_KEYWORD = "apk_search_keyword"
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun isLoadSplitIcon(): Boolean {
-        return getSharedPreferences().getBoolean(loadSplitIcon, false)
+        return getSharedPreferences().getBoolean(LOAD_SPLIT_ICON, false)
     }
 
     fun setLoadSplitIcon(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(loadSplitIcon, value).apply()
+        getSharedPreferences().edit().putBoolean(LOAD_SPLIT_ICON, value).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun getSortStyle(): String {
-        return getSharedPreferences().getString(sortStyle, SortApks.NAME)!!
+        return getSharedPreferences().getString(SORT_STYLE, SortApks.NAME)!!
     }
 
     fun setSortStyle(category: String) {
-        getSharedPreferences().edit().putString(sortStyle, category).apply()
+        getSharedPreferences().edit().putString(SORT_STYLE, category).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun isReverseSorting(): Boolean {
-        return getSharedPreferences().getBoolean(reversed, false)
+        return getSharedPreferences().getBoolean(REVERSED, false)
     }
 
     fun setReverseSorting(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(reversed, value).apply()
+        getSharedPreferences().edit().putBoolean(REVERSED, value).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun getSearchKeyword(): String {
-        return getSharedPreferences().getString(searchKeyword, "")!!
+        return getSharedPreferences().getString(SEARCH_KEYWORD, "")!!
     }
 
     fun setSearchKeyword(keyword: String) {
-        getSharedPreferences().edit().putString(searchKeyword, keyword).apply()
+        getSharedPreferences().edit().putString(SEARCH_KEYWORD, keyword).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun getApkFilter(): Int {
-        return getSharedPreferences().getInt(apkFilter, SortConstant.ALL_APKS)
+        return getSharedPreferences().getInt(APK_FILTER, SortConstant.ALL_APKS)
     }
 
     fun setApkFilter(filter: Int) {
-        getSharedPreferences().edit().putInt(apkFilter, filter).apply()
+        getSharedPreferences().edit().putInt(APK_FILTER, filter).apply()
     }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
     fun isExternalStorage(): Boolean {
-        return getSharedPreferences().getBoolean(externalStorage, false)
+        return getSharedPreferences().getBoolean(EXTERNAL_STORAGE, false)
     }
 
     fun setExternalStorage(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(externalStorage, value).apply()
+        getSharedPreferences().edit().putBoolean(EXTERNAL_STORAGE, value).apply()
     }
 }
