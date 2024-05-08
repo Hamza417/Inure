@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">नई विंडो</string>
+    <string name="close_window">विंडो बंद करें</string>
+    <string name="window_list">विंडो</string>
+    <string name="prev_window">पहले का विंडो</string>
+    <string name="next_window">अगला विंडो</string>
+    <string name="special_keys">विशेष की</string>
+    <string name="toggle_soft_keyboard">सॉफ्ट कीबोर्ड टॉगल करें</string>
+    <string name="reset_toast_notification">इस विंडो की टर्मिनल स्थिति रीसेट कर दी गई है।</string>
+    <string name="enable_wakelock">वेकलॉक लें</string>
+    <string name="disable_wakelock">वेकलॉक ड्रॉप करें</string>
+    <string name="enable_wifilock">WifiLock ले</string>
+    <string name="disable_wifilock">वेकलॉक ड्रॉप करें</string>
+    <string name="select_text">लेख को चुनें</string>
+    <string name="copy_all">सभी को कॉपी करें</string>
+    <string name="paste">पेस्ट करें</string>
+    <string name="send_control_key">नियंत्रण key भेजें</string>
+    <string name="send_fn_key">Fn key भेजें</string>
+    <string name="window_title">विंडो %1$d</string>
+    <string name="service_notify_text">टर्मिनल सत्र चल रहा है</string>
+    <string name="process_exit_message">टर्मिनल सत्र समाप्त हुआ</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">स्क्रीन</string>
+    <string name="title_cursorblink_preference">कर्सर ब्लिंक</string>
+    <string name="summary_cursorblink_preference">टर्मिनल विंडो में कर्सर को समय-समय पर झपकाते रहें।</string>
+    <string name="text_preferences">टेक्स्ट</string>
+    <string name="title_utf8_by_default_preference">UTF-8 पर डिफ़ॉल्ट</string>
+    <string name="summary_utf8_by_default_preference">क्या UTF-8 मोड डिफ़ॉल्ट रूप से सक्षम है।</string>
+    <string name="title_fontsize_preference">फ़ॉन्ट आकार</string>
+    <string name="summary_fontsize_preference">अंकों में वर्ण ऊंचाई चुनें.</string>
+    <string name="dialog_title_fontsize_preference">फॉन्ट साइज</string>
+    <string name="title_color_preference">रंग</string>
+    <string name="summary_color_preference">टेक्स्ट का रंग चुनें.</string>
+    <string name="dialog_title_color_preference">टेक्स्ट का रंग</string>
+    <string name="keyboard_preferences">कीबोर्ड</string>
+    <string name="title_backaction_preference">बैक बटन व्यवहार</string>
+    <string name="summary_backaction_preference">चुनें कि पिछला बटन दबाने से क्या होता है।</string>
+    <string name="title_controlkey_preference">नियंत्रण key</string>
+    <string name="summary_controlkey_preference">नियंत्रण key चुनें.</string>
+    <string name="title_fnkey_preference">Fn key</string>
+    <string name="summary_fnkey_preference">Fn key चुनें.</string>
+    <string name="title_ime_preference">इनपुट विधि</string>
+    <string name="summary_ime_preference">सॉफ्ट कीबोर्ड के लिए इनपुट विधि चुनें।</string>
+    <string name="title_shell_preference">कमांड लाइन</string>
+    <string name="summary_shell_preference">शेल कमांड लाइन निर्दिष्ट करें.</string>
+    <string name="title_initialcommand_preference">प्रारंभिक आदेश</string>
+    <string name="summary_initialcommand_preference">प्रारंभ होने पर शेल में भेजा जाता है.</string>
+    <string name="title_termtype_preference">टर्मिनल प्रकार</string>
+    <string name="summary_termtype_preference">शेल को किस टर्मिनल प्रकार की रिपोर्ट करनी है.</string>
+    <string name="title_close_window_on_process_exit_preference">बाहर निकलने पर विंडो बंद करें</string>
+    <string name="summary_close_window_on_process_exit_preference">क्या किसी विंडो का शेल बाहर निकलने पर उसे बंद कर देना चाहिए।</string>
+    <string name="title_verify_path_preference">पथ प्रविष्टियाँ सत्यापित करें</string>
+    <string name="summary_verify_path_preference">क्या दुर्गम निर्देशिकाओं को PATH से हटा दिया जाना चाहिए।</string>
+    <string name="title_do_path_extensions_preference">PATH एक्सटेंशन की अनुमति दें</string>
+    <string name="summary_do_path_extensions_preference">PATH एक्सटेंशन की अनुमति दें, क्या अन्य ऐप्स को अतिरिक्त कमांड प्रदान करने की अनुमति दी जानी चाहिए (PATH में जोड़ें)।</string>
+    <string name="title_allow_prepend_path_preference">PATH को प्रीपेन्ड करने की अनुमति दें</string>
+    <string name="summary_allow_prepend_path_preference">PATH एक्सटेंशन की अनुमति दें, क्या अन्य ऐप्स को अतिरिक्त कमांड प्रदान करने की अनुमति दी जानी चाहिए (PATH में जोड़ें)।</string>
+    <string name="title_home_path_preference">होम फ़ोल्डर</string>
+    <string name="summary_home_path_preference">होम के रूप में उपयोग किए जाने वाले लिखने योग्य फ़ोल्डर का पथ।</string>
+    <string name="control_key_dialog_title">नियंत्रण और फ़ंक्शन keys</string>
+    <string name="control_key_dialog_control_disabled_text">कोई नियंत्रण key सेट नहीं.</string>
+    <string name="control_key_dialog_fn_disabled_text">कोई फ़ंक्शन key सेट नहीं.</string>
+    <string name="confirm_window_close_message">इस विंडो को बंद करे</string>
+    <string name="perm_run_script">टर्मिनल एमुलेटर में मनमाना आदेश चलाएँ</string>
+    <string name="permdesc_run_script">एप्लिकेशन को एंड्रॉइड के लिए टर्मिनल एमुलेटर में नई विंडो खोलने और इंटरनेट और आपके एसडी कार्ड तक पहुंच सहित टर्मिनल एमुलेटर की सभी अनुमतियों के साथ उन विंडो में कमांड चलाने की अनुमति देता है।</string>
+    <string name="perm_append_to_path">टर्मिनल एमुलेटर में कमांड डाले</string>
+    <string name="permdesc_append_to_path">एप्लिकेशन को टर्मिनल एमुलेटर के लिए अतिरिक्त कमांड (PATH में निर्देशिकाएँ जोड़ें) प्रदान करने की अनुमति देता है</string>
+    <string name="perm_prepend_to_path">टर्मिनल एमुलेटर में कमांड को ओवरराइड करें</string>
+    <string name="permdesc_prepend_to_path">एप्लिकेशन को टर्मिनल एमुलेटर में अपने स्वयं के संस्करणों (PATH में निर्देशिकाओं को प्रीपेन्ड करें) के साथ मौजूदा कमांड को ओवरराइड करने की अनुमति देता है।</string>
+    <string name="email_transcript_chooser_title">मेल ट्रांसक्रीपट का उपयोग कर</string>
+    <string name="email_transcript_no_email_activity_found">ट्रांसक्रीपैट भेजने के लिए कोई ईमेल गतिविधि नहीं चुन सका</string>
+    <string name="alt_sends_esc">Alt key ESC भेजती है</string>
+    <string name="title_mouse_tracking_preference">माउस इवेंट भेजें</string>
+    <string name="summary_mouse_tracking_preference">क्या टैप और स्क्रॉल इवेंट को टर्मिनल पर एस्केप अनुक्रम के रूप में भेजा जाना चाहिए।</string>
+    <string name="title_use_rish">RISH प्रयोग करें</string>
+    <string name="summary_use_rish">क्या शिज़ुकु RISH (रिमोट इंटरएक्टिव शेल होस्ट) का उपयोग करना है. \n\nशिज़ुकु पहुंच आवश्यक है।</string>
+    <string name="title_use_keyboard_shortcuts">कीबोर्ड शॉर्टकट का उपयोग करें</string>
+    <string name="use_keyboard_shortcuts_summary_on">Ctrl-टैब: विंडोज़ के माध्यम से चक्र\nCtrl-Shift-N: नई विंडो\nCtrl-Shift-V: चिपकाएँ</string>
+    <string name="help">सहायता</string>
+    <string name="activity_term_here_title">यहाँ टर्म</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">टर्म शॉर्टकट</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">आदेश</string>
+    <string name="addshortcut_button_find_command">आदेश खोजें</string>
+    <string name="addshortcut_navigator_title">शॉर्टकट प्रकार चुनें</string>
+    <string name="addshortcut_command_window_instructions">कमांड विंडो को पूर्ण पथ की आवश्यकता है, कोई तर्क नहीं। अन्य कमांड के लिए आर्गुमेंट विंडो (उदा: cd/sdcard) का उपयोग करें।</string>
+    <string name="addshortcut_arguments_label">आर्ग्युमेन्ट्स</string>
+    <string name="addshortcut_shortcut_label">शॉर्टकट लेबल</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">लॉक</string>
+    <string name="colorvalue_icon_text_entry_hint">आइकन टेक्स्ट दर्ज करें</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
