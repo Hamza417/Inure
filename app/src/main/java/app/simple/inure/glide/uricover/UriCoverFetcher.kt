@@ -1,6 +1,5 @@
 package app.simple.inure.glide.uricover
 
-import app.simple.inure.glide.util.GlideUtils.getGeneratedAppIconStream
 import app.simple.inure.preferences.AppearancePreferences
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -18,9 +17,12 @@ class UriCoverFetcher internal constructor(private val uriCoverModel: UriCoverMo
             uriCoverModel.context.contentResolver.openInputStream(uriCoverModel.artUri).use {
                 callback.onDataReady(it)
             }
-        } catch (_: IllegalArgumentException) {
+        } catch (e: IllegalArgumentException) {
+            callback.onLoadFailed(e)
         } catch (e: FileNotFoundException) {
-            callback.onDataReady(uriCoverModel.context.getGeneratedAppIconStream())
+            callback.onLoadFailed(e)
+        } catch (e: Exception) {
+            callback.onLoadFailed(e)
         }
     }
 

@@ -127,6 +127,21 @@ object AudioCoverUtil {
                            .setElevation(25F)
                            .setBlurRadius(BlurShadow.DEFAULT_SHADOW_SIZE))
             .load(UriCoverModel(this.context, uri))
+            .addListener(object : RequestListener<Bitmap> {
+                override fun onLoadFailed(
+                        e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    this@loadFromUri.setImageResource(R.drawable.ani_ic_app_icon).also {
+                        (this@loadFromUri.drawable as AnimatedVectorDrawable).start()
+                    }
+                    return true
+                }
+
+                override fun onResourceReady(
+                        resource: Bitmap?, model: Any?, target: Target<Bitmap>?,
+                        dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            })
             .into(this)
     }
 
@@ -135,6 +150,21 @@ object AudioCoverUtil {
             .asBitmap()
             .dontTransform()
             .load(UriCoverModel(this.context, uri))
+            .addListener(object : RequestListener<Bitmap> {
+                override fun onLoadFailed(
+                        e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    this@loadFromUriWithoutTransform.setImageResource(R.drawable.ani_ic_app_icon).also {
+                        (this@loadFromUriWithoutTransform.drawable as AnimatedVectorDrawable).start()
+                    }
+                    return true
+                }
+
+                override fun onResourceReady(
+                        resource: Bitmap?, model: Any?, target: Target<Bitmap>?,
+                        dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    return false
+                }
+            })
             .into(this)
     }
 
