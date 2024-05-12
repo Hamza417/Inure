@@ -72,7 +72,7 @@ object LocaleUtils {
             // Turkish
             Locales("Türkçe (Turkish)", "tr-TR"),
             // Hindi
-            Locales("हिन्दी (Hindi)", "hi-IN"),
+            // Locales("हिन्दी (Hindi)", "hi-IN"),
     )
 
     fun getAppLocale(): Locale {
