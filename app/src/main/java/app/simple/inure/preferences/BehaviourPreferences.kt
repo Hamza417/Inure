@@ -56,7 +56,7 @@ object BehaviourPreferences {
     }
 
     fun isTransitionOn(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(TRANSITION, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(TRANSITION, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
