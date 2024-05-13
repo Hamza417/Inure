@@ -28,6 +28,8 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.PredictiveBackControl
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -100,7 +102,7 @@ open class BaseActivity : AppCompatActivity(),
         super.attachBaseContext(ContextUtils.updateLocale(newBaseContext, ConfigurationPreferences.getAppLanguage()!!))
     }
 
-    @OptIn(BuildCompat.PrereleaseSdkCheck::class)
+    @OptIn(BuildCompat.PrereleaseSdkCheck::class, PredictiveBackControl::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent).invert()) {
             AppearancePreferences.setCustomColor(false)
@@ -133,6 +135,9 @@ open class BaseActivity : AppCompatActivity(),
         }
 
         super.onCreate(savedInstanceState)
+
+        // Disable predictive back for fragments
+        FragmentManager.enablePredictiveBack(false)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         //        /**
