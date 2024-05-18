@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.fastscroll.FastScrollWebView
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
-import app.simple.inure.decorations.views.CustomWebView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.math.Extensions.percentOf
 import app.simple.inure.util.LocaleUtils
@@ -17,7 +17,7 @@ import app.simple.inure.util.NullSafety.isNull
 
 class WebPage : ScopedFragment() {
 
-    private lateinit var webView: CustomWebView
+    private lateinit var webView: FastScrollWebView
     private lateinit var scrollView: PaddingAwareNestedScrollView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

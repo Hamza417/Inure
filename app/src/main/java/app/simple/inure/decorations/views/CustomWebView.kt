@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.view.postDelayed
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import app.simple.inure.interfaces.fragments.WebviewCallbacks
@@ -65,6 +66,9 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
                             webviewCallbacks?.onPageLoadFinished()
+                        }
+
+                        postDelayed(DELAY) {
                             visible(animate = false)
                         }
                     }
@@ -73,6 +77,9 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                         view.loadUrl("javascript:document.body.style.setProperty(\"color\", \"$color\");")
                         post {
                             webviewCallbacks?.onPageLoadFinished()
+                        }
+
+                        postDelayed(DELAY) {
                             visible(animate = false)
                         }
                     }
@@ -94,5 +101,10 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
     fun setOnPageFinishedListener(webviewCallbacks: WebviewCallbacks) {
         this.webviewCallbacks = webviewCallbacks
+    }
+
+    companion object {
+        private const val TAG = "CustomWebView"
+        private const val DELAY = 300L
     }
 }
