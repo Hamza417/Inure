@@ -27,6 +27,7 @@ import app.simple.inure.factories.panels.TextViewViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
 import app.simple.inure.viewmodels.viewers.TextViewerViewModel
 import java.io.IOException
+import java.nio.charset.Charset
 
 class HTML : ScopedFragment() {
 
@@ -45,11 +46,13 @@ class HTML : ScopedFragment() {
             // Back button pressed.
             return@registerForActivityResult
         }
+
         try {
             requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
                 if (outputStream == null) throw IOException()
-                outputStream.write(htmlTxt.toByteArray())
+                outputStream.write(htmlTxt.toByteArray(Charset.defaultCharset()))
                 outputStream.flush()
+                outputStream.close()
                 Toast.makeText(requireContext(), R.string.saved_successfully, Toast.LENGTH_SHORT).show()
             }
         } catch (e: IOException) {
@@ -87,8 +90,8 @@ class HTML : ScopedFragment() {
 
         textViewerViewModel.getText().observe(viewLifecycleOwner) {
             runCatching {
+                htmlTxt = it
                 val encodedHtml: String = Base64.encodeToString(it.encodeToByteArray(), Base64.NO_PADDING)
-                htmlTxt = encodedHtml
                 html.loadData(encodedHtml, MimeConstants.htmlType, "base64")
             }.getOrElse {
                 showError(it.stackTraceToString())
@@ -113,8 +116,7 @@ class HTML : ScopedFragment() {
                                 substring(lastIndexOf("/") + 1, length)
                             }
 
-                            val fileName: String = packageInfo.packageName + "_" + name
-                            exportText.launch(fileName)
+                            exportText.launch(name)
                         }
                     }
                 }
