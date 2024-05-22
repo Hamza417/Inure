@@ -4827,7 +4827,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+    "removal": "Advanced"
   },
   "com.samsung.cmfa.AuthTouch": {
     "list": "Oem",
@@ -6511,7 +6511,7 @@
   },
   "com.sec.android.provider.badge": {
     "list": "Oem",
-    "description": "Provider for the notification badges (which are not very useful IMHO)\nProvides a way for apps to use notifications badges.\nhttps://www.samsung.com/au/support/mobile-devices/what-is-app-icon-badge/\n",
+    "description": "Provider for the notification badges (which are not very useful IMHO)\nProvides a way for apps to use notifications badges.\nhttps://www.samsung.com/au/support/mobile-devices/what-is-app-icon-badge/\nEmergency Power saving launcher does not start after removing.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -6723,7 +6723,7 @@
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Unsafe"
+    "removal": "Expert"
   },
   "com.samsung.android.sm.policy": {
     "list": "Oem",
@@ -10437,14 +10437,6 @@
     "labels": [],
     "removal": "Recommended"
   },
-  "com.samsung.android.incall.contentprovider": {
-    "list": "Oem",
-    "description": "",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
   "com.samsung.android.service.tagservice": {
     "list": "Oem",
     "description": "Tags in Samsung Gallery app.",
@@ -10468,14 +10460,6 @@
     "neededBy": [],
     "labels": [],
     "removal": "Expert"
-  },
-  "com.samsung.android.wifi.softap.resources": {
-    "list": "Oem",
-    "description": "I found only configs value to wifi that can be important",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Unsafe"
   },
   "com.sec.android.Cdfs": {
     "list": "Oem",
@@ -10516,14 +10500,6 @@
     "neededBy": [],
     "labels": [],
     "removal": "Expert"
-  },
-  "com.samsung.sait.sohservice": {
-    "list": "Oem",
-    "description": "FactoryApp to test battery things such as set voltage, Soc, temperature, status, timestamp.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Recommended"
   },
   "com.samsung.vklayer.sm8250": {
     "list": "Oem",
@@ -10645,14 +10621,6 @@
     "labels": [],
     "removal": "Advanced"
   },
-  "com.samsung.android.secsoundpicker": {
-    "list": "Oem",
-    "description": "",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
   "com.samsung.android.service.stplatform": {
     "list": "Oem",
     "description": "SmartThings Framework\nI guess it's app for installing sponsored apps. Useless Framework.",
@@ -10664,14 +10632,6 @@
   "com.samsung.android.setting.multisound": {
     "list": "Oem",
     "description": "Samsung Separate app sound\nUsed to split audio different apps between phone speaker and bluetooth speaker. Pretty handy.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
-  "com.samsung.android.singletake.service": {
-    "list": "Oem",
-    "description": "",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -10701,22 +10661,6 @@
     "labels": [],
     "removal": "Expert"
   },
-  "com.samsung.ims.smk": {
-    "list": "Oem",
-    "description": "SimMobilityKit",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
-  "com.samsung.internal.systemui.navbar.gestural_no_hint": {
-    "list": "Oem",
-    "description": "",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
   "com.samsung.internal.systemui.navbar.gestural_no_hint_extra_wide_back": {
     "list": "Oem",
     "description": "",
@@ -10734,22 +10678,6 @@
     "removal": "Expert"
   },
   "com.samsung.internal.systemui.navbar.gestural_no_hint_wide_back": {
-    "list": "Oem",
-    "description": "",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
-  "com.samsung.internal.systemui.navbar.sec_gestural": {
-    "list": "Oem",
-    "description": "",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
-  "com.samsung.internal.systemui.navbar.sec_gestural_no_hint": {
     "list": "Oem",
     "description": "",
     "dependencies": [],
@@ -30293,6 +30221,14 @@
     "labels": [],
     "removal": "Advanced"
   },
+  "com.oplus.pantanal.ums": {
+    "list": "Oem",
+    "description": "Ubiquitous Manager Service\nA service required for Fluid Cloud (Dynamic Island clone) feature in OxygenOS/ColorOS/RealmeUI (Android 14). Runs in background. After disabling, no issues occurred but there's a little empty space between clock and recent notification icons on the right.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
   "com.oplus.appplatform": {
     "list": "Oem",
     "description": "App Services\nMight be renamed package of com.heytap.appplatform which is related to Oppo's Heytap account services. Provides a RomUpdateService. Probably not safe to remove.\n\nPithus analysis: https://beta.pithus.org/report/2025ceb69d9379a01771de71ff00051eb0f0c7f44226a72c2066db9649b6dcd2\nCauses bootloop on some phones after uninstall.",
@@ -34040,11 +33976,11 @@
   },
   "com.oplus.nas": {
     "list": "Oem",
-    "description": "NetworkAssistSys\nNeeded for network I guess by dialogs found in code.",
+    "description": "NetworkAssistSys\nNeeded for network I guess by dialogs found in code. Has location & phone permission, can read your call logs. Runs in background. After disabling, no issues occured (OxygenOS 14, OnePlus 11).",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Unsafe"
+    "removal": "Advanced"
   },
   "com.oplus.notificationmanager": {
     "list": "Oem",
@@ -36302,14 +36238,6 @@
     "labels": [],
     "removal": "Unsafe"
   },
-  "com.samsung.attribution": {
-    "list": "Oem",
-    "description": "Attribution\nApp for auto updates I don't know what.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Expert"
-  },
   "com.samsung.android.bixbyhelper": {
     "list": "Oem",
     "description": "QQ music plugin\nRequire QQ Music and it's Chinese.",
@@ -36438,14 +36366,6 @@
     "labels": [],
     "removal": "Recommended"
   },
-  "com.samsung.android.widget.pictureframe": {
-    "list": "Oem",
-    "description": "Gallery\nHas something like restore image.\nIt's not gallery app but provides some features to this app.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Advanced"
-  },
   "com.samsung.gamedriver.sm8550": {
     "list": "Oem",
     "description": "Samsung SM8550 GameDriver.",
@@ -36456,11 +36376,11 @@
   },
   "com.samsung.android.globalpostprocmgr": {
     "list": "Oem",
-    "description": "GlobalPostProcMgr\nUnknown app, has Draft Recovery.",
+    "description": "GlobalPostProcMgr\nUnknown app, has Draft Recovery.\nUninstalling breaks camera functionality.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+    "removal": "Expert"
   },
   "com.samsung.hongbaoassistant": {
     "list": "Oem",
@@ -36573,14 +36493,6 @@
     "neededBy": [],
     "labels": [],
     "removal": "Recommended"
-  },
-  "com.samsung.android.photoremasterservice": {
-    "list": "Oem",
-    "description": "Photo remaster will not work after remove, if this feature exist, still unknown.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Advanced"
   },
   "com.samsung.preloadapp": {
     "list": "Oem",
@@ -36702,14 +36614,6 @@
     "labels": [],
     "removal": "Advanced"
   },
-  "com.samsung.android.sm_cn": {
-    "list": "Oem",
-    "description": "Smart Manager\nTests hardware things.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Recommended"
-  },
   "com.samsung.android.sm.devicesecurity.tcm": {
     "list": "Oem",
     "description": "Device security\nChinese scanning app for searching viruses.",
@@ -36736,7 +36640,7 @@
   },
   "com.samsung.sait.sohservice": {
     "list": "Oem",
-    "description": "This weird app collects battery data and probably others, who knows?",
+    "description": "FactoryApp\nThis weird app collects battery data and probably others, who knows? Also to test battery things such as set voltage, Soc, temperature, status, timestamp.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -36781,14 +36685,6 @@
     "neededBy": [],
     "labels": [],
     "removal": "Recommended"
-  },
-  "com.samsung.android.wallpaper.res": {
-    "list": "Oem",
-    "description": "Video Wallpaper .webp resources.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Advanced"
   },
   "com.samsung.android.wifi.ai": {
     "list": "Oem",
@@ -36925,5 +36821,93 @@
     "dependencies": [],
     "neededBy": [],
     "labels": []
+  },
+  "com.tracfone.preload.accountservices": {
+    "list": "Carrier",
+    "description": "TracPhone / StraightTalk application. It just shows IMEI, SIM, and phone number, as well as a way to see device properties.\nComes preinstalled with any TracPhone or StraightTalk device. It can be downloaded from the playstore if needed for whatever reason.\nHas Approximate and Precise location permissions, and Device ID permission.\nRuns in the background for them to collect data.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "org.chromium.webview_shell": {
+    "list": "Aosp",
+    "description": "Simple Browser for WebView tester used in AOSP.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "com.sonymobile.telephony.extension": {
+    "description": "I have uninstalled it for the user 0 on my phone, and since then I haven't noticed any functionality drop.\nCell signal is similar as before, also calls, SMSs and mobile data. I think it is not worth having this package installed because it uses a lot of wakelock time, but I cannot see any cell signal drop since I uninstalled it.\nIn the code found some things: omadm, wifi calling, IMS. Its app for dual SIM reachability? Not sure if its app for debugging.",
+    "removal": "Advanced",
+    "list": "Oem",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": []
+  },
+  "com.microsoft.deviceintegrationservice": {
+    "description": "Device Integration Service\nMight be needed for Microsoft Link to Windows (com.microsoft.appmanager) which is preinstalled with OxygenOS 14.\nAfter Uninstalling, no issues occurred.",
+    "removal": "Recommended",
+    "list": "Oem",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": []
+  },
+  "com.microsoftsdk.crossdeviceservicebroker": {
+    "description": "Cross Device Broker\nMight be needed for Microsoft Link to Windows (com.microsoft.appmanager) which is preinstalled with OxygenOS 14.\nAfter Uninstalling, no issues occurred.",
+    "removal": "Recommended",
+    "list": "Oem",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": []
+  },
+  "com.samsung.android.app.notes.addons": {
+    "list": "Oem",
+    "description": "Allows for marking up/drawing on notes in the Samsung Notes app (designed for use with S Pen).\nRemoval likely breaks com.samsung.android.app.notes. Safe to remove otherwise.\nMay reinstall itself automatically (removal has persisted for me this time around, and through multiple reboots).\nhttps://galaxystore.samsung.com/prepost/000005769652?appId=com.samsung.android.app.notes.addons",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
+  "com.aura.jet.att": {
+    "list": "Carrier",
+    "description": "AT&T Hub\nApp from AT&T. Installs apps on oobe and its maded by advertising company 'ironSource'.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "com.aura.oobe.att": {
+    "list": "Carrier",
+    "description": "AppCloud\nApp from AT&T. Installs apps on oobe and its maded by advertising company 'ironSource'.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "com.samsung.android.app.interpreter": {
+    "list": "Oem",
+    "description": "Samsung Interpreter app, enables Live translation of foreign languages",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
+  "com.samsung.android.inputshare": {
+    "list": "Oem",
+    "description": "Samsung Multi-Control, allows certain apps to be continued on multiple Galaxy devices (like Internet or Notes)",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "com.samsung.android.audiomirroring": {
+    "list": "Oem",
+    "description": "AudioMirroring\nAudio Mirroring to Cast other devices will not work after remove.\nAlso this app running in the background.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
   }
 }
