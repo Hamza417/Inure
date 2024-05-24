@@ -344,7 +344,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                         windowListLauncher.launch(new Intent(Term.this, WindowList.class));
                     }
                     case 1 -> {
-                        doToggleSoftKeyboard();
+                        toggleSoftKeyboard();
                     }
                     case 2 -> {
                         TerminalSpecialKeys.Companion.newInstance()
@@ -454,6 +454,8 @@ public class Term extends BaseActivity implements UpdateCallback,
             String link = view.getURLat(e.getX(), e.getY());
             if (link != null) {
                 execURL(link);
+            } else {
+                toggleSoftKeyboard();
             }
             
             return true;
@@ -982,10 +984,10 @@ public class Term extends BaseActivity implements UpdateCallback,
         getCurrentEmulatorView().sendFnKey();
     }
     
-    private void doToggleSoftKeyboard() {
+    private void toggleSoftKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        
+        getCurrentEmulatorView().requestFocus();
     }
     
     /**
