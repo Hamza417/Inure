@@ -45,6 +45,7 @@ class BootManager : ScopedFragment() {
         fullVersionCheck()
 
         bootManagerViewModel?.getBootComponentData()?.observe(viewLifecycleOwner) { bootComponentData ->
+            hideLoader()
             postponeEnterTransition()
 
             adapterBootManager = AdapterBootManager(bootComponentData)
@@ -105,6 +106,11 @@ class BootManager : ScopedFragment() {
                     }
                     R.drawable.ic_filter -> {
                         childFragmentManager.showBootManagerSort()
+                    }
+                    R.drawable.ic_refresh -> {
+                        showLoader(manualOverride = true).also {
+                            bootManagerViewModel?.reloadBootComponentData()
+                        }
                     }
                 }
             }
