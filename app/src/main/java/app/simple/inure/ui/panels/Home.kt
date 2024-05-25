@@ -314,6 +314,10 @@ class Home : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(): Home {
             val args = Bundle()

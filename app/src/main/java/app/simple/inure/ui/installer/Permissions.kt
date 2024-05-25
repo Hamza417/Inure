@@ -134,6 +134,10 @@ class Permissions : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Permissions {
             val args = Bundle()

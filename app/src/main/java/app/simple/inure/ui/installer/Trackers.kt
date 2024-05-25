@@ -74,6 +74,10 @@ class Trackers : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Trackers {
             val args = Bundle()

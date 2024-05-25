@@ -58,6 +58,10 @@ class Information : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Information {
             val args = Bundle()

@@ -1,8 +1,12 @@
 package app.simple.inure.ui.installer
 
-import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.extensions.fragments.ScopedFragment
 
-class Services : ScopedBottomSheetFragment() {
+class Services : ScopedFragment() {
+
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
 
     companion object {
         fun newInstance(): Services {

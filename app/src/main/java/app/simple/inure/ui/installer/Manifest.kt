@@ -50,6 +50,10 @@ class Manifest : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Manifest {
             val args = Bundle()

@@ -70,6 +70,10 @@ class Certificate : ScopedFragment() {
         }
     }
 
+    override fun setupBackPressedDispatcher() {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File?): Certificate {
             val args = Bundle()
