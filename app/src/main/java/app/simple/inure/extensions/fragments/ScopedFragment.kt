@@ -490,13 +490,15 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * and let the activity handle it
      */
     open fun setupBackPressedDispatcher() {
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            Log.d(tag ?: TAG, "onBackPressed")
-            parentFragmentManager.popBackStackImmediate()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                requireView().clearViewTranslationCallback()
+        if (parentFragmentManager.backStackEntryCount > 0) { // Make sure we have fragments in backstack
+            requireActivity().onBackPressedDispatcher.addCallback(this) {
+                Log.d(tag ?: TAG, "onBackPressed")
+                parentFragmentManager.popBackStackImmediate()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    requireView().clearViewTranslationCallback()
+                }
+                requireView().clearAnimation()
             }
-            requireView().clearAnimation()
         }
     }
 
