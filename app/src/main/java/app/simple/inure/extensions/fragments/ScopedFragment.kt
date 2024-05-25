@@ -18,6 +18,7 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsAnimation
 import android.widget.ImageView
+import androidx.activity.addCallback
 import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -106,6 +107,28 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         postponeEnterTransition()
+
+        /**
+         * Why I am using [requireActivity.onBackPressedDispatcher] here when the activity
+         * already manages fragment backstack?
+         *
+         * The reason is, when the fragment is popped from the backstack it transitions
+         * back to the previous fragment with the same animation that was used to open
+         * the fragment. However, this leads to an issue when the fragments are popped
+         * quickly or before the transition is completed. This leads to screen getting
+         * stuck in the middle of the transition because when the transition ends it puts
+         * the closed fragment view on top of the previous fragment view. This is a workaround
+         * to pop the fragment immediately when the back button is pressed and clear the
+         * transition animation.
+         */
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            Log.d(TAG, "onCreate: onBackPressed")
+            parentFragmentManager.popBackStackImmediate()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requireView().clearViewTranslationCallback()
+            }
+            requireView().clearAnimation()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
