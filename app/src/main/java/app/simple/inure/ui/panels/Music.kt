@@ -189,12 +189,33 @@ class Music : KeyboardScopedFragment() {
                         PopupMusicSort(view)
                     }
                     R.drawable.shuffle -> {
-                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset((0..audioModels.size).random(), displayHeight / 2)
+                        val randomPosition = (0 until audioModels.size).random()
+                        MusicPreferences.setLastMusicId(audioModels[randomPosition].id)
+                        MusicPreferences.setMusicPosition(randomPosition)
+                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(randomPosition, displayHeight / 2)
+
+                        postDelayed(500) {
+                            runCatching {
+                                val viewHolder = recyclerView.findViewHolderForAdapterPosition(randomPosition) as AdapterMusic.Holder
+                                openAudioPlayer(randomPosition, viewHolder.itemView.findViewById(R.id.adapter_music_art))
+                            }.onFailure {
+                                showError(it, goBack = false)
+                            }
+                        }
                     }
                     R.drawable.ic_play -> {
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
                                 (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, displayHeight / 2)
+
+                                postDelayed(500) {
+                                    runCatching {
+                                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(position) as AdapterMusic.Holder
+                                        openAudioPlayer(MusicPreferences.getMusicPosition(), viewHolder.itemView.findViewById(R.id.adapter_music_art))
+                                    }.onFailure {
+                                        showError(it, goBack = false)
+                                    }
+                                }
                                 break
                             }
                         }

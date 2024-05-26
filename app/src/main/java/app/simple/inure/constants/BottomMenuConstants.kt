@@ -74,7 +74,7 @@ object BottomMenuConstants {
             refresh,
             Pair(R.drawable.ic_sort, R.string.sort),
             divider,
-            // Pair(R.drawable.shuffle, R.string.shuffle),
+            Pair(R.drawable.shuffle, R.string.shuffle),
             Pair(R.drawable.ic_play, R.string.play),
             divider,
             Pair(R.drawable.ic_search, R.string.search),
