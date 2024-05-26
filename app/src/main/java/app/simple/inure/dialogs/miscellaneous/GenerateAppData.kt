@@ -280,9 +280,11 @@ class GenerateAppData : ScopedBottomSheetFragment() {
         }
 
         fun FragmentManager.showGeneratedDataTypeSelector(): GenerateAppData {
-            val fragment = newInstance()
-            fragment.show(this, "generated_data_type")
-            return fragment
+            val dialog = newInstance()
+            dialog.show(this, TAG)
+            return dialog
         }
+
+        const val TAG = "generated_data_type"
     }
 }

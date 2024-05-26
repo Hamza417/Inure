@@ -216,12 +216,13 @@ class Music : KeyboardScopedFragment() {
                                         showError(it, goBack = false)
                                     }
                                 }
+
                                 break
                             }
                         }
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(MusicSearch.newInstance(), "search_music")
+                        openFragmentSlide(MusicSearch.newInstance(), MusicSearch.TAG)
                     }
                 }
             }
