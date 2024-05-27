@@ -2,8 +2,8 @@ package app.simple.inure.preferences
 
 object GeneratedDataPreferences {
 
-    const val generatedDataType = "generated_data_type"
-    private const val generatorFlags = "generator_flags_e"
+    const val GENERATED_DATA_TYPE = "generated_data_type"
+    private const val GENERATOR_FLAGS = "generator_flags_e"
 
     const val NAME = 1L shl 1
     const val PACKAGE_NAME = 1L shl 2
@@ -15,9 +15,7 @@ object GeneratedDataPreferences {
     const val SIZE = 1L shl 8
     const val PLAY_STORE = 1L shl 9
     const val FDROID = 1L shl 10
-    const val AMAZON_STORE = 1L shl 11
-    const val GALAXY_STORE = 1L shl 12
-    const val IZZYONDROID = 1L shl 13
+    const val IZZYONDROID = 1L shl 11
 
     private const val DEFAULT_FLAGS = NAME or
             PACKAGE_NAME or
@@ -33,21 +31,21 @@ object GeneratedDataPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setGeneratedDataType(type: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(generatedDataType, type).apply()
+        SharedPreferences.getSharedPreferences().edit().putString(GENERATED_DATA_TYPE, type).apply()
     }
 
     fun getGeneratedDataType(): String {
-        return SharedPreferences.getSharedPreferences().getString(generatedDataType, TXT)!!
+        return SharedPreferences.getSharedPreferences().getString(GENERATED_DATA_TYPE, TXT)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setGeneratorFlags(flags: Long) {
-        SharedPreferences.getSharedPreferences().edit().putLong(generatorFlags, flags).apply()
+        SharedPreferences.getSharedPreferences().edit().putLong(GENERATOR_FLAGS, flags).apply()
     }
 
     fun getGeneratorFlags(): Long {
-        return SharedPreferences.getSharedPreferences().getLong(generatorFlags, DEFAULT_FLAGS)
+        return SharedPreferences.getSharedPreferences().getLong(GENERATOR_FLAGS, DEFAULT_FLAGS)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

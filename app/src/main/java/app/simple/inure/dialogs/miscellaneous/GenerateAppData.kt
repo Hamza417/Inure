@@ -49,9 +49,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
 
         if (AppUtils.isPlayFlavor()) {
             linkChipGroup.removeView(linkChipGroup.findViewById(R.id.fdroid))
-            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.amazon))
             linkChipGroup.removeView(linkChipGroup.findViewById(R.id.izzyondroid))
-            linkChipGroup.removeView(linkChipGroup.findViewById(R.id.galaxy_store))
         }
 
         requiredChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -123,7 +121,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.PLAY_STORE)
             }
 
-            if (AppUtils.isGithubFlavor()) {
+            if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor()) {
                 sourceFlags = if (checkedIds.contains(R.id.fdroid)) {
                     FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.FDROID)
                 } else {
@@ -135,23 +133,9 @@ class GenerateAppData : ScopedBottomSheetFragment() {
                 } else {
                     FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
                 }
-
-                sourceFlags = if (checkedIds.contains(R.id.amazon)) {
-                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
-                } else {
-                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
-                }
-
-                sourceFlags = if (checkedIds.contains(R.id.galaxy_store)) {
-                    FlagUtils.setFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
-                } else {
-                    FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
-                }
             } else {
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.IZZYONDROID)
                 FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.FDROID)
-                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.AMAZON_STORE)
-                FlagUtils.unsetFlag(sourceFlags, GeneratedDataPreferences.GALAXY_STORE)
             }
 
             GeneratedDataPreferences.setGeneratorFlags(sourceFlags)
@@ -214,14 +198,6 @@ class GenerateAppData : ScopedBottomSheetFragment() {
             linkChipGroup.check(R.id.fdroid)
         }
 
-        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.AMAZON_STORE)) {
-            linkChipGroup.check(R.id.amazon)
-        }
-
-        if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.GALAXY_STORE)) {
-            linkChipGroup.check(R.id.galaxy_store)
-        }
-
         if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.IZZYONDROID)) {
             linkChipGroup.check(R.id.izzyondroid)
         }
@@ -268,7 +244,7 @@ class GenerateAppData : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            GeneratedDataPreferences.generatedDataType -> {
+            GeneratedDataPreferences.GENERATED_DATA_TYPE -> {
                 setDataFormat()
             }
         }

@@ -618,16 +618,8 @@ class AppInfo : ScopedFragment() {
                             }
                         }
 
-                        R.string.amazon -> {
-                            MarketUtils.openAppOnAmazonStore(requireContext(), packageInfo.packageName)
-                        }
-
                         R.string.fdroid -> {
                             childFragmentManager.showFdroidStores(packageInfo)
-                        }
-
-                        R.string.galaxy_store -> {
-                            MarketUtils.openAppOnGalaxyStore(requireContext(), packageInfo.packageName)
                         }
                     }
                 }
