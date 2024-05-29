@@ -1,7 +1,6 @@
 package app.simple.inure.adapters.ui
 
 import android.annotation.SuppressLint
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -20,7 +20,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
@@ -62,10 +62,10 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
 
-            if (apps[position].applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].applicationInfo.sourceDir.toFile())
-            } else {
+            if (apps[position].isInstalled()) {
                 holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
+            } else {
+                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].applicationInfo.sourceDir.toFileOrNull())
             }
 
             holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
