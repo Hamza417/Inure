@@ -21,7 +21,7 @@ import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
-import app.simple.inure.crash.CrashReporter
+import app.simple.inure.crash.CrashReport
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout
 import app.simple.inure.dialogs.app.License.Companion.showLicense
 import app.simple.inure.dialogs.batch.BatchExtract.Companion.showBatchExtract
@@ -329,7 +329,7 @@ class MainActivity : BaseActivity() {
         when (key) {
             DevelopmentPreferences.crashHandler -> {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
-                    CrashReporter(applicationContext).initialize()
+                    CrashReport(applicationContext).initialize()
                 }
             }
 

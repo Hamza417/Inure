@@ -30,7 +30,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.crash.CrashReporter
+import app.simple.inure.crash.CrashReport
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -149,7 +149,7 @@ class SplashScreen : ScopedFragment() {
             // Initialize native crash handler
             if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
                 if (BuildConfig.DEBUG.invert()) {
-                    CrashReporter(requireContext()).initialize()
+                    CrashReport(requireContext()).initialize()
                 }
             }
 
