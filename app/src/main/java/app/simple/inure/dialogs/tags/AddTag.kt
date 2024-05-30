@@ -55,8 +55,8 @@ class AddTag : ScopedDialogFragment() {
 
         inputFilter = InputFilter { source, _, _, _, _, _ ->
             val string = source.toString()
-            if (string.matches(Regex("[\\p{L}\\d_.-]+"))) {
-                source
+            if (string.trim().matches(Regex("[\\p{L}\\d_.-]+"))) {
+                source.trim()
             } else {
                 ""
             }
