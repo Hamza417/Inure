@@ -22,11 +22,13 @@ import app.simple.inure.dialogs.miscellaneous.PackageStateResult.Companion.showP
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.ui.subpanels.DebloatChecklist
 import app.simple.inure.ui.subpanels.DebloatSearch
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.StringUtils.emptyString
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 
 class Debloat : ScopedFragment() {
@@ -48,6 +50,7 @@ class Debloat : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
         postponeEnterTransition()
+        clearSearchState()
 
         if (debloatViewModel?.shouldShowLoader() == true) {
             showLoader(manualOverride = true)
@@ -151,6 +154,12 @@ class Debloat : ScopedFragment() {
 
     private fun updateBottomMenu() {
         bottomRightCornerMenu?.updateBottomMenu(BottomMenuConstants.getDebloatMenu(adapterDebloat!!.isAnyItemSelected()))
+    }
+
+    private fun clearSearchState() {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.CLEAR_SEARCH_STATE)) {
+            DebloatPreferences.setSearchKeyword(emptyString())
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -35,16 +35,20 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.StringUtils.emptyString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -97,6 +101,7 @@ class SplashScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
+        clearSearchStates()
 
         intentFilter.addAction(DataLoaderService.APPS_LOADED)
         intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
@@ -420,6 +425,14 @@ class SplashScreen : ScopedFragment() {
                 // Should always be 0
                 daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
             }
+        }
+    }
+
+    private fun clearSearchStates() {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.CLEAR_SEARCH_STATE)) {
+            SearchPreferences.setLastSearchKeyword(emptyString())
+            ApkBrowserPreferences.setSearchKeyword(emptyString())
+            MusicPreferences.setSearchKeyword(emptyString())
         }
     }
 

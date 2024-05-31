@@ -36,6 +36,7 @@ object DevelopmentPreferences {
     const val usePeristyleInterface = "is_felicity_flow_interface_enabled"
     const val useCorrespondingColorOnHighlight = "is_corresponding_color_on_highlight_enabled"
     const val USE_BLUR_BETWEEN_PANELS = "is_blur_between_panels_enabled"
+    const val CLEAR_SEARCH_STATE = "clear_search_state"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -198,6 +199,11 @@ object DevelopmentPreferences {
                                             "Use blur effects while switching between panels in the app. It's available in" +
                                                     " Android 12+ only. Highly unstable, please use it with caution and on your own discretion.",
                                             USE_BLUR_BETWEEN_PANELS,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Clear Search State",
+                                            "Clear various search states everytime app is launched.",
+                                            CLEAR_SEARCH_STATE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
