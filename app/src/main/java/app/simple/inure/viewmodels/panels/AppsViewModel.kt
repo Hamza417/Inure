@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.events.AppsEvent
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ArrayUtils.toArrayList
@@ -24,10 +23,6 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
     private val appData: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>()
-    }
-
-    val appLoaded: MutableLiveData<AppsEvent<Boolean>> by lazy {
-        MutableLiveData<AppsEvent<Boolean>>()
     }
 
     fun getAppData(): LiveData<ArrayList<PackageInfo>> {
@@ -225,7 +220,6 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             filteredList.getSortedList(AppsPreferences.getSortStyle(), AppsPreferences.isReverseSorting())
 
             appData.postValue(filteredList as ArrayList<PackageInfo>?)
-            appLoaded.postValue(AppsEvent(true))
         }
     }
 

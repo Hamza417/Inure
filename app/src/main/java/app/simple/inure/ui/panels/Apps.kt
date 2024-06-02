@@ -154,12 +154,6 @@ class Apps : ScopedFragment() {
                 hideLoader()
             }
         }
-
-        appsViewModel.appLoaded.observe(viewLifecycleOwner) { appsEvent ->
-            appsEvent.getContentIfNotHandledOrReturnNull()?.let {
-                // Log.d("Apps", if (it) "Apps Loaded" else "Failed")
-            }
-        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
