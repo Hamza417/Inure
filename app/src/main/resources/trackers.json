@@ -254,7 +254,6 @@
         },
         "118": {
             "categories": [
-                "Advertisement",
                 "Analytics"
             ],
             "code_signature": "com.mixpanel.",
