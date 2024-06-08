@@ -190,7 +190,6 @@ class Music : KeyboardScopedFragment() {
                     }
                     R.drawable.shuffle -> {
                         val randomPosition = (0 until audioModels.size).random()
-                        MusicPreferences.setLastMusicId(audioModels[randomPosition].id)
                         MusicPreferences.setMusicPosition(randomPosition)
                         (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(randomPosition, displayHeight / 2)
 
