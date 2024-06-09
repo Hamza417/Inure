@@ -275,12 +275,13 @@ class Home : ScopedFragment() {
 
         when (HomePreferences.getMenuLayout()) {
             PopupMenuLayout.GRID -> {
-                val gridLayoutManager = GridLayoutManager(context, getInteger(R.integer.span_count))
+                val spanCount = getInteger(R.integer.span_count)
+                val gridLayoutManager = GridLayoutManager(context, spanCount)
 
                 gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
                         return if (data?.get(position)?.first?.isZero() == true || data?.get(position)?.first == 1) {
-                            getInteger(R.integer.span_count)
+                            spanCount
                         } else {
                             1
                         }
