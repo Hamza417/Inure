@@ -377,7 +377,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     @Throws(IllegalStateException::class)
     open fun hideLoader() {
-        loader?.dismiss()
+        try {
+            loader?.dismiss()
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "hideLoader: ", e)
+        }
     }
 
     open fun showWarning(warning: String, goBack: Boolean = true) {
