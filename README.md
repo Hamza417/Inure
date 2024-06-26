@@ -49,6 +49,7 @@ An elegant Android app manager.
 - [**The Best Apps of 2023!** - _Sam Beckman_](https://youtu.be/NYZd7IKn1oY?t=202)
 - [**Coolest Open Source projects of the week 🔥** - _Ana Mogul_](https://console.substack.com/p/console-190)
 - [**10 Reasons to Root Your Phone in 2024!** - _Sam Beckman_](https://youtu.be/5Nxd9HLixO8?t=254)
+- [**20 Android Apps I CAN'T Live Without in 2024!** - _Sam Beckman_](https://youtu.be/0sY3ehuYWR8?t=554)
 
 ## About
 
@@ -150,7 +151,12 @@ of UX and UI without overloading the user with a lot of options.
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 |                                 0x00                                  |                                 0x01                                  |                                 0x02                                  |
 
-If you've any questions or suggestions for design, please initiate a discussion or an issue.
+### Visually Challenged Users
+
+Inure is designed to be as user friendly as possible despite its complexities. For users with visual difficulties, it come across to cause really low confusion while browsing through its interface and processing the displayed
+information through a screen reader. A user with such difficulty has demoonstrated the ease of use of the app [here](https://www.youtube.com/watch?v=alDrMfqaN44).
+
+**If you've any questions or suggestions for design, please initiate a discussion or create an issue.**
 
 ## Contribute
 
