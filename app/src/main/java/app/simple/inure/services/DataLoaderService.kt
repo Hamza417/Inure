@@ -38,7 +38,6 @@ class DataLoaderService : Service() {
     private val tag: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
-    private var downloaderThread: Thread? = null
 
     private var isLoading = false
     private var flags = PackageManager.GET_META_DATA
@@ -84,12 +83,6 @@ class DataLoaderService : Service() {
         super.onDestroy()
         Log.d(tag, "onDestroy: Dataloader service destroyed")
         LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(broadcastReceiver!!)
-
-        try {
-            downloaderThread?.interrupt()
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        }
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
