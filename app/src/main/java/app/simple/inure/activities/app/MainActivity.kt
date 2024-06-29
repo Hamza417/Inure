@@ -135,37 +135,37 @@ class MainActivity : BaseActivity() {
         when (intent?.action) {
             ShortcutConstants.ANALYTICS_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Analytics.newInstance(), "analytics")
+                openFragment(Analytics.newInstance(), Analytics.TAG)
             }
 
             ShortcutConstants.APPS_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Apps.newInstance(loading = true), "apps")
+                openFragment(Apps.newInstance(loading = true), Apps.TAG)
             }
 
             ShortcutConstants.BATCH_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Batch.newInstance(loading = true), "batch")
+                openFragment(Batch.newInstance(loading = true), Batch.TAG)
             }
 
             ShortcutConstants.MOST_USED_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(MostUsed.newInstance(loader = true), "most_used")
+                openFragment(MostUsed.newInstance(loader = true), MostUsed.TAG)
             }
 
             ShortcutConstants.NOTES_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Notes.newInstance(), "notes")
+                openFragment(Notes.newInstance(), Notes.TAG)
             }
 
             ShortcutConstants.RECENTLY_INSTALLED_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(RecentlyInstalled.newInstance(loading = true), "recently_installed")
+                openFragment(RecentlyInstalled.newInstance(loading = true), RecentlyInstalled.TAG)
             }
 
             ShortcutConstants.RECENTLY_UPDATED_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(RecentlyUpdated.newInstance(loading = true), "recently_updated")
+                openFragment(RecentlyUpdated.newInstance(loading = true), RecentlyUpdated.TAG)
             }
 
             ShortcutConstants.TERMINAL_ACTION -> {
@@ -176,27 +176,27 @@ class MainActivity : BaseActivity() {
 
             ShortcutConstants.UNINSTALLED_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Uninstalled.newInstance(), "uninstalled")
+                openFragment(Uninstalled.newInstance(), Uninstalled.TAG)
             }
 
             ShortcutConstants.USAGE_STATS_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Statistics.newInstance(loading = true), "statistics")
+                openFragment(Statistics.newInstance(loading = true), Statistics.TAG)
             }
 
             ShortcutConstants.PREFERENCES_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Preferences.newInstance(), "preferences")
+                openFragment(Preferences.newInstance(), Preferences.TAG)
             }
 
             ShortcutConstants.SEARCH_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Search.newInstance(firstLaunch = true), "search")
+                openFragment(Search.newInstance(firstLaunch = true), Search.TAG)
             }
 
             ShortcutConstants.TAGS_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Tags.newInstance(), "tags")
+                openFragment(Tags.newInstance(), Tags.TAG)
             }
 
             ShortcutConstants.TAGGED_APPS_ACTION -> {
@@ -204,8 +204,8 @@ class MainActivity : BaseActivity() {
                 try {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, TaggedApps.newInstance(
-                                intent.getStringExtra(ShortcutConstants.TAGGED_APPS_EXTRA)!!), "tagged_apps")
-                        .addToBackStack("tagged_apps")
+                                intent.getStringExtra(ShortcutConstants.TAGGED_APPS_EXTRA)!!), TaggedApps.TAG)
+                        .addToBackStack(TaggedApps.TAG)
                         .commit()
                 } catch (e: NullPointerException) {
                     showWarning("ERR: invalid tag constraint definition found", goBack = true)
@@ -214,27 +214,27 @@ class MainActivity : BaseActivity() {
 
             ShortcutConstants.FOSS_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(FOSS.newInstance(), "foss")
+                openFragment(FOSS.newInstance(), FOSS.TAG)
             }
 
             ShortcutConstants.DEBLOAT_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Debloat.newInstance(), "debloat")
+                openFragment(Debloat.newInstance(), Debloat.TAG)
             }
 
             ShortcutConstants.MUSIC_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(Music.newInstance(), "music")
+                openFragment(Music.newInstance(), Music.TAG)
             }
 
             ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                 openHome(isNewIntent)
-                openFragment(AudioPlayer.newInstance(MusicPreferences.getMusicPosition()), "audio_player_pager")
+                openFragment(AudioPlayer.newInstance(MusicPreferences.getMusicPosition()), AudioPlayer.TAG)
             }
 
             "open_device_info" -> {
                 openHome(isNewIntent)
-                openFragment(DeviceInfo.newInstance(), "device_info")
+                openFragment(DeviceInfo.newInstance(), DeviceInfo.TAG)
             }
 
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {
@@ -250,11 +250,11 @@ class MainActivity : BaseActivity() {
                 if (isNewIntent.invert()) { // Maybe the app was opened from launcher, need more checks?
                     if (AppUtils.isDebug()) {
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), SplashScreen.TAG)
                             .commit()
                     } else {
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), "splash_screen")
+                            .replace(R.id.app_container, SplashScreen.newInstance(false), SplashScreen.TAG)
                             .commit()
                     }
                 }
@@ -266,7 +266,7 @@ class MainActivity : BaseActivity() {
         if (isNewIntent.invert()) {
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                .replace(R.id.app_container, Home.newInstance(), "home")
+                .replace(R.id.app_container, Home.newInstance(), Home.TAG)
                 .commit()
 
             supportFragmentManager.executePendingTransactions()
@@ -389,8 +389,8 @@ class MainActivity : BaseActivity() {
                         if (it is Home) {
                             if (it.isVisible) {
                                 supportFragmentManager.beginTransaction()
-                                    .replace(R.id.app_container, Search.newInstance(firstLaunch = true), "search")
-                                    .addToBackStack("search")
+                                    .replace(R.id.app_container, Search.newInstance(firstLaunch = true), Search.TAG)
+                                    .addToBackStack(Search.TAG)
                                     .commit()
                             }
                         }

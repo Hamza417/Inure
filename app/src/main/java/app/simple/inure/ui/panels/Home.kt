@@ -95,11 +95,11 @@ class Home : ScopedFragment() {
                 override fun onMenuItemClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.apps -> {
-                            openFragmentArc(Apps.newInstance(), icon, "apps")
+                            openFragmentArc(Apps.newInstance(), icon, Apps.TAG)
                         }
 
                         R.string.analytics -> {
-                            openFragmentArc(Analytics.newInstance(), icon, "analytics")
+                            openFragmentArc(Analytics.newInstance(), icon, Analytics.TAG)
                         }
 
                         R.string.terminal -> {

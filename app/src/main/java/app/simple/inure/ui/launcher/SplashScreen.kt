@@ -461,6 +461,6 @@ class SplashScreen : ScopedFragment() {
             return fragment
         }
 
-        private const val TAG = "Splash Screen"
+        const val TAG = "Splash Screen"
     }
 }
