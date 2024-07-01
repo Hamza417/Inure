@@ -13,16 +13,24 @@ import kotlin.math.abs
 
 object FileSizeHelper {
 
-    fun String.toSize(): String {
-        return File(this).length().toSize()
+    fun String?.toSize(): String {
+        return try {
+            File(this!!).length().toSize()
+        } catch (e: NullPointerException) {
+            0L.toSize()
+        }
     }
 
     fun String.getDirectoryLength(): Long {
         return File(this).length()
     }
 
-    fun String.toLength(): Long {
-        return File(this).length()
+    fun String?.toLength(): Long {
+        return try {
+            File(this!!).length()
+        } catch (e: NullPointerException) {
+            0L
+        }
     }
 
     fun Array<String>.getDirectorySize(): Long {

@@ -66,7 +66,7 @@ object InfoStripUtils {
                                     externalObbSize +
                                     externalCodeSize +
                                     packageInfo.applicationInfo.sourceDir.toLength() +
-                                    packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                                    (packageInfo.applicationInfo.splitSourceDirs ?: arrayOf()).getDirectorySize()).toSize())
                         }
                     }
                 } else {
