@@ -61,7 +61,7 @@ class Activities : SearchBarScopedFragment() {
 
             adapterActivities?.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
                 override fun onActivityClicked(activityInfoModel: ActivityInfoModel, packageId: String) {
-                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), "activity_info")
+                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), ActivityInfo.TAG)
                 }
 
                 override fun onActivityLongPressed(activityInfoModel: ActivityInfoModel, packageInfo: PackageInfo, icon: View, position: Int) {
@@ -71,12 +71,12 @@ class Activities : SearchBarScopedFragment() {
                             when (source) {
                                 getString(R.string.force_launch) -> {
                                     ActivityLauncher.newInstance(packageInfo, activityInfoModel.name)
-                                        .show(childFragmentManager, "activity_launcher")
+                                        .show(childFragmentManager, ActivityLauncher.TAG)
                                 }
 
                                 getString(R.string.force_launch_with_action) -> {
                                     IntentAction.newInstance(packageInfo, activityInfoModel.name)
-                                        .show(childFragmentManager, "intent_action")
+                                        .show(childFragmentManager, IntentAction.TAG)
                                 }
                                 getString(R.string.enable), getString(R.string.disable) -> {
                                     val p = ComponentState.newInstance(packageInfo, activityInfoModel.name, isEnabled)
@@ -85,7 +85,7 @@ class Activities : SearchBarScopedFragment() {
                                             adapterActivities?.notifyItemChanged(position)
                                         }
                                     })
-                                    p.show(childFragmentManager, "component_state")
+                                    p.show(childFragmentManager, ComponentState.TAG)
                                 }
                                 getString(R.string.create_shortcut) -> {
                                     if (activityInfoModel.exported) {

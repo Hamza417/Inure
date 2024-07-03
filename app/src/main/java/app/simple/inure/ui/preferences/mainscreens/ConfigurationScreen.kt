@@ -106,15 +106,15 @@ class ConfigurationScreen : ScopedFragment() {
         }
 
         shortcuts.setOnClickListener {
-            openFragmentSlide(Shortcuts.newInstance(), "shortcuts")
+            openFragmentSlide(Shortcuts.newInstance(), Shortcuts.TAG)
         }
 
         components.setOnClickListener {
-            openFragmentSlide(ComponentManager.newInstance(), "components")
+            openFragmentSlide(ComponentManager.newInstance(), ComponentManager.TAG)
         }
 
         language.setOnClickListener {
-            openFragmentSlide(Language.newInstance(), "language")
+            openFragmentSlide(Language.newInstance(), Language.TAG)
         }
 
         path.setOnClickListener {

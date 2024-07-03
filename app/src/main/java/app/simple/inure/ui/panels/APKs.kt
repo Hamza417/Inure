@@ -249,7 +249,7 @@ class APKs : ScopedFragment() {
                     }
 
                     R.drawable.ic_search -> {
-                        openFragmentSlide(ApksSearch.newInstance(), "apks_search")
+                        openFragmentSlide(ApksSearch.newInstance(), ApksSearch.TAG)
                     }
 
                     R.drawable.ic_filter -> {

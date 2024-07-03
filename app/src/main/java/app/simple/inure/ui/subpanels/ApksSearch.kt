@@ -207,9 +207,9 @@ class ApksSearch : KeyboardScopedFragment() {
                                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                     requireArguments().putInt(BundleConstants.position, position)
                                     packageInfo.applicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
-                                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
                                 } else {
-                                    openFragmentSlide(Information.newInstance(packageInfo), "apk_info")
+                                    openFragmentSlide(Information.newInstance(packageInfo), AppInfo.TAG)
                                 }
                             }.onFailure {
                                 showWarning("Failed to open apk : ${
@@ -267,5 +267,7 @@ class ApksSearch : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "ApksSearch"
     }
 }

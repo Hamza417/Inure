@@ -60,21 +60,21 @@ class Uninstalled : ScopedFragment() {
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
                     AppMenu.newInstance(packageInfo)
-                        .show(childFragmentManager, "apps_menu")
+                        .show(childFragmentManager, AppMenu.TAG)
                 }
             })
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getUninstalledBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                     R.drawable.ic_info -> {
                         UninstalledAppsInfo.newInstance()
-                            .show(childFragmentManager, "uninstall_info")
+                            .show(childFragmentManager, UninstalledAppsInfo.TAG)
                     }
                     R.drawable.ic_refresh -> {
                         showLoader(manualOverride = true)

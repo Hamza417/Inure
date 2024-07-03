@@ -158,5 +158,7 @@ class Extras : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Extras"
     }
 }

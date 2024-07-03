@@ -69,8 +69,10 @@ class Hide : ScopedActionDialogBottomFragment() {
 
         fun FragmentManager.showHide(packageInfo: PackageInfo): Hide {
             val fragment = newInstance(packageInfo)
-            fragment.show(this, "hide")
+            fragment.show(this, TAG)
             return fragment
         }
+
+        const val TAG = "hide"
     }
 }

@@ -25,7 +25,7 @@ class PreferenceActivity : BaseActivity() {
 
         if (savedInstanceState.isNull()) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.app_container, Preferences.newInstance(), "preferences")
+                .replace(R.id.app_container, Preferences.newInstance(), Preferences.TAG)
                 .commit()
         }
     }

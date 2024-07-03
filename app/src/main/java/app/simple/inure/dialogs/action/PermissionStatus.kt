@@ -250,12 +250,14 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showPermissionStatus(packageInfo: PackageInfo, permissionInfo: PermissionInfo): PermissionStatus {
             val fragment = newInstance(packageInfo, permissionInfo)
-            fragment.show(this, "permission_status")
+            fragment.show(this, TAG)
             return fragment
         }
 
         interface PermissionStatusCallbacks {
             fun onSuccess(grantedStatus: Boolean)
         }
+
+        const val TAG = "PermissionStatus"
     }
 }

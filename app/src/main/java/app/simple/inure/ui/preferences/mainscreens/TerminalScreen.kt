@@ -81,11 +81,11 @@ class TerminalScreen : ScopedFragment() {
         }
 
         fontSize.setOnClickListener {
-            openFragmentSlide(TerminalFontSize.newInstance(), "font_size")
+            openFragmentSlide(TerminalFontSize.newInstance(), TerminalFontSize.TAG)
         }
 
         color.setOnClickListener {
-            openFragmentSlide(TerminalColor.newInstance(), "color")
+            openFragmentSlide(TerminalColor.newInstance(), TerminalColor.TAG)
         }
 
         cursorBlink.setOnSwitchCheckedChangeListener {
@@ -97,15 +97,15 @@ class TerminalScreen : ScopedFragment() {
         }
 
         backButtonAction.setOnClickListener {
-            openFragmentSlide(TerminalBackButtonAction.newInstance(), "back_button")
+            openFragmentSlide(TerminalBackButtonAction.newInstance(), TerminalBackButtonAction.TAG)
         }
 
         controlKey.setOnClickListener {
-            openFragmentSlide(TerminalControlKey.newInstance(), "control_key")
+            openFragmentSlide(TerminalControlKey.newInstance(), TerminalControlKey.TAG)
         }
 
         fnKey.setOnClickListener {
-            openFragmentSlide(TerminalFnKey.newInstance(), "fn_key")
+            openFragmentSlide(TerminalFnKey.newInstance(), TerminalFnKey.TAG)
         }
 
         inputMethod.setOnClickListener {

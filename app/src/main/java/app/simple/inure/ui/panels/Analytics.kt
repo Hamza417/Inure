@@ -108,7 +108,7 @@ class Analytics : ScopedFragment() {
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
                         PopupChartEntry(view, e) {
-                            openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), "sdk")
+                            openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), AnalyticsMinimumSDK.TAG)
                         }.setOnDismissListener {
                             runCatching {
                                 minimumOsPie.highlightValues(null)
@@ -124,7 +124,7 @@ class Analytics : ScopedFragment() {
 
                 minimumOS = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), "sdk")
+                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), AnalyticsMinimumSDK.TAG)
                     } else {
                         minimumOsPie.highlightValue(Highlight(
                                 pieData.first.indexOf(pieEntry).toFloat(),
@@ -160,7 +160,7 @@ class Analytics : ScopedFragment() {
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
                         PopupChartEntry(view, e) {
-                            openFragmentSlide(AnalyticsTargetSDK.newInstance(it), "target_sdk")
+                            openFragmentSlide(AnalyticsTargetSDK.newInstance(it), AnalyticsTargetSDK.TAG)
                         }.setOnDismissListener {
                             runCatching {
                                 targetOsPie.highlightValues(null)
@@ -176,7 +176,7 @@ class Analytics : ScopedFragment() {
 
                 targetOS = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), "target_sdk")
+                        openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), AnalyticsTargetSDK.TAG)
                     } else {
                         targetOsPie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
@@ -209,7 +209,7 @@ class Analytics : ScopedFragment() {
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
                         PopupChartEntry(view, e) {
-                            openFragmentSlide(AnalyticsPackageType.newInstance(it), "package_type")
+                            openFragmentSlide(AnalyticsPackageType.newInstance(it), AnalyticsPackageType.TAG)
                         }.setOnDismissListener {
                             runCatching {
                                 packageTypePie.highlightValues(null)
@@ -225,7 +225,7 @@ class Analytics : ScopedFragment() {
 
                 packageTypeAdapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
+                        openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), AnalyticsPackageType.TAG)
                     } else {
                         packageTypePie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),

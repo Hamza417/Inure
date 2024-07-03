@@ -129,23 +129,19 @@ class Apps : ScopedFragment() {
                  */
                 when {
                     path.endsWithAny(*generatedDataTextExtension) -> {
-                        openFragmentSlide(XML.newInstance(
-                                PackageInfo(), false /* Not needed? */, path, true), XML.TAG)
+                        openFragmentSlide(XML.newInstance(PackageInfo(), false /* Not needed? */, path, true), XML.TAG)
                     }
 
                     path.endsWith(htmlExtension) -> {
-                        openFragmentSlide(HTML.newInstance(
-                                PackageInfo(), path, true), HTML.TAG)
+                        openFragmentSlide(HTML.newInstance(PackageInfo(), path, true), HTML.TAG)
                     }
 
                     path.endsWith((jsonExtension)) -> {
-                        openFragmentSlide(JSON.newInstance(
-                                PackageInfo(), path, true), JSON.TAG)
+                        openFragmentSlide(JSON.newInstance(PackageInfo(), path, true), JSON.TAG)
                     }
 
                     path.endsWithAny(*markdownExtensions) -> {
-                        openFragmentSlide(Markdown.newInstance(
-                                PackageInfo(), path, true), Markdown.TAG)
+                        openFragmentSlide(Markdown.newInstance(PackageInfo(), path, true), Markdown.TAG)
                     }
                 }
 

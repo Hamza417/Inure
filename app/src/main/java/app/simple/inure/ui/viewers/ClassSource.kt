@@ -103,5 +103,7 @@ class ClassSource : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "ClassSource"
     }
 }

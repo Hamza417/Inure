@@ -159,5 +159,7 @@ class IFW : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "IFW"
     }
 }

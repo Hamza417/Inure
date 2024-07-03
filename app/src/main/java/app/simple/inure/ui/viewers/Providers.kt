@@ -57,7 +57,7 @@ class Providers : SearchBarScopedFragment() {
 
             adapterProviders?.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
                 override fun onProvidersClicked(providerInfoModel: ProviderInfoModel) {
-                    openFragmentSlide(ProviderInfo.newInstance(providerInfoModel, packageInfo), "provider_info")
+                    openFragmentSlide(ProviderInfo.newInstance(providerInfoModel, packageInfo), ProviderInfo.TAG)
                 }
 
                 override fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -71,7 +71,7 @@ class Providers : SearchBarScopedFragment() {
                                             adapterProviders?.notifyItemChanged(position)
                                         }
                                     })
-                                    p.show(childFragmentManager, "component_state")
+                                    p.show(childFragmentManager, ComponentState.TAG)
                                 }
                             }
                         }

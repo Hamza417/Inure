@@ -110,7 +110,7 @@ class Trackers : SearchBarScopedFragment() {
 
             if (ConfigurationPreferences.isUsingRoot()) {
                 ifwButton.setOnClickListener {
-                    openFragmentSlide(IFW.newInstance(packageInfo), "ifw_viewer")
+                    openFragmentSlide(IFW.newInstance(packageInfo), IFW.TAG)
                 }
 
                 if (trackers.isNotEmpty()) {

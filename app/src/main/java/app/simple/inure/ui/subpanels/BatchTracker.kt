@@ -137,5 +137,7 @@ class BatchTracker : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "BatchTracker"
     }
 }

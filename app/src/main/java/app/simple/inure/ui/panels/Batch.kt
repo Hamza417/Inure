@@ -207,7 +207,7 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_checklist -> {
-                    openFragmentSlide(BatchSelectedApps.newInstance(), "batch_selected_apps")
+                    openFragmentSlide(BatchSelectedApps.newInstance(), BatchSelectedApps.TAG)
                 }
 
                 R.drawable.ic_refresh -> {
@@ -234,7 +234,7 @@ class Batch : ScopedFragment() {
                                         override fun onSure() {
                                             if (ConfigurationPreferences.isUsingRoot() || ConfigurationPreferences.isUsingShizuku()) {
                                                 BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
-                                                    .show(childFragmentManager, "batch_uninstaller")
+                                                    .show(childFragmentManager, BatchUninstaller.TAG)
                                             } else {
                                                 for (app in adapterBatch?.getCurrentAppsList()!!) {
                                                     @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
@@ -333,7 +333,7 @@ class Batch : ScopedFragment() {
                                 openFragmentSlide(
                                         BatchTracker.newInstance(adapterBatch?.getCurrentAppsList()!!.map {
                                             it.packageInfo.packageName
-                                        } as ArrayList<String>), "batch_tracker")
+                                        } as ArrayList<String>), BatchTracker.TAG)
                             }
 
                             R.drawable.ic_close -> {
@@ -370,33 +370,19 @@ class Batch : ScopedFragment() {
                     it.endsWith(".xml") ||
                             it.endsWith(".txt") ||
                             it.endsWith(".csv") -> {
-                        openFragmentSlide(
-                                XML
-                                    .newInstance(packageInfo = PackageInfo(), /* Empty package info */
-                                                 isManifest = false,
-                                                 pathToXml = it,
-                                                 isRaw = true), "xml_viewer")
+                        openFragmentSlide(XML.newInstance(PackageInfo(), false, it, true /* Empty package info */), XML.TAG)
                     }
 
                     it.endsWith(".html") -> {
-                        openFragmentSlide(
-                                HTML
-                                    .newInstance(packageInfo = PackageInfo(), it,
-                                                 isRaw = true), "web_page")
+                        openFragmentSlide(HTML.newInstance(PackageInfo(), it, true), HTML.TAG)
                     }
 
                     it.endsWith(".json") -> {
-                        openFragmentSlide(
-                                JSON.newInstance(packageInfo = PackageInfo(),
-                                                 path = it,
-                                                 isRaw = true), "json_viewer")
+                        openFragmentSlide(JSON.newInstance(PackageInfo(), it, true), JSON.TAG)
                     }
 
                     it.endsWith(".md") -> {
-                        openFragmentSlide(
-                                Markdown.newInstance(packageInfo = PackageInfo(),
-                                                     path = it,
-                                                     isRaw = true), "markdown_viewer")
+                        openFragmentSlide(Markdown.newInstance(PackageInfo(), it, true), Markdown.TAG)
                     }
                 }
 

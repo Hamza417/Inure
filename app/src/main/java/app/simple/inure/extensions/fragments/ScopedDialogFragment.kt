@@ -114,7 +114,7 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
     }
 
     open fun openSettings() {
-        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
     }
 
     /**

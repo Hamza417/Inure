@@ -56,10 +56,10 @@ class Hidden : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                 }
             }

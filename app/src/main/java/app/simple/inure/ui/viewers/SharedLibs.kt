@@ -57,5 +57,7 @@ class SharedLibs : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "SharedLibs"
     }
 }

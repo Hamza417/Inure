@@ -99,10 +99,10 @@ class BootManager : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getBootManagerBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), Search.TAG)
                     }
                     R.drawable.ic_filter -> {
                         childFragmentManager.showBootManagerSort()

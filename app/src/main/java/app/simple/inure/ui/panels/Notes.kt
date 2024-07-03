@@ -64,7 +64,7 @@ class Notes : ScopedFragment() {
                     //                        .addToBackStack("notes_editor")
                     //                        .commit()
 
-                    openFragmentArc(NotesEditor.newInstance(notesPackageInfo.packageInfo), view, "notes_editor")
+                    openFragmentArc(NotesEditor.newInstance(notesPackageInfo.packageInfo), view, NotesEditor.TAG)
                 }
 
                 override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {
@@ -78,11 +78,11 @@ class Notes : ScopedFragment() {
                         }
 
                         override fun onOpenClicked() {
-                            openFragmentSlide(Note.newInstance(notesPackageInfo.packageInfo), "notes_editor")
+                            openFragmentSlide(Note.newInstance(notesPackageInfo.packageInfo), Note.TAG)
                         }
 
                         override fun onEditClicked() {
-                            openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), "notes_editor")
+                            openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), NotesEditor.TAG)
                         }
 
                         override fun onShareClicked() {

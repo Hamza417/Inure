@@ -46,10 +46,10 @@ class Sensors : ScopedFragment() {
                         PopupSortingStyle(view)
                     }
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search")
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), Search.TAG)
                     }
                 }
             }
@@ -63,5 +63,7 @@ class Sensors : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Sensors"
     }
 }

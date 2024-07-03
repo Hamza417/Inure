@@ -285,5 +285,7 @@ class SharedPrefsCode : KeyboardScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "SharedPrefsCode"
     }
 }

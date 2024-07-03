@@ -474,7 +474,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     open fun openWebPage(source: String) {
         clearTransitions()
-        openFragmentSlide(WebPage.newInstance(string = source), "web_page")
+        openFragmentSlide(WebPage.newInstance(string = source), WebPage.TAG)
     }
 
     /**
@@ -493,6 +493,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      * Override it if you don't want the current panel to intercept the back press
      * and let the activity handle it
      */
+    @Suppress("KDocUnresolvedReference")
     open fun setupBackPressedDispatcher() {
         if (parentFragmentManager.backStackEntryCount > 0) { // Make sure we have fragments in backstack
             requireActivity().onBackPressedDispatcher.addCallback(this) {

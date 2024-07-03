@@ -63,11 +63,11 @@ class BatteryOptimization : ScopedFragment() {
 
             adapterBatteryOptimization.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onSearchPressed(view: View) {
-                    openFragmentSlide(Search.newInstance(true), "search")
+                    openFragmentSlide(Search.newInstance(true), Search.TAG)
                 }
 
                 override fun onSettingsPressed(view: View) {
-                    openFragmentSlide(Preferences.newInstance(), "preferences")
+                    openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                 }
 
                 override fun onBatteryOptimizationClicked(view: View, batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
@@ -105,10 +105,10 @@ class BatteryOptimization : ScopedFragment() {
                         childFragmentManager.showBatteryOptimizationSort()
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "preferences")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_refresh -> {
                         showLoader(manualOverride = true)

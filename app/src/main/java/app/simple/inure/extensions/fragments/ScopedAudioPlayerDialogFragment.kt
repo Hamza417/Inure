@@ -115,7 +115,7 @@ open class ScopedAudioPlayerDialogFragment : DialogFragment(), SharedPreferences
     }
 
     open fun openSettings() {
-        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
     }
 
     /**

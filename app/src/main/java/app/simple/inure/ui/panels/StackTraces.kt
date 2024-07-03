@@ -98,10 +98,10 @@ class StackTraces : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getStackTracesBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(firstLaunch = true), "search_screen")
+                        openFragmentSlide(Search.newInstance(firstLaunch = true), Search.TAG)
                     }
                     R.drawable.ic_clear_all -> {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {

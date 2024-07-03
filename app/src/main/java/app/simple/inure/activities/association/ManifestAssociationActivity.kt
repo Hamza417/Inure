@@ -81,14 +81,11 @@ class ManifestAssociationActivity : BaseActivity() {
 
                         withContext(Dispatchers.Main) {
                             hideLoader()
+                            val xml = XML.newInstance(packageInfo, true, "AndroidManifest.xml", false)
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, XML
-                                    .newInstance(packageInfo,
-                                                 true,
-                                                 "AndroidManifest.xml",
-                                                 false), "app_info")
+                                .replace(R.id.app_container, xml, XML.TAG)
                                 .commit()
                         }
                     }.getOrElse {

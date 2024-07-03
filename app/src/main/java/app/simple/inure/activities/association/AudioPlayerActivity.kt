@@ -35,7 +35,7 @@ class AudioPlayerActivity : BaseActivity() {
             kotlin.runCatching {
                 if (intent.hasExtra(BundleConstants.audioModel)) {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, AudioPlayer.newInstance(AudioModel(), fromActivity = true), "audio_player")
+                        .replace(R.id.app_container, AudioPlayer.newInstance(AudioModel(), fromActivity = true), AudioPlayer.TAG)
                         .commit()
                 } else {
                     uri = when {
@@ -51,7 +51,7 @@ class AudioPlayerActivity : BaseActivity() {
                     }
 
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), "audio_player")
+                        .replace(R.id.app_container, AudioPlayer.newInstance(uri!!, fromActivity = true), AudioPlayer.TAG)
                         .commit()
                 }
             }.getOrElse {

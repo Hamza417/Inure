@@ -57,7 +57,7 @@ class Receivers : SearchBarScopedFragment() {
 
             adapterReceivers?.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
                 override fun onReceiverClicked(activityInfoModel: ActivityInfoModel) {
-                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), "activity_info")
+                    openFragmentSlide(ActivityInfo.newInstance(activityInfoModel, packageInfo), ActivityInfo.TAG)
                 }
 
                 override fun onReceiverLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -71,7 +71,7 @@ class Receivers : SearchBarScopedFragment() {
                                             adapterReceivers?.notifyItemChanged(position)
                                         }
                                     })
-                                    componentState.show(childFragmentManager, "component_state")
+                                    componentState.show(childFragmentManager, ComponentState.TAG)
                                 }
                             }
                         }

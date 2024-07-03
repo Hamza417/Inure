@@ -27,7 +27,7 @@ class LayoutsScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         installerVisibilityCustomization.setOnClickListener {
-            openFragmentSlide(InstallerCustomization.newInstance(), "installer_visibility")
+            openFragmentSlide(InstallerCustomization.newInstance(), InstallerCustomization.TAG)
         }
     }
 

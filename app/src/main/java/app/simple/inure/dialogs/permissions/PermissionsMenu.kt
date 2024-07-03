@@ -62,5 +62,7 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "PermissionsMenu"
     }
 }

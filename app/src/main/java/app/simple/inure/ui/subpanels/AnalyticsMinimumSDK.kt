@@ -104,5 +104,7 @@ class AnalyticsMinimumSDK : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "AnalyticsMinimumSDK"
     }
 }

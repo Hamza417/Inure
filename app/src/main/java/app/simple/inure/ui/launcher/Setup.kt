@@ -174,11 +174,11 @@ class Setup : ScopedFragment() {
         }
 
         accent.setOnClickListener {
-            openFragmentSlide(AccentColor.newInstance(), "accent_color")
+            openFragmentSlide(AccentColor.newInstance(), AccentColor.TAG)
         }
 
         typeface.setOnClickListener {
-            openFragmentSlide(AppearanceTypeFace.newInstance(), "app_typeface")
+            openFragmentSlide(AppearanceTypeFace.newInstance(), AppearanceTypeFace.TAG)
         }
 
         rootSwitchView.setOnSwitchCheckedChangeListener { it ->

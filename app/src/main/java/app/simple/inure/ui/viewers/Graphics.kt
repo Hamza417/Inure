@@ -60,14 +60,14 @@ class Graphics : SearchBarScopedFragment() {
 
                 adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                     override fun onGraphicsClicked(path: String, graphics: Graphic, view: ViewGroup, xOff: Float, yOff: Float) {
-                        openFragmentSlide(Image.newInstance(packageInfo.applicationInfo.sourceDir, graphics.path), "image_viewer")
+                        openFragmentSlide(Image.newInstance(packageInfo.applicationInfo.sourceDir, graphics.path), Image.TAG)
                     }
 
                     override fun onGraphicsLongPressed(graphic: Graphic) {
                         if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                            openFragmentSlide(XMLWebView.newInstance(packageInfo, graphic.path), "wv_xml")
+                            openFragmentSlide(XMLWebView.newInstance(packageInfo, graphic.path), XMLWebView.TAG)
                         } else {
-                            openFragmentSlide(XML.newInstance(packageInfo, false, graphic.path), "tv_xml")
+                            openFragmentSlide(XML.newInstance(packageInfo, false, graphic.path), XML.TAG)
                         }
                     }
                 })
@@ -124,5 +124,7 @@ class Graphics : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Graphics"
     }
 }

@@ -56,27 +56,27 @@ class AppearanceScreen : ScopedFragment() {
         accentOnBottomMenu.isChecked = AppearancePreferences.isAccentColorOnBottomMenu()
 
         appTheme.setOnClickListener {
-            openFragmentSlide(AppearanceAppTheme.newInstance(), "theme")
+            openFragmentSlide(AppearanceAppTheme.newInstance(), AppearanceAppTheme.TAG)
         }
 
         accent.setOnClickListener {
-            openFragmentSlide(AccentColor.newInstance(), "accent_color")
+            openFragmentSlide(AccentColor.newInstance(), AccentColor.TAG)
         }
 
         typeface.setOnClickListener {
-            openFragmentSlide(AppearanceTypeFace.newInstance(), "typeface")
+            openFragmentSlide(AppearanceTypeFace.newInstance(), AppearanceTypeFace.TAG)
         }
 
         roundedCorner.setOnClickListener {
             if (fullVersionCheck(goBack = false)) {
-                RoundedCorner.newInstance().show(childFragmentManager, "rounded_corner")
+                RoundedCorner.newInstance().show(childFragmentManager, RoundedCorner.TAG)
             }
         }
 
         iconSize.setOnClickListener {
             if (fullVersionCheck(goBack = false)) {
                 IconSize.newInstance()
-                    .show(childFragmentManager, "icon_size")
+                    .show(childFragmentManager, IconSize.TAG)
             }
         }
 

@@ -56,5 +56,7 @@ class BatteryInfo : ScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "BatteryInfo"
     }
 }

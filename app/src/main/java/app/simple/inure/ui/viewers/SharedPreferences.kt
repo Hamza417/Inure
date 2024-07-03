@@ -51,14 +51,14 @@ class SharedPreferences : SearchBarScopedFragment() {
             adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                 override fun onResourceClicked(path: String) {
                     openFragmentSlide(SharedPrefsCode.newInstance(
-                            sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), "shared_prefs_viewer")
+                            sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), SharedPrefsCode.TAG)
                 }
 
                 override fun onResourceLongClicked(path: String, view: View, position: Int) {
                     PopupSharedPreferences(requireView()).setOnPopupNotesMenuCallbackListener(object : PopupSharedPreferences.Companion.PopupSharedPrefsMenuCallback {
                         override fun onOpenClicked() {
                             openFragmentSlide(SharedPrefsCode.newInstance(
-                                    sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), "shared_prefs_viewer")
+                                    sharedPreferencesViewModel.getSharedPrefsPath() + path, packageInfo), SharedPrefsCode.TAG)
                         }
 
                         override fun onDeleteClicked() {
@@ -101,5 +101,7 @@ class SharedPreferences : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "shared_prefs_viewer"
     }
 }

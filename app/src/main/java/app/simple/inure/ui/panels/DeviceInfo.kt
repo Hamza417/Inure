@@ -45,16 +45,16 @@ class DeviceInfo : ScopedFragment() {
                 override fun onItemClicked(source: String, icon: View) {
                     when (source) {
                         getString(R.string.system) -> {
-                            openFragmentLinear(SystemInfo.newInstance(), icon, "system_info")
+                            openFragmentLinear(SystemInfo.newInstance(), icon, SystemInfo.TAG)
                         }
                         getString(R.string.device) -> {
-                            openFragmentLinear(DeviceInfo.newInstance(), icon, "device_info")
+                            openFragmentLinear(DeviceInfo.newInstance(), icon, DeviceInfo.TAG)
                         }
                         getString(R.string.battery) -> {
-                            openFragmentLinear(BatteryInfo.newInstance(), icon, "battery_info")
+                            openFragmentLinear(BatteryInfo.newInstance(), icon, BatteryInfo.TAG)
                         }
                         getString(R.string.sensors) -> {
-                            openFragmentLinear(Sensors.newInstance(), icon, "sensors")
+                            openFragmentLinear(Sensors.newInstance(), icon, Sensors.TAG)
                         }
                     }
                 }
@@ -69,10 +69,10 @@ class DeviceInfo : ScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), panels) { id, _ ->
                 when (id) {
                     R.drawable.ic_search -> {
-                        openFragmentSlide(Search.newInstance(true), "search")
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                     R.drawable.ic_settings -> {
-                        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
                     }
                 }
             }

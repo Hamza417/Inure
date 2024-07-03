@@ -116,7 +116,9 @@ class Extract : ScopedBottomSheetFragment() {
         }
 
         fun FragmentManager.launchExtract(packageInfo: PackageInfo, paths: Set<String>) {
-            newInstance(packageInfo, paths).show(this, "extract")
+            newInstance(packageInfo, paths).show(this, TAG)
         }
+
+        const val TAG = "Extract"
     }
 }

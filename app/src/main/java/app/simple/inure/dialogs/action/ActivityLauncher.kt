@@ -52,5 +52,7 @@ class ActivityLauncher : ScopedActionDialogBottomFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "ActivityLauncher"
     }
 }

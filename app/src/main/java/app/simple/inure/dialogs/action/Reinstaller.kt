@@ -62,12 +62,14 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
 
         fun FragmentManager.showReinstaller(packageInfo: PackageInfo): Reinstaller {
             val reinstaller = newInstance(packageInfo)
-            reinstaller.show(this, reinstaller.tag)
+            reinstaller.show(this, TAG)
             return reinstaller
         }
 
         interface ReinstallerCallbacks {
             fun onReinstallSuccess()
         }
+
+        const val TAG = "Reinstaller"
     }
 }

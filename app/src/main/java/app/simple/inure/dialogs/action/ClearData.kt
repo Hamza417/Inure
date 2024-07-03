@@ -51,5 +51,7 @@ class ClearData : ScopedActionDialogBottomFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "clear_data"
     }
 }

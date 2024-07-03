@@ -57,9 +57,7 @@ class Dexs : SearchBarScopedFragment() {
                 val adapter = AdapterDexData(it, searchBox.text.toString().trim())
 
                 adapter.onDetailsClicked = { dexClass ->
-                    openFragmentSlide(
-                            ClassSource.newInstance(dexClass, packageInfo),
-                            "class_source_viewer")
+                    openFragmentSlide(ClassSource.newInstance(dexClass, packageInfo), ClassSource.TAG)
                 }
 
                 recyclerView.adapter = adapter
@@ -101,5 +99,7 @@ class Dexs : SearchBarScopedFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "Dexs"
     }
 }

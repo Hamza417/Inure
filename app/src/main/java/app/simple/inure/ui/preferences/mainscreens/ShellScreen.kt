@@ -63,16 +63,16 @@ class ShellScreen : ScopedFragment() {
 
         commandLine.setOnClickListener {
             TerminalCommandLine.newInstance()
-                .show(childFragmentManager, "command_line")
+                .show(childFragmentManager, TerminalCommandLine.TAG)
         }
 
         initialCommand.setOnClickListener {
             TerminalInitialCommand.newInstance()
-                .show(childFragmentManager, "initial_command")
+                .show(childFragmentManager, TerminalInitialCommand.TAG)
         }
 
         terminalType.setOnClickListener {
-            openFragmentSlide(ShellTerminalType.newInstance(), "terminal_type")
+            openFragmentSlide(ShellTerminalType.newInstance(), ShellTerminalType.TAG)
         }
 
         useRISH.setOnSwitchCheckedChangeListener {

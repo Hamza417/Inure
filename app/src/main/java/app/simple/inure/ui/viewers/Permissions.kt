@@ -152,7 +152,7 @@ class Permissions : SearchBarScopedFragment() {
 
         options.setOnClickListener {
             PermissionsMenu.newInstance()
-                .show(childFragmentManager, "permission_menu")
+                .show(childFragmentManager, PermissionsMenu.TAG)
         }
 
         search.setOnClickListener {

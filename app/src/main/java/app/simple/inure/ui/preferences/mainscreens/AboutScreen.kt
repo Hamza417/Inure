@@ -108,7 +108,7 @@ class AboutScreen : ScopedFragment() {
         }
 
         share.setOnClickListener {
-            openFragmentSlide(Share.newInstance(), "share")
+            openFragmentSlide(Share.newInstance(), Share.TAG)
         }
     }
 

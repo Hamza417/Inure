@@ -45,11 +45,11 @@ class FormattingScreen : ScopedFragment() {
         }
 
         dateFormat.setOnClickListener {
-            DateFormat.newInstance().show(childFragmentManager, "date_format")
+            DateFormat.newInstance().show(childFragmentManager, DateFormat.TAG)
         }
 
         infoVisibilityCustomization.setOnClickListener {
-            openFragmentSlide(InformationCustomization.newInstance(), "info_visibility")
+            openFragmentSlide(InformationCustomization.newInstance(), InformationCustomization.TAG)
         }
     }
 

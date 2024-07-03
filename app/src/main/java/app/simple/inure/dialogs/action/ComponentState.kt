@@ -71,5 +71,7 @@ class ComponentState : ScopedActionDialogBottomFragment() {
         interface ComponentStatusCallbacks {
             fun onSuccess()
         }
+
+        const val TAG = "ComponentState"
     }
 }

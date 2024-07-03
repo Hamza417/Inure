@@ -55,14 +55,14 @@ class Resources : SearchBarScopedFragment() {
                 adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
                     override fun onResourceClicked(path: String) {
                         if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
-                            openFragmentSlide(XMLWebView.newInstance(packageInfo, path), "wv_xml")
+                            openFragmentSlide(XMLWebView.newInstance(packageInfo, path), XMLWebView.TAG)
                         } else {
-                            openFragmentSlide(XML.newInstance(packageInfo, false, path), "tv_xml")
+                            openFragmentSlide(XML.newInstance(packageInfo, false, path), XML.TAG)
                         }
                     }
 
                     override fun onResourceLongClicked(path: String, view: View, position: Int) {
-                        openFragmentSlide(Text.newInstance(packageInfo, path), "txt_tv_xml")
+                        openFragmentSlide(Text.newInstance(packageInfo, path), Text.TAG)
                     }
                 })
             }

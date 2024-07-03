@@ -32,7 +32,7 @@ class ChangesReminder : ScopedBottomSheetFragment() {
         MainPreferences.setChangeLogReminder(BuildConfig.VERSION_CODE)
 
         sure.setOnClickListener {
-            openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), "changelogs")
+            openFragmentSlide(WebPage.newInstance(getString(R.string.change_logs)), WebPage.TAG)
             dismiss()
         }
 

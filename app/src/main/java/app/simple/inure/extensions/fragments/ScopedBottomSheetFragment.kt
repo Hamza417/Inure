@@ -3,7 +3,10 @@ package app.simple.inure.extensions.fragments
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -152,7 +155,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     }
 
     protected fun openSettings() {
-        openFragmentSlide(Preferences.newInstance(), "prefs_screen")
+        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
     }
 
     /**

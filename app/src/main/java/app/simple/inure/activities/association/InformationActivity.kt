@@ -64,7 +64,7 @@ class InformationActivity : BaseActivity() {
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, Information.newInstance(packageInfo), "app_info")
+                                .replace(R.id.app_container, Information.newInstance(packageInfo), Information.TAG)
                                 .commit()
                         }
                     }.getOrElse {

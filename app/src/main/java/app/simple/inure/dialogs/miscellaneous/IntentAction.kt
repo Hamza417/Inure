@@ -99,5 +99,7 @@ class IntentAction : ScopedDialogFragment() {
             fragment.arguments = args
             return fragment
         }
+
+        const val TAG = "IntentAction"
     }
 }

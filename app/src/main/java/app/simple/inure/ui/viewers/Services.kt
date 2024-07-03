@@ -57,7 +57,7 @@ class Services : SearchBarScopedFragment() {
 
             adapterServices?.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
                 override fun onServiceClicked(serviceInfoModel: ServiceInfoModel) {
-                    openFragmentSlide(ServiceInfo.newInstance(serviceInfoModel, packageInfo), "services_info")
+                    openFragmentSlide(ServiceInfo.newInstance(serviceInfoModel, packageInfo), ServiceInfo.TAG)
                 }
 
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
@@ -71,7 +71,7 @@ class Services : SearchBarScopedFragment() {
                                             adapterServices?.notifyItemChanged(position)
                                         }
                                     })
-                                    p.show(childFragmentManager, "component_state")
+                                    p.show(childFragmentManager, ComponentState.TAG)
                                 }
                             }
                         }
