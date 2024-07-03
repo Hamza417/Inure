@@ -498,10 +498,16 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 Log.d(tag ?: TAG, "onBackPressed")
                 parentFragmentManager.popBackStackImmediate()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    requireView().clearViewTranslationCallback()
+
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        requireView().clearViewTranslationCallback()
+                    }
+                    requireView().clearAnimation()
+                    Log.i(TAG, "setupBackPressedDispatcher: Animations cleared")
+                } catch (e: IllegalStateException) {
+                    Log.e(TAG, "setupBackPressedDispatcher: ", e)
                 }
-                requireView().clearAnimation()
             }
         }
     }

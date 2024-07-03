@@ -1,5 +1,6 @@
 package app.simple.inure.util
 
+import android.annotation.SuppressLint
 import android.os.Build
 import app.simple.inure.preferences.FormattingPreferences
 import java.io.File
@@ -120,6 +121,7 @@ object FileSizeHelper {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private fun Long.humanReadableByteCountBinary(): String {
         val absB = if (this == Long.MIN_VALUE) Long.MAX_VALUE else abs(this)
         if (absB < 1024) {
@@ -137,6 +139,7 @@ object FileSizeHelper {
         return String.format("%.1f %ciB", value / 1024.0, ci.current())
     }
 
+    @SuppressLint("DefaultLocale")
     private fun Long.humanReadableByteCountSI(): String {
         var bytes = this
         if (-1000 < bytes && bytes < 1000) {
