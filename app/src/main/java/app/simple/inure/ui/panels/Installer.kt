@@ -422,6 +422,8 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             e.printStackTrace()
             launch.gone(animate = false)
             showWarning(e.message ?: "Err: 0x000788")
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "checkLaunchStatus: " + e.message)
         }
     }
 

@@ -386,6 +386,8 @@ class AppInfo : ScopedFragment() {
                                 showWarning(e.message ?: getString(R.string.error))
                             } catch (e: NameNotFoundException) {
                                 showWarning(e.message ?: getString(R.string.error))
+                            } catch (e: SecurityException) {
+                                showWarning(e.message ?: getString(R.string.error))
                             }
                         }
 

@@ -66,14 +66,16 @@ class Warning : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showWarning(warning: String): Warning {
             val fragment = newInstance(warning)
-            fragment.show(this, "warning")
+            fragment.show(this, TAG)
             return fragment
         }
 
         fun FragmentManager.showWarning(@StringRes warning: Int): Warning {
             val fragment = newInstance(warning)
-            fragment.show(this, "warning")
+            fragment.show(this, TAG)
             return fragment
         }
+
+        const val TAG = "Warning"
     }
 }
