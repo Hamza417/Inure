@@ -46,7 +46,7 @@ class TTFViewerActivity : BaseActivity() {
                 intent.data
             }
         } else {
-            showWarning("ERR: invalid file type ${intent?.type!!}")
+            showWarning("ERR: invalid file type ${intent?.type ?: "unknown"}")
             return
         }
 

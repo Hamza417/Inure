@@ -90,10 +90,10 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
             }.onSuccess {
                 success.postValue("Done")
             }.onFailure {
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }.getOrElse {
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }
         }
