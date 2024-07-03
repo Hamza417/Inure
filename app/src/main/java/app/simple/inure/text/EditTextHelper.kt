@@ -6,12 +6,23 @@ import android.os.Build
 import android.text.Layout
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.style.*
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.AlignmentSpan
+import android.text.style.BackgroundColorSpan
+import android.text.style.BulletSpan
+import android.text.style.MaskFilterSpan
+import android.text.style.QuoteSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.SubscriptSpan
+import android.text.style.SuperscriptSpan
+import android.text.style.UnderlineSpan
 import android.widget.EditText
-import androidx.core.text.toSpannable
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.invert
-import java.util.*
+import java.util.Locale
+import java.util.Objects
 import kotlin.math.roundToInt
 
 object EditTextHelper {
@@ -562,14 +573,14 @@ object EditTextHelper {
     }
 
     fun EditText.findMatches(searchKeyword: String): ArrayList<Pair<Int, Int>> {
-        val pattern = searchKeyword.lowercase().toRegex()
-        val matcher = pattern.toPattern().matcher(text.toString().lowercase(Locale.getDefault()).toSpannable())
+        val lowerCaseText = text.toString().lowercase(Locale.getDefault())
+        val lowerCaseKeyword = searchKeyword.lowercase()
         val list = ArrayList<Pair<Int, Int>>()
 
-        if (searchKeyword.isNotEmpty()) {
-            while (matcher.find()) {
-                list.add(Pair(matcher.start(), matcher.end()))
-            }
+        var index = lowerCaseText.indexOf(lowerCaseKeyword)
+        while (index >= 0) {
+            list.add(Pair(index, index + lowerCaseKeyword.length))
+            index = lowerCaseText.indexOf(lowerCaseKeyword, index + 1)
         }
 
         return list
