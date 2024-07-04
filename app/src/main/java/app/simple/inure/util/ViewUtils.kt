@@ -213,6 +213,14 @@ object ViewUtils {
         }
     }
 
+    fun View.visibility(isVisible: Boolean) {
+        visibility = if (isVisible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+
     // ViewExtensions
 
     fun View.fadeOutAnimation(duration: Long = 300, visibility: Int = View.INVISIBLE, completion: (() -> Unit)? = null) {
@@ -288,9 +296,8 @@ object ViewUtils {
         } else {
             if (height == 0 || width == 0) {
                 var onLayoutChangeListener: View.OnLayoutChangeListener? = null
-                val onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener?
 
-                onGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+                val onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         if (isShown) {
                             removeOnLayoutChangeListener(onLayoutChangeListener)

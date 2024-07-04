@@ -91,6 +91,14 @@ public class FOSSParser {
         }
     }
     
+    public static boolean isEmbeddedFOSS(PackageInfo packageInfo) {
+        try {
+            return packageInfo.applicationInfo.metaData.getBoolean(OPEN_SOURCE);
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+    
     @Nullable
     public static String getPackageLicense(PackageInfo packageInfo) {
         try {

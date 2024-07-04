@@ -47,6 +47,7 @@ import app.simple.inure.util.InfoStripUtils.setAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visibility
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 import kotlinx.coroutines.Dispatchers
@@ -153,6 +154,7 @@ class AppMenu : ScopedDialogFragment() {
 
         SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
+        markAsFOSS.visibility(FOSSParser.isEmbeddedFOSS(packageInfo).invert())
 
         name.apply {
             text = packageInfo.applicationInfo.name
@@ -292,13 +294,24 @@ class AppMenu : ScopedDialogFragment() {
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        childFragmentManager.showMarkFossDialog().onMarkFossSaved = { license ->
+                        if (FOSSParser.isEmbeddedFOSS(packageInfo)) {
                             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-                                FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
+                                FOSSParser.addPackage(packageInfo.packageName, FOSSParser.getPackageLicense(packageInfo), requireContext())
                                 withContext(Dispatchers.Main) {
                                     markAsFOSS.text = getString(R.string.mark_as_non_foss)
                                     name.setFOSSIcon(true)
                                     homeViewModel.refreshFossApps()
+                                }
+                            }
+                        } else {
+                            childFragmentManager.showMarkFossDialog().onMarkFossSaved = { license ->
+                                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                                    FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
+                                    withContext(Dispatchers.Main) {
+                                        markAsFOSS.text = getString(R.string.mark_as_non_foss)
+                                        name.setFOSSIcon(true)
+                                        homeViewModel.refreshFossApps()
+                                    }
                                 }
                             }
                         }
