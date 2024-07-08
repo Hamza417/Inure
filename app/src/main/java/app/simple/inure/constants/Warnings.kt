@@ -77,4 +77,9 @@ object Warnings {
      * Usage stats access blocked
      */
     const val USAGE_STATS_ACCESS_BLOCKED = "0x00F: Usage stats access blocked"
+
+    /**
+     * Root or shizuku required to change the state
+     */
+    const val ROOT_OR_SHIZUKU_REQUIRED = "0x010: Root or Shizuku required to change the state"
 }

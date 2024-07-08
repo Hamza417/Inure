@@ -13,14 +13,12 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.models.ActivityInfoModel
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 
 class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
 
     private lateinit var receiversCallbacks: ReceiversCallbacks
-    private var isUsingRoot = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_receivers, parent, false))
@@ -48,21 +46,18 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
                 }.getOrElse {
                     holder.itemView.context.getString(R.string.no_state)
                 })
-
         holder.status.append(receivers[position].status)
         holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
 
-        if (isUsingRoot) {
-            holder.container.setOnLongClickListener {
-                receiversCallbacks
-                    .onReceiverLongPressed(
-                            receivers[holder.absoluteAdapterPosition].name,
-                            packageInfo,
-                            it,
-                            ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
-                            holder.absoluteAdapterPosition)
-                true
-            }
+        holder.container.setOnLongClickListener {
+            receiversCallbacks
+                .onReceiverLongPressed(
+                        receivers[holder.absoluteAdapterPosition].name,
+                        packageInfo,
+                        it,
+                        ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
+                        holder.absoluteAdapterPosition)
+            true
         }
 
         holder.container.setOnClickListener {

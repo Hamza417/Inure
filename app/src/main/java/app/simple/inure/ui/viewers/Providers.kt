@@ -11,13 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterProviders
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.ComponentState
+import app.simple.inure.dialogs.action.ComponentState.Companion.showComponentStateDialog
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.popups.viewers.PopupProvidersMenu
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.ProvidersPreferences
 import app.simple.inure.ui.subviewers.ProviderInfo
 import app.simple.inure.viewmodels.viewers.ProvidersViewModel
@@ -61,21 +64,23 @@ class Providers : SearchBarScopedFragment() {
                 }
 
                 override fun onProvidersLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    PopupProvidersMenu(requireView(), isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.enable), getString(R.string.disable) -> {
-                                    val p = ComponentState.newInstance(packageInfo, packageId, isComponentEnabled)
-                                    p.setOnComponentStateChangeListener(object : ComponentState.Companion.ComponentStatusCallbacks {
-                                        override fun onSuccess() {
-                                            adapterProviders?.notifyItemChanged(position)
-                                        }
-                                    })
-                                    p.show(childFragmentManager, ComponentState.TAG)
+                    if (ConfigurationPreferences.isRootOrShizuku()) {
+                        PopupProvidersMenu(requireView(), isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
+                            override fun onMenuItemClicked(source: String) {
+                                when (source) {
+                                    getString(R.string.enable), getString(R.string.disable) -> {
+                                        showComponentStateDialog(packageInfo, packageId, isComponentEnabled, object : ComponentState.Companion.ComponentStatusCallbacks {
+                                            override fun onSuccess() {
+                                                adapterProviders?.notifyItemChanged(position)
+                                            }
+                                        })
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        showWarning(Warnings.ROOT_OR_SHIZUKU_REQUIRED, false)
+                    }
                 }
             })
 

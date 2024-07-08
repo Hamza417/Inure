@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterServices
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.ComponentState
 import app.simple.inure.dialogs.action.ComponentState.Companion.showComponentStateDialog
@@ -78,7 +79,7 @@ class Services : SearchBarScopedFragment() {
                             }
                         })
                     } else {
-                        showWarning("Root or Shizuku required to change the state", false)
+                        showWarning(Warnings.ROOT_OR_SHIZUKU_REQUIRED, false)
                     }
                 }
             })
