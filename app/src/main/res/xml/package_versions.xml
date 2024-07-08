@@ -240,6 +240,7 @@
     <string name="taco.apkmirror" translatable="false">GPL-2.0-or-later</string>
     <string name="be.brunoparmentier.apkshare" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.kwiatkowski.ApkTrack" translatable="false">GPL-3.0-only</string>
+    <string name="com.noxplay.noxplayer" translatable="false">Apache-2.0</string>
     <string name="io.github.tompreuss.apnsettings" translatable="false">GPL-3.0-or-later</string>
     <string name="ch.blinkenlights.android.apnswitch" translatable="false">GPL-3.0-only</string>
     <string name="com.jvillalba.apod.classic" translatable="false">MIT</string>
@@ -458,11 +459,13 @@
     <string name="com.kaliturin.blacklist" translatable="false">Apache-2.0</string>
     <string name="de.Cherubin7th.blackscreenpresentationremote" translatable="false">GPL-3.0-or-later</string>
     <string name="com.miqote.brswp" translatable="false">GPL-3.0-only</string>
+    <string name="com.ranger.blastoff" translatable="false">GPL-3.0-only</string>
     <string name="com.chancesoftwarellc.blazedcloud" translatable="false">MIT</string>
     <string name="io.github.webbluetoothcg.bletestperipheral" translatable="false">Apache-2.0</string>
     <string name="f.cking.software" translatable="false">GPL-3.0-only</string>
     <string name="com.vovagorodok.ble_ota_app" translatable="false">MIT</string>
     <string name="org.ligi.blexplorer" translatable="false">GPL-3.0-only</string>
+    <string name="com.vovagorodok.blichess" translatable="false">GPL-3.0-or-later</string>
     <string name="org.proninyaroslav.blink_comparison" translatable="false">GPL-3.0-or-later</string>
     <string name="com.blippex.app" translatable="false">MIT</string>
     <string name="foundation.e.blisslauncher" translatable="false">GPL-3.0-only</string>
@@ -1360,6 +1363,8 @@
     <string name="org.flyve.mdm.agent.mqtt" translatable="false">GPL-3.0-only</string>
     <string name="ch.mydoli.focal" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.xplod.focal" translatable="false">GPL-2.0-or-later</string>
+    <string name="allen.town.focus.mastodon" translatable="false">GPL-3.0-only</string>
+    <string name="allen.town.focus.podcast" translatable="false">GPL-3.0-only</string>
     <string name="io.github.folderlogs" translatable="false">GPL-3.0-or-later</string>
     <string name="com.oakley.fon" translatable="false">GPL-3.0-only</string>
     <string name="com.sputnik.wispr" translatable="false">GPL-3.0-only</string>
@@ -1563,6 +1568,7 @@
     <string name="com.android.gpstest.osmdroid" translatable="false">Apache-2.0</string>
     <string name="com.gpstether" translatable="false">GPL-3.0-only</string>
     <string name="org.woheller69.gptassist" translatable="false">GPL-3.0-only</string>
+    <string name="dev.chungjungsoo.gptmobile" translatable="false">GPL-3.0-only</string>
     <string name="uk.co.busydoingnothing.anagrams" translatable="false">GPL-3.0-or-later</string>
     <string name="com.NightDreamGames.Grade.ly" translatable="false">GPL-3.0-only</string>
     <string name="me.anuraag.grader" translatable="false">MIT</string>
@@ -2520,6 +2526,7 @@
     <string name="org.unifiedpush.distributor.nextpush" translatable="false">AGPL-3.0-only</string>
     <string name="jp.softstudio.DriversLicenseReader" translatable="false">MIT</string>
     <string name="pl.net.szafraniec.NFCKey" translatable="false">GPL-3.0-or-later</string>
+    <string name="au.id.colby.nfcquicksettings" translatable="false">GPL-3.0-or-later</string>
     <string name="com.github.muellerma.nfcreader" translatable="false">Apache-2.0</string>
     <string name="se.anyro.nfc_reader" translatable="false">Apache-2.0</string>
     <string name="pl.net.szafraniec.NFCTagmaker" translatable="false">GPL-3.0-or-later</string>
@@ -2840,6 +2847,7 @@
     <string name="fr.corenting.traficparis" translatable="false">MIT</string>
     <string name="de.jkliemann.parkendd" translatable="false">GPL-3.0-only</string>
     <string name="com.enjoyingfoss.parlera" translatable="false">AGPL-3.0-or-later</string>
+    <string name="io.gitlab.carsten_scholtes.parti" translatable="false">BSD-3-Clause</string>
     <string name="com.tss.android" translatable="false">GPL-2.0-only</string>
     <string name="me.ocv.partyup" translatable="false">MIT</string>
     <string name="de.rmrf.partygames" translatable="false">GPL-3.0-or-later</string>
