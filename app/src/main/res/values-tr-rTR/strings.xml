@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">Uygulamanın font stilini değiştir (Yalnızca İngilizce glif\'ler).</string>
     <string name="appearance">Görünüm</string>
     <string name="appearance_icon">Görünüm Simgesi</string>
-    <string name="total_apps">%1$s Uygulama</string>
-    <string name="total_sensors">%1$s Sensör</string>
+    <string name="total_apps">%1$d Uygulama</string>
+    <string name="total_sensors">%1$d Sensör</string>
     <string name="total_notes">%1$d Not</string>
     <string name="total_tags">%1$d Etiketler</string>
     <string name="apps">Uygulamalar</string>

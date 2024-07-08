@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">Изменить стиль шрифта приложения (только английский глиф).</string>
     <string name="appearance">Оформление</string>
     <string name="appearance_icon">Значок оформления</string>
-    <string name="total_apps">%1$s приложений</string>
-    <string name="total_sensors">%1$s датчиков</string>
+    <string name="total_apps">%1$d приложений</string>
+    <string name="total_sensors">%1$d датчиков</string>
     <string name="total_notes">%1$d заметок</string>
     <string name="total_tags">%1$d меток</string>
     <string name="apps">Приложения</string>

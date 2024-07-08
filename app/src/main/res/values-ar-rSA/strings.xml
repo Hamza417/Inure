@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">تغيير نمط خط التطبيق (الحروف الرسومية الإنجليزية فقط).</string>
     <string name="appearance">مظهر</string>
     <string name="appearance_icon">مظهر الأيقونة</string>
-    <string name="total_apps">%1$s تطبيقات</string>
-    <string name="total_sensors">%1$s اجهزة الاستشعار</string>
+    <string name="total_apps">%1$d تطبيقات</string>
+    <string name="total_sensors">%1$d اجهزة الاستشعار</string>
     <string name="total_notes">%1$d ملاحظات</string>
     <string name="total_tags"> %1$d علامات</string>
     <string name="apps">التطبيقات</string>

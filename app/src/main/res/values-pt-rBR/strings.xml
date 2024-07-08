@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">Alterar o estilo da fonte do aplicativo (apenas glifos em inglês).</string>
     <string name="appearance">Aparência</string>
     <string name="appearance_icon">Ícone de aparência</string>
-    <string name="total_apps">%1$s Aplicativos</string>
-    <string name="total_sensors">%1$s Sensores</string>
+    <string name="total_apps">%1$d Aplicativos</string>
+    <string name="total_sensors">%1$d Sensores</string>
     <string name="total_notes">%1$d anotações</string>
     <string name="total_tags">Marcadores %1$d</string>
     <string name="apps">Aplicativos</string>

@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">Cambia lo stile del carattere dell\'applicazione (solo caratteri latini).</string>
     <string name="appearance">Aspetto</string>
     <string name="appearance_icon">Icona Aspetto</string>
-    <string name="total_apps">%1$s app</string>
-    <string name="total_sensors">%1$s sensori</string>
+    <string name="total_apps">%1$d app</string>
+    <string name="total_sensors">%1$d sensori</string>
     <string name="total_notes">%1$d note</string>
     <string name="total_tags">Tag %1$d</string>
     <string name="apps">App</string>

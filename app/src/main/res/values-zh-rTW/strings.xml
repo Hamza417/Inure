@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">變更應用程式字型樣式 (僅英文字符)。</string>
     <string name="appearance">外觀</string>
     <string name="appearance_icon">外觀圖示</string>
-    <string name="total_apps">%1$s 個應用程式</string>
-    <string name="total_sensors">%1$s 個感應器</string>
+    <string name="total_apps">%1$d 個應用程式</string>
+    <string name="total_sensors">%1$d 個感應器</string>
     <string name="total_notes">%1$d 則附註</string>
     <string name="total_tags">%1$d 個標籤</string>
     <string name="apps">應用程式</string>

@@ -18,8 +18,8 @@
     <string name="desc_app_typeface">更改应用程序的字体样式(仅限英文字形).</string>
     <string name="appearance">外观</string>
     <string name="appearance_icon">图标外形</string>
-    <string name="total_apps">%1$s 个应用</string>
-    <string name="total_sensors">%1$s 个传感器</string>
+    <string name="total_apps">%1$d 个应用</string>
+    <string name="total_sensors">%1$d 个传感器</string>
     <string name="total_notes">%1$d 个笔记</string>
     <string name="total_tags">%1$d 个标签</string>
     <string name="apps">应用程序</string>
