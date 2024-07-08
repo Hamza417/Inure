@@ -20,7 +20,7 @@
     <string name="appearance_icon">图标外形</string>
     <string name="total_apps">%1$s 个应用</string>
     <string name="total_sensors">%1$s 个传感器</string>
-    <string name="total_notes">%1$s 个笔记</string>
+    <string name="total_notes">%1$d 个笔记</string>
     <string name="total_tags">%1$d 个标签</string>
     <string name="apps">应用程序</string>
     <string name="sorting_style">排序方式</string>

@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -20,6 +19,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
+import app.simple.inure.util.AdapterUtils.setInfoStates
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -64,8 +64,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             holder.packageId.text = notes[position].packageInfo.packageName
             holder.note.text = notes[position].note.subSequence(0, notes[position].note.length.coerceAtMost(1000))
 
-            holder.name.setStrikeThru(notes[position].packageInfo.applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(notes[position].packageInfo))
+            holder.name.setInfoStates(notes[position].packageInfo)
 
             if (areNotesExpanded) {
                 holder.note.maxLines = 60

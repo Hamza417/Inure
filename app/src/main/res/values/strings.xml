@@ -17,9 +17,9 @@
     <string name="desc_app_typeface">Change application\'s font style (English glyphs only).</string>
     <string name="appearance">Appearance</string>
     <string name="appearance_icon">Appearance Icon</string>
-    <string name="total_apps">%1$s Apps</string>
+    <string name="total_apps">%1$d Apps</string>
     <string name="total_sensors">%1$s Sensors</string>
-    <string name="total_notes">%1$s Notes</string>
+    <string name="total_notes">%1$d Notes</string>
     <string name="total_tags">%1$d Tags</string>
     <string name="apps">Apps</string>
     <string name="sorting_style">Sorting Style</string>

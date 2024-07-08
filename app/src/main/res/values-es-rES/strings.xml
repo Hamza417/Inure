@@ -20,7 +20,7 @@
     <string name="appearance_icon">Apariencia del icono</string>
     <string name="total_apps">%1$s Aplicaciones</string>
     <string name="total_sensors">%1$s Sensores</string>
-    <string name="total_notes">%1$s Notas</string>
+    <string name="total_notes">%1$d Notas</string>
     <string name="total_tags">%1$d Etiquetas</string>
     <string name="apps">Aplicaciones</string>
     <string name="sorting_style">Estilo de clasificación</string>

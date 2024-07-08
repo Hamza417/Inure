@@ -226,13 +226,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
 
-        drawableTintMode = 0
+        drawableTintMode = ICON_TINT_ACCENT
         setDrawableTint(false)
     }
 
-    fun setHiddenIcon(isTracker: Boolean) {
+    fun setHiddenIcon(isHidden: Boolean) {
         @Suppress("LiftReturnOrAssignment")
-        if (isTracker) {
+        if (isHidden) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility_off_12dp, 0)
             alpha = 0.75f
         } else {
@@ -240,7 +240,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             alpha = 1f
         }
 
-        drawableTintMode = 0
+        drawableTintMode = ICON_TINT_ACCENT
         setDrawableTint(false)
     }
 
@@ -255,7 +255,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
-    fun setWarningIcon(isWarning: Boolean, tintMode: Int = 2) {
+    fun setWarningIcon(isWarning: Boolean, tintMode: Int = ICON_TINT_SECONDARY) {
         if (isWarning) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_warning_tiny, 0)
         } else {
@@ -273,7 +273,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
 
-        drawableTintMode = 0
+        drawableTintMode = ICON_TINT_ACCENT
         setDrawableTint(false)
     }
 

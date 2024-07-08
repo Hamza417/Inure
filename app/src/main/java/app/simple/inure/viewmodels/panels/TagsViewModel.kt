@@ -17,6 +17,7 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
 import app.simple.inure.models.Tracker
+import app.simple.inure.singletons.TrackerTags
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
@@ -99,6 +100,12 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         tagNames.postValue(filtered)
     }
 
+    private suspend fun loadTrackerTags() {
+        val database = TagsDatabase.getInstance(application.applicationContext)
+        val tags = database?.getTagDao()?.getTrackers()
+        TrackerTags.setTrackerPackages(tags?.split(",")?.toHashSet())
+    }
+
     fun addTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             val database = TagsDatabase.getInstance(application.applicationContext)
@@ -158,6 +165,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             loadTags()
             loadTagNames()
+            loadTrackerTags()
         }
     }
 

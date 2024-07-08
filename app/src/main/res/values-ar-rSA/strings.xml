@@ -20,7 +20,7 @@
     <string name="appearance_icon">مظهر الأيقونة</string>
     <string name="total_apps">%1$s تطبيقات</string>
     <string name="total_sensors">%1$s اجهزة الاستشعار</string>
-    <string name="total_notes">%1$s ملاحظات</string>
+    <string name="total_notes">%1$d ملاحظات</string>
     <string name="total_tags"> %1$d علامات</string>
     <string name="apps">التطبيقات</string>
     <string name="sorting_style">نمط الترتيب</string>

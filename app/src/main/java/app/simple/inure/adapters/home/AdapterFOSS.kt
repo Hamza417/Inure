@@ -15,6 +15,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.util.AdapterUtils.setInfoStates
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -48,8 +49,7 @@ class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
             holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled, apps[position].applicationInfo.sourceDir.toFile())
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
-            holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
+            holder.name.setInfoStates(apps[position])
             holder.date.text = FOSSParser.getPackageLicense(apps[position]) ?: holder.itemView.context.getString(R.string.not_available)
             holder.date.setWarningIcon(FOSSParser.isUserDefinedFOSS(apps[position].packageName))
 

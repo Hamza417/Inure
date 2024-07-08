@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -20,6 +19,7 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.AdapterUtils.setInfoStates
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils
@@ -72,8 +72,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
-            holder.name.setStrikeThru(apps[position].packageInfo.applicationInfo.enabled)
-            holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position].packageInfo))
+            holder.name.setInfoStates(apps[position].packageInfo)
             holder.checkBox.setChecked(apps[position].isSelected, false)
 
             if (highlight) {

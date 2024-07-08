@@ -31,6 +31,13 @@ interface TagDao {
     fun getTag(tag: String): Tag
 
     /**
+     * Get a set of all package names under Trackers tag
+     * where [Tag.tag] is equal to "Trackers"
+     */
+    @Query("SELECT packages FROM tags WHERE tag = 'Trackers'")
+    suspend fun getTrackers(): String
+
+    /**
      * Get all tags where [Tag.packages] contains [packageName]
      */
     @Query("SELECT tag FROM tags WHERE packages LIKE '%' || :packageName || '%'")

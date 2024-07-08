@@ -1,13 +1,17 @@
 package app.simple.inure.util
 
+import android.content.pm.PackageInfo
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.style.TextAppearanceSpan
 import android.widget.TextView
 import androidx.core.text.toSpannable
+import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppearancePreferences
-import java.util.*
+import app.simple.inure.singletons.TrackerTags
+import java.util.Locale
 
 object AdapterUtils {
     fun searchHighlighter(textView: TextView, searchKeyword: String) {
@@ -46,5 +50,11 @@ object AdapterUtils {
         }
 
         textView.text = spannable
+    }
+
+    fun TypeFaceTextView.setInfoStates(packageInfo: PackageInfo) {
+        setStrikeThru(packageInfo.applicationInfo.enabled)
+        setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
+        setTrackingIcon(TrackerTags.isPackageTracked(packageInfo.packageName))
     }
 }

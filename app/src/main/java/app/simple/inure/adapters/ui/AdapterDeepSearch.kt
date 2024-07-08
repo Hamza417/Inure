@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -18,6 +17,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.AdapterUtils.setInfoStates
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterDeepSearch.Holder>() {
@@ -37,8 +37,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private v
         holder.name.text = deepSearchInfo[position].packageInfo.applicationInfo.name
         holder.packageId.text = deepSearchInfo[position].packageInfo.packageName
 
-        holder.name.setStrikeThru(deepSearchInfo[position].packageInfo.applicationInfo.enabled)
-        holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(deepSearchInfo[position].packageInfo))
+        holder.name.setInfoStates(deepSearchInfo[position].packageInfo)
         holder.info.setAppInfo(deepSearchInfo[position].packageInfo)
         holder.setDeepInfo(deepSearchInfo[position])
 
