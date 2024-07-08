@@ -14,13 +14,11 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.ServiceInfoModel
-import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
 
 class AdapterServices(private val services: MutableList<ServiceInfoModel>, private val packageInfo: PackageInfo, private val keyword: String) : RecyclerView.Adapter<AdapterServices.Holder>() {
 
     private lateinit var servicesCallbacks: ServicesCallbacks
-    private val isRootMode = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_services, parent, false))
@@ -57,17 +55,15 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
 
         holder.status.append(services[position].status)
 
-        if (isRootMode) {
-            holder.container.setOnLongClickListener {
-                servicesCallbacks
-                    .onServiceLongPressed(
-                            services[holder.absoluteAdapterPosition].name,
-                            packageInfo,
-                            it,
-                            ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[holder.absoluteAdapterPosition].name),
-                            holder.absoluteAdapterPosition)
-                true
-            }
+        holder.container.setOnLongClickListener {
+            servicesCallbacks
+                .onServiceLongPressed(
+                        services[holder.absoluteAdapterPosition].name,
+                        packageInfo,
+                        it,
+                        ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[holder.absoluteAdapterPosition].name),
+                        holder.absoluteAdapterPosition)
+            true
         }
 
         holder.container.setOnClickListener {

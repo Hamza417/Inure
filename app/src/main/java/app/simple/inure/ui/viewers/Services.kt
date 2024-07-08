@@ -13,11 +13,13 @@ import app.simple.inure.adapters.viewers.AdapterServices
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.ComponentState
+import app.simple.inure.dialogs.action.ComponentState.Companion.showComponentStateDialog
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.popups.viewers.PopupServicesMenu
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.ServicesPreferences
 import app.simple.inure.ui.subviewers.ServiceInfo
 import app.simple.inure.viewmodels.viewers.ServicesViewModel
@@ -61,21 +63,23 @@ class Services : SearchBarScopedFragment() {
                 }
 
                 override fun onServiceLongPressed(packageId: String, packageInfo: PackageInfo, icon: View, isComponentEnabled: Boolean, position: Int) {
-                    PopupServicesMenu(requireView(), isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
-                        override fun onMenuItemClicked(source: String) {
-                            when (source) {
-                                getString(R.string.enable), getString(R.string.disable) -> {
-                                    val p = ComponentState.newInstance(packageInfo, packageId, isComponentEnabled)
-                                    p.setOnComponentStateChangeListener(object : ComponentState.Companion.ComponentStatusCallbacks {
-                                        override fun onSuccess() {
-                                            adapterServices?.notifyItemChanged(position)
-                                        }
-                                    })
-                                    p.show(childFragmentManager, ComponentState.TAG)
+                    if (ConfigurationPreferences.isRootOrShizuku()) {
+                        PopupServicesMenu(requireView(), isComponentEnabled).setOnMenuClickListener(object : PopupMenuCallback {
+                            override fun onMenuItemClicked(source: String) {
+                                when (source) {
+                                    getString(R.string.enable), getString(R.string.disable) -> {
+                                        showComponentStateDialog(packageInfo, packageId, isComponentEnabled, object : ComponentState.Companion.ComponentStatusCallbacks {
+                                            override fun onSuccess() {
+                                                adapterServices?.notifyItemChanged(position)
+                                            }
+                                        })
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        showWarning("Root or Shizuku required to change the state", false)
+                    }
                 }
             })
 
