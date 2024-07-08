@@ -37,7 +37,7 @@
                     android:text="@string/external_storage"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_warning_tiny"
+                    app:drawableEndCompat="@drawable/ic_warning_12dp"
                     app:drawableTintStyle="warning"
                     app:textColorStyle="primary" />
 
@@ -82,7 +82,7 @@
                     android:text="@string/load_split_apk_icon"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_warning_tiny"
+                    app:drawableEndCompat="@drawable/ic_warning_12dp"
                     app:drawableTintStyle="warning"
                     app:textColorStyle="primary" />
 

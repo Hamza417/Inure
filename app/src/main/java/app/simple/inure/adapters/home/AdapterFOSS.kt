@@ -62,7 +62,7 @@ class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
                 true
             }
         } else if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size.toString())
+            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
         }
     }
 

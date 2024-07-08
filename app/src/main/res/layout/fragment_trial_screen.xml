@@ -66,7 +66,7 @@
                     android:text="@string/days_trial_period_remaining"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_warning_tiny"
+                    app:drawableStartCompat="@drawable/ic_warning_12dp"
                     app:drawableTintStyle="warning"
                     app:textColorStyle="tertiary" />
 

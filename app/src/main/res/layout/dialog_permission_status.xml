@@ -57,7 +57,7 @@
             android:text="@string/dangerous_permission_info"
             android:textSize="@dimen/desc_text_size"
             app:appFontStyle="regular"
-            app:drawableStartCompat="@drawable/ic_warning_tiny"
+            app:drawableStartCompat="@drawable/ic_warning_12dp"
             app:drawableTintStyle="warning"
             app:textColorStyle="tertiary" />
 

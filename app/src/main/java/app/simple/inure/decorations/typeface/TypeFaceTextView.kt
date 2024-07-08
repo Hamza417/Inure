@@ -228,7 +228,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             }
         }
 
-        drawableTintMode = ICON_TINT_ACCENT
+        drawableTintMode = ICON_TINT_WARNING
         setDrawableTint(false)
     }
 
@@ -253,13 +253,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
 
-        drawableTintMode = 0
+        drawableTintMode = ICON_TINT_ACCENT
         setDrawableTint(false)
     }
 
     fun setWarningIcon(isWarning: Boolean, tintMode: Int = ICON_TINT_SECONDARY) {
         if (isWarning) {
-            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_warning_tiny, 0)
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_warning_12dp, 0)
         } else {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }

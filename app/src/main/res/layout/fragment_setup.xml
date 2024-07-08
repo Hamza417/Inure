@@ -67,7 +67,7 @@
                     android:text="@string/desc_data_collect"
                     android:textSize="@dimen/preferences_description_text_size"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_warning_tiny"
+                    app:drawableStartCompat="@drawable/ic_warning_12dp"
                     app:drawableTintStyle="warning"
                     app:textColorStyle="tertiary" />
 
@@ -274,7 +274,7 @@
                         android:text="@string/use_root_methods"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_warning_tiny"
+                        app:drawableEndCompat="@drawable/ic_warning_12dp"
                         app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/typeFaceTextView15"
                         app:layout_constraintEnd_toStartOf="@+id/configuration_root_switch_view"
@@ -338,7 +338,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         android:layout_marginBottom="5dp"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_warning_tiny"
+                        app:drawableEndCompat="@drawable/ic_warning_12dp"
                         app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/shizuku_permission_state"
                         app:layout_constraintEnd_toStartOf="@+id/setup_shizuku_switch_view"
