@@ -3,6 +3,7 @@ package app.simple.inure.dialogs.action
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -66,6 +67,12 @@ class ComponentState : ScopedActionDialogBottomFragment() {
             val fragment = ComponentState()
             fragment.arguments = args
             return fragment
+        }
+
+        fun Fragment.showComponentStateDialog(packageInfo: PackageInfo, packageId: String, isComponentEnabled: Boolean, componentStatusCallbacks: ComponentStatusCallbacks) {
+            newInstance(packageInfo, packageId, isComponentEnabled).apply {
+                setOnComponentStateChangeListener(componentStatusCallbacks)
+            }.show(childFragmentManager, TAG)
         }
 
         interface ComponentStatusCallbacks {

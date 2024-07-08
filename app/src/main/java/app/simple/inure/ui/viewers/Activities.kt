@@ -14,6 +14,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.ActivityLauncher
 import app.simple.inure.dialogs.action.ComponentState
+import app.simple.inure.dialogs.action.ComponentState.Companion.showComponentStateDialog
 import app.simple.inure.dialogs.miscellaneous.IntentAction
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.extensions.popup.PopupMenuCallback
@@ -79,13 +80,11 @@ class Activities : SearchBarScopedFragment() {
                                         .show(childFragmentManager, IntentAction.TAG)
                                 }
                                 getString(R.string.enable), getString(R.string.disable) -> {
-                                    val p = ComponentState.newInstance(packageInfo, activityInfoModel.name, isEnabled)
-                                    p.setOnComponentStateChangeListener(object : ComponentState.Companion.ComponentStatusCallbacks {
+                                    showComponentStateDialog(packageInfo, activityInfoModel.name, isEnabled, object : ComponentState.Companion.ComponentStatusCallbacks {
                                         override fun onSuccess() {
                                             adapterActivities?.notifyItemChanged(position)
                                         }
                                     })
-                                    p.show(childFragmentManager, ComponentState.TAG)
                                 }
                                 getString(R.string.create_shortcut) -> {
                                     if (activityInfoModel.exported) {

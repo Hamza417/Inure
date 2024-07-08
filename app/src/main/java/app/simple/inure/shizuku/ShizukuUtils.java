@@ -147,13 +147,12 @@ public class ShizukuUtils {
         Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
         iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
         
-        setComponentEnabledSetting = iPmClass.getMethod("setComponentEnabledSetting", ComponentName.class, int.class, int.class, int.class);
+        setComponentEnabledSetting = iPmClass.getMethod("setComponentEnabledSetting", ComponentName.class, int.class, int.class);
         
         setComponentEnabledSetting.invoke(iPmInstance,
                 new ComponentName(packageName, componentName),
                 enabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP,
-                0);
+                PackageManager.DONT_KILL_APP);
         Log.i("ShizukuHider", "Updated component state: " + packageName);
     }
     

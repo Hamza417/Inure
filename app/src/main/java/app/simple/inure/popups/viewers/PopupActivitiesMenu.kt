@@ -37,7 +37,7 @@ class PopupActivitiesMenu(view: View, isComponentEnabled: Boolean) : BasePopupWi
         forceLaunchWithAction = contentView.findViewById(R.id.popup_launch_with_action)
         createShortcut = contentView.findViewById(R.id.popup_create_shortcut)
 
-        if (ConfigurationPreferences.isUsingRoot()) {
+        if (ConfigurationPreferences.isRootOrShizuku()) {
             forceLaunch.visibility = View.VISIBLE
             forceLaunchWithAction.visibility = View.VISIBLE
             componentState.visibility = View.VISIBLE

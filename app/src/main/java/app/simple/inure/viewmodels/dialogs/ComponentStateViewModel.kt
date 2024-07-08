@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,7 +10,6 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
-import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,9 +37,7 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val mode = if (mode) "disable" else "enable"
-
-                Shell.cmd("pm $mode ${packageInfo.packageName}/${packageId}").submit { shellResult ->
+                Shell.cmd(createCommand()).submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -72,22 +70,6 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
         }
     }
 
-    private fun runShizuku() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                ShizukuUtils.updateComponentState(packageInfo.packageName, packageId, mode)
-            }.onFailure {
-                error.postValue(it)
-                success.postValue("Failed")
-            }.onSuccess {
-                success.postValue("Done")
-            }.getOrElse {
-                error.postValue(it)
-                success.postValue("Failed")
-            }
-        }
-    }
-
     override fun onShellCreated(shell: Shell?) {
         runCommand()
     }
@@ -98,6 +80,32 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        runShizuku()
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                shizukuServiceHelper.service!!.simpleExecute(createCommand()).let {
+                    if (it.isSuccess) {
+                        success.postValue("Done")
+                    } else {
+                        Log.e(this.javaClass.name, "onShizukuCreated: " + it.error)
+                        success.postValue("Failed")
+                    }
+                }
+            }.getOrElse {
+                it.printStackTrace()
+                error.postValue(it)
+                success.postValue("Failed")
+            }
+        }
+    }
+
+    private fun createCommand(): String {
+        return buildString {
+            append("pm ")
+            append(if (mode) "disable" else "enable")
+            append(" ")
+            append(packageInfo.packageName)
+            append("/")
+            append(packageId)
+        }
     }
 }
