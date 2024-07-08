@@ -12,15 +12,25 @@ public class TrackerTags {
     }
     
     public static synchronized void addPackage(String packageName) {
-        trackerPackages.add(packageName);
+        try {
+            trackerPackages.add(packageName);
+        } catch (NullPointerException ignored) {
+        }
     }
     
     public static synchronized void removePackage(String packageName) {
-        trackerPackages.remove(packageName);
+        try {
+            trackerPackages.remove(packageName);
+        } catch (NullPointerException ignored) {
+        }
     }
     
     public static synchronized boolean isPackageTracked(String packageName) {
-        return trackerPackages.contains(packageName);
+        try {
+            return trackerPackages.contains(packageName);
+        } catch (NullPointerException ignored) {
+            return false;
+        }
     }
     
     public static synchronized Set <String> getTrackedPackages() {
@@ -36,26 +46,47 @@ public class TrackerTags {
     }
     
     public static synchronized void clear() {
-        trackerPackages.clear();
+        try {
+            trackerPackages.clear();
+        } catch (NullPointerException ignored) {
+        }
     }
     
     public static synchronized void addAll(Set <String> packages) {
-        trackerPackages.addAll(packages);
+        try {
+            trackerPackages.addAll(packages);
+        } catch (NullPointerException ignored) {
+        }
     }
     
     public static synchronized void removeAll(Set <String> packages) {
-        trackerPackages.removeAll(packages);
+        try {
+            trackerPackages.removeAll(packages);
+        } catch (NullPointerException ignored) {
+        }
     }
     
     public static synchronized boolean isEmpty() {
-        return trackerPackages.isEmpty();
+        try {
+            return trackerPackages.isEmpty();
+        } catch (NullPointerException ignored) {
+            return true;
+        }
     }
     
     public static synchronized int size() {
-        return trackerPackages.size();
+        try {
+            return trackerPackages.size();
+        } catch (NullPointerException ignored) {
+            return 0;
+        }
     }
     
     public static synchronized boolean contains(String packageName) {
-        return trackerPackages.contains(packageName);
+        try {
+            return trackerPackages.contains(packageName);
+        } catch (NullPointerException ignored) {
+            return false;
+        }
     }
 }
