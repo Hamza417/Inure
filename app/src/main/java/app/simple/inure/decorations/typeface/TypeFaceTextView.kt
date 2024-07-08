@@ -219,11 +219,13 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    fun setTrackingIcon(isTracker: Boolean) {
+    fun setTrackingIcon(isTracker: Boolean, isFOSS: Boolean = false) {
         if (isTracker) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_radiation_nuclear_12dp, 0)
         } else {
-            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            if (isFOSS.invert()) {
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
         }
 
         drawableTintMode = ICON_TINT_ACCENT

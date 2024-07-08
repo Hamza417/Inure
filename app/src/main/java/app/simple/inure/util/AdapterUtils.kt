@@ -53,8 +53,9 @@ object AdapterUtils {
     }
 
     fun TypeFaceTextView.setAppVisualStates(packageInfo: PackageInfo) {
+        val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
         setStrikeThru(packageInfo.applicationInfo.enabled)
-        setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
-        setTrackingIcon(TrackerTags.isPackageTracked(packageInfo.packageName))
+        setFOSSIcon(isFOSS)
+        setTrackingIcon(TrackerTags.isPackageTracked(packageInfo.packageName), isFOSS)
     }
 }
