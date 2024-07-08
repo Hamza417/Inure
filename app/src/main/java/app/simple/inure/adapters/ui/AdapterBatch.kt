@@ -19,7 +19,7 @@ import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.Tag
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.FormattingPreferences
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils
@@ -72,7 +72,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
-            holder.name.setInfoStates(apps[position].packageInfo)
+            holder.name.setAppVisualStates(apps[position].packageInfo)
             holder.checkBox.setChecked(apps[position].isSelected, false)
 
             if (highlight) {

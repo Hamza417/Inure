@@ -4,8 +4,25 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
-import app.simple.inure.viewmodels.viewers.*
+import app.simple.inure.viewmodels.panels.AppInfoViewModel
+import app.simple.inure.viewmodels.viewers.ActivitiesViewModel
+import app.simple.inure.viewmodels.viewers.ApkDataViewModel
+import app.simple.inure.viewmodels.viewers.AppInformationViewModel
+import app.simple.inure.viewmodels.viewers.BootManagerViewModel
+import app.simple.inure.viewmodels.viewers.BootViewModel
+import app.simple.inure.viewmodels.viewers.CertificatesViewModel
+import app.simple.inure.viewmodels.viewers.DexDataViewModel
+import app.simple.inure.viewmodels.viewers.ExtrasViewModel
+import app.simple.inure.viewmodels.viewers.GraphicsViewModel
+import app.simple.inure.viewmodels.viewers.IFWViewerViewModel
+import app.simple.inure.viewmodels.viewers.OperationsViewModel
+import app.simple.inure.viewmodels.viewers.PermissionsViewModel
+import app.simple.inure.viewmodels.viewers.ProvidersViewModel
+import app.simple.inure.viewmodels.viewers.ReceiversViewModel
+import app.simple.inure.viewmodels.viewers.ServicesViewModel
+import app.simple.inure.viewmodels.viewers.SharedLibrariesViewModel
+import app.simple.inure.viewmodels.viewers.SharedPreferencesViewModel
+import app.simple.inure.viewmodels.viewers.TrackersViewModel
 
 class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
 
@@ -17,8 +34,8 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
             modelClass.isAssignableFrom(ApkDataViewModel::class.java) -> {
                 return ApkDataViewModel(application, packageInfo) as T
             }
-            modelClass.isAssignableFrom(AppInfoMenuViewModel::class.java) -> {
-                return AppInfoMenuViewModel(application, packageInfo) as T
+            modelClass.isAssignableFrom(AppInfoViewModel::class.java) -> {
+                return AppInfoViewModel(application, packageInfo) as T
             }
             modelClass.isAssignableFrom(AppInformationViewModel::class.java) -> {
                 return AppInformationViewModel(application, packageInfo) as T

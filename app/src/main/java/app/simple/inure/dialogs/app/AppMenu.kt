@@ -24,6 +24,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.dialogs.action.Send.Companion.showSend
 import app.simple.inure.dialogs.foss.MarkFoss.Companion.showMarkFossDialog
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
+import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -41,13 +42,15 @@ import app.simple.inure.ui.viewers.Trackers
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
 import app.simple.inure.ui.viewers.XML
 import app.simple.inure.ui.viewers.XMLWebView
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.InfoStripUtils.setAppInfo
+import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visibility
+import app.simple.inure.viewmodels.panels.AppInfoViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +85,7 @@ class AppMenu : ScopedDialogFragment() {
 
     private lateinit var quickAppsViewModel: QuickAppsViewModel
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var appInfoViewModel: AppInfoViewModel
     private var isAlreadyInQuickApp = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -111,9 +115,10 @@ class AppMenu : ScopedDialogFragment() {
         toQuickApp = view.findViewById(R.id.to_quick_app)
         markAsFOSS = view.findViewById(R.id.to_foss)
 
+        val packageInfoFactory = PackageInfoFactory(packageInfo)
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
-        details.setAppInfo(packageInfo)
+        appInfoViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoViewModel::class.java]
 
         return view
     }
@@ -154,6 +159,7 @@ class AppMenu : ScopedDialogFragment() {
 
         SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
+        name.setAppVisualStates(packageInfo)
         markAsFOSS.visibility(FOSSParser.isEmbeddedFOSS(packageInfo).invert())
 
         name.apply {
@@ -318,6 +324,21 @@ class AppMenu : ScopedDialogFragment() {
                     }
                 }
             }
+        }
+
+        appInfoViewModel.getTrackers().observe(viewLifecycleOwner) {
+            val details = requireContext().getAppInfo(packageInfo)
+
+            if (details.isEmpty()) {
+                details.append(getString(R.string.trackers_count, it))
+            } else {
+                details.append(" | ")
+                details.append(getString(R.string.trackers_count, it))
+            }
+
+            this.details.alpha = 0F
+            this.details.text = details
+            this.details.animate().alpha(1F).start()
         }
     }
 

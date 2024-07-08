@@ -95,7 +95,7 @@ import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import app.simple.inure.viewmodels.panels.AppInfoMenuViewModel
+import app.simple.inure.viewmodels.panels.AppInfoViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.ui.viewers.SharedPreferences.Companion as SharedPreferences_Alias
 
@@ -125,7 +125,7 @@ class AppInfo : ScopedFragment() {
     private lateinit var foldActionsMenu: DynamicRippleImageButton
     private lateinit var foldMiscMenu: DynamicRippleImageButton
 
-    private lateinit var componentsViewModel: AppInfoMenuViewModel
+    private lateinit var appInfoViewModel: AppInfoViewModel
     private lateinit var tagsViewModel: TagsViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
@@ -166,7 +166,7 @@ class AppInfo : ScopedFragment() {
         foldMiscMenu = view.findViewById(R.id.fold_app_info_misc)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        componentsViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoMenuViewModel::class.java]
+        appInfoViewModel = ViewModelProvider(this, packageInfoFactory)[AppInfoViewModel::class.java]
         tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
         metaMenuState()
@@ -181,7 +181,7 @@ class AppInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        componentsViewModel.getTags().observe(viewLifecycleOwner) { list ->
+        appInfoViewModel.getTags().observe(viewLifecycleOwner) { list ->
             tagsRecyclerView.adapter = AdapterTags(list).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {
@@ -216,7 +216,7 @@ class AppInfo : ScopedFragment() {
                 batteryOptimization.visible(animate = false)
                 divider1.visible(animate = false)
 
-                componentsViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
+                appInfoViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
                     batteryOptimizationSwitch.isChecked = it.isOptimized
 
                     if (it.isOptimized) {
@@ -227,9 +227,9 @@ class AppInfo : ScopedFragment() {
 
                     batteryOptimizationSwitch.setOnSwitchCheckedChangeListener { isChecked ->
                         if (isChecked) {
-                            componentsViewModel.setBatteryOptimization(packageInfo, true)
+                            appInfoViewModel.setBatteryOptimization(packageInfo, true)
                         } else {
-                            componentsViewModel.setBatteryOptimization(packageInfo, false)
+                            appInfoViewModel.setBatteryOptimization(packageInfo, false)
                         }
                     }
 
@@ -246,7 +246,7 @@ class AppInfo : ScopedFragment() {
             divider1.gone()
         }
 
-        componentsViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
+        appInfoViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
             when (AppInformationPreferences.getMetaMenuLayout()) {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     meta.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -355,7 +355,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.getActionsOptions().observe(viewLifecycleOwner) { it ->
+        appInfoViewModel.getActionsOptions().observe(viewLifecycleOwner) { it ->
 
             when (AppInformationPreferences.getActionMenuLayout()) {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
@@ -405,8 +405,8 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showUpdatesUninstaller(packageInfo) {
-                                        componentsViewModel.unsetUpdateFlag()
-                                        componentsViewModel.loadActionOptions()
+                                        appInfoViewModel.unsetUpdateFlag()
+                                        appInfoViewModel.loadActionOptions()
                                     }
                                 }
                             })
@@ -421,7 +421,7 @@ class AppInfo : ScopedFragment() {
                                         override fun onReinstallSuccess() {
                                             if (wasAppInstalled.invert()) {
                                                 icon.loadAppIcon(packageInfo.packageName, enabled = true)
-                                                componentsViewModel.loadActionOptions()
+                                                appInfoViewModel.loadActionOptions()
                                             }
                                         }
                                     })
@@ -466,7 +466,7 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showState(packageInfo).onSuccess = {
-                                        componentsViewModel.loadActionOptions()
+                                        appInfoViewModel.loadActionOptions()
                                     }
                                 }
                             })
@@ -476,7 +476,7 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showHide(packageInfo).onSuccess = {
-                                        componentsViewModel.loadActionOptions()
+                                        appInfoViewModel.loadActionOptions()
                                     }
                                 }
                             })
@@ -557,7 +557,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.getTrackers().observe(viewLifecycleOwner) {
+        appInfoViewModel.getTrackers().observe(viewLifecycleOwner) {
             val details = requireContext().getAppInfo(packageInfo)
 
             if (details.isEmpty()) {
@@ -572,7 +572,7 @@ class AppInfo : ScopedFragment() {
             this.details.animate().alpha(1F).start()
         }
 
-        componentsViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
+        appInfoViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {
             when (AppInformationPreferences.getMiscMenuLayout()) {
                 AppInformationPreferences.MENU_LAYOUT_HORIZONTAL -> {
                     miscellaneous.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
@@ -628,7 +628,7 @@ class AppInfo : ScopedFragment() {
             })
         }
 
-        componentsViewModel.getError().observe(viewLifecycleOwner) {
+        appInfoViewModel.getError().observe(viewLifecycleOwner) {
             showError(it)
         }
 
@@ -750,38 +750,38 @@ class AppInfo : ScopedFragment() {
         when (key) {
             AppInformationPreferences.metaMenuState -> {
                 metaMenuState()
-                componentsViewModel.loadMetaOptions()
+                appInfoViewModel.loadMetaOptions()
             }
 
             AppInformationPreferences.actionMenuState -> {
                 actionMenuState()
-                componentsViewModel.loadActionOptions()
+                appInfoViewModel.loadActionOptions()
             }
 
             AppInformationPreferences.miscMenuState -> {
                 miscMenuState()
-                componentsViewModel.loadMiscellaneousItems()
+                appInfoViewModel.loadMiscellaneousItems()
             }
 
             AppInformationPreferences.menuLayout -> {
                 /**
                  * Load all the menus back again
                  */
-                componentsViewModel.loadMiscellaneousItems()
-                componentsViewModel.loadMetaOptions()
-                componentsViewModel.loadActionOptions()
+                appInfoViewModel.loadMiscellaneousItems()
+                appInfoViewModel.loadMetaOptions()
+                appInfoViewModel.loadActionOptions()
             }
 
             AppInformationPreferences.metaMenuLayout -> {
-                componentsViewModel.loadMetaOptions()
+                appInfoViewModel.loadMetaOptions()
             }
 
             AppInformationPreferences.actionMenuLayout -> {
-                componentsViewModel.loadActionOptions()
+                appInfoViewModel.loadActionOptions()
             }
 
             AppInformationPreferences.miscMenuLayout -> {
-                componentsViewModel.loadMiscellaneousItems()
+                appInfoViewModel.loadMiscellaneousItems()
             }
         }
     }

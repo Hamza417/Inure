@@ -18,7 +18,7 @@ import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AppsPreferences
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.setAppInfo
@@ -68,7 +68,7 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
                 holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].applicationInfo.sourceDir.toFileOrNull())
             }
 
-            holder.name.setInfoStates(apps[position])
+            holder.name.setAppVisualStates(apps[position])
 
             holder.info.setAppInfo(apps[position])
 

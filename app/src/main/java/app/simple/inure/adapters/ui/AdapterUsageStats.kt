@@ -17,7 +17,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.LocaleUtils
@@ -76,7 +76,7 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
                 appendFlag(apps[position].wifiData?.rx?.toSize())
             }
 
-            holder.name.setInfoStates(apps[position].packageInfo!!)
+            holder.name.setAppVisualStates(apps[position].packageInfo!!)
 
             with(apps[position].totalTimeUsed) {
                 holder.time.apply {

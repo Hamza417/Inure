@@ -14,7 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.InfoStripUtils.setRecentlyInstalledInfo
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -48,7 +48,7 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
             holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
             holder.name.text = apps[position].applicationInfo.name
             holder.packageId.text = apps[position].packageName
-            holder.name.setInfoStates(apps[position])
+            holder.name.setAppVisualStates(apps[position])
             holder.date.setRecentlyInstalledInfo(apps[position])
 
             holder.container.setOnClickListener {

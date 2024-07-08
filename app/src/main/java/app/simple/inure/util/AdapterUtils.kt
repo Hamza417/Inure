@@ -52,7 +52,7 @@ object AdapterUtils {
         textView.text = spannable
     }
 
-    fun TypeFaceTextView.setInfoStates(packageInfo: PackageInfo) {
+    fun TypeFaceTextView.setAppVisualStates(packageInfo: PackageInfo) {
         setStrikeThru(packageInfo.applicationInfo.enabled)
         setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
         setTrackingIcon(TrackerTags.isPackageTracked(packageInfo.packageName))

@@ -16,7 +16,7 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
@@ -40,7 +40,7 @@ class AdapterSearch(private var apps: ArrayList<Search>, private var searchKeywo
         holder.name.text = apps[position].packageInfo.applicationInfo.name
         holder.packageId.text = apps[position].packageInfo.packageName
 
-        holder.name.setInfoStates(apps[position].packageInfo)
+        holder.name.setAppVisualStates(apps[position].packageInfo)
         holder.info.setAppInfo(apps[position].packageInfo)
 
         holder.container.setOnClickListener {

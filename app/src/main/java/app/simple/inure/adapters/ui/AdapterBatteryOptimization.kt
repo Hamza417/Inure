@@ -16,7 +16,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.BatteryOptimizationPreferences
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
@@ -60,7 +60,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
             holder.name.text = apps[position].packageInfo.applicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
-            holder.name.setInfoStates(apps[position].packageInfo)
+            holder.name.setAppVisualStates(apps[position].packageInfo)
 
             holder.data.text = with(StringBuilder()) {
                 append(holder.getString(getAppType(apps[position].type)))

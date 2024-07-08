@@ -17,7 +17,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterDeepSearch.Holder>() {
@@ -37,7 +37,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private v
         holder.name.text = deepSearchInfo[position].packageInfo.applicationInfo.name
         holder.packageId.text = deepSearchInfo[position].packageInfo.packageName
 
-        holder.name.setInfoStates(deepSearchInfo[position].packageInfo)
+        holder.name.setAppVisualStates(deepSearchInfo[position].packageInfo)
         holder.info.setAppInfo(deepSearchInfo[position].packageInfo)
         holder.setDeepInfo(deepSearchInfo[position])
 

@@ -19,7 +19,7 @@ import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
 import app.simple.inure.preferences.NotesPreferences
-import app.simple.inure.util.AdapterUtils.setInfoStates
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -64,7 +64,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             holder.packageId.text = notes[position].packageInfo.packageName
             holder.note.text = notes[position].note.subSequence(0, notes[position].note.length.coerceAtMost(1000))
 
-            holder.name.setInfoStates(notes[position].packageInfo)
+            holder.name.setAppVisualStates(notes[position].packageInfo)
 
             if (areNotesExpanded) {
                 holder.note.maxLines = 60

@@ -35,7 +35,7 @@ import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class AppInfoViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
@@ -420,9 +420,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
                     }
                 }
 
-                this@AppInfoMenuViewModel.trackers.postValue(count)
+                this@AppInfoViewModel.trackers.postValue(count)
             }.getOrElse {
-                this@AppInfoMenuViewModel.trackers.postValue(0)
+                this@AppInfoViewModel.trackers.postValue(0)
             }
         }
     }
@@ -433,9 +433,9 @@ class AppInfoMenuViewModel(application: Application, val packageInfo: PackageInf
             val tags = tagsDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
 
             if (tags.isNullOrEmpty().invert()) {
-                this@AppInfoMenuViewModel.tags.postValue(tags)
+                this@AppInfoViewModel.tags.postValue(tags)
             } else {
-                this@AppInfoMenuViewModel.tags.postValue(arrayListOf())
+                this@AppInfoViewModel.tags.postValue(arrayListOf())
             }
         }
     }
