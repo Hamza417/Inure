@@ -29,9 +29,11 @@ import app.simple.inure.util.ViewUtils;
 public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private int highlightColor = -1;
+    private int rippleColor = -1;
     
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        rippleColor = AppearancePreferences.INSTANCE.getAccentColor();
         setBackgroundColor(Color.TRANSPARENT);
     }
     
@@ -120,8 +122,13 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
             }
         } else {
             setBackground(null);
-            setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+            setBackground(Utils.getCustomRippleDrawable(getBackground(), rippleColor, Misc.roundedCornerFactor));
         }
+    }
+    
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
+        setHighlightBackgroundColor();
     }
     
     @Override

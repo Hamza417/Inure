@@ -28,8 +28,11 @@ import app.simple.inure.util.ViewUtils;
 
 public class DynamicRippleImageButton extends ThemeButton {
     
+    private int rippleColor = -1;
+    
     public DynamicRippleImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        rippleColor = AppearancePreferences.INSTANCE.getAccentColor();
         setBackgroundColor(Color.TRANSPARENT);
     
         setOnLongClickListener(view -> {
@@ -134,7 +137,7 @@ public class DynamicRippleImageButton extends ThemeButton {
             setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
         } else {
             setBackground(null);
-            setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+            setBackground(Utils.getCustomRippleDrawable(getBackground(), rippleColor, Misc.roundedCornerFactor));
         }
     }
     
@@ -165,6 +168,11 @@ public class DynamicRippleImageButton extends ThemeButton {
             setBackground(null);
             setBackground(Utils.getRippleDrawable(getBackground()));
         }
+    }
+    
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
+        setHighlightBackgroundColor();
     }
     
     @Override

@@ -53,6 +53,11 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
             }
 
+            // We don't need else condition here since it's going to be same for all elements
+            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
+                holder.button.setRippleColor(RIPPLE_COLOR)
+            }
+
             when {
                 AppearancePreferences.isAccentColorOnBottomMenu() -> {
                     holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
@@ -73,6 +78,11 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
 
             holder.container.setOnClickListener {
                 bottomMenuCallbacks?.onBottomMenuItemClicked(bottomMenuItems[position].first, it)
+            }
+
+            // // We don't need else condition here since it's going to be same for all elements
+            if (AppearancePreferences.isAccentColorOnBottomMenu()) {
+                holder.container.setRippleColor(RIPPLE_COLOR)
             }
 
             when {
@@ -142,5 +152,9 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
             layoutParams.height = MainPreferences.getBottomMenuHeight()
             divider.layoutParams = layoutParams
         }
+    }
+
+    companion object {
+        private const val RIPPLE_COLOR = 0x80FFFFFF.toInt()
     }
 }

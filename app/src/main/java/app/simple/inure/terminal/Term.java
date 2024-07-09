@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package app.simple.inure.terminal;
 
 import android.Manifest;
@@ -93,9 +77,6 @@ import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.themes.manager.ThemeUtils;
 import app.simple.inure.util.NullSafety;
 
-/**
- * A terminal emulator activity.
- */
 @SuppressWarnings ("FieldCanBeLocal")
 public class Term extends BaseActivity implements UpdateCallback,
                                                   SharedPreferences.OnSharedPreferenceChangeListener,
@@ -414,6 +395,7 @@ public class Term extends BaseActivity implements UpdateCallback,
      */
     private boolean useKeyboardShortcuts;
     
+    @SuppressLint ("Wakelock")
     @Override
     public void onDestroy() {
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
@@ -756,7 +738,7 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(@NonNull Intent intent) {
         super.onNewIntent(intent);
         if ((intent.getFlags() & Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) {
             // Don't repeat action if intent comes from history
