@@ -110,7 +110,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                 }
 
                 holder.totalSelected.text = holder.totalSelected.context.getString(R.string.selected_apps, bloats.count { it.isSelected })
-                holder.total.text = holder.total.context.getString(R.string.total_apps, bloats.size.toString())
+                holder.total.text = holder.total.context.getString(R.string.total_apps, bloats.size)
                 holder.uadSubtitle.setOnClickListener {
                     UAD_REPO_LINK.asUri().openInBrowser(holder.uadSubtitle.context)
                 }

@@ -70,8 +70,13 @@ object AdapterUtils {
                 setRightDrawable(sideBySideDrawable)
             }
             else -> {
-                setFOSSIcon(isFOSS)
-                setTrackingIcon(isTracking)
+                if (isFOSS) {
+                    setFOSSIcon(isFOSS = true)
+                }
+
+                if (isTracking) {
+                    setTrackingIcon(isTracker = true)
+                }
             }
         }
     }
