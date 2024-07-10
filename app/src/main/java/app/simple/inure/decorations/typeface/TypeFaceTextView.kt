@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.text.Layout
@@ -128,6 +129,11 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
+    override fun setCompoundDrawablesWithIntrinsicBounds(left: Drawable?, top: Drawable?, right: Drawable?, bottom: Drawable?) {
+        super.setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
+        setDrawableTint(false)
+    }
+
     private fun setTextColor(animate: Boolean) {
         if (animate) {
             when (colorMode) {
@@ -209,6 +215,14 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
+    fun setRightDrawable(resId: Int) {
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0)
+    }
+
+    fun setRightDrawable(drawable: Drawable) {
+        setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
+    }
+
     fun setStrikeThru(boolean: Boolean) {
         paintFlags = if (boolean) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -219,13 +233,11 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         }
     }
 
-    fun setTrackingIcon(isTracker: Boolean, isFOSS: Boolean = false) {
+    fun setTrackingIcon(isTracker: Boolean) {
         if (isTracker) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_radiation_nuclear_12dp, 0)
         } else {
-            if (isFOSS.invert()) {
-                setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-            }
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
 
         drawableTintMode = ICON_TINT_WARNING
@@ -244,6 +256,11 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
         drawableTintMode = ICON_TINT_ACCENT
         setDrawableTint(false)
+    }
+
+    fun setDrawableTintMode(mode: Int, animate: Boolean = false) {
+        drawableTintMode = mode
+        setDrawableTint(animate)
     }
 
     fun setFOSSIcon(isFOSS: Boolean) {

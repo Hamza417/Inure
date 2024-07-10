@@ -1,12 +1,16 @@
 package app.simple.inure.util
 
+import SideBySideDrawable
 import android.content.pm.PackageInfo
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.style.TextAppearanceSpan
 import android.widget.TextView
 import androidx.core.text.toSpannable
+import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppearancePreferences
@@ -53,9 +57,22 @@ object AdapterUtils {
     }
 
     fun TypeFaceTextView.setAppVisualStates(packageInfo: PackageInfo) {
-        val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
         setStrikeThru(packageInfo.applicationInfo.enabled)
-        setFOSSIcon(isFOSS)
-        setTrackingIcon(TrackerTags.isPackageTracked(packageInfo.packageName), isFOSS)
+
+        val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
+        val isTracking = TrackerTags.isPackageTracked(packageInfo.packageName)
+
+        when {
+            isFOSS && isTracking -> {
+                val sideBySideDrawable = SideBySideDrawable(context, R.drawable.ic_radiation_nuclear_12dp, R.drawable.ic_open_source_12dp)
+                val newColorFilter = PorterDuffColorFilter(AppearancePreferences.getAccentColor(), PorterDuff.Mode.SRC_IN)
+                sideBySideDrawable.colorFilter = newColorFilter
+                setRightDrawable(sideBySideDrawable)
+            }
+            else -> {
+                setFOSSIcon(isFOSS)
+                setTrackingIcon(isTracking)
+            }
+        }
     }
 }
