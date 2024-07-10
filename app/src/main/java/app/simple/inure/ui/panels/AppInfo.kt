@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.adapters.menus.AdapterMenu
 import app.simple.inure.adapters.viewers.AdapterTags
-import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
@@ -88,6 +87,7 @@ import app.simple.inure.ui.viewers.UsageStatistics
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
 import app.simple.inure.ui.viewers.XML
 import app.simple.inure.ui.viewers.XMLWebView
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
@@ -644,7 +644,7 @@ class AppInfo : ScopedFragment() {
 
         name.apply {
             text = packageInfo.applicationInfo.name
-            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
+            setAppVisualStates(packageInfo)
         }
         packageId.text = packageInfo.packageName
 

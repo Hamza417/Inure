@@ -418,7 +418,7 @@ class HomeViewModel(application: Application) :
         loadItems()
     }
 
-    fun refreshFossApps() {
+    fun refreshFOSSApps() {
         loadFOSSApps()
     }
 

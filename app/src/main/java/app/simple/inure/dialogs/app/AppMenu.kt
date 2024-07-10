@@ -45,6 +45,7 @@ import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils
@@ -158,14 +159,10 @@ class AppMenu : ScopedDialogFragment() {
         }
 
         SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled)
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFileOrNull())
+        name.text = packageInfo.applicationInfo.name
         name.setAppVisualStates(packageInfo)
         markAsFOSS.visibility(FOSSParser.isEmbeddedFOSS(packageInfo).invert())
-
-        name.apply {
-            text = packageInfo.applicationInfo.name
-            setFOSSIcon(FOSSParser.isPackageFOSS(packageInfo))
-        }
 
         markAsFOSS.text = buildString {
             if (FOSSParser.isPackageFOSS(packageInfo)) {
@@ -294,9 +291,7 @@ class AppMenu : ScopedDialogFragment() {
                 if (FOSSParser.isPackageFOSS(packageInfo)) {
                     FOSSParser.removePackage(packageInfo.packageName, requireContext())
                     withContext(Dispatchers.Main) {
-                        markAsFOSS.text = getString(R.string.mark_as_foss)
-                        name.setFOSSIcon(false)
-                        homeViewModel.refreshFossApps()
+                        setOpenSourceState(true)
                     }
                 } else {
                     withContext(Dispatchers.Main) {
@@ -304,9 +299,7 @@ class AppMenu : ScopedDialogFragment() {
                             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                                 FOSSParser.addPackage(packageInfo.packageName, FOSSParser.getPackageLicense(packageInfo), requireContext())
                                 withContext(Dispatchers.Main) {
-                                    markAsFOSS.text = getString(R.string.mark_as_non_foss)
-                                    name.setFOSSIcon(true)
-                                    homeViewModel.refreshFossApps()
+                                    setOpenSourceState(false)
                                 }
                             }
                         } else {
@@ -314,9 +307,7 @@ class AppMenu : ScopedDialogFragment() {
                                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                                     FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
                                     withContext(Dispatchers.Main) {
-                                        markAsFOSS.text = getString(R.string.mark_as_non_foss)
-                                        name.setFOSSIcon(true)
-                                        homeViewModel.refreshFossApps()
+                                        setOpenSourceState(false)
                                     }
                                 }
                             }
@@ -340,6 +331,19 @@ class AppMenu : ScopedDialogFragment() {
             this.details.text = details
             this.details.animate().alpha(1F).start()
         }
+    }
+
+    private fun setOpenSourceState(isFOSS: Boolean) {
+        markAsFOSS.text = buildString {
+            if (isFOSS) {
+                append(getString(R.string.mark_as_non_foss))
+            } else {
+                append(getString(R.string.mark_as_foss))
+            }
+        }
+
+        name.setAppVisualStates(packageInfo)
+        homeViewModel.refreshFOSSApps()
     }
 
     override fun onDestroy() {
