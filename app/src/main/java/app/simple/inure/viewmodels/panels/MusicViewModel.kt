@@ -133,8 +133,9 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
                 if (keywords.isNotEmpty()) {
                     for (song in globalList) {
                         if (song.name.lowercase().contains(keywords.lowercase())
-                            || song.artists.lowercase().contains(keywords.lowercase())
-                            || song.album.lowercase().contains(keywords.lowercase())) {
+                                || song.artists.lowercase().contains(keywords.lowercase())
+                                || song.album.lowercase().contains(keywords.lowercase())
+                                || song.path.lowercase().contains(keywords.lowercase())) {
                             list.add(song)
                         }
                     }
