@@ -274,6 +274,17 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         setDrawableTint(false)
     }
 
+    fun setBloatIcon(isBloat: Boolean) {
+        if (isBloat) {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_recycling_12dp, 0)
+        } else {
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+
+        drawableTintMode = ICON_TINT_ACCENT
+        setDrawableTint(false)
+    }
+
     fun setWarningIcon(isWarning: Boolean, tintMode: Int = ICON_TINT_SECONDARY) {
         if (isWarning) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_warning_12dp, 0)

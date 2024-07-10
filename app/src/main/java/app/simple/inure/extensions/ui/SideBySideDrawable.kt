@@ -29,9 +29,14 @@ class SideBySideDrawable : Drawable {
     private var bounds: Rect
 
     override fun draw(canvas: Canvas) {
-        val halfPadding = padding / 2
-        drawable1.setBounds(bounds.left, bounds.top, bounds.centerX() - halfPadding, bounds.bottom)
-        drawable2.setBounds(bounds.centerX() + halfPadding, bounds.top, bounds.right, bounds.bottom)
+        val totalWidth = drawable1.intrinsicWidth + drawable2.intrinsicWidth + padding
+        val scale = bounds.width().toFloat() / totalWidth
+
+        val scaledWidth1 = (drawable1.intrinsicWidth * scale).toInt()
+        val scaledWidth2 = (drawable2.intrinsicWidth * scale).toInt()
+
+        drawable1.setBounds(bounds.left, bounds.top, bounds.left + scaledWidth1, bounds.bottom)
+        drawable2.setBounds(bounds.right - scaledWidth2, bounds.top, bounds.right, bounds.bottom)
 
         drawable1.draw(canvas)
         drawable2.draw(canvas)

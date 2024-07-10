@@ -21,11 +21,10 @@ import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.sort.DebloatSort.getSortedList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.utils.DebloatUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.util.stream.Collectors
 
 class DebloatViewModel(application: Application) : RootShizukuViewModel(application) {
@@ -221,55 +220,10 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     private fun getUADList(): ArrayList<Bloat> {
         if (uadList.isNotEmpty()) {
             return uadList
+        } else {
+            uadList = DebloatUtils.getDebloatList()
+            return uadList
         }
-
-        val bufferedReader = BufferedReader(InputStreamReader(DebloatViewModel::class.java.getResourceAsStream(UAD_FILE_NAME)))
-        val stringBuilder = StringBuilder()
-        var line: String?
-        while (bufferedReader.readLine().also { line = it } != null) {
-            stringBuilder.append(line)
-        }
-        bufferedReader.close()
-        val json = stringBuilder.toString()
-        val jsonObject = org.json.JSONObject(json)
-        val bloats = arrayListOf<Bloat>()
-
-        jsonObject.keys().forEach { key ->
-            val properties = jsonObject.getJSONObject(key)
-            val list = properties.getString("list")
-            val description = properties.getString("description")
-            val removal = properties.getString("removal")
-            val dependencies = properties.getJSONArray("dependencies")
-            val neededBy = properties.getJSONArray("neededBy")
-            val labels = properties.getJSONArray("labels")
-
-            val bloat = Bloat()
-            bloat.id = key // use the key as the id
-            bloat.list = list
-            bloat.description = description
-            bloat.removal = Removal.valueOf(removal.uppercase())
-            bloat.dependencies = ArrayList()
-            bloat.neededBy = ArrayList()
-            bloat.labels = ArrayList()
-
-            for (j in 0 until dependencies.length()) {
-                bloat.dependencies.add(dependencies.getString(j))
-            }
-
-            for (j in 0 until neededBy.length()) {
-                bloat.neededBy.add(neededBy.getString(j))
-            }
-
-            for (j in 0 until labels.length()) {
-                bloat.labels.add(labels.getString(j))
-            }
-
-            bloats.add(bloat)
-        }
-
-        uadList = bloats
-
-        return uadList
     }
 
     fun refreshBloatList() {

@@ -18,6 +18,7 @@ import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.utils.DebloatUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -120,6 +121,10 @@ class DataLoaderService : Service() {
 
                 // onAppsLoaded(apps.toArrayList())
                 // onUninstalledAppsLoaded(uninstalledApps.toArrayList())
+
+                // We will init bloat list here
+                // Because I couldn't think of any other place
+                DebloatUtils.initBloatAppsSet()
 
                 withContext(Dispatchers.Main) {
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))

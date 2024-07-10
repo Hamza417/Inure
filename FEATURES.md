@@ -94,5 +94,6 @@ GitHub builds don't have play policies constraints and therefore allows more roo
 that are not possible to have in play builds. Here are the list of feature exclusive to GitHub builds only.
 
 - Debloat
+- Bloat indicator for bloat apps throughout the app
 - Activate using license key without unlocker
 - More store options
