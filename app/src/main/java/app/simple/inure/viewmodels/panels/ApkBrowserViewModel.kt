@@ -51,6 +51,10 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         return info
     }
 
+    fun shouldShowLoader(): Boolean {
+        return pathData.value.isNullOrEmpty()
+    }
+
     private fun loadApkPaths() {
         viewModelScope.launch(Dispatchers.IO) {
             val externalStoragePaths: ArrayList<File?> = if (ApkBrowserPreferences.isExternalStorage()) {

@@ -2,6 +2,7 @@ package app.simple.inure.dialogs.miscellaneous
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -73,6 +74,7 @@ class StoragePermission : ScopedBottomSheetFragment() {
                 dismiss()
             } else {
                 dismiss()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
@@ -80,6 +82,16 @@ class StoragePermission : ScopedBottomSheetFragment() {
     override fun onResume() {
         super.onResume()
         setStorageStatus()
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        if (requireContext().checkStoragePermission()) {
+            storagePermissionCallbacks?.onStoragePermissionGranted()
+        } else {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        super.onCancel(dialog)
     }
 
     private fun openDirectory() {
@@ -135,12 +147,14 @@ class StoragePermission : ScopedBottomSheetFragment() {
             val args = Bundle()
             val fragment = StoragePermission()
             fragment.arguments = args
-            fragment.show(this, "storage_permission")
+            fragment.show(this, TAG)
             return fragment
         }
 
         interface StoragePermissionCallbacks {
             fun onStoragePermissionGranted()
         }
+
+        const val TAG = "storage_permission"
     }
 }

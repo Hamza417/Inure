@@ -32,6 +32,8 @@ import app.simple.inure.dialogs.apks.ApkScanner.Companion.showApkScanner
 import app.simple.inure.dialogs.apks.ApksMenu.Companion.showApksMenu
 import app.simple.inure.dialogs.apks.ApksSort.Companion.showApksSort
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
+import app.simple.inure.dialogs.miscellaneous.StoragePermission
+import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
@@ -39,8 +41,8 @@ import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.ui.subpanels.ApksSearch
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,9 +72,21 @@ class APKs : ScopedFragment() {
         postponeEnterTransition()
 
         if (fullVersionCheck()) {
-            if (apkBrowserViewModel.getApkFiles().isInitialized.invert()) {
-                apkScanner = childFragmentManager.showApkScanner()
-                // startPostponedEnterTransition()
+            if (requireContext().checkStoragePermission()) {
+                if (apkBrowserViewModel.shouldShowLoader()) {
+                    apkBrowserViewModel.refresh()
+                    apkScanner = childFragmentManager.showApkScanner()
+                }
+            } else {
+                childFragmentManager.showStoragePermissionDialog()
+                    .setStoragePermissionCallbacks(object : StoragePermission.Companion.StoragePermissionCallbacks {
+                        override fun onStoragePermissionGranted() {
+                            if (apkBrowserViewModel.shouldShowLoader()) {
+                                apkBrowserViewModel.refresh()
+                                apkScanner = childFragmentManager.showApkScanner()
+                            }
+                        }
+                    })
             }
         }
 
