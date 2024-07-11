@@ -73,7 +73,7 @@ class AnalyticsMinimumSDK : ScopedFragment() {
         analyticsDataViewModel.getMinimumSDKData().observe(viewLifecycleOwner) {
             Log.d("AnalyticsMinimumSDK", "onViewCreated: ${it.size}")
             loader.gone(animate = true)
-            count.text = getString(R.string.total_apps, it.size.toString())
+            count.text = getString(R.string.total_apps, it.size)
 
             val adapterAnalyticsSDK = AnalyticsDataAdapter(it)
 

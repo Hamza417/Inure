@@ -71,7 +71,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
 
         analyticsDataViewModel.getTargetSDKData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
-            count.text = getString(R.string.total_apps, it.size.toString())
+            count.text = getString(R.string.total_apps, it.size)
             val adapterAnalyticsSDK = AnalyticsDataAdapter(it)
 
             adapterAnalyticsSDK.setOnAdapterCallbacks(object : AdapterCallbacks {

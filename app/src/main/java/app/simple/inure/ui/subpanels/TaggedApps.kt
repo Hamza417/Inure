@@ -68,7 +68,7 @@ class TaggedApps : ScopedFragment() {
         }
 
         tagsListViewModel.getTaggedApps().observe(viewLifecycleOwner) {
-            count.text = getString(R.string.total_apps, it.size.toString())
+            count.text = getString(R.string.total_apps, it.size)
             loader.gone(animate = true)
 
             with(AdapterTaggedApps(it)) {

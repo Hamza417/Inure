@@ -65,7 +65,7 @@ class AnalyticsPackageType : ScopedFragment() {
 
         analyticsDataViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
-            count.text = getString(R.string.total_apps, it.size.toString())
+            count.text = getString(R.string.total_apps, it.size)
             val analyticsDataAdapter = AnalyticsDataAdapter(it)
 
             analyticsDataAdapter.setOnAdapterCallbacks(object : AdapterCallbacks {
