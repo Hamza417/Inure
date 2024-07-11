@@ -12,6 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
@@ -30,6 +31,7 @@ class AdapterTaggedApps(private val packageInfo: ArrayList<PackageInfo>) : Recyc
                                 packageInfo[position].applicationInfo.sourceDir.toFileOrNull())
 
         holder.name.text = packageInfo[position].applicationInfo.name
+        holder.name.setAppVisualStates(packageInfo[position])
         holder.packageName.text = packageInfo[position].packageName
         holder.details.setAppInfo(packageInfo[position])
 

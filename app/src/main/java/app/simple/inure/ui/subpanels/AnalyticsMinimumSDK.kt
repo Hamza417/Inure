@@ -2,7 +2,6 @@ package app.simple.inure.ui.subpanels
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,7 +70,6 @@ class AnalyticsMinimumSDK : ScopedFragment() {
         }
 
         analyticsDataViewModel.getMinimumSDKData().observe(viewLifecycleOwner) {
-            Log.d("AnalyticsMinimumSDK", "onViewCreated: ${it.size}")
             loader.gone(animate = true)
             count.text = getString(R.string.total_apps, it.size)
 

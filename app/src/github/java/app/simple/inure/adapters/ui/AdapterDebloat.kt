@@ -21,7 +21,6 @@ import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
 import app.simple.inure.util.AdapterUtils
-import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.IntentHelper.asUri
@@ -59,7 +58,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
         when (holder) {
             is Holder -> {
                 holder.name.text = bloats[pos].packageInfo.applicationInfo.name
-                holder.name.setAppVisualStates(bloats[pos].packageInfo)
+                // holder.name.setAppVisualStates(bloats[pos].packageInfo)
                 holder.name.setWarningIcon(isWarning(bloats[pos]))
                 holder.packageName.text = bloats[pos].packageInfo.packageName
                 holder.flags.setBloatFlags(bloats[pos])

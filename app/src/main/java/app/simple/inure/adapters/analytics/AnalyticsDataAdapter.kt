@@ -12,6 +12,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.InfoStripUtils.setAppInfo
 
 class AnalyticsDataAdapter(private val packageInfo: ArrayList<PackageInfo>) : RecyclerView.Adapter<AnalyticsDataAdapter.Holder>() {
@@ -26,6 +27,7 @@ class AnalyticsDataAdapter(private val packageInfo: ArrayList<PackageInfo>) : Re
         holder.icon.transitionName = packageInfo[position].packageName
         holder.icon.loadAppIcon(packageInfo[position].packageName, packageInfo[position].applicationInfo.enabled)
         holder.name.text = packageInfo[position].applicationInfo.name
+        holder.name.setAppVisualStates(packageInfo[position])
         holder.packageName.text = packageInfo[position].packageName
         holder.details.setAppInfo(packageInfo[position])
 
