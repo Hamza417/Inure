@@ -395,7 +395,7 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.uninstallPackage(packageInfo) {
-                                        requireActivity().supportFragmentManager.popBackStackImmediate()
+                                        popBackStack()
                                     }
                                 }
                             })
@@ -405,7 +405,7 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showUpdatesUninstaller(packageInfo) {
-                                        appInfoViewModel.unsetUpdateFlag()
+                                        packageInfo = appInfoViewModel.reinitPackageInfo()
                                         appInfoViewModel.loadActionOptions()
                                     }
                                 }

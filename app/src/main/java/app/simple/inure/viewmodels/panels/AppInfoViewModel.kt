@@ -31,13 +31,12 @@ import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.TrackerUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppInfoViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class AppInfoViewModel(application: Application, private var packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
@@ -458,8 +457,10 @@ class AppInfoViewModel(application: Application, val packageInfo: PackageInfo) :
         return packageInfo.packageName != application.packageName
     }
 
-    fun unsetUpdateFlag() {
-        FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+    fun reinitPackageInfo(): PackageInfo {
+        // FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+        packageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)
+        return packageInfo
     }
 
     private fun loadBatteryOptimization() {
