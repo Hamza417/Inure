@@ -139,7 +139,7 @@ class Extras : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ExtrasPreferences.extrasSearch -> {
+            ExtrasPreferences.EXTRAS_SEARCH -> {
                 searchBoxState(true, ExtrasPreferences.isSearchVisible())
             }
         }

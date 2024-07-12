@@ -36,12 +36,12 @@ class InstallerCustomization : ScopedFragment() {
             viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                 val list = ArrayList<VisibilityCustomizationModel>()
 
-                list.add(VisibilityCustomizationModel(R.string.information, -1, InstallerPreferences.isInfoVisible))
-                list.add(VisibilityCustomizationModel(R.string.changes, -1, InstallerPreferences.isChangesVisible))
-                list.add(VisibilityCustomizationModel(R.string.permissions, -1, InstallerPreferences.isPermissionsVisible))
-                list.add(VisibilityCustomizationModel(R.string.certificate, -1, InstallerPreferences.isCertificateVisible))
-                list.add(VisibilityCustomizationModel(R.string.manifest, -1, InstallerPreferences.isManifestVisible))
-                list.add(VisibilityCustomizationModel(R.string.trackers, -1, InstallerPreferences.isTrackersVisible))
+                list.add(VisibilityCustomizationModel(R.string.information, -1, InstallerPreferences.IS_INFO_VISIBLE))
+                list.add(VisibilityCustomizationModel(R.string.changes, -1, InstallerPreferences.IS_CHANGES_VISIBLE))
+                list.add(VisibilityCustomizationModel(R.string.permissions, -1, InstallerPreferences.IS_PERMISSIONS_VISIBLE))
+                list.add(VisibilityCustomizationModel(R.string.certificate, -1, InstallerPreferences.IS_CERTIFICATE_VISIBLE))
+                list.add(VisibilityCustomizationModel(R.string.manifest, -1, InstallerPreferences.IS_MANIFEST_VISIBLE))
+                list.add(VisibilityCustomizationModel(R.string.trackers, -1, InstallerPreferences.IS_TRACKERS_VISIBLE))
 
                 launch(Dispatchers.Main) {
                     recyclerView.adapter = AdapterInstallerCustomization(list)

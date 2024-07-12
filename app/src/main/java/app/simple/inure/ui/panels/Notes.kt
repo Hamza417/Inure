@@ -138,10 +138,10 @@ class Notes : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            NotesPreferences.expandedNotes -> {
+            NotesPreferences.EXPANDED_NOTES -> {
                 adapterNotes?.areNotesExpanded = NotesPreferences.areNotesExpanded()
             }
-            NotesPreferences.isGrid -> {
+            NotesPreferences.IS_GRID -> {
                 if (NotesPreferences.getGrid()) {
                     recyclerView.post {
                         TransitionManager.beginDelayedTransition(recyclerView)

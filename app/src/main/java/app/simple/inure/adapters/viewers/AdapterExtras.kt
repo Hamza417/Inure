@@ -61,7 +61,7 @@ class AdapterExtras(var list: MutableList<Extra>, var keyword: String) : Recycle
     @SuppressLint("NotifyDataSetChanged")
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ExtrasPreferences.highlight -> {
+            ExtrasPreferences.HIGHLIGHT -> {
                 isHighlighted = ExtrasPreferences.isExtensionsHighlighted().also {
                     notifyDataSetChanged()
                 }

@@ -111,7 +111,7 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
     @SuppressLint("NotifyDataSetChanged")
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            GraphicsPreferences.extensionHighlight -> {
+            GraphicsPreferences.EXTENSION_HIGHLIGHT -> {
                 isHighlighted = GraphicsPreferences.isExtensionsHighlighted().also {
                     notifyDataSetChanged()
                 }

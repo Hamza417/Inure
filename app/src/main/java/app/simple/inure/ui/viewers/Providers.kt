@@ -110,7 +110,7 @@ class Providers : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ProvidersPreferences.providersSearch -> {
+            ProvidersPreferences.PROVIDERS_SEARCH -> {
                 searchBoxState(animate = true, ProvidersPreferences.isSearchVisible())
             }
         }

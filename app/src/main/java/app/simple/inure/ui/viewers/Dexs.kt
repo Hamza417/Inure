@@ -85,7 +85,7 @@ class Dexs : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            DexClassesPreferences.dexSearch -> {
+            DexClassesPreferences.DEX_SEARCH -> {
                 searchBoxState(animate = true, DexClassesPreferences.isSearchVisible())
             }
         }

@@ -4,15 +4,15 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
 object SetupPreferences {
 
-    private const val dontShowAgain = "dont_show_again"
+    private const val DONT_SHOW_AGAIN = "dont_show_again"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun isDontShowAgain(): Boolean {
-        return getSharedPreferences().getBoolean(dontShowAgain, false)
+        return getSharedPreferences().getBoolean(DONT_SHOW_AGAIN, false)
     }
 
     fun setDontShowAgain(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(dontShowAgain, value).apply()
+        getSharedPreferences().edit().putBoolean(DONT_SHOW_AGAIN, value).apply()
     }
 }

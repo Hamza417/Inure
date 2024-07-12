@@ -285,27 +285,27 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
                 val titles = arrayListOf<String>()
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isInfoVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_INFO_VISIBLE)) {
                     titles.add(getString(R.string.information))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isChangesVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CHANGES_VISIBLE)) {
                     titles.add(getString(R.string.changes))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isPermissionsVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_PERMISSIONS_VISIBLE)) {
                     titles.add(getString(R.string.permissions))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isManifestVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_MANIFEST_VISIBLE)) {
                     titles.add(getString(R.string.manifest))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isCertificateVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CERTIFICATE_VISIBLE)) {
                     titles.add(getString(R.string.certificate))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.isTrackersVisible)) {
+                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) {
                     titles.add(getString(R.string.trackers))
                 }
 

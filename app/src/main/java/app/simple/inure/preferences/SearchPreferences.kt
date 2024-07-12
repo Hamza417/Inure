@@ -6,92 +6,92 @@ import app.simple.inure.util.Sort
 
 object SearchPreferences {
 
-    private const val lastSearchKeyword = "last_search_keyword"
-    const val sortStyle = "search_sort_style"
-    const val isSortingReversed = "is_search_sorting_reversed"
-    const val listAppsCategory = "search_list_apps_category"
-    const val appsFilter = "search_apps_filter"
-    const val ignoreCasing = "search_ignore_case"
-    const val deepSearch = "deep_search"
-    const val deepSearchKeywordMode = "deep_search_keyword_mode"
+    private const val LAST_SEARCH_KEYWORD = "last_search_keyword"
+    const val SORT_STYLE = "search_sort_style"
+    const val IS_SORTING_REVERSED = "is_search_sorting_reversed"
+    const val LIST_APPS_CATEGORY = "search_list_apps_category"
+    const val APPS_FILTER = "search_apps_filter"
+    const val IGNORE_CASING = "search_ignore_case"
+    const val DEEP_SEARCH = "deep_search"
+    const val DEEP_SEARCH_KEYWORD_MODE = "deep_search_keyword_mode"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setLastSearchKeyword(keyword: String) {
-        getSharedPreferences().edit().putString(lastSearchKeyword, keyword).apply()
+        getSharedPreferences().edit().putString(LAST_SEARCH_KEYWORD, keyword).apply()
     }
 
     fun getLastSearchKeyword(): String {
-        return getSharedPreferences().getString(lastSearchKeyword, "")!!
+        return getSharedPreferences().getString(LAST_SEARCH_KEYWORD, "")!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSortStyle(style: String) {
-        getSharedPreferences().edit().putString(sortStyle, style).apply()
+        getSharedPreferences().edit().putString(SORT_STYLE, style).apply()
     }
 
     fun getSortStyle(): String {
-        return getSharedPreferences().getString(sortStyle, Sort.NAME)!!
+        return getSharedPreferences().getString(SORT_STYLE, Sort.NAME)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setReverseSorting(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
+        getSharedPreferences().edit().putBoolean(IS_SORTING_REVERSED, value).apply()
     }
 
     fun isReverseSorting(): Boolean {
-        return getSharedPreferences().getBoolean(isSortingReversed, false)
+        return getSharedPreferences().getBoolean(IS_SORTING_REVERSED, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAppsCategory(category: String) {
-        getSharedPreferences().edit().putString(listAppsCategory, category).apply()
+        getSharedPreferences().edit().putString(LIST_APPS_CATEGORY, category).apply()
     }
 
     fun getAppsCategory(): String {
-        return getSharedPreferences().getString(listAppsCategory, SortConstant.BOTH)!!
+        return getSharedPreferences().getString(LIST_APPS_CATEGORY, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setIgnoreCasing(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(ignoreCasing, value).apply()
+        getSharedPreferences().edit().putBoolean(IGNORE_CASING, value).apply()
     }
 
     fun isCasingIgnored(): Boolean {
-        return getSharedPreferences().getBoolean(ignoreCasing, true)
+        return getSharedPreferences().getBoolean(IGNORE_CASING, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setDeepSearch(value: Boolean) {
-        getSharedPreferences().edit().putBoolean(deepSearch, value).apply()
+        getSharedPreferences().edit().putBoolean(DEEP_SEARCH, value).apply()
     }
 
     fun isDeepSearchEnabled(): Boolean {
-        return getSharedPreferences().getBoolean(deepSearch, false)
+        return getSharedPreferences().getBoolean(DEEP_SEARCH, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchKeywordMode(value: Boolean): Boolean {
-        return getSharedPreferences().edit().putBoolean(deepSearchKeywordMode, value).commit()
+        return getSharedPreferences().edit().putBoolean(DEEP_SEARCH_KEYWORD_MODE, value).commit()
     }
 
     fun isSearchKeywordModeEnabled(): Boolean {
-        return getSharedPreferences().getBoolean(deepSearchKeywordMode, false)
+        return getSharedPreferences().getBoolean(DEEP_SEARCH_KEYWORD_MODE, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAppsFilter(filter: Int) {
-        getSharedPreferences().edit().putInt(appsFilter, filter).apply()
+        getSharedPreferences().edit().putInt(APPS_FILTER, filter).apply()
     }
 
     fun getAppsFilter(): Int {
-        return getSharedPreferences().getInt(appsFilter, SortConstant.ALL)
+        return getSharedPreferences().getInt(APPS_FILTER, SortConstant.ALL)
     }
 }

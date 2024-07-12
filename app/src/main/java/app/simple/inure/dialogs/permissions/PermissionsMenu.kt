@@ -41,7 +41,7 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PermissionPreferences.labelType -> {
+            PermissionPreferences.LABEL_TYPE -> {
                 setLabelType()
             }
         }

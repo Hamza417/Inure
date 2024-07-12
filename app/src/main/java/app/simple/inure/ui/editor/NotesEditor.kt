@@ -431,7 +431,7 @@ class NotesEditor : KeyboardScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            NotesPreferences.autoSave -> {
+            NotesPreferences.AUTO_SAVE -> {
                 if (!NotesPreferences.isAutoSave()) {
                     save.visible(true)
                 } else {

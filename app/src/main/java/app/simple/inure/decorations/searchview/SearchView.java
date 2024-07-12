@@ -247,7 +247,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(SearchPreferences.deepSearch)) {
+        if (key.equals(SearchPreferences.DEEP_SEARCH)) {
             loader.setVisibility(View.VISIBLE);
             updateDeepSearchData();
         }

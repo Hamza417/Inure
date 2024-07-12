@@ -1,31 +1,29 @@
 package app.simple.inure.preferences
 
-import androidx.annotation.NonNull
 import app.simple.inure.util.SortSensors
-import org.jetbrains.annotations.NotNull
 
 object SensorsPreferences {
 
-    const val sortStyle = "sensor_sort_style"
-    const val isSortingReversed = "is_sensor_sorting_reversed"
+    const val SORT_STYLE = "sensor_sort_style"
+    const val IS_SORTING_REVERSED = "is_sensor_sorting_reversed"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setSortStyle(@NonNull style: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(sortStyle, style).apply()
+    fun setSortStyle(style: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(SORT_STYLE, style).apply()
     }
 
     fun getSortStyle(): String {
-        return SharedPreferences.getSharedPreferences().getString(sortStyle, SortSensors.NAME)!!
+        return SharedPreferences.getSharedPreferences().getString(SORT_STYLE, SortSensors.NAME)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setReverseSorting(@NotNull value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isSortingReversed, value).apply()
+    fun setReverseSorting(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(IS_SORTING_REVERSED, value).apply()
     }
 
     fun isReverseSorting(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isSortingReversed, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(IS_SORTING_REVERSED, false)
     }
 }

@@ -748,22 +748,22 @@ class AppInfo : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppInformationPreferences.metaMenuState -> {
+            AppInformationPreferences.META_MENU_STATE -> {
                 metaMenuState()
                 appInfoViewModel.loadMetaOptions()
             }
 
-            AppInformationPreferences.actionMenuState -> {
+            AppInformationPreferences.ACTION_MENU_STATE -> {
                 actionMenuState()
                 appInfoViewModel.loadActionOptions()
             }
 
-            AppInformationPreferences.miscMenuState -> {
+            AppInformationPreferences.MISC_MENU_STATE -> {
                 miscMenuState()
                 appInfoViewModel.loadMiscellaneousItems()
             }
 
-            AppInformationPreferences.menuLayout -> {
+            AppInformationPreferences.MENU_LAYOUT -> {
                 /**
                  * Load all the menus back again
                  */
@@ -772,15 +772,15 @@ class AppInfo : ScopedFragment() {
                 appInfoViewModel.loadActionOptions()
             }
 
-            AppInformationPreferences.metaMenuLayout -> {
+            AppInformationPreferences.META_MENU_LAYOUT -> {
                 appInfoViewModel.loadMetaOptions()
             }
 
-            AppInformationPreferences.actionMenuLayout -> {
+            AppInformationPreferences.ACTION_MENU_LAYOUT -> {
                 appInfoViewModel.loadActionOptions()
             }
 
-            AppInformationPreferences.miscMenuLayout -> {
+            AppInformationPreferences.MISC_MENU_LAYOUT -> {
                 appInfoViewModel.loadMiscellaneousItems()
             }
         }

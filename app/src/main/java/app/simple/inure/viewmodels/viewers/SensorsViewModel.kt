@@ -47,8 +47,8 @@ class SensorsViewModel(application: Application) : WrappedViewModel(application)
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            SensorsPreferences.isSortingReversed,
-            SensorsPreferences.sortStyle -> {
+            SensorsPreferences.IS_SORTING_REVERSED,
+            SensorsPreferences.SORT_STYLE -> {
                 loadSensorData()
             }
         }

@@ -2,15 +2,15 @@ package app.simple.inure.preferences
 
 object DexClassesPreferences {
 
-    const val dexSearch = "is_search_visible"
+    const val DEX_SEARCH = "is_search_visible"
 
     // --------------------------------------------------------------------------------------------- //
 
     fun setSearchVisible(isVisible: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(dexSearch, isVisible).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(DEX_SEARCH, isVisible).apply()
     }
 
     fun isSearchVisible(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(dexSearch, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(DEX_SEARCH, true)
     }
 }

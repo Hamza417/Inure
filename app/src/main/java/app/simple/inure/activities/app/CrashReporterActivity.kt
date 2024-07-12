@@ -107,8 +107,8 @@ class CrashReporterActivity : BaseActivity() {
 
     private fun close() {
         if (isPreview.invert()) {
-            if (CrashPreferences.getCrashLog() != CrashPreferences.crashTimestampEmptyDefault) {
-                CrashPreferences.saveCrashLog(CrashPreferences.crashTimestampEmptyDefault)
+            if (CrashPreferences.getCrashLog() != CrashPreferences.CRASH_TIMESTAMP_EMPTY_DEFAULT) {
+                CrashPreferences.saveCrashLog(CrashPreferences.CRASH_TIMESTAMP_EMPTY_DEFAULT)
                 CrashPreferences.saveMessage(null)
                 CrashPreferences.saveCause(null)
             }

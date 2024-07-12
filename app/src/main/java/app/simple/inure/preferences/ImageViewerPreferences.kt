@@ -1,18 +1,16 @@
 package app.simple.inure.preferences
 
-import org.jetbrains.annotations.NotNull
-
 object ImageViewerPreferences {
 
-    const val isBackgroundDark = "is_image_viewer_background_dark"
+    const val IS_BACKGROUND_DARK = "is_image_viewer_background_dark"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setBackgroundMode(@NotNull value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(isBackgroundDark, value).apply()
+    fun setBackgroundMode(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit().putBoolean(IS_BACKGROUND_DARK, value).apply()
     }
 
     fun isBackgroundDark(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(isBackgroundDark, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(IS_BACKGROUND_DARK, true)
     }
 }

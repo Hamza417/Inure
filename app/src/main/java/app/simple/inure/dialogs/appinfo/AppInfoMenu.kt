@@ -52,7 +52,7 @@ class AppInfoMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppInformationPreferences.menuLayout -> {
+            AppInformationPreferences.MENU_LAYOUT -> {
                 setMenuLayout()
             }
         }

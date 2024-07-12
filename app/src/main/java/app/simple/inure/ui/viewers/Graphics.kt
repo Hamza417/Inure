@@ -105,7 +105,7 @@ class Graphics : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            GraphicsPreferences.graphicsSearch -> {
+            GraphicsPreferences.GRAPHICS_SEARCH -> {
                 searchBoxState(animate = true, GraphicsPreferences.isSearchVisible())
             }
         }

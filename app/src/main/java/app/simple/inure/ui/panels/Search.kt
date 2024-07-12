@@ -278,18 +278,18 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            SearchPreferences.sortStyle,
-            SearchPreferences.isSortingReversed,
-            SearchPreferences.listAppsCategory,
-            SearchPreferences.appsFilter -> {
+            SearchPreferences.SORT_STYLE,
+            SearchPreferences.IS_SORTING_REVERSED,
+            SearchPreferences.LIST_APPS_CATEGORY,
+            SearchPreferences.APPS_FILTER -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
 
-            SearchPreferences.deepSearch -> {
+            SearchPreferences.DEEP_SEARCH -> {
                 searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
             }
 
-            SearchPreferences.ignoreCasing -> {
+            SearchPreferences.IGNORE_CASING -> {
                 if (SearchPreferences.isDeepSearchEnabled()) {
                     adapterDeepSearch.ignoreCasing = SearchPreferences.isCasingIgnored()
                 } else {

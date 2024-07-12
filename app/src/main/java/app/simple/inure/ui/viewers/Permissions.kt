@@ -166,11 +166,11 @@ class Permissions : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PermissionPreferences.permissionSearch -> {
+            PermissionPreferences.PERMISSION_SEARCH -> {
                 searchBoxState(true, PermissionPreferences.isSearchVisible())
             }
 
-            PermissionPreferences.labelType -> {
+            PermissionPreferences.LABEL_TYPE -> {
                 adapterPermissions.update()
             }
         }

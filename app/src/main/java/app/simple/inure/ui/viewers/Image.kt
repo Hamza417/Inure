@@ -246,7 +246,7 @@ class Image : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ImageViewerPreferences.isBackgroundDark -> {
+            ImageViewerPreferences.IS_BACKGROUND_DARK -> {
                 setBackgroundColor()
             }
         }

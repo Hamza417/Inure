@@ -93,7 +93,7 @@ class Resources : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ResourcesPreferences.resourcesSearch -> {
+            ResourcesPreferences.RESOURCES_SEARCH -> {
                 searchBoxState(animate = true, ResourcesPreferences.isSearchVisible())
             }
         }

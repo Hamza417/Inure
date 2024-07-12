@@ -272,7 +272,7 @@ class ImageActivity : BaseActivity() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ImageViewerPreferences.isBackgroundDark -> {
+            ImageViewerPreferences.IS_BACKGROUND_DARK -> {
                 setBackgroundColor()
             }
         }

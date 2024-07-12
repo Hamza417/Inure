@@ -128,7 +128,7 @@ public class LineNumberEditText extends TypeFaceEditText implements SharedPrefer
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(FormattingPreferences.countAllLines)) {
+        if (key.equals(FormattingPreferences.COUNT_ALL_LINES)) {
             showAllNumbers = FormattingPreferences.INSTANCE.isCountingAllLines();
             invalidate();
         }

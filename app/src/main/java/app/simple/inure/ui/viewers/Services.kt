@@ -110,7 +110,7 @@ class Services : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ServicesPreferences.servicesSearch -> {
+            ServicesPreferences.SERVICES_SEARCH -> {
                 searchBoxState(animate = true, ServicesPreferences.isSearchVisible())
             }
         }

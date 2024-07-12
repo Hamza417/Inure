@@ -2,26 +2,26 @@ package app.simple.inure.preferences
 
 object GraphicsPreferences {
 
-    const val extensionHighlight = "highlight_extensions_in_graphics"
-    const val graphicsSearch = "graphics_search"
+    const val EXTENSION_HIGHLIGHT = "highlight_extensions_in_graphics"
+    const val GRAPHICS_SEARCH = "graphics_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setHighlightExtensions(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(extensionHighlight, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(EXTENSION_HIGHLIGHT, value).apply()
     }
 
     fun isExtensionsHighlighted(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(extensionHighlight, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(EXTENSION_HIGHLIGHT, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchVisibility(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(graphicsSearch, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(GRAPHICS_SEARCH, boolean).apply()
     }
 
     fun isSearchVisible(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(graphicsSearch, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(GRAPHICS_SEARCH, false)
     }
 }

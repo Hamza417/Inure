@@ -2,17 +2,17 @@ package app.simple.inure.preferences
 
 object PermissionPreferences {
 
-    const val permissionSearch = "permissions_search"
-    const val labelType = "permission_label_type"
+    const val PERMISSION_SEARCH = "permissions_search"
+    const val LABEL_TYPE = "permission_label_type"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchVisibility(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(permissionSearch, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(PERMISSION_SEARCH, boolean).apply()
     }
 
     fun isSearchVisible(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(permissionSearch, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(PERMISSION_SEARCH, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
@@ -22,10 +22,10 @@ object PermissionPreferences {
      * False for Descriptive
      */
     fun setLabelType(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(labelType, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(LABEL_TYPE, boolean).apply()
     }
 
     fun getLabelType(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(labelType, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(LABEL_TYPE, true)
     }
 }

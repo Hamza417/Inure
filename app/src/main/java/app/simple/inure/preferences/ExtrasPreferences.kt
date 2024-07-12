@@ -2,26 +2,26 @@ package app.simple.inure.preferences
 
 object ExtrasPreferences {
 
-    const val highlight = "highlight_extensions_in_extras"
-    const val extrasSearch = "extras_search"
+    const val HIGHLIGHT = "highlight_extensions_in_extras"
+    const val EXTRAS_SEARCH = "extras_search"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setHighlightExtensions(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(highlight, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(HIGHLIGHT, value).apply()
     }
 
     fun isExtensionsHighlighted(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(highlight, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(HIGHLIGHT, true)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchVisibility(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(extrasSearch, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(EXTRAS_SEARCH, boolean).apply()
     }
 
     fun isSearchVisible(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(extrasSearch, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(EXTRAS_SEARCH, false)
     }
 }

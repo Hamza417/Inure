@@ -2,39 +2,39 @@ package app.simple.inure.preferences
 
 object CrashPreferences {
 
-    private const val crashTimestamp = "crash_timestamp"
-    private const val crashMessage = "crash_message"
-    private const val crashCause = "crashCause"
+    private const val CRASH_TIMESTAMP = "crash_timestamp"
+    private const val CRASH_MESSAGE = "crash_message"
+    private const val CRASH_CAUSE = "crashCause"
 
-    const val crashTimestampEmptyDefault = -1L
+    const val CRASH_TIMESTAMP_EMPTY_DEFAULT = -1L
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun saveCrashLog(value: Long): Boolean {
-        return SharedPreferences.getSharedPreferences().edit().putLong(crashTimestamp, value).commit()
+        return SharedPreferences.getSharedPreferences().edit().putLong(CRASH_TIMESTAMP, value).commit()
     }
 
     fun getCrashLog(): Long {
-        return SharedPreferences.getSharedPreferences().getLong(crashTimestamp, crashTimestampEmptyDefault)
+        return SharedPreferences.getSharedPreferences().getLong(CRASH_TIMESTAMP, CRASH_TIMESTAMP_EMPTY_DEFAULT)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun saveMessage(value: String?): Boolean {
-        return SharedPreferences.getSharedPreferences().edit().putString(crashMessage, value).commit()
+        return SharedPreferences.getSharedPreferences().edit().putString(CRASH_MESSAGE, value).commit()
     }
 
     fun getMessage(): String? {
-        return SharedPreferences.getSharedPreferences().getString(crashMessage, null)
+        return SharedPreferences.getSharedPreferences().getString(CRASH_MESSAGE, null)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun saveCause(value: String?): Boolean {
-        return SharedPreferences.getSharedPreferences().edit().putString(crashCause, value).commit()
+        return SharedPreferences.getSharedPreferences().edit().putString(CRASH_CAUSE, value).commit()
     }
 
     fun getCause(): String? {
-        return SharedPreferences.getSharedPreferences().getString(crashCause, null)
+        return SharedPreferences.getSharedPreferences().getString(CRASH_CAUSE, null)
     }
 }

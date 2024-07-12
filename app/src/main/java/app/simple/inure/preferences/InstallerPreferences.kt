@@ -2,12 +2,12 @@ package app.simple.inure.preferences
 
 object InstallerPreferences {
 
-    const val isChangesVisible = "isChangesVisible"
-    const val isPermissionsVisible = "isPermissionsVisible"
-    const val isInfoVisible = "isInfoVisible"
-    const val isCertificateVisible = "isCertificateVisible"
-    const val isManifestVisible = "isManifestVisible"
-    const val isTrackersVisible = "isTrackersVisible"
+    const val IS_CHANGES_VISIBLE = "isChangesVisible"
+    const val IS_PERMISSIONS_VISIBLE = "isPermissionsVisible"
+    const val IS_INFO_VISIBLE = "isInfoVisible"
+    const val IS_CERTIFICATE_VISIBLE = "isCertificateVisible"
+    const val IS_MANIFEST_VISIBLE = "isManifestVisible"
+    const val IS_TRACKERS_VISIBLE = "isTrackersVisible"
 
     // ---------------------------------------------------------------------------------------------------------- //
 

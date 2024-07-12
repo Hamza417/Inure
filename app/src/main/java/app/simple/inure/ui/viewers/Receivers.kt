@@ -110,7 +110,7 @@ class Receivers : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            ReceiversPreferences.receiversSearch -> {
+            ReceiversPreferences.RECEIVERS_SEARCH -> {
                 searchBoxState(animate = true, ReceiversPreferences.isSearchVisible())
             }
         }

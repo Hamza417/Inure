@@ -54,7 +54,7 @@ public class CrashReport implements Thread.UncaughtExceptionHandler {
         long timeStamp = CrashPreferences.INSTANCE.getCrashLog();
     
         try {
-            if (timeStamp != CrashPreferences.crashTimestampEmptyDefault) {
+            if (timeStamp != CrashPreferences.CRASH_TIMESTAMP_EMPTY_DEFAULT) {
                 String stack = Utils.read(new File(context.getExternalFilesDir("logs"), "crashLog_" + timeStamp));
                 Intent intent = new Intent(context, CrashReporterActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
