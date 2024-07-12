@@ -70,6 +70,14 @@ object PackageUtils {
         }
     }
 
+    fun String.isPackageDisabled(context: Context): Boolean {
+        return try {
+            context.packageManager.getApplicationInfo(this)?.enabled == false
+        } catch (e: NameNotFoundException) {
+            false
+        }
+    }
+
     fun PackageManager.getPackageInfo(packageName: String): PackageInfo? {
         try {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -303,6 +311,13 @@ object PackageUtils {
      */
     fun PackageInfo.isInstalled(): Boolean {
         return applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+    }
+
+    /**
+     * Check is the app is enabled
+     */
+    fun PackageInfo.isEnabled(): Boolean {
+        return applicationInfo.enabled
     }
 
     /**

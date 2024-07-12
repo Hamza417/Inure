@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.isEnabled
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
@@ -482,7 +483,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                                 }
                             }
                         }
-                        else -> {
+                        METHOD_DISABLE -> {
                             kotlin.runCatching {
                                 ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
                             }.onSuccess {
@@ -491,8 +492,31 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                                 debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                             }
                         }
+                        METHOD_RESTORE -> {
+                            getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
+                                if (result.isSuccess) {
+                                    if (bloat.packageInfo.isEnabled()) {
+                                        debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                    } else {
+                                        kotlin.runCatching {
+                                            ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                                        }.onSuccess {
+                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                        }.getOrElse {
+                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                        }
+                                    }
+                                } else {
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                }
+                            }
+                        }
+                        else -> {
+                            throw IllegalArgumentException("Invalid method")
+                        }
                     }
                 }.getOrElse {
+                    it.printStackTrace()
                     debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
                 }
             }
@@ -515,9 +539,10 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     }
 
     companion object {
-        private const val UAD_FILE_NAME = "/uad_lists.json"
         const val METHOD_DISABLE = "disable"
         const val METHOD_UNINSTALL = "uninstall"
         const val METHOD_RESTORE = "restore"
+
+        private const val TAG = "DebloatViewModel"
     }
 }
