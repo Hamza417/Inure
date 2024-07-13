@@ -73,7 +73,7 @@ class AccentColor : ScopedFragment() {
                      Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
         }
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent)) { // Add color picker
+        if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT)) { // Add color picker
             list.add(1, Pair(Color.DKGRAY /* Bogus Value */, "Color Picker"))
         }
 

@@ -152,7 +152,7 @@ class SplashScreen : ScopedFragment() {
             }
 
             // Initialize native crash handler
-            if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.CRASH_HANDLER).invert()) {
                 if (BuildConfig.DEBUG.invert()) {
                     CrashReport(requireContext()).initialize()
                 }

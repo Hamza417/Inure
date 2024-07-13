@@ -294,7 +294,7 @@ class HomeViewModel(application: Application) :
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
             list.add(Pair(R.drawable.ic_tags, R.string.tags))
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.enableDeviceInfo)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_DEVICE_INFO)) {
                 list.add(Pair(R.drawable.ic_memory, R.string.device_info))
             }
 
@@ -320,7 +320,7 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_open_source, R.string.foss))
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
                 list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
             }
 
@@ -350,14 +350,14 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(0, 0)) // Divider
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.MUSIC)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Pair(R.drawable.ic_music_note, R.string.music))
                 }
             }
 
             if (HomePreferences.isPanelVisible(HomePreferences.IS_STACKTRACES_VISIBLE)
-                    && DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+                    && DevelopmentPreferences.get(DevelopmentPreferences.CRASH_HANDLER).invert()) {
                 list.add(Pair(R.drawable.ic_stacktrace, R.string.crash_report))
             }
 
@@ -424,11 +424,11 @@ class HomeViewModel(application: Application) :
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            DevelopmentPreferences.music,
-            DevelopmentPreferences.enableDeviceInfo,
-            ConfigurationPreferences.isUsingRoot,
-            ConfigurationPreferences.isUsingShizuku,
-            DevelopmentPreferences.enableHiddenApps,
+            DevelopmentPreferences.MUSIC,
+            DevelopmentPreferences.ENABLE_DEVICE_INFO,
+            ConfigurationPreferences.IS_USING_ROOT,
+            ConfigurationPreferences.IS_USING_SHIZUKU,
+            DevelopmentPreferences.ENABLE_HIDDEN_APPS,
             HomePreferences.IS_TERMINAL_VISIBLE,
             HomePreferences.IS_USAGE_STATISTICS_VISIBLE,
             HomePreferences.IS_ANALYTICS_VISIBLE,

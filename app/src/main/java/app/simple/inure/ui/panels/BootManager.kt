@@ -127,12 +127,12 @@ class BootManager : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BootManagerPreferences.appsCategory,
-            BootManagerPreferences.filter -> {
+            BootManagerPreferences.APPS_CATEGORY,
+            BootManagerPreferences.FILTER -> {
                 bootManagerViewModel?.reloadBootComponentData()
             }
-            BootManagerPreferences.sortingStyle,
-            BootManagerPreferences.sortingReversed -> {
+            BootManagerPreferences.SORTING_STYLE,
+            BootManagerPreferences.SORTING_REVERSED -> {
                 bootManagerViewModel?.sortBootComponentData()
             }
         }

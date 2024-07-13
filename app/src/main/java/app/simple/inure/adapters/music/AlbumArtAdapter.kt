@@ -34,14 +34,14 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.albumArt.transitionName = list[position].fileUri
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.USE_ALTERNATE_AUDIO_PLAYER_INTERFACE)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                 holder.albumArt.loadBlurredBackgroundDescriptor(list[position].fileUri.toUri())
             } else {
                 holder.albumArt.loadBlurredBackground(list[position].artUri.toUri())
             }
         } else {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                 holder.albumArt.loadFromFileDescriptor(list[position].fileUri.toUri())
             } else {
                 holder.albumArt.loadFromUri(list[position].artUri.toUri())

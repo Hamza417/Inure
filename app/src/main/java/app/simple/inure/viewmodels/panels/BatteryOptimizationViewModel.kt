@@ -299,8 +299,8 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ConfigurationPreferences.isUsingRoot,
-            ConfigurationPreferences.isUsingShizuku -> {
+            ConfigurationPreferences.IS_USING_ROOT,
+            ConfigurationPreferences.IS_USING_SHIZUKU -> {
                 refresh()
             }
         }

@@ -76,7 +76,7 @@ class ShortcutsViewModel(application: Application) : WrappedViewModel(applicatio
                     Shortcut(R.drawable.sc_open_source, FOSS_ID, FOSS_ACTION, R.string.foss),
             )
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.music)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.MUSIC)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     list.add(Shortcut(R.drawable.sc_music, MUSIC_ID, MUSIC_ACTION, R.string.music))
                 }

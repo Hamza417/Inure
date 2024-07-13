@@ -98,7 +98,7 @@ class Boot : SearchBarScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            BootPreferences.isSearchVisible -> {
+            BootPreferences.IS_SEARCH_VISIBLE -> {
                 searchBoxState(false, BootPreferences.isSearchVisible())
             }
         }

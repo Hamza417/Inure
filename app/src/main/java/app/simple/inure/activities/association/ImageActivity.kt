@@ -72,7 +72,7 @@ class ImageActivity : BaseActivity() {
         setBackgroundColor(animate = false)
 
         with(header) {
-            if (get(DevelopmentPreferences.disableTransparentStatus)) {
+            if (get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
                 if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
                     setPadding(paddingLeft,
                                abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),

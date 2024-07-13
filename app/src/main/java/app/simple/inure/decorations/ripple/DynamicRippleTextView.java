@@ -150,7 +150,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
             }
         } else {
             setBackground(null);
-            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
+            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.PADDING_LESS_POPUP_MENUS)) {
                 setBackground(Utils.getRippleDrawable(getBackground()));
             } else {
                 setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));

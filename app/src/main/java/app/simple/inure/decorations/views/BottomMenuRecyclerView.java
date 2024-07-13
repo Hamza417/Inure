@@ -126,7 +126,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
             MainPreferences.INSTANCE.setBottomMenuHeight(getHeight() - layoutParams.topMargin - layoutParams.bottomMargin);
             setLayoutParams(layoutParams);
             
-            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.centerBottomMenu)) {
+            if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.CENTER_BOTTOM_MENU)) {
                 try {
                     FrameLayout.LayoutParams layoutParams_ = ((FrameLayout.LayoutParams) getLayoutParams());
                     layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
@@ -137,7 +137,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
                         layoutParams_.gravity = Gravity.CENTER | Gravity.BOTTOM;
                         setLayoutParams(layoutParams_);
                     } catch (ClassCastException ex) {
-                        DevelopmentPreferences.INSTANCE.set(DevelopmentPreferences.centerBottomMenu, false);
+                        DevelopmentPreferences.INSTANCE.set(DevelopmentPreferences.CENTER_BOTTOM_MENU, false);
                     }
                 }
             }

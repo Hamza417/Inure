@@ -33,7 +33,7 @@ class AppIconModule : AppGlideModule() {
 
         requestOptions.format(DecodeFormat.PREFER_ARGB_8888)
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.imageCaching)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.IMAGE_CACHING)) {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
         } else {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

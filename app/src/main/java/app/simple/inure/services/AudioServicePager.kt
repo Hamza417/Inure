@@ -359,7 +359,7 @@ class AudioServicePager : Service(),
                     putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
                     putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
                     putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.addBitmapToMetadata)) {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.ADD_BITMAP_TO_METADATA)) {
                         putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
                                   getBitmapFromUriForNotifications(applicationContext,
                                                                    audioModels?.get(currentPosition)?.artUri!!, 1024))

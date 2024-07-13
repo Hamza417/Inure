@@ -47,7 +47,7 @@ class DebloatMenu : ScopedBottomSheetFragment() {
 
         setButtonState()
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.useCorrespondingColorOnHighlight)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.USE_CORRESPONDING_COLOR_ON_HIGHLIGHT)) {
             with(Bloat()) {
                 recommended.setButtonCheckedColor(recommendedColor)
                 advanced.setButtonCheckedColor(advancedColor)

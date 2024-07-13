@@ -92,10 +92,10 @@ class UsageStatsMenu : ScopedBottomSheetFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatisticsPreferences.statsInterval -> {
+            StatisticsPreferences.STATS_INTERVAL -> {
                 setIntervalText()
             }
-            StatisticsPreferences.statsEngine -> {
+            StatisticsPreferences.STATS_ENGINE -> {
                 setEngineText()
             }
         }

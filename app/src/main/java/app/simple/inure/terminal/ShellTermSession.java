@@ -157,7 +157,7 @@ public class ShellTermSession extends GenericTermSession {
             }
         }
         
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.showGreetingInTerminal)) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.SHOW_GREETING_IN_TERMINAL)) {
             write("clear && echo \"Welcome to Inure Terminal v_" + BuildConfig.VERSION_NAME + " !\"" + '\r');
         }
         

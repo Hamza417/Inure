@@ -154,12 +154,12 @@ class Apps : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            AppsPreferences.sortStyle,
-            AppsPreferences.isSortingReversed,
-            AppsPreferences.appsCategory,
-            AppsPreferences.appsFilter,
-            AppsPreferences.combineFilter,
-            AppsPreferences.appsType -> {
+            AppsPreferences.SORT_STYLE,
+            AppsPreferences.IS_SORTING_REVERSED,
+            AppsPreferences.APPS_CATEGORY,
+            AppsPreferences.APPS_FILTER,
+            AppsPreferences.COMBINE_FILTER,
+            AppsPreferences.APPS_TYPE -> {
                 appsViewModel.loadAppData()
             }
         }

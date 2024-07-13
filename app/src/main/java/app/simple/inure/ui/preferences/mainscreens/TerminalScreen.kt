@@ -131,7 +131,7 @@ class TerminalScreen : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            TerminalPreferences.inputMethod -> {
+            TerminalPreferences.INPUT_METHOD -> {
                 setInputMethodText()
             }
         }

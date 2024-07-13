@@ -5,48 +5,48 @@ import app.simple.inure.util.SortBootManager
 
 object BootManagerPreferences {
 
-    const val sortingStyle = "boot_manager_sorting_style"
-    const val sortingReversed = "boot_manager_sorting_reversed"
-    const val appsCategory = "boot_manager_apps_category"
-    const val filter = "boot_manager_filter"
+    const val SORTING_STYLE = "boot_manager_sorting_style"
+    const val SORTING_REVERSED = "boot_manager_sorting_reversed"
+    const val APPS_CATEGORY = "boot_manager_apps_category"
+    const val FILTER = "boot_manager_filter"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSortStyle(value: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(sortingStyle, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putString(SORTING_STYLE, value).apply()
     }
 
     fun getSortStyle(): String {
-        return SharedPreferences.getSharedPreferences().getString(sortingStyle, SortBootManager.NAME)!!
+        return SharedPreferences.getSharedPreferences().getString(SORTING_STYLE, SortBootManager.NAME)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSortingReversed(value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(sortingReversed, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(SORTING_REVERSED, value).apply()
     }
 
     fun isSortingReversed(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(sortingReversed, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(SORTING_REVERSED, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAppsCategory(value: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(appsCategory, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putString(APPS_CATEGORY, value).apply()
     }
 
     fun getAppsCategory(): String {
-        return SharedPreferences.getSharedPreferences().getString(appsCategory, SortConstant.BOTH)!!
+        return SharedPreferences.getSharedPreferences().getString(APPS_CATEGORY, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setFilter(value: Int) {
-        SharedPreferences.getSharedPreferences().edit().putInt(filter, value).apply()
+        SharedPreferences.getSharedPreferences().edit().putInt(FILTER, value).apply()
     }
 
     fun getFilter(): Int {
-        return SharedPreferences.getSharedPreferences().getInt(filter, SortConstant.ALL_BOOT_STATES)
+        return SharedPreferences.getSharedPreferences().getInt(FILTER, SortConstant.ALL_BOOT_STATES)
     }
 }

@@ -103,7 +103,7 @@ class AppPath : ScopedDialogFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ConfigurationPreferences.isExternalStorage -> {
+            ConfigurationPreferences.IS_EXTERNAL_STORAGE -> {
                 kotlin.runCatching {
                     pathInfo.text = PackageData.getPackageDir(requireContext(), editText.text.toString())?.absolutePath
                 }.onFailure {

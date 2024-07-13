@@ -107,7 +107,7 @@ class InstallerTrackersViewModel(application: Application, private val apkFile: 
         scanTrackers()
     }
 
-    fun clear() {
+    fun clearTrackersList() {
         tracker.value = null
     }
 

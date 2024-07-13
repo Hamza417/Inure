@@ -145,7 +145,7 @@ class AudioPlayer : ScopedFragment() {
                 art.loadFromFileDescriptor(uri!!)
             }
         } else {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                 /**
                  * This will solve the Glide and image size issues
                  * after the layout has changed while.

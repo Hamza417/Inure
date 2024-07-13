@@ -107,18 +107,18 @@ class Statistics : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            StatisticsPreferences.statsInterval,
-            StatisticsPreferences.isUnusedHidden,
-            StatisticsPreferences.appsCategory,
-            StatisticsPreferences.statsEngine -> {
+            StatisticsPreferences.STATS_INTERVAL,
+            StatisticsPreferences.IS_UNUSED_HIDDEN,
+            StatisticsPreferences.APPS_CATEGORY,
+            StatisticsPreferences.STATS_ENGINE -> {
                 adapterUsageStats?.enableLoader()
                 usageStatsViewModel.loadAppStats()
             }
-            StatisticsPreferences.isSortingReversed,
-            StatisticsPreferences.statsSorting -> {
+            StatisticsPreferences.IS_SORTING_REVERSED,
+            StatisticsPreferences.STATS_SORTING -> {
                 usageStatsViewModel.sortUsageData()
             }
-            StatisticsPreferences.limitHours -> {
+            StatisticsPreferences.LIMIT_HOURS -> {
                 handler.postDelayed(
                         { adapterUsageStats?.notifyAllData() }, 500)
             }

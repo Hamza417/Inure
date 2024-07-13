@@ -71,7 +71,7 @@ class BatteryOptimization : ScopedFragment() {
                 }
 
                 override fun onBatteryOptimizationClicked(view: View, batteryOptimizationModel: BatteryOptimizationModel, position: Int) {
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.alternativeBatteryOptimizationSwitch)) {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.ALTERNATIVE_BATTERY_OPTIMIZATION_SWITCH)) {
                         PopupOptimizationSwitch(view, batteryOptimizationModel).setOnOptimizeClicked {
                             batteryOptimizationViewModel.getBatteryOptimizationUpdate().observe(viewLifecycleOwner) {
                                 if (it.isNotNull()) {
@@ -129,10 +129,10 @@ class BatteryOptimization : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            BatteryOptimizationPreferences.batteryOptimizationSortStyle,
-            BatteryOptimizationPreferences.batteryOptimizationIsSortingReversed,
-            BatteryOptimizationPreferences.batteryOptimizationCategory,
-            BatteryOptimizationPreferences.batteryOptimizationFilter -> {
+            BatteryOptimizationPreferences.BATTERY_OPTIMIZATION_SORT_STYLE,
+            BatteryOptimizationPreferences.BATTERY_OPTIMIZATION_IS_SORTING_REVERSED,
+            BatteryOptimizationPreferences.BATTERY_OPTIMIZATION_CATEGORY,
+            BatteryOptimizationPreferences.BATTERY_OPTIMIZATION_FILTER -> {
                 batteryOptimizationViewModel.refresh()
             }
         }

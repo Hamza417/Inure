@@ -28,7 +28,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     var id = MusicPreferences.getLastMusicId()
 
-    private val useFelicityFlowInterface = DevelopmentPreferences.get(DevelopmentPreferences.usePeristyleInterface)
+    private val useFelicityFlowInterface = DevelopmentPreferences.get(DevelopmentPreferences.USE_PERISTYLE_INTERFACE)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         if (headerMode) {
@@ -77,13 +77,13 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             holder.art.transitionName = list[position].fileUri
 
             if (useFelicityFlowInterface) {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                     holder.art.loadFromFileDescriptorWithoutTransform(list[position].fileUri.toUri())
                 } else {
                     holder.art.loadFromUriWithoutTransform(Uri.parse(list[position].artUri))
                 }
             } else {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.loadAlbumArtFromFile)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                     holder.art.loadFromFileDescriptor(list[position].fileUri.toUri())
                 } else {
                     holder.art.loadFromUri(Uri.parse(list[position].artUri))

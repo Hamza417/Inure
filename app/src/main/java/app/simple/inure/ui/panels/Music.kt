@@ -150,7 +150,7 @@ class Music : KeyboardScopedFragment() {
                 }
             })
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.usePeristyleInterface)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.USE_PERISTYLE_INTERFACE)) {
                 val gridLayoutManager = GridLayoutManager(requireContext(), 2)
 
                 gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

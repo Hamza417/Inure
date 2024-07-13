@@ -201,7 +201,7 @@ class Preferences : SearchBarScopedFragment() {
                                 }
 
                                 R.string.damping_ratio -> {
-                                    if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                                    if (DevelopmentPreferences.get(DevelopmentPreferences.OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG)) {
                                         PopupDampingRatio(view)
                                     } else {
                                         childFragmentManager.showDampingRatioDialog()
@@ -209,7 +209,7 @@ class Preferences : SearchBarScopedFragment() {
                                 }
 
                                 R.string.stiffness -> {
-                                    if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+                                    if (DevelopmentPreferences.get(DevelopmentPreferences.OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG)) {
                                         PopupStiffness(view)
                                     } else {
                                         childFragmentManager.showStiffnessDialog()

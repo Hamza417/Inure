@@ -334,7 +334,7 @@ object ViewUtils {
     fun View.triggerHover(event: MotionEvent) {
         if (isClickable) {
             if (!AccessibilityPreferences.isAnimationReduced()) {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.hoverAnimation)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.HOVER_ANIMATION)) {
                     if (event.action == MotionEvent.ACTION_HOVER_ENTER) {
                         animate()
                             .scaleX(Misc.hoverAnimationScaleOnHover)

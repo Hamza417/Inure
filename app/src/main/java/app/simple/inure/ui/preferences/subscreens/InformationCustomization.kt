@@ -71,7 +71,7 @@ class InformationCustomization : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            AppsPreferences.infoCustomFilter -> {
+            AppsPreferences.INFO_CUSTOM_FILTER -> {
                 details.setAppInfo(packageInfo)
             }
         }

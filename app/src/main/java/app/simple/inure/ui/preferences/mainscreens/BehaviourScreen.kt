@@ -122,7 +122,7 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         dampingRatio.setOnClickListener {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG)) {
                 PopupDampingRatio(view)
             } else {
                 childFragmentManager.showDampingRatioDialog()
@@ -130,7 +130,7 @@ class BehaviourScreen : ScopedFragment() {
         }
 
         stiffness.setOnClickListener {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.oldStyleScrollingBehaviorDialog)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG)) {
                 PopupStiffness(view)
             } else {
                 childFragmentManager.showStiffnessDialog()

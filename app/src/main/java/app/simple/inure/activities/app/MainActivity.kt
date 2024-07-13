@@ -327,13 +327,13 @@ class MainActivity : BaseActivity() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            DevelopmentPreferences.crashHandler -> {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.crashHandler).invert()) {
+            DevelopmentPreferences.CRASH_HANDLER -> {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.CRASH_HANDLER).invert()) {
                     CrashReport(applicationContext).initialize()
                 }
             }
 
-            ConfigurationPreferences.language -> {
+            ConfigurationPreferences.LANGUAGE -> {
                 recreate() // update the language in context wrapper
             }
 

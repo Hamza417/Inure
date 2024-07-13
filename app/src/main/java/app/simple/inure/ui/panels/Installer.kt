@@ -111,7 +111,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
-        viewPager.offscreenPageLimit = if (DevelopmentPreferences.get(DevelopmentPreferences.loadAllInstallerPages)) {
+        viewPager.offscreenPageLimit = if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALL_INSTALLER_PAGES)) {
             5
         } else {
             ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT

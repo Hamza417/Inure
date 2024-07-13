@@ -381,7 +381,7 @@ public class FastScroller {
          * is being dragged to allow room for smoother scrolling
          * and not load unnecessary resources.
          */
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.pauseImageLoader)) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.PAUSE_IMAGE_LOADER)) {
             if (dragging) {
                 Glide.with(view.getContext()).pauseRequests();
             } else {

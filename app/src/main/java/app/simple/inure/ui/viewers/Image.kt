@@ -113,7 +113,7 @@ class Image : ScopedFragment() {
         setBackgroundColor(animate = false)
 
         with(header) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
                 if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
                     setPadding(paddingLeft,
                                abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),

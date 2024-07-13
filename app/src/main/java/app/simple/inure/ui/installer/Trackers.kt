@@ -55,7 +55,7 @@ class Trackers : ScopedFragment() {
                     installerTrackersViewModel.getTracker().observe(viewLifecycleOwner) {
                         if (it != null) {
                             adapterTrackers.updateTracker(it)
-                            installerTrackersViewModel.clear()
+                            installerTrackersViewModel.clearTrackersList()
                         }
                     }
                 }

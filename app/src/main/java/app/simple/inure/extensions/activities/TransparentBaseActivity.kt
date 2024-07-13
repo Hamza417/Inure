@@ -59,7 +59,7 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+        if (!DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             makeAppFullScreen()
             // fixNavigationBarOverlap()
         }

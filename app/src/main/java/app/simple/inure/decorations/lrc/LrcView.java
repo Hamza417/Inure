@@ -169,7 +169,7 @@ public class LrcView extends View {
         }
     
         if (!isInEditMode()) {
-            if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+            if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.USE_ALTERNATE_AUDIO_PLAYER_INTERFACE)) {
                 setBackgroundColor(ColorUtils.setAlphaComponent(Color.BLACK, 150));
             }
         }

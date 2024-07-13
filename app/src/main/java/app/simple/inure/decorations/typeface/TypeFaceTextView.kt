@@ -78,7 +78,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
         setTextColor(false)
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.preferencesIndicator) && isDrawableHidden) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.PREFERENCES_INDICATOR) && isDrawableHidden) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             setDrawableTint(false)
@@ -350,7 +350,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
     }
 
     fun enableSelection() {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.isTextSelectable)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.IS_TEXT_SELECTABLE)) {
             setTextIsSelectable(true)
             setHighlightColor()
         }

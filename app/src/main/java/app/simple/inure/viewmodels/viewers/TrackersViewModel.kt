@@ -135,7 +135,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         }
     }
 
-    fun clear() {
+    fun clearTrackersList() {
         tracker.value = null
     }
 

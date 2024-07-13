@@ -278,7 +278,7 @@ class AppInfo : ScopedFragment() {
                 override fun onAppInfoMenuClicked(source: Int, icon: ImageView) {
                     when (source) {
                         R.string.manifest -> {
-                            if (DevelopmentPreferences.get(DevelopmentPreferences.isWebViewXmlViewer)) {
+                            if (DevelopmentPreferences.get(DevelopmentPreferences.IS_WEBVIEW_XML_VIEWER)) {
                                 openFragmentArc(XMLWebView.newInstance(
                                         packageInfo, "AndroidManifest.xml"), icon, XMLWebView.TAG)
                             } else {
@@ -653,7 +653,7 @@ class AppInfo : ScopedFragment() {
         }
 
         usageStatistics.setOnClickListener {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.useOldStyleUsageStatsPanel)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.USE_OLD_STYLE_USAGE_STATS_PANEL)) {
                 openFragmentSlide(UsageStatistics.newInstance(packageInfo), UsageStatistics.TAG)
             } else {
                 openFragmentSlide(UsageStatisticsGraph.newInstance(packageInfo), UsageStatisticsGraph.TAG)

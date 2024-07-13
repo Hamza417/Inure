@@ -29,7 +29,7 @@ public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implemen
     }
     
     private void updatePadding() {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.disableTransparentStatus)) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
                 setPadding(getPaddingLeft(),
                         Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
@@ -47,7 +47,7 @@ public class PaddingAwareConstraintLayout extends ThemeConstraintLayout implemen
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         try {
-            if (key.equals(DevelopmentPreferences.disableTransparentStatus)) {
+            if (key.equals(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
                 updatePadding();
             }
         } catch (Exception ignored) {

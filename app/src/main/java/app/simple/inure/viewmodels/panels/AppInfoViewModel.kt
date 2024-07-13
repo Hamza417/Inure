@@ -274,7 +274,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 add(Pair(R.drawable.ic_check, R.string.enable))
             }
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
                 if (packageManager.isAppHidden(packageInfo.packageName)) {
                     add(Pair(R.drawable.ic_visibility, R.string.visible))
                 } else {
@@ -318,7 +318,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 add(Pair(R.drawable.ic_check, R.string.enable))
             }
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.enableHiddenApps)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
                 if (packageManager.isAppHidden(packageInfo.packageName)) {
                     add(Pair(R.drawable.ic_visibility, R.string.visible))
                 } else {

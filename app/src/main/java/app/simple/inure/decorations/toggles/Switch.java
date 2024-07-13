@@ -220,7 +220,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                         thumbSizeAnimator.cancel();
                     }
                     
-                    if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.isSwitchFancyDraggable)) {
+                    if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.IS_SWITCH_FANCY_DRAGGABLE)) {
                         thumbX = event.getX();
                         thumbY = event.getY();
                     } else {

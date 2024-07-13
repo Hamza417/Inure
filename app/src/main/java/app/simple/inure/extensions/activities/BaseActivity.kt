@@ -104,7 +104,7 @@ open class BaseActivity : AppCompatActivity(),
 
     @OptIn(BuildCompat.PrereleaseSdkCheck::class, PredictiveBackControl::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.enableCustomColorPickerInAccent).invert()) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT).invert()) {
             AppearancePreferences.setCustomColor(false)
         }
 
@@ -176,7 +176,7 @@ open class BaseActivity : AppCompatActivity(),
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+        if (!DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             makeAppFullScreen()
         }
 
@@ -219,7 +219,7 @@ open class BaseActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
             if (orientationListener.canDetectOrientation()) {
                 orientationListener.enable()
             }
@@ -338,7 +338,7 @@ open class BaseActivity : AppCompatActivity(),
     }
 
     private fun makeAppFullScreen() {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
             WindowCompat.setDecorFitsSystemWindows(window, true)
         } else {
@@ -347,7 +347,7 @@ open class BaseActivity : AppCompatActivity(),
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.dividerOnNavigationBar)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.DIVIDER_ON_NAVIGATION_BAR)) {
                 window.navigationBarDividerColor = Color.TRANSPARENT
             } else {
                 window.navigationBarDividerColor = ThemeManager.theme.viewGroupTheme.dividerBackground
@@ -364,7 +364,7 @@ open class BaseActivity : AppCompatActivity(),
          */
         val root = findViewById<CoordinatorLayout>(R.id.app_container)
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.disableTransparentStatus)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
                 leftMargin = 0
                 bottomMargin = 0
@@ -433,7 +433,7 @@ open class BaseActivity : AppCompatActivity(),
 
     private fun enableNotchArea() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
                 window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
             } else {
                 window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
@@ -444,7 +444,7 @@ open class BaseActivity : AppCompatActivity(),
              * to avoid the notch area overlapping the app content and the app content overlapping
              * the notch area.
              */
-            if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
                 val root = findViewById<ViewGroup>(R.id.app_container)
 
                 ViewCompat.setOnApplyWindowInsetsListener(root) { _, windowInsets ->
@@ -460,7 +460,7 @@ open class BaseActivity : AppCompatActivity(),
         object : OrientationEventListener(applicationContext, SensorManager.SENSOR_DELAY_NORMAL) {
             override fun onOrientationChanged(orientation: Int) {
                 try {
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.isNotchAreaEnabled).invert()) {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED).invert()) {
                         return
                     }
 
@@ -592,8 +592,8 @@ open class BaseActivity : AppCompatActivity(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
         when (key) {
-            DevelopmentPreferences.disableTransparentStatus,
-            DevelopmentPreferences.dividerOnNavigationBar -> {
+            DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS,
+            DevelopmentPreferences.DIVIDER_ON_NAVIGATION_BAR -> {
                 makeAppFullScreen()
                 fixNavigationBarOverlap()
             }
@@ -612,11 +612,11 @@ open class BaseActivity : AppCompatActivity(),
                 // setTransitions()
             }
 
-            DevelopmentPreferences.isNotchAreaEnabled -> {
+            DevelopmentPreferences.IS_NOTCH_AREA_ENABLED -> {
                 enableNotchArea()
             }
 
-            DevelopmentPreferences.enableCustomColorPickerInAccent -> {
+            DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT -> {
                 if (AppearancePreferences.isCustomColor()) {
                     AppearancePreferences.setCustomColor(false)
                     AppearancePreferences.setAccentColor(ContextCompat.getColor(this, R.color.inure))

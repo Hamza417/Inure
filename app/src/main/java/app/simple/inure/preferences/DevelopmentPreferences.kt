@@ -4,37 +4,37 @@ import app.simple.inure.models.DevelopmentPreferencesModel
 
 object DevelopmentPreferences {
 
-    const val isWebViewXmlViewer = "is_xml_viewer_web_view"
-    const val preferencesIndicator = "is_preferences_indicator_hidden"
-    const val crashHandler = "is_using_native_crash_handler"
-    const val music = "is_music_enabled"
-    const val imageCaching = "is_image_caching_enabled"
-    const val debugMode = "is_debug_messages_enabled"
-    const val hoverAnimation = "is_hover_animation_enabled"
-    const val centerBottomMenu = "is_center_bottom_menu_enabled"
-    const val alternativeBatteryOptimizationSwitch = "is_alternative_battery_optimization_switch_enabled"
-    const val loadAlbumArtFromFile = "is_album_art_loaded_from_file"
-    const val useOldStyleUsageStatsPanel = "is_old_style_usage_stats_panel_enabled"
-    const val enableDeviceInfo = "is_device_info_enabled"
-    const val addBitmapToMetadata = "is_bitmap_added_to_metadata"
-    const val enableHiddenApps = "is_hidden_apps_enabled"
-    const val disableTransparentStatus = "is_transparent_status_disabled_removed"
-    const val loadAllInstallerPages = "is_all_installer_pages_loaded"
-    const val isNotchAreaEnabled = "is_notch_area_enabled"
-    const val enableCustomColorPickerInAccent = "is_custom_color_picker_enabled_in_accent"
-    const val isTextSelectable = "is_text_selectable"
-    const val showGreetingInTerminal = "is_greeting_shown_in_terminal"
-    const val oldStyleScrollingBehaviorDialog = "is_old_style_scrolling_behavior_dialog_enabled"
-    const val useAlternateAudioPlayerInterface = "is_alternate_audio_player_interface_enabled"
-    const val showCompleteAppSize = "is_complete_app_size_shown"
-    const val paddingLessPopupMenus = "is_padding_less_popup_menus_enabled"
-    const val dividerOnNavigationBar = "is_divider_on_navigation_bar_enabled"
-    const val pauseImageLoader = "is_image_loader_paused"
-    const val expandHomeHeader = "is_home_header_expanded"
-    const val isSwitchFancyDraggable = "is_switch_fancy_draggable"
-    const val useColorfulHighlight = "is_colorful_highlight_enabled"
-    const val usePeristyleInterface = "is_felicity_flow_interface_enabled"
-    const val useCorrespondingColorOnHighlight = "is_corresponding_color_on_highlight_enabled"
+    const val IS_WEBVIEW_XML_VIEWER = "is_xml_viewer_web_view"
+    const val PREFERENCES_INDICATOR = "is_preferences_indicator_hidden"
+    const val CRASH_HANDLER = "is_using_native_crash_handler"
+    const val MUSIC = "is_music_enabled"
+    const val IMAGE_CACHING = "is_image_caching_enabled"
+    const val DEBUG_MODE = "is_debug_messages_enabled"
+    const val HOVER_ANIMATION = "is_hover_animation_enabled"
+    const val CENTER_BOTTOM_MENU = "is_center_bottom_menu_enabled"
+    const val ALTERNATIVE_BATTERY_OPTIMIZATION_SWITCH = "is_alternative_battery_optimization_switch_enabled"
+    const val LOAD_ALBUM_ART_FROM_FILE = "is_album_art_loaded_from_file"
+    const val USE_OLD_STYLE_USAGE_STATS_PANEL = "is_old_style_usage_stats_panel_enabled"
+    const val ENABLE_DEVICE_INFO = "is_device_info_enabled"
+    const val ADD_BITMAP_TO_METADATA = "is_bitmap_added_to_metadata"
+    const val ENABLE_HIDDEN_APPS = "is_hidden_apps_enabled"
+    const val DISABLE_TRANSPARENT_STATUS = "is_transparent_status_disabled_removed"
+    const val LOAD_ALL_INSTALLER_PAGES = "is_all_installer_pages_loaded"
+    const val IS_NOTCH_AREA_ENABLED = "is_notch_area_enabled"
+    const val ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT = "is_custom_color_picker_enabled_in_accent"
+    const val IS_TEXT_SELECTABLE = "is_text_selectable"
+    const val SHOW_GREETING_IN_TERMINAL = "is_greeting_shown_in_terminal"
+    const val OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG = "is_old_style_scrolling_behavior_dialog_enabled"
+    const val USE_ALTERNATE_AUDIO_PLAYER_INTERFACE = "is_alternate_audio_player_interface_enabled"
+    const val SHOW_COMPLETE_APP_SIZE = "is_complete_app_size_shown"
+    const val PADDING_LESS_POPUP_MENUS = "is_padding_less_popup_menus_enabled"
+    const val DIVIDER_ON_NAVIGATION_BAR = "is_divider_on_navigation_bar_enabled"
+    const val PAUSE_IMAGE_LOADER = "is_image_loader_paused"
+    const val EXPAND_HOME_HEADER = "is_home_header_expanded"
+    const val IS_SWITCH_FANCY_DRAGGABLE = "is_switch_fancy_draggable"
+    const val USE_COLORFUL_HIGHLIGHT = "is_colorful_highlight_enabled"
+    const val USE_PERISTYLE_INTERFACE = "is_felicity_flow_interface_enabled"
+    const val USE_CORRESPONDING_COLOR_ON_HIGHLIGHT = "is_corresponding_color_on_highlight_enabled"
     const val USE_BLUR_BETWEEN_PANELS = "is_blur_between_panels_enabled"
     const val CLEAR_SEARCH_STATE = "clear_search_state"
 
@@ -42,157 +42,157 @@ object DevelopmentPreferences {
         listOf(
                 DevelopmentPreferencesModel("Use WebView for XML Preview",
                                             "Use WebView for XML Preview instead of TextView.",
-                                            isWebViewXmlViewer,
+                                            IS_WEBVIEW_XML_VIEWER,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Hide Preferences Indicator",
                                             "Hides the indicators in the settings and dialogs.",
-                                            preferencesIndicator,
+                                            PREFERENCES_INDICATOR,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Music",
                                             "Enable music player in the app.",
-                                            music,
+                                            MUSIC,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Disable Native Crash Handler",
                                             "Disable native crash handler of the app and let system handle crash reports.",
-                                            crashHandler,
+                                            CRASH_HANDLER,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Disable Image Caching",
                                             "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration " +
                                                     "of all image data everytime they\'re loaded.",
-                                            imageCaching,
+                                            IMAGE_CACHING,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Debug Mode",
                                             "Enable debug messages in the app to help with debugging and finding bugs.",
-                                            debugMode,
+                                            DEBUG_MODE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Hover Animation",
                                             "Enable scale animation on hover on all views in the app.",
-                                            hoverAnimation,
+                                            HOVER_ANIMATION,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Center Bottom Menu",
                                             "Center gravity for the bottom menus in the app.",
-                                            centerBottomMenu,
+                                            CENTER_BOTTOM_MENU,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Alternative Battery Optimization Switch",
                                             "Enable alternative battery optimization switcher popup in the app.",
-                                            alternativeBatteryOptimizationSwitch,
+                                            ALTERNATIVE_BATTERY_OPTIMIZATION_SWITCH,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Load Album Art From File",
                                             "Load album art from file instead of using MediaStore.\n\nThis will increase the memory and time " +
                                                     "taken to load album art but " +
                                                     "will significantly improve the album art quality and animation performance.",
-                                            loadAlbumArtFromFile,
+                                            LOAD_ALBUM_ART_FROM_FILE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Old Style Usage Stats Panel",
                                             "Use old raw data style usage stats panel instead of the current one.",
-                                            useOldStyleUsageStatsPanel,
+                                            USE_OLD_STYLE_USAGE_STATS_PANEL,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Device Info",
                                             "Enable Device Info panel in the app. It was planned but never implemented. " +
                                                     "This isn't officially supported and any info that\'s being showed here isn\'t guaranteed to be accurate.",
-                                            enableDeviceInfo,
+                                            ENABLE_DEVICE_INFO,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Add Bitmap To Metadata",
                                             "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
-                                            addBitmapToMetadata,
+                                            ADD_BITMAP_TO_METADATA,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Hidden Apps",
                                             "Enable Hidden Apps in the app. The feature was added but removed due to API changes by" +
                                                     " Google and is not working properly anymore.",
-                                            enableHiddenApps,
+                                            ENABLE_HIDDEN_APPS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Disable Transparent Status",
                                             "Disable transparent status bar in the app. This will make the status bar opaque.",
-                                            disableTransparentStatus,
+                                            DISABLE_TRANSPARENT_STATUS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Load All Installer Pages",
                                             "Load all installer pages at once, reduces initial performance but improves scrolling performance.",
-                                            loadAllInstallerPages,
+                                            LOAD_ALL_INSTALLER_PAGES,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Notch Area",
                                             "Enable notch area in the app. This will make the app render in the notch cutout area (Android Version >= P 9.0).",
-                                            isNotchAreaEnabled,
+                                            IS_NOTCH_AREA_ENABLED,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Custom Color Picker In Accent Colors",
                                             "Enable custom color picker in accent colors.",
-                                            enableCustomColorPickerInAccent,
+                                            ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Text Selection",
                                             "Enable selection on texts in Details panels\n\nCaution: causes various issues with the app.",
-                                            isTextSelectable,
+                                            IS_TEXT_SELECTABLE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Show Greeting In Terminal",
                                             "Show greeting in terminal STDOUT when terminal is opened.",
-                                            showGreetingInTerminal,
+                                            SHOW_GREETING_IN_TERMINAL,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Old Style Scrolling Behavior Dialogs",
                                             "Use old style scrolling behavior dialog instead of the current one.",
-                                            oldStyleScrollingBehaviorDialog,
+                                            OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Alternate Audio Player Interface",
                                             "Use alternate audio player interface with full screen album art and lyrics view\n\nOnly portrait mode is supported.",
-                                            useAlternateAudioPlayerInterface,
+                                            USE_ALTERNATE_AUDIO_PLAYER_INTERFACE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Show Complete App Size",
                                             "Show complete app size including cache, data, obb, etc. in the various panels of the app.\n\nCan cause some performance issues.",
-                                            showCompleteAppSize,
+                                            SHOW_COMPLETE_APP_SIZE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Padding Less Popup Menus",
                                             "Remove padding from popup menus.",
-                                            paddingLessPopupMenus,
+                                            PADDING_LESS_POPUP_MENUS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Hide Divider On Navigation Bar",
                                             "Hide divider on navigation bar in the app (Android Version >= P 9.0).",
-                                            dividerOnNavigationBar,
+                                            DIVIDER_ON_NAVIGATION_BAR,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Pause Image Loader",
                                             "Pause image loader in the app when fast scroller is being dragged to improve list performance.",
-                                            pauseImageLoader,
+                                            PAUSE_IMAGE_LOADER,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Expand Home Header",
                                             "Expand header in the home screen of the app.",
-                                            expandHomeHeader,
+                                            EXPAND_HOME_HEADER,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Colorful Highlight",
                                             "Use colorful static backgrounds in the enu containers as well if colorful icons are enabled with static backgrounds.",
-                                            useColorfulHighlight,
+                                            USE_COLORFUL_HIGHLIGHT,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Peristyle Interface",
                                             "Use basic Peristyle Interface in the music panel of the app.",
-                                            usePeristyleInterface,
+                                            USE_PERISTYLE_INTERFACE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Corresponding Color while Highlighting",
                                             "Use corresponding color on highlight buttons instead of the default accent color in Debloat panel.",
-                                            useCorrespondingColorOnHighlight,
+                                            USE_CORRESPONDING_COLOR_ON_HIGHLIGHT,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Use Blur Between Panels",

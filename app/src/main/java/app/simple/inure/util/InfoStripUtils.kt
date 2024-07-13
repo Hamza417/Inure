@@ -42,7 +42,7 @@ object InfoStripUtils {
 
             // Size
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_SIZE)) {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+                if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
                     if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
                         with(packageInfo.getPackageSize(this@getAppInfo)) {
                             appendOR((cacheSize +
@@ -156,7 +156,7 @@ object InfoStripUtils {
             }
 
             // Size
-            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
                 if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         appendOR((cacheSize +
@@ -240,7 +240,7 @@ object InfoStripUtils {
             }
 
             append(" | ")
-            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
                 if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +
@@ -308,7 +308,7 @@ object InfoStripUtils {
             append(" | ")
             //            append(packageInfo.versionName)
             //            append(" | ")
-            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
                 if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +
@@ -368,7 +368,7 @@ object InfoStripUtils {
             append(" | ")
             //            append(packageInfo.versionName)
             //            append(" | ")
-            if (DevelopmentPreferences.get(DevelopmentPreferences.showCompleteAppSize)) {
+            if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
                 if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +

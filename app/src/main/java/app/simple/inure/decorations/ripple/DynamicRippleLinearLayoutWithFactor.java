@@ -158,7 +158,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     }
     
     public void setHighlightColor(int highlightColor) {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.useColorfulHighlight)) {
+        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.USE_COLORFUL_HIGHLIGHT)) {
             this.highlightColor = highlightColor;
         } else {
             this.highlightColor = -1;

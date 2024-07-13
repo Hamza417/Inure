@@ -99,7 +99,7 @@ class AudioPlayer : ScopedFragment() {
     private val musicViewModel: MusicViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+        val view = if (DevelopmentPreferences.get(DevelopmentPreferences.USE_ALTERNATE_AUDIO_PLAYER_INTERFACE)) {
             inflater.inflate(R.layout.fragment_audio_player_pager_alternate, container, false)
         } else {
             inflater.inflate(R.layout.fragment_audio_player_pager, container, false)
@@ -134,7 +134,7 @@ class AudioPlayer : ScopedFragment() {
         audioIntentFilter.addAction(ServiceConstants.actionPreviousPager)
         audioIntentFilter.addAction(ServiceConstants.actionMediaErrorPager)
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.useAlternateAudioPlayerInterface)) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.USE_ALTERNATE_AUDIO_PLAYER_INTERFACE)) {
             artPager.orientation = ViewPager2.ORIENTATION_VERTICAL
         } else {
             artPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL

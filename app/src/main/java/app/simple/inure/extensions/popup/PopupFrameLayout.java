@@ -16,7 +16,7 @@ public class PopupFrameLayout extends DynamicCornerFrameLayout {
     }
     
     private void init() {
-        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
+        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.PADDING_LESS_POPUP_MENUS)) {
             int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
             setPadding(p, p, p, p);
         }

@@ -108,7 +108,7 @@ class ShellScreen : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            ShellPreferences.useRish -> {
+            ShellPreferences.USE_RISH -> {
                 if (ShellPreferences.isUsingRISH()) {
                     viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                         ShizukuUtils.copyRishFiles(requireActivity().applicationContext)

@@ -23,7 +23,7 @@ public class PopupLinearLayout extends DynamicCornerLinearLayout {
     private void init() {
         setClipToPadding(false);
         setClipChildren(false);
-        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.paddingLessPopupMenus)) {
+        if (!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.PADDING_LESS_POPUP_MENUS)) {
             int p = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
             setPadding(p, p, p, p);
         }

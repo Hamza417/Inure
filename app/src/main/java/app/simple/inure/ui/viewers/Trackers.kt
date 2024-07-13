@@ -82,7 +82,7 @@ class Trackers : SearchBarScopedFragment() {
                     trackersViewModel.getTracker().observe(viewLifecycleOwner) {
                         if (it != null) {
                             adapterTrackers.updateTracker(it)
-                            trackersViewModel.clear()
+                            trackersViewModel.clearTrackersList()
                         }
                     }
                 }
@@ -154,7 +154,7 @@ class Trackers : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            TrackersPreferences.trackersSearch -> {
+            TrackersPreferences.TRACKERS_SEARCH -> {
                 searchBoxState(animate = true, TrackersPreferences.isSearchVisible())
             }
         }
