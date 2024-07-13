@@ -37,8 +37,8 @@
     <string name="process_exit_message">Se terminó la sesión del terminal</string>
     <!-- Preference dialog -->
     <string name="screen_preferences">Pantalla</string>
-    <string name="title_cursorblink_preference">Parpadeo de bloque</string>
-    <string name="summary_cursorblink_preference">Parpadeo en bloque periódicamente en las ventanas de la terminal.</string>
+    <string name="title_cursorblink_preference">Parpadeo del cursor</string>
+    <string name="summary_cursorblink_preference">Parpadeo periódico del cursor en las ventanas de la terminal.</string>
     <string name="text_preferences">Texto</string>
     <string name="title_utf8_by_default_preference">Por defecto a UTF-8</string>
     <string name="summary_utf8_by_default_preference">Si el modo UTF-8 está activado por defecto.</string>
