@@ -4892,7 +4892,7 @@
             "categories": [
                 "Analytics"
             ],
-            "code_signature": "com.google.firebase.analytics.|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics",
+            "code_signature": "com.google.firebase.analytics.FirebaseAnalytics|com.google.android.gms.measurement.|com.google.firebase.firebase_analytics",
             "creation_date": "2017-12-03",
             "description": "Firebase gives you functionality like analytics, databases, messaging and crash reporting\r\n\r\n[API documentation](https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/package-summary)",
             "documentation": [],
