@@ -4,53 +4,54 @@ import app.simple.inure.R
 import app.simple.inure.models.PreferenceModel
 import app.simple.inure.preferences.SharedPreferences
 
+@Suppress("MayBeConstant")
 object PreferencesSearchConstants {
 
-    const val preferencesSearch = "preferences_search"
+    const val PREFERENCES_SEARCH = "preferences_search"
 
     // Type
-    private const val toggleable = R.string.toggleable
-    private const val options = R.string.options
-    private const val multi_toggleable = R.string.multi_toggleable
-    private const val link = R.string.link
-    private const val popup = R.string.popup
-    private const val none = R.string.none
-    private const val web_page = R.string.web_page
+    private val toggleable = R.string.toggleable
+    private val options = R.string.options
+    private val multi_toggleable = R.string.multi_toggleable
+    private val link = R.string.link
+    private val popup = R.string.popup
+    private val none = R.string.none
+    private val web_page = R.string.web_page
 
     // Category
-    private const val color = R.string.color
-    private const val layouts = R.string.layouts
-    private const val icons = R.string.icons
-    private const val popups = R.string.popups
-    private const val animations = R.string.animations
-    private const val scrolling = R.string.scrolling
-    private const val loading = R.string.loading
-    private const val application = R.string.application
-    private const val root = R.string.root
-    private const val shizuku = R.string.shizuku
-    private const val information = R.string.information
-    private const val lists = R.string.lists
-    private const val text = R.string.text
-    private const val keyboard = R.string.keyboard
-    private const val editor = R.string.editor
-    private const val viewers = R.string.viewers
-    private const val legalNotes = R.string.legal_notes
-    private const val contribute = R.string.contribute
-    private const val dexClasses = R.string.dex_classes
-    private const val preferences = R.string.preferences
-    private const val installer = R.string.installer
-    private const val home = R.string.home
+    private val color = R.string.color
+    private val layouts = R.string.layouts
+    private val icons = R.string.icons
+    private val popups = R.string.popups
+    private val animations = R.string.animations
+    private val scrolling = R.string.scrolling
+    private val loading = R.string.loading
+    private val application = R.string.application
+    private val root = R.string.root
+    private val shizuku = R.string.shizuku
+    private val information = R.string.information
+    private val lists = R.string.lists
+    private val text = R.string.text
+    private val keyboard = R.string.keyboard
+    private val editor = R.string.editor
+    private val viewers = R.string.viewers
+    private val legalNotes = R.string.legal_notes
+    private val contribute = R.string.contribute
+    private val dexClasses = R.string.dex_classes
+    private val preferences = R.string.preferences
+    private val installer = R.string.installer
+    private val home = R.string.home
 
     // Panel
-    private const val appearance = R.string.appearance
-    private const val behaviour = R.string.behavior
-    private const val configuration = R.string.configuration
-    private const val formatting = R.string.formatting
-    private const val accessibility = R.string.accessibility
-    private const val terminal = R.string.terminal
-    private const val shell = R.string.shell
-    private const val development = R.string.development
-    private const val about = R.string.about
+    private val appearance = R.string.appearance
+    private val behaviour = R.string.behavior
+    private val configuration = R.string.configuration
+    private val formatting = R.string.formatting
+    private val accessibility = R.string.accessibility
+    private val terminal = R.string.terminal
+    private val shell = R.string.shell
+    private val development = R.string.development
+    private val about = R.string.about
 
     private val appearanceData = arrayListOf(
             PreferenceModel(R.drawable.ic_dark_mode, R.string.application_theme, R.string.desc_application_theme, options, color, appearance),
@@ -165,10 +166,10 @@ object PreferencesSearchConstants {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchVisibility(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(preferencesSearch, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit().putBoolean(PREFERENCES_SEARCH, boolean).apply()
     }
 
     fun isSearchVisible(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(preferencesSearch, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(PREFERENCES_SEARCH, false)
     }
 }

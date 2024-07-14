@@ -393,7 +393,7 @@ class Preferences : SearchBarScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            PreferencesSearchConstants.preferencesSearch -> {
+            PreferencesSearchConstants.PREFERENCES_SEARCH -> {
                 searchBoxState(animate = true, PreferencesSearchConstants.isSearchVisible())
             }
         }
