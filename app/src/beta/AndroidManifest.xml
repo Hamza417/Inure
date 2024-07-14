@@ -157,7 +157,7 @@
         <activity
             android:name=".activities.preferences.PreferenceActivity"
             android:configChanges="uiMode"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/preferences"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -169,7 +169,7 @@
         <activity
             android:name=".activities.app.ManageSpace"
             android:configChanges="uiMode"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/manage_space"
             android:windowSoftInputMode="adjustResize" />
 

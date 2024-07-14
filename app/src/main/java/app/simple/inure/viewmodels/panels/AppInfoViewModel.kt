@@ -166,10 +166,14 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
             if (packageInfo.isInstalled()) {
                 packageInfo.applicationInfo.manageSpaceActivityName?.let { it ->
-                    packageManager.getActivityInfo(ComponentName(packageInfo.packageName, it), 0).let {
-                        if (it.exported) {
-                            list.add(Pair(R.drawable.ic_sd_storage, R.string.manage_space))
+                    try {
+                        packageManager.getActivityInfo(ComponentName(packageInfo.packageName, it), 0).let {
+                            if (it.exported) {
+                                list.add(Pair(R.drawable.ic_sd_storage, R.string.manage_space))
+                            }
                         }
+                    } catch (e: NameNotFoundException) {
+                        e.printStackTrace()
                     }
                 }
             }
