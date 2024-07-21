@@ -345,15 +345,6 @@ class Batch : ScopedFragment() {
                             R.drawable.ic_broom -> {
                                 onSure {
                                     showLoader(manualOverride = true)
-
-                                    batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
-                                        hideLoader()
-
-                                        if (it.isNotNull()) {
-                                            showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
-                                        }
-                                    }
-
                                     batchViewModel.clearSelectedAppsCache(adapterBatch?.getCurrentAppsList()!!)
                                 }
                             }
@@ -389,6 +380,14 @@ class Batch : ScopedFragment() {
                 batchViewModel.clearGeneratedAppsDataLiveData()
             } else {
                 hideLoader()
+            }
+        }
+
+        batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
+            hideLoader()
+
+            if (it.isNotNull()) {
+                showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
             }
         }
 
