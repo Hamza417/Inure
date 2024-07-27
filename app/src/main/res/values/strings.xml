@@ -751,4 +751,5 @@
     <string name="auto_tag_desc">Automatically create tags for apps based on the available information.</string>
     <string name="no_cache_found">No Cache Found</string>
     <string name="no_operations_found">No Operations Found</string>
+    <string name="keyword_database">Keyword Database</string>
 </resources>
