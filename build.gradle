@@ -7,8 +7,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:8.5.1'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0'
-        classpath 'com.autonomousapps:dependency-analysis-gradle-plugin:1.20.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20'
+        classpath 'com.autonomousapps:dependency-analysis-gradle-plugin:1.32.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,7 +16,14 @@ buildscript {
 }
 
 plugins {
-    id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
+    /**
+     * Keep the first segment of the version number in sync with the version of the Kotlin plugin
+     * used by the project.
+     *
+     * Get the latest version from: https://github.com/google/ksp/releases
+     */
+    //noinspection GradleDependency
+    id 'com.google.devtools.ksp' version '1.9.20-1.0.14' apply false
 }
 
 apply plugin: "com.autonomousapps.dependency-analysis"
