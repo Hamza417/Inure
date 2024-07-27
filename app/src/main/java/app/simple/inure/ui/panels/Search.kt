@@ -297,11 +297,9 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     }
 
     private fun setKeyword(keyword: String) {
-        searchView.editText.setText(keyword)
-        searchView.editText.text?.length?.let { it1 ->
-            searchView.editText.setSelection(it1)
-        }
-        searchViewModel.initiateSearch(keyword)
+        searchView.setKeyword(keyword)
+        searchViewModel.initiateSearch(searchView.keyword)
+        SearchPreferences.setLastSearchKeyword(searchView.keyword)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

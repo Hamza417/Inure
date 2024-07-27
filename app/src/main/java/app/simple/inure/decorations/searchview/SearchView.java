@@ -2,6 +2,7 @@ package app.simple.inure.decorations.searchview;
 
 import android.animation.LayoutTransition;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.style.ForegroundColorSpan;
@@ -171,6 +172,30 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     public void hideLoader() {
         loader.setVisibility(View.GONE);
+    }
+    
+    @SuppressLint ("SetTextI18n")
+    public void setKeyword(String keyword) {
+        if (editText.getText().toString().startsWith("#")) {
+            if (editText.getText().toString().split(" ").length > 1) {
+                String split = editText.getText().toString().split(" ")[1];
+                editText.setText(split + " " + keyword);
+            } else {
+                if (editText.getText().toString().endsWith(" ")) {
+                    editText.append(keyword);
+                } else {
+                    editText.append(" " + keyword);
+                }
+            }
+        } else {
+            editText.setText(keyword);
+        }
+        
+        editText.setSelection(editText.getText().length());
+    }
+    
+    public String getKeyword() {
+        return editText.getText().toString().trim();
     }
     
     public void setNewNumber(int number) {

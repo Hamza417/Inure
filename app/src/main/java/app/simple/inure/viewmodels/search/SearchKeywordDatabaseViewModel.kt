@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -19,9 +20,11 @@ class SearchKeywordDatabaseViewModel(application: Application) : WrappedViewMode
         }
     }
 
-    private val trackers: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().also {
-
+    private val trackers: MutableLiveData<List<String>> by lazy {
+        MutableLiveData<List<String>>().also {
+            viewModelScope.launch(Dispatchers.Default) {
+                trackers.postValue(TrackerUtils.getTrackerSignatures())
+            }
         }
     }
 
@@ -29,7 +32,7 @@ class SearchKeywordDatabaseViewModel(application: Application) : WrappedViewMode
         return permissions
     }
 
-    fun getTrackers(): LiveData<ArrayList<String>> {
+    fun getTrackers(): LiveData<List<String>> {
         return trackers
     }
 }
