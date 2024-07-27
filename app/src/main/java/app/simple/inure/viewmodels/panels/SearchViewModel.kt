@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
@@ -242,12 +243,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 when (SearchPreferences.getAppsCategory()) {
                     SortConstant.SYSTEM -> {
                         return parallelStream().filter { packageInfo ->
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                            packageInfo.isSystemApp()
                         }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                     }
                     SortConstant.USER -> {
                         return parallelStream().filter { packageInfo ->
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                            packageInfo.isSystemApp().invert()
                         }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                     }
                 }

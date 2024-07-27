@@ -9,11 +9,12 @@ object SearchPreferences {
     private const val LAST_SEARCH_KEYWORD = "last_search_keyword"
     const val SORT_STYLE = "search_sort_style"
     const val IS_SORTING_REVERSED = "is_search_sorting_reversed"
-    const val LIST_APPS_CATEGORY = "search_list_apps_category"
+    const val APPS_CATEGORY = "search_list_apps_category"
     const val APPS_FILTER = "search_apps_filter"
     const val IGNORE_CASING = "search_ignore_case"
     const val DEEP_SEARCH = "deep_search"
-    const val DEEP_SEARCH_KEYWORD_MODE = "deep_search_keyword_mode"
+
+    private const val DEEP_SEARCH_KEYWORD_MODE = "deep_search_keyword_mode"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -48,11 +49,11 @@ object SearchPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setAppsCategory(category: String) {
-        getSharedPreferences().edit().putString(LIST_APPS_CATEGORY, category).apply()
+        getSharedPreferences().edit().putString(APPS_CATEGORY, category).apply()
     }
 
     fun getAppsCategory(): String {
-        return getSharedPreferences().getString(LIST_APPS_CATEGORY, SortConstant.BOTH)!!
+        return getSharedPreferences().getString(APPS_CATEGORY, SortConstant.BOTH)!!
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -280,13 +280,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         when (key) {
             SearchPreferences.SORT_STYLE,
             SearchPreferences.IS_SORTING_REVERSED,
-            SearchPreferences.LIST_APPS_CATEGORY,
-            SearchPreferences.APPS_FILTER -> {
-                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
-            }
-
+            SearchPreferences.APPS_CATEGORY,
+            SearchPreferences.APPS_FILTER,
             SearchPreferences.DEEP_SEARCH -> {
-                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
+                searchViewModel.reload()
             }
 
             SearchPreferences.IGNORE_CASING -> {
@@ -296,7 +293,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                     appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
                 }
 
-                searchViewModel.initiateSearch(SearchPreferences.getLastSearchKeyword())
+                searchViewModel.reload()
             }
         }
     }
