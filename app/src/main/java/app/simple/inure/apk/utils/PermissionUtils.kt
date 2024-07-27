@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
 import android.os.Build
 import app.simple.inure.R
+import app.simple.inure.util.ArrayUtils.toArrayList
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -67,6 +68,12 @@ object PermissionUtils {
         }
 
         return map
+    }
+
+    fun getAndroidPermissionList(): List<String> {
+        val bufferedReader = BufferedReader(
+                InputStreamReader(PermissionUtils::class.java.getResourceAsStream("/permissions.txt")))
+        return bufferedReader.readLines().toArrayList().sorted()
     }
 
     fun PermissionInfo.isException(): Boolean {

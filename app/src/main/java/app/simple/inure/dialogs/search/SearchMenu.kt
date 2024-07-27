@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -21,6 +22,8 @@ class SearchMenu : ScopedBottomSheetFragment() {
     private lateinit var permissionsChip: Chip
     private lateinit var trackersChip: Chip
     private lateinit var filter: DynamicRippleImageButton
+
+    private lateinit var searchMenuCallback: SearchMenuCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_search, container, false)
@@ -62,11 +65,15 @@ class SearchMenu : ScopedBottomSheetFragment() {
         }
 
         permissionsChip.setOnClickListener {
-
+            searchMenuCallback.onPermission().also {
+                dismiss()
+            }
         }
 
         trackersChip.setOnClickListener {
-
+            searchMenuCallback.onTrackers().also {
+                dismiss()
+            }
         }
 
         filter.setOnClickListener {
@@ -75,12 +82,27 @@ class SearchMenu : ScopedBottomSheetFragment() {
         }
     }
 
+    fun setSearchMenuCallback(searchMenuCallback: SearchMenuCallback) {
+        this.searchMenuCallback = searchMenuCallback
+    }
+
     companion object {
         fun newInstance(): SearchMenu {
             val args = Bundle()
             val fragment = SearchMenu()
             fragment.arguments = args
             return fragment
+        }
+
+        fun Fragment.showSearchMenu(): SearchMenu {
+            val dialog = newInstance()
+            dialog.show(parentFragmentManager, TAG)
+            return dialog
+        }
+
+        interface SearchMenuCallback {
+            fun onPermission()
+            fun onTrackers()
         }
 
         const val TAG = "SearchMenu"

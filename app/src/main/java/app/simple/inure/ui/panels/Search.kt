@@ -20,7 +20,10 @@ import app.simple.inure.decorations.searchview.SearchView
 import app.simple.inure.decorations.searchview.SearchViewEventListener
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
+import app.simple.inure.dialogs.search.SearchKeywordDatabase
+import app.simple.inure.dialogs.search.SearchKeywordDatabase.Companion.showSearchKeywordDatabase
 import app.simple.inure.dialogs.search.SearchMenu
+import app.simple.inure.dialogs.search.SearchMenu.Companion.showSearchMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
@@ -223,8 +226,25 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
             override fun onSearchMenuPressed(button: View) {
-                SearchMenu.newInstance()
-                    .show(childFragmentManager, SearchMenu.TAG)
+                showSearchMenu().setSearchMenuCallback(object : SearchMenu.Companion.SearchMenuCallback {
+                    override fun onPermission() {
+                        showSearchKeywordDatabase(SearchKeywordDatabase.PERMISSIONS)
+                            .setSearchKeywordDatabaseCallback(object : SearchKeywordDatabase.Companion.SearchKeywordDatabaseCallback {
+                                override fun onSearchKeywordDatabaseClicked(keyword: String) {
+                                    setKeyword(keyword)
+                                }
+                            })
+                    }
+
+                    override fun onTrackers() {
+                        showSearchKeywordDatabase(SearchKeywordDatabase.TRACKERS)
+                            .setSearchKeywordDatabaseCallback(object : SearchKeywordDatabase.Companion.SearchKeywordDatabaseCallback {
+                                override fun onSearchKeywordDatabaseClicked(keyword: String) {
+                                    setKeyword(keyword)
+                                }
+                            })
+                    }
+                })
             }
 
             override fun onSearchTextChanged(keywords: String, count: Int) {
@@ -274,6 +294,14 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         } else {
             this
         }
+    }
+
+    private fun setKeyword(keyword: String) {
+        searchView.editText.setText(keyword)
+        searchView.editText.text?.length?.let { it1 ->
+            searchView.editText.setSelection(it1)
+        }
+        searchViewModel.initiateSearch(keyword)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
