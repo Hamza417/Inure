@@ -23,7 +23,7 @@ class SearchKeywordDatabaseViewModel(application: Application) : WrappedViewMode
     private val trackers: MutableLiveData<List<String>> by lazy {
         MutableLiveData<List<String>>().also {
             viewModelScope.launch(Dispatchers.Default) {
-                trackers.postValue(TrackerUtils.getTrackerSignatures())
+                trackers.postValue(TrackerUtils.getTrackerSignatures().sorted())
             }
         }
     }

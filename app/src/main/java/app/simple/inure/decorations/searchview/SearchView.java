@@ -174,6 +174,10 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         loader.setVisibility(View.GONE);
     }
     
+    public void showLoader() {
+        loader.setVisibility(View.VISIBLE);
+    }
+    
     @SuppressLint ("SetTextI18n")
     public void setKeyword(String keyword) {
         if (editText.getText().toString().startsWith("#")) {
@@ -192,6 +196,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         }
         
         editText.setSelection(editText.getText().length());
+        showLoader();
     }
     
     public String getKeyword() {
@@ -242,7 +247,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             editText.setHint(R.string.deep_search);
             
             /*
-             * Just so you know, this is a very bad idea
+             * Just so you know, this is a very bad idea!!!!
              * It will cause the app to work very slow
              * and will cause the app to crash in some cases.
              * I don't know why, but it does.
