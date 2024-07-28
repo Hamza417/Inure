@@ -307,9 +307,14 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             SearchPreferences.SORT_STYLE,
             SearchPreferences.IS_SORTING_REVERSED,
             SearchPreferences.APPS_CATEGORY,
-            SearchPreferences.APPS_FILTER,
-            SearchPreferences.DEEP_SEARCH -> {
+            SearchPreferences.APPS_FILTER -> {
                 searchViewModel.reload()
+            }
+
+            SearchPreferences.DEEP_SEARCH -> {
+                postDelayed(500) {
+                    searchViewModel.reload()
+                }
             }
 
             SearchPreferences.IGNORE_CASING -> {

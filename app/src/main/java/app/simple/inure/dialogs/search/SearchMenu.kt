@@ -1,9 +1,11 @@
 package app.simple.inure.dialogs.search
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -13,12 +15,14 @@ import app.simple.inure.decorations.views.Chip
 import app.simple.inure.dialogs.search.SearchSort.Companion.showSearchSort
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.ViewUtils.visibility
 
 class SearchMenu : ScopedBottomSheetFragment() {
 
     private lateinit var openAppsSettings: DynamicRippleTextView
     private lateinit var ignoreCase: Switch
     private lateinit var deepSearch: Switch
+    private lateinit var keywordDatabaseContainer: LinearLayout
     private lateinit var permissionsChip: Chip
     private lateinit var trackersChip: Chip
     private lateinit var filter: DynamicRippleImageButton
@@ -31,6 +35,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
         openAppsSettings = view.findViewById(R.id.dialog_open_apps_settings)
         ignoreCase = view.findViewById(R.id.ignore_case)
         deepSearch = view.findViewById(R.id.deep_search)
+        keywordDatabaseContainer = view.findViewById(R.id.keyword_database_container)
         permissionsChip = view.findViewById(R.id.permissions)
         trackersChip = view.findViewById(R.id.trackers)
         filter = view.findViewById(R.id.filter)
@@ -43,6 +48,7 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
         ignoreCase.isChecked = SearchPreferences.isCasingIgnored()
         deepSearch.isChecked = SearchPreferences.isDeepSearchEnabled()
+        setKeywordDatabaseContainerVisibility()
         permissionsChip.isCheckable = false
         trackersChip.isCheckable = false
 
@@ -84,6 +90,20 @@ class SearchMenu : ScopedBottomSheetFragment() {
 
     fun setSearchMenuCallback(searchMenuCallback: SearchMenuCallback) {
         this.searchMenuCallback = searchMenuCallback
+    }
+
+    private fun setKeywordDatabaseContainerVisibility() {
+        keywordDatabaseContainer.visibility(SearchPreferences.isDeepSearchEnabled())
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+
+        when (key) {
+            SearchPreferences.DEEP_SEARCH -> {
+                setKeywordDatabaseContainerVisibility()
+            }
+        }
     }
 
     companion object {

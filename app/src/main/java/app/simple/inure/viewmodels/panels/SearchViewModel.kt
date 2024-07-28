@@ -76,6 +76,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 e.printStackTrace()
             }
         }
+
+        thread?.join()
     }
 
     fun reload() { // These two fun already runs in their own threads
@@ -128,9 +130,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                     }
                 }
                 else -> {
-                    Log.d(TAG, "loadSearchData: ${filteredList.size}")
                     list.addAll(filteredList.map { Search(it) }.filter { search ->
-                        Log.d(TAG, "loadSearchData: ${search.packageInfo.packageName}")
                         hasMatchingNames(search, sanitizedKeyword)
                     } as ArrayList<Search>)
                 }
@@ -150,7 +150,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun hasMatchingNames(search: Search, keywords: String): Boolean {
-        Log.d(TAG, "hasMatchingNames: keywords: $keywords")
         return search.packageInfo.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
                 search.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
     }
