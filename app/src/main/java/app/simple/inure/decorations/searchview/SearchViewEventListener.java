@@ -31,4 +31,6 @@ public interface SearchViewEventListener {
     void onSearchRefreshPressed(View button);
     
     void onClear(View button);
+    
+    void onFilterPressed(View button);
 }

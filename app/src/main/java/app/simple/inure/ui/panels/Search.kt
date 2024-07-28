@@ -24,6 +24,7 @@ import app.simple.inure.dialogs.search.SearchKeywordDatabase
 import app.simple.inure.dialogs.search.SearchKeywordDatabase.Companion.showSearchKeywordDatabase
 import app.simple.inure.dialogs.search.SearchMenu
 import app.simple.inure.dialogs.search.SearchMenu.Companion.showSearchMenu
+import app.simple.inure.dialogs.search.SearchSort.Companion.showSearchSort
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.SearchPreferences
@@ -268,6 +269,10 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             override fun onClear(button: View?) {
                 setTagsStripState("")
                 searchViewModel.clearSearch()
+            }
+
+            override fun onFilterPressed(button: View?) {
+                childFragmentManager.showSearchSort()
             }
         })
     }

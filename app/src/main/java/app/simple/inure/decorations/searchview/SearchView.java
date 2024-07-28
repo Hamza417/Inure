@@ -145,6 +145,8 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         });
         
         settings.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
+        filter.setOnClickListener(button -> searchViewEventListener.onFilterPressed(button));
+        more.setOnClickListener(v -> moreButtonState(true));
         
         refresh.setOnClickListener(button -> {
             loader.setVisibility(View.VISIBLE);
@@ -156,10 +158,6 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             setNewNumber(0);
             searchViewEventListener.onClear(button);
             SearchPreferences.INSTANCE.setLastSearchKeyword("");
-        });
-        
-        more.setOnClickListener(v -> {
-            moreButtonState(true);
         });
     }
     
