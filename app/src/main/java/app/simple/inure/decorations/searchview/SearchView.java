@@ -5,6 +5,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -34,17 +36,22 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     private ThemeIcon icon;
     private TypeFaceEditText editText;
     private TypeFaceTextView number;
-    private DynamicRippleImageButton menu;
+    private DynamicRippleImageButton settings;
     private DynamicRippleImageButton clear;
     private DynamicRippleImageButton refresh;
+    private DynamicRippleImageButton filter;
+    private DynamicRippleImageButton more;
     private CustomProgressBar loader;
     private SearchViewEventListener searchViewEventListener;
     
     private ValueAnimator numberAnimator;
     private ValueAnimator iconAnimator;
     private final DecimalFormat format = new DecimalFormat();
+    private final Handler handler = new Handler(Looper.getMainLooper());
     
     private int oldNumber = 0;
+    
+    private final int MORE_BUTTON_DELAY = 3000;
     
     public SearchView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -65,9 +72,11 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         icon = view.findViewById(R.id.icon);
         editText = view.findViewById(R.id.search_view_text_input_layout);
         number = view.findViewById(R.id.search_number);
-        menu = view.findViewById(R.id.search_view_menu_button);
+        settings = view.findViewById(R.id.search_view_menu_button);
         clear = view.findViewById(R.id.search_view_clear_button);
         refresh = view.findViewById(R.id.search_view_refresh_button);
+        filter = view.findViewById(R.id.filter_button);
+        more = view.findViewById(R.id.more_button);
         loader = view.findViewById(R.id.loader);
         
         if (!isInEditMode()) {
@@ -135,7 +144,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             return Unit.INSTANCE;
         });
         
-        menu.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
+        settings.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
         
         refresh.setOnClickListener(button -> {
             loader.setVisibility(View.VISIBLE);
@@ -148,26 +157,16 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             searchViewEventListener.onClear(button);
             SearchPreferences.INSTANCE.setLastSearchKeyword("");
         });
+        
+        more.setOnClickListener(v -> {
+            moreButtonState(true);
+        });
     }
     
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferencesListener(this);
-    }
-    
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        editText.clearAnimation();
-        menu.clearAnimation();
-        if (numberAnimator != null) {
-            numberAnimator.cancel();
-        }
-        if (iconAnimator != null) {
-            iconAnimator.cancel();
-        }
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterListener(this);
     }
     
     public void hideLoader() {
@@ -271,6 +270,25 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         }
     }
     
+    private final Runnable moreButtonRunnable = () -> {
+        moreButtonState(false);
+    };
+    
+    private void moreButtonState(boolean state) {
+        handler.removeCallbacks(moreButtonRunnable);
+        
+        if (state) {
+            ViewUtils.INSTANCE.visible(filter, true);
+            ViewUtils.INSTANCE.visible(settings, true);
+            ViewUtils.INSTANCE.gone(more, false);
+            handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
+        } else {
+            ViewUtils.INSTANCE.gone(filter, true);
+            ViewUtils.INSTANCE.gone(settings, true);
+            ViewUtils.INSTANCE.visible(more, true);
+        }
+    }
+    
     public void setSearchViewEventListener(SearchViewEventListener searchViewEventListener) {
         this.searchViewEventListener = searchViewEventListener;
     }
@@ -285,5 +303,30 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     public TypeFaceEditText getEditText() {
         return editText;
+    }
+    
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        handler.removeCallbacks(moreButtonRunnable);
+        handler.removeCallbacksAndMessages(null);
+        
+        editText.clearAnimation();
+        settings.clearAnimation();
+        clear.clearAnimation();
+        refresh.clearAnimation();
+        filter.clearAnimation();
+        more.clearAnimation();
+        loader.clearAnimation();
+        
+        if (numberAnimator != null) {
+            numberAnimator.cancel();
+        }
+        
+        if (iconAnimator != null) {
+            iconAnimator.cancel();
+        }
+        
+        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterListener(this);
     }
 }

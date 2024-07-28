@@ -86,6 +86,27 @@
         android:layout_marginVertical="@dimen/popup_padding" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/more_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_marginEnd="@dimen/popup_padding"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/preferences"
+        android:src="@drawable/ic_more_horiz"
+        app:buttonTintType="regular" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/filter_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_marginEnd="@dimen/popup_item_gap_length"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/preferences"
+        android:src="@drawable/ic_filter"
+        android:visibility="gone"
+        app:buttonTintType="regular" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
         android:id="@+id/search_view_menu_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
@@ -93,6 +114,7 @@
         android:layout_marginEnd="@dimen/popup_padding"
         android:contentDescription="@string/preferences"
         android:src="@drawable/ic_settings"
+        android:visibility="gone"
         app:buttonTintType="regular" />
 
 </merge>
