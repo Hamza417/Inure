@@ -19,7 +19,7 @@
         app:tintType="accent" />
 
     <app.simple.inure.decorations.typeface.TypeFaceEditText
-        android:id="@+id/search_view_text_input_layout"
+        android:id="@+id/edit_text"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_weight="1"
@@ -61,22 +61,13 @@
         android:padding="10dp" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/search_view_clear_button"
+        android:id="@+id/clear_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/popup_item_gap_length"
         android:contentDescription="@string/clear"
         android:src="@drawable/ic_close"
-        app:buttonTintType="secondary" />
-
-    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/search_view_refresh_button"
-        android:layout_width="@dimen/button_size"
-        android:layout_height="@dimen/button_size"
-        android:layout_gravity="center_vertical"
-        android:contentDescription="@string/refresh"
-        android:src="@drawable/ic_refresh"
         app:buttonTintType="secondary" />
 
     <app.simple.inure.decorations.theme.ThemeDivider
@@ -91,8 +82,19 @@
         android:layout_height="@dimen/button_size"
         android:layout_marginEnd="@dimen/popup_padding"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/preferences"
+        android:contentDescription="@string/menus"
         android:src="@drawable/ic_more_horiz"
+        app:buttonTintType="regular" />
+
+    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+        android:id="@+id/refresh_button"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="@dimen/button_size"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/popup_item_gap_length"
+        android:contentDescription="@string/refresh"
+        android:visibility="gone"
+        android:src="@drawable/ic_refresh"
         app:buttonTintType="regular" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -101,13 +103,13 @@
         android:layout_height="@dimen/button_size"
         android:layout_marginEnd="@dimen/popup_item_gap_length"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/preferences"
+        android:contentDescription="@string/filter"
         android:src="@drawable/ic_filter"
         android:visibility="gone"
         app:buttonTintType="regular" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleImageButton
-        android:id="@+id/search_view_menu_button"
+        android:id="@+id/settings_button"
         android:layout_width="@dimen/button_size"
         android:layout_height="@dimen/button_size"
         android:layout_gravity="center_vertical"

@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -73,11 +72,11 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
         
         icon = view.findViewById(R.id.icon);
-        editText = view.findViewById(R.id.search_view_text_input_layout);
+        editText = view.findViewById(R.id.edit_text);
         number = view.findViewById(R.id.search_number);
-        settings = view.findViewById(R.id.search_view_menu_button);
-        clear = view.findViewById(R.id.search_view_clear_button);
-        refresh = view.findViewById(R.id.search_view_refresh_button);
+        settings = view.findViewById(R.id.settings_button);
+        clear = view.findViewById(R.id.clear_button);
+        refresh = view.findViewById(R.id.refresh_button);
         filter = view.findViewById(R.id.filter_button);
         more = view.findViewById(R.id.more_button);
         loader = view.findViewById(R.id.loader);
@@ -102,7 +101,6 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         editText.setSaveEnabled(false); // ViewModel and SharedPreferences will handle the saved states
         
         TextViewUtils.INSTANCE.doOnTextChanged(editText, (s, start, before, count) -> {
-            Log.d("SearchView", "onTextChanged: " + s.toString().trim());
             boolean isValidCount = !s.toString().trim().replace("#", "").isEmpty();
             
             if (editText.isFocused()) {
@@ -283,14 +281,18 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             filter.setScaleY(0);
             settings.setScaleX(0);
             settings.setScaleY(0);
+            refresh.setScaleX(0);
+            refresh.setScaleY(0);
             
             ViewUtils.INSTANCE.visible(filter, true);
             ViewUtils.INSTANCE.visible(settings, true);
+            ViewUtils.INSTANCE.visible(refresh, true);
             ViewUtils.INSTANCE.gone(more, false);
             handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
         } else {
-            ViewUtils.INSTANCE.gone(filter, true);
             ViewUtils.INSTANCE.gone(settings, true);
+            ViewUtils.INSTANCE.gone(refresh, true);
+            ViewUtils.INSTANCE.gone(filter, true);
             ViewUtils.INSTANCE.visible(more, true);
         }
     }
