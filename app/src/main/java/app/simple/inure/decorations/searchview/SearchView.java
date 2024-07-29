@@ -84,7 +84,6 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         if (!isInEditMode()) {
             if (!SearchPreferences.INSTANCE.getLastSearchKeyword().isEmpty()) {
                 ViewUtils.INSTANCE.visible(clear, false);
-                ViewUtils.INSTANCE.visible(refresh, false);
                 editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
                 
                 if (SearchPreferences.INSTANCE.getLastSearchKeyword().startsWith("#")) {
@@ -93,7 +92,6 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 }
             } else {
                 ViewUtils.INSTANCE.gone(clear, true);
-                ViewUtils.INSTANCE.gone(refresh, true);
             }
         }
         
@@ -119,13 +117,11 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             
             if (isValidCount) {
                 ViewUtils.INSTANCE.visible(clear, true);
-                ViewUtils.INSTANCE.visible(refresh, true);
             } else {
                 ViewUtils.INSTANCE.gone(clear, true);
-                ViewUtils.INSTANCE.gone(refresh, true);
             }
             
-            if (s.toString().trim().startsWith("#")) {
+            if (editText.getText().toString().trim().startsWith("#")) {
                 editText.getText().setSpan(
                         new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
             } else {
@@ -203,6 +199,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     public void setNewNumber(int number) {
         String pattern;
+        
         if (number < 1000) {
             pattern = "000";
         } else if (number < 10000) {
