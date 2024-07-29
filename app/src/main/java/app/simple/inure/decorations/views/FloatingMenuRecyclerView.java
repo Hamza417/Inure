@@ -34,7 +34,7 @@ import app.simple.inure.util.ViewUtils;
 import kotlin.Pair;
 import kotlin.ranges.RangesKt;
 
-public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
+public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     /**
      * @noinspection unused
@@ -73,7 +73,7 @@ public class BottomMenuRecyclerView extends CustomHorizontalRecyclerView {
         }
     };
     
-    public BottomMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public FloatingMenuRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }

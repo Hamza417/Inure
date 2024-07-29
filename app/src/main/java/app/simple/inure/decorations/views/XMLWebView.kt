@@ -6,7 +6,12 @@ import android.content.res.AssetManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.util.AttributeSet
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
@@ -14,7 +19,7 @@ import java.io.IOException
 import java.io.InputStream
 
 @SuppressLint("SetJavaScriptEnabled")
-class XmlWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
+class XMLWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
     init {
         settings.apply {
             useWideViewPort = false

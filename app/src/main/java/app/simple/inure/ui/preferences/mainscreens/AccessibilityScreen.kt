@@ -188,7 +188,7 @@ class AccessibilityScreen : ScopedFragment() {
             AccessibilityPreferences.BOTTOM_MENU_CONTEXT -> {
                 /**
                  * Reset the bottom menu height so that it can be reinitialized
-                 * with the updated height later in [app.simple.inure.decorations.views.BottomMenuRecyclerView].
+                 * with the updated height later in [app.simple.inure.decorations.views.FloatingMenuRecyclerView].
                  *
                  * This is done because the height of the bottom menu is calculated
                  * based on the height of the bottom menu items. So, if the height of the

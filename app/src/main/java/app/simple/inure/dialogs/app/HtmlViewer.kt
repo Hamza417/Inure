@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.decorations.views.XmlWebView
+import app.simple.inure.decorations.views.XMLWebView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
 class HtmlViewer : ScopedBottomSheetFragment() {
 
-    private lateinit var webView: XmlWebView
+    private lateinit var webView: XMLWebView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_html, container, false)

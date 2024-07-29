@@ -26,7 +26,7 @@ import androidx.core.math.MathUtils;
 import androidx.core.util.Consumer;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import app.simple.inure.R;
-import app.simple.inure.decorations.views.BottomMenuRecyclerView;
+import app.simple.inure.decorations.views.FloatingMenuRecyclerView;
 import app.simple.inure.preferences.DevelopmentPreferences;
 
 public class FastScroller {
@@ -406,12 +406,12 @@ public class FastScroller {
             cancelAutoHideScrollbar();
             animationHelper.showScrollbar(trackView, thumbView);
             animationHelper.showPopup(popupView);
-            Intent intent = new Intent(BottomMenuRecyclerView.ACTION_CLOSE_BOTTOM_MENU);
+            Intent intent = new Intent(FloatingMenuRecyclerView.ACTION_CLOSE_BOTTOM_MENU);
             LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
         } else {
             postAutoHideScrollbar();
             animationHelper.hidePopup(popupView);
-            Intent intent = new Intent(BottomMenuRecyclerView.ACTION_OPEN_BOTTOM_MENU);
+            Intent intent = new Intent(FloatingMenuRecyclerView.ACTION_OPEN_BOTTOM_MENU);
             LocalBroadcastManager.getInstance(view.getContext()).sendBroadcast(intent);
         }
     }

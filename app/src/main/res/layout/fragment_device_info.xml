@@ -12,7 +12,7 @@
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="true" />
 
-    <app.simple.inure.decorations.views.BottomMenuRecyclerView
+    <app.simple.inure.decorations.views.FloatingMenuRecyclerView
         android:id="@+id/bottom_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

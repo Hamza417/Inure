@@ -33,7 +33,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
-import app.simple.inure.decorations.views.BottomMenuRecyclerView
+import app.simple.inure.decorations.views.FloatingMenuRecyclerView
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
@@ -94,7 +94,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     private var loader: Loader? = null
     private var blurAnimator: ValueAnimator? = null
 
-    protected var bottomRightCornerMenu: BottomMenuRecyclerView? = null
+    protected var bottomRightCornerMenu: FloatingMenuRecyclerView? = null
 
     /**
      * [postponeEnterTransition] here and initialize all the
