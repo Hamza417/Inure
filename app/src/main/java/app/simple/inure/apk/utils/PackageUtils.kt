@@ -261,6 +261,10 @@ object PackageUtils {
         return applicationInfo.splitSourceDirs.isNullOrEmpty().not()
     }
 
+    fun PackageInfo.isBackupAllowed(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_ALLOW_BACKUP != 0
+    }
+
     /**
      * Check if app is a system app
      */

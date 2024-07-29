@@ -25,6 +25,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
+import app.simple.inure.apk.utils.PackageUtils.isBackupAllowed
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.exceptions.DexClassesNotFoundException
@@ -118,6 +119,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             informationList.add(getCacheSize())
             informationList.add(getApkPath())
             informationList.add(getSplitNames())
+            informationList.add(getBackup())
             informationList.add(getTrackers())
             informationList.add(getGlesVersion())
             informationList.add(getArchitecture())
@@ -496,6 +498,16 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
         return Pair(R.string.split_packages,
                     names.toString().applySecondaryTextColor())
+    }
+
+    private fun getBackup(): Pair<Int, Spannable> {
+        val isBackupAllowed = packageInfo.isBackupAllowed()
+        val spannable = if (isBackupAllowed) {
+            getString(R.string.allowed)
+        } else {
+            getString(R.string.not_allowed)
+        }
+        return Pair(R.string.backup, spannable.applySecondaryTextColor())
     }
 
     private fun getTrackers(): Pair<Int, Spannable> {

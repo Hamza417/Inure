@@ -20,6 +20,7 @@ import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
+import app.simple.inure.apk.utils.PackageUtils.isBackupAllowed
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -67,6 +68,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getPackageName())
         list.add(getVersion())
         list.add(getVersionCode())
+        list.add(getBackup())
 
         if (packageInfo.isNotNull()) {
             list.add(getUID())
@@ -112,6 +114,16 @@ class InstallerInformationViewModel(application: Application, private val file: 
             Pair(R.string.version_code,
                  packageInfo!!.versionCode.toString().applySecondaryTextColor())
         }
+    }
+
+    private fun getBackup(): Pair<Int, Spannable> {
+        val isBackupAllowed = packageInfo?.isBackupAllowed() ?: false
+        val spannable = if (isBackupAllowed) {
+            getString(R.string.allowed)
+        } else {
+            getString(R.string.not_allowed)
+        }
+        return Pair(R.string.backup, spannable.applySecondaryTextColor())
     }
 
     private fun getApkPath(): Pair<Int, Spannable> {

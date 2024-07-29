@@ -752,4 +752,7 @@
     <string name="no_cache_found">No Cache Found</string>
     <string name="no_operations_found">No Operations Found</string>
     <string name="keyword_database">Keyword Database</string>
+    <string name="backup">Backup</string>
+    <string name="allowed">Allowed</string>
+    <string name="not_allowed">Not Allowed</string>
 </resources>
