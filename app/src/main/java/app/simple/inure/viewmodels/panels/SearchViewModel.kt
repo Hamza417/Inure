@@ -77,14 +77,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
         }
 
-        thread?.join()
+        thread?.join() // Wait for the previous thread to finish
     }
 
     fun reload() { // These two fun already runs in their own threads
         deepPackageInfos.clear()
         apps.clear()
         refreshPackageData()
-        initiateSearch(searchKeywords.value ?: "")
     }
 
     private fun loadSearchData(keywords: String) {
@@ -259,7 +258,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
-        initiateSearch(SearchPreferences.getLastSearchKeyword())
+        initiateSearch(searchKeywords.value ?: SearchPreferences.getLastSearchKeyword())
     }
 
     override fun onAppUninstalled(packageName: String?) {

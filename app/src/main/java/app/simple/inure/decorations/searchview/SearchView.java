@@ -51,6 +51,9 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     
     private int oldNumber = 0;
     
+    /**
+     * @noinspection FieldCanBeLocal
+     */
     private final int MORE_BUTTON_DELAY = 3000;
     
     public SearchView(Context context, @Nullable AttributeSet attrs) {
@@ -276,6 +279,11 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         handler.removeCallbacks(moreButtonRunnable);
         
         if (state) {
+            filter.setScaleX(0);
+            filter.setScaleY(0);
+            settings.setScaleX(0);
+            settings.setScaleY(0);
+            
             ViewUtils.INSTANCE.visible(filter, true);
             ViewUtils.INSTANCE.visible(settings, true);
             ViewUtils.INSTANCE.gone(more, false);

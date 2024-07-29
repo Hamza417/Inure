@@ -7,9 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.util.AdapterUtils
 
-class AdapterSearchKeywordDatabase(private val strings: List<String>, private val onClick: (String) -> Unit)
-    : RecyclerView.Adapter<AdapterSearchKeywordDatabase.Holder>() {
+class AdapterSearchKeywordDatabase
+    : RecyclerView.Adapter<AdapterSearchKeywordDatabase.Holder> {
+
+    private val strings: List<String>
+    private val keyword: String
+    private val onClick: (String) -> Unit
+
+    constructor(strings: List<String>, keyword: String, onClick: (String) -> Unit) : super() {
+        this.strings = strings
+        this.keyword = keyword
+        this.onClick = onClick
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -18,6 +29,7 @@ class AdapterSearchKeywordDatabase(private val strings: List<String>, private va
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = strings[position]
+        AdapterUtils.searchHighlighter(holder.name, keyword)
 
         holder.name.setOnClickListener {
             onClick(strings[position])

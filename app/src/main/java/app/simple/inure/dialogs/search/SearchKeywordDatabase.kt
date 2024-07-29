@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.search.AdapterSearchKeywordDatabase
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.viewmodels.search.SearchKeywordDatabaseViewModel
@@ -17,13 +19,17 @@ import app.simple.inure.viewmodels.search.SearchKeywordDatabaseViewModel
 class SearchKeywordDatabase : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var search: DynamicCornerEditText
     private lateinit var searchKeywordDatabaseViewModel: SearchKeywordDatabaseViewModel
     private lateinit var searchKeywordDatabaseCallback: SearchKeywordDatabaseCallback
+
+    private var keyword: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_search_keyword_database, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
+        search = view.findViewById(R.id.edit_text)
         searchKeywordDatabaseViewModel = ViewModelProvider(this)[SearchKeywordDatabaseViewModel::class.java]
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -34,10 +40,15 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        search.doOnTextChanged { text, _, _, _ ->
+            keyword = text.toString().trim()
+            searchKeywordDatabaseViewModel.search(keyword)
+        }
+
         when (requireArguments().getInt(BundleConstants.mode)) {
             PERMISSIONS -> {
                 searchKeywordDatabaseViewModel.getPermissions().observe(viewLifecycleOwner) { strings ->
-                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings) {
+                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings, keyword) {
                         searchKeywordDatabaseCallback.onSearchKeywordDatabaseClicked(it)
                         dismiss()
                     }
@@ -45,7 +56,7 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
             }
             TRACKERS -> {
                 searchKeywordDatabaseViewModel.getTrackers().observe(viewLifecycleOwner) { strings ->
-                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings) {
+                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings, keyword) {
                         searchKeywordDatabaseCallback.onSearchKeywordDatabaseClicked(it)
                         dismiss()
                     }

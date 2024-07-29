@@ -14,6 +14,19 @@
         android:orientation="vertical"
         android:padding="@dimen/dialog_padding">
 
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
+            android:id="@+id/edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/search"
+            android:importantForAutofill="no"
+            android:inputType="textNoSuggestions"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:textCursorDrawable="@drawable/text_cursor"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
+
         <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
