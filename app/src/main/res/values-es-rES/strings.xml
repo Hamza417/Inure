@@ -753,4 +753,7 @@
     <string name="no_cache_found">Caché no encontrado</string>
     <string name="no_operations_found">No se encontraron operaciones</string>
     <string name="keyword_database">Base de datos de palabras clave</string>
+    <string name="backup">Copia de seguridad</string>
+    <string name="allowed">Permitido</string>
+    <string name="not_allowed">No permitido</string>
 </resources>
