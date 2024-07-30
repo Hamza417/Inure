@@ -19,7 +19,7 @@ import java.io.IOException
 import java.io.InputStream
 
 @SuppressLint("SetJavaScriptEnabled")
-class XMLWebView(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
+class WebViewXMLViewer(context: Context, attributeSet: AttributeSet) : WebView(context, attributeSet) {
     init {
         settings.apply {
             useWideViewPort = false

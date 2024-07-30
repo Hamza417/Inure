@@ -15,9 +15,13 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowInsetsAnimation
+import android.view.animation.PathInterpolator
 import android.widget.ImageView
+import androidx.activity.BackEventCompat
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.annotation.IntegerRes
 import androidx.annotation.RequiresApi
@@ -28,7 +32,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.transition.ArcMotion
+import androidx.transition.ChangeBounds
 import androidx.transition.Fade
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSeekController
+import androidx.transition.TransitionSet
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
@@ -40,6 +48,10 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.interfaces.fragments.SureCallbacks
+import app.simple.inure.math.Extensions.half
+import app.simple.inure.math.Extensions.negate
+import app.simple.inure.math.Extensions.zero
+import app.simple.inure.math.Range.mapRange
 import app.simple.inure.popups.behavior.PopupArcType
 import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.BehaviourPreferences
@@ -74,6 +86,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected var maximumAngle = 90
     protected var minimumHorizontalAngle = 80
     protected var minimumVerticalAngle = 15
+
+    val transitionSet = TransitionSet().apply {
+        addTransition(Fade(Fade.MODE_OUT))
+        addTransition(ChangeBounds())
+        addTransition(Fade(Fade.MODE_IN))
+    }
 
     /**
      * [ScopedFragment]'s own [Handler] instance
@@ -117,6 +135,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         animateBlur()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            setupBackPressedCallback(view as ViewGroup)
+        }
     }
 
     private fun animateBlur() {
@@ -513,6 +535,86 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    open fun setupBackPressedCallback(view: ViewGroup) {
+        val windowWidth = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().windowManager.currentWindowMetrics.bounds.width()
+        } else {
+            zero()
+        }
+
+        val windowHeight = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().windowManager.currentWindowMetrics.bounds.height()
+        } else {
+            zero()
+        }
+
+        val maxXShift = windowWidth / MAX_WINDOW_WIDTH
+
+        val callback = object : OnBackPressedCallback(enabled = true) {
+            var controller: TransitionSeekController? = null
+
+            @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            override fun handleOnBackStarted(backEvent: BackEventCompat) {
+                controller = TransitionManager.controlDelayedTransition(
+                        view,
+                        transitionSet
+                )
+            }
+
+            @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            override fun handleOnBackProgressed(backEvent: BackEventCompat) {
+                if (controller?.isReady == true) {
+                    controller?.currentFraction = backEvent.progress
+                }
+
+                // Shift the view based on the swipe progress
+                val backProgress = backEvent.progress
+                val interpolatedProgress = EMPHASIZED_DECELERATE.getInterpolation(backProgress)
+                val totalTranslationY = backEvent.touchY
+                    .mapRange(zero(), windowHeight, windowHeight.half().negate(), windowHeight.half())
+                    .div(MAX_WINDOW_HEIGHT)
+
+                when (backEvent.swipeEdge) {
+                    BackEventCompat.EDGE_LEFT -> {
+                        view.translationX = interpolatedProgress * maxXShift
+                        view.translationY = totalTranslationY * interpolatedProgress
+                    }
+                    BackEventCompat.EDGE_RIGHT -> {
+                        view.translationX = -(interpolatedProgress * maxXShift)
+                        view.translationY = totalTranslationY * interpolatedProgress
+                    }
+                }
+
+                view.scaleX = 1F - (0.1F * interpolatedProgress)
+                view.scaleY = 1F - (0.1F * interpolatedProgress)
+                // view.alpha = 1F - (0.5F * interpolatedProgress)
+            }
+
+            @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            override fun handleOnBackPressed() {
+                Log.d(TAG, "handleOnBackPressed: ")
+                // Finish playing the transition when the user commits back )
+                this.isEnabled = false
+                popBackStack()
+            }
+
+            @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            override fun handleOnBackCancelled() {
+                Log.d(TAG, "handleOnBackCancelled: ")
+                // If the user cancels the back gesture, reset the state
+                resetCallbackState()
+            }
+
+            private fun resetCallbackState() {
+                // Animate the view back to its original position
+                view.animate().translationX(0F).scaleX(1F).scaleY(1F).start()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
     /**
      * Return the {@link Application} this fragment is currently associated with.
      */
@@ -607,12 +709,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     protected fun openFragmentArc(fragment: ScopedFragment, icon: View, tag: String? = null, duration: Long? = null) {
         fragment.setArcTransitions(duration ?: resources.getInteger(R.integer.animation_duration).toLong())
-
-        //        try {
-        //            (fragment.exitTransition as TransitionSet?)?.excludeTarget(icon, true)
-        //        } catch (e: java.lang.ClassCastException) {
-        //            (fragment.exitTransition as MaterialContainerTransform?)?.excludeTarget(icon, true)
-        //        }
 
         try {
             val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
@@ -739,6 +835,14 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     companion object {
+        private val EMPHASIZED_DECELERATE = PathInterpolator(0.05f, 0.7f, 0.1f, 1f)
+
+        /**
+         * Lower values will result in a more emphasized movement
+         */
+        private const val MAX_WINDOW_WIDTH = 20
+        private const val MAX_WINDOW_HEIGHT = 5
+
         private const val TAG = "ScopedFragment"
     }
 }

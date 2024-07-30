@@ -23,7 +23,7 @@
             android:fadingEdgeLength="25dp"
             android:requiresFadingEdge="vertical">
 
-            <app.simple.inure.decorations.views.XMLWebView
+            <app.simple.inure.decorations.views.WebViewXMLViewer
                 android:id="@+id/web_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

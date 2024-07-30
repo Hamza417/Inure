@@ -203,6 +203,8 @@ dependencies {
     implementation 'androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03'
     implementation 'androidx.security:security-crypto:1.1.0-alpha06'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
+    implementation 'androidx.transition:transition-ktx:1.5.1'
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
 
     // Google
     implementation 'com.google.android.material:material:1.12.0'

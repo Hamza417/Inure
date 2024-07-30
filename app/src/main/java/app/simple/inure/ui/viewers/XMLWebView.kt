@@ -18,6 +18,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.MimeConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.decorations.views.WebViewXMLViewer
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.XMLViewerViewModelFactory
 import app.simple.inure.popups.viewers.PopupXmlViewer
@@ -25,11 +26,10 @@ import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.XMLViewerViewModel
 import java.io.IOException
-import app.simple.inure.decorations.views.XMLWebView as ViewsXMLWebView
 
 class XMLWebView : ScopedFragment() {
 
-    private lateinit var manifest: ViewsXMLWebView
+    private lateinit var manifest: WebViewXMLViewer
     private lateinit var name: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var progress: ProgressBar
