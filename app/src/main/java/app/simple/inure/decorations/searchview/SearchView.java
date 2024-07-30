@@ -68,6 +68,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         setLayoutTransition(new LayoutTransition());
     }
     
+    @SuppressLint ("SetTextI18n")
     private void initViews() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.search_view, this, true);
         
@@ -136,10 +137,25 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         });
         
         clear.setOnClickListener(button -> {
-            editText.getText().clear();
+            String text = editText.getText().toString().trim();
+            if (text.startsWith("#")) {
+                String[] parts = text.split(" ", 2);
+                if (parts.length > 1 && !parts[1].isEmpty()) {
+                    // Clear the keyword only
+                    editText.setText(parts[0] + " ");
+                    editText.setSelection(editText.getText().length());
+                } else {
+                    // Clear the tag
+                    editText.getText().clear();
+                }
+            } else {
+                // Clear the entire text
+                editText.getText().clear();
+            }
+            
             setNewNumber(0);
             searchViewEventListener.onClear(button);
-            SearchPreferences.INSTANCE.setLastSearchKeyword("");
+            SearchPreferences.INSTANCE.setLastSearchKeyword(editText.getText().toString().trim());
         });
     }
     
@@ -161,7 +177,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
     public void setKeyword(String keyword) {
         if (editText.getText().toString().startsWith("#")) {
             if (editText.getText().toString().split(" ").length > 1) {
-                String split = editText.getText().toString().split(" ")[1];
+                String split = editText.getText().toString().split(" ")[0];
                 editText.setText(split + " " + keyword);
             } else {
                 if (editText.getText().toString().endsWith(" ")) {
@@ -177,6 +193,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         editText.setSelection(editText.getText().length());
         updateSpans();
         showLoader();
+        handler.postDelayed(this :: showInput, 500);
     }
     
     private void updateSpans() {
