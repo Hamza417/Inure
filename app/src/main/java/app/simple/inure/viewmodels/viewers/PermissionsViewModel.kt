@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.viewers
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
     private val permissions: MutableLiveData<MutableList<PermissionInfo>> by lazy {
         MutableLiveData<MutableList<PermissionInfo>>().also {
             if (SearchPreferences.isSearchKeywordModeEnabled()) {
+                Log.d("PermissionsViewModel", "Loading permission data with keyword: ${SearchPreferences.getLastSearchKeyword()}")
                 loadPermissionData(SearchPreferences.getLastSearchKeyword())
             } else {
                 loadPermissionData("")

@@ -18,8 +18,12 @@ object SearchPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
-    fun setLastSearchKeyword(keyword: String) {
-        getSharedPreferences().edit().putString(LAST_SEARCH_KEYWORD, keyword).apply()
+    fun setLastSearchKeyword(keyword: String): Boolean {
+        return getSharedPreferences().edit().putString(LAST_SEARCH_KEYWORD, keyword).commit()
+    }
+
+    fun clearLastSearchKeyword(): Boolean {
+        return getSharedPreferences().edit().remove(LAST_SEARCH_KEYWORD).commit()
     }
 
     fun getLastSearchKeyword(): String {

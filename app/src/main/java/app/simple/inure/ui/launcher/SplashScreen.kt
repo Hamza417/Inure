@@ -430,7 +430,7 @@ class SplashScreen : ScopedFragment() {
 
     private fun clearSearchStates() {
         if (DevelopmentPreferences.get(DevelopmentPreferences.CLEAR_SEARCH_STATE)) {
-            SearchPreferences.setLastSearchKeyword(emptyString())
+            SearchPreferences.clearLastSearchKeyword()
             ApkBrowserPreferences.setSearchKeyword(emptyString())
             MusicPreferences.setSearchKeyword(emptyString())
         }
