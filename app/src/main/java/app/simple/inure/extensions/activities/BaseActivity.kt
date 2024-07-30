@@ -137,7 +137,7 @@ open class BaseActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         // Disable predictive back for fragments
-        FragmentManager.enablePredictiveBack(false)
+        FragmentManager.enablePredictiveBack(DevelopmentPreferences.get(DevelopmentPreferences.TEST_PREDICTIVE_BACK_GESTURE))
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         //        /**

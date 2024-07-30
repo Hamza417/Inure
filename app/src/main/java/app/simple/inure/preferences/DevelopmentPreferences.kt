@@ -37,6 +37,7 @@ object DevelopmentPreferences {
     const val USE_CORRESPONDING_COLOR_ON_HIGHLIGHT = "is_corresponding_color_on_highlight_enabled"
     const val USE_BLUR_BETWEEN_PANELS = "is_blur_between_panels_enabled"
     const val CLEAR_SEARCH_STATE = "clear_search_state"
+    const val TEST_PREDICTIVE_BACK_GESTURE = "test_predictive_back_gesture"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -204,6 +205,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Clear Search State",
                                             "Clear various search states everytime app is launched.",
                                             CLEAR_SEARCH_STATE,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Test Predictive Back Gesture",
+                                            "Enable test mode for predictive back gestures in the app. Restart the app after enabling.",
+                                            TEST_PREDICTIVE_BACK_GESTURE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
