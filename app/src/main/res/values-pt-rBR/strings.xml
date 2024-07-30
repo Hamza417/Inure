@@ -752,4 +752,8 @@
     <string name="auto_tag_desc">Criar etiquetas automaticamente para apps com base nas informações disponíveis.</string>
     <string name="no_cache_found">Nenhum cache encontrado</string>
     <string name="no_operations_found">Nenhuma Operação Encontrada</string>
+    <string name="keyword_database">Banco de Palavra-Chave</string>
+    <string name="backup">Cópia de segurança</string>
+    <string name="allowed">Permitido</string>
+    <string name="not_allowed">Não permitido</string>
 </resources>
