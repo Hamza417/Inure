@@ -1,5 +1,6 @@
 package app.simple.inure.extensions.fragments
 
+import android.animation.LayoutTransition
 import android.app.Application
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -9,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
@@ -203,6 +205,12 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
     protected fun postDelayed(action: () -> Unit) {
         postDelayed(500, action)
+    }
+
+    protected fun ViewGroup.applyBottomSheetContainerAnimationFix() {
+        val transition = LayoutTransition()
+        transition.setAnimateParentHierarchy(false)
+        layoutTransition = transition
     }
 
     open fun fullVersionCheck(goBack: Boolean = true): Boolean {

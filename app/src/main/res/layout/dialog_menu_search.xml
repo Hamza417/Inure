@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
@@ -7,7 +8,8 @@
     android:clipToPadding="false"
     android:padding="@dimen/dialog_padding">
 
-    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/dialog_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipChildren="false"
@@ -88,7 +90,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/keyword_database_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,22 +98,47 @@
             android:orientation="vertical"
             android:padding="@dimen/dialog_padding">
 
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:id="@+id/themeDivider3"
+                android:layout_width="2dp"
+                android:alpha="0.4"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/typeFaceTextView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:drawablePadding="5dp"
                 android:text="@string/keyword_database"
                 android:textSize="@dimen/info_text_small"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
                 app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_book_12dp"
+                app:drawableTintStyle="accent"
+                app:layout_constraintBottom_toTopOf="@+id/chipGroup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/themeDivider3"
+                app:layout_constraintTop_toTopOf="parent"
                 app:textColorStyle="primary" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp"
                 app:chipSpacingHorizontal="5dp"
-                android:orientation="horizontal">
+                app:chipSpacingVertical="@dimen/chip_vertical_spacing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/themeDivider3"
+                app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView2">
 
                 <app.simple.inure.decorations.views.Chip
                     android:id="@+id/permissions"
@@ -127,7 +154,7 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <app.simple.inure.decorations.theme.ThemeDivider
             android:layout_width="match_parent"

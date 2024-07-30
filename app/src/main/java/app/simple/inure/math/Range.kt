@@ -14,11 +14,11 @@ object Range {
     }
 
     fun Int.mapRange(fromMin: Int, fromMax: Int, toMin: Int, toMax: Int): Int {
-        return ((this - fromMin) / (fromMax - fromMin) * (toMax - toMin) + toMin).toInt()
+        return ((this - fromMin) / (fromMax - fromMin) * (toMax - toMin) + toMin)
     }
 
     fun Long.mapRange(fromMin: Long, fromMax: Long, toMin: Long, toMax: Long): Long {
-        return ((this - fromMin) / (fromMax - fromMin) * (toMax - toMin) + toMin).toLong()
+        return ((this - fromMin) / (fromMax - fromMin) * (toMax - toMin) + toMin)
     }
 
     fun Float.normalize(min: Float, max: Float): Float {
