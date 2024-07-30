@@ -78,6 +78,10 @@ class Trackers : ScopedFragment() {
         /* no-op */
     }
 
+    override fun setupBackPressedCallback(view: ViewGroup) {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Trackers {
             val args = Bundle()

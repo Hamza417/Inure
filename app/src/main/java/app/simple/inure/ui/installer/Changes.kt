@@ -49,6 +49,10 @@ class Changes : ScopedFragment() {
         /* no-op */
     }
 
+    override fun setupBackPressedCallback(view: ViewGroup) {
+        /* no-op */
+    }
+
     companion object {
         fun newInstance(file: File): Changes {
             val args = Bundle()
