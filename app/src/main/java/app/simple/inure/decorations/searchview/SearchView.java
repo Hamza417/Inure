@@ -121,22 +121,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
                 ViewUtils.INSTANCE.gone(clear, true);
             }
             
-            if (editText.getText().toString().trim().startsWith("#")) {
-                editText.getText().setSpan(
-                        new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
-            } else {
-                if (editText.getText().getSpans(0, 1, ForegroundColorSpan.class).length > 0) {
-                    // Remove the spans
-                    for (ForegroundColorSpan span : editText.getText().getSpans(0, 1, ForegroundColorSpan.class)) {
-                        editText.getText().removeSpan(span);
-                    }
-                    
-                    // Move the cursor to the end of the text
-                    editText.setSelection(editText.getText().length());
-                    // Focus the edit text
-                    editText.requestFocus();
-                }
-            }
+            updateSpans();
             
             return Unit.INSTANCE;
         });
@@ -190,7 +175,27 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         }
         
         editText.setSelection(editText.getText().length());
+        updateSpans();
         showLoader();
+    }
+    
+    private void updateSpans() {
+        if (editText.getText().toString().trim().startsWith("#")) {
+            editText.getText().setSpan(
+                    new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
+        } else {
+            if (editText.getText().getSpans(0, 1, ForegroundColorSpan.class).length > 0) {
+                // Remove the spans
+                for (ForegroundColorSpan span : editText.getText().getSpans(0, 1, ForegroundColorSpan.class)) {
+                    editText.getText().removeSpan(span);
+                }
+                
+                // Move the cursor to the end of the text
+                editText.setSelection(editText.getText().length());
+                // Focus the edit text
+                editText.requestFocus();
+            }
+        }
     }
     
     public String getKeyword() {
