@@ -181,13 +181,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun loadDataForDeepSearch(list: ArrayList<PackageInfo>) {
-        list.parallelStream().forEach {
-            try {
+        list.forEach {
+            kotlin.runCatching {
                 val pkg = packageManager.getPackageInfo(it.packageName, FLAGS)
                 pkg.applicationInfo.name = it.applicationInfo.name
                 deepPackageInfos.addIfNotExists(pkg, comparator = { a, b -> a?.packageName == b?.packageName })
-            } catch (e: NameNotFoundException) {
-                Log.e(TAG, e.stackTraceToString())
+            }.getOrElse {
+                Log.e(TAG, it.stackTraceToString())
             }
         }
     }
