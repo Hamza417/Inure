@@ -82,4 +82,9 @@ object Warnings {
      * Root or shizuku required to change the state
      */
     const val ROOT_OR_SHIZUKU_REQUIRED = "0x010: Root or Shizuku required to change the state"
+
+    /**
+     * If you're experiencing longer loading times, you can always disable startup loading from Preferences -> Behavior
+     */
+    const val LONG_LOADING_TIME = "0x011: If you're experiencing longer loading times, you can always disable startup loading from Preferences -> Behavior"
 }

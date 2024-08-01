@@ -30,6 +30,7 @@ import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.crash.CrashReport
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
@@ -192,6 +193,10 @@ class SplashScreen : ScopedFragment() {
     }
 
     private fun proceed() {
+        postDelayed(12_000) {
+            showWarning(Warnings.LONG_LOADING_TIME, goBack = false)
+        }
+
         val appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
         val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
