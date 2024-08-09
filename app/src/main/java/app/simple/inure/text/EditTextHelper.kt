@@ -21,7 +21,6 @@ import android.text.style.UnderlineSpan
 import android.widget.EditText
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.ConditionUtils.invert
-import java.util.Locale
 import java.util.Objects
 import kotlin.math.roundToInt
 
@@ -572,15 +571,30 @@ object EditTextHelper {
         setSelection(leftSpace, rightSpace)
     }
 
+    /**
+     * Find all the occurrences of a search keyword in an EditText.
+     *
+     * Plan
+     * 1. Convert the searchKeyword to lowercase.
+     * 2. Initialize an empty list to store the match positions.
+     * 3. Iterate through the text, extracting substrings of the same length as the searchKeyword.
+     * 4. Compare each substring with the searchKeyword in a case-insensitive manner.
+     * 5. If a match is found, add the start and end positions to the list.
+     * 6. Return the list of match positions.
+     */
     fun EditText.findMatches(searchKeyword: String): ArrayList<Pair<Int, Int>> {
-        val lowerCaseText = text.toString().lowercase(Locale.getDefault())
         val lowerCaseKeyword = searchKeyword.lowercase()
         val list = ArrayList<Pair<Int, Int>>()
+        val textLength = text.length
+        val keywordLength = lowerCaseKeyword.length
 
-        var index = lowerCaseText.indexOf(lowerCaseKeyword)
-        while (index >= 0) {
-            list.add(Pair(index, index + lowerCaseKeyword.length))
-            index = lowerCaseText.indexOf(lowerCaseKeyword, index + 1)
+        var index = 0
+        while (index <= textLength - keywordLength) {
+            val substring = text.subSequence(index, index + keywordLength).toString()
+            if (substring.equals(lowerCaseKeyword, ignoreCase = true)) {
+                list.add(Pair(index, index + keywordLength))
+            }
+            index++
         }
 
         return list
