@@ -265,6 +265,10 @@ object PackageUtils {
         return applicationInfo.flags and ApplicationInfo.FLAG_ALLOW_BACKUP != 0
     }
 
+    fun PackageInfo.isDebuggable(): Boolean {
+        return applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+    }
+
     /**
      * Check if app is a system app
      */
