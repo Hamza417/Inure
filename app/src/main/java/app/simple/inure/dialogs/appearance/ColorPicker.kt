@@ -52,8 +52,8 @@ class ColorPicker : ScopedBottomSheetFragment() {
             }
         }
 
-        colorPickerView.setColor(AppearancePreferences.getAccentColor())
-        hex.setText(AppearancePreferences.getAccentColor().toHexColor())
+        colorPickerView.setColor(AppearancePreferences.getPickedAccentColor())
+        hex.setText(AppearancePreferences.getPickedAccentColor().toHexColor())
         strip.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             strip.outlineSpotShadowColor = AppearancePreferences.getAccentColor()

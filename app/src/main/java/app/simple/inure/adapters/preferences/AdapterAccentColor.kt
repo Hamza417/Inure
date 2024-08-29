@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.preferences
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -146,14 +147,15 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
         this.accentColorCallbacks = accentColorCallbacks
     }
 
-    fun updateAccentColor() {
+    fun updateAccentColor(context: Context) {
         if (AppearancePreferences.isCustomColor()) {
             val position = list.find {
-                it.first == Color.DKGRAY
+                it.second == context.getString(R.string.color_picker)
             }?.let {
                 list.indexOf(it)
             } ?: 0
 
+            list[position] = Pair(AppearancePreferences.getPickedAccentColor(), context.getString(R.string.color_picker))
             notifyItemChanged(lastSelectedItem)
             notifyItemChanged(position)
         } else {

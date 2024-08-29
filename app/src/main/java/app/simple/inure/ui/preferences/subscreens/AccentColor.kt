@@ -100,8 +100,8 @@ class AccentColor : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            AppearancePreferences.ACCENT_COLOR, AppearancePreferences.IS_CUSTOM_COLOR -> {
-                adapterAccentColor.updateAccentColor()
+            AppearancePreferences.ACCENT_COLOR, AppearancePreferences.IS_CUSTOM_COLOR, AppearancePreferences.PICKED_ACCENT_COLOR -> {
+                adapterAccentColor.updateAccentColor(requireContext())
             }
         }
     }
