@@ -1,7 +1,6 @@
 package app.simple.inure.ui.preferences.subscreens
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -74,7 +73,7 @@ class AccentColor : ScopedFragment() {
         }
 
         if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT)) { // Add color picker
-            list.add(1, Pair(Color.DKGRAY /* Bogus Value */, "Color Picker"))
+            list.add(1, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
         }
 
         adapterAccentColor = AdapterAccentColor(list)

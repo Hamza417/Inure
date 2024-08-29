@@ -20,6 +20,7 @@ object AppearancePreferences {
     private const val COLORED_ICON_SHADOWS = "icon_shadows_colored"
     private const val IS_MATERIAL_YOU_ACCENT = "is_material_you_accent"
     private const val ACCENT_COLOR_ON_BOTTOM_MENU = "accent_color_on_bottom_menu"
+    private const val PICKED_ACCENT_COLOR = "picked_accent_color"
 
     const val IS_CUSTOM_COLOR = "is_custom_color"
     const val THEME = "current_app_theme"
@@ -46,6 +47,17 @@ object AppearancePreferences {
 
     fun getAccentColorStateList(): ColorStateList {
         return ColorStateList.valueOf(getAccentColor())
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setPickedAccentColor(@ColorInt int: Int): Boolean {
+        return getSharedPreferences().edit().putInt(PICKED_ACCENT_COLOR, int).commit()
+    }
+
+    @ColorInt
+    fun getPickedAccentColor(): Int {
+        return getSharedPreferences().getInt(PICKED_ACCENT_COLOR, 0xFFFF8C68.toInt())
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

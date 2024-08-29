@@ -62,7 +62,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             }
 
             holder.container.setOnClickListener {
-                if (list[position1].first == Color.DKGRAY) {
+                if (list[position1].second == holder.getString(R.string.color_picker)) {
                     accentColorCallbacks?.onAccentColorPicker()
                 } else {
                     if (AppearancePreferences.setAccentColor(list[position1].first)) {

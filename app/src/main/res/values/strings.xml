@@ -755,4 +755,5 @@
     <string name="backup">Backup</string>
     <string name="allowed">Allowed</string>
     <string name="not_allowed">Not Allowed</string>
+    <string name="color_picker">Color Picker</string>
 </resources>
