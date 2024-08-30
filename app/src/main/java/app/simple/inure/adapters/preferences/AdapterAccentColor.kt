@@ -2,7 +2,6 @@ package app.simple.inure.adapters.preferences
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.ShapeDrawable
@@ -67,13 +66,14 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
                     accentColorCallbacks?.onAccentColorPicker()
                 } else {
                     if (AppearancePreferences.setAccentColor(list[position1].first)) {
-                        AppearancePreferences.setCustomColor(false)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            AppearancePreferences.setMaterialYouAccent(position1 == MaterialYou.materialYouAdapterIndex)
+                        if (AppearancePreferences.setCustomColor(false)) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                AppearancePreferences.setMaterialYouAccent(position1 == MaterialYou.materialYouAdapterIndex)
+                            }
+                            notifyItemChanged(lastSelectedItem)
+                            notifyItemChanged(holder.bindingAdapterPosition)
+                            lastSelectedItem = holder.bindingAdapterPosition
                         }
-                        notifyItemChanged(lastSelectedItem)
-                        notifyItemChanged(holder.bindingAdapterPosition)
-                        lastSelectedItem = holder.bindingAdapterPosition
                     }
                 }
             }
@@ -86,7 +86,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
             holder.container.rippleColor = ColorStateList.valueOf(list[position1].first)
 
             if (AppearancePreferences.isCustomColor()) {
-                holder.tick.visibility = if (list[position1].first == Color.DKGRAY) {
+                holder.tick.visibility = if (list[position1].second == holder.getString(R.string.color_picker)) {
                     lastSelectedItem = holder.bindingAdapterPosition
                     View.VISIBLE
                 } else {
@@ -149,15 +149,10 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     fun updateAccentColor(context: Context) {
         if (AppearancePreferences.isCustomColor()) {
-            val position = list.find {
-                it.second == context.getString(R.string.color_picker)
-            }?.let {
-                list.indexOf(it)
-            } ?: 0
-
+            val position = 1
             list[position] = Pair(AppearancePreferences.getPickedAccentColor(), context.getString(R.string.color_picker))
             notifyItemChanged(lastSelectedItem)
-            notifyItemChanged(position)
+            notifyItemChanged(position.plus(1))
         } else {
             val position = list.find {
                 it.first == AppearancePreferences.getAccentColor()

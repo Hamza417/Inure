@@ -54,10 +54,10 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
         colorPickerView.setColor(AppearancePreferences.getPickedAccentColor())
         hex.setText(AppearancePreferences.getPickedAccentColor().toHexColor())
-        strip.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+        strip.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getPickedAccentColor())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            strip.outlineSpotShadowColor = AppearancePreferences.getAccentColor()
-            strip.outlineAmbientShadowColor = AppearancePreferences.getAccentColor()
+            strip.outlineSpotShadowColor = AppearancePreferences.getPickedAccentColor()
+            strip.outlineAmbientShadowColor = AppearancePreferences.getPickedAccentColor()
             strip.elevation = 50F
         }
 
@@ -81,11 +81,14 @@ class ColorPicker : ScopedBottomSheetFragment() {
                     if (hex.text.isNullOrEmpty().invert()) {
                         if (hex.text!!.startsWith("#")) {
                             AppearancePreferences.setAccentColor(Color.parseColor(hex.text.toString()))
+                            AppearancePreferences.setPickedAccentColor(Color.parseColor(hex.text.toString()))
                         } else {
                             AppearancePreferences.setAccentColor(Color.parseColor("#${hex.text}"))
+                            AppearancePreferences.setPickedAccentColor(Color.parseColor("#${hex.text}"))
                         }
                     } else {
                         AppearancePreferences.setAccentColor(colorPickerView.currentColor)
+                        AppearancePreferences.setPickedAccentColor(colorPickerView.currentColor)
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

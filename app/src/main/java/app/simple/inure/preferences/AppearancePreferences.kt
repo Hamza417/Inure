@@ -60,6 +60,10 @@ object AppearancePreferences {
         return getSharedPreferences().getInt(PICKED_ACCENT_COLOR, 0xFFFF8C68.toInt())
     }
 
+    fun getPickedAccentColorStateList(): ColorStateList {
+        return ColorStateList.valueOf(getPickedAccentColor())
+    }
+
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setCustomColor(boolean: Boolean): Boolean {
