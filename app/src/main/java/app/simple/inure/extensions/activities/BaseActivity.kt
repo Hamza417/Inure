@@ -104,10 +104,6 @@ open class BaseActivity : AppCompatActivity(),
 
     @OptIn(BuildCompat.PrereleaseSdkCheck::class, PredictiveBackControl::class)
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT).invert()) {
-            AppearancePreferences.setCustomColor(false)
-        }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AppearancePreferences.migrateMaterialYouTheme()
             presetMaterialYouDynamicColors()
@@ -614,13 +610,6 @@ open class BaseActivity : AppCompatActivity(),
 
             DevelopmentPreferences.IS_NOTCH_AREA_ENABLED -> {
                 enableNotchArea()
-            }
-
-            DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT -> {
-                if (AppearancePreferences.isCustomColor()) {
-                    AppearancePreferences.setCustomColor(false)
-                    AppearancePreferences.setAccentColor(ContextCompat.getColor(this, R.color.inure))
-                }
             }
         }
     }

@@ -21,7 +21,6 @@ object DevelopmentPreferences {
     const val DISABLE_TRANSPARENT_STATUS = "is_transparent_status_disabled_removed"
     const val LOAD_ALL_INSTALLER_PAGES = "is_all_installer_pages_loaded"
     const val IS_NOTCH_AREA_ENABLED = "is_notch_area_enabled"
-    const val ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT = "is_custom_color_picker_enabled_in_accent"
     const val IS_TEXT_SELECTABLE = "is_text_selectable"
     const val SHOW_GREETING_IN_TERMINAL = "is_greeting_shown_in_terminal"
     const val OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG = "is_old_style_scrolling_behavior_dialog_enabled"
@@ -129,11 +128,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Enable Notch Area",
                                             "Enable notch area in the app. This will make the app render in the notch cutout area (Android Version >= P 9.0).",
                                             IS_NOTCH_AREA_ENABLED,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable Custom Color Picker In Accent Colors",
-                                            "Enable custom color picker in accent colors.",
-                                            ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Text Selection",

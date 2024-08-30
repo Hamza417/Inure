@@ -2,13 +2,19 @@ package app.simple.inure.decorations.colorpicker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Color
 import android.graphics.PointF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import app.simple.inure.preferences.ColorPickerPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.ColorUtils.toHexColor
+import app.simple.inure.util.ConditionUtils.invert
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -23,7 +29,7 @@ import kotlin.math.sqrt
  * @version 1.0
  * @since 23 Dec 2019
  */
-class ColorPickerView : FrameLayout {
+class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
 
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : super(context, attrs, defStyleAttr)
@@ -45,14 +51,15 @@ class ColorPickerView : FrameLayout {
 
     private var colorPointer: ColorPointer
     private var colorListener: ColorListener? = null
+    private var colorPalette: ColorPalette? = null
 
     init {
         val layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
 
-        val palette = ColorPalette(context)
+        colorPalette = ColorPalette(context)
         val padding = pointerRadiusPx.toInt()
-        palette.setPadding(padding, padding, padding, padding)
-        addView(palette, layoutParams)
+        colorPalette?.setPadding(padding, padding, padding, padding)
+        addView(colorPalette, layoutParams)
 
         colorPointer = ColorPointer(context)
         colorPointer.setPointerRadius(pointerRadiusPx)
@@ -120,16 +127,14 @@ class ColorPickerView : FrameLayout {
     fun getColor() = currentColor
 
     fun setColor(color: Int) {
-        if (currentColor != color) {
-            val hsv = FloatArray(3)
-            Color.colorToHSV(color, hsv)
-            val r = hsv[1] * radius
-            val radian = (hsv[0] / 180f * Math.PI).toFloat()
+        val hsv = FloatArray(3)
+        Color.colorToHSV(color, hsv)
+        val r = hsv[1] * radius
+        val radian = (hsv[0] / 180f * Math.PI).toFloat()
 
-            updateSelector((r * cos(radian.toDouble()) + centerX).toFloat(), (-r * sin(radian.toDouble()) + centerY).toFloat())
+        updateSelector((r * cos(radian.toDouble()) + centerX).toFloat(), (-r * sin(radian.toDouble()) + centerY).toFloat())
 
-            currentColor = color
-        }
+        currentColor = color
     }
 
     private fun updateSelector(eventX: Float, eventY: Float) {
@@ -155,5 +160,25 @@ class ColorPickerView : FrameLayout {
                 listener(color, colorHex)
             }
         }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            ColorPickerPreferences.COLOR_HUE_MODE -> {
+                colorPalette?.invalidate()
+            }
+        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (isInEditMode.invert()) {
+            registerSharedPreferenceChangeListener()
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        unregisterSharedPreferenceChangeListener()
     }
 }

@@ -15,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.appearance.ColorPicker.Companion.showColorPicker
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 
 class AccentColor : ScopedFragment() {
@@ -72,9 +71,7 @@ class AccentColor : ScopedFragment() {
                      Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
         }
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT)) { // Add color picker
-            list.add(1, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
-        }
+        list.add(1, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
 
         adapterAccentColor = AdapterAccentColor(list)
 

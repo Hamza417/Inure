@@ -16,12 +16,15 @@ import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.ColorPickerPreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.invert
+import com.google.android.material.chip.ChipGroup
 
 class ColorPicker : ScopedBottomSheetFragment() {
 
     private lateinit var colorPickerView: ColorPickerView
+    private lateinit var hueChips: ChipGroup
     private lateinit var hex: DynamicCornerEditText
     private lateinit var strip: DynamicCornerAccentColor
     private lateinit var set: DynamicRippleTextView
@@ -31,6 +34,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_color_picker, container, false)
 
         colorPickerView = view.findViewById(R.id.color_picker_view)
+        hueChips = view.findViewById(R.id.color_chip_group)
         hex = view.findViewById(R.id.color_hex_code)
         strip = view.findViewById(R.id.color_strip)
         set = view.findViewById(R.id.set)
@@ -41,6 +45,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHueChipState()
 
         colorPickerView.setColorListener { i, s ->
             hex.setText(s)
@@ -52,13 +57,26 @@ class ColorPicker : ScopedBottomSheetFragment() {
             }
         }
 
+        hueChips.setOnCheckedStateChangeListener { group, checkedIds ->
+            for (id in checkedIds) {
+                when (id) {
+                    R.id.default_hues -> {
+                        ColorPickerPreferences.setColorHueMode(ColorPickerPreferences.COLOR_HUE_MODE_DEFAULT)
+                    }
+                    R.id.pastel_hues -> {
+                        ColorPickerPreferences.setColorHueMode(ColorPickerPreferences.COLOR_HUE_MODE_PASTEL)
+                    }
+                }
+            }
+        }
+
         colorPickerView.setColor(AppearancePreferences.getPickedAccentColor())
         hex.setText(AppearancePreferences.getPickedAccentColor().toHexColor())
         strip.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getPickedAccentColor())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             strip.outlineSpotShadowColor = AppearancePreferences.getPickedAccentColor()
             strip.outlineAmbientShadowColor = AppearancePreferences.getPickedAccentColor()
-            strip.elevation = 50F
+            strip.elevation = resources.getDimensionPixelOffset(R.dimen.app_views_elevation).toFloat()
         }
 
         hex.doOnTextChanged { text, _, _, _ ->
@@ -94,6 +112,8 @@ class ColorPicker : ScopedBottomSheetFragment() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         AppearancePreferences.setMaterialYouAccent(false)
                     }
+                }.onSuccess {
+                    dismiss()
                 }.getOrElse {
                     showWarning(hex.text.toString() + " - invalid color code")
                 }
@@ -104,6 +124,20 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
         cancel.setOnClickListener {
             dismiss()
+        }
+    }
+
+    private fun setHueChipState() {
+        when (ColorPickerPreferences.getColorHueMode()) {
+            ColorPickerPreferences.COLOR_HUE_MODE_DEFAULT -> {
+                hueChips.check(R.id.default_hues)
+            }
+            ColorPickerPreferences.COLOR_HUE_MODE_PASTEL -> {
+                hueChips.check(R.id.pastel_hues)
+            }
+            else -> {
+                hueChips.check(R.id.default_hues)
+            }
         }
     }
 
