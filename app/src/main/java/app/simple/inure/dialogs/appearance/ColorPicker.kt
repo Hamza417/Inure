@@ -9,10 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
+import androidx.room.util.recursiveFetchArrayMap
 import app.simple.inure.R
+import app.simple.inure.adapters.preferences.AdapterPickedColors
 import app.simple.inure.decorations.colorpicker.ColorPickerView
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.corners.DynamicCornerEditText
+import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppearancePreferences
@@ -24,6 +27,7 @@ import com.google.android.material.chip.ChipGroup
 class ColorPicker : ScopedBottomSheetFragment() {
 
     private lateinit var colorPickerView: ColorPickerView
+    private lateinit var colorsRecyclerView: CustomHorizontalRecyclerView
     private lateinit var hueChips: ChipGroup
     private lateinit var hex: DynamicCornerEditText
     private lateinit var strip: DynamicCornerAccentColor
@@ -34,6 +38,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_color_picker, container, false)
 
         colorPickerView = view.findViewById(R.id.color_picker_view)
+        colorsRecyclerView = view.findViewById(R.id.colors_recycler_view)
         hueChips = view.findViewById(R.id.color_chip_group)
         hex = view.findViewById(R.id.color_hex_code)
         strip = view.findViewById(R.id.color_strip)
@@ -46,6 +51,17 @@ class ColorPicker : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHueChipState()
+        colorsRecyclerView.setBackgroundColor(Color.TRANSPARENT)
+
+        colorsRecyclerView.adapter = AdapterPickedColors(ColorPickerPreferences.getColorHistory()) {
+            hex.setText(it)
+            colorPickerView.setColor(Color.parseColor(it))
+            strip.backgroundTintList = ColorStateList.valueOf(Color.parseColor(it))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                strip.outlineSpotShadowColor = Color.parseColor(it)
+                strip.outlineAmbientShadowColor = Color.parseColor(it)
+            }
+        }
 
         colorPickerView.setColorListener { i, s ->
             hex.setText(s)
@@ -100,13 +116,16 @@ class ColorPicker : ScopedBottomSheetFragment() {
                         if (hex.text!!.startsWith("#")) {
                             AppearancePreferences.setAccentColor(Color.parseColor(hex.text.toString()))
                             AppearancePreferences.setPickedAccentColor(Color.parseColor(hex.text.toString()))
+                            ColorPickerPreferences.setColorHistory(hex.text.toString())
                         } else {
                             AppearancePreferences.setAccentColor(Color.parseColor("#${hex.text}"))
                             AppearancePreferences.setPickedAccentColor(Color.parseColor("#${hex.text}"))
+                            ColorPickerPreferences.setColorHistory("#${hex.text}")
                         }
                     } else {
                         AppearancePreferences.setAccentColor(colorPickerView.currentColor)
                         AppearancePreferences.setPickedAccentColor(colorPickerView.currentColor)
+                        ColorPickerPreferences.setColorHistory(colorPickerView.currentColor.toHexColor())
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dialog_padding"
-        android:clipChildren="false"
+        android:clipChildren="true"
         android:clipToPadding="false"
         android:elevation="@dimen/dialog_elevation"
         android:orientation="vertical"
@@ -50,7 +50,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dialog_padding"
             android:orientation="horizontal">
 
             <app.simple.inure.decorations.corners.DynamicCornerAccentColor
@@ -72,6 +71,15 @@
                 app:textColorStyle="secondary" />
 
         </LinearLayout>
+
+        <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+            android:id="@+id/colors_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:clipChildren="true"
+            android:clipToPadding="true"
+            app:statusBarPaddingRequired="false" />
 
         <LinearLayout
             android:layout_width="wrap_content"

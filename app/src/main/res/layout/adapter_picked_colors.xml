@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerAccentColor xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/color"
+    android:layout_width="60dp"
+    android:layout_marginEnd="3dp"
+    android:layout_height="@dimen/button_size" />
