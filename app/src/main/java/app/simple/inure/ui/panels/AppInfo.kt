@@ -113,10 +113,10 @@ class AppInfo : ScopedFragment() {
     private lateinit var notesContainer: DynamicRippleMaterialCardView
     private lateinit var notes: TypeFaceTextView
     private lateinit var noteDate: TypeFaceTextView
+    private lateinit var noteDivider: ThemeDivider
     private lateinit var batteryOptimization: DynamicRippleConstraintLayout
     private lateinit var batteryOptimizationState: TypeFaceTextView
     private lateinit var batteryOptimizationSwitch: Switch
-    private lateinit var divider1: ThemeDivider
     private lateinit var tagsRecyclerView: TagsRecyclerView
     private lateinit var meta: GridRecyclerView
     private lateinit var actions: GridRecyclerView
@@ -149,10 +149,10 @@ class AppInfo : ScopedFragment() {
         notesContainer = view.findViewById(R.id.notes_container)
         notes = view.findViewById(R.id.note)
         noteDate = view.findViewById(R.id.date_updated)
+        noteDivider = view.findViewById(R.id.note_divider)
         batteryOptimization = view.findViewById(R.id.app_info_battery_optimization)
         batteryOptimizationState = view.findViewById(R.id.battery_optimization_state)
         batteryOptimizationSwitch = view.findViewById(R.id.battery_optimization_switch)
-        divider1 = view.findViewById(R.id.app_info_divider_1)
         tagsRecyclerView = view.findViewById(R.id.tags_recycler_view)
         meta = view.findViewById(R.id.app_info_menu)
         actions = view.findViewById(R.id.app_info_options)
@@ -220,7 +220,6 @@ class AppInfo : ScopedFragment() {
         if (ConfigurationPreferences.isRootOrShizuku()) {
             if (TrialPreferences.isFullVersion() || TrialPreferences.isWithinTrialPeriod()) {
                 batteryOptimization.visible(animate = false)
-                divider1.visible(animate = false)
 
                 appInfoViewModel.getBatteryOptimization().observe(viewLifecycleOwner) {
                     batteryOptimizationSwitch.isChecked = it.isOptimized
@@ -245,19 +244,20 @@ class AppInfo : ScopedFragment() {
                 }
             } else {
                 batteryOptimization.gone()
-                divider1.gone()
             }
         } else {
             batteryOptimization.gone()
-            divider1.gone()
         }
 
         appInfoViewModel.getNote().observe(viewLifecycleOwner) {
             if (it != null) {
                 notes.text = it.note
                 noteDate.text = requireContext().getString(R.string.edited_on, DateUtils.formatDate(it.dateUpdated))
+                noteDivider.visible()
             } else {
-                notes.text = getString(R.string.not_available)
+                noteDate.text = getString(R.string.note_not_available)
+                noteDivider.gone()
+                notes.gone()
             }
         }
 

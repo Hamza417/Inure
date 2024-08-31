@@ -44,7 +44,6 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="horizontal"
-        android:padding="5dp"
         android:elevation="@dimen/app_views_elevation"
         app:cardElevation="5dp"
         app:contentPadding="@dimen/popup_padding">
@@ -59,11 +58,11 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:textSize="@dimen/popup_text_size"
+                android:textSize="@dimen/app_info_options_text_size"
                 android:text="@string/notes"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
-                app:drawableTintStyle="accent"
+                app:drawableEndCompat="@drawable/ic_chevron"
+                app:drawableTintStyle="regular"
                 app:textColorStyle="primary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -98,12 +97,6 @@
         </LinearLayout>
 
     </app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView>
-
-    <app.simple.inure.decorations.theme.ThemeDivider
-        android:id="@+id/app_info_divider_1"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_height="1px" />
 
     <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
         android:id="@+id/app_info_battery_optimization"

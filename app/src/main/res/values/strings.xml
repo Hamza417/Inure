@@ -756,4 +756,5 @@
     <string name="allowed">Allowed</string>
     <string name="not_allowed">Not Allowed</string>
     <string name="color_picker">Color Picker</string>
+    <string name="note_not_available">No notes availabled for this app, click here to create one.</string>
 </resources>
