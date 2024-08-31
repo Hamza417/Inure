@@ -1,7 +1,6 @@
 package app.simple.inure.ui.preferences.subscreens
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +15,6 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.appearance.ColorPicker.Companion.showColorPicker
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 
 class AccentColor : ScopedFragment() {
@@ -73,9 +71,7 @@ class AccentColor : ScopedFragment() {
                      Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
         }
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_CUSTOM_COLOR_PICKER_IN_ACCENT)) { // Add color picker
-            list.add(1, Pair(Color.DKGRAY /* Bogus Value */, "Color Picker"))
-        }
+        list.add(1, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
 
         adapterAccentColor = AdapterAccentColor(list)
 
@@ -101,8 +97,8 @@ class AccentColor : ScopedFragment() {
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
-            AppearancePreferences.ACCENT_COLOR, AppearancePreferences.IS_CUSTOM_COLOR -> {
-                adapterAccentColor.updateAccentColor()
+            AppearancePreferences.ACCENT_COLOR, AppearancePreferences.IS_CUSTOM_COLOR, AppearancePreferences.PICKED_ACCENT_COLOR -> {
+                adapterAccentColor.updateAccentColor(requireContext())
             }
         }
     }

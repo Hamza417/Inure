@@ -37,6 +37,7 @@ import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.ApkBrowserPreferences
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -143,6 +144,10 @@ class SplashScreen : ScopedFragment() {
 
         if (BehaviourPreferences.isSkipLoading()) {
             loaderImageView.alpha = 0F
+        }
+
+        if (AppearancePreferences.isCustomColor()) {
+            icon.imageTintList = AppearancePreferences.getAccentColorStateList()
         }
 
         // (icon.drawable as AnimatedVectorDrawable).start()
