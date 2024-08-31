@@ -68,6 +68,21 @@ class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
         requestDisallowInterceptTouchEvent(true)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN,
+            MotionEvent.ACTION_MOVE,
+            MotionEvent.ACTION_UP -> {
+                // Request the parent to not intercept touch events
+                parent.requestDisallowInterceptTouchEvent(true)
+                update(event)
+                return true
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val maxWidth = MeasureSpec.getSize(widthMeasureSpec)
         val maxHeight = MeasureSpec.getSize(heightMeasureSpec)
@@ -90,19 +105,6 @@ class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
         centerY = netHeight * 0.5f
 
         setColor(currentColor)
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.actionMasked) {
-            MotionEvent.ACTION_DOWN,
-            MotionEvent.ACTION_MOVE,
-            MotionEvent.ACTION_UP -> {
-                update(event)
-                return true
-            }
-        }
-        return super.onTouchEvent(event)
     }
 
     private fun update(event: MotionEvent) {
