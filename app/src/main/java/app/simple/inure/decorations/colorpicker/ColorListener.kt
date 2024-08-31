@@ -9,5 +9,5 @@ interface ColorListener {
      * @param color Color Resource
      * @param colorHex Hex String of Color Resource
      */
-    fun onColorSelected(color: Int, colorHex: String)
+    fun onColorSelected(color: Int, colorHex: String, user: Boolean)
 }

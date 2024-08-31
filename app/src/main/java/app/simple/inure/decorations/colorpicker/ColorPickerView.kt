@@ -1,5 +1,6 @@
 package app.simple.inure.decorations.colorpicker
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,8 +8,10 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Color
 import android.graphics.PointF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import app.simple.inure.preferences.ColorPickerPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
@@ -31,17 +34,22 @@ import kotlin.math.sqrt
  */
 class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
 
+    private var pointerAnimator: ValueAnimator? = null
+
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : super(context, attrs, defStyleAttr)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     companion object {
         const val COLOR_POINTER_RADIUS_DP = 8f
+        private const val TAG = "ColorPickerView"
     }
 
     private var radius = 0f
     private var centerX = 0f
     private var centerY = 0f
+
+    private var isUser = false
 
     private var pointerRadiusPx = COLOR_POINTER_RADIUS_DP * resources.displayMetrics.density
 
@@ -72,12 +80,18 @@ class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN,
-            MotionEvent.ACTION_MOVE,
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_MOVE -> {
                 // Request the parent to not intercept touch events
                 parent.requestDisallowInterceptTouchEvent(true)
                 update(event)
+                isUser = true
                 return true
+            }
+            MotionEvent.ACTION_UP,
+            MotionEvent.ACTION_CANCEL -> {
+                // Request the parent to not intercept touch events
+                parent.requestDisallowInterceptTouchEvent(false)
+                isUser = false
             }
         }
         return super.onTouchEvent(event)
@@ -139,6 +153,23 @@ class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
         currentColor = color
     }
 
+    fun setColor(color: Int, animate: Boolean = true) {
+        if (animate) {
+            pointerAnimator?.cancel()
+            pointerAnimator = ValueAnimator.ofArgb(getColor(), color)
+            pointerAnimator?.addUpdateListener {
+                val value = it.animatedValue as Int
+                setColor(value)
+                pickColor(value)
+            }
+            pointerAnimator?.duration = 1000
+            pointerAnimator?.interpolator = DecelerateInterpolator(3F)
+            pointerAnimator?.start()
+        } else {
+            setColor(color)
+        }
+    }
+
     private fun updateSelector(eventX: Float, eventY: Float) {
         var x = eventX - centerX
         var y = eventY - centerY
@@ -153,13 +184,13 @@ class ColorPickerView : FrameLayout, OnSharedPreferenceChangeListener {
     }
 
     private fun pickColor(color: Int) {
-        colorListener?.onColorSelected(color, color.toHexColor())
+        colorListener?.onColorSelected(color, color.toHexColor(), isUser)
     }
 
-    fun setColorListener(listener: (Int, String) -> Unit) {
+    fun setColorListener(listener: (Int, String, Boolean) -> Unit) {
         this.colorListener = object : ColorListener {
-            override fun onColorSelected(color: Int, colorHex: String) {
-                listener(color, colorHex)
+            override fun onColorSelected(color: Int, colorHex: String, user: Boolean) {
+                listener(color, colorHex, user)
             }
         }
     }

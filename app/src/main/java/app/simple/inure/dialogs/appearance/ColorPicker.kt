@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
-import androidx.room.util.recursiveFetchArrayMap
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterPickedColors
 import app.simple.inure.decorations.colorpicker.ColorPickerView
@@ -54,8 +53,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
         colorsRecyclerView.setBackgroundColor(Color.TRANSPARENT)
 
         colorsRecyclerView.adapter = AdapterPickedColors(ColorPickerPreferences.getColorHistory()) {
-            hex.setText(it)
-            colorPickerView.setColor(Color.parseColor(it))
+            colorPickerView.setColor(Color.parseColor(it), true)
             strip.backgroundTintList = ColorStateList.valueOf(Color.parseColor(it))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 strip.outlineSpotShadowColor = Color.parseColor(it)
@@ -63,7 +61,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
             }
         }
 
-        colorPickerView.setColorListener { i, s ->
+        colorPickerView.setColorListener { i, s, _ ->
             hex.setText(s)
             strip.backgroundTintList = ColorStateList.valueOf(i)
 
