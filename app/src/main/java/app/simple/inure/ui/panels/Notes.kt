@@ -20,11 +20,11 @@ import app.simple.inure.dialogs.notes.NotesMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Note
 import app.simple.inure.popups.notes.PopupNotesMenu
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.ui.editor.NotesEditor
-import app.simple.inure.ui.viewers.Note
+import app.simple.inure.ui.viewers.Note as NoteViewer
 import app.simple.inure.viewmodels.panels.NotesViewModel
 
 class Notes : ScopedFragment() {
@@ -54,7 +54,7 @@ class Notes : ScopedFragment() {
             adapterNotes = AdapterNotes(it)
 
             adapterNotes?.setOnItemClickListener(object : AdapterCallbacks {
-                override fun onNoteClicked(notesPackageInfo: NotesPackageInfo, view: View) {
+                override fun onNoteClicked(note: Note, view: View) {
                     //                    exitTransition = MaterialElevationScale(false)
                     //                    reenterTransition = MaterialElevationScale(true)
                     //
@@ -64,32 +64,32 @@ class Notes : ScopedFragment() {
                     //                        .addToBackStack("notes_editor")
                     //                        .commit()
 
-                    openFragmentArc(NotesEditor.newInstance(notesPackageInfo.packageInfo), view, NotesEditor.TAG)
+                    openFragmentArc(NotesEditor.newInstance(note.packageInfo), view, NotesEditor.TAG)
                 }
 
-                override fun onNoteLongClicked(notesPackageInfo: NotesPackageInfo, position: Int, view: View) {
+                override fun onNoteLongClicked(note: Note, position: Int, view: View) {
                     PopupNotesMenu(requireView()).setOnPopupNotesMenuCallbackListener(object : PopupNotesMenu.Companion.PopupNotesMenuCallback {
                         override fun onDeleteClicked() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
-                                    notesViewModel.deleteNoteData(notesPackageInfo, position)
+                                    notesViewModel.deleteNoteData(note, position)
                                 }
                             })
                         }
 
                         override fun onOpenClicked() {
-                            openFragmentSlide(Note.newInstance(notesPackageInfo.packageInfo), Note.TAG)
+                            openFragmentSlide(NoteViewer.newInstance(note.packageInfo), NoteViewer.TAG)
                         }
 
                         override fun onEditClicked() {
-                            openFragmentSlide(NotesEditor.newInstance(notesPackageInfo.packageInfo), NotesEditor.TAG)
+                            openFragmentSlide(NotesEditor.newInstance(note.packageInfo), NotesEditor.TAG)
                         }
 
                         override fun onShareClicked() {
                             ShareCompat.IntentBuilder(requireContext())
                                 .setType("text/plain")
-                                .setChooserTitle(notesPackageInfo.packageInfo.packageName)
-                                .setText(notesPackageInfo.note)
+                                .setChooserTitle(note.packageInfo.packageName)
+                                .setText(note.note)
                                 .startChooser()
                         }
                     })

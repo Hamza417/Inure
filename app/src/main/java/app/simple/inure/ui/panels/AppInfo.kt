@@ -28,6 +28,7 @@ import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.toggles.Switch
@@ -89,6 +90,7 @@ import app.simple.inure.ui.viewers.XML
 import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.DateUtils
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
@@ -108,7 +110,9 @@ class AppInfo : ScopedFragment() {
     private lateinit var details: TypeFaceTextView
     private lateinit var appInformation: DynamicRippleTextView
     private lateinit var usageStatistics: DynamicRippleTextView
-    private lateinit var notes: DynamicRippleTextView
+    private lateinit var notesContainer: DynamicRippleMaterialCardView
+    private lateinit var notes: TypeFaceTextView
+    private lateinit var noteDate: TypeFaceTextView
     private lateinit var batteryOptimization: DynamicRippleConstraintLayout
     private lateinit var batteryOptimizationState: TypeFaceTextView
     private lateinit var batteryOptimizationSwitch: Switch
@@ -142,7 +146,9 @@ class AppInfo : ScopedFragment() {
         details = view.findViewById(R.id.fragment_app_details)
         appInformation = view.findViewById(R.id.app_info_information_tv)
         usageStatistics = view.findViewById(R.id.app_info_storage_tv)
-        notes = view.findViewById(R.id.app_info_notes_tv)
+        notesContainer = view.findViewById(R.id.notes_container)
+        notes = view.findViewById(R.id.note)
+        noteDate = view.findViewById(R.id.date_updated)
         batteryOptimization = view.findViewById(R.id.app_info_battery_optimization)
         batteryOptimizationState = view.findViewById(R.id.battery_optimization_state)
         batteryOptimizationSwitch = view.findViewById(R.id.battery_optimization_switch)
@@ -244,6 +250,15 @@ class AppInfo : ScopedFragment() {
         } else {
             batteryOptimization.gone()
             divider1.gone()
+        }
+
+        appInfoViewModel.getNote().observe(viewLifecycleOwner) {
+            if (it != null) {
+                notes.text = it.note
+                noteDate.text = requireContext().getString(R.string.edited_on, DateUtils.formatDate(it.dateUpdated))
+            } else {
+                notes.text = getString(R.string.not_available)
+            }
         }
 
         appInfoViewModel.getComponentsOptions().observe(viewLifecycleOwner) {
@@ -660,7 +675,7 @@ class AppInfo : ScopedFragment() {
             }
         }
 
-        notes.setOnClickListener {
+        notesContainer.setOnClickListener {
             openFragmentSlide(NotesEditor.newInstance(packageInfo), NotesEditor.TAG)
         }
 

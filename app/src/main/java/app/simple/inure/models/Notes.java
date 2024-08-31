@@ -9,7 +9,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity (tableName = "app_notes_data")
-public class NotesModel implements Parcelable {
+public class Notes implements Parcelable {
     
     @NonNull
     @PrimaryKey
@@ -25,29 +25,29 @@ public class NotesModel implements Parcelable {
     @ColumnInfo (name = "date_changed")
     private long dateChanged;
     
-    public NotesModel(String note, @NonNull String packageName, long dateCreated, long dateChanged) {
+    public Notes(String note, @NonNull String packageName, long dateCreated, long dateChanged) {
         this.note = note;
         this.packageName = packageName;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
     
-    protected NotesModel(Parcel in) {
+    protected Notes(Parcel in) {
         note = in.readString();
         packageName = in.readString();
         dateCreated = in.readLong();
         dateChanged = in.readLong();
     }
     
-    public static final Creator <NotesModel> CREATOR = new Creator <NotesModel>() {
+    public static final Creator <Notes> CREATOR = new Creator <Notes>() {
         @Override
-        public NotesModel createFromParcel(Parcel in) {
-            return new NotesModel(in);
+        public Notes createFromParcel(Parcel in) {
+            return new Notes(in);
         }
         
         @Override
-        public NotesModel[] newArray(int size) {
-            return new NotesModel[size];
+        public Notes[] newArray(int size) {
+            return new Notes[size];
         }
     };
     

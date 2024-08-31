@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import app.simple.inure.models.BatchPackageInfo;
 import app.simple.inure.models.BatteryOptimizationModel;
 import app.simple.inure.models.BootManagerModel;
-import app.simple.inure.models.NotesPackageInfo;
+import app.simple.inure.models.Note;
 import app.simple.inure.models.StackTrace;
 
 public interface AdapterCallbacks {
@@ -42,7 +42,7 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onNoteDelete(@NonNull View view, NotesPackageInfo notesPackageInfo) {
+    default void onNoteDelete(@NonNull View view, Note note) {
     
     }
     
@@ -50,11 +50,11 @@ public interface AdapterCallbacks {
     
     }
     
-    default void onNoteClicked(@NonNull NotesPackageInfo notesPackageInfo, @NotNull View view) {
+    default void onNoteClicked(@NonNull Note note, @NotNull View view) {
     
     }
     
-    default void onNoteLongClicked(@NonNull NotesPackageInfo notesPackageInfo, int position, View view) {
+    default void onNoteLongClicked(@NonNull Note note, int position, View view) {
     
     }
     

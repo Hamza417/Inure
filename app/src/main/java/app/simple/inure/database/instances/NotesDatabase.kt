@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.simple.inure.database.dao.NotesDao
-import app.simple.inure.models.NotesModel
+import app.simple.inure.models.Notes
 import app.simple.inure.util.NullSafety.isNull
 
-@Database(entities = [NotesModel::class], exportSchema = true, version = 1)
+@Database(entities = [Notes::class], exportSchema = true, version = 1)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun getNotesDao(): NotesDao?
 

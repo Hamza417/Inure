@@ -36,19 +36,68 @@
         app:drawableTintStyle="regular"
         app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.ripple.DynamicRippleTextView
-        android:id="@+id/app_info_notes_tv"
+    <app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
+        android:id="@+id/notes_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:drawableEnd="@drawable/ic_chevron"
-        android:drawablePadding="10dp"
-        android:padding="10dp"
-        android:text="@string/notes"
-        android:textSize="@dimen/app_info_options_text_size"
-        app:appFontStyle="bold"
-        app:drawableTintStyle="regular"
-        app:textColorStyle="primary" />
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:elevation="@dimen/app_views_elevation"
+        app:cardElevation="5dp"
+        app:contentPadding="@dimen/popup_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/popup_text_size"
+                android:text="@string/notes"
+                app:appFontStyle="bold"
+                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="7"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:drawableTintStyle="accent"
+                app:textColorStyle="primary" />
+
+            <app.simple.inure.decorations.theme.ThemeDivider
+                android:id="@+id/note_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginVertical="8dp" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/date_updated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/lato_regular"
+                android:maxLines="1"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
+                app:textColorStyle="accent" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:id="@+id/app_info_divider_1"

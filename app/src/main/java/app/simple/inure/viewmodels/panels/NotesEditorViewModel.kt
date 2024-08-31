@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.models.NotesModel
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Notes
+import app.simple.inure.models.Note
 import app.simple.inure.text.SpannableSerializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,8 +31,8 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
             .create()
     }
 
-    private val noteData: MutableLiveData<NotesPackageInfo> by lazy {
-        MutableLiveData<NotesPackageInfo>().also {
+    private val noteData: MutableLiveData<Note> by lazy {
+        MutableLiveData<Note>().also {
             loadNoteData()
         }
     }
@@ -45,7 +45,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
 
     private val saved = MutableLiveData<Int>()
 
-    fun getNoteData(): LiveData<NotesPackageInfo> {
+    fun getNoteData(): LiveData<Note> {
         return noteData
     }
 
@@ -64,7 +64,7 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
             for (note in notesDatabase!!.getNotesDao()!!.getAllNotes()) {
                 if (note.packageName == packageInfo.packageName) {
                     noteData.postValue(
-                            NotesPackageInfo(
+                            Note(
                                     packageInfo,
                                     gson.fromJson(note.note, SpannableStringBuilder::class.java),
                                     note.dateCreated,
@@ -75,16 +75,16 @@ class NotesEditorViewModel(application: Application, private val packageInfo: Pa
         }
     }
 
-    fun updateNoteData(notesPackageInfo: NotesPackageInfo, delay: Int = 0) {
+    fun updateNoteData(note: Note, delay: Int = 0) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 delay(delay.toLong())
 
                 notesDatabase!!.getNotesDao()!!
-                    .insertNote(NotesModel(
-                            gson.toJson(notesPackageInfo.note),
-                            notesPackageInfo.packageInfo.packageName,
-                            notesPackageInfo.dateCreated,
+                    .insertNote(Notes(
+                            gson.toJson(note.note),
+                            note.packageInfo.packageName,
+                            note.dateCreated,
                             System.currentTimeMillis()))
 
                 delay(100)

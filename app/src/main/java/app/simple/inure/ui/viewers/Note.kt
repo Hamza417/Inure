@@ -11,7 +11,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Note
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 
 class Note : ScopedFragment() {
@@ -21,7 +21,7 @@ class Note : ScopedFragment() {
     private lateinit var note: TypeFaceTextView
 
     private lateinit var notesViewModel: NotesEditorViewModel
-    private var notesPackageInfo: NotesPackageInfo? = null
+    private var notesPackageInfo: Note? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_note_viewer, container, false)
@@ -52,7 +52,7 @@ class Note : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): Note {
+        fun newInstance(packageInfo: PackageInfo): app.simple.inure.ui.viewers.Note {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
             val fragment = Note()

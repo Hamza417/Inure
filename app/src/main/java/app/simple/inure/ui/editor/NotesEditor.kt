@@ -41,7 +41,7 @@ import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.factories.panels.NotesViewModelFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Note
 import app.simple.inure.popups.notes.PopupBackgroundSpan
 import app.simple.inure.popups.notes.PopupTextSize
 import app.simple.inure.preferences.NotesPreferences
@@ -63,6 +63,7 @@ import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
+import app.simple.inure.viewmodels.panels.AppInfoViewModel
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
 import com.anggrayudi.storage.extension.launchOnUiThread
@@ -94,7 +95,8 @@ class NotesEditor : KeyboardScopedFragment() {
 
     private lateinit var notesViewModel: NotesViewModel
     private lateinit var notesEditorViewModel: NotesEditorViewModel
-    private var notesPackageInfo: NotesPackageInfo? = null
+
+    private var note: Note? = null
     private var textViewUndoRedo: TextViewUndoRedo? = null
     private var originalText: SpannableStringBuilder = SpannableStringBuilder("")
     private var customTextWatcher: CustomTextWatcher? = null
@@ -205,7 +207,7 @@ class NotesEditor : KeyboardScopedFragment() {
         })
 
         notesEditorViewModel.getNoteData().observe(viewLifecycleOwner) {
-            notesPackageInfo = it
+            note = it
             originalText = SpannableStringBuilder(it.note)
 
             val params = TextViewCompat.getTextMetricsParams(noteEditText)
@@ -387,21 +389,21 @@ class NotesEditor : KeyboardScopedFragment() {
     private fun handleTextChange(save: Boolean) {
         this.save.visible(true)
 
-        if (notesPackageInfo.isNull()) {
-            notesPackageInfo = NotesPackageInfo(
+        if (note.isNull()) {
+            note = Note(
                     packageInfo,
                     SpannableStringBuilder(noteEditText.text?.trimEnd()),
                     System.currentTimeMillis(),
                     System.currentTimeMillis())
         } else {
-            notesPackageInfo?.note = SpannableStringBuilder(noteEditText.text)
+            note?.note = SpannableStringBuilder(noteEditText.text)
         }
 
         undo.isEnabled = textViewUndoRedo?.canUndo ?: false
         redo.isEnabled = textViewUndoRedo?.canRedo ?: false
 
         if (save) {
-            notesEditorViewModel.updateNoteData(notesPackageInfo!!)
+            notesEditorViewModel.updateNoteData(note!!)
             notesViewModel.refreshNotes()
         }
     }

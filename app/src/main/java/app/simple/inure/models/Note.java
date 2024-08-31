@@ -3,14 +3,14 @@ package app.simple.inure.models;
 import android.content.pm.PackageInfo;
 import android.text.Spannable;
 
-public class NotesPackageInfo {
+public class Note {
     
     private PackageInfo packageInfo;
     private Spannable note;
     private long dateCreated;
     private long dateUpdated;
     
-    public NotesPackageInfo(PackageInfo packageInfo, Spannable note, long dateCreated, long dateUpdated) {
+    public Note(PackageInfo packageInfo, Spannable note, long dateCreated, long dateUpdated) {
         this.packageInfo = packageInfo;
         this.note = note;
         this.dateCreated = dateCreated;

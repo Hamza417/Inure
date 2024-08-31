@@ -1,16 +1,21 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.BroadcastReceiver
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
+import android.text.SpannableStringBuilder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
@@ -20,23 +25,50 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
+import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatteryOptimizationModel
+import app.simple.inure.models.Note
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.text.SpannableSerializer
+import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.TrackerUtils
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.reflect.Type
 
 class AppInfoViewModel(application: Application, private var packageInfo: PackageInfo) : WrappedViewModel(application) {
+
+    private val intentFilter = IntentFilter().apply {
+        addAction(NotesEditor.NOTES_UPDATED)
+    }
+
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == NotesEditor.NOTES_UPDATED) {
+                fetchNote()
+            }
+        }
+    }
+
+    private val gson: Gson by lazy {
+        val type: Type = object : TypeToken<SpannableStringBuilder>() {}.type
+        GsonBuilder()
+            .registerTypeAdapter(type, SpannableSerializer())
+            .create()
+    }
 
     private val menuItems: MutableLiveData<List<Pair<Int, Int>>> by lazy {
         MutableLiveData<List<Pair<Int, Int>>>().also {
@@ -76,6 +108,16 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
         }
     }
 
+    private val note: MutableLiveData<Note?> by lazy {
+        MutableLiveData<Note?>().also {
+            fetchNote()
+        }
+    }
+
+    init {
+        LocalBroadcastManager.getInstance(application).registerReceiver(broadcastReceiver, intentFilter)
+    }
+
     fun getComponentsOptions(): LiveData<List<Pair<Int, Int>>> {
         return menuItems
     }
@@ -98,6 +140,10 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
     fun getBatteryOptimization(): LiveData<BatteryOptimizationModel> {
         return batteryOptimization
+    }
+
+    fun getNote(): LiveData<Note?> {
+        return note
     }
 
     fun loadActionOptions() {
@@ -570,5 +616,25 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
             }
         }
+    }
+
+    private fun fetchNote() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val note = NotesDatabase.getInstance(application.applicationContext)?.getNotesDao()?.getNoteByPackageId(packageInfo.packageName)!!
+                this@AppInfoViewModel.note.postValue(Note(
+                        packageInfo,
+                        gson.fromJson(note.note, SpannableStringBuilder::class.java),
+                        note.dateCreated,
+                        note.dateChanged))
+            } catch (e: NullPointerException) {
+                note.postValue(null)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        LocalBroadcastManager.getInstance(application).unregisterReceiver(broadcastReceiver)
     }
 }

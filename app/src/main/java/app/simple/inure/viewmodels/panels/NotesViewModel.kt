@@ -13,8 +13,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.database.instances.NotesDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
-import app.simple.inure.models.NotesModel
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Notes
+import app.simple.inure.models.Note
 import app.simple.inure.text.SpannableSerializer
 import app.simple.inure.ui.editor.NotesEditor
 import com.google.gson.Gson
@@ -47,13 +47,13 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
         GsonBuilder().registerTypeAdapter(type, SpannableSerializer()).create()
     }
 
-    private val notesData: MutableLiveData<ArrayList<NotesPackageInfo>> by lazy {
-        MutableLiveData<ArrayList<NotesPackageInfo>>()
+    private val notesData: MutableLiveData<ArrayList<Note>> by lazy {
+        MutableLiveData<ArrayList<Note>>()
     }
 
     private val delete = MutableLiveData<Int?>()
 
-    fun getNotesData(): LiveData<ArrayList<NotesPackageInfo>> {
+    fun getNotesData(): LiveData<ArrayList<Note>> {
         return notesData
     }
 
@@ -67,15 +67,15 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
         }
     }
 
-    private suspend fun getNotesData(apps: ArrayList<PackageInfo>): ArrayList<NotesPackageInfo> {
+    private suspend fun getNotesData(apps: ArrayList<PackageInfo>): ArrayList<Note> {
         notesDatabase = NotesDatabase.getInstance(context)
 
-        val list = arrayListOf<NotesPackageInfo>()
+        val list = arrayListOf<Note>()
 
         for (note in notesDatabase!!.getNotesDao()!!.getAllNotes()) {
             for (app in apps) {
                 if (note.packageName == app.packageName) {
-                    list.add(NotesPackageInfo(
+                    list.add(Note(
                             app,
                             gson.fromJson(note.note, SpannableStringBuilder::class.java),
                             note.dateCreated,
@@ -90,18 +90,18 @@ class NotesViewModel(application: Application) : PackageUtilsViewModel(applicati
         return list
     }
 
-    fun deleteNoteData(notesPackageInfo: NotesPackageInfo?, position: Int) {
+    fun deleteNoteData(note: Note?, position: Int) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 notesDatabase = NotesDatabase.getInstance(context)
 
-                val notesModel = NotesModel(
-                        gson.toJson(notesPackageInfo!!.note),
-                        notesPackageInfo.packageInfo.packageName,
-                        notesPackageInfo.dateCreated,
-                        notesPackageInfo.dateUpdated)
+                val notes = Notes(
+                        gson.toJson(note!!.note),
+                        note.packageInfo.packageName,
+                        note.dateCreated,
+                        note.dateUpdated)
 
-                notesDatabase?.getNotesDao()?.deleteNote(notesModel)
+                notesDatabase?.getNotesDao()?.deleteNote(notes)
                 delete.postValue(position)
             }.getOrElse {
                 postError(it)

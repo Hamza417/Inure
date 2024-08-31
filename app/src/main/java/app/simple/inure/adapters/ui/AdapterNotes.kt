@@ -17,13 +17,13 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.models.NotesPackageInfo
+import app.simple.inure.models.Note
 import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterNotes(var notes: ArrayList<Note>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     private var adapterCallbacks: AdapterCallbacks? = null
 
