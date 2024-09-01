@@ -89,7 +89,7 @@ class SharedPreferences : SearchBarScopedFragment() {
         }
 
         sharedPreferencesViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it, goBack = false)
+            showWarning(it)
         }
     }
 
