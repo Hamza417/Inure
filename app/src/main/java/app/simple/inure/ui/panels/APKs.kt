@@ -209,14 +209,14 @@ class APKs : ScopedFragment() {
                                             requireArguments().putInt(BundleConstants.position, position)
                                             packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
-                                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                            openFragmentArc(AppDetail.newInstance(packageInfo), icon, "apk_info")
                                         } else {
                                             icon.transitionName = packageInfo.packageName
                                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                             requireArguments().putInt(BundleConstants.position, position)
                                             packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
-                                            openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
+                                            openFragmentArc(AppDetail.newInstance(packageInfo), icon, "apk_info")
                                         }
                                     }
                                 }.onFailure {

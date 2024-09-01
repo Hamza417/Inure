@@ -12,7 +12,7 @@ import app.simple.inure.apk.utils.PackageData.getOtherCacheDir
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.ui.panels.AppInfo
+import app.simple.inure.ui.panels.AppDetail
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNull
@@ -93,7 +93,7 @@ class AppInformationActivity : BaseActivity() {
 
                             supportFragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.app_container, AppInfo.newInstance(packageInfo!!), "app_info")
+                                .replace(R.id.app_container, AppDetail.newInstance(packageInfo!!), "app_info")
                                 .commit()
                         }
                     }.getOrElse {

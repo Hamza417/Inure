@@ -82,7 +82,7 @@ class BootManager : ScopedFragment() {
 
                         override fun onOpenClicked() {
                             openFragmentArc(
-                                    AppInfo.newInstance(
+                                    AppDetail.newInstance(
                                             requirePackageManager()
                                                 .getPackageInfo(bootManagerModel.packageInfo.packageName)!!), icon, "app_info")
                         }

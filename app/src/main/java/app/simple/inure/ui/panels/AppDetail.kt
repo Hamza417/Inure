@@ -101,7 +101,7 @@ import app.simple.inure.viewmodels.panels.AppInfoViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.ui.viewers.SharedPreferences.Companion as SharedPreferences_Alias
 
-class AppInfo : ScopedFragment() {
+class AppDetail : ScopedFragment() {
 
     private lateinit var icon: AppIconImageView
 
@@ -450,7 +450,7 @@ class AppInfo : ScopedFragment() {
                                     /* file = */ packageInfo.applicationInfo.sourceDir.toFile())
 
                             openFragmentArc(Installer.newInstance(
-                                    uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, Installer.TAG)
+                                    uri, this@AppDetail.icon.transitionName), this@AppDetail.icon, Installer.TAG)
                         }
 
                         R.string.send -> {
@@ -802,10 +802,10 @@ class AppInfo : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): AppInfo {
+        fun newInstance(packageInfo: PackageInfo): AppDetail {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = AppInfo()
+            val fragment = AppDetail()
             fragment.arguments = args
             return fragment
         }

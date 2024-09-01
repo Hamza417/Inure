@@ -34,7 +34,7 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.BehaviourPreferences
-import app.simple.inure.ui.panels.AppInfo
+import app.simple.inure.ui.panels.AppDetail
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StatusBarHeight
@@ -207,9 +207,9 @@ class ApksSearch : KeyboardScopedFragment() {
                                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                     requireArguments().putInt(BundleConstants.position, position)
                                     packageInfo.applicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
-                                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
+                                    openFragmentArc(AppDetail.newInstance(packageInfo), icon, AppDetail.TAG)
                                 } else {
-                                    openFragmentSlide(Information.newInstance(packageInfo), AppInfo.TAG)
+                                    openFragmentSlide(Information.newInstance(packageInfo), AppDetail.TAG)
                                 }
                             }.onFailure {
                                 showWarning("Failed to open apk : ${

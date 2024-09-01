@@ -70,7 +70,7 @@ class Apps : ScopedFragment() {
 
             adapter.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                    openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
+                    openFragmentArc(AppDetail.newInstance(packageInfo), icon, AppDetail.TAG)
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {

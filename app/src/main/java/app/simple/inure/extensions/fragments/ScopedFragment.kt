@@ -60,7 +60,7 @@ import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
 import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.preferences.TrialPreferences
-import app.simple.inure.ui.panels.AppInfo
+import app.simple.inure.ui.panels.AppDetail
 import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.WebPage
 import app.simple.inure.util.ConditionUtils.isZero
@@ -738,7 +738,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     protected fun openAppInfo(packageInfo: PackageInfo, icon: ImageView) {
-        openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
+        openFragmentArc(AppDetail.newInstance(packageInfo), icon, AppDetail.TAG)
     }
 
     protected fun openAppSearch() {
