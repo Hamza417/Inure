@@ -31,6 +31,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SetupPreferences
+import app.simple.inure.root.RootStateHelper.setRootState
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.ConditionUtils.invert
@@ -142,6 +143,8 @@ class Setup : ScopedFragment() {
         dontShowAgainCheckBox.isChecked = SetupPreferences.isDontShowAgain()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
 
+        rootSwitchView.setRootState(viewLifecycleOwner = viewLifecycleOwner)
+
         usageAccess.setOnClickListener {
             val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
             intent.data = Uri.fromParts("package", requireContext().packageName, null)
@@ -179,40 +182,6 @@ class Setup : ScopedFragment() {
 
         typeface.setOnClickListener {
             openFragmentSlide(AppearanceTypeFace.newInstance(), AppearanceTypeFace.TAG)
-        }
-
-        rootSwitchView.setOnSwitchCheckedChangeListener { it ->
-            if (it) {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    kotlin.runCatching {
-                        Shell.enableVerboseLogging = BuildConfig.DEBUG
-                        Shell.setDefaultBuilder(
-                                Shell.Builder
-                                    .create()
-                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                    .setTimeout(10))
-                    }.getOrElse {
-                        it.printStackTrace()
-                    }
-
-                    Shell.getShell() // Request root access
-
-                    if (Shell.isAppGrantedRoot() == true) {
-                        withContext(Dispatchers.Main) {
-                            ConfigurationPreferences.setUsingRoot(true)
-                            rootSwitchView.isChecked = true
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            ConfigurationPreferences.setUsingRoot(false)
-                            rootSwitchView.isChecked = false
-                        }
-                    }
-                }
-            } else {
-                ConfigurationPreferences.setUsingRoot(false)
-                rootSwitchView.isChecked = false
-            }
         }
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener { it ->
