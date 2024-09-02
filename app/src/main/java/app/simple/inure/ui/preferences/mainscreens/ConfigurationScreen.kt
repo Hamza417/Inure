@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.lifecycle.lifecycleScope
-import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -21,6 +19,7 @@ import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.root.RootStateHelper.setRootState
 import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
@@ -28,10 +27,6 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.gone
-import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
 
 class ConfigurationScreen : ScopedFragment() {
@@ -95,6 +90,8 @@ class ConfigurationScreen : ScopedFragment() {
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
         shizukuSwitchView.isChecked = ConfigurationPreferences.isUsingShizuku()
 
+        rootSwitchView.setRootState(viewLifecycleOwner)
+
         keepScreenOnSwitchView.setOnSwitchCheckedChangeListener { isChecked ->
             ConfigurationPreferences.setKeepScreenOn(isChecked)
 
@@ -131,40 +128,6 @@ class ConfigurationScreen : ScopedFragment() {
 
         showUsersSwitch.setOnSwitchCheckedChangeListener {
             ConfigurationPreferences.setShowUsersList(it)
-        }
-
-        rootSwitchView.setOnSwitchCheckedChangeListener { it ->
-            if (it) {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                    kotlin.runCatching {
-                        Shell.enableVerboseLogging = BuildConfig.DEBUG
-                        Shell.setDefaultBuilder(
-                                Shell.Builder
-                                    .create()
-                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
-                                    .setTimeout(10))
-                    }.getOrElse {
-                        it.printStackTrace()
-                    }
-
-                    Shell.getShell() // Request root access
-
-                    if (Shell.isAppGrantedRoot() == true) {
-                        withContext(Dispatchers.Main) {
-                            ConfigurationPreferences.setUsingRoot(true)
-                            rootSwitchView.isChecked = true
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            ConfigurationPreferences.setUsingRoot(false)
-                            rootSwitchView.isChecked = false
-                        }
-                    }
-                }
-            } else {
-                ConfigurationPreferences.setUsingRoot(false)
-                rootSwitchView.isChecked = false
-            }
         }
 
         shizukuSwitchView.setOnSwitchCheckedChangeListener {

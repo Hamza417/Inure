@@ -51,6 +51,7 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private ValueAnimator elevationColorAnimator;
     
     private OnCheckedChangeListener onCheckedChangeListener;
+    private OnClickListener onClickListener;
     
     private float height = 0;
     private float thumbDiameter = 0;
@@ -145,14 +146,18 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         
         post(() -> {
             setOnClickListener(v -> {
-                if (shouldClick) {
-                    isChecked = !isChecked;
-                    animateThumbX();
-                    animateBackgroundColor();
-                    animateElevation();
-                    if (onCheckedChangeListener != null) {
-                        onCheckedChangeListener.onCheckedChanged(isChecked);
+                if (onClickListener == null) {
+                    if (shouldClick) {
+                        isChecked = !isChecked;
+                        animateThumbX();
+                        animateBackgroundColor();
+                        animateElevation();
+                        if (onCheckedChangeListener != null) {
+                            onCheckedChangeListener.onCheckedChanged(isChecked);
+                        }
                     }
+                } else {
+                    onClickListener.onClick(v);
                 }
             });
             
@@ -519,6 +524,18 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     }
     
     /**
+     * Set checked with thread safety
+     */
+    public synchronized void setCheckedSafely(boolean checked) {
+        post(() -> {
+            setChecked(checked, true);
+            if (onCheckedChangeListener != null) {
+                onCheckedChangeListener.onCheckedChanged(isChecked);
+            }
+        });
+    }
+    
+    /**
      * Set the switch state with or without animation
      * For unanimated check, use {@link #setChecked(boolean)}
      *
@@ -640,8 +657,27 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         setVisibility(GONE);
     }
     
+    public void blinkThumbTwoTimes() {
+        post(() -> {
+            thumbPaint.setColor(AppearancePreferences.INSTANCE.getAccentColor());
+            postDelayed(() -> {
+                thumbPaint.setColor(Color.WHITE);
+                postDelayed(() -> {
+                    thumbPaint.setColor(AppearancePreferences.INSTANCE.getAccentColor());
+                    postDelayed(() -> {
+                        thumbPaint.setColor(Color.WHITE);
+                    }, 100);
+                }, 100);
+            }, 100);
+        });
+    }
+    
     public void setOnSwitchCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
         this.onCheckedChangeListener = onCheckedChangeListener;
+    }
+    
+    public void setOnSwitchClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
     
     @Override
