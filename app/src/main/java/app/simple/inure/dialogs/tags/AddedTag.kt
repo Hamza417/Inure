@@ -47,7 +47,7 @@ class AddedTag : ScopedBottomSheetFragment() {
             }
 
             this.tag.text = requireArguments().getString(BundleConstants.tag)
-            total.text = requireContext().getString(R.string.total_apps, (tag?.packages?.split(",")?.size ?: 0).toString())
+            total.text = requireContext().getString(R.string.total_apps, (tag?.packages?.split(",")?.size ?: 0))
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             recyclerView.adapter = AdapterTaggedIcons(tag?.packages?.split(",") ?: listOf())

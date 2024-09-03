@@ -53,7 +53,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
         totalApps.text = getString(
                 R.string.total_apps,
                 requireArguments().parcelableArrayList<BatchPackageInfo>
-                (BundleConstants.batchBatteryOptimization)!!.size.toString())
+                (BundleConstants.batchBatteryOptimization)!!.size)
 
         optimize.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {

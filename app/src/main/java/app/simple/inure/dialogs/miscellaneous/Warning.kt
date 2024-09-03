@@ -38,8 +38,12 @@ class Warning : ScopedBottomSheetFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        if (!requireActivity().isDestroyed) {
-            warningCallbacks?.onWarningDismissed()
+        try {
+            if (!requireActivity().isDestroyed) {
+                warningCallbacks?.onWarningDismissed()
+            }
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
         }
     }
 

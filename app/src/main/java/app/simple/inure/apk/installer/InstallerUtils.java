@@ -71,7 +71,7 @@ public class InstallerUtils {
                 assert in != null;
                 in.close();
                 session.close();
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
         }

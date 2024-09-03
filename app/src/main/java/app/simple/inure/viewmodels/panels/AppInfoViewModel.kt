@@ -462,7 +462,6 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
     }
 
     fun reinitPackageInfo(): PackageInfo {
-        // FlagUtils.unsetFlag(packageInfo.applicationInfo.flags, ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
         packageInfo = packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_META_DATA)
         return packageInfo
     }

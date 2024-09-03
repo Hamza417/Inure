@@ -171,6 +171,11 @@ object APKParser {
             if (stringBuilder.isBlank()) {
                 stringBuilder.append(context.getString(R.string.error))
             }
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+            if (stringBuilder.isBlank()) {
+                stringBuilder.append(context.getString(R.string.not_available))
+            }
         } finally {
             if (zipFile != null) {
                 try {

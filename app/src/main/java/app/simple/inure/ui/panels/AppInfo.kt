@@ -405,7 +405,12 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showUpdatesUninstaller(packageInfo) {
-                                        packageInfo = appInfoViewModel.reinitPackageInfo()
+                                        try {
+                                            packageInfo = appInfoViewModel.reinitPackageInfo()
+                                        } catch (e: NameNotFoundException) {
+                                            showWarning(e.message ?: getString(R.string.error), goBack = false)
+                                        }
+
                                         appInfoViewModel.loadActionOptions()
                                     }
                                 }
@@ -639,7 +644,11 @@ class AppInfo : ScopedFragment() {
                              packageInfo.applicationInfo.enabled,
                              packageInfo.applicationInfo.sourceDir.toFile())
         } catch (e: NullPointerException) {
-            icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
+            try {
+                icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
+            } catch (e: NullPointerException) {
+                icon.setImageResource(R.drawable.ic_app_icon)
+            }
         }
 
         name.apply {
