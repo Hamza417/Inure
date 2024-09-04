@@ -735,7 +735,7 @@
     <string name="licence_verification">Verificación de licencia</string>
     <string name="enter_license_key">Ingresar clave de licencia</string>
     <string name="show_user_list">Mostrar lista de usuarios</string>
-    <string name="show_user_list_desc">Mostrar ventana emergente de selección de usuario antes de instalar una aplicación.</string>
+    <string name="show_user_list_desc">Show user selection popup before installing an app.</string>
     <string name="uninstall_downgrade_desc">¿Le gustaría desinstalar la versión actual antes de continuar con la instalación? ¿Se perderán todos los datos?</string>
     <string name="created_on">Creado en %1$s</string>
     <string name="code_signature">Firma de código</string>
@@ -756,4 +756,5 @@
     <string name="backup">Copia de seguridad</string>
     <string name="allowed">Permitido</string>
     <string name="not_allowed">No permitido</string>
+    <string name="color_picker">Selector de color</string>
 </resources>
