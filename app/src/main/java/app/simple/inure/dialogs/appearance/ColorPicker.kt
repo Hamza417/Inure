@@ -71,7 +71,7 @@ class ColorPicker : ScopedBottomSheetFragment() {
             }
         }
 
-        hueChips.setOnCheckedStateChangeListener { group, checkedIds ->
+        hueChips.setOnCheckedStateChangeListener { _, checkedIds ->
             for (id in checkedIds) {
                 when (id) {
                     R.id.default_hues -> {
