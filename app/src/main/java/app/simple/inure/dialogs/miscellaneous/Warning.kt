@@ -70,13 +70,31 @@ class Warning : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showWarning(warning: String): Warning {
             val fragment = newInstance(warning)
-            fragment.show(this, TAG)
+
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
+
             return fragment
         }
 
         fun FragmentManager.showWarning(@StringRes warning: Int): Warning {
             val fragment = newInstance(warning)
-            fragment.show(this, TAG)
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
+
             return fragment
         }
 
