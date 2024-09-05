@@ -1,4 +1,4 @@
-package app.simple.inure.loaders
+package app.simple.inure.processors
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
@@ -15,6 +15,7 @@ import app.simple.inure.activities.association.InformationActivity
 import app.simple.inure.activities.association.ManifestAssociationActivity
 import app.simple.inure.activities.association.TTFViewerActivity
 import app.simple.inure.activities.association.TextViewerActivity
+import app.simple.inure.constants.Warnings
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.database.instances.BatchProfileDatabase
 import app.simple.inure.database.instances.FOSSDatabase
@@ -37,10 +38,10 @@ import java.io.IOException
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 
-object AppDataLoader {
+object BackupDataProcessor {
 
-    private const val filename = "inure_data_@date.inrbkp"
-    private const val preferences = "prefs_bkp"
+    private const val FILENAME = "inure_data_@date.inrbkp"
+    private const val PREFERENCES = "prefs_bkp"
 
     private val errors: MutableList<String> = mutableListOf()
 
@@ -135,7 +136,7 @@ object AppDataLoader {
         }
 
         val zipPath = filesDir.path + "/backup/" +
-                "/${filename.replace("@date", System.currentTimeMillis().toString())}"
+                "/${FILENAME.replace("@date", System.currentTimeMillis().toString())}"
 
         ZipFile(zipPath).use {
             it.addFiles(paths)
@@ -159,7 +160,7 @@ object AppDataLoader {
         errors.clear()
 
         val paths = mutableListOf(
-                (filesDir.path + "/backup/" + preferences).toFile(),
+                (filesDir.path + "/backup/" + PREFERENCES).toFile(),
                 BatchDatabase.getBatchDataPath(this).toFile(),
                 NotesDatabase.getNotesDataPath(this).toFile(),
                 QuickAppsDatabase.getQuickAppsDataPath(this).toFile(),
@@ -198,7 +199,7 @@ object AppDataLoader {
             try {
                 for (path in paths) {
                     if (file.fileName.endsWith(path.name)) {
-                        if (path.name.equals(preferences)) {
+                        if (path.name.equals(PREFERENCES)) {
                             zipFile.extractFile(file.fileName, path.parent)
                             loadSharedPreferencesFromFile(path)
                         } else if (path.name.equals("component")) {
@@ -234,7 +235,7 @@ object AppDataLoader {
 
     private fun saveSharedPreferencesToFile(context: Context): String {
         var output: ObjectOutputStream? = null
-        val path = (context.filesDir.path + "/backup/" + preferences).toFile()
+        val path = (context.filesDir.path + "/backup/" + PREFERENCES).toFile()
 
         if (path.exists()) {
             path.delete()
@@ -284,7 +285,17 @@ object AppDataLoader {
                     is Int -> prefEdit.putInt(key, value)
                     is Long -> prefEdit.putLong(key, value)
                     is String -> prefEdit.putString(key, value)
-                    else -> throw IllegalArgumentException("Unknown object type")
+                    is java.util.HashSet<*> -> {
+                        try {
+                            @Suppress("UNCHECKED_CAST")
+                            prefEdit.putStringSet(key, value as HashSet<String>)
+                        } catch (_: ClassCastException) {
+                            // Swallow it, for now
+                        }
+                    }
+                    else -> throw IllegalArgumentException(
+                            Warnings.UNSUPPORTED_TYPE_VALUE
+                                .replace("$", value?.javaClass?.name ?: "null"))
                 }
             }
 

@@ -87,4 +87,11 @@ object Warnings {
      * If you're experiencing longer loading times, you can always disable startup loading from Preferences -> Behavior
      */
     const val LONG_LOADING_TIME = "0x011: If you're experiencing longer loading times, you can always disable startup loading from Preferences -> Behavior"
+
+    /**
+     * Data contains an unsupported type value
+     *
+     * Replace $ with the unsupported type value
+     */
+    const val UNSUPPORTED_TYPE_VALUE = "0x012: data contains an unsupported type value: $"
 }

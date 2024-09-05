@@ -18,10 +18,10 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.miscellaneous.Warning
 import app.simple.inure.extensions.activities.BaseActivity
-import app.simple.inure.loaders.AppDataLoader.exportAppData
-import app.simple.inure.loaders.AppDataLoader.importAppData
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.processors.BackupDataProcessor.exportAppData
+import app.simple.inure.processors.BackupDataProcessor.importAppData
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ConditionUtils.invert
