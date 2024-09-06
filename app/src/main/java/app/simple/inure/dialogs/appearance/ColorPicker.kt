@@ -21,13 +21,11 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ColorPickerPreferences
 import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.ConditionUtils.invert
-import com.google.android.material.chip.ChipGroup
 
 class ColorPicker : ScopedBottomSheetFragment() {
 
     private lateinit var colorPickerView: ColorPickerView
     private lateinit var colorsRecyclerView: CustomHorizontalRecyclerView
-    private lateinit var hueChips: ChipGroup
     private lateinit var hex: DynamicCornerEditText
     private lateinit var strip: DynamicCornerAccentColor
     private lateinit var set: DynamicRippleTextView
@@ -38,7 +36,6 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
         colorPickerView = view.findViewById(R.id.color_picker_view)
         colorsRecyclerView = view.findViewById(R.id.colors_recycler_view)
-        hueChips = view.findViewById(R.id.color_chip_group)
         hex = view.findViewById(R.id.color_hex_code)
         strip = view.findViewById(R.id.color_strip)
         set = view.findViewById(R.id.set)
@@ -49,7 +46,6 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHueChipState()
         colorsRecyclerView.setBackgroundColor(Color.TRANSPARENT)
 
         colorsRecyclerView.adapter = AdapterPickedColors(ColorPickerPreferences.getColorHistory()) {
@@ -68,19 +64,6 @@ class ColorPicker : ScopedBottomSheetFragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 strip.outlineSpotShadowColor = i
                 strip.outlineAmbientShadowColor = i
-            }
-        }
-
-        hueChips.setOnCheckedStateChangeListener { _, checkedIds ->
-            for (id in checkedIds) {
-                when (id) {
-                    R.id.default_hues -> {
-                        ColorPickerPreferences.setColorHueMode(ColorPickerPreferences.COLOR_HUE_MODE_DEFAULT)
-                    }
-                    R.id.pastel_hues -> {
-                        ColorPickerPreferences.setColorHueMode(ColorPickerPreferences.COLOR_HUE_MODE_PASTEL)
-                    }
-                }
             }
         }
 
@@ -141,20 +124,6 @@ class ColorPicker : ScopedBottomSheetFragment() {
 
         cancel.setOnClickListener {
             dismiss()
-        }
-    }
-
-    private fun setHueChipState() {
-        when (ColorPickerPreferences.getColorHueMode()) {
-            ColorPickerPreferences.COLOR_HUE_MODE_DEFAULT -> {
-                hueChips.check(R.id.default_hues)
-            }
-            ColorPickerPreferences.COLOR_HUE_MODE_PASTEL -> {
-                hueChips.check(R.id.pastel_hues)
-            }
-            else -> {
-                hueChips.check(R.id.default_hues)
-            }
         }
     }
 

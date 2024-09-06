@@ -23,30 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/color_chip_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal"
-            app:checkedChip="@id/default_hues"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-            <app.simple.inure.decorations.views.Chip
-                android:id="@+id/default_hues"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/default_identifier" />
-
-            <app.simple.inure.decorations.views.Chip
-                android:id="@+id/pastel_hues"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pastel" />
-
-        </com.google.android.material.chip.ChipGroup>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

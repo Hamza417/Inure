@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/app_corner_dialog_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dialog_padding"
+        android:clipChildren="true"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="horizontal"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.colorpicker.ColorPickerView
+            android:id="@+id/color_picker_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.corners.DynamicCornerAccentColor
+                    android:id="@+id/color_strip"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/dialog_padding"
+                    tools:ignore="NestedWeights,PxUsage" />
+
+                <app.simple.inure.decorations.corners.DynamicCornerEditText
+                    android:id="@+id/color_hex_code"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingHorizontal="@dimen/dialog_padding"
+                    android:textSize="@dimen/info_text_small"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="secondary" />
+
+            </LinearLayout>
+
+            <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+                android:id="@+id/colors_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:clipChildren="true"
+                android:clipToPadding="true"
+                app:statusBarPaddingRequired="false" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/dialog_padding"
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/cancel"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                    android:id="@+id/set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/button_padding"
+                    android:text="@string/set"
+                    app:appFontStyle="bold"
+                    app:textColorStyle="accent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

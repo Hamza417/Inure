@@ -9,7 +9,6 @@ import android.graphics.Shader
 import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.view.View
-import app.simple.inure.preferences.ColorPickerPreferences
 
 class ColorPalette @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0, defStyleRes: Int = 0) : View(context, attrs, defStyle, defStyleRes) {
 
@@ -30,16 +29,6 @@ class ColorPalette @JvmOverloads constructor(context: Context, attrs: AttributeS
             Color.RED
     )
 
-    private var pastelHues = intArrayOf(
-            Color.parseColor("#FAA0A0"),
-            Color.parseColor("#f49ac2"),
-            Color.parseColor("#aec6cf"),
-            Color.parseColor("#A4D8D8"),
-            Color.parseColor("#C1E1C1"),
-            Color.parseColor("#FDFD96"),
-            Color.parseColor("#FAA0A0")
-    )
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         val netWidth = w - paddingLeft - paddingRight
         val netHeight = h - paddingTop - paddingBottom
@@ -50,20 +39,7 @@ class ColorPalette @JvmOverloads constructor(context: Context, attrs: AttributeS
         centerX = w * 0.5f
         centerY = h * 0.5f
 
-        huePaint.shader = when {
-            isInEditMode -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-            ColorPickerPreferences.isColorHueModePastel() -> {
-                SweepGradient(centerX, centerY, pastelHues, null)
-            }
-            ColorPickerPreferences.isColorHueModeDefault() -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-            else -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-        }
+        huePaint.shader = SweepGradient(centerX, centerY, hueColors, null)
 
         saturationPaint.shader = RadialGradient(
                 centerX, centerY, radius,
@@ -77,21 +53,6 @@ class ColorPalette @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun invalidate() {
-        huePaint.shader = when {
-            isInEditMode -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-            ColorPickerPreferences.isColorHueModePastel() -> {
-                SweepGradient(centerX, centerY, pastelHues, null)
-            }
-            ColorPickerPreferences.isColorHueModeDefault() -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-            else -> {
-                SweepGradient(centerX, centerY, hueColors, null)
-            }
-        }
-
         saturationPaint.shader = RadialGradient(
                 centerX, centerY, radius,
                 Color.WHITE, 0x00FFFFFF, Shader.TileMode.CLAMP
