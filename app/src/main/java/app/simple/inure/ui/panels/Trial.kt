@@ -14,6 +14,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.SharedPreferences.registerEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.SharedPreferences.unregisterEncryptedSharedPreferencesListener
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.preferences.TrialPreferences.validate
 import app.simple.inure.util.DateUtils.toDate
 
 class Trial : ScopedFragment() {
@@ -43,7 +44,7 @@ class Trial : ScopedFragment() {
             title.text = Warnings.getAppIntegrityFailedWarning()
         }
 
-        daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+        daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft().validate())
 
         purchase.setOnClickListener {
             childFragmentManager.showPurchaseDialog()

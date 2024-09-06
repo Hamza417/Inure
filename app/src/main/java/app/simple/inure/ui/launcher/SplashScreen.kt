@@ -46,6 +46,7 @@ import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.preferences.TrialPreferences.validate
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
@@ -411,7 +412,7 @@ class SplashScreen : ScopedFragment() {
                 if (TrialPreferences.isFullVersion()) {
                     daysLeft.gone()
                 } else {
-                    daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                    daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft().validate())
                 }
             }
             TrialPreferences.isFullVersion() -> {
@@ -426,14 +427,14 @@ class SplashScreen : ScopedFragment() {
                         } else {
                             showWarning(R.string.full_version_deactivated, goBack = false)
                             TrialPreferences.setFullVersion(false)
-                            daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                            daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft().validate())
                         }
                     }
                 }
             }
             else -> {
                 // Should always be 0
-                daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
+                daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft().validate())
             }
         }
     }

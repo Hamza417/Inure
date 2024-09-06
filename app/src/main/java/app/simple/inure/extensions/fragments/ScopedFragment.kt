@@ -386,7 +386,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun fullVersionCheck(goBack: Boolean = true): Boolean {
+    inline fun fullVersionCheck(goBack: Boolean = true): Boolean {
         return if (TrialPreferences.isAppFullVersionEnabled()) {
             true
         } else {
