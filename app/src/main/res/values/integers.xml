@@ -5,4 +5,5 @@
     <integer name="theme_change_duration">750</integer>
     <integer name="span_count">3</integer>
     <integer name="tag_character_limit">50</integer>
+    <integer name="colors_span_count">2</integer>
 </resources>

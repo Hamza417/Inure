@@ -22,16 +22,20 @@ class AccentColor : ScopedFragment() {
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterAccentColor: AdapterAccentColor
 
+    private var spanCount = 2
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = layoutInflater.inflate(R.layout.fragment_accent_color, container, false)
 
+        spanCount = resources.getInteger(R.integer.colors_span_count)
+
         recyclerView = view.findViewById(R.id.accent_recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
         recyclerView.setHasFixedSize(true)
 
         (recyclerView.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return if (adapterAccentColor.getItemViewType(position) == 0) 2 else 1
+                return if (adapterAccentColor.getItemViewType(position) == 0) spanCount else 1
             }
         }
 
