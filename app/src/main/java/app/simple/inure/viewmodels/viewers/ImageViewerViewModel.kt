@@ -92,12 +92,12 @@ class ImageViewerViewModel(application: Application, private val pathToImage: St
                 .dontTransform()
                 .load(AppGraphicsModel(pathToApk, pathToImage))
                 .addListener(object : RequestListener<Bitmap> {
-                    override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
                         bitmap.postValue(resource)
                         return true
                     }
 
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
                         postWarning(Warnings.getFailedToLoadFileWarning(pathToImage, "Bitmap"))
                         return true
                     }

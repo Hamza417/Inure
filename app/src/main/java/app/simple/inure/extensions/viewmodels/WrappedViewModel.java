@@ -34,6 +34,14 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
         return ContextUtils.Companion.updateLocale(applicationContext(), ConfigurationPreferences.INSTANCE.getAppLanguage());
     }
     
+    /**
+     * @noinspection unchecked
+     */
+    @NonNull
+    public final <T extends Application> T getApplication() {
+        return (T) super.getApplication();
+    }
+    
     public LiveData <Throwable> getError() {
         return error;
     }
@@ -90,7 +98,7 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-    
+        
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
         handler.removeCallbacksAndMessages(null);
     }

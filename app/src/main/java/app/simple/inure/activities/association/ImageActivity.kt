@@ -102,14 +102,14 @@ class ImageActivity : BaseActivity() {
                             .dontTransform()
                             .load(intent.data)
                             .addListener(object : RequestListener<GifDrawable> {
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>?, isFirstResource: Boolean): Boolean {
+                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<GifDrawable>, isFirstResource: Boolean): Boolean {
                                     Log.e("ImageActivity", "GIF: ${e?.message}")
                                     showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "GIF"))
                                     return true
                                 }
 
-                                override fun onResourceReady(resource: GifDrawable?, model: Any?, target: Target<GifDrawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    Log.d("ImageActivity", "GIF: ${resource?.intrinsicWidth}x${resource?.intrinsicHeight}")
+                                override fun onResourceReady(resource: GifDrawable, model: Any, target: Target<GifDrawable>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                                    Log.d("ImageActivity", "GIF: ${resource.intrinsicWidth}x${resource.intrinsicHeight}")
                                     // gif.setImageDrawable(resource) // This is not working
                                     image.gone()
                                     if (savedInstanceState.isNotNull()) {
@@ -127,8 +127,8 @@ class ImageActivity : BaseActivity() {
                             .dontTransform()
                             .load(SVG(applicationContext, uri))
                             .addListener(object : RequestListener<Bitmap> {
-                                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    image.setImage(ImageSource.bitmap(resource!!))
+                                override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                                    image.setImage(ImageSource.bitmap(resource))
                                     gif.gone()
                                     if (savedInstanceState.isNotNull()) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -141,7 +141,7 @@ class ImageActivity : BaseActivity() {
                                     return true
                                 }
 
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
                                     Log.e("ImageActivity", "SVG: ${e?.message}")
                                     showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "SVG"))
                                     return true
@@ -156,8 +156,8 @@ class ImageActivity : BaseActivity() {
                             .dontTransform()
                             .load(uri)
                             .addListener(object : RequestListener<Bitmap> {
-                                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                                    image.setImage(ImageSource.bitmap(resource!!))
+                                override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                                    image.setImage(ImageSource.bitmap(resource))
                                     gif.gone()
                                     if (savedInstanceState.isNotNull()) {
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -170,7 +170,7 @@ class ImageActivity : BaseActivity() {
                                     return true
                                 }
 
-                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
                                     Log.e("ImageActivity", "Bitmap: ${e?.message}")
                                     showWarning(Warnings.getFailedToLoadFileWarning(intent.data.toString(), "Bitmap"))
                                     return true

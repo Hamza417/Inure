@@ -63,7 +63,7 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
     private fun getColorMode(): Pair<Int, Spannable> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Pair(R.string.color_mode,
-                 MetaUtils.getColorMode(activityInfoModel.activityInfo.colorMode, application).applySecondaryTextColor())
+                 MetaUtils.getColorMode(activityInfoModel.activityInfo.colorMode, application as Application).applySecondaryTextColor())
         } else {
             Pair(R.string.soft_input_mode,
                  MetaUtils.getColorMode(-1, application).applySecondaryTextColor())

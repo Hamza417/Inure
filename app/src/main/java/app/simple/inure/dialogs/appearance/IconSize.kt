@@ -106,12 +106,12 @@ class IconSize : ScopedBottomSheetFragment() {
                             .setElevation(25F)
                             .setBlurRadius(BlurShadow.MAX_BLUR_RADIUS))
                 .addListener(object : RequestListener<Bitmap> {
-                    override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
                         iconPlaceholder = resource
                         return false
                     }
 
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
                         return false
                     }
 

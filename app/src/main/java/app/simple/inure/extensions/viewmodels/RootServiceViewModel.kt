@@ -25,7 +25,7 @@ abstract class RootServiceViewModel(application: Application) : WrappedViewModel
 
     protected fun initRootProc() {
         Log.d(tag, "Root proc init")
-        val intent = Intent(application.applicationContext, RootService::class.java)
+        val intent = Intent(applicationContext(), RootService::class.java)
         bind(intent, AIDLConnection(isDaemon = false))
 
         postDelayed(10000) {

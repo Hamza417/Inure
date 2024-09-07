@@ -174,7 +174,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Shell.cmd("run-as ${application.packageName}").exec()
+                Shell.cmd("run-as ${applicationContext().packageName}").exec()
 
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d(TAG, "Total size of all apks: $totalSizeOfAllApks")

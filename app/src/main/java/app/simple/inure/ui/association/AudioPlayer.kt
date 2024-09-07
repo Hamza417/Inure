@@ -447,7 +447,7 @@ class AudioPlayer : ScopedFragment() {
             .transform(CenterCrop())
             .load(DescriptorCoverModel(this.context, uri))
             .addListener(object : RequestListener<Bitmap> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
                     this@loadFromFileDescriptor.setImageResource(R.drawable.ani_ic_app_icon).also {
                         (this@loadFromFileDescriptor.drawable as AnimatedVectorDrawable).start()
                     }
@@ -458,7 +458,7 @@ class AudioPlayer : ScopedFragment() {
                     return true
                 }
 
-                override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                override fun onResourceReady(resource: Bitmap, model: Any, target: Target<Bitmap>?, dataSource: DataSource, isFirstResource: Boolean): Boolean {
                     (view?.parent as? ViewGroup)?.doOnPreDraw {
                         startPostponedEnterTransition()
                     }

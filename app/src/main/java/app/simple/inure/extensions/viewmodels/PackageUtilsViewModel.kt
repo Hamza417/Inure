@@ -218,7 +218,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     protected fun ArrayList<PackageInfo>.loadPackageNames(): ArrayList<PackageInfo> {
         forEach {
-            it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
+            it.applicationInfo.name = getApplicationName(applicationContext(), it.applicationInfo)
         }
 
         return this
@@ -236,7 +236,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         super.onCleared()
         try {
             serviceConnection?.let {
-                application.applicationContext.unbindService(it)
+                applicationContext().unbindService(it)
             }
         } catch (e: java.lang.IllegalStateException) {
             e.printStackTrace()

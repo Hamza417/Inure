@@ -40,7 +40,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private var packageInfo: PackageInfo? = null
 
     private val information: MutableLiveData<ArrayList<Pair<Int, Spannable>>> by lazy {
-        MutableLiveData<ArrayList<Pair<@StringRes Int, Spannable>>>().also {
+        MutableLiveData<ArrayList<Pair<Int, Spannable>>>().also {
             viewModelScope.launch(Dispatchers.IO) {
                 loadInformation()
             }
