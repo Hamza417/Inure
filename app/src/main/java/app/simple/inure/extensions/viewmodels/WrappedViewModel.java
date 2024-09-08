@@ -27,19 +27,29 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
     
     public WrappedViewModel(@NonNull Application application) {
         super(application);
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.registerSharedPreferenceChangeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE
+                .registerSharedPreferenceChangeListener(this);
     }
     
     public final Context getContext() {
-        return ContextUtils.Companion.updateLocale(applicationContext(), ConfigurationPreferences.INSTANCE.getAppLanguage());
+        return ContextUtils.Companion.updateLocale(
+                applicationContext(), ConfigurationPreferences.INSTANCE.getAppLanguage());
     }
     
     /**
+     * One common hierarchy, such as KotlinViewModel <: JavaViewModel <: AndroidViewModel,
+     * exposes private property application incorrectly.
+     * <p>
+     * <a href="https://developer.android.com/reference/androidx/lifecycle/AndroidViewModel#(androidx.lifecycle.AndroidViewModel).getApplication()">Reference</a>
+     *
      * @noinspection unchecked
+     *
+     * It works that way instead of refactoring the whole project :/
      */
     @NonNull
-    public final <T extends Application> T getApplication() {
-        return (T) super.getApplication();
+    @Override
+    public Application getApplication() {
+        return super.getApplication();
     }
     
     public LiveData <Throwable> getError() {
@@ -99,7 +109,8 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
             e.printStackTrace();
         }
         
-        app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+        app.simple.inure.preferences.SharedPreferences.INSTANCE
+                .unregisterSharedPreferenceChangeListener(this);
         handler.removeCallbacksAndMessages(null);
     }
     
