@@ -19,3 +19,4 @@ local.properties
 /app/github/debug/
 /.idea/deploymentTargetDropDown.xml
 /scripts/secrets.txt
+/.kotlin/sessions/

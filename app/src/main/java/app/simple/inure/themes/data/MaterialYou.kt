@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 object MaterialYou {
 
     @RequiresApi(Build.VERSION_CODES.S)
-    const val materialYouAccentResID = android.R.color.system_accent1_500
-    const val materialYouAdapterIndex = 1
+    const val MATERIAL_YOU_ACCENT_RES_ID = android.R.color.system_accent1_500
+    const val MATERIAL_YOU_ADAPTER_INDEX = 1
 
     var headingTextColor = 0
     var primaryTextColor = 0

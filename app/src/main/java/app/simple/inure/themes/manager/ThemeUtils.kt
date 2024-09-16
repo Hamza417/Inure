@@ -346,7 +346,7 @@ object ThemeUtils {
             ContextCompat.getColor(baseContext, R.color.limed_spruce) -> {
                 setTheme(R.style.LimedSpruce)
             }
-            ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID) -> {
+            ContextCompat.getColor(baseContext, MaterialYou.MATERIAL_YOU_ACCENT_RES_ID) -> {
                 setTheme(R.style.MaterialYou)
             }
             else -> {
@@ -447,7 +447,7 @@ object ThemeUtils {
             ContextCompat.getColor(baseContext, R.color.limed_spruce) -> {
                 setTheme(R.style.LimedSpruce_Transparent)
             }
-            ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID) -> {
+            ContextCompat.getColor(baseContext, MaterialYou.MATERIAL_YOU_ACCENT_RES_ID) -> {
                 setTheme(R.style.MaterialYou_Transparent)
             }
             else -> {

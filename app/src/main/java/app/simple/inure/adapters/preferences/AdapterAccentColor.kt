@@ -50,59 +50,62 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
         val position1 = holder.bindingAdapterPosition - 1
 
-        if (holder is Holder) {
-            holder.color.backgroundTintList = ColorStateList.valueOf(list[position1].first)
+        when (holder) {
+            is Holder -> {
+                holder.color.backgroundTintList = ColorStateList.valueOf(list[position1].first)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                holder.color.outlineSpotShadowColor = list[position1].first
-                holder.color.outlineAmbientShadowColor = list[position1].first
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    holder.color.outlineSpotShadowColor = list[position1].first
+                    holder.color.outlineAmbientShadowColor = list[position1].first
 
-                holder.container.outlineSpotShadowColor = list[position1].first
-                holder.container.outlineAmbientShadowColor = list[position1].first
-            }
+                    holder.container.outlineSpotShadowColor = list[position1].first
+                    holder.container.outlineAmbientShadowColor = list[position1].first
+                }
 
-            holder.container.setOnClickListener {
-                if (list[position1].second == holder.getString(R.string.color_picker)) {
-                    accentColorCallbacks?.onAccentColorPicker()
-                } else {
-                    if (AppearancePreferences.setAccentColor(list[position1].first)) {
-                        if (AppearancePreferences.setCustomColor(false)) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                                AppearancePreferences.setMaterialYouAccent(position1 == MaterialYou.materialYouAdapterIndex)
+                holder.container.setOnClickListener {
+                    if (list[position1].second == holder.getString(R.string.color_picker)) {
+                        accentColorCallbacks?.onAccentColorPicker()
+                    } else {
+                        if (AppearancePreferences.setAccentColor(list[position1].first)) {
+                            if (AppearancePreferences.setCustomColor(false)) {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                    AppearancePreferences.setMaterialYouAccent(position1 == MaterialYou.MATERIAL_YOU_ADAPTER_INDEX)
+                                }
+                                notifyItemChanged(lastSelectedItem)
+                                notifyItemChanged(holder.bindingAdapterPosition)
+                                lastSelectedItem = holder.bindingAdapterPosition
                             }
-                            notifyItemChanged(lastSelectedItem)
-                            notifyItemChanged(holder.bindingAdapterPosition)
-                            lastSelectedItem = holder.bindingAdapterPosition
                         }
                     }
                 }
-            }
 
-            holder.name.text = list[position1].second
-            holder.hex.text = list[position1].first.toHexColor()
+                holder.name.text = list[position1].second
+                holder.hex.text = list[position1].first.toHexColor()
 
-            // holder.container.background = null
-            // holder.container.background = getRippleDrawable(holder.container.background, list[position1].first)
-            holder.container.rippleColor = ColorStateList.valueOf(list[position1].first)
+                // holder.container.background = null
+                // holder.container.background = getRippleDrawable(holder.container.background, list[position1].first)
+                holder.container.rippleColor = ColorStateList.valueOf(list[position1].first)
 
-            if (AppearancePreferences.isCustomColor()) {
-                holder.tick.visibility = if (list[position1].second == holder.getString(R.string.color_picker)) {
-                    lastSelectedItem = holder.bindingAdapterPosition
-                    View.VISIBLE
+                if (AppearancePreferences.isCustomColor()) {
+                    holder.tick.visibility = if (list[position1].second == holder.getString(R.string.color_picker)) {
+                        lastSelectedItem = holder.bindingAdapterPosition
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
                 } else {
-                    View.GONE
-                }
-            } else {
-                holder.tick.visibility = if (list[position1].first == AppearancePreferences.getAccentColor()) {
-                    lastSelectedItem = holder.bindingAdapterPosition
-                    View.VISIBLE
-                } else {
-                    View.INVISIBLE
+                    holder.tick.visibility = if (list[position1].first == AppearancePreferences.getAccentColor()) {
+                        lastSelectedItem = holder.bindingAdapterPosition
+                        View.VISIBLE
+                    } else {
+                        View.INVISIBLE
+                    }
                 }
             }
-        } else if (holder is Header) {
-            holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
-            holder.title.setTextColor(AppearancePreferences.getAccentColor())
+            is Header -> {
+                holder.total.text = holder.itemView.context.getString(R.string.total, list.size)
+                holder.title.setTextColor(AppearancePreferences.getAccentColor())
+            }
         }
     }
 

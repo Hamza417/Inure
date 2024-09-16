@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterAccentColor
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.appearance.ColorPicker.Companion.showColorPicker
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -71,11 +72,12 @@ class AccentColor : ScopedFragment() {
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            list.add(MaterialYou.materialYouAdapterIndex,
-                     Pair(ContextCompat.getColor(requireContext(), MaterialYou.materialYouAccentResID), "Material You (Dynamic)"))
+            list.add(MaterialYou.MATERIAL_YOU_ADAPTER_INDEX,
+                     Pair(ContextCompat.getColor(requireContext(),
+                                                 MaterialYou.MATERIAL_YOU_ACCENT_RES_ID), "Material You (Dynamic)"))
         }
 
-        list.add(1, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
+        list.add(Misc.COLOR_PICKER_INDEX, Pair(AppearancePreferences.getPickedAccentColor(), getString(R.string.color_picker)))
 
         adapterAccentColor = AdapterAccentColor(list)
 

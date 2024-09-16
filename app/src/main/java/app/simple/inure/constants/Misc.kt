@@ -12,6 +12,8 @@ object Misc {
     const val dimAmount = 0.75F
     const val highlightColorAlpha = 0.15F
 
+    const val COLOR_PICKER_INDEX = 2
+
     const val ONE = 1
     const val TWO = 2
     const val THREE = 3

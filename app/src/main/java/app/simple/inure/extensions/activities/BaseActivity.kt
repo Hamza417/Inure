@@ -109,7 +109,7 @@ open class BaseActivity : AppCompatActivity(),
             presetMaterialYouDynamicColors()
 
             if (AppearancePreferences.isMaterialYouAccent()) {
-                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.materialYouAccentResID))
+                AppearancePreferences.setAccentColor(ContextCompat.getColor(baseContext, MaterialYou.MATERIAL_YOU_ACCENT_RES_ID))
             }
         }
 
