@@ -148,7 +148,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         }
     };
     
-    private final ActivityResultLauncher<Intent> windowListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    private final ActivityResultLauncher <Intent> windowListLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             int position = result.getData().getIntExtra(EXTRA_WINDOW_ID, -2);
             if (position >= 0) {
@@ -185,7 +185,9 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
             });
     
-    /** @noinspection unused*/ // Available on API 12 and later
+    /**
+     * @noinspection unused
+     */ // Available on API 12 and later
     private static final int FLAG_INCLUDE_STOPPED_PACKAGES = 0x20;
     
     private void populateViewFlipper() {
@@ -260,7 +262,11 @@ public class Term extends BaseActivity implements UpdateCallback,
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
         getWindow().setStatusBarColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         
-        fullVersionCheck();
+        fullVersionCheck(() -> {
+            finish();
+            Log.i(TAG, "Terminal is closed due to full version check");
+            return null;
+        });
         
         // Request notification permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
