@@ -39,6 +39,10 @@
 -keep class app.simple.inure.play.database.** { *; }
 -keep class app.simple.inure.database.** { *; }
 
+-keepclassmembers class app.simple.inure.preferences.TrialPreferences {
+    public int getMaxDays();
+}
+
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn javax.annotation.Nonnull
 -dontwarn javax.annotation.Nullable

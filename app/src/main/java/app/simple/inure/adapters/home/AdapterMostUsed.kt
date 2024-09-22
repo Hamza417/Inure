@@ -43,43 +43,46 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
 
-        if (holder is Holder) {
-            holder.icon.transitionName = apps[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
-            holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
-            holder.packageId.text = apps[position].packageInfo?.packageName
-            holder.name.setAppVisualStates(apps[position].packageInfo!!)
+        when (holder) {
+            is Holder -> {
+                holder.icon.transitionName = apps[position].packageInfo?.packageName
+                holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
+                holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
+                holder.packageId.text = apps[position].packageInfo?.packageName
+                holder.name.setAppVisualStates(apps[position].packageInfo!!)
 
-            with(apps[position].totalTimeUsed) {
-                holder.date.apply {
-                    this.text = when {
-                        MILLISECONDS.toSeconds(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_seconds,
-                                                   MILLISECONDS.toSeconds(this@with).toString())
-                        }
-                        MILLISECONDS.toMinutes(this@with) < 60 -> {
-                            this.context.getString(R.string.used_for_short,
-                                                   MILLISECONDS.toMinutes(this@with).toString())
-                        }
-                        else -> {
-                            this.context.getString(R.string.used_for_long,
-                                                   MILLISECONDS.toHours(this@with).toString(),
-                                                   (MILLISECONDS.toMinutes(this@with) % 60).toString())
+                with(apps[position].totalTimeUsed) {
+                    holder.date.apply {
+                        this.text = when {
+                            MILLISECONDS.toSeconds(this@with) < 60 -> {
+                                this.context.getString(R.string.used_for_seconds,
+                                                       MILLISECONDS.toSeconds(this@with).toString())
+                            }
+                            MILLISECONDS.toMinutes(this@with) < 60 -> {
+                                this.context.getString(R.string.used_for_short,
+                                                       MILLISECONDS.toMinutes(this@with).toString())
+                            }
+                            else -> {
+                                this.context.getString(R.string.used_for_long,
+                                                       MILLISECONDS.toHours(this@with).toString(),
+                                                       (MILLISECONDS.toMinutes(this@with) % 60).toString())
+                            }
                         }
                     }
                 }
-            }
 
-            holder.container.setOnClickListener {
-                adapterCallbacks.onAppClicked(apps[position].packageInfo!!, holder.icon)
-            }
+                holder.container.setOnClickListener {
+                    adapterCallbacks.onAppClicked(apps[position].packageInfo!!, holder.icon)
+                }
 
-            holder.container.setOnLongClickListener {
-                adapterCallbacks.onAppLongPressed(apps[position].packageInfo!!, holder.icon)
-                true
+                holder.container.setOnLongClickListener {
+                    adapterCallbacks.onAppLongPressed(apps[position].packageInfo!!, holder.icon)
+                    true
+                }
             }
-        } else if (holder is Header) {
-            holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+            is Header -> {
+                holder.total.text = String.format(holder.itemView.context.getString(R.string.total_apps), apps.size)
+            }
         }
     }
 
@@ -91,7 +94,7 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return apps.size
+        return apps.size.plus(1)
     }
 
     override fun getItemId(position: Int): Long {

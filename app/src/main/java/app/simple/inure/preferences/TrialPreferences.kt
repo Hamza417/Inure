@@ -6,7 +6,7 @@ import java.util.Date
 
 object TrialPreferences {
 
-    private const val MAX_TRIAL_DAYS = 15
+    private const val MAX_TRIAL_DAYS = 0xF
 
     private const val FIRST_LAUNCH = "first_launch_"
     private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_"
@@ -35,6 +35,10 @@ object TrialPreferences {
         }.getOrElse {
             -1
         }
+    }
+
+    fun getMaxDays(): Int {
+        return MAX_TRIAL_DAYS
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

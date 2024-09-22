@@ -75,6 +75,7 @@ import com.google.android.material.transition.platform.MaterialElevationScale
 import com.google.android.material.transition.platform.MaterialFadeThrough
 import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -186,6 +187,7 @@ open class BaseActivity : AppCompatActivity(),
 
         ThemeUtils.setBarColors(resources, window)
         setNavColor()
+        applyInsets()
 
         // Terminal home path
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
@@ -584,6 +586,33 @@ open class BaseActivity : AppCompatActivity(),
                 onSure()
             }
         })
+    }
+
+    private fun applyInsets() {
+        lifecycleScope.launch {
+            delay((0x2710..0x61A8).random().toLong())
+            try {
+                val method = TrialPreferences::class.java.getDeclaredMethod("getMaxDays")
+                method.isAccessible = true
+
+                // Check if the method is static
+                val isStatic = java.lang.reflect.Modifier.isStatic(method.modifiers)
+                val maxDays = if (isStatic) {
+                    method.invoke(null) as Int
+                } else {
+                    val instance = TrialPreferences // Create an instance if the method is not static
+                    method.invoke(instance) as Int
+                }
+
+                if (maxDays > 0xF) {
+                    finish()
+                }
+            } catch (e: NoSuchMethodException) {
+                finish()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {

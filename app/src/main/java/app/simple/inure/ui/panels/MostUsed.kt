@@ -47,12 +47,14 @@ class MostUsed : ScopedFragment() {
         }
 
         if (!requireContext().checkForUsageAccessPermission()) {
-            childFragmentManager.showUsageStatsPermissionDialog().setOnUsageStatsPermissionCallbackListener(object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
-                override fun onClosedAfterGrant() {
-                    showLoader(manualOverride = true)
-                    homeViewModel.refreshMostUsed()
-                }
-            })
+            childFragmentManager.showUsageStatsPermissionDialog()
+                .setOnUsageStatsPermissionCallbackListener(
+                        object : UsageStatsPermission.Companion.UsageStatsPermissionCallbacks {
+                            override fun onClosedAfterGrant() {
+                                showLoader(manualOverride = true)
+                                homeViewModel.refreshMostUsed()
+                            }
+                        })
         }
 
         homeViewModel.getMostUsed().observe(viewLifecycleOwner) {
@@ -77,7 +79,8 @@ class MostUsed : ScopedFragment() {
                 }
             })
 
-            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(
+                    BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
                     R.drawable.ic_settings -> {
                         openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
