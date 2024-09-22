@@ -2,7 +2,6 @@ package app.simple.inure.preferences
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
@@ -58,7 +57,7 @@ object AppearancePreferences {
 
     @ColorInt
     fun getPickedAccentColor(): Int {
-        return getSharedPreferences().getInt(PICKED_ACCENT_COLOR, Color.GRAY)
+        return getSharedPreferences().getInt(PICKED_ACCENT_COLOR, 0xFFFF7776.toInt())
     }
 
     fun getPickedAccentColorStateList(): ColorStateList {

@@ -51,13 +51,4 @@ class ColorPalette @JvmOverloads constructor(context: Context, attrs: AttributeS
         canvas.drawCircle(centerX, centerY, radius, huePaint)
         canvas.drawCircle(centerX, centerY, radius, saturationPaint)
     }
-
-    override fun invalidate() {
-        saturationPaint.shader = RadialGradient(
-                centerX, centerY, radius,
-                Color.WHITE, 0x00FFFFFF, Shader.TileMode.CLAMP
-        )
-
-        super.invalidate()
-    }
 }
