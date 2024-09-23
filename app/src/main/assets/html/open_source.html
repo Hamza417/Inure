@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="file:///android_asset/css/open_source_style.css" rel="stylesheet">
     <title>Open Source Licenses</title>
 </head>
 
 <body>
 
 <script>
-        // Define a JavaScript interface using the window object
-        window.CssLoader = {
-            loadLightCss: function() {
-                // JavaScript code to load the light CSS
-                loadCss('file:///android_asset/css/open_source_style_light.css');
-            },
-            loadDarkCss: function() {
-                // JavaScript code to load the dark CSS
-                loadCss('file:///android_asset/css/open_source_style_dark.css');
-            }
-        };
-
-        function loadCss(cssFile) {
-            var link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.type = "text/css";
-            link.href = cssFile;
-            document.head.appendChild(link);
+    // Define a JavaScript interface using the window object
+    window.CssLoader = {
+        loadLightCss: function() {
+            // JavaScript code to load the light CSS
+            loadCss('file:///android_asset/css/open_source_style_light.css');
+        },
+        loadDarkCss: function() {
+            // JavaScript code to load the dark CSS
+            loadCss('file:///android_asset/css/open_source_style_dark.css');
         }
+    };
+
+    function loadCss(cssFile) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.type = "text/css";
+        link.href = cssFile;
+        document.head.appendChild(link);
+    }
 
 
 </script>
@@ -122,15 +121,15 @@
 <br>
 
 <h2>MarkedView</h2>
-<p>mittsu • <a href="https://github.com/mittsu333/MarkedView-for-Android/blob/master/LICENSE">MIT
-                                                                                              License</a>
+<p>mittsu • <a href="file:///android_asset/html/mit_license.html">MIT
+                                                                  License</a>
 </p>
 
 <br>
 
 <h2>PinchToZoom</h2>
-<p>Martin Withaar • <a href="https://github.com/martinwithaar/PinchToZoom/blob/master/LICENSE">MIT
-                                                                                               License</a>
+<p>Martin Withaar • <a href="file:///android_asset/html/mit_license.html">MIT
+                                                                          License</a>
 </p>
 
 <br>
