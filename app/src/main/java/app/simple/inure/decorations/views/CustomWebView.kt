@@ -88,7 +88,7 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val url = request.url.toString()
-                if (url.contains("assets/")) {
+                if (url.contains("asset/")) {
                     view.loadUrl(url)
                 } else {
                     val intent = Intent(Intent.ACTION_VIEW, request.url)
