@@ -126,7 +126,10 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Notch Area",
-                                            "Enable notch area in the app. This will make the app render in the notch cutout area (Android Version >= P 9.0).",
+                                            "Enable notch area in the app. This will make the app render in the notch" +
+                                                    " cutout area (Android Version >= P 9.0)." +
+                                                    "\n\n" +
+                                                    "May cause navigation bar overlapping issue.",
                                             IS_NOTCH_AREA_ENABLED,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
