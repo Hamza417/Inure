@@ -133,7 +133,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                 when (intent?.action) {
                     ServiceConstants.actionBatchCopyStart -> {
                         try {
-                            val position = batchExtractService?.position?.plus(1) ?: -1
+                            val position = if (appList?.size == 1) 0 else batchExtractService?.position?.plus(1) ?: -1
 
                             count.text = buildString {
                                 append(position)

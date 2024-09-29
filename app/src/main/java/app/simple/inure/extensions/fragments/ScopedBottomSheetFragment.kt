@@ -186,7 +186,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     }
 
     open fun showWarning(warning: String, dismiss: Boolean = true) {
-        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
             if (dismiss) {
                 dismiss()
             }
@@ -194,7 +194,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     }
 
     open fun showWarning(@StringRes warning: Int) {
-        childFragmentManager.showWarning(warning).setOnWarningCallbackListener {
+        parentFragmentManager.showWarning(warning).setOnWarningCallbackListener {
             dismiss()
         }
     }
