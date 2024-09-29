@@ -381,4 +381,24 @@ object ViewUtils {
             }
         })
     }
+
+    fun ViewGroup.setPaddingLeft(padding: Int) {
+        setPadding(padding, paddingTop, paddingRight, paddingBottom)
+    }
+
+    fun ViewGroup.setPaddingRight(padding: Int) {
+        setPadding(paddingLeft, paddingTop, padding, paddingBottom)
+    }
+
+    fun ViewGroup.setPaddingTop(padding: Int) {
+        setPadding(paddingLeft, padding, paddingRight, paddingBottom)
+    }
+
+    fun ViewGroup.setPaddingBottom(padding: Int) {
+        setPadding(paddingLeft, paddingTop, paddingRight, padding)
+    }
+
+    fun ViewGroup.defaultPadding() {
+        setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+    }
 }
