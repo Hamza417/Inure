@@ -84,8 +84,10 @@ class AddTag : ScopedDialogFragment() {
             adapterTags = AdapterTags(it, false).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {
-                        editText.setText(tag)
-                        editText.setSelection(tag.length)
+                        if (tag.isNotEmpty()) {
+                            editText.setText(tag)
+                            editText.setSelection(tag.length)
+                        }
                     }
 
                     override fun onTagLongClicked(tag: String) {
