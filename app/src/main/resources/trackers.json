@@ -50,8 +50,8 @@
         },
         "102": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.estimote.",
             "creation_date": "2018-03-04",
@@ -315,8 +315,8 @@
         },
         "122": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "ly.count.android.",
             "creation_date": "2018-03-04",
@@ -353,8 +353,8 @@
         },
         "125": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.amplitude.",
             "creation_date": "2018-03-04",
@@ -367,9 +367,9 @@
         },
         "126": {
             "categories": [
-                "Analytics",
+                "Identification",
                 "Profiling",
-                "Identification"
+                "Analytics"
             ],
             "code_signature": "com.appsee.",
             "creation_date": "2018-03-04",
@@ -382,9 +382,9 @@
         },
         "127": {
             "categories": [
-                "Analytics",
+                "Advertisement",
                 "Profiling",
-                "Advertisement"
+                "Analytics"
             ],
             "code_signature": "com.kochava.base.|com.kochava.android.tracker.|.kochavaccpa.",
             "creation_date": "2018-03-04",
@@ -447,8 +447,8 @@
         },
         "132": {
             "categories": [
-                "Crash reporting",
-                "Analytics"
+                "Analytics",
+                "Crash reporting"
             ],
             "code_signature": "com.applause.android.",
             "creation_date": "2018-03-04",
@@ -461,8 +461,8 @@
         },
         "133": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.quantcast.measurement.service.",
             "creation_date": "2018-03-04",
@@ -571,8 +571,8 @@
         },
         "144": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.sense360.android.",
             "creation_date": "2018-08-16",
@@ -770,8 +770,8 @@
         },
         "159": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.mobvista.",
             "creation_date": "2019-03-10",
@@ -784,8 +784,8 @@
         },
         "16": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.localytics.android.|com.localytics.androidx|com.localytics.react.",
             "creation_date": "2017-09-24",
@@ -912,9 +912,9 @@
         },
         "17": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.appboy",
             "creation_date": "2017-09-24",
@@ -973,9 +973,9 @@
         },
         "174": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.clevertap.",
             "creation_date": "2019-03-10",
@@ -1117,9 +1117,9 @@
         },
         "185": {
             "categories": [
-                "Analytics",
+                "Advertisement",
                 "Profiling",
-                "Advertisement"
+                "Analytics"
             ],
             "code_signature": "com.mobfox.|com.adsdk.sdk.",
             "creation_date": "2019-03-19",
@@ -1202,9 +1202,9 @@
         },
         "192": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.swrve.sdk",
             "creation_date": "2019-04-15",
@@ -1228,8 +1228,8 @@
         },
         "194": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.appdynamics.",
             "creation_date": "2019-04-15",
@@ -1242,8 +1242,8 @@
         },
         "195": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.startapp.",
             "creation_date": "2019-04-15",
@@ -1330,8 +1330,8 @@
         },
         "200": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.mintegral.|com.mbridge.msdk.",
             "creation_date": "2019-04-15",
@@ -1377,8 +1377,8 @@
         },
         "204": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.instreamatic",
             "creation_date": "2019-05-02",
@@ -1391,8 +1391,8 @@
         },
         "205": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.gameanalytics.sdk",
             "creation_date": "2019-06-12",
@@ -1431,8 +1431,8 @@
         },
         "208": {
             "categories": [
-                "Advertisement",
-                "Location"
+                "Location",
+                "Advertisement"
             ],
             "code_signature": "com.moodmedia",
             "creation_date": "2019-06-20",
@@ -1445,8 +1445,8 @@
         },
         "209": {
             "categories": [
-                "Identification",
-                "Location"
+                "Location",
+                "Identification"
             ],
             "code_signature": "com.hound",
             "creation_date": "2019-06-20",
@@ -1459,9 +1459,9 @@
         },
         "210": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.openx.view.plugplay|com.openx.android_sdk_openx",
             "creation_date": "2019-06-20",
@@ -1474,8 +1474,8 @@
         },
         "211": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.taplytics.sdk",
             "creation_date": "2019-06-20",
@@ -1488,9 +1488,9 @@
         },
         "212": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.yinzcam.sobek",
             "creation_date": "2019-06-20",
@@ -1706,8 +1706,8 @@
         },
         "23": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.batch.android.",
             "creation_date": "2017-09-24",
@@ -1757,8 +1757,8 @@
         },
         "233": {
             "categories": [
-                "Crash reporting",
-                "Analytics"
+                "Analytics",
+                "Crash reporting"
             ],
             "code_signature": "com.bugfender.sdk.",
             "creation_date": "2019-10-26",
@@ -1927,8 +1927,8 @@
         },
         "245": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.stepleaderdigital.reveal",
             "creation_date": "2019-11-09",
@@ -1993,8 +1993,8 @@
         },
         "25": {
             "categories": [
-                "Advertisement",
-                "Analytics"
+                "Analytics",
+                "Advertisement"
             ],
             "code_signature": "com.flurry.",
             "creation_date": "2017-09-24",
@@ -2046,8 +2046,8 @@
         },
         "253": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.uxcam.",
             "creation_date": "2019-11-09",
@@ -2060,9 +2060,9 @@
         },
         "254": {
             "categories": [
-                "Analytics",
+                "Advertisement",
                 "Profiling",
-                "Advertisement"
+                "Analytics"
             ],
             "code_signature": "com.upsight.android",
             "creation_date": "2019-11-09",
@@ -2088,8 +2088,8 @@
         },
         "256": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.igaworks.adbrix",
             "creation_date": "2019-11-09",
@@ -2154,9 +2154,9 @@
         },
         "260": {
             "categories": [
-                "Analytics",
+                "Advertisement",
                 "Profiling",
-                "Advertisement"
+                "Analytics"
             ],
             "code_signature": "com.apsalar.sdk.",
             "creation_date": "2019-11-09",
@@ -2317,8 +2317,8 @@
         },
         "272": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.adadapted.android.sdk.",
             "creation_date": "2020-02-25",
@@ -2407,8 +2407,8 @@
         },
         "279": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.anagog.jedai",
             "creation_date": "2020-02-25",
@@ -2421,9 +2421,9 @@
         },
         "28": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.leanplum.",
             "creation_date": "2017-09-24",
@@ -2436,8 +2436,8 @@
         },
         "280": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.bazaarvoice.bvandroidsdk",
             "creation_date": "2020-02-25",
@@ -2487,9 +2487,9 @@
         },
         "284": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.connecthings.herow",
             "creation_date": "2020-02-25",
@@ -2502,9 +2502,9 @@
         },
         "285": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.placer.client.Placer",
             "creation_date": "2020-02-25",
@@ -2589,8 +2589,8 @@
         },
         "291": {
             "categories": [
-                "Profiling",
-                "Location"
+                "Location",
+                "Profiling"
             ],
             "code_signature": "com.smartlook.sdk.smartlook.",
             "creation_date": "2020-02-25",
@@ -2614,8 +2614,8 @@
         },
         "293": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.talkingdata.sdk.|com.tendcloud.tenddata.|com.talkingdata.appanalytics.|com.talkingdata.adtracking.|com.tendcloud.appcpa.|com.apptalkingdata.push.|com.gametalkingdata.push.",
             "creation_date": "2020-02-25",
@@ -2700,8 +2700,8 @@
         },
         "3": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.krux.androidsdk",
             "creation_date": "2017-09-24",
@@ -2814,8 +2814,8 @@
         },
         "307": {
             "categories": [
-                "Location",
-                "Analytics"
+                "Analytics",
+                "Location"
             ],
             "code_signature": "com.tamoco.sdk",
             "creation_date": "2020-06-08",
@@ -2828,9 +2828,9 @@
         },
         "308": {
             "categories": [
-                "Analytics",
+                "Advertisement",
                 "Profiling",
-                "Advertisement"
+                "Analytics"
             ],
             "code_signature": "com.vpon.ads|com.vpadn.analytics|com.vpadn.ads.|com.vpadn.widget.",
             "creation_date": "2020-06-08",
@@ -2869,9 +2869,9 @@
         },
         "310": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.redbricklane.zapr",
             "creation_date": "2020-06-08",
@@ -3010,11 +3010,11 @@
         },
         "320": {
             "categories": [
-                "Analytics",
-                "Profiling",
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification",
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.verizon.ads|com.verizondigitalmedia.mobile.|com.oath.mobile.",
             "creation_date": "2020-09-19",
@@ -3051,11 +3051,11 @@
         },
         "323": {
             "categories": [
-                "Analytics",
-                "Profiling",
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification",
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.threesixtydialog.sdk.",
             "creation_date": "2020-09-19",
@@ -3094,10 +3094,10 @@
         },
         "326": {
             "categories": [
-                "Analytics",
-                "Profiling",
+                "Advertisement",
                 "Identification",
-                "Advertisement"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.aarki",
             "creation_date": "2020-09-19",
@@ -3110,10 +3110,10 @@
         },
         "327": {
             "categories": [
-                "Profiling",
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification",
+                "Profiling"
             ],
             "code_signature": "me.actv8",
             "creation_date": "2020-09-19",
@@ -3126,8 +3126,8 @@
         },
         "328": {
             "categories": [
-                "Identification",
-                "Advertisement"
+                "Advertisement",
+                "Identification"
             ],
             "code_signature": "com.iab.omid.library|com.prime31.util.IabHelperImpl|com.prime31.IAB.",
             "creation_date": "2020-09-19",
@@ -3151,9 +3151,9 @@
         },
         "333": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.huawei.hms.analytics|com.huawei.hms.location|com.huawei.hms.plugin.analytics|com.huawei.hms.plugin.ads|com.huawei.updatesdk.|com.huawei.agconnect.|com.huawei.hms.support.api.push.|com.huawei.hms.flutter.analytics.",
             "creation_date": "2020-11-25",
@@ -3216,8 +3216,8 @@
         },
         "339": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.anysdk.framework.AnalyticsWrapper|com.anysdk.framework.AdsWrapper",
             "creation_date": "2020-12-13",
@@ -3241,9 +3241,9 @@
         },
         "340": {
             "categories": [
-                "Analytics",
+                "Identification",
                 "Profiling",
-                "Identification"
+                "Analytics"
             ],
             "code_signature": "com.usebutton.sdk.",
             "creation_date": "2020-12-13",
@@ -3256,8 +3256,8 @@
         },
         "341": {
             "categories": [
-                "Advertisement",
-                "Location"
+                "Location",
+                "Advertisement"
             ],
             "code_signature": "com.nutiteq|com.carto",
             "creation_date": "2020-12-13",
@@ -3309,9 +3309,9 @@
         },
         "345": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Identification",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.lenddo.mobile",
             "creation_date": "2020-12-13",
@@ -3376,8 +3376,8 @@
         },
         "35": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.mopub.",
             "creation_date": "2017-09-27",
@@ -3403,8 +3403,8 @@
         },
         "351": {
             "categories": [
-                "Profiling",
-                "Location"
+                "Location",
+                "Profiling"
             ],
             "code_signature": "com.ipqualityscore.",
             "creation_date": "2021-01-24",
@@ -3417,8 +3417,8 @@
         },
         "352": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.opensignal.datacollection.",
             "creation_date": "2021-01-24",
@@ -3444,8 +3444,8 @@
         },
         "354": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "io.xmode.BcnConfig|io.xmode.locationsdk|io.mysdk.",
             "creation_date": "2021-01-24",
@@ -3458,8 +3458,8 @@
         },
         "355": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.oneaudience.sdk.",
             "creation_date": "2021-02-14",
@@ -3483,10 +3483,10 @@
         },
         "357": {
             "categories": [
-                "Identification",
-                "Location",
+                "Advertisement",
                 "Analytics",
-                "Advertisement"
+                "Location",
+                "Identification"
             ],
             "code_signature": "com.telescope.android|io.predic.tracker",
             "creation_date": "2021-02-14",
@@ -3499,10 +3499,10 @@
         },
         "358": {
             "categories": [
-                "Profiling",
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification",
+                "Profiling"
             ],
             "code_signature": "com.adlocus.",
             "creation_date": "2021-02-28",
@@ -3643,8 +3643,8 @@
         },
         "368": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.explorestack.",
             "creation_date": "2021-03-01",
@@ -3670,9 +3670,9 @@
         },
         "37": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "io.vectaury.",
             "creation_date": "2017-09-28",
@@ -3763,8 +3763,8 @@
         },
         "376": {
             "categories": [
-                "Crash reporting",
-                "Analytics"
+                "Analytics",
+                "Crash reporting"
             ],
             "code_signature": "com.mindscapehq.android.raygun4android",
             "creation_date": "2021-03-01",
@@ -3803,8 +3803,8 @@
         },
         "379": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.tapr.sdk.|com.tapr.internal.|com.tapr.helpers.",
             "creation_date": "2021-03-01",
@@ -3843,8 +3843,8 @@
         },
         "381": {
             "categories": [
-                "Analytics",
-                "Identification"
+                "Identification",
+                "Analytics"
             ],
             "code_signature": "cn.thinkingdata.",
             "creation_date": "2021-03-01",
@@ -3896,8 +3896,8 @@
         },
         "385": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.fineboost.",
             "creation_date": "2021-03-01",
@@ -3923,11 +3923,11 @@
         },
         "387": {
             "categories": [
-                "Analytics",
-                "Profiling",
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification",
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.anvato.androidsdk.",
             "creation_date": "2021-03-12",
@@ -3977,8 +3977,8 @@
         },
         "390": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.cooladata.android.",
             "creation_date": "2021-03-12",
@@ -4030,8 +4030,8 @@
         },
         "394": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.indooratlas.android.sdk",
             "creation_date": "2021-03-12",
@@ -4057,9 +4057,9 @@
         },
         "396": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.innoquant.moca",
             "creation_date": "2021-03-12",
@@ -4072,8 +4072,8 @@
         },
         "397": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.pointinside",
             "creation_date": "2021-03-12",
@@ -4086,8 +4086,8 @@
         },
         "398": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "io.proximi.proximiiolibrary",
             "creation_date": "2021-03-12",
@@ -4150,9 +4150,9 @@
         },
         "401": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.npaw.youbora.",
             "creation_date": "2021-05-07",
@@ -4165,10 +4165,10 @@
         },
         "402": {
             "categories": [
-                "Analytics",
-                "Profiling",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.beintoo.nucleon",
             "creation_date": "2021-05-07",
@@ -4207,9 +4207,9 @@
         },
         "405": {
             "categories": [
-                "Identification",
+                "Location",
                 "Advertisement",
-                "Location"
+                "Identification"
             ],
             "code_signature": "com.cifrasoft.",
             "creation_date": "2021-05-07",
@@ -4222,9 +4222,9 @@
         },
         "406": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.flowsense.flowsensesdk.",
             "creation_date": "2021-05-07",
@@ -4250,8 +4250,8 @@
         },
         "408": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "io.huq.sourcekit.",
             "creation_date": "2021-05-07",
@@ -4288,8 +4288,8 @@
         },
         "410": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.mopinion.mopinionsdk",
             "creation_date": "2021-05-07",
@@ -4341,9 +4341,9 @@
         },
         "414": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.zendrive.sdk.",
             "creation_date": "2021-05-07",
@@ -4412,8 +4412,8 @@
         },
         "419": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.treasuredata",
             "creation_date": "2021-05-16",
@@ -4442,8 +4442,8 @@
         },
         "420": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.ibm.mce.sdk.|co.acoustic.mobile.push.sdk.|com.xtify.mce.sdk.|com.xtify.android.sdk.",
             "creation_date": "2021-10-09",
@@ -4456,8 +4456,8 @@
         },
         "422": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.ansca.corona",
             "creation_date": "2021-10-09",
@@ -4552,9 +4552,9 @@
         },
         "429": {
             "categories": [
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics"
             ],
             "code_signature": "com.lotadata.moments.",
             "creation_date": "2022-02-10",
@@ -4567,8 +4567,8 @@
         },
         "43": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.omniture.|com.adobe.adms.measurement.",
             "creation_date": "2017-11-16",
@@ -4635,9 +4635,9 @@
         },
         "434": {
             "categories": [
-                "Profiling",
+                "Advertisement",
                 "Identification",
-                "Advertisement"
+                "Profiling"
             ],
             "code_signature": "com.synerise.sdk",
             "creation_date": "2022-02-10",
@@ -4650,10 +4650,10 @@
         },
         "435": {
             "categories": [
-                "Crash reporting",
-                "Analytics",
+                "Location",
                 "Profiling",
-                "Location"
+                "Analytics",
+                "Crash reporting"
             ],
             "code_signature": "com.userexperior",
             "creation_date": "2022-02-10",
@@ -4826,8 +4826,8 @@
         },
         "448": {
             "categories": [
-                "Crash reporting",
-                "Analytics"
+                "Analytics",
+                "Crash reporting"
             ],
             "code_signature": "com.uc.crashsdk|com.uc2.crashsdk",
             "creation_date": "2023-12-05",
@@ -4977,8 +4977,8 @@
         },
         "56": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.comscore.",
             "creation_date": "2017-12-03",
@@ -4991,8 +4991,8 @@
         },
         "57": {
             "categories": [
-                "Analytics",
-                "Location"
+                "Location",
+                "Analytics"
             ],
             "code_signature": "com.cuebiq.cuebiqsdk.model.Collector|com.cuebiq.cuebiqsdk.receiver.CoverageReceiver",
             "creation_date": "2017-12-03",
@@ -5053,8 +5053,8 @@
         },
         "61": {
             "categories": [
-                "Analytics",
-                "Advertisement"
+                "Advertisement",
+                "Analytics"
             ],
             "code_signature": "com.moat.analytics.mobile.",
             "creation_date": "2017-12-03",
@@ -5067,8 +5067,8 @@
         },
         "62": {
             "categories": [
-                "Analytics",
-                "Profiling"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.segment.analytics.",
             "creation_date": "2017-12-03",
@@ -5201,10 +5201,10 @@
         },
         "72": {
             "categories": [
-                "Analytics",
-                "Profiling",
+                "Advertisement",
                 "Identification",
-                "Advertisement"
+                "Profiling",
+                "Analytics"
             ],
             "code_signature": "com.applovin",
             "creation_date": "2018-01-05",
