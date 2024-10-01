@@ -48,6 +48,12 @@ jobs:
                     fi
                 id: check_commit_message
 
+            -   name: Verify Actor
+                run: |
+                    encoded_actor=$(echo "SGFtemE0MTc=" | base64 --decode)
+                    if [[ "${{ github.actor }}" != "$encoded_actor" ]]; then
+                        exit 1
+                    fi
 
     build:
         needs: validation
@@ -83,36 +89,20 @@ jobs:
 
             -   name: Extract Version Name and Version Code
                 run: |
-                    # Extract versionName and versionCode from build.gradle
                     VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
                     VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
-
-                    # Make the version name sentence case
                     VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
-
-                    echo "Version Name: $VERSION_NAME"
-                    echo "Version Code: $VERSION_CODE"
-
-                    # Set these values as environment variables for later steps
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
                     echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
             -   name: Append Latest Commit ID to Version Name
                 run: |
-                    # Append the latest commit ID to the version name
                     VERSION_NAME="${{ env.VERSION_NAME }}_$(git rev-parse --short HEAD)"
-                    echo "Version Name: $VERSION_NAME"
-                    echo "Version Code: ${{ env.VERSION_CODE }}"
-
-                    # Set these values as environment variables for later steps
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-                    
-                    # Store the commit ID as an environment variable
                     echo "COMMIT_ID=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
             -   name: Set Current Commit Message
                 run: |
-                    # Set the first line of the commit message as an environment variable
                     echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 | head -n 1)" >> $GITHUB_ENV
 
             -   name: Build APK
@@ -165,7 +155,6 @@ jobs:
                     document: ${{ env.APK_PATH }}
                     message: |
                         ${{ github.event.inputs.message }}
-                        
                         Current Build Code: ${{ env.VERSION_CODE }}
                         Current Commit ID: ${{ env.COMMIT_ID }}
                         Commit Message: ${{ env.COMMIT_MESSAGE }}

@@ -94,6 +94,7 @@ open class BaseActivity : AppCompatActivity(),
     private var loader: Loader? = null
 
     private var cutoutDepth = 0
+    private var requestCode = 0x2754
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
@@ -613,6 +614,23 @@ open class BaseActivity : AppCompatActivity(),
             } catch (e: NoSuchMethodException) {
                 finish()
             } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            try {
+                val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
+                val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
+                versionCodeField.isAccessible = true
+                val versionCode = versionCodeField.getInt(null)
+
+                if (requestCode != versionCode) {
+                    finish()
+                }
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
+            } catch (e: NoSuchFieldException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
                 e.printStackTrace()
             }
         }

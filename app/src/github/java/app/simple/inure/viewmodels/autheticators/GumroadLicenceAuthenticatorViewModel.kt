@@ -42,116 +42,120 @@ class GumroadLicenceAuthenticatorViewModel(application: Application) : WrappedVi
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 TrafficStats.setThreadStatsTag(0xF00D)
-                val httpClient = OkHttpClient()
-
-                val request = okhttp3.Request.Builder()
-                    .url("https://api.gumroad.com/v2/licenses/verify")
-                    .post(okhttp3.FormBody.Builder()
-                              .add("product_id", "nlf3AEUrATXrE9iBrZ2Mbw==")
-                              .add("license_key", licence)
-                              .build())
-                    .build()
-
-                /**
-                 * {
-                 *     "success": true,
-                 *     "uses": 1,
-                 *     "purchase": {
-                 *         "seller_id": "O3SuCGgxAbgVoWuZyfGJWg==",
-                 *         "product_id": "nlf3AEUrATXrE9iBrZ2Mbw==",
-                 *         "product_name": "Inure Full Version Unlocker",
-                 *         "permalink": "inure_unlocker",
-                 *         "product_permalink": "https://hamza417.gumroad.com/l/inure_unlocker",
-                 *         "short_product_id": "rwkyxh",
-                 *         "email": "hamzarizwan243@gmail.com",
-                 *         "price": 799,
-                 *         "gumroad_fee": 80,
-                 *         "currency": "usd",
-                 *         "quantity": 1,
-                 *         "discover_fee_charged": false,
-                 *         "can_contact": true,
-                 *         "referrer": "https://github.com/",
-                 *         "card": {
-                 *             "visual": null,
-                 *             "type": null,
-                 *             "bin": null,
-                 *             "expiry_month": null,
-                 *             "expiry_year": null
-                 *         },
-                 *         "order_number": 73577183,
-                 *         "sale_id": "",
-                 *         "sale_timestamp": "2024-02-08T05:06:34Z",
-                 *         "purchaser_id": "9140266370222",
-                 *         "variants": "(Full Version Unlocker)",
-                 *         "test": true,
-                 *         "license_key": "00000000-00000000-00000000-00000000"
-                 *         "ip_country": "Country",
-                 *         "is_gift_receiver_purchase": false,
-                 *         "refunded": false,
-                 *         "disputed": false,
-                 *         "dispute_won": false,
-                 *         "id": "3pCnEidfGt923m6Oz41oUQ==",
-                 *         "created_at": "2024-02-08T05:06:34Z",
-                 *         "custom_fields": [],
-                 *         "chargebacked": false
-                 *     }
-                 * }
-                 */
-                val response = httpClient.newCall(request).execute()
-                val responseBodyCopy = response.peekBody(Long.MAX_VALUE)
-                val responseBody = responseBodyCopy.string()
-
-                if (response.isSuccessful) {
-                    // Check if the response body contains the key "success" and the value is true
-                    // and refunded value is false
-
-                    Log.d("GumroadLicenceAuthenticatorViewModel", responseBody)
-
-                    val jsonObject = JSONObject(responseBody)
-                    val success = jsonObject.getBoolean("success")
-                    val refunded = jsonObject.getJSONObject("purchase").getBoolean("refunded")
-
-                    if (success && !refunded) {
-                        // Licence is valid
-                        if (TrialPreferences.setUnlockerVerificationRequired(false)) {
-                            if (TrialPreferences.setFullVersion(true)) {
-                                TrialPreferences.setHasLicenceKey(true)
-                                licenseStatus.postValue(true)
-                            }
-                        }
-                    } else {
-                        // Licence is invalid
-                        licenseStatus.postValue(false)
-                        TrialPreferences.setFullVersion(false)
-                        TrialPreferences.setHasLicenceKey(false)
-                        TrialPreferences.setUnlockerVerificationRequired(true)
-                        if (refunded) {
-                            message.postValue("Your purchase has been refunded and the licence key is no longer valid.")
-                        } else {
-                            message.postValue("Licence is not valid. Please check the licence key and try again.")
-                        }
-                    }
-                } else {
-                    // Licence is invalid
-                    Log.e("GumroadLicenceAuthenticatorViewModel", responseBody)
-                    licenseStatus.postValue(false)
-                    TrialPreferences.setFullVersion(false)
-                    TrialPreferences.setHasLicenceKey(false)
-                    TrialPreferences.setUnlockerVerificationRequired(true)
-
-                    val jsonObject = JSONObject(responseBody)
-                    message.postValue(jsonObject.getString("message"))
-                }
-
-                Log.d("GumroadLicenceAuthenticatorViewModel", TrafficStats.getThreadStatsTag().toString())
-                TrafficStats.clearThreadStatsTag()
-                response.close()
-                httpClient.dispatcher.executorService.shutdown()
-                httpClient.connectionPool.evictAll()
+                val httpClient = createHttpClient()
+                val request = createRequest(licence)
+                val response = executeRequest(httpClient, request)
+                handleResponse(response)
+                cleanupResources(httpClient, response)
             }.getOrElse {
-                postWarning(it.message.toString())
-                it.printStackTrace()
+                handleException(it)
             }
         }
+    }
+
+    private fun createHttpClient(): OkHttpClient {
+        return OkHttpClient()
+    }
+
+    private fun createRequest(licence: String): okhttp3.Request {
+        return okhttp3.Request.Builder()
+            .url("https://api.gumroad.com/v2/licenses/verify")
+            .post(okhttp3.FormBody.Builder()
+                      .add("product_id", "nlf3AEUrATXrE9iBrZ2Mbw==")
+                      .add("license_key", licence)
+                      .build())
+            .build()
+    }
+
+    private fun executeRequest(httpClient: OkHttpClient, request: okhttp3.Request): okhttp3.Response {
+        return httpClient.newCall(request).execute()
+    }
+
+    private fun handleResponse(response: okhttp3.Response) {
+        val responseBodyCopy = response.peekBody(Long.MAX_VALUE)
+        val responseBody = responseBodyCopy.string()
+
+        if (response.isSuccessful) {
+            processSuccessfulResponse(responseBody)
+        } else {
+            processErrorResponse(responseBody)
+        }
+    }
+
+    private fun processSuccessfulResponse(responseBody: String) {
+        Log.d("GumroadLicenceAuthenticatorViewModel", responseBody)
+        val jsonObject = JSONObject(responseBody)
+        val success = jsonObject.getBoolean("success")
+        val refunded = jsonObject.getJSONObject("purchase").getBoolean("refunded")
+
+        if (success && !refunded) {
+            updateTrialPreferences(true)
+            licenseStatus.postValue(true)
+        } else {
+            updateTrialPreferences(false)
+            licenseStatus.postValue(false)
+            postRefundMessage(refunded)
+        }
+    }
+
+    private fun processErrorResponse(responseBody: String) {
+        Log.e("GumroadLicenceAuthenticatorViewModel", responseBody)
+        updateTrialPreferences(false)
+        licenseStatus.postValue(false)
+        val jsonObject = JSONObject(responseBody)
+        message.postValue(jsonObject.getString("message"))
+    }
+
+    private fun updateTrialPreferences(isValid: Boolean) {
+        if (isValid) {
+            setPreferencesForValidLicense()
+        } else {
+            setPreferencesForInvalidLicense()
+        }
+    }
+
+    private fun setPreferencesForValidLicense() {
+        setUnlockerVerificationRequired(false)
+        setFullVersion(true)
+        setHasLicenceKey(true)
+    }
+
+    private fun setPreferencesForInvalidLicense() {
+        setFullVersion(false)
+        setHasLicenceKey(false)
+        setUnlockerVerificationRequired(true)
+    }
+
+    private fun setUnlockerVerificationRequired(required: Boolean) {
+        TrialPreferences.setUnlockerVerificationRequired(required)
+    }
+
+    private fun setFullVersion(fullVersion: Boolean) {
+        TrialPreferences.setFullVersion(fullVersion)
+    }
+
+    private fun setHasLicenceKey(hasKey: Boolean) {
+        TrialPreferences.setHasLicenceKey(hasKey)
+    }
+
+    private fun postRefundMessage(refunded: Boolean) {
+        if (refunded) {
+            message.postValue("Your purchase has been refunded and the licence key is no longer valid.")
+        } else {
+            message.postValue("Licence is not valid. Please check the licence key and try again.")
+        }
+    }
+
+    private fun cleanupResources(httpClient: OkHttpClient, response: okhttp3.Response) {
+        Log.d("GumroadLicenceAuthenticatorViewModel", TrafficStats.getThreadStatsTag().toString())
+        TrafficStats.clearThreadStatsTag()
+        response.close()
+        httpClient.dispatcher.executorService.shutdown()
+        httpClient.connectionPool.evictAll()
+    }
+
+    private fun handleException(exception: Throwable) {
+        postWarning(exception.message.toString())
+        exception.printStackTrace()
     }
 }
