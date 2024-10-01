@@ -821,7 +821,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     }
 
     protected fun popBackStack() {
-        requireActivity().supportFragmentManager.popBackStack()
+        if (requireActivity().supportFragmentManager.backStackEntryCount > 0) {
+            requireActivity().supportFragmentManager.popBackStack()
+        } else {
+            goBack()
+        }
     }
 
     protected fun postDelayed(delay: Long, action: () -> Unit) {
