@@ -13,6 +13,7 @@
         android:padding="@dimen/header_padding"
         android:text="@string/desc_development_prefs"
         app:appFontStyle="regular"
+        android:visibility="gone"
         app:drawableStartCompat="@drawable/ic_error"
         app:drawableTintStyle="accent"
         app:textColorStyle="secondary" />

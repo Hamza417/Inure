@@ -94,4 +94,9 @@ object Warnings {
      * Replace $ with the unsupported type value
      */
     const val UNSUPPORTED_TYPE_VALUE = "0x012: data contains an unsupported type value: $"
+
+    /**
+     * Using development features may cause unexpected behaviors in the app
+     */
+    const val DEVELOPMENT_FEATURES_WARNING = "0x013: Using development features may cause unexpected behaviors in the app, use these toggles at your own discretion."
 }

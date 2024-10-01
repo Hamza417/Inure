@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -77,7 +78,9 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
         }
 
-        thread?.join() // Wait for the previous thread to finish
+        if (Thread.currentThread() != Looper.getMainLooper().thread) {
+            thread?.join() // Wait for the previous thread to finish
+        }
     }
 
     fun reload() { // These two fun already runs in their own threads
