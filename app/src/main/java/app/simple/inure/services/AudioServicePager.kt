@@ -287,7 +287,6 @@ class AudioServicePager : Service(),
                     @Suppress("DEPRECATION")
                     stopForeground(true)
                 }
-
                 stopSelf()
             }
 
@@ -304,7 +303,6 @@ class AudioServicePager : Service(),
                     ServiceConstants.actionQuitMusicServicePager -> {
                         quitService()
                     }
-
                     else -> {
                         /* no-op */
                     }
@@ -312,9 +310,41 @@ class AudioServicePager : Service(),
             }
         })
 
+        mediaSessionCompat!!.isActive = true
         mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
         mediaControllerCompat = mediaSessionCompat!!.controller
-        // mediaMetadataCompat = mediaControllerCompat!!.metadata
+    }
+
+    private fun setupMetadata() {
+        kotlin.runCatching {
+            CoroutineScope(Dispatchers.IO).launch {
+                metaData = audioModels!![currentPosition]
+
+                with(MediaMetadataCompat.Builder()) {
+                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
+                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
+                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
+                    putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.ADD_BITMAP_TO_METADATA)) {
+                        putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
+                                  getBitmapFromUriForNotifications(applicationContext,
+                                                                   audioModels?.get(currentPosition)?.artUri!!, 1024))
+                    }
+                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
+                    mediaMetadataCompat = build()
+                }
+
+                withContext(Dispatchers.Main) {
+                    mediaSessionCompat?.setMetadata(mediaMetadataCompat)
+                    createNotificationChannel()
+                    setPlayingState()
+                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
+                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
+                }
+            }
+        }.getOrElse {
+            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, it.stackTraceToString())
+        }
     }
 
     private fun setPlaybackState(playbackState: Int) {
@@ -347,39 +377,6 @@ class AudioServicePager : Service(),
 
         IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionQuitMusicServicePager, applicationContext)
         stopSelf()
-    }
-
-    private fun setupMetadata() {
-        kotlin.runCatching {
-            CoroutineScope(Dispatchers.IO).launch {
-                metaData = audioModels!![currentPosition]
-
-                with(MediaMetadataCompat.Builder()) {
-                    putString(MediaMetadataCompat.METADATA_KEY_TITLE, metaData?.title)
-                    putString(MediaMetadataCompat.METADATA_KEY_ARTIST, metaData?.artists)
-                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM, metaData?.album)
-                    putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mediaPlayer.duration.toLong())
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.ADD_BITMAP_TO_METADATA)) {
-                        putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
-                                  getBitmapFromUriForNotifications(applicationContext,
-                                                                   audioModels?.get(currentPosition)?.artUri!!, 1024))
-                    }
-                    putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, metaData?.artUri)
-                    mediaMetadataCompat = build()
-                }
-
-                withContext(Dispatchers.Main) {
-                    // setupMediaSession()
-                    mediaSessionCompat?.setMetadata(mediaMetadataCompat)
-                    createNotificationChannel()
-                    setPlayingState()
-                    showNotification(generateAction(R.drawable.ic_pause, "pause", ServiceConstants.actionPausePager))
-                    IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMetaDataPager, applicationContext)
-                }
-            }
-        }.getOrElse {
-            IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionMediaErrorPager, applicationContext, it.stackTraceToString())
-        }
     }
 
     private fun requestAudioFocus(): Boolean {

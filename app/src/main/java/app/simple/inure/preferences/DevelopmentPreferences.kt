@@ -105,7 +105,9 @@ object DevelopmentPreferences {
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Add Bitmap To Metadata",
-                                            "Add bitmap to the metadata of MusicPlayerService. Useful for ROMs that shows Album Art on Lock Screen.",
+                                            "Add bitmap to the metadata of MusicPlayerService. " +
+                                                    "Useful for ROMs that shows Album Art on Lock Screen or " +
+                                                    "if widgets are not showing the album art.",
                                             ADD_BITMAP_TO_METADATA,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
