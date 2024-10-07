@@ -25,6 +25,6 @@ object BatchUtils {
     }
 
     private fun String.sanitize(): String {
-        return replace(Regex("[^a-zA-Z0-9._-]"), "_")
+        return replace(Regex("[^\\p{L}\\p{N}._-]"), "_")
     }
 }
