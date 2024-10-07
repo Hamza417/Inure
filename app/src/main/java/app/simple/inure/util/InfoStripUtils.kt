@@ -8,6 +8,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppsPreferences
@@ -81,7 +82,7 @@ object InfoStripUtils {
 
             // State
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_STATE)) {
-                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                if (packageInfo.isInstalled().not()) {
                     appendOR(getString(R.string.uninstalled))
                 } else {
                     if (packageInfo.applicationInfo.enabled) {

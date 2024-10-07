@@ -1,7 +1,6 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
@@ -12,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.TagsDatabase
@@ -199,13 +199,17 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         parallelStream().forEach { app ->
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
                 if (app.applicationInfo.enabled.invert()) {
-                    filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    if (app.isInstalled()) {
+                        filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    }
                 }
             }
 
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
                 if (app.applicationInfo.enabled) {
-                    filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    if (app.isInstalled()) {
+                        filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    }
                 }
             }
 
@@ -222,7 +226,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
 
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                if (app.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                if (app.isInstalled().invert()) {
                     filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                 }
             }
