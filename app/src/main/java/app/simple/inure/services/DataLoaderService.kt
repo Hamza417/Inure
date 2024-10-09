@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
+import android.content.pm.LauncherApps
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.UserHandle
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
@@ -45,6 +47,11 @@ class DataLoaderService : Service() {
 
     private var broadcastReceiver: BroadcastReceiver? = null
     private var intentFilter: IntentFilter = IntentFilter()
+    private val launcherAppsService: LauncherApps by lazy {
+        getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+    }
+
+    private var launcherAppsCallback: LauncherApps.Callback? = null
 
     inner class LoaderBinder : Binder() {
         fun getService(): DataLoaderService {
@@ -73,6 +80,35 @@ class DataLoaderService : Service() {
         intentFilter.addAction(REFRESH)
 
         LocalBroadcastManager.getInstance(applicationContext).registerReceiver(broadcastReceiver!!, intentFilter)
+
+        launcherAppsCallback = object : LauncherApps.Callback() {
+            override fun onPackageRemoved(packageName: String?, user: UserHandle?) {
+                Log.d(tag, "onPackageRemoved: $packageName")
+                refresh()
+            }
+
+            override fun onPackageAdded(packageName: String?, user: UserHandle?) {
+                Log.d(tag, "onPackageAdded: $packageName")
+                refresh()
+            }
+
+            override fun onPackageChanged(packageName: String?, user: UserHandle?) {
+                Log.d(tag, "onPackageChanged: $packageName")
+                refresh()
+            }
+
+            override fun onPackagesAvailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
+                Log.d(tag, "onPackagesAvailable: ${packageNames?.contentToString()}")
+                refresh()
+            }
+
+            override fun onPackagesUnavailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
+                Log.d(tag, "onPackagesUnavailable: ${packageNames?.contentToString()}")
+                refresh()
+            }
+        }
+
+        launcherAppsService.registerCallback(launcherAppsCallback!!)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -84,6 +120,7 @@ class DataLoaderService : Service() {
         super.onDestroy()
         Log.d(tag, "onDestroy: Dataloader service destroyed")
         LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(broadcastReceiver!!)
+        launcherAppsService.unregisterCallback(launcherAppsCallback!!)
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {

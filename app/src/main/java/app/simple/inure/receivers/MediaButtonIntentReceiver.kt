@@ -105,8 +105,11 @@ class MediaButtonIntentReceiver : BroadcastReceiver() {
                                 lastClickTime = eventTime
                                 acquireWakeLockAndSendMessage(context, msg, delay)
                             } else {
+                                Log.d(tag, "Sending command $command")
                                 startService(context, command)
                             }
+
+                            Log.d(tag, "Sending command $command")
                             return true
                         }
                     }

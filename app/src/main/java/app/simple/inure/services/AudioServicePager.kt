@@ -17,6 +17,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
@@ -37,6 +38,7 @@ import app.simple.inure.util.ImageHelper.getBitmapFromUri
 import app.simple.inure.util.ImageHelper.getBitmapFromUriForNotifications
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
+import app.simple.inure.util.ParcelUtils.parcelable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -121,6 +123,7 @@ class AudioServicePager : Service(),
                 }
 
                 ServiceConstants.actionNextPager -> {
+                    Log.d("AudioService", "Next song")
                     playNext()
                 }
 
@@ -173,7 +176,7 @@ class AudioServicePager : Service(),
              */
             AudioManager.AUDIOFOCUS_LOSS,
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
-            -> {
+                -> {
                 wasPlaying = mediaPlayer.isPlaying
 
                 /**
@@ -210,7 +213,7 @@ class AudioServicePager : Service(),
 
     override fun onPrepared(mp: MediaPlayer?) {
         if (requestAudioFocus()) {
-            mp?.start()
+            play()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreparedPager, applicationContext)
             setupMetadata()
         }
@@ -258,11 +261,7 @@ class AudioServicePager : Service(),
 
     private fun setupMediaSession() {
         mediaSessionCompat?.release()
-        val mediaButtonReceiverComponentName = ComponentName(applicationContext, MediaButtonIntentReceiver::class.java)
-        val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
-        mediaButtonIntent.component = mediaButtonReceiverComponentName
-        val mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(applicationContext, 4558, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE)
-        mediaSessionCompat = MediaSessionCompat(this, getString(R.string.music), mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent)
+        mediaSessionCompat = MediaSessionCompat(this, getString(R.string.music))
         mediaSessionCompat!!.setCallback(object : MediaSessionCompat.Callback() {
             override fun onPlay() {
                 play()
@@ -295,7 +294,37 @@ class AudioServicePager : Service(),
             }
 
             override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-                return MediaButtonIntentReceiver.handleIntent(this@AudioServicePager, mediaButtonEvent)
+                Log.d("AudioService", "Media button event received: ${mediaButtonEvent.extras}")
+                if (mediaButtonEvent.action == Intent.ACTION_MEDIA_BUTTON) {
+                    val keyEvent = mediaButtonEvent.parcelable<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+                    if (keyEvent != null) {
+                        Log.d("AudioService", "Key event: ${keyEvent.keyCode}")
+                        when (keyEvent.keyCode) {
+                            KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                                Log.d("AudioService", "Play button pressed")
+                                play()
+                            }
+                            KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                                Log.d("AudioService", "Pause button pressed")
+                                pause()
+                            }
+                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
+                                Log.d("AudioService", "Play/Pause button pressed")
+                                changePlayerState()
+                            }
+                            KeyEvent.KEYCODE_MEDIA_NEXT -> {
+                                Log.d("AudioService", "Next button pressed")
+                                playNext()
+                            }
+                            KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
+                                Log.d("AudioService", "Previous button pressed")
+                                playPrevious()
+                            }
+                        }
+                    }
+                }
+
+                return true
             }
 
             override fun onCustomAction(action: String?, extras: Bundle?) {
@@ -304,14 +333,13 @@ class AudioServicePager : Service(),
                         quitService()
                     }
                     else -> {
-                        /* no-op */
+                        Log.d("AudioService", "Unknown action: $action")
                     }
                 }
             }
         })
 
         mediaSessionCompat!!.isActive = true
-        mediaSessionCompat!!.setMediaButtonReceiver(mediaButtonReceiverPendingIntent)
         mediaControllerCompat = mediaSessionCompat!!.controller
     }
 
@@ -385,7 +413,8 @@ class AudioServicePager : Service(),
             value = audioManager?.requestAudioFocus(focusRequest!!)!!
         } else {
             @Suppress("deprecation") // Required for older APIs
-            value = audioManager?.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)!!
+            value = audioManager?.requestAudioFocus(
+                    this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)!!
         }
 
         return value == AudioManager.AUDIOFOCUS_REQUEST_GRANTED

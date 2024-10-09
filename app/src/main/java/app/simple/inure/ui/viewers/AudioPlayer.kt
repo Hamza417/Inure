@@ -43,6 +43,7 @@ import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.services.AudioServicePager
 import app.simple.inure.util.ActivityUtils.isAppInLockTaskMode
 import app.simple.inure.util.AudioUtils.toBitrate
+import app.simple.inure.util.CommonUtils.withInvertedBooleanScope
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper
 import app.simple.inure.util.NullSafety.isNotNull
@@ -52,6 +53,7 @@ import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.MusicViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -79,11 +81,13 @@ class AudioPlayer : ScopedFragment() {
     private var audioServicePager: AudioServicePager? = null
     private var serviceConnection: ServiceConnection? = null
     private var audioBroadcastReceiver: BroadcastReceiver? = null
+    private var viewPagerCallback: ViewPagerCallback? = null
 
     private val audioIntentFilter = IntentFilter()
     private var serviceBound = false
     private var wasSongPlaying = false
     private var isFinished = false
+    private var shouldSwitch = MutableStateFlow(true)
 
     /**
      * [currentSeekPosition] will keep the current position of the playback
@@ -140,6 +144,8 @@ class AudioPlayer : ScopedFragment() {
             artPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 
+        viewPagerCallback = ViewPagerCallback()
+
         return view
     }
 
@@ -186,20 +192,7 @@ class AudioPlayer : ScopedFragment() {
 
                 setMetaData(artPager.currentItem)
 
-                artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                            if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
-                                handler.removeCallbacks(progressRunnable)
-                                currentSeekPosition = 0
-                                MusicPreferences.setMusicPosition(artPager.currentItem)
-                                audioServicePager?.setCurrentPosition(artPager.currentItem)
-                                setMetaData(artPager.currentItem)
-                            }
-                        }
-                    }
-                })
+                viewPagerCallback?.let { it1 -> artPager.registerOnPageChangeCallback(it1) }
 
                 lifecycleScope.launch { // OnStart, but on steroids!!!
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -231,20 +224,7 @@ class AudioPlayer : ScopedFragment() {
                 startPostponedEnterTransition()
                 setMetaData(artPager.currentItem)
 
-                artPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageScrollStateChanged(state: Int) {
-                        super.onPageScrollStateChanged(state)
-                        if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                            if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
-                                handler.removeCallbacks(progressRunnable)
-                                currentSeekPosition = 0
-                                MusicPreferences.setMusicPosition(artPager.currentItem)
-                                audioServicePager?.setCurrentPosition(artPager.currentItem)
-                                setMetaData(artPager.currentItem)
-                            }
-                        }
-                    }
-                })
+                viewPagerCallback?.let { it1 -> artPager.registerOnPageChangeCallback(it1) }
 
                 lifecycleScope.launch { // OnStart, but on steroids!!!
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -300,17 +280,22 @@ class AudioPlayer : ScopedFragment() {
                         buttonStatus(false)
                     }
                     ServiceConstants.actionNextPager -> {
-                        currentSeekPosition = 0
-                        if (artPager.currentItem < audioModels!!.size - 1) {
-                            artPager.setCurrentItem(artPager.currentItem + 1, true)
-                        } else {
-                            artPager.setCurrentItem(0, true)
-                        }
+                        withInvertedBooleanScope(shouldSwitch) {
+                            currentSeekPosition = 0
+                            viewPagerCallback?.let { artPager.unregisterOnPageChangeCallback(it) }
+                            if (artPager.currentItem < audioModels!!.size - 1) {
+                                artPager.setCurrentItem(artPager.currentItem + 1, true)
+                            } else {
+                                artPager.setCurrentItem(0, true)
+                            }
 
-                        setMetaData(artPager.currentItem)
+                            setMetaData(artPager.currentItem)
+                            artPager.registerOnPageChangeCallback(viewPagerCallback!!)
+                        }
                     }
                     ServiceConstants.actionPreviousPager -> {
                         currentSeekPosition = 0
+                        viewPagerCallback?.let { artPager.unregisterOnPageChangeCallback(it) }
                         if (artPager.currentItem > 0) {
                             artPager.setCurrentItem(artPager.currentItem - 1, true)
                         } else {
@@ -318,6 +303,7 @@ class AudioPlayer : ScopedFragment() {
                         }
 
                         setMetaData(artPager.currentItem)
+                        artPager.registerOnPageChangeCallback(viewPagerCallback!!)
                     }
                     ServiceConstants.actionBufferingPager -> {
                         seekBar.updateSecondaryProgress(intent.extras?.getInt(IntentHelper.INT_EXTRA)!!)
@@ -546,6 +532,34 @@ class AudioPlayer : ScopedFragment() {
     override fun onDestroy() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(audioBroadcastReceiver!!)
+    }
+
+    inner class ViewPagerCallback : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            if (position != MusicPreferences.getMusicPosition()) {
+                handler.removeCallbacks(progressRunnable)
+                currentSeekPosition = 0
+                MusicPreferences.setMusicPosition(position)
+                audioServicePager?.setCurrentPosition(position)
+                setMetaData(position)
+                Log.d(TAG, "Page selected: $position")
+            }
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            super.onPageScrollStateChanged(state)
+            if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                if (artPager.currentItem != MusicPreferences.getMusicPosition()) {
+                    handler.removeCallbacks(progressRunnable)
+                    currentSeekPosition = 0
+                    MusicPreferences.setMusicPosition(artPager.currentItem)
+                    audioServicePager?.setCurrentPosition(artPager.currentItem)
+                    setMetaData(artPager.currentItem)
+                    Log.d(TAG, "Page scrolled: ${artPager.currentItem}")
+                }
+            }
+        }
     }
 
     companion object {
