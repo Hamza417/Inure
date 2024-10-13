@@ -52,14 +52,14 @@ class TerminalMainMenu : ScopedDialogFragment() {
             wifiLock.text = requireContext().getString(R.string.enable_wifilock)
         }
 
-        windows.onClick(0)
-        toggleKeyboard.onClick(1)
-        specialKeys.onClick(2)
-        preferences.onClick(3)
-        reset.onClick(4)
-        copy.onClick(5)
-        wakeLock.onClick(6)
-        wifiLock.onClick(7)
+        windows.onClick(WINDOWS)
+        toggleKeyboard.onClick(TOGGLE_KEYBOARD)
+        specialKeys.onClick(SPECIAL_KEYS)
+        preferences.onClick(PREFERENCES)
+        reset.onClick(RESET)
+        copy.onClick(COPY)
+        wakeLock.onClick(WAKE_LOCK)
+        wifiLock.onClick(WIFI_LOCK)
     }
 
     private fun DynamicRippleTextView.onClick(source: Int) {
@@ -86,5 +86,14 @@ class TerminalMainMenu : ScopedDialogFragment() {
         interface TerminalMenuCallbacks {
             fun onMenuClicked(source: Int)
         }
+
+        const val WINDOWS = 0
+        const val TOGGLE_KEYBOARD = 1
+        const val SPECIAL_KEYS = 2
+        const val PREFERENCES = 3
+        const val RESET = 4
+        const val COPY = 5
+        const val WAKE_LOCK = 6
+        const val WIFI_LOCK = 7
     }
 }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
-import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.emulatorview.compat.ClipboardManagerCompatFactory
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.util.ViewUtils.visible
@@ -35,31 +35,35 @@ class TerminalContextMenu : ScopedDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         selectText.setOnClickListener {
-            terminalContextMenuCallbacks?.onMenuClicked(0)
+            terminalContextMenuCallbacks?.onMenuClicked(SELECT_TEXT_ID)
             dismiss()
         }
 
         copyAll.setOnClickListener {
-            terminalContextMenuCallbacks?.onMenuClicked(1)
+            terminalContextMenuCallbacks?.onMenuClicked(COPY_ALL_ID)
             dismiss()
         }
 
         paste.setOnClickListener {
-            terminalContextMenuCallbacks?.onMenuClicked(2)
+            terminalContextMenuCallbacks?.onMenuClicked(PASTE_ID)
             dismiss()
         }
 
         sendControlKey.setOnClickListener {
-            terminalContextMenuCallbacks?.onMenuClicked(3)
+            terminalContextMenuCallbacks?.onMenuClicked(SEND_CONTROL_KEY_ID)
             dismiss()
         }
 
         sendFnKey.setOnClickListener {
-            terminalContextMenuCallbacks?.onMenuClicked(4)
+            terminalContextMenuCallbacks?.onMenuClicked(SEND_FN_KEY_ID)
             dismiss()
         }
 
-        if (requireArguments().getBoolean(BundleConstants.canPaste)) {
+        pasteState()
+    }
+
+    private fun pasteState() {
+        if (canPaste()) {
             paste.visible(false)
         } else {
             paste.isClickable = false
@@ -71,10 +75,19 @@ class TerminalContextMenu : ScopedDialogFragment() {
         this.terminalContextMenuCallbacks = terminalContextMenuCallbacks
     }
 
+    private fun canPaste(): Boolean {
+        val clip = ClipboardManagerCompatFactory.getManager(requireContext())
+        return clip.hasText()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        pasteState()
+    }
+
     companion object {
-        fun newInstance(canPaste: Boolean): TerminalContextMenu {
+        fun newInstance(): TerminalContextMenu {
             val args = Bundle()
-            args.putBoolean(BundleConstants.canPaste, canPaste)
             val fragment = TerminalContextMenu()
             fragment.arguments = args
             return fragment
@@ -83,5 +96,11 @@ class TerminalContextMenu : ScopedDialogFragment() {
         interface TerminalContextMenuCallbacks {
             fun onMenuClicked(source: Int)
         }
+
+        const val SELECT_TEXT_ID = 0
+        const val COPY_ALL_ID = 1
+        const val PASTE_ID = 2
+        const val SEND_CONTROL_KEY_ID = 3
+        const val SEND_FN_KEY_ID = 4
     }
 }

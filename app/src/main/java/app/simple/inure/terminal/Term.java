@@ -99,12 +99,6 @@ public class Term extends BaseActivity implements UpdateCallback,
     private AdapterWindows adapterWindows;
     private TermSettings settings;
     
-    private final static int SELECT_TEXT_ID = 0;
-    private final static int COPY_ALL_ID = 1;
-    private final static int PASTE_ID = 2;
-    private final static int SEND_CONTROL_KEY_ID = 3;
-    private final static int SEND_FN_KEY_ID = 4;
-    
     private boolean stopServiceOnFinish = false;
     
     private Intent termServiceIntent;
@@ -327,32 +321,32 @@ public class Term extends BaseActivity implements UpdateCallback,
             
             terminalMainMenu.setOnTerminalMenuCallbacksListener(source -> {
                 switch (source) {
-                    case 0 -> {
+                    case TerminalMainMenu.WINDOWS -> {
                         windowListLauncher.launch(new Intent(Term.this, WindowList.class));
                     }
-                    case 1 -> {
+                    case TerminalMainMenu.TOGGLE_KEYBOARD -> {
                         toggleSoftKeyboard();
                     }
-                    case 2 -> {
+                    case TerminalMainMenu.SPECIAL_KEYS -> {
                         TerminalSpecialKeys.Companion.newInstance()
                                 .show(getSupportFragmentManager(), "special_keys");
                     }
-                    case 3 -> {
+                    case TerminalMainMenu.PREFERENCES -> {
                         doPreferences();
                     }
-                    case 4 -> {
+                    case TerminalMainMenu.RESET -> {
                         doResetTerminal();
                         Toast toast = Toast.makeText(getBaseContext(), R.string.reset_toast_notification, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }
-                    case 5 -> {
+                    case TerminalMainMenu.COPY -> {
                         doCopyAll();
                     }
-                    case 6 -> {
+                    case TerminalMainMenu.WAKE_LOCK -> {
                         doToggleWakeLock();
                     }
-                    case 7 -> {
+                    case TerminalMainMenu.WIFI_LOCK -> {
                         doToggleWifiLock();
                     }
                 }
@@ -850,7 +844,7 @@ public class Term extends BaseActivity implements UpdateCallback,
         if (wakeLock.isHeld()) {
             wakeLock.release();
         } else {
-            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
+            wakeLock.acquire(10 * 60 * 1000L /* 10 minutes */);
         }
         ActivityCompat.invalidateOptionsMenu(this);
     }
@@ -867,19 +861,19 @@ public class Term extends BaseActivity implements UpdateCallback,
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        TerminalContextMenu terminalContextMenu = TerminalContextMenu.Companion.newInstance(canPaste());
+        TerminalContextMenu terminalContextMenu = TerminalContextMenu.Companion.newInstance();
         
         terminalContextMenu.setOnTerminalContextMenuCallbackListener(source -> {
             switch (source) {
-                case SELECT_TEXT_ID ->
+                case TerminalContextMenu.SELECT_TEXT_ID ->
                         getCurrentEmulatorView().toggleSelectingText();
-                case COPY_ALL_ID ->
+                case TerminalContextMenu.COPY_ALL_ID ->
                         doCopyAll();
-                case PASTE_ID ->
+                case TerminalContextMenu.PASTE_ID ->
                         doPaste();
-                case SEND_CONTROL_KEY_ID ->
+                case TerminalContextMenu.SEND_CONTROL_KEY_ID ->
                         doSendControlKey();
-                case SEND_FN_KEY_ID ->
+                case TerminalContextMenu.SEND_FN_KEY_ID ->
                         doSendFnKey();
             }
         });
