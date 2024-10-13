@@ -74,7 +74,6 @@ class APKs : ScopedFragment() {
         if (fullVersionCheck()) {
             if (requireContext().checkStoragePermission()) {
                 if (apkBrowserViewModel.shouldShowLoader()) {
-                    apkBrowserViewModel.refresh()
                     apkScanner = childFragmentManager.showApkScanner()
                 }
             } else {
@@ -94,9 +93,10 @@ class APKs : ScopedFragment() {
             postponeEnterTransition()
             apkScanner?.dismiss()
 
-            adapterApks = AdapterApks(apkFiles,
-                                      requireArguments().getString(BundleConstants.transitionName, ""),
-                                      requireArguments().getInt(BundleConstants.position, 0))
+            adapterApks = AdapterApks(
+                    paths = apkFiles,
+                    transitionName = requireArguments().getString(BundleConstants.transitionName, ""),
+                    transitionPosition = requireArguments().getInt(BundleConstants.position, 0))
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -346,7 +346,7 @@ class APKs : ScopedFragment() {
 
             ApkBrowserPreferences.REVERSED,
             ApkBrowserPreferences.SORT_STYLE,
-            -> {
+                -> {
                 apkBrowserViewModel.sort()
             }
 

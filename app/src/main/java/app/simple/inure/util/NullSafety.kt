@@ -11,6 +11,10 @@ object NullSafety {
         return this != null
     }
 
+    fun Any?.isNotNullOrEmpty(): Boolean {
+        return this != null && this.toString().isNotEmpty()
+    }
+
     /**
      * Checks if the given object is null
      * @return true if object is null
