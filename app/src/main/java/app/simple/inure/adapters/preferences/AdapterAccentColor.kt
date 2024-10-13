@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.corners.DynamicCornerMaterialCardView
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -152,7 +153,7 @@ class AdapterAccentColor(private val list: ArrayList<Pair<Int, String>>) : Recyc
 
     fun updateAccentColor(context: Context) {
         if (AppearancePreferences.isCustomColor()) {
-            val position = 1
+            val position = Misc.COLOR_PICKER_INDEX
             list[position] = Pair(AppearancePreferences.getPickedAccentColor(), context.getString(R.string.color_picker))
             notifyItemChanged(lastSelectedItem)
             notifyItemChanged(position.plus(1))
