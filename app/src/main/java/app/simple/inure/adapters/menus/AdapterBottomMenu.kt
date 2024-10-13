@@ -1,6 +1,8 @@
 package app.simple.inure.adapters.menus
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
@@ -19,9 +21,12 @@ import app.simple.inure.interfaces.menus.BottomMenuCallbacks
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.MainPreferences
+import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
+import app.simple.inure.preferences.SharedPreferences.unregisterSharedPreferenceChangeListener
 import app.simple.inure.util.RecyclerViewUtils
 
-class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) : RecyclerView.Adapter<HorizontalListViewHolder>() {
+class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) :
+        RecyclerView.Adapter<HorizontalListViewHolder>(), OnSharedPreferenceChangeListener {
 
     private var bottomMenuCallbacks: BottomMenuCallbacks? = null
     private val isBottomMenuContext = AccessibilityPreferences.isAppElementsContext()
@@ -154,7 +159,27 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
         }
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        registerSharedPreferenceChangeListener()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        unregisterSharedPreferenceChangeListener()
+    }
+
     companion object {
         private const val RIPPLE_COLOR = 0x80FFFFFF.toInt()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == MainPreferences.BOTTOM_MENU_HEIGHT) {
+            for (i in 0 until itemCount) {
+                if (getItemViewType(i) == RecyclerViewUtils.TYPE_DIVIDER) {
+                    notifyItemChanged(i)
+                }
+            }
+        }
     }
 }

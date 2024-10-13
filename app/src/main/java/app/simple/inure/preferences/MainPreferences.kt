@@ -17,7 +17,7 @@ object MainPreferences {
     private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_enabled"
     private const val DISCLAIMER_AGREED = "disclaimer_agreed"
     private const val IS_RATE_REMINDER_SHOWN = "is_rate_reminder_shown_2"
-    private const val BOTTOM_MENU_HEIGHT = "bottom_menu_height"
+    const val BOTTOM_MENU_HEIGHT = "bottom_menu_height"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
