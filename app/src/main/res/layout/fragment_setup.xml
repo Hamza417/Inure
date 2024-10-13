@@ -341,7 +341,7 @@
                         app:drawableEndCompat="@drawable/ic_warning_12dp"
                         app:drawableTintStyle="warning"
                         app:layout_constraintBottom_toTopOf="@+id/shizuku_permission_state"
-                        app:layout_constraintEnd_toStartOf="@+id/setup_shizuku_switch_view"
+                        app:layout_constraintEnd_toStartOf="@+id/shizuku_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -357,7 +357,7 @@
                         android:layout_marginTop="5dp"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/setup_shizuku_switch_view"
+                        app:layout_constraintEnd_toStartOf="@+id/shizuku_switch_view"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/shizuku_permission_state"
@@ -371,13 +371,13 @@
                         android:textSize="@dimen/desc_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toTopOf="@id/typeFaceTextView16"
-                        app:layout_constraintEnd_toStartOf="@+id/setup_shizuku_switch_view"
+                        app:layout_constraintEnd_toStartOf="@+id/shizuku_switch_view"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/typeFaceTextView11"
                         app:textColorStyle="accent" />
 
                     <app.simple.inure.decorations.toggles.Switch
-                        android:id="@+id/setup_shizuku_switch_view"
+                        android:id="@+id/shizuku_switch_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

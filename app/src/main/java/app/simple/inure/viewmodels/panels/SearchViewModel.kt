@@ -164,22 +164,26 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun ArrayList<Search>.addDeepSearchData(keywords: String, deepSearchData: ArrayList<PackageInfo>) {
-        deepSearchData.parallelStream().forEach { it ->
-            try {
-                val search = Search()
+        try {
+            deepSearchData.parallelStream().forEach { it ->
+                try {
+                    val search = Search()
 
-                search.packageInfo = it
-                search.permissions = it.requestedPermissions?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
-                search.activities = it.activities?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                search.services = it.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                search.receivers = it.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                search.providers = it.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                search.resources = APKParser.getXmlFiles(it.applicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
+                    search.packageInfo = it
+                    search.permissions = it.requestedPermissions?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
+                    search.activities = it.activities?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                    search.services = it.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                    search.receivers = it.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                    search.providers = it.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                    search.resources = APKParser.getXmlFiles(it.applicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
 
-                addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
-            } catch (e: NameNotFoundException) {
-                Log.e(TAG, e.stackTraceToString())
+                    addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
+                } catch (e: NameNotFoundException) {
+                    Log.e(TAG, e.stackTraceToString())
+                }
             }
+        } catch (e: ConcurrentModificationException) {
+            e.printStackTrace()
         }
     }
 
