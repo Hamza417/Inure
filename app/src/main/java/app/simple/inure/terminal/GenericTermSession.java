@@ -55,7 +55,7 @@ public class GenericTermSession extends TermSession {
     // A cookie which uniquely identifies this session.
     private String handle;
     
-    private String mProcessExitMessage;
+    private String processExitMessage;
     
     private final UpdateCallback mUTF8ModeNotify = () -> setPtyUTF8Mode(getUTF8Mode());
     
@@ -106,15 +106,15 @@ public class GenericTermSession extends TermSession {
     /* XXX We should really get this ourselves from the resource bundle, but
        we cannot hold a context */
     public void setProcessExitMessage(String message) {
-        mProcessExitMessage = message;
+        processExitMessage = message;
     }
     
     @Override
     protected void onProcessExit() {
         if (ShellPreferences.INSTANCE.getCloseWindowOnExitState()) {
             finish();
-        } else if (mProcessExitMessage != null) {
-            byte[] msg = ("\r\n[" + mProcessExitMessage + "]").getBytes(StandardCharsets.UTF_8);
+        } else if (processExitMessage != null) {
+            byte[] msg = ("\r\n[" + processExitMessage + "]").getBytes(StandardCharsets.UTF_8);
             appendToEmulator(msg, 0, msg.length);
             notifyUpdate();
         }
@@ -162,7 +162,7 @@ public class GenericTermSession extends TermSession {
      */
     public String getTitle(String defaultTitle) {
         String title = getTitle();
-        if (title != null && title.length() > 0) {
+        if (title != null && !title.isEmpty()) {
             return title;
         } else {
             return defaultTitle;

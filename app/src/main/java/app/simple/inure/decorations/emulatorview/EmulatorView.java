@@ -1227,7 +1227,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         } else if (handleFnKey(keyCode, true)) {
             return true;
         } else if (isSystemKey(keyCode, event)) {
-            if (!isInterceptedSystemKey(keyCode)) {
+            if (isInterceptedSystemKey(keyCode)) {
                 // Don't intercept the system keys
                 return super.onKeyDown(keyCode, event);
             }
@@ -1254,7 +1254,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * Do we want to intercept this system key?
      */
     private boolean isInterceptedSystemKey(int keyCode) {
-        return keyCode == KeyEvent.KEYCODE_BACK && backKeySendsCharacter;
+        return keyCode != KeyEvent.KEYCODE_BACK || !backKeySendsCharacter;
     }
     
     /**
@@ -1275,7 +1275,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             return true;
         } else if (isSystemKey(keyCode, event)) {
             // Don't intercept the system keys
-            if (!isInterceptedSystemKey(keyCode)) {
+            if (isInterceptedSystemKey(keyCode)) {
                 return super.onKeyUp(keyCode, event);
             }
         }
@@ -1685,6 +1685,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             for (; lastY < newY; lastY++) {
                 sendMouseEventCode(motionEvent, 65);
             }
+            
             for (; lastY > newY; lastY--) {
                 sendMouseEventCode(motionEvent, 64);
             }
