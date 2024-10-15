@@ -16,6 +16,7 @@
 
 package app.simple.inure.decorations.emulatorview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -66,9 +67,10 @@ import app.simple.inure.preferences.TerminalPreferences;
  * take care of this for you.
  */
 public class EmulatorView extends View implements GestureDetector.OnGestureListener {
+    
     private final static String TAG = "EmulatorView";
-    private final static boolean LOG_KEY_EVENTS = false;
-    private final static boolean LOG_IME = false;
+    private final static boolean LOG_KEY_EVENTS = true;
+    private final static boolean LOG_IME = true;
     
     /**
      * A hash table of underlying URLs to implement clickable links.
@@ -218,6 +220,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             
         }
     };
+    
     private String imeBuffer = "";
     
     private static final MatchFilter sHttpMatchFilter = new HttpMatchFilter();
@@ -1128,6 +1131,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         return true;
     }
     
+    @SuppressLint ("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (isSelectingText) {
@@ -1234,7 +1238,6 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         }
         
         // Translate the keyCode into an ASCII character.
-        
         try {
             int oldCombiningAccent = keyListener.getCombiningAccent();
             int oldCursorMode = keyListener.getCursorMode();
@@ -1247,6 +1250,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         } catch (IOException e) {
             // Ignore I/O exceptions
         }
+        
         return true;
     }
     
@@ -1546,18 +1550,18 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * null if no link exists there.
      */
     public String getURLat(float x, float y) {
-        float w = getWidth();
-        float h = getHeight();
+        float width = getWidth();
+        float height = getHeight();
         
         //Check for division by zero
         //If width or height is zero, there are probably no links around, so return null.
-        if (w == 0 || h == 0) {
+        if (width == 0 || height == 0) {
             return null;
         }
         
         //Get fraction of total screen
-        float x_pos = x / w;
-        float y_pos = y / h;
+        float x_pos = x / width;
+        float y_pos = y / height;
         
         //Convert to integer row/column index
         int row = (int) Math.floor(y_pos * rows);

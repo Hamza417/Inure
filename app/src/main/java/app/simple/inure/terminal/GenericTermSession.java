@@ -57,7 +57,7 @@ public class GenericTermSession extends TermSession {
     
     private String processExitMessage;
     
-    private final UpdateCallback mUTF8ModeNotify = () -> setPtyUTF8Mode(getUTF8Mode());
+    private final UpdateCallback UTF8ModeNotify = () -> setPtyUTF8Mode(getUTF8Mode());
     
     GenericTermSession(ParcelFileDescriptor termParcelFileDescriptor, TermSettings settings, boolean exitOnEOF) {
         super(exitOnEOF);
@@ -89,7 +89,7 @@ public class GenericTermSession extends TermSession {
         super.initializeEmulator(columns, rows);
         
         setPtyUTF8Mode(getUTF8Mode());
-        setUTF8ModeUpdateCallback(mUTF8ModeNotify);
+        setUTF8ModeUpdateCallback(UTF8ModeNotify);
     }
     
     @Override

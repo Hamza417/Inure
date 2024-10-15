@@ -97,8 +97,11 @@ class TermKeyListener {
     private final String[] keycodes = new String[256];
     private final String[] appKeyCodes = new String[256];
     
+    /**
+     * @noinspection CommentedOutCode
+     */
     private void initKeyCodes() {
-        keymap = new HashMap <Integer, String>();
+        keymap = new HashMap <>();
         keymap.put(KEYMOD_SHIFT | KEYCODE_DPAD_LEFT, "\033[1;2D");
         keymap.put(KEYMOD_ALT | KEYCODE_DPAD_LEFT, "\033[1;3D");
         keymap.put(KEYMOD_ALT | KEYMOD_SHIFT | KEYCODE_DPAD_LEFT, "\033[1;4D");
@@ -259,7 +262,7 @@ class TermKeyListener {
      * The state engine for a modifier key. Can be pressed, released, locked,
      * and so on.
      */
-    private class ModifierKey {
+    private static class ModifierKey {
         
         private int state;
         
@@ -333,17 +336,16 @@ class TermKeyListener {
         }
         
         public int getUIMode() {
-            switch (state) {
-                default:
-                case UNPRESSED:
-                    return TextRenderer.MODE_OFF;
-                case PRESSED:
-                case RELEASED:
-                case USED:
-                    return TextRenderer.MODE_ON;
-                case LOCKED:
-                    return TextRenderer.MODE_LOCKED;
-            }
+            return switch (state) {
+                case PRESSED,
+                     RELEASED,
+                     USED ->
+                        TextRenderer.MODE_ON;
+                case LOCKED ->
+                        TextRenderer.MODE_LOCKED;
+                default -> // UNPRESSED
+                        TextRenderer.MODE_OFF;
+            };
         }
     }
     
@@ -647,6 +649,7 @@ class TermKeyListener {
                         }
                     }
                 }
+                
                 result = event.getUnicodeChar(effectiveMetaState);
                 
                 if ((result & KeyCharacterMap.COMBINING_ACCENT) != 0) {
@@ -656,6 +659,7 @@ class TermKeyListener {
                     combiningAccent = result & KeyCharacterMap.COMBINING_ACCENT_MASK;
                     return;
                 }
+                
                 if (combiningAccent != 0) {
                     int unaccentedChar = result;
                     result = KeyCharacterMap.getDeadChar(combiningAccent, unaccentedChar);
@@ -707,28 +711,18 @@ class TermKeyListener {
         if (AndroidCompat.SDK < 11) {
             return true;
         }
+        
         KeyCharacterMapCompat kcm = KeyCharacterMapCompat.wrap(
                 KeyCharacterMap.load(event.getDeviceId()));
         return kcm.getModifierBehaviour() ==
                 KeyCharacterMapCompat.MODIFIER_BEHAVIOR_CHORDED_OR_TOGGLED;
     }
     
+    /** @noinspection RedundantThrows*/
     public boolean handleKeyCode(int keyCode, KeyEvent event, boolean appMode) throws IOException {
         String code = null;
         if (event != null) {
-            int keyMod = 0;
-            // META_CTRL_ON was added only in API 11, so don't use it,
-            // use our own tracking of Ctrl key instead.
-            // (event.getMetaState() & META_CTRL_ON) != 0
-            if (hardwareControlKey || controlKey.isActive()) {
-                keyMod |= KEYMOD_CTRL;
-            }
-            if ((event.getMetaState() & META_ALT_ON) != 0) {
-                keyMod |= KEYMOD_ALT;
-            }
-            if ((event.getMetaState() & META_SHIFT_ON) != 0) {
-                keyMod |= KEYMOD_SHIFT;
-            }
+            int keyMod = getKeyMod(event);
             // First try to map scancode
             code = keymap.get(event.getScanCode() | KEYMOD_SCAN | keyMod);
             if (code == null) {
@@ -754,6 +748,23 @@ class TermKeyListener {
             return true;
         }
         return false;
+    }
+    
+    private int getKeyMod(KeyEvent event) {
+        int keyMod = 0;
+        // META_CTRL_ON was added only in API 11, so don't use it,
+        // use our own tracking of Ctrl key instead.
+        // (event.getMetaState() & META_CTRL_ON) != 0
+        if (hardwareControlKey || controlKey.isActive()) {
+            keyMod |= KEYMOD_CTRL;
+        }
+        if ((event.getMetaState() & META_ALT_ON) != 0) {
+            keyMod |= KEYMOD_ALT;
+        }
+        if ((event.getMetaState() & META_SHIFT_ON) != 0) {
+            keyMod |= KEYMOD_SHIFT;
+        }
+        return keyMod;
     }
     
     /**

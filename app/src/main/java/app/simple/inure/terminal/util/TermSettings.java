@@ -29,15 +29,15 @@ import app.simple.inure.themes.manager.ThemeManager;
  * Terminal emulator settings
  */
 public class TermSettings {
-    private SharedPreferences mPrefs;
+    private SharedPreferences preferences;
     
-    private int mActionBarMode;
-    private int mOrientation;
-    private int mCursorStyle;
-    private String mHomePath;
+    private int actionBarMode;
+    private int orientation;
+    private int cursorStyle;
+    private String homePath;
     
-    private String mPrependPath = null;
-    private String mAppendPath = null;
+    private String prependPath = null;
+    private String appendPath = null;
     
     private static final String ACTIONBAR_KEY = "actionbar";
     private static final String ORIENTATION_KEY = "orientation";
@@ -119,27 +119,27 @@ public class TermSettings {
     }
     
     private void readDefaultPrefs(Resources res) {
-        mActionBarMode = res.getInteger(R.integer.pref_actionbar_default);
-        mOrientation = res.getInteger(R.integer.pref_orientation_default);
-        mCursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
+        actionBarMode = res.getInteger(R.integer.pref_actionbar_default);
+        orientation = res.getInteger(R.integer.pref_orientation_default);
+        cursorStyle = Integer.parseInt(res.getString(R.string.pref_cursorstyle_default));
         // the mHomePath default is set dynamically in readPrefs()
     }
     
     public void readPrefs(SharedPreferences prefs) {
-        mPrefs = prefs;
-        mActionBarMode = readIntPref(ACTIONBAR_KEY, mActionBarMode, ACTION_BAR_MODE_MAX);
-        mOrientation = readIntPref(ORIENTATION_KEY, mOrientation, 2);
+        preferences = prefs;
+        actionBarMode = readIntPref(ACTIONBAR_KEY, actionBarMode, ACTION_BAR_MODE_MAX);
+        orientation = readIntPref(ORIENTATION_KEY, orientation, 2);
         // mCursorStyle = readIntPref(CURSORSTYLE_KEY, mCursorStyle, 2);
         // mCursorBlink = readIntPref(CURSORBLINK_KEY, mCursorBlink, 1);
-        mHomePath = readStringPref(HOMEPATH_KEY, mHomePath);
-        mPrefs = null;  // we leak a Context if we hold on to this
+        homePath = readStringPref(HOMEPATH_KEY, homePath);
+        preferences = null;  // we leak a Context if we hold on to this
     }
     
     private int readIntPref(String key, int defaultValue, int maxValue) {
         int val;
         try {
             val = Integer.parseInt(
-                    mPrefs.getString(key, Integer.toString(defaultValue)));
+                    preferences.getString(key, Integer.toString(defaultValue)));
         } catch (NumberFormatException e) {
             val = defaultValue;
         }
@@ -148,23 +148,23 @@ public class TermSettings {
     }
     
     private String readStringPref(String key, String defaultValue) {
-        return mPrefs.getString(key, defaultValue);
+        return preferences.getString(key, defaultValue);
     }
     
     private boolean readBooleanPref(String key, boolean defaultValue) {
-        return mPrefs.getBoolean(key, defaultValue);
+        return preferences.getBoolean(key, defaultValue);
     }
     
     public int actionBarMode() {
-        return mActionBarMode;
+        return actionBarMode;
     }
     
     public int getScreenOrientation() {
-        return mOrientation;
+        return orientation;
     }
     
     public int getCursorStyle() {
-        return mCursorStyle;
+        return cursorStyle;
     }
     
     public int[] getColorScheme() {
@@ -176,14 +176,14 @@ public class TermSettings {
     }
     
     public int getBackKeyCharacter() {
-        switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
-            case BACK_KEY_SENDS_ESC:
-                return 27;
-            case BACK_KEY_SENDS_TAB:
-                return 9;
-            default:
-                return 0;
-        }
+        return switch (TerminalPreferences.INSTANCE.getBackButtonAction()) {
+            case BACK_KEY_SENDS_ESC ->
+                    27;
+            case BACK_KEY_SENDS_TAB ->
+                    9;
+            default ->
+                    0;
+        };
     }
     
     public int getControlKeyCode() {
@@ -203,18 +203,18 @@ public class TermSettings {
     }
     
     public void setPrependPath(String prependPath) {
-        mPrependPath = prependPath;
+        this.prependPath = prependPath;
     }
     
     public String getPrependPath() {
-        return mPrependPath;
+        return prependPath;
     }
     
     public void setAppendPath(String appendPath) {
-        mAppendPath = appendPath;
+        this.appendPath = appendPath;
     }
     
     public String getAppendPath() {
-        return mAppendPath;
+        return appendPath;
     }
 }

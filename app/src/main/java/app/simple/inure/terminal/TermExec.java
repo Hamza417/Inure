@@ -1,7 +1,5 @@
 package app.simple.inure.terminal;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 
@@ -82,12 +80,12 @@ public class TermExec {
             throw new IllegalStateException("This method must not be called from the main thread!");
         }
         
-        if (command.size() == 0) {
+        if (command.isEmpty()) {
             throw new IllegalStateException("Empty command!");
         }
         
         final String cmd = command.remove(0);
-        final String[] cmdArray = command.toArray(new String[command.size()]);
+        final String[] cmdArray = command.toArray(new String[0]);
         final String[] envArray = new String[environment.size()];
         int i = 0;
         for (Map.Entry <String, String> entry : environment.entrySet()) {
@@ -123,7 +121,6 @@ public class TermExec {
 }
 
 // prevents runtime errors on old API versions with ruthless verifier
-@TargetApi (Build.VERSION_CODES.HONEYCOMB_MR1)
 class FdHelperHoneycomb {
     static int getFd(ParcelFileDescriptor descriptor) {
         return descriptor.getFd();

@@ -781,6 +781,7 @@ public class Term extends BaseActivity implements UpdateCallback,
                     return false;
             }
         }
+        
         return super.onKeyUp(keyCode, event);
     }
     

@@ -33,14 +33,14 @@ public abstract class KeyCharacterMapCompat {
     
     private static class KeyCharacterMapApi11OrLater
             extends KeyCharacterMapCompat {
-        private final KeyCharacterMap mMap;
+        private final KeyCharacterMap keyCharacterMap;
         
         public KeyCharacterMapApi11OrLater(Object map) {
-            mMap = (KeyCharacterMap) map;
+            keyCharacterMap = (KeyCharacterMap) map;
         }
         
         public int getModifierBehaviour() {
-            return mMap.getModifierBehavior();
+            return keyCharacterMap.getModifierBehavior();
         }
     }
     
