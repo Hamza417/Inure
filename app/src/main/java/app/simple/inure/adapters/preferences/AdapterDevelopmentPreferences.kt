@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
@@ -62,7 +63,13 @@ class AdapterDevelopmentPreferences : RecyclerView.Adapter<VerticalListViewHolde
         }
     }
 
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView)
+    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+        private val text: TypeFaceTextView = itemView.findViewById(R.id.text)
+
+        init {
+            text.text = Warnings.DEVELOPMENT_FEATURES_WARNING
+        }
+    }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_development_preferences_container)

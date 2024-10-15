@@ -483,7 +483,6 @@
     <string name="edited_on">Modificato su %1$s</string>
     <string name="stroke">Bordo</string>
     <string name="desc_highlight_stroke">Aggiungi un bordo su tutti gli elementi cliccabili con sfondi statici impostati come sfondo.</string>
-    <string name="desc_development_prefs">Queste preferenze/funzionalità sono aggiunte solo per comodità nello sviluppo e possono o non possono essere utili.</string>
     <string name="shortcuts">Scorciatoie</string>
     <string name="shortcuts_desc">Modifica le scorciatoie rapide dell\'app.</string>
     <string name="architecture">Architettura</string>

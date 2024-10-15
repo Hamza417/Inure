@@ -484,7 +484,6 @@
     <string name="edited_on">已在 %1$s 上編輯</string>
     <string name="stroke">筆觸</string>
     <string name="desc_highlight_stroke">在所有靜態背景設定為背景的可按下項目上新增筆觸。</string>
-    <string name="desc_development_prefs">這些偏好/功能僅為方便開發而新增。可能會也可能不會為應用程式的實際目的服務，但仍可派上用場。</string>
     <string name="shortcuts">捷徑</string>
     <string name="shortcuts_desc">編輯應用程式快速捷徑。</string>
     <string name="architecture">架構</string>

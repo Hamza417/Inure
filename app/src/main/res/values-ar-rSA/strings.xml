@@ -483,7 +483,6 @@
     <string name="edited_on">تم التعديل في %1$s</string>
     <string name="stroke">ضربة</string>
     <string name="desc_highlight_stroke">أضف حدا على جميع العناصر القابلة للنقر التي تحتوي على خلفيات ثابتة تم تعيينها كخلفية.</string>
-    <string name="desc_development_prefs">تتم إضافة هذه التفضيلات / الميزات فقط لراحة التطوير وقد تخدم أو لا تخدم الغرض الفعلي للتطبيق ولكن لا يزال من الممكن أن تكون مفيدة.</string>
     <string name="shortcuts">اختصارات</string>
     <string name="shortcuts_desc">تحرير التطبيق\'s اختصارات سريعة.</string>
     <string name="architecture">المعمارية</string>

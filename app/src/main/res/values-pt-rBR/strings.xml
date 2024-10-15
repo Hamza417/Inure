@@ -484,7 +484,6 @@
     <string name="edited_on">Editado em %1$s</string>
     <string name="stroke">Traço</string>
     <string name="desc_highlight_stroke">Adicionar traçado em todos os itens clicáveis com fundos estáticos definidos como plano de fundo.</string>
-    <string name="desc_development_prefs">Essas preferências/recursos são adicionados apenas para a conveniência do desenvolvimento e podem ou não servir o propósito real do aplicativo, mas ainda podem ser úteis.</string>
     <string name="shortcuts">Atalhos</string>
     <string name="shortcuts_desc">Editar atalhos rápidos do aplicativo.</string>
     <string name="architecture">Arquitetura</string>

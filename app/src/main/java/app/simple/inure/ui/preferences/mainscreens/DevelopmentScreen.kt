@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
 import app.simple.inure.adapters.preferences.AdapterDevelopmentPreferences
-import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 
@@ -26,7 +25,6 @@ class DevelopmentScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         fullVersionCheck()
-        showWarning(Warnings.DEVELOPMENT_FEATURES_WARNING, false)
 
         recyclerView.adapter = AdapterDevelopmentPreferences()
     }

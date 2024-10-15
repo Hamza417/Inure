@@ -484,7 +484,6 @@
     <string name="edited_on">%1$s düzenlenmiş</string>
     <string name="stroke">Kenar</string>
     <string name="desc_highlight_stroke">Arka plan olarak ayarlanmış statik arka planlara sahip tüm tıklanabilir öğelere kontur ekleyin.</string>
-    <string name="desc_development_prefs">Bu tercihler/özellikler yalnızca geliştirmenin kolaylığı için eklenmiştir ve uygulamanın asıl amacına hizmet edebilir veya etmeyebilir ancak yine de kullanışlı olabilir.</string>
     <string name="shortcuts">Kısayollar</string>
     <string name="shortcuts_desc">Uygulamanın hızlı kısayollarını düzenleyin.</string>
     <string name="architecture">Mimari</string>

@@ -484,7 +484,6 @@
     <string name="edited_on">编辑于 %1$s</string>
     <string name="stroke">描边</string>
     <string name="desc_highlight_stroke">在所有具有静态背景设置为背景的可点击项目上添加描边。</string>
-    <string name="desc_development_prefs">添加这些首选项/功能只是为了方便开发，并且可能不符合应用的实际目的，但仍然可以派上用场.</string>
     <string name="shortcuts">快捷方式</string>
     <string name="shortcuts_desc">编辑应用程序的快捷方式。</string>
     <string name="architecture">应用架构</string>

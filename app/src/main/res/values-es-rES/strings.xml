@@ -484,7 +484,6 @@
     <string name="edited_on">Editado el %1$s</string>
     <string name="stroke">Trazado</string>
     <string name="desc_highlight_stroke">Agrega trazos en todos los elementos cliqueables que tengan fondos estáticos establecidos como fondo.</string>
-    <string name="desc_development_prefs">Estas preferencias/características sólo son agregadas para la conveniencia del desarrollo y pueden o no servir al propósito real de la aplicación, pero pueden ser útiles.</string>
     <string name="shortcuts">Accesos directos</string>
     <string name="shortcuts_desc">Editar los accesos directos rápidos de la aplicación.</string>
     <string name="architecture">Arquitectura</string>

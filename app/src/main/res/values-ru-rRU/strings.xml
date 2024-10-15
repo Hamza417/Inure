@@ -487,7 +487,6 @@
     <string name="edited_on">Отредактировано %1$s</string>
     <string name="stroke">Обводка</string>
     <string name="desc_highlight_stroke">Добавить обводку на все интерактивные элементы со статическим фоном, установленным в качестве фона.</string>
-    <string name="desc_development_prefs">Эти настройки/функции добавляются только для удобства разработки и могут служить или не служить фактической цели приложения, но все же могут пригодиться.</string>
     <string name="shortcuts">Ярлыки</string>
     <string name="shortcuts_desc">Редактировать ярлыки быстрого доступа.</string>
     <string name="architecture">Архитектура</string>
