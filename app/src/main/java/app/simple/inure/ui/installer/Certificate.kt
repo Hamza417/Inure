@@ -10,14 +10,13 @@ import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterInformation
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.InstallerLoaderScopedFragment
 import app.simple.inure.factories.panels.CertificateViewModelFactory
-import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.viewmodels.viewers.CertificatesViewModel
 import java.io.File
 
-class Certificate : ScopedFragment() {
+class Certificate : InstallerLoaderScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var viewModel: CertificatesViewModel
@@ -28,7 +27,7 @@ class Certificate : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_information, container, false)
 
-        recyclerView = view.findViewById(R.id.information_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
@@ -45,11 +44,9 @@ class Certificate : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
-        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         viewModel.getCertificateData().observe(viewLifecycleOwner) {
-            (parentFragment as InstallerCallbacks).onLoadingFinished()
+            onLoadingFinished()
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {

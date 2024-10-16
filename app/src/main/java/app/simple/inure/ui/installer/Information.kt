@@ -9,15 +9,14 @@ import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterInformation
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.InstallerLoaderScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
-import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.popups.viewers.PopupInformation
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerInformationViewModel
 import java.io.File
 
-class Information : ScopedFragment() {
+class Information : InstallerLoaderScopedFragment() {
 
     private lateinit var installerInformationViewModel: InstallerInformationViewModel
     private lateinit var recyclerView: CustomVerticalRecyclerView
@@ -25,7 +24,7 @@ class Information : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_information, container, true)
 
-        recyclerView = view.findViewById(R.id.information_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         val file = requireArguments().serializable<File>(BundleConstants.file)
 
@@ -37,11 +36,9 @@ class Information : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
-        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerInformationViewModel.getInformation().observe(viewLifecycleOwner) {
-            (parentFragment as InstallerCallbacks).onLoadingFinished()
+            onLoadingFinished()
             val adapterInformation = AdapterInformation(it)
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {

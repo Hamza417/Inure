@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
@@ -16,6 +17,9 @@ import app.simple.inure.R;
 import app.simple.inure.util.ColorUtils;
 
 public class LoaderImageView extends AppCompatImageView {
+    
+    private static final String TAG = LoaderImageView.class.getSimpleName();
+    private boolean isLoaded = false;
     
     public LoaderImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -48,16 +52,19 @@ public class LoaderImageView extends AppCompatImageView {
     }
     
     public void loaded() {
+        isLoaded = true;
         clearAnimation();
         animateColor(0xFF27AE60);
     }
     
     public void error() {
+        isLoaded = true;
         clearAnimation();
         animateColor(0xFFA93226);
     }
     
     public void reset() {
+        isLoaded = false;
         clearAnimation();
         setImageResource(R.drawable.ic_loader);
         startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
@@ -67,7 +74,11 @@ public class LoaderImageView extends AppCompatImageView {
     }
     
     public void start() {
-        startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
+        if (!isLoaded) {
+            startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.loader));
+        } else {
+            Log.d(TAG, "Already loaded, if you want to reset call reset()");
+        }
     }
     
     private void animateColor(int toColor) {
@@ -91,5 +102,11 @@ public class LoaderImageView extends AppCompatImageView {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         clearAnimation();
+    }
+    
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        start();
     }
 }

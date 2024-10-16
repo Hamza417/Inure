@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/information_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:fadingEdge="vertical"
-    android:fadingEdgeLength="25dp"
-    android:layoutAnimation="@anim/list_animation_controller"
-    android:requiresFadingEdge="vertical"
-    android:paddingTop="5dp"
-    app:isFastScrollRequired="false"
-    app:statusBarPaddingRequired="false" />
+    android:layout_height="match_parent">
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="25dp"
+        android:layoutAnimation="@anim/list_animation_controller"
+        android:requiresFadingEdge="vertical"
+        android:paddingTop="5dp"
+        app:isFastScrollRequired="false"
+        app:statusBarPaddingRequired="false" />
+
+    <app.simple.inure.decorations.views.LoaderImageView
+        android:id="@+id/loader"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/loader_size"
+        android:layout_height="@dimen/loader_size"
+        app:loaderStyle="rotary" />
+
+</FrameLayout>

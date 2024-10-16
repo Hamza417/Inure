@@ -14,10 +14,9 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.action.PermissionStatus
 import app.simple.inure.dialogs.action.PermissionStatus.Companion.showPermissionStatus
-import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.extensions.fragments.InstallerLoaderScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
 import app.simple.inure.helpers.ShizukuServiceHelper
-import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.PermissionInfo
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.viewmodels.installer.InstallerPermissionViewModel
@@ -27,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class Permissions : ScopedFragment() {
+class Permissions : InstallerLoaderScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
@@ -39,7 +38,7 @@ class Permissions : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_permissions, container, false)
 
-        recyclerView = view.findViewById(R.id.permissions_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
@@ -56,8 +55,6 @@ class Permissions : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
-        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         //        installerPermissionViewModel.getPermissionsFile().observe(viewLifecycleOwner) { permissions ->
         //            // (parentFragment as InstallerCallbacks).onLoadingFinished()
@@ -65,7 +62,7 @@ class Permissions : ScopedFragment() {
         //        }
 
         installerPermissionViewModel.getPermissionsInfo().observe(viewLifecycleOwner) { it ->
-            (parentFragment as InstallerCallbacks).onLoadingFinished()
+            onLoadingFinished()
             packageInfo = it.second
             isPackageInstalled = requirePackageManager().isPackageInstalled(packageInfo.packageName)
             val adapterPermissions = AdapterPermissions(it.first, "", isPackageInstalled)

@@ -9,16 +9,16 @@ import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterTrackers
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.extensions.fragments.InstallerLoaderScopedFragment
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
-import app.simple.inure.interfaces.fragments.InstallerCallbacks
 import app.simple.inure.models.Tracker
 import app.simple.inure.ui.subviewers.TrackerInfo
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerTrackersViewModel
 import java.io.File
 
-class Trackers : ScopedFragment() {
+class Trackers : InstallerLoaderScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var installerTrackersViewModel: InstallerTrackersViewModel
@@ -26,7 +26,7 @@ class Trackers : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.installer_fragment_trackers, container, false)
 
-        recyclerView = view.findViewById(R.id.trackers_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
         val file: File? = requireArguments().serializable(BundleConstants.file)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
@@ -37,11 +37,9 @@ class Trackers : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        startPostponedEnterTransition()
-        (parentFragment as InstallerCallbacks).onLoadingStarted()
 
         installerTrackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
-            (parentFragment as InstallerCallbacks).onLoadingFinished()
+            onLoadingFinished()
             val adapterTrackers = AdapterTrackers(trackers, "")
 
             adapterTrackers.setOnTrackersClickListener(object : AdapterTrackers.TrackersCallbacks {

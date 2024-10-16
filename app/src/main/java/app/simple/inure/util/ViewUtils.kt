@@ -104,6 +104,34 @@ object ViewUtils {
         this.visibility = View.GONE
     }
 
+    fun View.slideUpGone() {
+        animate()
+            .translationY(-height.times(3).toFloat())
+            .alpha(0F)
+            .scaleX(0F)
+            .scaleY(0F)
+            .setInterpolator(DecelerateInterpolator())
+            .setDuration(resources.getInteger(R.integer.animation_duration).toLong())
+            .setListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator) {
+                    /* no-op */
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    this@slideUpGone.gone()
+                }
+
+                override fun onAnimationCancel(animation: Animator) {
+                    /* no-op */
+                }
+
+                override fun onAnimationRepeat(animation: Animator) {
+                    /* no-op */
+                }
+            })
+            .start()
+    }
+
     fun View.gone(animate: Boolean) {
         if (animate) {
             this.animate()
