@@ -756,4 +756,5 @@
     <string name="not_allowed">Not Allowed</string>
     <string name="color_picker">Color Picker</string>
     <string name="supported">Supported</string>
+    <string name="tracker_root_warning">Use root access to block trackers here.</string>
 </resources>

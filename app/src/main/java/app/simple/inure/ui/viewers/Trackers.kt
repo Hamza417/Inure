@@ -13,6 +13,7 @@ import app.simple.inure.adapters.viewers.AdapterTrackers
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.trackers.TrackerSelector
 import app.simple.inure.dialogs.trackers.TrackerSelector.Companion.showTrackerSelector
@@ -32,6 +33,7 @@ class Trackers : SearchBarScopedFragment() {
     private lateinit var progress: CustomProgressBar
     private lateinit var ifwButton: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var rootWarning: TypeFaceTextView
 
     private lateinit var trackersViewModel: TrackersViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -46,6 +48,7 @@ class Trackers : SearchBarScopedFragment() {
         progress = view.findViewById(R.id.trackers_data_progress)
         ifwButton = view.findViewById(R.id.trackers_ifw_btn)
         recyclerView = view.findViewById(R.id.trackers_recycler_view)
+        rootWarning = view.findViewById(R.id.tracker_root_warning)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         trackersViewModel = ViewModelProvider(this, packageInfoFactory)[TrackersViewModel::class.java]
@@ -59,6 +62,12 @@ class Trackers : SearchBarScopedFragment() {
         fullVersionCheck()
         searchBoxState(animate = false, TrackersPreferences.isSearchVisible())
         startPostponedEnterTransition()
+
+        if (ConfigurationPreferences.isUsingRoot()) {
+            rootWarning.gone(true)
+        } else {
+            rootWarning.visible(animate = true)
+        }
 
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
             setCount(trackers.size)

@@ -64,6 +64,20 @@
                 app:appFontStyle="regular"
                 app:textColorStyle="secondary" />
 
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/tracker_root_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tracker_root_warning"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/popup_item_gap_length"
+                android:drawableStart="@drawable/ic_warning_12dp"
+                android:drawablePadding="5dp"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
+                app:drawableTintStyle="warning"
+                app:textColorStyle="tertiary" />
+
         </LinearLayout>
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
