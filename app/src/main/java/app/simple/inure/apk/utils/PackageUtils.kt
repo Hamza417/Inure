@@ -501,6 +501,17 @@ object PackageUtils {
     }
 
     /**
+     * Check if the device supports a specific feature
+     * @param context of the given environment
+     * @param feature is the feature to be checked
+     * @return [Boolean] true if the feature is supported
+     */
+    fun isFeatureSupported(context: Context, feature: String): Boolean {
+        val packageManager = context.packageManager
+        return packageManager.hasSystemFeature(feature)
+    }
+
+    /**
      * Can cause reference issues if list is modified.
      * All objects returned in this list are immutable and share the same reference.
      * @warning do not modify the returned [PackageInfo] object

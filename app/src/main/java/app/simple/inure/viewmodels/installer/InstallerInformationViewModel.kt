@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.os.Build
 import android.text.Spannable
-import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,6 +24,7 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
@@ -256,7 +256,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val features = StringBuilder()
 
         try {
-            for (feature in packageInfo!!.reqFeatures.filter { it.name != "null" }) {
+            for (feature in packageInfo!!.reqFeatures.filter { it.name.isNullOrBlank().invert() }) {
                 if (features.isEmpty()) {
                     features.append(feature.name)
                 } else {

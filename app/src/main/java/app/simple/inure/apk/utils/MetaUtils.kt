@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.content.pm.ApplicationInfo
 import android.content.pm.ServiceInfo
 import android.os.Build
+import android.util.Log
 import android.view.WindowManager
 import app.simple.inure.R
 import app.simple.inure.util.FlagUtils
