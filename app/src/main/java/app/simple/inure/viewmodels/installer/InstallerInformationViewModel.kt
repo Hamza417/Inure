@@ -13,6 +13,7 @@ import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getMinSDK
 import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
+import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
@@ -24,7 +25,6 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SDKHelper
 import app.simple.inure.util.StringUtils.applyAccentColor
@@ -256,12 +256,20 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val features = StringBuilder()
 
         try {
-            for (feature in packageInfo!!.reqFeatures.filter { it.name.isNullOrBlank().invert() }) {
+            for (feature in packageInfo!!.reqFeatures) {
                 if (features.isEmpty()) {
-                    features.append(feature.name)
+                    if (feature.name.isNullOrEmpty()) {
+                        features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
+                    } else {
+                        features.append(feature.name)
+                    }
                 } else {
                     features.append("\n")
-                    features.append(feature.name)
+                    if (feature.name.isNullOrEmpty()) {
+                        features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))
+                    } else {
+                        features.append(feature.name)
+                    }
                 }
             }
         } catch (e: NullPointerException) {
