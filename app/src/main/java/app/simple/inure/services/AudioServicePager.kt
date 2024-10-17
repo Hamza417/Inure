@@ -19,6 +19,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.net.toUri
 import androidx.media.app.NotificationCompat.MediaStyle
 import app.simple.inure.R
@@ -260,6 +261,10 @@ class AudioServicePager : Service(),
     }
 
     private fun setupMediaSession() {
+        if (mediaSessionCompat?.isActive == true) {
+            return
+        }
+
         mediaSessionCompat?.release()
         mediaSessionCompat = MediaSessionCompat(this, getString(R.string.music))
         mediaSessionCompat!!.setCallback(object : MediaSessionCompat.Callback() {
@@ -339,7 +344,10 @@ class AudioServicePager : Service(),
             }
         })
 
-        mediaSessionCompat!!.isActive = true
+        if (mediaSessionCompat?.isActive == false) {
+            mediaSessionCompat!!.isActive = true
+        }
+
         mediaControllerCompat = mediaSessionCompat!!.controller
     }
 
@@ -651,18 +659,24 @@ class AudioServicePager : Service(),
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name: CharSequence = getString(R.string.music)
-            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
-            channel.enableVibration(false)
-            channel.enableLights(false)
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name: CharSequence = getString(R.string.music)
+                val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
+                channel.enableVibration(false)
+                channel.enableLights(false)
+                val notificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager.createNotificationChannel(channel)
+            }
         }
     }
 
     @Throws(NullPointerException::class)
     private fun showNotification(action: NotificationCompat.Action) {
+        if (NotificationManagerCompat.from(this).areNotificationsEnabled().not()) {
+            return
+        }
+
         val notificationClick = with(Intent(this, MainActivity::class.java)) {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             this.action = ShortcutConstants.AUDIO_PLAYER_ACTION
