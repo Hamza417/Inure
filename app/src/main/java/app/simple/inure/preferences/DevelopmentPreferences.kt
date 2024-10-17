@@ -37,6 +37,7 @@ object DevelopmentPreferences {
     const val USE_BLUR_BETWEEN_PANELS = "is_blur_between_panels_enabled"
     const val CLEAR_SEARCH_STATE = "clear_search_state"
     const val TEST_PREDICTIVE_BACK_GESTURE = "test_predictive_back_gesture"
+    const val REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE = "refresh_apps_list_using_launcher_service"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -209,6 +210,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Test Predictive Back Gesture",
                                             "Enable test mode for predictive back gestures in the app. Restart the app after enabling.",
                                             TEST_PREDICTIVE_BACK_GESTURE,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Refresh Apps List Using Launcher Service",
+                                            "Automatically refresh apps' list using launcher service whenever any state of any app changes in the device.",
+                                            REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",

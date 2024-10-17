@@ -16,6 +16,7 @@ import android.os.UserHandle
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
@@ -36,9 +37,10 @@ class DataLoaderService : Service() {
         const val RELOAD_APPS = "reload_apps"
         const val RELOAD_QUICK_APPS = "reload_quick_apps"
         const val REFRESH = "refresh"
+
+        private const val TAG: String = "DataLoaderService"
     }
 
-    private val tag: String = "DataLoaderService"
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
@@ -65,7 +67,7 @@ class DataLoaderService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(tag, "onCreate: Dataloader service created")
+        Log.d(TAG, "onCreate: Dataloader service created")
 
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -78,37 +80,46 @@ class DataLoaderService : Service() {
         }
 
         intentFilter.addAction(REFRESH)
-
         LocalBroadcastManager.getInstance(applicationContext).registerReceiver(broadcastReceiver!!, intentFilter)
 
-        launcherAppsCallback = object : LauncherApps.Callback() {
-            override fun onPackageRemoved(packageName: String?, user: UserHandle?) {
-                Log.d(tag, "onPackageRemoved: $packageName")
-                refresh()
+        if (launcherAppsCallback == null) {
+            launcherAppsCallback = object : LauncherApps.Callback() {
+                override fun onPackageRemoved(packageName: String?, user: UserHandle?) {
+                    Log.d(TAG, "onPackageRemoved: $packageName")
+                    refresh()
+                }
+
+                override fun onPackageAdded(packageName: String?, user: UserHandle?) {
+                    Log.d(TAG, "onPackageAdded: $packageName")
+                    refresh()
+                }
+
+                override fun onPackageChanged(packageName: String?, user: UserHandle?) {
+                    Log.d(TAG, "onPackageChanged: $packageName")
+                    refresh()
+                }
+
+                override fun onPackagesAvailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
+                    Log.d(TAG, "onPackagesAvailable: ${packageNames?.contentToString()}")
+                    refresh()
+                }
+
+                override fun onPackagesUnavailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
+                    Log.d(TAG, "onPackagesUnavailable: ${packageNames?.contentToString()}")
+                    refresh()
+                }
+
+                fun refresh() {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE)) {
+                        this@DataLoaderService.refresh()
+                    }
+                }
             }
 
-            override fun onPackageAdded(packageName: String?, user: UserHandle?) {
-                Log.d(tag, "onPackageAdded: $packageName")
-                refresh()
-            }
-
-            override fun onPackageChanged(packageName: String?, user: UserHandle?) {
-                Log.d(tag, "onPackageChanged: $packageName")
-                refresh()
-            }
-
-            override fun onPackagesAvailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
-                Log.d(tag, "onPackagesAvailable: ${packageNames?.contentToString()}")
-                refresh()
-            }
-
-            override fun onPackagesUnavailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) {
-                Log.d(tag, "onPackagesUnavailable: ${packageNames?.contentToString()}")
-                refresh()
-            }
+            // launcherAppsService.registerCallback(launcherAppsCallback!!)
+        } else {
+            Log.i(TAG, "onCreate: LauncherApps callback already initialized")
         }
-
-        launcherAppsService.registerCallback(launcherAppsCallback!!)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -118,9 +129,11 @@ class DataLoaderService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(tag, "onDestroy: Dataloader service destroyed")
+        Log.d(TAG, "onDestroy: Dataloader service destroyed")
         LocalBroadcastManager.getInstance(applicationContext).unregisterReceiver(broadcastReceiver!!)
-        launcherAppsService.unregisterCallback(launcherAppsCallback!!)
+        if (launcherAppsCallback != null) {
+            launcherAppsService.unregisterCallback(launcherAppsCallback)
+        }
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
