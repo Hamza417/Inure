@@ -756,4 +756,6 @@
     <string name="allowed">Permitido</string>
     <string name="not_allowed">Não permitido</string>
     <string name="color_picker">Seletor de Cores</string>
+    <string name="supported">Suportado</string>
+    <string name="tracker_root_warning">Use o acesso Raiz para bloquear rastreadores aqui.</string>
 </resources>
