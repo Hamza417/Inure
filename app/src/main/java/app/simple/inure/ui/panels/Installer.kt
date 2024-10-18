@@ -27,6 +27,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.tablayout.SmartTabLayout
@@ -179,8 +180,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
                     PackageInstaller.STATUS_FAILURE_INCOMPATIBLE,
                     PackageInstaller.STATUS_FAILURE_INVALID,
+                    PackageInstaller.STATUS_FAILURE_TIMEOUT,
+                    PackageInstaller.STATUS_FAILURE,
                     PackageInstaller.STATUS_FAILURE_STORAGE -> {
-                        showWarning(intent.extras!!.getString(PackageInstaller.EXTRA_STATUS_MESSAGE)!!)
+                        showWarning(intent.extras?.getString(PackageInstaller.EXTRA_STATUS_MESSAGE) ?: Warnings.UNIDENTIFIED_ERROR)
                     }
                 }
             }

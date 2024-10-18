@@ -100,4 +100,6 @@ object Warnings {
      */
     const val DEVELOPMENT_FEATURES_WARNING = "0x013: Using development features may cause unexpected behaviors in the app, use these toggles at your own discretion. " +
             "These features are experimental and may also be removed from the app in future."
+
+    const val UNIDENTIFIED_ERROR = "0x000788: unidentified error occurred"
 }
