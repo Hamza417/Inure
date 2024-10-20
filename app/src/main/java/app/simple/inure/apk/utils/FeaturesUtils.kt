@@ -15,24 +15,35 @@ object FeaturesUtils {
     private const val TAG = "FeaturesUtils"
 
     private val featureNameMap = mapOf(
-            "android.hardware.camera" to "Camera",
-            "android.hardware.camera.autofocus" to "Camera Autofocus",
-            "android.hardware.camera.flash" to "Camera Flash",
+            "android.hardware.audio.low_latency" to "Low Latency Audio",
             "android.hardware.bluetooth" to "Bluetooth",
             "android.hardware.bluetooth_le" to "Bluetooth LE",
+            "android.hardware.camera" to "Camera",
+            "android.hardware.camera.any" to "Any Camera",
+            "android.hardware.camera.autofocus" to "Camera Autofocus",
+            "android.hardware.camera.capability.manual_post_processing" to "Manual Post Processing",
+            "android.hardware.camera.capability.manual_sensor" to "Manual Sensor",
+            "android.hardware.camera.capability.raw" to "Raw Camera",
+            "android.hardware.camera.external" to "External Camera",
+            "android.hardware.camera.flash" to "Camera Flash",
+            "android.hardware.camera.front" to "Front Camera",
+            "android.hardware.faketouch" to "Faketouch",
             "android.hardware.location" to "Location",
             "android.hardware.location.gps" to "GPS",
             "android.hardware.location.network" to "Network Location",
             "android.hardware.microphone" to "Microphone",
             "android.hardware.nfc" to "NFC",
             "android.hardware.sensor.accelerometer" to "Accelerometer",
+            "android.hardware.sensor.barometer" to "Barometer",
             "android.hardware.sensor.compass" to "Compass",
             "android.hardware.sensor.gyroscope" to "Gyroscope",
+            "android.hardware.sensor.heartrate.ecg" to "ECG Heart Rate Sensor",
+            "android.hardware.sensor.heart_rate" to "Heart Rate Sensor",
             "android.hardware.sensor.light" to "Light Sensor",
             "android.hardware.sensor.proximity" to "Proximity Sensor",
             "android.hardware.telephony" to "Telephony",
-            "android.hardware.telephony.gsm" to "GSM Telephony",
             "android.hardware.telephony.cdma" to "CDMA Telephony",
+            "android.hardware.telephony.gsm" to "GSM Telephony",
             "android.hardware.touchscreen" to "Touchscreen",
             "android.hardware.touchscreen.multitouch" to "Multitouch",
             "android.hardware.touchscreen.multitouch.distinct" to "Distinct Multitouch",
@@ -41,18 +52,30 @@ object FeaturesUtils {
             "android.hardware.usb.host" to "USB Host",
             "android.hardware.wifi" to "WiFi",
             "android.hardware.wifi.direct" to "WiFi Direct",
+            "android.software.app_widgets" to "App Widgets",
+            "android.software.autofill" to "Autofill",
+            "android.software.backup" to "Backup",
+            "android.software.device_admin" to "Device Admin",
+            "android.software.home_screen" to "Home Screen",
+            "android.software.input_methods" to "Input Methods",
+            "android.software.leanback" to "Leanback",
+            "android.software.leanback_only" to "Leanback Only",
             "android.software.live_wallpaper" to "Live Wallpaper",
+            "android.software.managed_users" to "Managed Users",
+            "android.software.picture_in_picture" to "Picture in Picture",
+            "android.software.print" to "Print",
+            "android.software.securely_removes_users" to "Securely Removes Users",
             "android.software.sip" to "SIP",
             "android.software.sip.voip" to "SIP VOIP",
-            "android.software.input_methods" to "Input Methods",
-            "android.software.home_screen" to "Home Screen",
-            "android.software.app_widgets" to "App Widgets",
-            "android.software.device_admin" to "Device Admin",
-            "android.software.managed_users" to "Managed Users",
-            "android.software.backup" to "Backup",
-            "android.software.print" to "Print",
+            "android.software.vr.high_performance" to "VR High Performance",
+            "android.software.vr.mode" to "VR Mode",
             "android.software.voice_recognizers" to "Voice Recognizers",
-            "android.software.webview" to "WebView"
+            "android.software.webview" to "WebView",
+            "com.android.future.usb.accessory" to "Future USB Accessory",
+            "com.android.nfc_extras" to "NFC Extras",
+            "com.nxp.mifare" to "Mifare",
+            "android.hardware.screen.landscape" to "Landscape Screen",
+            "android.hardware.screen.portrait" to "Portrait Screen"
     )
 
     private fun getProperName(featureCode: String?): String? {
@@ -93,4 +116,17 @@ object FeaturesUtils {
             false
         }
     }
+
+    /**
+     * Check if the device supports a specific feature
+     * @param context of the given environment
+     * @param feature is the feature to be checked
+     * @return [Boolean] true if the feature is supported
+     */
+    fun isFeatureSupported(context: Context, feature: String): Boolean {
+        val packageManager = context.packageManager
+        return packageManager.hasSystemFeature(feature)
+    }
+
+    data class Feature(val name: String, val id: String, val description: String)
 }

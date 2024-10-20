@@ -10,11 +10,9 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.FeaturesUtils
 import app.simple.inure.apk.utils.FeaturesUtils.getProperName
 import app.simple.inure.apk.utils.MetaUtils
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.ui.viewers.Features
 import app.simple.inure.util.StringUtils.appendFlag
 
 class AdapterFeatures(private val features: MutableList<FeatureInfo>) : RecyclerView.Adapter<AdapterFeatures.Holder>() {
@@ -45,7 +43,7 @@ class AdapterFeatures(private val features: MutableList<FeatureInfo>) : Recycler
             }
 
             try {
-                if (PackageUtils.isFeatureSupported(holder.context, features[position].name)) {
+                if (FeaturesUtils.isFeatureSupported(holder.context, features[position].name)) {
                     appendFlag(holder.itemView.context.getString(R.string.supported))
                 } else {
                     appendFlag(holder.itemView.context.getString(R.string.not_supported))
