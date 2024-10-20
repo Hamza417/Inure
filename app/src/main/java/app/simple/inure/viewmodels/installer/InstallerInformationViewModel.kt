@@ -18,10 +18,8 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getApplicationLastUpdateTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
-import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
 import app.simple.inure.apk.utils.PackageUtils.isBackupAllowed
-import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
@@ -55,9 +53,10 @@ class InstallerInformationViewModel(application: Application, private val file: 
         kotlin.runCatching {
             packageInfo = packageManager.getPackageArchiveInfo(file)
 
-            if (packageManager.isPackageInstalled(packageName = packageInfo!!.packageName)) {
-                packageInfo = packageManager.getPackageInfo(packageInfo!!.packageName)
-            }
+            //            if (packageManager.isPackageInstalled(packageName = packageInfo!!.packageName)) {
+            //                val existingPackage = packageManager.getPackageInfo(packageInfo!!.packageName)!!
+            //                packageInfo?.applicationInfo?.uid = existingPackage.applicationInfo.uid
+            //            }
         }.onFailure {
             postError(it)
             return
@@ -71,7 +70,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getBackup())
 
         if (packageInfo.isNotNull()) {
-            list.add(getUID())
+            // list.add(getUID())
             list.add(getInstallDate())
             list.add(getUpdateDate())
             list.add(getInstallerName())
