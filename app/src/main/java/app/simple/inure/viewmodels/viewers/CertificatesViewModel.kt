@@ -58,9 +58,9 @@ class CertificatesViewModel(application: Application, val packageInfo: PackageIn
         list.add(Pair(R.string.sign_algorithm, cert.sigAlgName.applySecondaryTextColor()))
         list.add(Pair(R.string.sign_algorithm_oid, cert.sigAlgOID.applySecondaryTextColor()))
         list.add(Pair(R.string.serial_number, cert.serialNumber.toString(16).applySecondaryTextColor()))
-        list.add(Pair(R.string.certificate_sha1, APKCertificateUtils.getCertificateFingerprint(cert, "SHA1").lowercase().applySecondaryTextColor()))
-        list.add(Pair(R.string.certificate_sha256, APKCertificateUtils.getCertificateFingerprint(cert, "SHA-256").lowercase().applySecondaryTextColor()))
-        list.add(Pair(R.string.certificate_md5, APKCertificateUtils.getCertificateFingerprint(cert, "MD5").applySecondaryTextColor()))
+        list.add(Pair(R.string.certificate_sha1, APKCertificateUtils.getCertificateFingerprint(cert, APKCertificateUtils.SHA1).lowercase().applySecondaryTextColor()))
+        list.add(Pair(R.string.certificate_sha256, APKCertificateUtils.getCertificateFingerprint(cert, APKCertificateUtils.SHA256).lowercase().applySecondaryTextColor()))
+        list.add(Pair(R.string.certificate_md5, APKCertificateUtils.getCertificateFingerprint(cert, APKCertificateUtils.MD5).applySecondaryTextColor()))
 
         try {
             // RSA Public Key

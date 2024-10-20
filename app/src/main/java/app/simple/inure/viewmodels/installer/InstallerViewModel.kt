@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.installer.InstallerUtils
+import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.lingala.zip4j.ZipFile
 import java.io.File
+import java.security.cert.X509Certificate
 
 class InstallerViewModel(application: Application, private val uri: Uri?, val file: File?) : RootShizukuViewModel(application) {
 
@@ -56,6 +58,10 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         MutableLiveData<Int>()
     }
 
+    private val signatureMismatch: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+
     fun getPackageInfo(): LiveData<PackageInfo> {
         return packageInfo
     }
@@ -66,6 +72,10 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
     fun getSuccess(): LiveData<Int> {
         return success
+    }
+
+    fun getSignatureStatus(): LiveData<Boolean> {
+        return signatureMismatch
     }
 
     private fun prepare() {
@@ -134,13 +144,14 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
          * Find base/master apk
          */
         for (file in files!!) {
-            packageInfo = packageManager.getPackageArchiveInfo(file) ?: continue
+            packageInfo = packageManager.getPackageArchiveInfo(file) ?: continue // We ran into split apk, continue until we find base apk
             packageInfo.applicationInfo.sourceDir = file.absolutePath
             packageInfo.applicationInfo.publicSourceDir = file.absolutePath
             packageInfo.applicationInfo.name = packageManager.getApplicationLabel(packageInfo.applicationInfo).toString()
             this.packageInfo.postValue(packageInfo)
             baseApkLiveData.postValue(file)
             baseApk = file
+            signatureCheck(packageInfo)
 
             try {
                 splitApkFiles!!.remove(file)
@@ -153,6 +164,29 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
         if (packageInfo.isNull()) {
             throw Exception("ERR: unable to get package info")
+        }
+    }
+
+    private fun signatureCheck(packageInfo: PackageInfo) {
+        kotlin.runCatching {
+            val certificates: Array<X509Certificate>? = APKCertificateUtils(file, packageInfo.packageName, applicationContext()).x509Certificates
+            val existingSignatures = APKCertificateUtils(null, packageInfo.packageName, applicationContext()).x509Certificates
+
+            outerLoop@ for (cert in certificates!!) {
+                for (existingCert in existingSignatures!!) {
+                    val sha1 = APKCertificateUtils.getCertificateFingerprint(cert, APKCertificateUtils.SHA256)
+                    val existingSha1 = APKCertificateUtils.getCertificateFingerprint(existingCert, APKCertificateUtils.SHA256)
+
+                    if (sha1 == existingSha1) {
+                        signatureMismatch.postValue(false)
+                        break@outerLoop
+                    } else {
+                        signatureMismatch.postValue(true)
+                    }
+                }
+            }
+        }.getOrElse {
+            it.printStackTrace()
         }
     }
 

@@ -186,6 +186,20 @@ object TextViewUtils {
         }
     }
 
+    fun TextView.setDrawableLeft(drawableLeft: Int, color: Int = -1) {
+        setCompoundDrawablesRelativeWithIntrinsicBounds(drawableLeft, 0, 0, 0)
+        if (color != -1) {
+            setDrawableTint(color)
+        }
+    }
+
+    fun TextView.setDrawableRight(drawableRight: Int, color: Int = -1) {
+        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, drawableRight, 0)
+        if (color != -1) {
+            setDrawableTint(color)
+        }
+    }
+
     fun AppCompatEditText.setDrawableTint(color: Int) {
         for (drawable in this.compoundDrawablesRelative) {
             drawable?.mutate()

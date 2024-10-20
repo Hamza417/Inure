@@ -54,6 +54,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
+import app.simple.inure.util.TextViewUtils.setDrawableLeft
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.installer.InstallerViewModel
@@ -186,6 +187,14 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                         showWarning(intent.extras?.getString(PackageInstaller.EXTRA_STATUS_MESSAGE) ?: Warnings.UNIDENTIFIED_ERROR)
                     }
                 }
+            }
+        }
+
+        installerViewModel.getSignatureStatus().observe(viewLifecycleOwner) {
+            if (it) {
+                version.setDrawableLeft(R.drawable.ic_close_12dp)
+            } else {
+                version.setDrawableLeft(R.drawable.ic_check_12dp)
             }
         }
 

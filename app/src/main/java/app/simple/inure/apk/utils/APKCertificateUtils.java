@@ -23,6 +23,10 @@ import java.util.Locale;
  */
 public class APKCertificateUtils {
     
+    public static final String MD5 = "MD5";
+    public static final String SHA1 = "SHA1";
+    public static final String SHA256 = "SHA-256";
+    
     private final Context context;
     private final File apkFile;
     private final String packageName;
