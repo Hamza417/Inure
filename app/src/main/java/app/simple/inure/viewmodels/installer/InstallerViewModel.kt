@@ -94,37 +94,52 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         clearInstallerCache()
         PackageData.makePackageFolder(applicationContext())
 
-        if (file != null && file.exists()) {
-            if (file.name.endsWithAny(*splitApkExtensions)) {
-                ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
-                files = File(file.path.substringBeforeLast("."))
-                    .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
-            } else if (file.name.endsWith(".apk")) {
-                files = arrayListOf(file)
-            }
-        } else {
-            uri?.let { it ->
-                val documentFile = DocumentFile.fromSingleUri(applicationContext(), it)!!
-                val sourceFile = if (documentFile.name!!.endsWith(".apk")) {
-                    applicationContext().getInstallerDir(documentFile.name!!)
-                } else {
-                    applicationContext().getInstallerDir(documentFile.baseName + ".zip")
-                }
-
-                if (!sourceFile.exists()) {
-                    contentResolver.openInputStream(it).use {
-                        FileUtils.copyStreamToFile(it!!, sourceFile)
+        when {
+            file != null && file.exists() -> {
+                when {
+                    file.name.endsWithAny(*splitApkExtensions) -> {
+                        ZipFile(file.path).extractAll(file.path.substringBeforeLast("."))
+                        files = File(file.path.substringBeforeLast("."))
+                            .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                    }
+                    file.name.endsWith(".apk") -> {
+                        files = arrayListOf(file)
                     }
                 }
+            }
+            else -> {
+                uri?.let { it ->
+                    val documentFile = DocumentFile.fromSingleUri(applicationContext(), it)!!
+                    val sourceFile = if (documentFile.name!!.endsWith(".apk")) {
+                        applicationContext().getInstallerDir(documentFile.name!!)
+                    } else {
+                        applicationContext().getInstallerDir(documentFile.baseName + ".zip")
+                    }
 
-                if (documentFile.name!!.endsWithAny(*splitApkExtensions)) {
-                    ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
-                    files = File(sourceFile.path.substringBeforeLast("."))
-                        .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
-                } else if (documentFile.name!!.endsWith(".apk")) {
-                    files = arrayListOf(sourceFile)
+                    if (!sourceFile.exists()) {
+                        contentResolver.openInputStream(it).use {
+                            FileUtils.copyStreamToFile(it!!, sourceFile)
+                        }
+                    }
+
+                    if (documentFile.name!!.endsWithAny(*splitApkExtensions)) {
+                        ZipFile(sourceFile.path).extractAll(sourceFile.path.substringBeforeLast("."))
+                        files = File(sourceFile.path.substringBeforeLast("."))
+                            .listFiles()!!.toList() as ArrayList<File> /* = java.util.ArrayList<java.io.File> */
+                    } else if (documentFile.name!!.endsWith(".apk")) {
+                        files = arrayListOf(sourceFile)
+                    }
                 }
             }
+        }
+
+        // Remove any file from the list that is not an apk
+        files!!.removeIf {
+            val shouldRemove = !it.name.endsWith(".apk") || it.isDirectory
+            if (shouldRemove) {
+                Log.d(TAG, "Removing file: ${it.name}")
+            }
+            shouldRemove
         }
     }
 
