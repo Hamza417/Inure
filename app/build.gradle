@@ -183,7 +183,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     // Kotlin
-    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
+    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.13.1'
@@ -191,7 +191,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // We use LocalBroadcastManager, Lol!!
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.fragment:fragment-ktx:1.8.4'
-    implementation 'androidx.activity:activity-ktx:1.9.2'
+    implementation 'androidx.activity:activity-ktx:1.9.3'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.6'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
@@ -209,8 +209,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    playImplementation 'com.google.android.play:review:2.0.1'
-    playImplementation 'com.google.android.play:review-ktx:2.0.1'
+    playImplementation 'com.google.android.play:review:2.0.2'
+    playImplementation 'com.google.android.play:review-ktx:2.0.2'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'
