@@ -22,8 +22,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode 10070
-        versionName "Build100.7.0"
+        versionCode 10100
+        versionName "Build101.0.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
