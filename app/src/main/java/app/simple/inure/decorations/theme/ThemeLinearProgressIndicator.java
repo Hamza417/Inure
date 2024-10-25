@@ -40,8 +40,8 @@ public class ThemeLinearProgressIndicator extends LinearProgressIndicator implem
         setTrackColor(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getBackground());
         setTrackCornerRadius(10);
         setTrackThickness(5);
-        setShowAnimationBehavior(SHOW_INWARD);
-        setHideAnimationBehavior(HIDE_OUTWARD);
+        setShowAnimationBehavior(SHOW_NONE);
+        setHideAnimationBehavior(HIDE_ESCAPE);
         invalidate();
     }
     
