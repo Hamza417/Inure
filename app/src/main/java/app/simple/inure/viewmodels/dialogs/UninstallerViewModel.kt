@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -55,7 +56,7 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun formUninstallCommand(): String {
-        return if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+        return if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             "pm uninstall --user current ${packageInfo.packageName}"
         } else {
             "pm uninstall ${packageInfo.packageName}"

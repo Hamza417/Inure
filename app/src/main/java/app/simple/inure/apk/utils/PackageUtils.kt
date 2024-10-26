@@ -49,6 +49,15 @@ object PackageUtils {
 
     private const val PRIVATE_FLAG_HIDDEN = 1 shl 0
 
+    var PackageInfo.safeApplicationInfo: ApplicationInfo
+        get() = this.applicationInfo ?: ApplicationInfo().apply {
+            name = "Unknown"
+            packageName = "unknown"
+        }
+        set(value) {
+            this.applicationInfo = value
+        }
+
     /**
      * Fetches the app's name from the package id of the same application
      * @param context of the given environment
@@ -62,7 +71,7 @@ object PackageUtils {
         } catch (e: NameNotFoundException) {
             try {
                 context.packageManager.getPackageArchiveInfo(applicationInfo.sourceDir)?.let {
-                    context.packageManager.getApplicationLabel(it.applicationInfo).toString()
+                    context.packageManager.getApplicationLabel(it.safeApplicationInfo).toString()
                 }
             } catch (e: NameNotFoundException) {
                 context.getString(R.string.unknown)
@@ -186,10 +195,10 @@ object PackageUtils {
      */
     fun getApplicationVersion(context: Context, packageInfo: PackageInfo): String {
         return try {
-            context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionName
+            context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionName!!
         } catch (e: NameNotFoundException) {
             try {
-                context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionName
+                context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionName!!
             } catch (e: NameNotFoundException) {
                 context.getString(R.string.unknown)
             } catch (e: NullPointerException) {
@@ -197,7 +206,7 @@ object PackageUtils {
             }
         } catch (e: NullPointerException) {
             try {
-                context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionName
+                context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionName!!
             } catch (e: NameNotFoundException) {
                 context.getString(R.string.unknown)
             } catch (e: NullPointerException) {
@@ -224,10 +233,10 @@ object PackageUtils {
         } catch (e: NameNotFoundException) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.longVersionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
                 } else {
                     @Suppress("deprecation")
-                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
                 }
             } catch (e: NameNotFoundException) {
                 context.getString(R.string.unknown)
@@ -237,10 +246,10 @@ object PackageUtils {
         } catch (e: NullPointerException) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.longVersionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
                 } else {
                     @Suppress("deprecation")
-                    context.packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir)!!.versionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
                 }
             } catch (e: NameNotFoundException) {
                 context.getString(R.string.unknown)
@@ -254,19 +263,19 @@ object PackageUtils {
      * Check if app is a system app
      */
     fun PackageInfo.isSystemApp(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+        return applicationInfo!!.flags and ApplicationInfo.FLAG_SYSTEM != 0
     }
 
     fun PackageInfo.isSplitApk(): Boolean {
-        return applicationInfo.splitSourceDirs.isNullOrEmpty().not()
+        return applicationInfo!!.splitSourceDirs.isNullOrEmpty().not()
     }
 
     fun PackageInfo.isBackupAllowed(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_ALLOW_BACKUP != 0
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_ALLOW_BACKUP != 0
     }
 
     fun PackageInfo.isDebuggable(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
     }
 
     /**
@@ -280,7 +289,7 @@ object PackageUtils {
      * Check if app is a user app
      */
     fun PackageInfo.isUserApp(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
     }
 
     /**
@@ -311,21 +320,21 @@ object PackageUtils {
      * Check if an update is installed for a system app
      */
     fun PackageInfo.isUpdateInstalled(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP != 0
     }
 
     /**
      * Check if the app is installed
      */
     fun PackageInfo.isInstalled(): Boolean {
-        return applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
     }
 
     /**
      * Check is the app is enabled
      */
     fun PackageInfo.isEnabled(): Boolean {
-        return applicationInfo.enabled
+        return safeApplicationInfo.enabled
     }
 
     /**
@@ -384,7 +393,7 @@ object PackageUtils {
     @Suppress("unused")
     fun PackageInfo.killThisApp(activity: Activity) {
         val mActivityManager = activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        if (this.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
+        if (this.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 1) {
             // Killed
         } else {
             mActivityManager.killBackgroundProcesses(this.packageName)
@@ -433,7 +442,7 @@ object PackageUtils {
 
     private fun PackageManager.isPackageEnabled(packageName: String): Boolean {
         return try {
-            getPackageInfo(packageName)!!.applicationInfo.enabled
+            getPackageInfo(packageName)!!.safeApplicationInfo.enabled
         } catch (e: NameNotFoundException) {
             false
         } catch (e: NullPointerException) {
@@ -453,7 +462,7 @@ object PackageUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
             return try {
-                val storageStats = storageStatsManager.queryStatsForUid(this.applicationInfo.storageUuid, this.applicationInfo.uid)
+                val storageStats = storageStatsManager.queryStatsForUid(this.safeApplicationInfo.storageUuid, this.safeApplicationInfo.uid)
                 val cacheSize = storageStats.cacheBytes
                 val dataSize = storageStats.dataBytes
                 val apkSize = storageStats.appBytes

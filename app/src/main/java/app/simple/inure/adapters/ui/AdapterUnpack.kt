@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -31,7 +32,7 @@ class AdapterUnpack(val arrayList: ArrayList<UnpackModel>, val packageInfo: Pack
             arrayList[position].name.endsWith("svg") ||
             arrayList[position].name.endsWith("jpeg") ||
             arrayList[position].name.endsWith("webp")) {
-            holder.icon.loadGraphics(packageInfo.applicationInfo.sourceDir, arrayList[position].path)
+            holder.icon.loadGraphics(packageInfo.safeApplicationInfo.sourceDir, arrayList[position].path)
         } else {
             holder.icon.setImageResource(R.drawable.ic_error)
         }

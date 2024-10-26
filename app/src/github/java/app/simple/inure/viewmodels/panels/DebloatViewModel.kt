@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isEnabled
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
@@ -104,12 +105,12 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             when (DebloatPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
                     bloats = bloats.parallelStream().filter { b ->
-                        b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        b.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
                 SortConstant.USER -> {
                     bloats = bloats.parallelStream().filter { b ->
-                        b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        b.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
             }
@@ -155,12 +156,12 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             when (DebloatPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
                     bloats = bloats.parallelStream().filter { b ->
-                        b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        b.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
                 SortConstant.USER -> {
                     bloats = bloats.parallelStream().filter { b ->
-                        b.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        b.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<Bloat>
                 }
             }
@@ -177,8 +178,8 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             bloats.getSortedList()
 
             bloats = bloats.parallelStream().filter { bloat ->
-                bloat.packageInfo.applicationInfo.name.contains(keyword, true) ||
-                        bloat.packageInfo.applicationInfo.packageName.contains(keyword, true) ||
+                bloat.packageInfo.safeApplicationInfo.name.contains(keyword, true) ||
+                        bloat.packageInfo.safeApplicationInfo.packageName.contains(keyword, true) ||
                         bloat.description.contains(keyword, true) ||
                         bloat.list.contains(keyword, true) ||
                         bloat.dependencies.contains(keyword) ||
@@ -375,7 +376,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
 
         parallelStream().forEach {
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.DISABLED)) {
-                if (it.packageInfo.applicationInfo.enabled.not() && it.packageInfo.isInstalled()) {
+                if (it.packageInfo.safeApplicationInfo.enabled.not() && it.packageInfo.isInstalled()) {
                     synchronized(filteredList) {
                         if (filteredList.contains(it).invert()) {
                             filteredList.add(it)
@@ -385,7 +386,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             }
 
             if (FlagUtils.isFlagSet(state, DebloatSortConstants.ENABLED)) {
-                if (it.packageInfo.applicationInfo.enabled && it.packageInfo.isInstalled()) {
+                if (it.packageInfo.safeApplicationInfo.enabled && it.packageInfo.isInstalled()) {
                     synchronized(filteredList) {
                         if (filteredList.contains(it).invert()) {
                             filteredList.add(it)
@@ -455,9 +456,9 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
             bloats.forEach {
                 Shell.cmd(getCommand(method, user, it.id)).exec().let { result ->
                     if (result.isSuccess) {
-                        debloatedPackages.add(PackageStateResult(it.packageInfo.applicationInfo.name, it.id, true))
+                        debloatedPackages.add(PackageStateResult(it.packageInfo.safeApplicationInfo.name, it.id, true))
                     } else {
-                        debloatedPackages.add(PackageStateResult(it.packageInfo.applicationInfo.name, it.id, false))
+                        debloatedPackages.add(PackageStateResult(it.packageInfo.safeApplicationInfo.name, it.id, false))
                     }
                 }
             }
@@ -477,37 +478,37 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                         METHOD_UNINSTALL -> {
                             getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
                                 if (result.isSuccess) {
-                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                                 } else {
-                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, false))
                                 }
                             }
                         }
                         METHOD_DISABLE -> {
                             kotlin.runCatching {
-                                ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                                ShizukuUtils.setAppDisabled(bloat.packageInfo.safeApplicationInfo.enabled, setOf(bloat.packageInfo.packageName))
                             }.onSuccess {
-                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                             }.getOrElse {
-                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, false))
                             }
                         }
                         METHOD_RESTORE -> {
                             getShizukuService().simpleExecute(getCommand(method, user, bloat.id)).let { result ->
                                 if (result.isSuccess) {
                                     if (bloat.packageInfo.isEnabled()) {
-                                        debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                        debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                                     } else {
                                         kotlin.runCatching {
-                                            ShizukuUtils.setAppDisabled(bloat.packageInfo.applicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                                            ShizukuUtils.setAppDisabled(bloat.packageInfo.safeApplicationInfo.enabled, setOf(bloat.packageInfo.packageName))
                                         }.onSuccess {
-                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, true))
+                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                                         }.getOrElse {
-                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                            debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, false))
                                         }
                                     }
                                 } else {
-                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, false))
                                 }
                             }
                         }
@@ -517,7 +518,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                     }
                 }.getOrElse {
                     it.printStackTrace()
-                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.applicationInfo.name, bloat.id, false))
+                    debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, false))
                 }
             }
 

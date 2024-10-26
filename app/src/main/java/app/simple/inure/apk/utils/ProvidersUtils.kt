@@ -38,7 +38,7 @@ object ProvidersUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.providers.isNotNull()) {
-                        for (i in packageInfo.providers) {
+                        for (i in packageInfo.providers!!) {
                             components.add(i)
                         }
                     }
@@ -77,7 +77,7 @@ object ProvidersUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.providers.isNotNull()) {
-                        for (i in packageInfo.providers) {
+                        for (i in packageInfo.providers!!) {
                             components.add(i)
                         }
                     }

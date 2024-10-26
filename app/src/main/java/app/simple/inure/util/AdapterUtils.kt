@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.toSpannable
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.singletons.TrackerTags
@@ -59,7 +60,7 @@ object AdapterUtils {
     }
 
     fun TypeFaceTextView.setAppVisualStates(packageInfo: PackageInfo) {
-        setStrikeThru(packageInfo.applicationInfo.enabled)
+        setStrikeThru(packageInfo.safeApplicationInfo.enabled)
 
         val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
         val isTracking = TrackerTags.isPackageTracked(packageInfo.packageName)

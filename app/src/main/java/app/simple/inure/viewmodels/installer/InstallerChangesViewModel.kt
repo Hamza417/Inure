@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.Triple
 import app.simple.inure.util.FileUtils.toFile
@@ -417,11 +418,11 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
         val oldNativeLibraries = arrayListOf<String>()
 
         kotlin.runCatching {
-            packageInfo!!.applicationInfo.nativeLibraryDir?.let {
+            packageInfo!!.safeApplicationInfo.nativeLibraryDir?.let {
                 nativeLibraries.addAll(it.toFile().list().orEmpty())
             }
 
-            oldPackageInfo!!.applicationInfo.nativeLibraryDir?.let {
+            oldPackageInfo!!.safeApplicationInfo.nativeLibraryDir?.let {
                 oldNativeLibraries.addAll(it.toFile().list().orEmpty())
             }
         }.onFailure {

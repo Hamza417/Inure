@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
@@ -35,10 +36,10 @@ class Send : ScopedBottomSheetFragment() {
         progress = view.findViewById(R.id.preparing_progress)
 
         val paths = mutableSetOf<String>()
-        paths.add(packageInfo.applicationInfo.publicSourceDir)
+        paths.add(packageInfo.safeApplicationInfo.publicSourceDir)
 
         kotlin.runCatching {
-            paths.addAll(packageInfo.applicationInfo.splitSourceDirs!!)
+            paths.addAll(packageInfo.safeApplicationInfo.splitSourceDirs!!)
         }
 
         extractViewModelFactory = ExtractViewModelFactory(packageInfo, paths)

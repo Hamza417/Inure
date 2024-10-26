@@ -21,6 +21,7 @@ import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getXposedDescription
 import app.simple.inure.apk.utils.PackageUtils.isBackupAllowed
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
@@ -80,7 +81,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         list.add(getTargetSDK())
         list.add(getXposedModule())
 
-        if (packageInfo.isNotNull() && packageInfo!!.applicationInfo.isXposedModule()) {
+        if (packageInfo.isNotNull() && packageInfo!!.safeApplicationInfo.isXposedModule()) {
             list.add(getXposedDescription())
         }
 
@@ -153,7 +154,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getUID(): Pair<Int, Spannable> {
         return Pair(R.string.uid,
-                    packageInfo!!.applicationInfo.uid.toString().applySecondaryTextColor())
+                    packageInfo!!.safeApplicationInfo.uid.toString().applySecondaryTextColor())
     }
 
     private fun getInstallDate(): Pair<Int, Spannable> {
@@ -169,8 +170,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun getMinSDK(): Pair<Int, Spannable> {
         val minSdk = kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                "${packageInfo!!.applicationInfo.minSdkVersion}," +
-                        " ${SDKHelper.getSdkTitle(packageInfo!!.applicationInfo!!.minSdkVersion)}"
+                "${packageInfo!!.safeApplicationInfo.minSdkVersion}," +
+                        " ${SDKHelper.getSdkTitle(packageInfo!!.safeApplicationInfo!!.minSdkVersion)}"
             } else {
                 file.getMinSDK()
             }
@@ -184,8 +185,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
-            "${packageInfo!!.applicationInfo.targetSdkVersion}, " +
-                    SDKHelper.getSdkTitle(packageInfo!!.applicationInfo.targetSdkVersion)
+            "${packageInfo!!.safeApplicationInfo.targetSdkVersion}, " +
+                    SDKHelper.getSdkTitle(packageInfo!!.safeApplicationInfo.targetSdkVersion)
         }.getOrElse {
             it.message!!
         }
@@ -196,7 +197,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getXposedModule(): Pair<Int, Spannable> {
         val string = buildString {
-            if (packageInfo!!.applicationInfo.isXposedModule()) {
+            if (packageInfo!!.safeApplicationInfo.isXposedModule()) {
                 append(getString(R.string.yes))
             } else {
                 append(getString(R.string.no))
@@ -208,7 +209,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getXposedDescription(): Pair<Int, Spannable> {
         return Pair(R.string.description,
-                    packageInfo!!.applicationInfo.getXposedDescription().applySecondaryTextColor())
+                    packageInfo!!.safeApplicationInfo.getXposedDescription().applySecondaryTextColor())
     }
 
     private fun getMethodCount(): Pair<Int, Spannable> {
@@ -255,7 +256,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val features = StringBuilder()
 
         try {
-            for (feature in packageInfo!!.reqFeatures) {
+            for (feature in packageInfo!!.reqFeatures!!) {
                 if (features.isEmpty()) {
                     if (feature.name.isNullOrEmpty()) {
                         features.append(MetaUtils.getOpenGL(feature.reqGlEsVersion))

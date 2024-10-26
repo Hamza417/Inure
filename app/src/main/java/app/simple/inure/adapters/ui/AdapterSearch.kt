@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -35,9 +36,9 @@ class AdapterSearch(private var apps: ArrayList<Search>, private var searchKeywo
         holder.icon.transitionName = apps[position].packageInfo.packageName
         holder.icon.loadAppIcon(
                 apps[position].packageInfo.packageName,
-                apps[position].packageInfo.applicationInfo.enabled,
-                apps[position].packageInfo.applicationInfo.sourceDir.toFileOrNull())
-        holder.name.text = apps[position].packageInfo.applicationInfo.name
+                apps[position].packageInfo.safeApplicationInfo.enabled,
+                apps[position].packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+        holder.name.text = apps[position].packageInfo.safeApplicationInfo.name
         holder.packageId.text = apps[position].packageInfo.packageName
 
         holder.name.setAppVisualStates(apps[position].packageInfo)

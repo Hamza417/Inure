@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -50,7 +51,7 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
     }
 
     private fun PackageInfo.getUninstallCommand(): String {
-        return if (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+        return if (safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             "pm uninstall -k --user current $packageName"
         } else {
             "pm uninstall $packageName"

@@ -113,7 +113,7 @@ object ActivityUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.activities.isNotNull()) {
-                        for (i in packageInfo.activities) {
+                        for (i in packageInfo.activities!!) {
                             components.add(i)
                         }
                     }
@@ -153,7 +153,7 @@ object ActivityUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.activities.isNotNull()) {
-                        for (i in packageInfo.activities) {
+                        for (i in packageInfo.activities!!) {
                             components.add(i)
                         }
                     }

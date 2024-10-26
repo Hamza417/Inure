@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -33,8 +34,8 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private v
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = deepSearchInfo[position].packageInfo.packageName
-        holder.icon.loadAppIcon(deepSearchInfo[position].packageInfo.packageName, deepSearchInfo[position].packageInfo.applicationInfo.enabled)
-        holder.name.text = deepSearchInfo[position].packageInfo.applicationInfo.name
+        holder.icon.loadAppIcon(deepSearchInfo[position].packageInfo.packageName, deepSearchInfo[position].packageInfo.safeApplicationInfo.enabled)
+        holder.name.text = deepSearchInfo[position].packageInfo.safeApplicationInfo.name
         holder.packageId.text = deepSearchInfo[position].packageInfo.packageName
 
         holder.name.setAppVisualStates(deepSearchInfo[position].packageInfo)

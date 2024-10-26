@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterInformation
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -28,7 +29,7 @@ class Certificate : ScopedFragment() {
 
         recyclerView = view.findViewById(R.id.certificate_data_recycler_view)
 
-        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, packageInfo.applicationInfo.sourceDir.toFile())
+        certificateViewModelFactory = CertificateViewModelFactory(packageInfo, packageInfo.safeApplicationInfo.sourceDir.toFile())
         viewModel = ViewModelProvider(this, certificateViewModelFactory)[CertificatesViewModel::class.java]
 
         return view

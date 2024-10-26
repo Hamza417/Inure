@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -159,8 +160,8 @@ class AppMenu : ScopedDialogFragment() {
         }
 
         SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFileOrNull())
-        name.text = packageInfo.applicationInfo.name
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+        name.text = packageInfo.safeApplicationInfo.name
         name.setAppVisualStates(packageInfo)
         markAsFOSS.visibility(FOSSParser.isEmbeddedFOSS(packageInfo).invert())
 

@@ -9,6 +9,7 @@ import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
 import app.simple.inure.models.DataUsage
@@ -55,18 +56,18 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                 when (StatisticsPreferences.getAppsCategory()) {
                     SortConstant.SYSTEM -> {
                         list = list.stream().filter { p ->
-                            p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                            p.packageInfo!!.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                         }.collect(Collectors.toList()) as ArrayList<PackageStats>
                     }
                     SortConstant.USER -> {
                         list = list.stream().filter { p ->
-                            p.packageInfo!!.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                            p.packageInfo!!.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                         }.collect(Collectors.toList()) as ArrayList<PackageStats>
                     }
                 }
 
                 for (app in list) {
-                    app.packageInfo!!.applicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.applicationInfo)
+                    app.packageInfo!!.safeApplicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.safeApplicationInfo)
                 }
 
                 if (StatisticsPreferences.areUnusedAppHidden()) {
@@ -106,12 +107,12 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
         when (StatisticsPreferences.getAppsCategory()) {
             SortConstant.SYSTEM -> {
                 apps = apps.stream().filter { p ->
-                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    p.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
             SortConstant.USER -> {
                 apps = apps.stream().filter { p ->
-                    p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    p.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                 }.collect(Collectors.toList()) as ArrayList<PackageInfo>
             }
         }
@@ -140,7 +141,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                     packageStats.totalTimeUsed += usageStats.totalTimeInForeground
                 }
 
-                val uid: Int = packageStats.packageInfo?.applicationInfo?.uid!!
+                val uid: Int = packageStats.packageInfo?.safeApplicationInfo?.uid!!
 
                 if (mobileData.containsKey(uid)) {
                     packageStats.mobileData = mobileData[uid]
@@ -240,7 +241,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
             packageStats.lastUsageTime = lastUse[packageName] ?: 0
             packageStats.totalTimeUsed = screenTimes[packageName] ?: 0
 
-            val uid: Int = packageStats.packageInfo?.applicationInfo?.uid!!
+            val uid: Int = packageStats.packageInfo?.safeApplicationInfo?.uid!!
 
             if (mobileData.containsKey(uid)) {
                 packageStats.mobileData = mobileData[uid]
@@ -270,7 +271,7 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                     codeSize +
                     externalCodeSize +
                     externalObbSize +
-                    packageInfo.applicationInfo.sourceDir.toLength()
+                    packageInfo.safeApplicationInfo.sourceDir.toLength()
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.preferences.SearchPreferences
@@ -40,7 +41,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                 val signatures = TrackerUtils.getTrackerSignatures()
                 val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (info in getPackageInfo(isInstalled).services) {
+                for (info in getPackageInfo(isInstalled).services!!) {
                     val serviceInfoModel = ServiceInfoModel()
 
                     serviceInfoModel.serviceInfo = info
@@ -97,7 +98,7 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                                               PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS)!!
             }
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir,
+            packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir,
                                                  PackageManager.GET_SERVICES or PackageManager.GET_DISABLED_COMPONENTS)!!
         }
     }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -56,8 +57,8 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageInfo.packageName
-            holder.icon.loadAppIcon(apps[position].packageInfo.packageName, apps[position].packageInfo.applicationInfo.enabled)
-            holder.name.text = apps[position].packageInfo.applicationInfo.name
+            holder.icon.loadAppIcon(apps[position].packageInfo.packageName, apps[position].packageInfo.safeApplicationInfo.enabled)
+            holder.name.text = apps[position].packageInfo.safeApplicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.name.setAppVisualStates(apps[position].packageInfo)
@@ -67,7 +68,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
                 append(" | ")
                 append(holder.getString(isOptimized(apps[position].isOptimized)))
                 append(" | ")
-                append(apps[position].packageInfo.applicationInfo.uid)
+                append(apps[position].packageInfo.safeApplicationInfo.uid)
                 this
             }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.database.instances.QuickAppsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.QuickApp
@@ -74,8 +75,8 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
             }
 
             for (i in apps.indices) {
-                apps[i].applicationInfo.name = PackageUtils
-                    .getApplicationName(application.applicationContext, apps[i].applicationInfo)
+                apps[i].safeApplicationInfo.name = PackageUtils
+                    .getApplicationName(application.applicationContext, apps[i].safeApplicationInfo)
             }
 
             this@QuickAppsViewModel.quickApps.postValue(apps)

@@ -18,6 +18,7 @@ import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.util.ArrayUtils
 
@@ -138,7 +139,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     protected fun PackageManager.isPackageEnabled(packageName: String): Boolean {
         return try {
-            getPackageInfo(packageName)!!.applicationInfo.enabled
+            getPackageInfo(packageName)!!.safeApplicationInfo.enabled
         } catch (e: PackageManager.NameNotFoundException) {
             false
         } catch (e: NullPointerException) {
@@ -218,7 +219,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     protected fun ArrayList<PackageInfo>.loadPackageNames(): ArrayList<PackageInfo> {
         forEach {
-            it.applicationInfo.name = getApplicationName(applicationContext(), it.applicationInfo)
+            it.safeApplicationInfo.name = getApplicationName(applicationContext(), it.safeApplicationInfo)
         }
 
         return this

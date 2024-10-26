@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Misc
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.preferences.AppearancePreferences
@@ -105,7 +106,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             stringBuilder.append("\n\t<app>\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
-                stringBuilder.append("\t\t<name>${app.applicationInfo.name}</name>\n")
+                stringBuilder.append("\t\t<name>${app.safeApplicationInfo.name}</name>\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\t\t<package_name>${app.packageName}</package_name>\n")
@@ -121,11 +122,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                    stringBuilder.append("\t\t<minimum_sdk>${app.applicationInfo.minSdkVersion}</minimum_sdk>\n")
+                    stringBuilder.append("\t\t<minimum_sdk>${app.safeApplicationInfo.minSdkVersion}</minimum_sdk>\n")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                stringBuilder.append("\t\t<target_sdk>${app.applicationInfo.targetSdkVersion}</target_sdk>\n")
+                stringBuilder.append("\t\t<target_sdk>${app.safeApplicationInfo.targetSdkVersion}</target_sdk>\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
                 stringBuilder.append("\t\t<size>${app.getSize()}</size>\n")
@@ -157,10 +158,10 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         for (i in apps.indices) {
             stringBuilder.append("\n\n")
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
-                stringBuilder.append("Name: ${apps[i].applicationInfo.name}\n")
+                stringBuilder.append("Name: ${apps[i].safeApplicationInfo.name}\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
-                stringBuilder.append(apps[i].applicationInfo.packageName + "\n")
+                stringBuilder.append(apps[i].safeApplicationInfo.packageName + "\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.VERSION))
                 stringBuilder.append(apps[i].versionName + "\n")
@@ -173,11 +174,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                    stringBuilder.append(apps[i].applicationInfo.minSdkVersion.toString() + "\n")
+                    stringBuilder.append(apps[i].safeApplicationInfo.minSdkVersion.toString() + "\n")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                stringBuilder.append(apps[i].applicationInfo.targetSdkVersion.toString() + "\n")
+                stringBuilder.append(apps[i].safeApplicationInfo.targetSdkVersion.toString() + "\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
                 stringBuilder.append("${apps[i].getSize()}\n")
@@ -211,7 +212,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             stringBuilder.append("\n\t\t{")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME)) {
-                stringBuilder.append("\n\t\t\t\"name\": \"${app.applicationInfo.name}\",")
+                stringBuilder.append("\n\t\t\t\"name\": \"${app.safeApplicationInfo.name}\",")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME)) {
@@ -228,11 +229,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                        stringBuilder.append("\n\t\t\t\"minimum_sdk\": \"${app.applicationInfo.minSdkVersion}\",")
+                        stringBuilder.append("\n\t\t\t\"minimum_sdk\": \"${app.safeApplicationInfo.minSdkVersion}\",")
                 }
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                    stringBuilder.append("\n\t\t\t\"target_sdk\": \"${app.applicationInfo.targetSdkVersion}\",")
+                    stringBuilder.append("\n\t\t\t\"target_sdk\": \"${app.safeApplicationInfo.targetSdkVersion}\",")
 
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE)) {
                     stringBuilder.append("\n\t\t\t\"size\": \"${app.getSize()}\",")
@@ -305,7 +306,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
         for (app in apps) {
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
-                stringBuilder.append("\"${app.applicationInfo.name}\",")
+                stringBuilder.append("\"${app.safeApplicationInfo.name}\",")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\"${app.packageName}\",")
@@ -321,11 +322,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                    stringBuilder.append("\"${app.applicationInfo.minSdkVersion}\",")
+                    stringBuilder.append("\"${app.safeApplicationInfo.minSdkVersion}\",")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                stringBuilder.append("\"${app.applicationInfo.targetSdkVersion}\",")
+                stringBuilder.append("\"${app.safeApplicationInfo.targetSdkVersion}\",")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
                 stringBuilder.append("\"${app.getSize()}\",")
@@ -450,7 +451,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
             stringBuilder.append("\t\t\t<td>${apps.indexOf(app) + 1}</td>\r\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.NAME))
-                stringBuilder.append("\t\t\t<td>${app.applicationInfo.name}</td>\r\n")
+                stringBuilder.append("\t\t\t<td>${app.safeApplicationInfo.name}</td>\r\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("\t\t\t<td>${app.packageName}</td>\r\n")
@@ -466,11 +467,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                    stringBuilder.append("\t\t\t<td>${app.applicationInfo.minSdkVersion}</td>\r\n")
+                    stringBuilder.append("\t\t\t<td>${app.safeApplicationInfo.minSdkVersion}</td>\r\n")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                stringBuilder.append("\t\t\t<td>${app.applicationInfo.targetSdkVersion}</td>\r\n")
+                stringBuilder.append("\t\t\t<td>${app.safeApplicationInfo.targetSdkVersion}</td>\r\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
                 stringBuilder.append("\t\t\t<td>${app.getSize()}</td>\r\n")
@@ -503,7 +504,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
         stringBuilder.append("### ${System.currentTimeMillis().toDate()}\n")
 
         for (app in apps.indices) {
-            stringBuilder.append("\n\n## ${app + 1}. ${apps[app].applicationInfo.name}\n") // Added serial number
+            stringBuilder.append("\n\n## ${app + 1}. ${apps[app].safeApplicationInfo.name}\n") // Added serial number
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.PACKAGE_NAME))
                 stringBuilder.append("- **Package Name:** ${apps[app].packageName}\n")
@@ -519,11 +520,11 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.MINIMUM_SDK))
-                    stringBuilder.append("- **Minimum SDK:** ${apps[app].applicationInfo.minSdkVersion}\n")
+                    stringBuilder.append("- **Minimum SDK:** ${apps[app].safeApplicationInfo.minSdkVersion}\n")
             }
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.TARGET_SDK))
-                stringBuilder.append("- **Target SDK:** ${apps[app].applicationInfo.targetSdkVersion}\n")
+                stringBuilder.append("- **Target SDK:** ${apps[app].safeApplicationInfo.targetSdkVersion}\n")
 
             if (FlagUtils.isFlagSet(flags, GeneratedDataPreferences.SIZE))
                 stringBuilder.append("- **Size:** ${apps[app].getSize()}\n")
@@ -548,8 +549,8 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
     }
 
     private fun PackageInfo.getSize(): String {
-        val appSize = applicationInfo.sourceDir.toFile().length()
-        val splitSourceDirs = applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
+        val appSize = safeApplicationInfo.sourceDir.toFile().length()
+        val splitSourceDirs = safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
 
         return (appSize + splitSourceDirs).toSize()
     }

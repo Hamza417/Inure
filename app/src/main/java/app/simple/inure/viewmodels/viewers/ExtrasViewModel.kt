@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.Extra
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ class ExtrasViewModel(application: Application, val packageInfo: PackageInfo) : 
     private fun getExtrasData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                with(APKParser.getExtraFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                with(APKParser.getExtraFiles(packageInfo.safeApplicationInfo.sourceDir, keyword)) {
                     if (this.isEmpty() && keyword.isEmpty()) throw NullPointerException()
 
                     extras.postValue(apply {

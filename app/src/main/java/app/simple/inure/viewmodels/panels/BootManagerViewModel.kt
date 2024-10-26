@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.constants.Warnings
@@ -84,7 +85,7 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
             packageNames.forEach { packageName ->
                 val bootManagerModel = BootManagerModel()
                 bootManagerModel.packageInfo = packageName.getPackageInfo() ?: return@forEach
-                bootManagerModel.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), packageName)
+                bootManagerModel.packageInfo.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), packageName)
                 bootManagerModel.isEnabled = packageManager.isPackageInstalledAndEnabled(packageName)
 
                 list.forEach { resolveInfo ->
@@ -104,12 +105,12 @@ class BootManagerViewModel(application: Application) : RootShizukuViewModel(appl
             when (BootManagerPreferences.getAppsCategory()) {
                 SortConstant.SYSTEM -> {
                     bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
-                        p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        p.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<BootManagerModel>
                 }
                 SortConstant.USER -> {
                     bootManagerModelArrayList = bootManagerModelArrayList.stream().filter { p ->
-                        p.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        p.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<BootManagerModel>
                 }
             }

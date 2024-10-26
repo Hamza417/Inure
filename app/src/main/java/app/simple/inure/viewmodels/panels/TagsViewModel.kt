@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.isXposedModule
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
@@ -276,38 +277,38 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     private fun PackageInfo.doesAppHasFlag(flag: Long, trackersData: ArrayList<Tracker>): Boolean {
         return when (flag) {
             AutoTag.GAME -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_GAME
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_GAME
             }
             AutoTag.AUDIO -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_AUDIO
             }
             AutoTag.VIDEO -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_VIDEO
             }
             AutoTag.IMAGE -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_IMAGE
             }
             AutoTag.SOCIAL -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL
             }
             AutoTag.NEWS -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_NEWS
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_NEWS
             }
             AutoTag.MAPS -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_MAPS
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_MAPS
             }
             AutoTag.PRODUCTIVITY -> {
-                applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY
+                safeApplicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY
             }
             AutoTag.ACCESSIBILITY -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY
+                    safeApplicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY
                 } else {
                     false
                 }
             }
             AutoTag.XPOSED_MODULE -> {
-                applicationInfo.isXposedModule()
+                safeApplicationInfo.isXposedModule()
             }
             AutoTag.FOSS -> {
                 FOSSParser.isPackageFOSS(this)

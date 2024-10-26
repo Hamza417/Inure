@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.UsageStatsViewModel
 import app.simple.inure.models.AppUsageModel
 import app.simple.inure.models.DataUsage
@@ -129,7 +130,7 @@ class AppStatisticsViewModel(application: Application, private val packageInfo: 
             var size = 0L
 
             for (i in apps.indices) {
-                size += apps[i].applicationInfo.sourceDir.getDirectoryLength()
+                size += apps[i].safeApplicationInfo.sourceDir.getDirectoryLength()
             }
         }
     }

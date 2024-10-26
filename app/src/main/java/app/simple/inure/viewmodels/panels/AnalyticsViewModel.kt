@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ConditionUtils.isNotZero
@@ -53,7 +54,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
                 var total = 0F
 
                 for (app in apps) {
-                    val sdk = app.applicationInfo.minSdkVersion
+                    val sdk = app.safeApplicationInfo.minSdkVersion
                     if (sdk == sdkCode) {
                         ++total
                     }
@@ -81,7 +82,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
                 var total = 0F
 
                 for (app in apps) {
-                    val sdk = app.applicationInfo.targetSdkVersion
+                    val sdk = app.safeApplicationInfo.targetSdkVersion
                     if (sdk == sdkCode) {
                         total = total.inc()
                     }
@@ -107,7 +108,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             var apk = 0F
 
             for (app in apps) {
-                if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (app.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     apk = apk.inc()
                 } else {
                     split = split.inc()

@@ -23,6 +23,7 @@ import app.simple.inure.adapters.ui.AdapterApksSearch
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -194,11 +195,11 @@ class ApksSearch : KeyboardScopedFragment() {
                                                 adapterApksSearch.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                     }
 
-                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
+                                    packageInfo.safeApplicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
                                 } else {
                                     packageInfo = PackageInfo() // empty package info
-                                    packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                    packageInfo.applicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
+                                    packageInfo.safeApplicationInfo = ApplicationInfo() // empty application info
+                                    packageInfo.safeApplicationInfo.sourceDir = adapterApksSearch.paths[position].file.absolutePath
                                 }
 
                                 if (packageInfo.isInstalled()) {
@@ -206,7 +207,7 @@ class ApksSearch : KeyboardScopedFragment() {
                                     icon.transitionName = packageInfo.packageName
                                     requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                     requireArguments().putInt(BundleConstants.position, position)
-                                    packageInfo.applicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
+                                    packageInfo.safeApplicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
                                     openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
                                 } else {
                                     openFragmentSlide(Information.newInstance(packageInfo), AppInfo.TAG)

@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.UnpackConstants
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.UnpackModel
@@ -31,7 +32,7 @@ class UnpackViewModel(application: Application, val packageInfo: PackageInfo) : 
 
     private fun loadFiles() {
         viewModelScope.launch(Dispatchers.IO) {
-            zipFile = ZipFile(packageInfo.applicationInfo.sourceDir)
+            zipFile = ZipFile(packageInfo.safeApplicationInfo.sourceDir)
             val entries: Enumeration<out ZipEntry?> = zipFile?.entries()!!
             val list = arrayListOf<UnpackModel>()
 

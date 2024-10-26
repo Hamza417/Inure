@@ -25,6 +25,7 @@ import app.simple.inure.adapters.installer.AdapterInstallerInfoPanels
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.Warnings
@@ -203,7 +204,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             kotlin.runCatching {
                 packageInfo = it
 
-                name.text = packageInfo.applicationInfo.name
+                name.text = packageInfo.safeApplicationInfo.name
                 packageName.text = packageInfo.packageName
                 version.text = buildString {
                     if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {

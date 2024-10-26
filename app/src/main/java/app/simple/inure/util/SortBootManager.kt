@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.models.BootManagerModel
 import app.simple.inure.preferences.BootManagerPreferences
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
@@ -137,11 +138,11 @@ object SortBootManager {
     private fun ArrayList<BootManagerModel>.sortByName(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -152,11 +153,11 @@ object SortBootManager {
     private fun ArrayList<BootManagerModel>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+                it.packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength()
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+                it.packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength()
             }
         }
     }
@@ -212,11 +213,11 @@ object SortBootManager {
     private fun ArrayList<BootManagerModel>.sortByTargetSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.targetSdkVersion
+                it.packageInfo.safeApplicationInfo.targetSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.targetSdkVersion
+                it.packageInfo.safeApplicationInfo.targetSdkVersion
             }
         }
     }
@@ -228,11 +229,11 @@ object SortBootManager {
     private fun ArrayList<BootManagerModel>.sortByMinSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.minSdkVersion
+                it.packageInfo.safeApplicationInfo.minSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.minSdkVersion
+                it.packageInfo.safeApplicationInfo.minSdkVersion
             }
         }
     }

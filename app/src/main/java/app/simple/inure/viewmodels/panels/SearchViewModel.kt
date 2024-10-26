@@ -13,6 +13,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
@@ -152,7 +153,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun hasMatchingNames(search: Search, keywords: String): Boolean {
-        return search.packageInfo.applicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
+        return search.packageInfo.safeApplicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
                 search.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
     }
 
@@ -175,7 +176,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                     search.services = it.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
                     search.receivers = it.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
                     search.providers = it.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                    search.resources = APKParser.getXmlFiles(it.applicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
+                    search.resources = APKParser.getXmlFiles(it.safeApplicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
 
                     addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
                 } catch (e: NameNotFoundException) {
@@ -191,7 +192,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         list.forEach {
             kotlin.runCatching {
                 val pkg = packageManager.getPackageInfo(it.packageName, FLAGS)
-                pkg.applicationInfo.name = it.applicationInfo.name
+                pkg.safeApplicationInfo.name = it.safeApplicationInfo.name
                 deepPackageInfos.addIfNotExists(pkg, comparator = { a, b -> a?.packageName == b?.packageName })
             }.getOrElse {
                 Log.e(TAG, it.stackTraceToString())
@@ -202,7 +203,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun ArrayList<PackageInfo>.applyFilters(filtered: ArrayList<PackageInfo>) {
         parallelStream().forEach { app ->
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                if (app.applicationInfo.enabled.invert()) {
+                if (app.safeApplicationInfo.enabled.invert()) {
                     if (app.isInstalled()) {
                         filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                     }
@@ -210,7 +211,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
 
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                if (app.applicationInfo.enabled) {
+                if (app.safeApplicationInfo.enabled) {
                     if (app.isInstalled()) {
                         filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                     }
@@ -218,13 +219,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             }
 
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
-                if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (app.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                 }
             }
 
             if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                if (app.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                if (app.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
                     filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                 }
             }

@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.toLength
@@ -153,11 +154,11 @@ object SortBatch {
     private fun ArrayList<BatchPackageInfo>.sortByName(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -168,18 +169,18 @@ object SortBatch {
     private fun ArrayList<BatchPackageInfo>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                if (it.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    it.packageInfo.applicationInfo.sourceDir.toLength()
+                if (it.packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.packageInfo.safeApplicationInfo.sourceDir.toLength()
                 } else {
-                    it.packageInfo.applicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.applicationInfo.sourceDir.toLength()
+                    it.packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.safeApplicationInfo.sourceDir.toLength()
                 }
             }
         } else {
             this.sortBy {
-                if (it.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    it.packageInfo.applicationInfo.sourceDir.toLength()
+                if (it.packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.packageInfo.safeApplicationInfo.sourceDir.toLength()
                 } else {
-                    it.packageInfo.applicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.applicationInfo.sourceDir.toLength()
+                    it.packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength() + it.packageInfo.safeApplicationInfo.sourceDir.toLength()
                 }
             }
         }
@@ -236,11 +237,11 @@ object SortBatch {
     private fun ArrayList<BatchPackageInfo>.sortByTargetSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.targetSdkVersion
+                it.packageInfo.safeApplicationInfo.targetSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.targetSdkVersion
+                it.packageInfo.safeApplicationInfo.targetSdkVersion
             }
         }
     }
@@ -252,11 +253,11 @@ object SortBatch {
     private fun ArrayList<BatchPackageInfo>.sortByMinSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.packageInfo.applicationInfo.minSdkVersion
+                it.packageInfo.safeApplicationInfo.minSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo.applicationInfo.minSdkVersion
+                it.packageInfo.safeApplicationInfo.minSdkVersion
             }
         }
     }

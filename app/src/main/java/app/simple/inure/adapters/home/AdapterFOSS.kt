@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -46,8 +47,8 @@ class AdapterFOSS : RecyclerView.Adapter<VerticalListViewHolder>() {
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageName
-            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled, apps[position].applicationInfo.sourceDir.toFile())
-            holder.name.text = apps[position].applicationInfo.name
+            holder.icon.loadAppIcon(apps[position].packageName, apps[position].safeApplicationInfo.enabled, apps[position].safeApplicationInfo.sourceDir.toFile())
+            holder.name.text = apps[position].safeApplicationInfo.name
             holder.packageId.text = apps[position].packageName
             holder.name.setAppVisualStates(apps[position])
             holder.date.text = FOSSParser.getPackageLicense(apps[position]) ?: holder.itemView.context.getString(R.string.not_available)

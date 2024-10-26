@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.preferences.AppsPreferences
@@ -44,13 +45,13 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
             when (AppsPreferences.getAppsType()) {
                 SortConstant.SYSTEM -> {
-                    apps = apps.parallelStream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    apps = apps.parallelStream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
                 SortConstant.USER -> {
-                    apps = apps.parallelStream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    apps = apps.parallelStream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
@@ -59,7 +60,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 val categoryList = ArrayList<PackageInfo>()
 
                 for (app in apps) {
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -67,7 +68,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -75,7 +76,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_AUDIO)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -83,7 +84,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_VIDEO)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -91,7 +92,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_IMAGE) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_IMAGE) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_IMAGE)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -99,7 +100,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_SOCIAL)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -107,7 +108,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_NEWS) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_NEWS) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_NEWS)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -115,7 +116,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_MAPS) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_MAPS) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_MAPS)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -123,7 +124,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                         }
                     }
 
-                    if (app.applicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY) {
+                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY) {
                         if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_PRODUCTIVITY)) {
                             if (!categoryList.contains(app)) {
                                 categoryList.add(app)
@@ -132,7 +133,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        if (app.applicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY) {
+                        if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY) {
                             if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
                                 if (!categoryList.contains(app)) {
                                     categoryList.add(app)
@@ -163,7 +164,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             } else {
                 for (packageInfo in apps) {
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                        if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                        if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -171,7 +172,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                        if (packageInfo.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                        if (packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -179,8 +180,8 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                        if (!packageInfo.applicationInfo.enabled &&
-                                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                        if (!packageInfo.safeApplicationInfo.enabled &&
+                                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -188,7 +189,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                        if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -196,8 +197,8 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                     }
 
                     if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                        if (packageInfo.applicationInfo.enabled &&
-                                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                        if (packageInfo.safeApplicationInfo.enabled &&
+                                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
                             if (!filteredList.contains(packageInfo)) {
                                 filteredList.add(packageInfo)
                             }
@@ -227,10 +228,10 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         return when {
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {
                 if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
                 } else {
-                    packageInfo.applicationInfo.enabled.invert() &&
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                    packageInfo.safeApplicationInfo.enabled.invert() &&
+                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
                 }
             }
             else -> {
@@ -239,10 +240,10 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         } && when {
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED) -> {
                 if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                    packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
                 } else {
-                    packageInfo.applicationInfo.enabled &&
-                            packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+                    packageInfo.safeApplicationInfo.enabled &&
+                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
                 }
             }
             else -> {
@@ -253,7 +254,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
                     true
                 } else {
-                    packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()
+                    packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()
                 }
             }
             else -> {
@@ -264,7 +265,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
                     true
                 } else {
-                    packageInfo.applicationInfo.splitSourceDirs?.isNotEmpty() ?: false
+                    packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() ?: false
                 }
             }
             else -> {
@@ -272,7 +273,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
             }
         } && when {
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED) -> {
-                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
             }
             else -> {
                 true

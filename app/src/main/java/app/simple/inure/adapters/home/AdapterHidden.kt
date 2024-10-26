@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -45,11 +46,11 @@ class AdapterHidden(var apps: ArrayList<PackageInfo> = arrayListOf()) : Recycler
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageName
-            holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
-            holder.name.text = apps[position].applicationInfo.name
+            holder.icon.loadAppIcon(apps[position].packageName, apps[position].safeApplicationInfo.enabled)
+            holder.name.text = apps[position].safeApplicationInfo.name
             holder.packageId.text = apps[position].packageName
 
-            holder.name.setStrikeThru(apps[position].applicationInfo.enabled)
+            holder.name.setStrikeThru(apps[position].safeApplicationInfo.enabled)
             holder.name.setFOSSIcon(FOSSParser.isPackageFOSS(apps[position]))
 
             holder.date.text = apps[position].getApplicationInstallTime(holder.itemView.context, FormattingPreferences.getDateFormat())

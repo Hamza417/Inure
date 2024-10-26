@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -35,9 +36,9 @@ class AdapterBatchExtract(private val list: ArrayList<BatchPackageInfo>) : Recyc
     override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
         val position = position_ - 1
         if (holder is Holder) {
-            holder.icon.loadAppIcon(list[position].packageInfo.packageName, list[position].packageInfo.applicationInfo.enabled)
-            holder.name.text = list[position].packageInfo.applicationInfo.name
-            holder.name.setStrikeThru(list[position].packageInfo.applicationInfo.enabled)
+            holder.icon.loadAppIcon(list[position].packageInfo.packageName, list[position].packageInfo.safeApplicationInfo.enabled)
+            holder.name.text = list[position].packageInfo.safeApplicationInfo.name
+            holder.name.setStrikeThru(list[position].packageInfo.safeApplicationInfo.enabled)
 
             if (list[position].isCompleted) {
                 holder.status.setText(R.string.done)

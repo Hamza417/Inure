@@ -20,6 +20,7 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.isUpdateInstalled
 import app.simple.inure.apk.utils.PackageUtils.isUserApp
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -115,10 +116,10 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                     list.normalMenu()
                 }
             } else {
-                if (packageInfo.applicationInfo.sourceDir.toFile().exists()) {
+                if (packageInfo.safeApplicationInfo.sourceDir.toFile().exists()) {
                     list.add(Pair(R.drawable.ic_send, R.string.send))
 
-                    if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                    if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
                         list.add(Pair(R.drawable.ic_publish, R.string.install))
                     } else {
                         if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
@@ -165,7 +166,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
             }
 
             if (packageInfo.isInstalled()) {
-                packageInfo.applicationInfo.manageSpaceActivityName?.let { it ->
+                packageInfo.safeApplicationInfo.manageSpaceActivityName?.let { it ->
                     try {
                         packageManager.getActivityInfo(ComponentName(packageInfo.packageName, it), 0).let {
                             if (it.exported) {
@@ -388,13 +389,13 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                     }
                 } catch (e: NameNotFoundException) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
+                        packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
                                 or PackageManager.GET_SERVICES
                                 or PackageManager.GET_RECEIVERS
                                 or PackageManager.MATCH_DISABLED_COMPONENTS)!!
                     } else {
                         @Suppress("DEPRECATION")
-                        packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
+                        packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
                                 or PackageManager.GET_SERVICES
                                 or PackageManager.GET_RECEIVERS
                                 or PackageManager.GET_DISABLED_COMPONENTS)!!

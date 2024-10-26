@@ -20,6 +20,7 @@ import androidx.work.workDataOf
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
 import app.simple.inure.apk.utils.PackageData
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.math.Extensions.percentOf
@@ -79,7 +80,7 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
             // Start copying
             try {
                 for (app in apps) {
-                    Log.d(TAG, "doWork: Extracting ${app.applicationInfo.name}")
+                    Log.d(TAG, "doWork: Extracting ${app.safeApplicationInfo.name}")
                     try {
                         if (applicationContext.areStoragePermissionsGranted()) {
                             PackageData.makePackageFolder(applicationContext)
@@ -90,7 +91,7 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
 
                         setProgress(workDataOf(POSITION to position.plus(1)))
 
-                        if (app.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                        if (app.safeApplicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                             apkType = APK_TYPE_SPLIT
                             setProgress(workDataOf(APK_TYPE to APK_TYPE_SPLIT))
                             extractBundle(packageInfo = app)
@@ -138,7 +139,7 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
                 e.printStackTrace()
                 isExtracting = false
 
-                if (apps[position].applicationInfo.splitSourceDirs.isNotNull()) {
+                if (apps[position].safeApplicationInfo.splitSourceDirs.isNotNull()) {
                     File(applicationContext.getBundlePathAndFileName(apps[position])).delete()
                 } else {
                     File(BatchUtils.getApkPathAndFileName(apps[position])).delete()
@@ -165,10 +166,10 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
 
     private fun measureTotalSize() {
         for (app in apps) {
-            maxSize += File(app.applicationInfo.sourceDir).length()
+            maxSize += File(app.safeApplicationInfo.sourceDir).length()
 
-            if (app.applicationInfo.splitSourceDirs.isNotNull()) {
-                maxSize += app.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
+            if (app.safeApplicationInfo.splitSourceDirs.isNotNull()) {
+                maxSize += app.safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
             }
         }
 
@@ -180,7 +181,7 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
         if (list.isNotNull()) {
             for (i in list.indices) {
                 val packageInfo = applicationContext.packageManager.getPackageInfo(list[i], PackageManager.GET_META_DATA)
-                packageInfo.applicationInfo.name = applicationContext.packageManager.getApplicationLabel(packageInfo.applicationInfo).toString()
+                packageInfo.safeApplicationInfo.name = applicationContext.packageManager.getApplicationLabel(packageInfo.safeApplicationInfo).toString()
                 apps.add(packageInfo)
             }
         }
@@ -194,10 +195,10 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
     }
 
     private fun extractApk(packageInfo: PackageInfo) {
-        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.applicationInfo.name}_${packageInfo.versionName}.apk")
+        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.safeApplicationInfo.name}_${packageInfo.versionName}.apk")
 
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
-            val source = File(packageInfo.applicationInfo.sourceDir)
+            val source = File(packageInfo.safeApplicationInfo.sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
 
             inputStream = FileInputStream(source)
@@ -212,13 +213,13 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
                 notificationManager.notify(notificationId, notificationBuilder.build())
             }
 
-            progress += File(packageInfo.applicationInfo.sourceDir).length()
+            progress += File(packageInfo.safeApplicationInfo.sourceDir).length()
             workDataOf(COPY_PROGRESS to progress)
         }
     }
 
     private fun extractBundle(packageInfo: PackageInfo) {
-        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.applicationInfo.name}_${packageInfo.versionName}.apks")
+        notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.safeApplicationInfo.name}_${packageInfo.versionName}.apks")
         if (ActivityCompat.checkSelfPermission(
                         applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(notificationId, notificationBuilder.build())
@@ -256,8 +257,8 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
                 Thread.sleep(100)
             }
         } else {
-            progress += (packageInfo.applicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) +
-                    packageInfo.applicationInfo.sourceDir.getDirectoryLength()
+            progress += (packageInfo.safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) +
+                    packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength()
 
             workDataOf(COPY_PROGRESS to progress)
         }
@@ -266,10 +267,10 @@ class BatchExtractWorker(context: Context, workerParams: WorkerParameters) : Cor
     private fun createSplitApkFiles(packageInfo: PackageInfo): ArrayList<File> {
         val list = arrayListOf<File>()
 
-        list.add(File(packageInfo.applicationInfo.sourceDir))
+        list.add(File(packageInfo.safeApplicationInfo.sourceDir))
 
-        for (i in packageInfo.applicationInfo.splitSourceDirs?.indices!!) {
-            list.add(File(packageInfo.applicationInfo.splitSourceDirs!![i]))
+        for (i in packageInfo.safeApplicationInfo.splitSourceDirs?.indices!!) {
+            list.add(File(packageInfo.safeApplicationInfo.splitSourceDirs!![i]))
         }
 
         return list

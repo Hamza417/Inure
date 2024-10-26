@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -66,8 +67,8 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
                 when (intent?.action) {
                     ServiceConstants.actionPackageInfo -> {
                         packageInfo = intent.extras?.parcelable(BundleConstants.packageInfo)!!
-                        icon.setImageDrawable(packageInfo.applicationInfo.loadIcon(requireContext().packageManager))
-                        name.text = packageInfo.applicationInfo.loadLabel(requireContext().packageManager)
+                        icon.setImageDrawable(packageInfo.safeApplicationInfo.loadIcon(requireContext().packageManager))
+                        name.text = packageInfo.safeApplicationInfo.loadLabel(requireContext().packageManager)
                         packageName.text = buildString {
                             append(packageInfo.packageName)
                             append("(${packageInfo.versionName})")

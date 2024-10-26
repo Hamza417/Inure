@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -108,7 +109,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 packageManager.getPackageArchiveInfo(
-                        packageInfo.applicationInfo.sourceDir,
+                        packageInfo.safeApplicationInfo.sourceDir,
                         PackageManager.GET_ACTIVITIES or
                                 PackageManager.GET_RECEIVERS or
                                 PackageManager.GET_SERVICES or

@@ -7,6 +7,7 @@ import android.text.Spannable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.trackers.dex.DexLoaderBuilder
 import app.simple.inure.trackers.reflector.Reflector
@@ -41,7 +42,7 @@ class ClassSourceViewModel(application: Application, val className: String, val 
         var uriStream: InputStream? = null
 
         try {
-            uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.applicationInfo.publicSourceDir)))
+            uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.safeApplicationInfo.publicSourceDir)))
 
             val bytes = IOUtils.toByteArray(uriStream)
             val loader: DexClassLoader = DexLoaderBuilder.fromBytes(context, bytes)

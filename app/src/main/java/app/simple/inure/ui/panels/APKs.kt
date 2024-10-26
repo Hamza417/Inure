@@ -24,6 +24,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
 import app.simple.inure.apk.utils.PackageUtils.getPackageInfo
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -179,7 +180,7 @@ class APKs : ScopedFragment() {
                                             requirePackageManager().getPackageArchiveInfo(adapterApks.paths[position].file.absolutePath, PackageUtils.flags.toInt())!!
                                         }
 
-                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
+                                        packageInfo.safeApplicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
                                     } else if (adapterApks.paths[position].file.absolutePath.endsWith(".apks") ||
                                             adapterApks.paths[position].file.absolutePath.endsWith(".xapk") ||
                                             adapterApks.paths[position].file.absolutePath.endsWith(".zip") ||
@@ -191,14 +192,14 @@ class APKs : ScopedFragment() {
 
                                         for (file in copiedFile.path.substringBeforeLast(".").toFile().listFiles()!!) {
                                             packageInfo = requirePackageManager().getPackageArchiveInfo(file.absolutePath.toFile()) ?: continue
-                                            packageInfo.applicationInfo.sourceDir = file.absolutePath
-                                            packageInfo.applicationInfo.publicSourceDir = file.absolutePath
+                                            packageInfo.safeApplicationInfo.sourceDir = file.absolutePath
+                                            packageInfo.safeApplicationInfo.publicSourceDir = file.absolutePath
                                             break
                                         }
                                     } else {
                                         packageInfo = PackageInfo() // empty package info
-                                        packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                                        packageInfo.applicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
+                                        packageInfo.safeApplicationInfo = ApplicationInfo() // empty application info
+                                        packageInfo.safeApplicationInfo.sourceDir = adapterApks.paths[position].file.absolutePath
                                     }
 
                                     withContext(Dispatchers.Main) {
@@ -207,14 +208,14 @@ class APKs : ScopedFragment() {
                                             icon.transitionName = packageInfo.packageName
                                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                             requireArguments().putInt(BundleConstants.position, position)
-                                            packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
+                                            packageInfo.safeApplicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                         } else {
                                             icon.transitionName = packageInfo.packageName
                                             requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
                                             requireArguments().putInt(BundleConstants.position, position)
-                                            packageInfo.applicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
+                                            packageInfo.safeApplicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                         }
