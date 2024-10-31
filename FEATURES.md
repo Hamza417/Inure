@@ -60,6 +60,18 @@ Features available for Shizuku users.
 - Run installer in Shizuku mode to seamlessly install apps.
 - Run terminal in Shizuku mode.
 
+### Installer Features
+
+Features supported by built-in app installer
+
+- Bypass the low target sdk restrictions for both Android 14 and Android 15.
+  - When you see an error like this in the app `INSTALL_FAILED_DEPRECATED_SDK_VERSION: App package must target at least SDK version 24, but found 7`
+- All split apk format support.
+- Get all information in the Installer at one place, including what has changed in the new apk, trackers and many othe info.
+- Signature check before installation to see if signature matches with the exisitng one.
+- Block trackers from Installer page
+- Separate framework for Root, Shizuku and Session based installer.
+
 ### UI Features
 
 UI feature of Inure that makes it stand out.
