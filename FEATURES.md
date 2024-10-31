@@ -2,7 +2,7 @@
 List of all the features available in Inure at the moment.
 
 **Note:** I'll try best to list all core features to give a general idea of the capabilities
-of the app, it's recommended to run the app and explore all the possible options by yourself.
+of the app. This is not a complete features list but rather the core ones, **it's recommended to run the app and explore all the possible options by yourself.**
 
 ### Normal Features
 These features are available to all users without any extra requirements.
