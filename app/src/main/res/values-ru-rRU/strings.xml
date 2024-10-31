@@ -754,4 +754,11 @@
     <string name="auto_tag_desc">Автоматически создавать теги для приложений на основе доступной информации.</string>
     <string name="no_cache_found">Кэш не найден</string>
     <string name="no_operations_found">Операций не найдено</string>
+    <string name="keyword_database">База данных ключевых слов</string>
+    <string name="backup">Резервное копирование</string>
+    <string name="allowed">Предоставлено</string>
+    <string name="not_allowed">Не предоставлено</string>
+    <string name="color_picker">Палитра цветов</string>
+    <string name="supported">Поддерживаемые</string>
+    <string name="tracker_root_warning">Для блокировки трекеров используйте root-доступ.</string>
 </resources>
