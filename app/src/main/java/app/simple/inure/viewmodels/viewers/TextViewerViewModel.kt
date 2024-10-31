@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.decoders.XMLDecoder
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.util.StringUtils.readTextSafely
 import app.simple.inure.util.XMLUtils.formatXML
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class TextViewerViewModel(private val packageInfo: PackageInfo, private val path
                         }
                     }
                 } else {
-                    ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
+                    ZipFile(packageInfo.safeApplicationInfo.sourceDir).use { zipFile ->
                         val entries: Enumeration<out ZipEntry?> = zipFile.entries()
                         while (entries.hasMoreElements()) {
                             entries.nextElement()!!.let { entry ->
@@ -49,7 +50,7 @@ class TextViewerViewModel(private val packageInfo: PackageInfo, private val path
                                     if (entry.name == path) {
                                         when {
                                             path.endsWith("xml") -> {
-                                                val xml = XMLDecoder(packageInfo.applicationInfo.sourceDir).decode(path)
+                                                val xml = XMLDecoder(packageInfo.safeApplicationInfo.sourceDir).decode(path)
                                                 text.postValue(xml.formatXML())
                                             }
                                             else -> {

@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import com.topjohnwu.superuser.Shell
@@ -44,7 +45,7 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun getReinstallCommand(): String {
-        return "pm install -r ${packageInfo.applicationInfo.sourceDir}"
+        return "pm install -r ${packageInfo.safeApplicationInfo.sourceDir}"
     }
 
     private fun getInstallExistingCommand(): String {

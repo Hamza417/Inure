@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.database.instances.BatchDatabase
 import app.simple.inure.database.instances.BatchProfileDatabase
@@ -81,12 +82,12 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
             when (BatchPreferences.getAppsCategory()) {
                 SortConstant.SYSTEM -> {
                     apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                        p.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
                 SortConstant.USER -> {
                     apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                        p.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
@@ -114,7 +115,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_ENABLED)) {
-                    if (item.packageInfo.applicationInfo.enabled) {
+                    if (item.packageInfo.safeApplicationInfo.enabled) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }
@@ -122,7 +123,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_DISABLED)) {
-                    if (!item.packageInfo.applicationInfo.enabled) {
+                    if (!item.packageInfo.safeApplicationInfo.enabled) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }
@@ -130,7 +131,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_UNINSTALLED)) {
-                    if (item.packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                    if (item.packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }
@@ -146,7 +147,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_APK)) {
-                    if (item.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    if (item.packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }
@@ -154,7 +155,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                 }
 
                 if (FlagUtils.isFlagSet(BatchPreferences.getAppsFilter(), SortConstant.BATCH_SPLIT)) {
-                    if (!item.packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    if (!item.packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                         if (!filtered.contains(item)) {
                             filtered.add(item)
                         }
@@ -233,8 +234,8 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         list = list.stream().filter { p -> p.isSelected }.collect(Collectors.toList()) as ArrayList<BatchPackageInfo>
 
         for (i in list.indices) {
-            list[i].packageInfo.applicationInfo.name = PackageUtils.getApplicationName(
-                    application.applicationContext, list[i].packageInfo.applicationInfo)
+            list[i].packageInfo.safeApplicationInfo.name = PackageUtils.getApplicationName(
+                    application.applicationContext, list[i].packageInfo.safeApplicationInfo)
         }
 
         if (BatchPreferences.isSelectionOnTop()) {

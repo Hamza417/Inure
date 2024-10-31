@@ -5,6 +5,7 @@ import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.glide.util.GlideUtils.getGeneratedAppIconBitmap
 import app.simple.inure.util.BitmapHelper.toBitmap
 import app.simple.inure.util.BitmapHelper.toGrayscale
@@ -51,9 +52,9 @@ class AppIconFetcher internal constructor(private val appIcon: AppIcon) : DataFe
                             .getPackageArchiveInfo(appIcon.file!!.absolutePath,
                                                    PackageManager.GET_META_DATA)
                     }
-                    p0!!.applicationInfo.sourceDir = appIcon.file.absolutePath
-                    p0.applicationInfo.publicSourceDir = appIcon.file.absolutePath
-                    val b = appIcon.context.packageManager.getApplicationIcon(p0.applicationInfo)
+                    p0!!.safeApplicationInfo.sourceDir = appIcon.file.absolutePath
+                    p0.safeApplicationInfo.publicSourceDir = appIcon.file.absolutePath
+                    val b = appIcon.context.packageManager.getApplicationIcon(p0.safeApplicationInfo)
                     callback.onDataReady(b.toBitmap().toGrayscale())
                 }
             }

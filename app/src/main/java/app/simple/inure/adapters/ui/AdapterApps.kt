@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -59,13 +60,13 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
         if (holder is Holder) {
 
             holder.icon.transitionName = apps[position].packageName
-            holder.name.text = apps[position].applicationInfo.name
+            holder.name.text = apps[position].safeApplicationInfo.name
             holder.packageId.text = apps[position].packageName
 
             if (apps[position].isInstalled()) {
-                holder.icon.loadAppIcon(apps[position].packageName, apps[position].applicationInfo.enabled)
+                holder.icon.loadAppIcon(apps[position].packageName, apps[position].safeApplicationInfo.enabled)
             } else {
-                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].applicationInfo.sourceDir.toFileOrNull())
+                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].safeApplicationInfo.sourceDir.toFileOrNull())
             }
 
             holder.name.setAppVisualStates(apps[position])
@@ -173,6 +174,6 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
     }
 
     override fun getPopupText(position: Int): String {
-        return apps[position].applicationInfo.name.substring(0, 1).uppercase(Locale.ROOT)
+        return apps[position].safeApplicationInfo.name.substring(0, 1).uppercase(Locale.ROOT)
     }
 }

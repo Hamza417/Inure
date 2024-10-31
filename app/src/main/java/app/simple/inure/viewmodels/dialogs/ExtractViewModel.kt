@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.BatchUtils.getApkPathAndFileName
 import app.simple.inure.util.BatchUtils.getBundlePathAndFileName
@@ -57,7 +58,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
                     throw SecurityException("Storage Permission not granted")
                 }
 
-                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull() && paths.size != 1) { // For split packages
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNotNull() && paths.size != 1) { // For split packages
                     status.postValue(getString(R.string.split_apk_detected))
                     extractBundle()
                 } else { // For APK files
@@ -102,11 +103,11 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
 
     @Throws(IOException::class)
     private fun extractApk() {
-        if (packageInfo.applicationInfo.sourceDir.toFile().exists()) {
+        if (packageInfo.safeApplicationInfo.sourceDir.toFile().exists()) {
             if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)).exists()) {
                 file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
             } else {
-                val source = File(packageInfo.applicationInfo.sourceDir)
+                val source = File(packageInfo.safeApplicationInfo.sourceDir)
                 val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo))
                 val length = source.length()
 
@@ -121,7 +122,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
                 file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
             }
         } else {
-            warning.postValue(packageInfo.applicationInfo.sourceDir + " : " + "not found")
+            warning.postValue(packageInfo.safeApplicationInfo.sourceDir + " : " + "not found")
         }
     }
 

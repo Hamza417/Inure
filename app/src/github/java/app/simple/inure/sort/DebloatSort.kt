@@ -1,5 +1,6 @@
 package app.simple.inure.sort
 
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.models.Bloat
 import app.simple.inure.preferences.DebloatPreferences
@@ -23,10 +24,10 @@ object DebloatSort {
     private fun ArrayList<Bloat>.sortByName() {
         when (DebloatPreferences.getSortingStyle()) {
             SortConstant.ASCENDING -> {
-                sortBy { it.packageInfo.applicationInfo.name }
+                sortBy { it.packageInfo.safeApplicationInfo.name }
             }
             SortConstant.DESCENDING -> {
-                sortByDescending { it.packageInfo.applicationInfo.name }
+                sortByDescending { it.packageInfo.safeApplicationInfo.name }
             }
         }
     }

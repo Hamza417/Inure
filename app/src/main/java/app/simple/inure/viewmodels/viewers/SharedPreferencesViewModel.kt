@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.util.NullSafety.isNotNull
 import com.topjohnwu.superuser.Shell
@@ -20,7 +21,7 @@ class SharedPreferencesViewModel(private val packageInfo: PackageInfo, applicati
         initRootProc()
     }
 
-    private val path = packageInfo.applicationInfo.dataDir + "/shared_prefs/"
+    private val path = packageInfo.safeApplicationInfo.dataDir + "/shared_prefs/"
 
     private val sharedPrefsFiles: MutableLiveData<ArrayList<String>> by lazy {
         MutableLiveData<ArrayList<String>>()

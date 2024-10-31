@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.SharedLibraryModel
 import app.simple.inure.util.FileUtils.toFile
@@ -26,11 +27,11 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
                 val list = arrayListOf<SharedLibraryModel>()
                 val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (lib in getPackageInfo(isInstalled).applicationInfo.sharedLibraryFiles) {
+                for (lib in getPackageInfo(isInstalled).safeApplicationInfo.sharedLibraryFiles) {
                     list.add(SharedLibraryModel(lib, lib.toFile().length()))
                 }
 
-                for (lib in packageInfo.applicationInfo.nativeLibraryDir.toFile().listFiles()!!) {
+                for (lib in packageInfo.safeApplicationInfo.nativeLibraryDir.toFile().listFiles()!!) {
                     list.add(SharedLibraryModel(lib.name, lib.length()))
                 }
 
@@ -49,7 +50,7 @@ class SharedLibrariesViewModel(application: Application, val packageInfo: Packag
         return if (isInstalled) {
             packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_SHARED_LIBRARY_FILES)!!
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_SHARED_LIBRARY_FILES)!!
+            packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_SHARED_LIBRARY_FILES)!!
         }
     }
 }

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -64,8 +65,8 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
-            holder.name.text = apps[position].packageInfo!!.applicationInfo.name
+            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.safeApplicationInfo.enabled)
+            holder.name.text = apps[position].packageInfo!!.safeApplicationInfo.name
             holder.mobileData.text = buildString {
                 appendFlag(apps[position].mobileData?.tx?.toSize())
                 appendFlag(apps[position].mobileData?.rx?.toSize())

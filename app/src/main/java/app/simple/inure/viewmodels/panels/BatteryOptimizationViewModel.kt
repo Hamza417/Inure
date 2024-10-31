@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -48,14 +49,14 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
             when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
-                    apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    apps = apps.stream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
 
                 SortConstant.USER -> {
-                    apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    apps = apps.stream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
@@ -81,7 +82,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                                     val batteryOptimizationModel = BatteryOptimizationModel()
                                     batteryOptimizationModel.packageInfo = packageInfo
                                     batteryOptimizationModel.isOptimized = true // App is optimized for better battery life
-                                    if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                                    if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                                         batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_SYSTEM
                                     } else {
                                         batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_USER
@@ -115,7 +116,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
                         for (app in filtered) {
                             kotlin.runCatching {
-                                app.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
+                                app.packageInfo.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
                             }
                         }
 
@@ -141,14 +142,14 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
             when (BatteryOptimizationPreferences.getApplicationType()) {
                 SortConstant.SYSTEM -> {
-                    apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                    apps = apps.stream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
 
                 SortConstant.USER -> {
-                    apps = apps.stream().filter { p ->
-                        p.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                    apps = apps.stream().filter { packageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
                     }.collect(Collectors.toList()) as ArrayList<PackageInfo>
                 }
             }
@@ -176,7 +177,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
                                 val batteryOptimizationModel = BatteryOptimizationModel()
                                 batteryOptimizationModel.packageInfo = packageInfo
                                 batteryOptimizationModel.isOptimized = true // App is optimized for better battery life
-                                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
+                                if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
                                     batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_SYSTEM
                                 } else {
                                     batteryOptimizationModel.type = BatteryOptimizationModel.TYPE_USER
@@ -215,7 +216,7 @@ class BatteryOptimizationViewModel(application: Application) : RootShizukuViewMo
 
                     for (app in filtered) {
                         kotlin.runCatching {
-                            app.packageInfo.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
+                            app.packageInfo.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageInfo.packageName)
                         }
                     }
 

@@ -37,7 +37,7 @@ object ReceiversUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.receivers.isNotNull()) {
-                        for (i in packageInfo.receivers) {
+                        for (i in packageInfo.receivers!!) {
                             components.add(i)
                         }
                     }
@@ -78,7 +78,7 @@ object ReceiversUtils {
                     val components: ArrayList<ComponentInfo> = ArrayList()
 
                     if (packageInfo.receivers.isNotNull()) {
-                        for (i in packageInfo.receivers) {
+                        for (i in packageInfo.receivers!!) {
                             components.add(i)
                         }
                     }

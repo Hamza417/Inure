@@ -11,6 +11,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -59,8 +60,8 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
             // holder.icon.transitionName = notes[position].packageInfo.packageName
 
             holder.icon.transitionName = notes[position].packageInfo.packageName
-            holder.icon.loadAppIcon(notes[position].packageInfo.packageName, notes[position].packageInfo.applicationInfo.enabled)
-            holder.name.text = notes[position].packageInfo.applicationInfo.name
+            holder.icon.loadAppIcon(notes[position].packageInfo.packageName, notes[position].packageInfo.safeApplicationInfo.enabled)
+            holder.name.text = notes[position].packageInfo.safeApplicationInfo.name
             holder.packageId.text = notes[position].packageInfo.packageName
             holder.note.text = notes[position].note.subSequence(0, notes[position].note.length.coerceAtMost(1000))
 
@@ -74,7 +75,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
 
             holder.updated.text = holder.context.getString(R.string.edited_on, DateUtils.formatDate(notes[position].dateUpdated))
 
-            if (notes[position].packageInfo.applicationInfo.enabled) {
+            if (notes[position].packageInfo.safeApplicationInfo.enabled) {
                 holder.name.paintFlags = holder.name.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             } else {
                 holder.name.paintFlags = holder.name.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

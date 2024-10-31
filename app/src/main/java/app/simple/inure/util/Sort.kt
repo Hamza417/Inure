@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.toLength
 import java.util.*
@@ -138,11 +139,11 @@ object Sort {
     private fun ArrayList<PackageInfo>.sortByName(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.applicationInfo.name.lowercase(Locale.getDefault())
+                it.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.applicationInfo.name.lowercase(Locale.getDefault())
+                it.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -153,18 +154,18 @@ object Sort {
     private fun ArrayList<PackageInfo>.sortBySize(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                if (it.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    it.applicationInfo.sourceDir.toLength()
+                if (it.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.safeApplicationInfo.sourceDir.toLength()
                 } else {
-                    it.applicationInfo.sourceDir.getDirectoryLength() + it.applicationInfo.sourceDir.toLength()
+                    it.safeApplicationInfo.sourceDir.getDirectoryLength() + it.safeApplicationInfo.sourceDir.toLength()
                 }
             }
         } else {
             this.sortBy {
-                if (it.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    it.applicationInfo.sourceDir.toLength()
+                if (it.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    it.safeApplicationInfo.sourceDir.toLength()
                 } else {
-                    it.applicationInfo.sourceDir.getDirectoryLength() + it.applicationInfo.sourceDir.toLength()
+                    it.safeApplicationInfo.sourceDir.getDirectoryLength() + it.safeApplicationInfo.sourceDir.toLength()
                 }
             }
         }
@@ -221,11 +222,11 @@ object Sort {
     private fun ArrayList<PackageInfo>.sortByTargetSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.applicationInfo.targetSdkVersion
+                it.safeApplicationInfo.targetSdkVersion
             }
         } else {
             this.sortBy {
-                it.applicationInfo.targetSdkVersion
+                it.safeApplicationInfo.targetSdkVersion
             }
         }
     }
@@ -237,11 +238,11 @@ object Sort {
     private fun ArrayList<PackageInfo>.sortByMinSdk(reverse: Boolean) {
         return if (reverse) {
             this.sortByDescending {
-                it.applicationInfo.minSdkVersion
+                it.safeApplicationInfo.minSdkVersion
             }
         } else {
             this.sortBy {
-                it.applicationInfo.minSdkVersion
+                it.safeApplicationInfo.minSdkVersion
             }
         }
     }

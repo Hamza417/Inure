@@ -9,6 +9,7 @@ import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInstallTime
 import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.AppsPreferences
@@ -34,7 +35,7 @@ object InfoStripUtils {
 
             // Type
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_TYPE)) {
-                if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+                if ((packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                     appendOR(getString(R.string.user))
                 } else {
                     appendOR(getString(R.string.system))
@@ -44,7 +45,7 @@ object InfoStripUtils {
             // Size
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_SIZE)) {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
-                    if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                         with(packageInfo.getPackageSize(this@getAppInfo)) {
                             appendOR((cacheSize +
                                     dataSize +
@@ -54,7 +55,7 @@ object InfoStripUtils {
                                     externalMediaSize +
                                     externalObbSize +
                                     externalCodeSize +
-                                    packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                                    packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                         }
                     } else {
                         with(packageInfo.getPackageSize(this@getAppInfo)) {
@@ -66,16 +67,16 @@ object InfoStripUtils {
                                     externalMediaSize +
                                     externalObbSize +
                                     externalCodeSize +
-                                    packageInfo.applicationInfo.sourceDir.toLength() +
-                                    (packageInfo.applicationInfo.splitSourceDirs ?: arrayOf()).getDirectorySize()).toSize())
+                                    packageInfo.safeApplicationInfo.sourceDir.toLength() +
+                                    (packageInfo.safeApplicationInfo.splitSourceDirs ?: arrayOf()).getDirectorySize()).toSize())
                         }
                     }
                 } else {
-                    if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                        appendOR(packageInfo.applicationInfo.sourceDir.toSize())
+                    if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        appendOR(packageInfo.safeApplicationInfo.sourceDir.toSize())
                     } else {
-                        appendOR((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                        appendOR((packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize() +
+                                packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                     }
                 }
             }
@@ -85,7 +86,7 @@ object InfoStripUtils {
                 if (packageInfo.isInstalled().not()) {
                     appendOR(getString(R.string.uninstalled))
                 } else {
-                    if (packageInfo.applicationInfo.enabled) {
+                    if (packageInfo.safeApplicationInfo.enabled) {
                         appendOR(getString(R.string.enabled))
                     } else {
                         appendOR(getString(R.string.disabled))
@@ -96,13 +97,13 @@ object InfoStripUtils {
             // Category
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_CATEGORY)) {
-                    appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, this@getAppInfo))
+                    appendOR(MetaUtils.getCategory(packageInfo.safeApplicationInfo.category, this@getAppInfo))
                 }
             }
 
             // Target SDK
             if (FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_PACKAGE_TYPE)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     appendOR(getString(R.string.apk))
                 } else {
                     appendOR(getString(R.string.split_packages))
@@ -113,20 +114,20 @@ object InfoStripUtils {
             when {
                 FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_MIN_SDK or SortConstant.INFO_TARGET_SDK) -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                        appendOR(packageInfo.safeApplicationInfo.minSdkVersion.toString())
                         append("..")
-                        append(packageInfo.applicationInfo.targetSdkVersion)
+                        append(packageInfo.safeApplicationInfo.targetSdkVersion)
                     } else {
-                        append(packageInfo.applicationInfo.targetSdkVersion)
+                        append(packageInfo.safeApplicationInfo.targetSdkVersion)
                     }
                 }
                 FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_MIN_SDK) -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                        appendOR(packageInfo.safeApplicationInfo.minSdkVersion.toString())
                     }
                 }
                 FlagUtils.isFlagSet(AppsPreferences.getInfoCustomFilter(), SortConstant.INFO_TARGET_SDK) -> {
-                    appendOR(packageInfo.applicationInfo.targetSdkVersion.toString())
+                    appendOR(packageInfo.safeApplicationInfo.targetSdkVersion.toString())
                 }
             }
 
@@ -150,7 +151,7 @@ object InfoStripUtils {
             append(packageInfo.versionName)
 
             // Type
-            if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+            if ((packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                 appendOR(context.getString(R.string.user))
             } else {
                 appendOR(context.getString(R.string.system))
@@ -158,7 +159,7 @@ object InfoStripUtils {
 
             // Size
             if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         appendOR((cacheSize +
                                 dataSize +
@@ -168,7 +169,7 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                     }
                 } else {
                     with(packageInfo.getPackageSize(context)) {
@@ -180,24 +181,24 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength() +
-                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength() +
+                                packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
                     }
                 }
             } else {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    appendOR(packageInfo.applicationInfo.sourceDir.toSize())
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    appendOR(packageInfo.safeApplicationInfo.sourceDir.toSize())
                 } else {
-                    appendOR((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    appendOR((packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                 }
             }
 
             // State
-            if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+            if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
                 appendOR(context.getString(R.string.uninstalled))
             } else {
-                if (packageInfo.applicationInfo.enabled) {
+                if (packageInfo.safeApplicationInfo.enabled) {
                     appendOR(context.getString(R.string.enabled))
                 } else {
                     appendOR(context.getString(R.string.disabled))
@@ -206,11 +207,11 @@ object InfoStripUtils {
 
             // Category
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                appendOR(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+                appendOR(MetaUtils.getCategory(packageInfo.safeApplicationInfo.category, context))
             }
 
             // Target SDK
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                 appendOR(context.getString(R.string.apk))
             } else {
                 appendOR(context.getString(R.string.split_packages))
@@ -218,11 +219,11 @@ object InfoStripUtils {
 
             // Min SDK
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                appendOR(packageInfo.applicationInfo.minSdkVersion.toString())
+                appendOR(packageInfo.safeApplicationInfo.minSdkVersion.toString())
                 append("..")
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             } else {
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             }
 
             text = toString()
@@ -234,7 +235,7 @@ object InfoStripUtils {
             append(packageInfo.versionName)
             append(" | ")
 
-            if ((packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
+            if ((packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0) {
                 append(context.getString(R.string.user))
             } else {
                 append(context.getString(R.string.system))
@@ -242,7 +243,7 @@ object InfoStripUtils {
 
             append(" | ")
             if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +
                                 dataSize +
@@ -252,7 +253,7 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                     }
                 } else {
                     with(packageInfo.getPackageSize(context)) {
@@ -264,25 +265,25 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength() +
-                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength() +
+                                packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
                     }
                 }
             } else {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.safeApplicationInfo.sourceDir.toSize())
                 } else {
-                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    append((packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                 }
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 append(" | ")
-                append(MetaUtils.getCategory(packageInfo.applicationInfo.category, context))
+                append(MetaUtils.getCategory(packageInfo.safeApplicationInfo.category, context))
             }
 
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                 append(" | ")
                 append(context.getString(R.string.apk))
             } else {
@@ -292,11 +293,11 @@ object InfoStripUtils {
 
             append(" | ")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                append(packageInfo.applicationInfo.minSdkVersion)
+                append(packageInfo.safeApplicationInfo.minSdkVersion)
                 append("..")
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             } else {
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             }
 
             text = toString()
@@ -310,7 +311,7 @@ object InfoStripUtils {
             //            append(packageInfo.versionName)
             //            append(" | ")
             if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +
                                 dataSize +
@@ -320,7 +321,7 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                     }
                 } else {
                     with(packageInfo.getPackageSize(context)) {
@@ -332,20 +333,20 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength() +
-                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength() +
+                                packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
                     }
                 }
             } else {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.safeApplicationInfo.sourceDir.toSize())
                 } else {
-                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    append((packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                 }
             }
             append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                 append(context.getString(R.string.apk))
             } else {
                 append(context.getString(R.string.split_packages))
@@ -353,11 +354,11 @@ object InfoStripUtils {
 
             append(" | ")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                append(packageInfo.applicationInfo.minSdkVersion)
+                append(packageInfo.safeApplicationInfo.minSdkVersion)
                 append("..")
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             } else {
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             }
 
         }.also { text = it }
@@ -370,7 +371,7 @@ object InfoStripUtils {
             //            append(packageInfo.versionName)
             //            append(" | ")
             if (DevelopmentPreferences.get(DevelopmentPreferences.SHOW_COMPLETE_APP_SIZE)) {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                     with(packageInfo.getPackageSize(context)) {
                         append((cacheSize +
                                 dataSize +
@@ -380,7 +381,7 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                     }
                 } else {
                     with(packageInfo.getPackageSize(context)) {
@@ -392,20 +393,20 @@ object InfoStripUtils {
                                 externalMediaSize +
                                 externalObbSize +
                                 externalCodeSize +
-                                packageInfo.applicationInfo.sourceDir.toLength() +
-                                packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
+                                packageInfo.safeApplicationInfo.sourceDir.toLength() +
+                                packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize()).toSize())
                     }
                 }
             } else {
-                if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    append(packageInfo.applicationInfo.sourceDir.toSize())
+                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    append(packageInfo.safeApplicationInfo.sourceDir.toSize())
                 } else {
-                    append((packageInfo.applicationInfo.splitSourceDirs!!.getDirectorySize() +
-                            packageInfo.applicationInfo.sourceDir.toLength()).toSize())
+                    append((packageInfo.safeApplicationInfo.splitSourceDirs!!.getDirectorySize() +
+                            packageInfo.safeApplicationInfo.sourceDir.toLength()).toSize())
                 }
             }
             append(" | ")
-            if (packageInfo.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+            if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                 append(context.getString(R.string.apk))
             } else {
                 append(context.getString(R.string.split_packages))
@@ -413,11 +414,11 @@ object InfoStripUtils {
 
             append(" | ")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                append(packageInfo.applicationInfo.minSdkVersion)
+                append(packageInfo.safeApplicationInfo.minSdkVersion)
                 append("..")
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             } else {
-                append(packageInfo.applicationInfo.targetSdkVersion)
+                append(packageInfo.safeApplicationInfo.targetSdkVersion)
             }
 
         }.also { text = it }

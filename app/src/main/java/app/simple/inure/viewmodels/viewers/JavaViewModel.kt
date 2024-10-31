@@ -6,6 +6,7 @@ import android.text.Spanned
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.JavaSyntaxUtils.highlightJava
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,7 @@ class JavaViewModel(application: Application, val accentColor: Int, val packageI
 
     @Suppress("BlockingMethodInNonBlockingContext")
     private fun getJavaFile(): String {
-        ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
+        ZipFile(packageInfo.safeApplicationInfo.sourceDir).use { zipFile ->
             val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 
             while (entries.hasMoreElements()) {

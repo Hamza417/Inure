@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -83,7 +84,7 @@ class JSONViewerViewModel(application: Application, private val accentColor: Int
                 }
             }
         } else {
-            ZipFile(packageInfo.applicationInfo.sourceDir).use { zipFile ->
+            ZipFile(packageInfo.safeApplicationInfo.sourceDir).use { zipFile ->
                 val entries: Enumeration<out ZipEntry?> = zipFile.entries()
 
                 while (entries.hasMoreElements()) {

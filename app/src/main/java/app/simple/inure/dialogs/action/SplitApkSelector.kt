@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector
 import app.simple.inure.adapters.dialogs.AdapterSplitApkSelector.Companion.OnSplitApkSelectorListener
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -41,8 +42,8 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
         val paths = mutableListOf<Pair<String, Boolean>>()
         val selectedPaths = mutableSetOf<String>()
 
-        paths.add(Pair(packageInfo.applicationInfo.publicSourceDir, true)) // base apk
-        paths.addAll(packageInfo.applicationInfo.splitSourceDirs!!.map { Pair(it, true) }) // split apks
+        paths.add(Pair(packageInfo.safeApplicationInfo.publicSourceDir, true)) // base apk
+        paths.addAll(packageInfo.safeApplicationInfo.splitSourceDirs!!.map { Pair(it, true) }) // split apks
 
         selectedPaths.addAll(paths.map { it.first })
 

@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.content.Context
 import android.content.pm.PackageInfo
 import app.simple.inure.apk.utils.PackageData
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Misc
 
 object BatchUtils {
@@ -10,16 +11,16 @@ object BatchUtils {
         val stringBuilder = StringBuilder()
         stringBuilder.append(PackageData.getPackageDir(this))
         stringBuilder.append("/")
-        stringBuilder.append(packageInfo.applicationInfo.name.sanitize())
-        stringBuilder.append("_(${packageInfo.versionName.sanitize()})")
+        stringBuilder.append(packageInfo.safeApplicationInfo.name.sanitize())
+        stringBuilder.append("_(${packageInfo.versionName?.sanitize()})")
         stringBuilder.append(Misc.splitApkFormat)
         return stringBuilder.toString()
     }
 
     fun getApkPathAndFileName(packageInfo: PackageInfo): String {
         val stringBuilder = StringBuilder()
-        stringBuilder.append(packageInfo.applicationInfo.name.sanitize())
-        stringBuilder.append("_(${packageInfo.versionName.sanitize()})")
+        stringBuilder.append(packageInfo.safeApplicationInfo.name.sanitize())
+        stringBuilder.append("_(${packageInfo.versionName?.sanitize()})")
         stringBuilder.append(".apk")
         return stringBuilder.toString()
     }

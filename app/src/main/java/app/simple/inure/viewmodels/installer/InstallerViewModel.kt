@@ -15,6 +15,7 @@ import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageData
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils.getPackageArchiveInfo
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
@@ -160,9 +161,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
          */
         for (file in files!!) {
             packageInfo = packageManager.getPackageArchiveInfo(file) ?: continue // We ran into split apk, continue until we find base apk
-            packageInfo.applicationInfo.sourceDir = file.absolutePath
-            packageInfo.applicationInfo.publicSourceDir = file.absolutePath
-            packageInfo.applicationInfo.name = packageManager.getApplicationLabel(packageInfo.applicationInfo).toString()
+            packageInfo.safeApplicationInfo.sourceDir = file.absolutePath
+            packageInfo.safeApplicationInfo.publicSourceDir = file.absolutePath
+            packageInfo.safeApplicationInfo.name = packageManager.getApplicationLabel(packageInfo.safeApplicationInfo).toString()
             this.packageInfo.postValue(packageInfo)
             baseApkLiveData.postValue(file)
             baseApk = file

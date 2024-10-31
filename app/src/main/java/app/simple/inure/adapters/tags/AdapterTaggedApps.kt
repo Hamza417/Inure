@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -27,10 +28,10 @@ class AdapterTaggedApps(private val packageInfo: ArrayList<PackageInfo>) : Recyc
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = packageInfo[position].packageName
         holder.icon.loadAppIcon(packageInfo[position].packageName,
-                                packageInfo[position].applicationInfo.enabled,
-                                packageInfo[position].applicationInfo.sourceDir.toFileOrNull())
+                                packageInfo[position].safeApplicationInfo.enabled,
+                                packageInfo[position].safeApplicationInfo.sourceDir.toFileOrNull())
 
-        holder.name.text = packageInfo[position].applicationInfo.name
+        holder.name.text = packageInfo[position].safeApplicationInfo.name
         holder.name.setAppVisualStates(packageInfo[position])
         holder.packageName.text = packageInfo[position].packageName
         holder.details.setAppInfo(packageInfo[position])

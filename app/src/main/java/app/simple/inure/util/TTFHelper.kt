@@ -3,6 +3,7 @@ package app.simple.inure.util
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.graphics.Typeface
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.util.FileUtils.copyStreamToFile
 import java.io.File
 import java.io.InputStream
@@ -13,7 +14,7 @@ import java.util.zip.ZipFile
 object TTFHelper {
     fun getTTFFile(path: String, packageInfo: PackageInfo, context: Context): Typeface? {
         kotlin.runCatching {
-            ZipFile(packageInfo.applicationInfo.sourceDir).use {
+            ZipFile(packageInfo.safeApplicationInfo.sourceDir).use {
                 val entries: Enumeration<out ZipEntry?> = it.entries()
                 while (entries.hasMoreElements()) {
                     val entry: ZipEntry? = entries.nextElement()
@@ -21,7 +22,7 @@ object TTFHelper {
                     if (name == path) {
                         File(context.getExternalFilesDir(null)!!.path + "/font_cache/").mkdir()
                         val file = File(context.getExternalFilesDir(null)?.path + "/font_cache/" + name.substring(name.lastIndexOf("/")))
-                        copyStreamToFile(ZipFile(packageInfo.applicationInfo.sourceDir).getInputStream(entry), file)
+                        copyStreamToFile(ZipFile(packageInfo.safeApplicationInfo.sourceDir).getInputStream(entry), file)
                         return Typeface.createFromFile(file)
                     }
                 }

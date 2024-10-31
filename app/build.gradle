@@ -10,7 +10,7 @@ plugins {
 
 android {
 
-    compileSdk 34
+    compileSdk 35
 
     buildFeatures {
         viewBinding false
@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId "app.simple.inure"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 10100
         versionName "Build101.0.0"
         vectorDrawables.useSupportLibrary = true

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -46,7 +47,7 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
         when (holder) {
             is Holder -> {
                 holder.icon.transitionName = apps[position].packageInfo?.packageName
-                holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.applicationInfo.enabled)
+                holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.safeApplicationInfo.enabled)
                 holder.name.text = apps[position].packageInfo?.applicationInfo!!.name
                 holder.packageId.text = apps[position].packageInfo?.packageName
                 holder.name.setAppVisualStates(apps[position].packageInfo!!)

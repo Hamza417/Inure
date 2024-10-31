@@ -25,6 +25,7 @@ import app.simple.inure.adapters.viewers.AdapterTags
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalledAndEnabled
 import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -437,7 +438,7 @@ class AppInfo : ScopedFragment() {
                             val uri = FileProvider.getUriForFile(
                                     /* context = */ requireActivity().applicationContext,
                                     /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ packageInfo.applicationInfo.sourceDir.toFile())
+                                    /* file = */ packageInfo.safeApplicationInfo.sourceDir.toFile())
 
                             openFragmentArc(Installer.newInstance(
                                     uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, Installer.TAG)
@@ -551,7 +552,7 @@ class AppInfo : ScopedFragment() {
                         R.string.manage_space -> {
                             runCatching {
                                 startActivity(Intent().apply {
-                                    setClassName(packageInfo.packageName, packageInfo.applicationInfo.manageSpaceActivityName)
+                                    setClassName(packageInfo.packageName, packageInfo.safeApplicationInfo.manageSpaceActivityName)
                                 })
                             }.onFailure {
                                 showWarning(it.message ?: getString(R.string.error))
@@ -641,18 +642,18 @@ class AppInfo : ScopedFragment() {
 
         try {
             icon.loadAppIcon(packageInfo.packageName,
-                             packageInfo.applicationInfo.enabled,
-                             packageInfo.applicationInfo.sourceDir.toFile())
+                             packageInfo.safeApplicationInfo.enabled,
+                             packageInfo.safeApplicationInfo.sourceDir.toFile())
         } catch (e: NullPointerException) {
             try {
-                icon.loadAPKIcon(packageInfo.applicationInfo.sourceDir)
+                icon.loadAPKIcon(packageInfo.safeApplicationInfo.sourceDir)
             } catch (e: NullPointerException) {
                 icon.setImageResource(R.drawable.ic_app_icon)
             }
         }
 
         name.apply {
-            text = packageInfo.applicationInfo.name
+            text = packageInfo.safeApplicationInfo.name
             setAppVisualStates(packageInfo)
         }
         packageId.text = packageInfo.packageName

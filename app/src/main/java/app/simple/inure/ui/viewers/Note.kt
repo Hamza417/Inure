@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -42,7 +43,7 @@ class Note : ScopedFragment() {
 
         fullVersionCheck()
 
-        name.text = packageInfo.applicationInfo.name
+        name.text = packageInfo.safeApplicationInfo.name
         packageId.text = packageInfo.packageName
 
         notesViewModel.getNoteData().observe(viewLifecycleOwner) {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -23,10 +24,10 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.icon.transitionName = list[position].packageName
-        holder.icon.loadAppIcon(list[position].packageName, list[position].applicationInfo.enabled)
-        holder.name.text = list[position].applicationInfo.name
+        holder.icon.loadAppIcon(list[position].packageName, list[position].safeApplicationInfo.enabled)
+        holder.name.text = list[position].safeApplicationInfo.name
 
-        holder.name.setStrikeThru(list[position].applicationInfo.enabled)
+        holder.name.setStrikeThru(list[position].safeApplicationInfo.enabled)
 
         holder.container.setOnClickListener {
             quickAppsAdapterCallbacks?.onQuickAppClicked(list[position], holder.icon)

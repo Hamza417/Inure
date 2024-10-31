@@ -10,6 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterGraphics
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -55,12 +56,12 @@ class Graphics : SearchBarScopedFragment() {
             setCount(it.size)
 
             if (recyclerView.adapter.isNull()) {
-                adapterGraphics = AdapterGraphics(packageInfo.applicationInfo.sourceDir, it, searchBox.text.toString().trim())
+                adapterGraphics = AdapterGraphics(packageInfo.safeApplicationInfo.sourceDir, it, searchBox.text.toString().trim())
                 recyclerView.adapter = adapterGraphics
 
                 adapterGraphics!!.setOnResourceClickListener(object : AdapterGraphics.GraphicsCallbacks {
                     override fun onGraphicsClicked(path: String, graphics: Graphic, view: ViewGroup, xOff: Float, yOff: Float) {
-                        openFragmentSlide(Image.newInstance(packageInfo.applicationInfo.sourceDir, graphics.path), Image.TAG)
+                        openFragmentSlide(Image.newInstance(packageInfo.safeApplicationInfo.sourceDir, graphics.path), Image.TAG)
                     }
 
                     override fun onGraphicsLongPressed(graphic: Graphic) {

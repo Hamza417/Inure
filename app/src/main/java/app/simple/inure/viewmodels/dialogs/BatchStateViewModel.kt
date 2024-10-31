@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
@@ -36,14 +37,14 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
             for (app in list) {
                 shizukuServiceHelper.service!!.simpleExecute("pm $stateCommand ${app.packageInfo.packageName}").let {
                     if (it!!.isSuccess) {
-                        app.packageInfo.applicationInfo.enabled = state
+                        app.packageInfo.safeApplicationInfo.enabled = state
                     } else {
                         Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
                     }
                 }
             }
 
-            success.postValue(list.count { it.packageInfo.applicationInfo.enabled == state })
+            success.postValue(list.count { it.packageInfo.safeApplicationInfo.enabled == state })
         }
     }
 
@@ -54,14 +55,14 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
             for (app in list) {
                 Shell.cmd("pm $stateCommand ${app.packageInfo.packageName}").exec().let {
                     if (it.isSuccess) {
-                        app.packageInfo.applicationInfo.enabled = state
+                        app.packageInfo.safeApplicationInfo.enabled = state
                     } else {
                         Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
                     }
                 }
             }
 
-            success.postValue(list.count { it.packageInfo.applicationInfo.enabled == state })
+            success.postValue(list.count { it.packageInfo.safeApplicationInfo.enabled == state })
         }
     }
 

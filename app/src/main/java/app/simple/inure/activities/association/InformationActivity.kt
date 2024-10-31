@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageData.getInstallerDir
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.viewers.Information
 import app.simple.inure.util.FileUtils
@@ -52,11 +53,11 @@ class InformationActivity : BaseActivity() {
                                 packageManager.getPackageArchiveInfo(sourceFile.absolutePath, PackageUtils.flags.toInt())!!
                             }
 
-                            packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+                            packageInfo.safeApplicationInfo.sourceDir = sourceFile.absolutePath
                         } else {
                             packageInfo = PackageInfo() // empty package info
-                            packageInfo.applicationInfo = ApplicationInfo() // empty application info
-                            packageInfo.applicationInfo.sourceDir = sourceFile.absolutePath
+                            packageInfo.safeApplicationInfo = ApplicationInfo() // empty application info
+                            packageInfo.safeApplicationInfo.sourceDir = sourceFile.absolutePath
                         }
 
                         withContext(Dispatchers.Main) {

@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -142,9 +143,9 @@ class BatchExtract : ScopedBottomSheetFragment() {
                             }
 
                             packageInfo = appList!![position].packageInfo
-                            val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
+                            val fileName = "${packageInfo.safeApplicationInfo.name}_(${packageInfo.versionName})"
 
-                            if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                            if (packageInfo.safeApplicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                                 name.text = buildString {
                                     append(fileName)
                                     append(Misc.splitApkFormat)
@@ -157,7 +158,7 @@ class BatchExtract : ScopedBottomSheetFragment() {
                             }
 
                             progressStatus.text = buildString {
-                                if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                                if (packageInfo.safeApplicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                                     append(getString(R.string.creating_split_package))
                                 } else { // For APK files
                                     append(getString(R.string.preparing_apk_file))
@@ -233,9 +234,9 @@ class BatchExtract : ScopedBottomSheetFragment() {
                     }
 
                     packageInfo = appList!![batchExtractService?.position!!].packageInfo
-                    val fileName = "${packageInfo.applicationInfo.name}_(${packageInfo.versionName})"
+                    val fileName = "${packageInfo.safeApplicationInfo.name}_(${packageInfo.versionName})"
 
-                    if (packageInfo.applicationInfo.splitSourceDirs.isNotNull()) { // For split packages
+                    if (packageInfo.safeApplicationInfo.splitSourceDirs.isNotNull()) { // For split packages
                         this@BatchExtract.name.text = buildString {
                             append(fileName)
                             append(Misc.splitApkFormat)

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -34,8 +35,8 @@ class Directories : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        apkDir.text = packageInfo.applicationInfo.sourceDir
-        dataDir.text = packageInfo.applicationInfo.dataDir
+        apkDir.text = packageInfo.safeApplicationInfo.sourceDir
+        dataDir.text = packageInfo.safeApplicationInfo.dataDir
 
         dataDir.makeClickable(Pair(dataDir.text.toString(), View.OnClickListener {
             kotlin.runCatching {

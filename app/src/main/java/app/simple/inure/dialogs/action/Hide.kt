@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
 import app.simple.inure.factories.actions.HideViewModelFactory
@@ -37,10 +38,10 @@ class Hide : ScopedActionDialogBottomFragment() {
                     "Done" -> {
                         loader.loaded()
                         if (requireContext().packageManager.getApplicationInfo(packageInfo.packageName)!!.enabled) {
-                            packageInfo.applicationInfo.enabled = true
+                            packageInfo.safeApplicationInfo.enabled = true
                             status.setText(R.string.enabled)
                         } else {
-                            packageInfo.applicationInfo.enabled = false
+                            packageInfo.safeApplicationInfo.enabled = false
                             status.setText(R.string.disabled)
                         }
                         onSuccess?.invoke()

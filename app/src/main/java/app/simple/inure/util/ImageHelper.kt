@@ -142,7 +142,7 @@ object ImageHelper {
         val bitmap2Height = overlayBitmap.height
         val marginLeft = (bitmap1Width * 0.5 - bitmap2Width * 0.5).toFloat()
         val marginTop = (bitmap1Height * 0.5 - bitmap2Height * 0.5).toFloat()
-        val finalBitmap = Bitmap.createBitmap(bitmap1Width, bitmap1Height, bitmap1.config)
+        val finalBitmap = Bitmap.createBitmap(bitmap1Width, bitmap1Height, bitmap1.config ?: Bitmap.Config.ARGB_8888)
         val canvas = Canvas(finalBitmap)
         canvas.drawBitmap(bitmap1, Matrix(), null)
         canvas.drawBitmap(overlayBitmap, marginLeft, marginTop, null)

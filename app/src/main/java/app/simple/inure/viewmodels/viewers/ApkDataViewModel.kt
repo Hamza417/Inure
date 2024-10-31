@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +47,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
                 val list = arrayListOf<FeatureInfo>()
                 val isInstalled = packageManager.isPackageInstalled(packageInfo.packageName)
 
-                for (featureInfo in getPackageInfo(isInstalled).reqFeatures) {
+                for (featureInfo in getPackageInfo(isInstalled).reqFeatures!!) {
                     list.add(featureInfo)
                 }
 
@@ -66,7 +67,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
     fun getResourceData(keyword: String) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                with(APKParser.getXmlFiles(packageInfo.applicationInfo.sourceDir, keyword)) {
+                with(APKParser.getXmlFiles(packageInfo.safeApplicationInfo.sourceDir, keyword)) {
                     if (this.isEmpty() && keyword.isEmpty()) throw NullPointerException()
                     resources.postValue(this)
                 }
@@ -84,7 +85,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
         return if (isInstalled) {
             packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_CONFIGURATIONS)!!
         } else {
-            packageManager.getPackageArchiveInfo(packageInfo.applicationInfo.sourceDir, PackageManager.GET_CONFIGURATIONS)!!
+            packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_CONFIGURATIONS)!!
         }
     }
 }

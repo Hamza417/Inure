@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.models.PackageStats
 import app.simple.inure.models.VisibilityCustomizationModel
@@ -215,7 +216,7 @@ class HomeViewModel(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
 
             uninstalledApps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             uninstalled.postValue(uninstalledApps)
@@ -225,11 +226,11 @@ class HomeViewModel(application: Application) :
     private fun loadDisabledApps() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
-                .filter { it.applicationInfo.enabled.invert() }
+                .filter { it.safeApplicationInfo.enabled.invert() }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             apps.sortBy {
-                it.applicationInfo.name
+                it.applicationInfo?.name
             }
 
             disabled.postValue(apps)
@@ -245,7 +246,7 @@ class HomeViewModel(application: Application) :
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             apps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             foss.postValue(apps)
@@ -255,11 +256,11 @@ class HomeViewModel(application: Application) :
     private fun loadHiddenApps() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = getInstalledApps().stream()
-                .filter { it.applicationInfo.flags and PRIVATE_FLAG_HIDDEN == 0 }
+                .filter { it.safeApplicationInfo.flags and PRIVATE_FLAG_HIDDEN == 0 }
                 .collect(Collectors.toList()) as ArrayList<PackageInfo>
 
             apps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             hidden.postValue(apps)

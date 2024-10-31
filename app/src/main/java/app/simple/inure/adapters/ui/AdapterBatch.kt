@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
@@ -67,9 +68,9 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
         if (holder is Holder) {
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(apps[position].packageInfo.packageName,
-                                    apps[position].packageInfo.applicationInfo.enabled,
-                                    apps[position].packageInfo.applicationInfo.sourceDir.toFile())
-            holder.name.text = apps[position].packageInfo.applicationInfo.name
+                                    apps[position].packageInfo.safeApplicationInfo.enabled,
+                                    apps[position].packageInfo.safeApplicationInfo.sourceDir.toFile())
+            holder.name.text = apps[position].packageInfo.safeApplicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
             holder.name.setAppVisualStates(apps[position].packageInfo)
@@ -263,7 +264,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             }
         } else {
             apps.sortBy {
-                it.packageInfo.applicationInfo.name
+                it.packageInfo.safeApplicationInfo.name
             }
         }
         for (i in apps.indices) notifyItemChanged(i.plus(1))

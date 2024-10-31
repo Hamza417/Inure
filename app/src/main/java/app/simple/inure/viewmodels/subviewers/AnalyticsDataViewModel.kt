@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.SDKHelper
@@ -50,22 +51,22 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
             for (app in apps) {
                 if (AnalyticsPreferences.getSDKValue()) {
-                    if (SDKHelper.getSdkCode(app.applicationInfo.minSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKHelper.getSdkCode(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 } else {
-                    if (SDKHelper.getSdkTitle(app.applicationInfo.minSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKHelper.getSdkTitle(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 }
             }
 
             for (app in sdkFilteredApps) {
-                app.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
+                app.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
             }
 
             sdkFilteredApps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             minimumSDK.postValue(sdkFilteredApps)
@@ -78,22 +79,22 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
             for (app in apps) {
                 if (AnalyticsPreferences.getSDKValue()) {
-                    if (SDKHelper.getSdkCode(app.applicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKHelper.getSdkCode(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 } else {
-                    if (SDKHelper.getSdkTitle(app.applicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKHelper.getSdkTitle(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 }
             }
 
             for (app in sdkFilteredApps) {
-                app.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
+                app.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
             }
 
             sdkFilteredApps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             targetSDK.postValue(sdkFilteredApps)
@@ -108,22 +109,22 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
             for (app in apps) {
                 if ((entry as PieEntry).label == splitApkString) {
-                    if (app.applicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                    if (app.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
                         packageApps.add(app)
                     }
                 } else if (entry.label == apk) {
-                    if (app.applicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                    if (app.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
                         packageApps.add(app)
                     }
                 }
             }
 
             for (app in packageApps) {
-                app.applicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
+                app.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
             }
 
             packageApps.sortBy {
-                it.applicationInfo.name
+                it.safeApplicationInfo.name
             }
 
             splitPackages.postValue(packageApps)

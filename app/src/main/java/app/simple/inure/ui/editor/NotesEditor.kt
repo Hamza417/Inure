@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ime.InsetsAnimationLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -145,8 +146,8 @@ class NotesEditor : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
 
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.applicationInfo.enabled, packageInfo.applicationInfo.sourceDir.toFile())
-        name.text = packageInfo.applicationInfo.name
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFile())
+        name.text = packageInfo.safeApplicationInfo.name
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()
 

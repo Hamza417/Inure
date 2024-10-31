@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -57,7 +58,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
 
         when (holder) {
             is Holder -> {
-                holder.name.text = bloats[pos].packageInfo.applicationInfo.name
+                holder.name.text = bloats[pos].packageInfo.safeApplicationInfo.name
                 // holder.name.setAppVisualStates(bloats[pos].packageInfo)
                 holder.name.setWarningIcon(isWarning(bloats[pos]))
                 holder.packageName.text = bloats[pos].packageInfo.packageName
@@ -76,8 +77,8 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
 
                 holder.icon.loadAppIcon(
                         bloats[pos].packageInfo.packageName,
-                        bloats[pos].packageInfo.applicationInfo.enabled,
-                        bloats[pos].packageInfo.applicationInfo.sourceDir.toFile())
+                        bloats[pos].packageInfo.safeApplicationInfo.enabled,
+                        bloats[pos].packageInfo.safeApplicationInfo.sourceDir.toFile())
 
                 holder.checkBox.setOnCheckedChangeListener {
                     bloats[pos].isSelected = it
@@ -208,7 +209,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
         text = buildString {
             // State
             if (bloat.packageInfo.isInstalled()) {
-                if (bloat.packageInfo.applicationInfo.enabled) {
+                if (bloat.packageInfo.safeApplicationInfo.enabled) {
                     appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
                 } else {
                     appendFlag(this@setBloatFlags.context.getString(R.string.disabled))

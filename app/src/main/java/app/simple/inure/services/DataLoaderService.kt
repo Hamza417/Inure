@@ -16,6 +16,7 @@ import android.os.UserHandle
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.ArrayUtils.clone
 import app.simple.inure.util.ArrayUtils.toArrayList
@@ -209,14 +210,14 @@ class DataLoaderService : Service() {
             }
 
             uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
-                packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
             }.collect(Collectors.toList()).loadPackageNames().toArrayList()
         }
     }
 
     private fun MutableList<PackageInfo>.loadPackageNames(): MutableList<PackageInfo> {
         forEach {
-            it.applicationInfo.name = getApplicationName(application.applicationContext, it.applicationInfo)
+            it.safeApplicationInfo.name = getApplicationName(application.applicationContext, it.safeApplicationInfo)
         }
 
         return this

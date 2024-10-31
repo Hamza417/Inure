@@ -2,6 +2,7 @@ package app.simple.inure.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import java.util.*
@@ -69,11 +70,11 @@ object SortUsageStats {
     private fun ArrayList<PackageStats>.sortByName() {
         return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.packageInfo!!.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo!!.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         } else {
             this.sortBy {
-                it.packageInfo!!.applicationInfo.name.lowercase(Locale.getDefault())
+                it.packageInfo!!.safeApplicationInfo.name.lowercase(Locale.getDefault())
             }
         }
     }
@@ -189,11 +190,11 @@ object SortUsageStats {
     private fun ArrayList<PackageStats>.sortByTargetSdk() {
         return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.packageInfo!!.applicationInfo.targetSdkVersion
+                it.packageInfo!!.safeApplicationInfo.targetSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo!!.applicationInfo.targetSdkVersion
+                it.packageInfo!!.safeApplicationInfo.targetSdkVersion
             }
         }
     }
@@ -202,11 +203,11 @@ object SortUsageStats {
     private fun ArrayList<PackageStats>.sortByMinimumSdk() {
         return if (StatisticsPreferences.isReverseSorting()) {
             this.sortByDescending {
-                it.packageInfo!!.applicationInfo.minSdkVersion
+                it.packageInfo!!.safeApplicationInfo.minSdkVersion
             }
         } else {
             this.sortBy {
-                it.packageInfo!!.applicationInfo.minSdkVersion
+                it.packageInfo!!.safeApplicationInfo.minSdkVersion
             }
         }
     }
