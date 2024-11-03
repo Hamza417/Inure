@@ -103,7 +103,7 @@
     <string name="medium">Средняя</string>
     <string name="low">Низкая</string>
     <string name="none">Нет</string>
-    <string name="bouncy_desc">Значение, определяющее, насколько должен быть сильным эффект отскока перед окончанием прокрутки списка.</string>
+    <string name="bouncy_desc">Значение, определяющее, как сильно должен колебаться туда-сюда список при прокрутке его до конца, прежде чем остановиться.</string>
     <string name="root">Root</string>
     <string name="use_root_methods">Использовать Root</string>
     <string name="root_desc">Использовать root методы вместо использования собственных API-интерфейсов и библиотек Android для выполнения некоторых функций.\n\nЭтот вариант рекомендуется, поскольку он может упростить работу пользователя.\n\nТребуется устройство с root-доступом.</string>
@@ -187,7 +187,7 @@
     <string name="vendor_privileged">Привилегированный вендор</string>
     <string name="text_classifier">Классификатор текста</string>
     <string name="wellbeing">Благополучие</string>
-    <string name="documenter">Документ</string>
+    <string name="documenter">Документатор</string>
     <string name="configurator">Конфигуратор</string>
     <string name="incident_report_approver">Утверждение отчета об инциденте</string>
     <string name="app_predictor">Приложение предсказатель</string>
