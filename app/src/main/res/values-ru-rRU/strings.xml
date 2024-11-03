@@ -91,7 +91,7 @@
     <string name="save">Сохранить</string>
     <string name="copy">Копировать</string>
     <string name="saved_successfully">Успешно сохранено</string>
-    <string name="failed">Ошибка!</string>
+    <string name="failed">Сбой</string>
     <string name="app_info">Информация о приложении</string>
     <string name="uses_feature">Используемые функции</string>
     <string name="gles_version">Версия GLES</string>
