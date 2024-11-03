@@ -331,6 +331,7 @@
     <string name="de.nulide.bikecomputer" translatable="false">GPL-3.0-only</string>
     <string name="fr.fdesousa.bikesharinghub" translatable="false">GPL-3.0-or-later</string>
     <string name="com.imcys.bilibilias" translatable="false">Apache-2.0</string>
+    <string name="cn.a10miaomiao.bilidown" translatable="false">GPL-3.0-only</string>
     <string name="com.a10miaomiao.bilimiao" translatable="false">GPL-3.0-only</string>
     <string name="xyz.apiote.bimba.czwek" translatable="false">GPL-3.0-or-later</string>
     <string name="de.markusfisch.android.binaryeye" translatable="false">MIT</string>
@@ -519,6 +520,7 @@
     <string name="ie.equalit.ceno" translatable="false">MPL-2.0</string>
     <string name="com.github.cetoolbox" translatable="false">Apache-2.0</string>
     <string name="com.oF2pks.chairlock" translatable="false">Apache-2.0</string>
+    <string name="net.timelegend.chaka.viewer.app" translatable="false">AGPL-3.0-or-later</string>
     <string name="ml.vivekthazhathattil.chalachithram" translatable="false">MIT</string>
     <string name="cc.narumi.chaldea.fdroid" translatable="false">AGPL-3.0-only</string>
     <string name="com.github.jameshnsears.chance" translatable="false">Apache-2.0</string>
@@ -1179,7 +1181,6 @@
     <string name="de.freifunk_karte.freifunk_karte" translatable="false">GPL-3.0-only</string>
     <string name="ca.rmen.android.frenchcalendar" translatable="false">GPL-3.0-only</string>
     <string name="com.anysoftkeyboard.languagepack.french" translatable="false">Apache-2.0</string>
-    <string name="fr.chenry.android.freshrss" translatable="false">GPL-3.0-or-later</string>
     <string name="nf.frex.android" translatable="false">GPL-3.0-only</string>
     <string name="lying.fengfeng.foodrecords" translatable="false">Apache-2.0</string>
     <string name="xyz.crucitti.friendalert" translatable="false">AGPL-3.0-only</string>
@@ -4369,6 +4370,7 @@
     <string name="com.mirfatif.noorulhuda" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.github.dan.NoStorageRestrict" translatable="false">GPL-3.0-only</string>
     <string name="com.nostros" translatable="false">Apache-2.0</string>
+    <string name="com.philkes.notallyx" translatable="false">GPL-3.0-only</string>
     <string name="com.sztorm.notecalendar" translatable="false">MIT</string>
     <string name="com.limo.notecompanion" translatable="false">GPL-3.0-only</string>
     <string name="de.melvil.noten" translatable="false">MIT</string>
@@ -4698,6 +4700,7 @@
     <string name="org.syrja.speedcrunch" translatable="false">GPL-2.0-or-later</string>
     <string name="com.jakehilborn.speedr.prod" translatable="false">GPL-3.0-only</string>
     <string name="org.n0.speedy_launch" translatable="false">MIT</string>
+    <string name="lol.janjic.splitcat" translatable="false">MIT</string>
     <string name="com.developments.samu.muteforspotify" translatable="false">MIT</string>
     <string name="com.spynet.camtest" translatable="false">GPL-3.0-only</string>
     <string name="com.hardbacknutter.sshd" translatable="false">GPL-3.0-only</string>
@@ -4748,7 +4751,6 @@
     <string name="sh.eliza.textbender" translatable="false">GPL-3.0-only</string>
     <string name="org.misterfruits.textlaunch" translatable="false">GPL-3.0-only</string>
     <string name="com.c3r5b8.telegram_monet" translatable="false">EPL-2.0</string>
-    <string name="github.tornaco.android.thanos" translatable="false">Apache-2.0</string>
     <string name="com.mrgames13.jimdo.feinstaubapp" translatable="false">MIT</string>
     <string name="com.dessalines.thumbkey" translatable="false">AGPL-3.0-only</string>
     <string name="com.hjiangsu.thunder" translatable="false">AGPL-3.0-only</string>
@@ -4916,4 +4918,5 @@
     <string name="com.wirelessalien.zipxtract" translatable="false">GPL-3.0-only</string>
     <string name="xyz.zood.george" translatable="false">AGPL-3.0-only</string>
     <string name="kaczmarek.moneycalculator" translatable="false">GPL-3.0-only</string>
+    <string name="github.tornaco.android.thanos" translatable="false">Apache-2.0</string>
 </resources>
