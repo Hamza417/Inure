@@ -198,7 +198,12 @@ Inure's repo doesn't require any special setup, clone/fork the repo and run in
 [Android Studio](https://developer.android.com/studio) and let the initial setup finish
 automatically and you'll be good to go.
 
-#### Not a developer?
+#### Want to show you were here?
+
+You cannot do the above still wanna show your support? hit the star and let me know you were here
+and appreciate the project.
+
+## Translation/Localization
 
 You can take participation in app's translation on [Crowdin](https://crowdin.com/project/inure)
 and watch Inure work in your language and make the app more user friendly to
@@ -206,11 +211,6 @@ everyone speaking your tongue.
 
 Alternatively, you can also edit/upload your locale's strings
 from `app/src/main/res/values-locale-code` directory.
-
-#### Want to show you were here?
-
-You cannot do the above still wanna show your support? hit the star and let me know you were here
-and appreciate the project.
 
 ## License
 
