@@ -123,7 +123,9 @@
       <w>embms</w>
       <w>emmc</w>
       <w>emperormummy</w>
+      <w>enabledelayedexpansion</w>
       <w>endcall</w>
+      <w>endlocal</w>
       <w>enoent</w>
       <w>entaytion</w>
       <w>ertuğrul</w>
@@ -313,6 +315,7 @@
       <w>rects</w>
       <w>redownload</w>
       <w>refetching</w>
+      <w>refname</w>
       <w>reforma</w>
       <w>reinstaller</w>
       <w>remoteviews</w>
@@ -339,6 +342,7 @@
       <w>searchbox</w>
       <w>seekbar</w>
       <w>setclock</w>
+      <w>setlocal</w>
       <w>sharedpref</w>
       <w>shellscript</w>
       <w>shizuku</w>
