@@ -111,7 +111,7 @@ object APKParser {
                             }
 
                             stringBuilder.append(ARMEABI)
-                            stringBuilder.append(" “generic” 32-bit ARM")
+                            stringBuilder.append(" \"generic\" 32-bit ARM")
                         }
                     }
 
@@ -188,6 +188,14 @@ object APKParser {
 
         if (stringBuilder.isBlank()) {
             stringBuilder.append(context.getString(R.string.unspecified))
+        } else {
+            // Append 32 bit and 64 bit to the start of the string
+            // If it contains the familiar architecture
+            if (stringBuilder.contains(ARMEABI) || stringBuilder.contains(ARMv7) || stringBuilder.contains(x86)) {
+                stringBuilder.insert(0, "32-bit | ")
+            } else if (stringBuilder.contains(ARM64) || stringBuilder.contains(x86_64)) {
+                stringBuilder.insert(0, "64-bit | ")
+            }
         }
 
         return stringBuilder
