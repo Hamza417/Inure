@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+    -   name: Code of Conduct
+        url: https://github.com/Hamza417/Inure/blob/master/CODE_OF_CONDUCT.md
+        about: Please read and adhere to our Code of Conduct before submitting an issue. Any violation of our Code of Conduct will result in the immediate closure of the issue and a possible ban from the repository.
+    -   name: Contribution Guidelines
+        url: https://github.com/Hamza417/Inure/blob/master/.github/CONTRIBUTING.md
+        about: Please follow our Contribution Guidelines before submitting a pull request.

@@ -1,0 +1,65 @@
+name: Feature Request
+description: Suggest a new feature or enhancement.
+title: "[Feature Request] Your Title Here"
+labels: [ feature request ]
+assignees: [ Hamza417 ]
+
+body:
+    -   type: markdown
+        attributes:
+            value: |
+                Thanks for suggesting a feature! Please provide as much detail as possible.
+
+    -   type: checkboxes
+        id: confirmation
+        attributes:
+            label: Confirmation
+            description: |
+                Please confirm the following:
+            options:
+                -   label: I have read the [Code of Conduct](https://github.com/Hamza417/Inure/blob/master/CODE_OF_CONDUCT.md)
+                    required: true
+                -   label: I have searched the existing issues
+                    required: true
+
+    -   type: input
+        id: feature_description
+        attributes:
+            label: Feature Description
+            description: A clear and concise description of what the feature is and what problem it solves.
+            placeholder: Describe the feature here
+        validations:
+            required: true
+
+    -   type: input
+        id: solution
+        attributes:
+            label: Describe the Solution
+            description: A clear and concise description of what you want to happen.
+            placeholder: Describe the solution here
+        validations:
+            required: true
+
+    -   type: textarea
+        id: alternatives
+        attributes:
+            label: Describe Alternatives
+            description: A clear and concise description of any alternative solutions or features you've considered.
+            placeholder: Describe alternatives here
+
+    -   type: textarea
+        id: additional_context
+        attributes:
+            label: Additional Context
+            description: Add any other context or screenshots about the feature request here.
+            placeholder: Provide additional context here
+
+    -   type: checkboxes
+        id: confirmation_2
+        attributes:
+            label: Sufficiency Confirmation
+            description: |
+                Please confirm the following:
+            options:
+                -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue
+                    required: true

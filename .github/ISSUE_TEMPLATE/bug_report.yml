@@ -1,0 +1,91 @@
+name: Bug Report
+description: Report a bug or a functional problem in the app.
+title: "[Bug] Your Title Here"
+labels: [ bug ]
+assignees: [ Hamza417 ]
+
+body:
+    -   type: markdown
+        attributes:
+            value: |
+                Thanks for taking the time to fill out this bug report! Please provide as much detail as possible.
+
+    -   type: checkboxes
+        id: confirmation
+        attributes:
+            label: Confirmation
+            description: |
+                Please confirm the following:
+            options:
+                -   label: I have read the [Code of Conduct](https://github.com/Hamza417/Inure/blob/master/CODE_OF_CONDUCT.md)
+                    required: true
+                -   label: I have searched the existing issues
+                    required: true
+
+    -   type: input
+        id: bug_description
+        attributes:
+            label: Bug Description
+            description: A clear and concise description of what the bug is.
+            placeholder: Describe the bug here
+        validations:
+            required: true
+
+    -   type: textarea
+        id: steps_to_reproduce
+        attributes:
+            label: Steps to Reproduce
+            description: |
+                Steps to reproduce the behavior:
+                1. Go to '...'
+                2. Click on '....'
+                3. Scroll down to '....'
+                4. See error
+            placeholder: List the steps here
+        validations:
+            required: true
+
+    -   type: input
+        id: expected_behavior
+        attributes:
+            label: Expected Behavior
+            description: A clear and concise description of what you expected to happen.
+            placeholder: Describe the expected behavior here
+        validations:
+            required: true
+
+    -   type: textarea
+        id: screenshots
+        attributes:
+            label: Screenshots
+            description: If applicable, add screenshots to help explain your problem else N/A.
+            placeholder: Provide links to screenshots here
+
+    -   type: input
+        id: device_info
+        attributes:
+            label: Device Information
+            description: |
+                Please complete the following information:
+                - Device: [e.g. Pixel 8]
+                - OS: [e.g. Android 14]
+            placeholder: Provide device information here
+        validations:
+            required: true
+
+    -   type: textarea
+        id: additional_context
+        attributes:
+            label: Additional Context
+            description: Add any other context about the problem here.
+            placeholder: Provide additional context here
+
+    -   type: checkboxes
+        id: confirmation_2
+        attributes:
+            label: Sufficiency Confirmation
+            description: |
+                Please confirm the following:
+            options:
+                -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue
+                    required: true
