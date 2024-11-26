@@ -132,8 +132,15 @@ class APKs : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     try {
-                                        if (adapterApks.paths[position].file.delete()) {
-                                            apkBrowserViewModel.delete(adapterApks.paths[position])
+                                        if (adapterApks.paths[position].file.exists()) {
+                                            if (adapterApks.paths[position].file.delete()) {
+                                                apkBrowserViewModel.remove(adapterApks.paths[position])
+                                                adapterApks.paths.removeAt(position)
+                                                adapterApks.notifyItemRemoved(position.plus(1))
+                                                adapterApks.notifyItemChanged(0) // Update the header
+                                            }
+                                        } else {
+                                            apkBrowserViewModel.remove(adapterApks.paths[position])
                                             adapterApks.paths.removeAt(position)
                                             adapterApks.notifyItemRemoved(position.plus(1))
                                             adapterApks.notifyItemChanged(0) // Update the header
@@ -294,10 +301,11 @@ class APKs : ScopedFragment() {
                         childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                             override fun onSure() {
                                 if (adapterApks.paths.any { it.isSelected }) {
-                                    @Suppress("UNCHECKED_CAST") val selectedApks =
-                                        (adapterApks.paths.clone() as ArrayList<ApkFile>).filter {
-                                            it.isSelected
-                                        }
+                                    @Suppress("UNCHECKED_CAST")
+                                    val selectedApks = (adapterApks.paths.clone() as ArrayList<ApkFile>).filter {
+                                        it.isSelected
+                                    }
+
                                     for (apk in selectedApks) {
                                         if (apk.file.exists()) {
                                             if (apk.file.delete()) {
@@ -308,6 +316,11 @@ class APKs : ScopedFragment() {
                                             } else {
                                                 showWarning("Failed to delete ${apk.file.name}", false)
                                             }
+                                        } else {
+                                            val position = adapterApks.paths.indexOf(apk)
+                                            adapterApks.paths.remove(apk)
+                                            adapterApks.notifyItemRemoved(position.plus(1))
+                                            adapterApks.notifyItemChanged(0) // Update the header
                                         }
                                     }
 

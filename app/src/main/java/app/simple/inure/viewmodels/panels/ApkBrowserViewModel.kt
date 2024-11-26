@@ -310,7 +310,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
         }
     }
 
-    fun delete(file: ApkFile) {
+    fun remove(file: ApkFile) {
         files.remove(file)
     }
 }

@@ -151,7 +151,7 @@ class ApksSearch : KeyboardScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     if (adapterApksSearch.paths[position].file.delete()) {
-                                        apkBrowserViewModel.delete(adapterApksSearch.paths[position])
+                                        apkBrowserViewModel.remove(adapterApksSearch.paths[position])
                                         adapterApksSearch.paths.removeAt(position)
                                         adapterApksSearch.notifyItemRemoved(position)
                                     }
