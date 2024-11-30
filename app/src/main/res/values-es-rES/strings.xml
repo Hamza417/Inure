@@ -15,7 +15,7 @@
     <string name="user">Usuario</string>
     <string name="both">Ambos</string>
     <string name="app_typeface">Estilo de fuente de la app</string>
-    <string name="desc_app_typeface">Cambiar el estilo de fuente de la aplicación (sólo glifos en inglés).</string>
+    <string name="desc_app_typeface">Cambiar el estilo de fuente de la aplicación (solo letras del inglés).</string>
     <string name="appearance">Apariencia</string>
     <string name="appearance_icon">Apariencia del icono</string>
     <string name="total_apps">%1$d Aplicaciones</string>
@@ -756,4 +756,6 @@
     <string name="allowed">Permitido</string>
     <string name="not_allowed">No permitido</string>
     <string name="color_picker">Selector de color</string>
+    <string name="supported">Suportado</string>
+    <string name="tracker_root_warning">Usa root para bloquear los rastreadores.</string>
 </resources>
