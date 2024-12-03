@@ -32,7 +32,7 @@ public class DynamicRippleConstraintLayout extends ConstraintLayout implements S
         init();
     }
     
-    private void init() {
+    protected void init() {
         if (!isInEditMode()) {
             setBackground(Utils.getRippleDrawable(getBackground()));
             setBackgroundColor(Color.TRANSPARENT);

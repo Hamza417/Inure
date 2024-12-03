@@ -20,18 +20,22 @@ object AppearancePreferences {
     private const val COLORED_ICON_SHADOWS = "icon_shadows_colored"
     private const val IS_MATERIAL_YOU_ACCENT = "is_material_you_accent"
     private const val ACCENT_COLOR_ON_BOTTOM_MENU = "accent_color_on_bottom_menu"
-    const val PICKED_ACCENT_COLOR = "picked_accent_color"
+    private const val ACCENT_COLOR_LIGHT = "app_accent_color_light"
+    private const val APP_FONT = "type_face"
+    private const val LIST_STYLE = "list_style"
 
+    const val PICKED_ACCENT_COLOR = "picked_accent_color"
     const val IS_CUSTOM_COLOR = "is_custom_color"
     const val THEME = "current_app_theme"
     const val ACCENT_COLOR = "app_accent_color"
-    private const val ACCENT_COLOR_LIGHT = "app_accent_color_light"
-    private const val APP_FONT = "type_face"
     const val ACCENT_ON_NAV = "accent_color_on_nav_bar"
     const val ICON_SIZE = "app_icon_size"
 
     var minIconSize = 0
     var maxIconSize = 75
+
+    const val LIST_STYLE_NORMAL = 0
+    const val LIST_STYLE_CONDENSED = 1
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -221,5 +225,23 @@ object AppearancePreferences {
     @RequiresApi(Build.VERSION_CODES.S)
     fun isMaterialYouAccent(): Boolean {
         return getSharedPreferences().getBoolean(IS_MATERIAL_YOU_ACCENT, false)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setListStyle(style: Int) {
+        getSharedPreferences().edit().putInt(LIST_STYLE, style).apply()
+    }
+
+    fun getListStyle(): Int {
+        return getSharedPreferences().getInt(LIST_STYLE, LIST_STYLE_NORMAL)
+    }
+
+    fun isCondensedListStyle(): Boolean {
+        return getListStyle() == LIST_STYLE_CONDENSED
+    }
+
+    fun isNormalListStyle(): Boolean {
+        return getListStyle() == LIST_STYLE_NORMAL
     }
 }
