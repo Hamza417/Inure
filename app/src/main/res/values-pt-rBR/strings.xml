@@ -758,4 +758,7 @@
     <string name="color_picker">Seletor de Cores</string>
     <string name="supported">Suportado</string>
     <string name="tracker_root_warning">Use o acesso Raiz para bloquear rastreadores aqui.</string>
+    <string name="list_style_title">Estilo da Lista</string>
+    <string name="list_style_desc">Escolha o layout das listas principais no aplicativo.</string>
+    <string name="condensed">Condensado</string>
 </resources>
