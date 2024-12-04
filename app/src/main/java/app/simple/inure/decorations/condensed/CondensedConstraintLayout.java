@@ -15,7 +15,7 @@ public class CondensedConstraintLayout extends DynamicRippleConstraintLayout {
     /**
      * @noinspection FieldCanBeLocal
      */
-    private final int CONDENSED_FACTOR = 4;
+    private final int CONDENSED_FACTOR = 8;
     
     public CondensedConstraintLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
