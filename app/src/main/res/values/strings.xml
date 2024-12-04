@@ -757,4 +757,7 @@
     <string name="color_picker">Color Picker</string>
     <string name="supported">Supported</string>
     <string name="tracker_root_warning">Use root access to block trackers here.</string>
+    <string name="list_style_title">List Style</string>
+    <string name="list_style_desc">Choose the layout appearance of the main lists in the app.</string>
+    <string name="condensed">Condensed</string>
 </resources>

@@ -28,21 +28,24 @@ public class CondensedConstraintLayout extends DynamicRippleConstraintLayout {
     @Override
     protected void init() {
         super.init();
-        setMargin();
     }
     
-    private void setMargin() {
-        if (!isInEditMode()) {
+    @Override
+    public void setLayoutParams(ViewGroup.LayoutParams params) {
+        setMargin(params instanceof ViewGroup.MarginLayoutParams
+                ? (ViewGroup.MarginLayoutParams) params : new ViewGroup.MarginLayoutParams(params));
+        super.setLayoutParams(params);
+    }
+    
+    private void setMargin(ViewGroup.MarginLayoutParams params) {
+        if (isInEditMode()) {
             return;
         }
         
         int margin = getResources().getDimensionPixelSize(R.dimen.list_item_padding);
         int verticalMargin = getVerticalMargin();
         
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) getLayoutParams();
         params.setMargins(margin, verticalMargin, margin, verticalMargin);
-        
-        setLayoutParams(params);
     }
     
     private int getVerticalMargin() {

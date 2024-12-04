@@ -22,8 +22,8 @@ object AppearancePreferences {
     private const val ACCENT_COLOR_ON_BOTTOM_MENU = "accent_color_on_bottom_menu"
     private const val ACCENT_COLOR_LIGHT = "app_accent_color_light"
     private const val APP_FONT = "type_face"
-    private const val LIST_STYLE = "list_style"
 
+    const val LIST_STYLE = "list_style"
     const val PICKED_ACCENT_COLOR = "picked_accent_color"
     const val IS_CUSTOM_COLOR = "is_custom_color"
     const val THEME = "current_app_theme"
