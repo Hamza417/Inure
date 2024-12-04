@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -93,7 +93,7 @@ class AdapterBoot(private val resolveInfoList: ArrayList<ResolveInfo>, val keywo
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.id)
         val status: TypeFaceTextView = itemView.findViewById(R.id.status)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
         val switch: Switch = itemView.findViewById(R.id.switch_view)
 
         init {

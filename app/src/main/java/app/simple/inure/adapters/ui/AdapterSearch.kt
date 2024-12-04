@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -77,6 +77,6 @@ class AdapterSearch(private var apps: ArrayList<Search>, private var searchKeywo
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
-        val container: ConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
     }
 }

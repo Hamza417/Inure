@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ReceiversUtils
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
@@ -76,11 +76,11 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val icon: AppIconImageView = itemView.findViewById(R.id.adapter_receiver_icon)
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_name)
-        val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_process)
-        val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_receiver_status)
-        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.adapter_receiver_container)
+        val icon: AppIconImageView = itemView.findViewById(R.id.icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.process)
+        val status: TypeFaceTextView = itemView.findViewById(R.id.status)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
 
         init {
             name.enableSelection()

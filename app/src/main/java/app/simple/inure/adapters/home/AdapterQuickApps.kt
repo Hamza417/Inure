@@ -19,7 +19,7 @@ class AdapterQuickApps(private val list: ArrayList<PackageInfo>) : RecyclerView.
     private var quickAppsAdapterCallbacks: QuickAppsAdapterCallbacks? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_recently_updated, parent, false))
+        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_home_quick_apps, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {

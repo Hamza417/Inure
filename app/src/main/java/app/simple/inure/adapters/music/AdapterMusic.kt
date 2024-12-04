@@ -8,8 +8,8 @@ import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
@@ -176,7 +176,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_name)
         val artists: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_artists)
         val album: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_album)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_music_container)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_music_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

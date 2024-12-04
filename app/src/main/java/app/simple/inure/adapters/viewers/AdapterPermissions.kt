@@ -10,8 +10,8 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
 import app.simple.inure.apk.utils.PermissionUtils.isException
 import app.simple.inure.apk.utils.PermissionUtils.protectionToString
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.PermissionInfo
@@ -165,7 +165,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
         val switch: Switch = itemView.findViewById(R.id.switch_view)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_permissions_container)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_permissions_container)
 
         init {
             name.enableSelection()

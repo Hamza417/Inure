@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.ProvidersUtils
+import app.simple.inure.decorations.condensed.CondensedConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
@@ -81,7 +81,7 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_status)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_providers_container)
+        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_providers_container)
 
         init {
             name.enableSelection()

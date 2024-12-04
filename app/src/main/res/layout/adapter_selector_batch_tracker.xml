@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.condensed.CondensedConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_padding"
     android:clipChildren="false"
     android:clipToPadding="false">
 
@@ -17,8 +16,7 @@
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="8dp"
         android:textSize="@dimen/info_text_medium"
         android:layout_marginTop="8dp"
         android:drawablePadding="5dp"
@@ -36,8 +34,7 @@
         android:id="@+id/tracker_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="8dp"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@+id/package_id"
@@ -51,8 +48,7 @@
         android:id="@+id/package_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="8dp"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@id/details"
@@ -66,8 +62,7 @@
         android:id="@+id/details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="8dp"
         android:textSize="@dimen/desc_text_size"
         android:layout_marginBottom="8dp"
         app:appFontStyle="regular"
@@ -87,4 +82,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
+</app.simple.inure.decorations.condensed.CondensedConstraintLayout>
