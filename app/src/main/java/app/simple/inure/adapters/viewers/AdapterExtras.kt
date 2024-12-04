@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.Extra
 import app.simple.inure.preferences.ExtrasPreferences
@@ -88,7 +88,7 @@ class AdapterExtras(var list: MutableList<Extra>, var keyword: String) : Recycle
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)
         val size: TypeFaceTextView = itemView.findViewById(R.id.size)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
 
         init {
             name.enableSelection()

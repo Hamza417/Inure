@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.condensed.CondensedConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/adapter_boot_container"
@@ -67,4 +67,4 @@
         app:layout_constraintTop_toBottomOf="@+id/adapter_boot_data"
         app:textColorStyle="secondary" />
 
-</app.simple.inure.decorations.condensed.CondensedConstraintLayout>
+</app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout>

@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
@@ -97,7 +97,7 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val image: ImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.path)

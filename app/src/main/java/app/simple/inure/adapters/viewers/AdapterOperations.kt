@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionDescription
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -66,7 +66,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
         val switch: Switch = itemView.findViewById(R.id.adapter_ops_switch)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
     }
 
     companion object {

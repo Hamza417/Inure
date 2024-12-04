@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.fastscroll.PopupTextProvider
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -231,7 +231,7 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_usage_stats_container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_usage_stats_container)
         val icon: AppIconImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val time: TypeFaceTextView = itemView.findViewById(R.id.total_time_used)

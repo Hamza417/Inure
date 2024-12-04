@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -135,7 +135,7 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageID: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val trackerName: TypeFaceTextView = itemView.findViewById(R.id.tracker_name)

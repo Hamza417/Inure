@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -108,7 +108,7 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
         val trackerId: TypeFaceTextView = itemView.findViewById(R.id.tracker_id)
         val trackerName: TypeFaceTextView = itemView.findViewById(R.id.tracker_name)
         val switch: Switch = itemView.findViewById(R.id.switch_view)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
 
         init {
             name.enableSelection()

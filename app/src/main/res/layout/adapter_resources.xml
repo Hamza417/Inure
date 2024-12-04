@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.ripple.DynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.condensed.CondensedDynamicRippleTextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/adapter_resources_name"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_padding"
     android:ellipsize="middle"
     android:maxLines="1"
     android:padding="@dimen/header_padding"

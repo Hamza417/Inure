@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -90,7 +90,7 @@ class AdapterApksSearch(var paths: ArrayList<ApkFile> = arrayListOf(),
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
     fun loadSplitIcon() {

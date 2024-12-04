@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:padding="5dp">
 
     <ImageView
@@ -66,4 +65,4 @@
         app:layout_constraintTop_toBottomOf="@+id/path"
         app:textColorStyle="tertiary" />
 
-</app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
+</app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout>

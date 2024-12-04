@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -209,7 +209,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_battery_app_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_battery_app_package_id)
         val data: TypeFaceTextView = itemView.findViewById(R.id.adapter_battery_data)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.adapter_battery_container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_battery_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

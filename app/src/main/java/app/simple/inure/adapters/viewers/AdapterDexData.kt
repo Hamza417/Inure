@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleTextView
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.util.AdapterUtils
 
 class AdapterDexData(private val dexs: ArrayList<String>, val keyword: String) : RecyclerView.Adapter<AdapterDexData.Holder>() {
@@ -93,6 +93,6 @@ class AdapterDexData(private val dexs: ArrayList<String>, val keyword: String) :
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val name: DynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
+        val name: CondensedDynamicRippleTextView = itemView.findViewById(R.id.adapter_resources_name)
     }
 }

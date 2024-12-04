@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.SortConstant
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -184,7 +184,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
         val path: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val info: TypeFaceTextView = itemView.findViewById(R.id.details)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {

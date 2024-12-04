@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
-import app.simple.inure.decorations.condensed.CondensedConstraintLayout
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -65,6 +65,6 @@ class AnalyticsDataAdapter(private val packageInfo: ArrayList<PackageInfo>) : Re
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_id)
         val details: TypeFaceTextView = itemView.findViewById(R.id.details)
-        val container: CondensedConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 }
