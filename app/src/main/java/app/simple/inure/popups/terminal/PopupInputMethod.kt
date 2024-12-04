@@ -31,6 +31,11 @@ class PopupInputMethod(view: View) : BasePopupWindow() {
             }
         }
 
+        when (TerminalPreferences.getInputMethod()) {
+            0 -> character.isSelected = true
+            1 -> word.isSelected = true
+        }
+
         init(contentView, view)
     }
 }
