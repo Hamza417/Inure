@@ -16,8 +16,8 @@
     <string name="org.mattvchandler.a2050" translatable="false">MIT</string>
     <string name="com.traffar.a24game" translatable="false">GPL-3.0-only</string>
     <string name="info.staticfree.android.twentyfourhour" translatable="false">GPL-3.0-only</string>
-    <string name="info.metadude.android.congress.schedule" translatable="false">Apache-2.0</string>
     <string name="nl.eventinfra.wifisetup" translatable="false">Apache-2.0</string>
+    <string name="info.metadude.android.congress.schedule" translatable="false">Apache-2.0</string>
     <string name="org.andresoviedo.dddmodel2" translatable="false">MIT</string>
     <string name="de.rainerhock.eightbitwonders" translatable="false">GPL-2.0-or-later</string>
     <string name="inc.flide.vi8" translatable="false">Apache-2.0</string>
@@ -3781,7 +3781,6 @@
     <string name="com.apk.editor" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.abdurazaaqmohammed.ApkExtractor" translatable="false">Apache-2.0</string>
     <string name="com.github.ghmxr.apkextractor" translatable="false">GPL-3.0-only</string>
-    <string name="de.apkgrabber" translatable="false">GPL-3.0-only</string>
     <string name="cf.vojtechh.apkmirror" translatable="false">GPL-2.0-or-later</string>
     <string name="com.apkupdater" translatable="false">GPL-3.0-only</string>
     <string name="remix.myplayer" translatable="false">GPL-3.0-only</string>
@@ -4055,6 +4054,7 @@
     <string name="com.hbouzidi.fiveprayers" translatable="false">GPL-3.0-or-later</string>
     <string name="com.piapps.flashcardpro" translatable="false">GPL-2.0-only</string>
     <string name="se.nullable.flickboard" translatable="false">AGPL-3.0-only</string>
+    <string name="dev.robin.flip_2_dnd" translatable="false">MIT</string>
     <string name="uk.co.alt236.floatinginfo" translatable="false">Apache-2.0</string>
     <string name="xyz.tberghuis.floatingtimer" translatable="false">MIT</string>
     <string name="tool.xfy9326.floatpicture" translatable="false">GPL-3.0-only</string>
@@ -4195,6 +4195,7 @@
     <string name="net.helcel.fidelity" translatable="false">Unlicense</string>
     <string name="keepass2android.keepass2android_nonet" translatable="false">GPL-3.0-only</string>
     <string name="com.kunzisoft.keepass.free" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.kunzisoft.keepass.libre" translatable="false">GPL-3.0-or-later</string>
     <string name="com.looker.kenko" translatable="false">GPL-3.0-or-later</string>
     <string name="com.github.capntrips.kernelflasher" translatable="false">Apache-2.0</string>
     <string name="com.smartpack.kernelprofiler" translatable="false">GPL-3.0-or-later</string>
@@ -4532,6 +4533,7 @@
     <string name="com.particlesdevs.photoncamera" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.sanskar.photoplay" translatable="false">Apache-2.0</string>
     <string name="org.photoprism.photoprism" translatable="false">GPL-3.0-only</string>
+    <string name="com.kaii.photos" translatable="false">GPL-3.0-only</string>
     <string name="ds.photosight" translatable="false">GPL-3.0-only</string>
     <string name="dev.sanmer.pi" translatable="false">MIT</string>
     <string name="com.kjxbyz.picguard.pro" translatable="false">MIT</string>
@@ -4620,7 +4622,7 @@
     <string name="com.box.project.recording_app" translatable="false">MIT</string>
     <string name="de.dbauer.expensetracker" translatable="false">GPL-3.0-only</string>
     <string name="com.cromstudio.redlinuxclick" translatable="false">GPL-3.0-only</string>
-    <string name="com.susheelkaram.myread" translatable="false">Apache-2.0</string>
+    <string name="com.acszo.redomi.repo" translatable="false">GPL-3.0-only</string>
     <string name="com.pavelrekun.rekado" translatable="false">Apache-2.0</string>
     <string name="com.marlonjones.simplereminder" translatable="false">Apache-2.0</string>
     <string name="com.niklas8.remotefiles" translatable="false">GPL-3.0-only</string>
@@ -4910,7 +4912,6 @@
     <string name="com.blackiq.whatsdone" translatable="false">GPL-2.0-only</string>
     <string name="com.bera.whitehole" translatable="false">Apache-2.0</string>
     <string name="com.truemlgpro.wifiinfo" translatable="false">Apache-2.0</string>
-    <string name="org.laurentsebag.wifitimer" translatable="false">GPL-3.0-or-later</string>
     <string name="de.nsvb.android.auto.w4a" translatable="false">GPL-3.0-only</string>
     <string name="ua.sytor.wifipass" translatable="false">Apache-2.0</string>
     <string name="ch.rontalnetz.wifiprobe" translatable="false">Apache-2.0</string>
