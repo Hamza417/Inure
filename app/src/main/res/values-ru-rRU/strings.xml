@@ -761,4 +761,7 @@
     <string name="color_picker">Палитра цветов</string>
     <string name="supported">Поддерживаемые</string>
     <string name="tracker_root_warning">Для блокировки трекеров используйте root-доступ.</string>
+    <string name="list_style_title">Стиль списка</string>
+    <string name="list_style_desc">Выберите внешний вид основных списков в приложении.</string>
+    <string name="condensed">Сжатый</string>
 </resources>
