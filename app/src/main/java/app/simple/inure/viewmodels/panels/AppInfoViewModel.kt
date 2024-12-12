@@ -129,6 +129,10 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
             }
 
+            if (packageInfo.isInstalled()) {
+                list.add(Pair(R.drawable.ic_link, R.string.links))
+            }
+
             if (isNotThisApp().invert()) {
                 list.add(Pair(R.drawable.ic_change_history, R.string.change_logs))
                 list.add(Pair(R.drawable.ic_credits, R.string.credits))
@@ -406,7 +410,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 var count = 0
 
                 if (packageInfo.activities != null) {
-                    for (activity in packageInfo.activities) {
+                    for (activity in packageInfo.activities!!) {
                         for (tracker in trackers) {
                             if (activity.name.lowercase().contains(tracker.lowercase())) {
                                 count++
@@ -417,7 +421,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
 
                 if (packageInfo.services != null) {
-                    for (service in packageInfo.services) {
+                    for (service in packageInfo.services!!) {
                         for (tracker in trackers) {
                             if (service.name.lowercase().contains(tracker.lowercase())) {
                                 count++
@@ -428,7 +432,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
 
                 if (packageInfo.receivers != null) {
-                    for (receiver in packageInfo.receivers) {
+                    for (receiver in packageInfo.receivers!!) {
                         for (tracker in trackers) {
                             if (receiver.name.lowercase().contains(tracker.lowercase())) {
                                 count++

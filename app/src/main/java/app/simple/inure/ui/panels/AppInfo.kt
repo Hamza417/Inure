@@ -558,6 +558,15 @@ class AppInfo : ScopedFragment() {
                                 showWarning(it.message ?: getString(R.string.error))
                             }
                         }
+                        R.string.links -> {
+                            try {
+                                startActivity(Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS).apply {
+                                    data = Uri.fromParts("package", packageInfo.packageName, null)
+                                })
+                            } catch (e: Exception) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            }
+                        }
                     }
                 }
             })

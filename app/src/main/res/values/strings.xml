@@ -760,4 +760,5 @@
     <string name="list_style_title">List Style</string>
     <string name="list_style_desc">Choose the layout appearance of the main lists in the app.</string>
     <string name="condensed">Condensed</string>
+    <string name="links">Links</string>
 </resources>
