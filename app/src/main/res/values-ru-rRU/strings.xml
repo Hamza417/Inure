@@ -764,4 +764,5 @@
     <string name="list_style_title">Стиль списка</string>
     <string name="list_style_desc">Выберите внешний вид основных списков в приложении.</string>
     <string name="condensed">Сжатый</string>
+    <string name="links">Ссылки</string>
 </resources>
