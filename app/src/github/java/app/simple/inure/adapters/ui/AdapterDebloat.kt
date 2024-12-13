@@ -9,8 +9,8 @@ import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.DebloatSortConstants
 import app.simple.inure.constants.SortConstant
+import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -174,7 +174,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
         val flags: TypeFaceTextView = itemView.findViewById(R.id.flags)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.desc)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
-        val container: DynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
+        val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
