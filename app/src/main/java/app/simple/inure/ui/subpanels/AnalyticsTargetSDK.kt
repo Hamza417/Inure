@@ -21,7 +21,7 @@ import app.simple.inure.factories.subpanels.AnalyticsSDKViewModelFactory
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.subviewers.AnalyticsDataViewModel
 import com.github.mikephil.charting.data.Entry
@@ -60,7 +60,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
         }
 
         title.text = if (AnalyticsPreferences.getSDKValue()) {
-            SDKHelper.getSdkTitle(SDKHelper.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
+            SDKUtils.getSdkTitle(SDKUtils.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
         } else {
             requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
         }

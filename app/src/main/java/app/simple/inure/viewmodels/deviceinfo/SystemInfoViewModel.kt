@@ -12,7 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.DeviceUtils
 import app.simple.inure.util.NumberUtils
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +69,7 @@ class SystemInfoViewModel(application: Application) : WrappedViewModel(applicati
 
     private fun getAndroidVersion(): Pair<String, Spannable> {
         return Pair(getString(R.string.android_version),
-                    SDKHelper.getSdkTitle(Build.VERSION.SDK_INT).applySecondaryTextColor())
+                    SDKUtils.getSdkTitle(Build.VERSION.SDK_INT).applySecondaryTextColor())
     }
 
     private fun getHardwareName(): Pair<String, Spannable> {

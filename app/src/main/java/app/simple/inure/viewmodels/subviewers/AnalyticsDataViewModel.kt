@@ -11,7 +11,7 @@ import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
@@ -51,11 +51,11 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
             for (app in apps) {
                 if (AnalyticsPreferences.getSDKValue()) {
-                    if (SDKHelper.getSdkCode(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKUtils.getSdkCode(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 } else {
-                    if (SDKHelper.getSdkTitle(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKUtils.getSdkTitle(app.safeApplicationInfo.minSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 }
@@ -79,11 +79,11 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
             for (app in apps) {
                 if (AnalyticsPreferences.getSDKValue()) {
-                    if (SDKHelper.getSdkCode(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKUtils.getSdkCode(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 } else {
-                    if (SDKHelper.getSdkTitle(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
+                    if (SDKUtils.getSdkTitle(app.safeApplicationInfo.targetSdkVersion) == (entry as PieEntry).label) {
                         sdkFilteredApps.add(app)
                     }
                 }

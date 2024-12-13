@@ -1,11 +1,13 @@
 package app.simple.inure.apk.utils
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
+import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.view.WindowManager
 import app.simple.inure.R
 import app.simple.inure.util.FlagUtils
@@ -323,5 +325,26 @@ object MetaUtils {
         }
 
         return builder.toString()
+    }
+
+    // TODO fix this method
+    fun hasDefaultLinks(packageManager: PackageManager, packageName: String): Boolean {
+        kotlin.runCatching {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                addCategory(Intent.CATEGORY_BROWSABLE)
+                data = Uri.parse("http://")
+            }
+
+            val resolveInfos = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+            for (resolveInfo in resolveInfos) {
+                if (resolveInfo.activityInfo.packageName == packageName) {
+                    return true
+                }
+            }
+
+            return false
+        }.getOrElse {
+            return false
+        }
     }
 }

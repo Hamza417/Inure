@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.MetaUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.apk.utils.PackageUtils.isAppHidden
@@ -32,6 +33,7 @@ import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.TrackerUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -129,8 +131,14 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
             }
 
-            if (packageInfo.isInstalled()) {
-                list.add(Pair(R.drawable.ic_link, R.string.links))
+            if (SDKUtils.isSAndAbove()) {
+                if (packageInfo.isInstalled()) {
+                    if (MetaUtils.hasDefaultLinks(packageManager, packageInfo.packageName)) {
+
+                    }
+
+                    list.add(Pair(R.drawable.ic_link, R.string.links))
+                }
             }
 
             if (isNotThisApp().invert()) {

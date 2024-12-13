@@ -7,9 +7,9 @@ import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
 import app.simple.inure.R
 
-object SDKHelper {
+object SDKUtils {
 
-    const val totalSDKs = Build.VERSION_CODES.UPSIDE_DOWN_CAKE // Max SDK code
+    const val TOTAL_SDKS = Build.VERSION_CODES.UPSIDE_DOWN_CAKE // Max SDK code
 
     /**
      * List of all SDK names of Android since the beginning
@@ -237,5 +237,9 @@ object SDKHelper {
 
     private fun getColor(context: Context, id: Int): Int {
         return ContextCompat.getColor(context, id)
+    }
+
+    fun isSAndAbove(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     }
 }

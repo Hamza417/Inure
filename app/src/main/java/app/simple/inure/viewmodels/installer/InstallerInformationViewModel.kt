@@ -25,7 +25,7 @@ import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.NullSafety.isNotNull
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import kotlinx.coroutines.Dispatchers
@@ -171,7 +171,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
         val minSdk = kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 "${packageInfo!!.safeApplicationInfo.minSdkVersion}," +
-                        " ${SDKHelper.getSdkTitle(packageInfo!!.safeApplicationInfo!!.minSdkVersion)}"
+                        " ${SDKUtils.getSdkTitle(packageInfo!!.safeApplicationInfo.minSdkVersion)}"
             } else {
                 file.getMinSDK()
             }
@@ -186,7 +186,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
             "${packageInfo!!.safeApplicationInfo.targetSdkVersion}, " +
-                    SDKHelper.getSdkTitle(packageInfo!!.safeApplicationInfo.targetSdkVersion)
+                    SDKUtils.getSdkTitle(packageInfo!!.safeApplicationInfo.targetSdkVersion)
         }.getOrElse {
             it.message!!
         }

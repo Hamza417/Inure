@@ -34,7 +34,7 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FileUtils.toFile
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.applyAccentColor
 import app.simple.inure.util.StringUtils.applySecondaryTextColor
 import app.simple.inure.util.StringUtils.endsWithAny
@@ -304,11 +304,11 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getMinSDK(): Pair<Int, Spannable> {
         val minSdk = kotlin.runCatching {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                "${packageInfo.safeApplicationInfo.minSdkVersion}, ${SDKHelper.getSdkTitle(packageInfo.safeApplicationInfo.minSdkVersion)}"
+                "${packageInfo.safeApplicationInfo.minSdkVersion}, ${SDKUtils.getSdkTitle(packageInfo.safeApplicationInfo.minSdkVersion)}"
             } else {
                 when (val apkMeta: Any = packageInfo.safeApplicationInfo.getApkMeta()) {
                     is ApkMeta -> {
-                        "${apkMeta.minSdkVersion}, ${SDKHelper.getSdkTitle(apkMeta.minSdkVersion)}"
+                        "${apkMeta.minSdkVersion}, ${SDKUtils.getSdkTitle(apkMeta.minSdkVersion)}"
                     }
 
                     else -> {
@@ -327,7 +327,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getTargetSDK(): Pair<Int, Spannable> {
         val targetSdk = kotlin.runCatching {
             "${packageInfo.safeApplicationInfo.targetSdkVersion}, " +
-                    SDKHelper.getSdkTitle(packageInfo.safeApplicationInfo.targetSdkVersion)
+                    SDKUtils.getSdkTitle(packageInfo.safeApplicationInfo.targetSdkVersion)
         }.getOrElse {
             it.message!!
         }

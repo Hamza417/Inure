@@ -12,7 +12,7 @@ import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.SDKHelper
+import app.simple.inure.util.SDKUtils
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             val colors = arrayListOf<Int>()
             val isSdkCode = AnalyticsPreferences.getSDKValue()
 
-            for (sdkCode in 1..SDKHelper.totalSDKs) {
+            for (sdkCode in 1..SDKUtils.TOTAL_SDKS) {
                 var total = 0F
 
                 for (app in apps) {
@@ -61,10 +61,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
                 }
 
                 if (total.isNotZero()) { // Filter empty data
-                    val sdk = if (isSdkCode) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)
+                    val sdk = if (isSdkCode) SDKUtils.getSdkCode(sdkCode) else SDKUtils.getSdkTitle(sdkCode)
 
                     data.add(PieEntry(total, sdk))
-                    colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
+                    colors.add(SDKUtils.getSdkColor(sdkCode, applicationContext()))
                 }
             }
 
@@ -78,7 +78,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             val colors = arrayListOf<Int>()
             val isSdkCode = AnalyticsPreferences.getSDKValue()
 
-            for (sdkCode in 1..SDKHelper.totalSDKs) {
+            for (sdkCode in 1..SDKUtils.TOTAL_SDKS) {
                 var total = 0F
 
                 for (app in apps) {
@@ -89,10 +89,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
                 }
 
                 if (total.isNotZero()) { // Filter empty data
-                    val sdk = if (isSdkCode) SDKHelper.getSdkCode(sdkCode) else SDKHelper.getSdkTitle(sdkCode)
+                    val sdk = if (isSdkCode) SDKUtils.getSdkCode(sdkCode) else SDKUtils.getSdkTitle(sdkCode)
 
                     data.add(PieEntry(total, sdk))
-                    colors.add(SDKHelper.getSdkColor(sdkCode, applicationContext()))
+                    colors.add(SDKUtils.getSdkColor(sdkCode, applicationContext()))
                 }
             }
 
