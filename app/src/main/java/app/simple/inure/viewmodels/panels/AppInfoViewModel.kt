@@ -12,7 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.MetaUtils
+import app.simple.inure.apk.utils.MetaUtils.hasDefaultLinks
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
 import app.simple.inure.apk.utils.PackageUtils.isAppHidden
@@ -133,11 +133,9 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
             if (SDKUtils.isSAndAbove()) {
                 if (packageInfo.isInstalled()) {
-                    if (MetaUtils.hasDefaultLinks(packageManager, packageInfo.packageName)) {
-
+                    if (applicationContext().hasDefaultLinks(packageInfo.packageName)) {
+                        list.add(Pair(R.drawable.ic_link, R.string.links))
                     }
-
-                    list.add(Pair(R.drawable.ic_link, R.string.links))
                 }
             }
 

@@ -1,14 +1,14 @@
 package app.simple.inure.apk.utils
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo
-import android.net.Uri
+import android.content.pm.verify.domain.DomainVerificationManager
+import android.content.pm.verify.domain.DomainVerificationUserState
 import android.os.Build
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import app.simple.inure.R
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.StringUtils.createString
@@ -327,23 +327,28 @@ object MetaUtils {
         return builder.toString()
     }
 
-    // TODO fix this method
-    fun hasDefaultLinks(packageManager: PackageManager, packageName: String): Boolean {
+    @RequiresApi(Build.VERSION_CODES.S)
+    fun Context.hasDefaultLinks(packageName: String): Boolean {
         kotlin.runCatching {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                addCategory(Intent.CATEGORY_BROWSABLE)
-                data = Uri.parse("http://")
-            }
+            val manager = getSystemService(DomainVerificationManager::class.java)
+            val userState = manager.getDomainVerificationUserState(packageName)
 
-            val resolveInfos = packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
-            for (resolveInfo in resolveInfos) {
-                if (resolveInfo.activityInfo.packageName == packageName) {
-                    return true
-                }
-            }
+            // Domains that have passed Android App Links verification.
+            val verifiedDomains = userState?.hostToStateMap
+                ?.filterValues { it == DomainVerificationUserState.DOMAIN_STATE_VERIFIED }
 
-            return false
+            // Domains that haven't passed Android App Links verification but that the user
+            // has associated with an app.
+            val selectedDomains = userState?.hostToStateMap
+                ?.filterValues { it == DomainVerificationUserState.DOMAIN_STATE_SELECTED }
+
+            // All other domains.
+            val unapprovedDomains = userState?.hostToStateMap
+                ?.filterValues { it == DomainVerificationUserState.DOMAIN_STATE_NONE }
+
+            return listOf(verifiedDomains, selectedDomains, unapprovedDomains).any { it?.isNotEmpty() == true }
         }.getOrElse {
+            it.printStackTrace()
             return false
         }
     }
