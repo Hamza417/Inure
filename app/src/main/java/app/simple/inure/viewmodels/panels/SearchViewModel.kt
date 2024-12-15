@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,15 +25,19 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
-import kotlin.concurrent.thread
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var deepPackageInfos: ArrayList<PackageInfo> = arrayListOf()
-    private var thread: Thread? = null
+    private var searchJobs: MutableSet<Job> = mutableSetOf()
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -69,19 +72,19 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     fun initiateSearch(keywords: String) {
-        thread?.interrupt()
-        thread = thread(priority = 10, name = keywords) {
+        searchJobs.forEach { it.cancel() }
+
+        val job = viewModelScope.launch(Dispatchers.IO) {
             try {
                 searchKeywords.postValue(keywords)
+                ensureActive()
                 loadSearchData(keywords)
             } catch (e: IllegalStateException) {
                 e.printStackTrace()
             }
         }
 
-        if (Thread.currentThread() != Looper.getMainLooper().thread) {
-            thread?.join() // Wait for the previous thread to finish
-        }
+        searchJobs.add(job)
     }
 
     fun reload() { // These two fun already runs in their own threads
@@ -90,61 +93,41 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         refreshPackageData()
     }
 
-    private fun loadSearchData(keywords: String) {
-        var list = arrayListOf<Search>()
-        var apps: ArrayList<PackageInfo> = (getInstalledApps() + getUninstalledApps()).toArrayList()
-        val filteredList = arrayListOf<PackageInfo>()
-
+    private suspend fun loadSearchData(keywords: String) = coroutineScope {
         if (keywords.isEmpty()) {
             searchData.postValue(arrayListOf())
-            return
+            return@coroutineScope
         }
 
-        val sanitizedKeyword = if (keywords.startsWith("#")) {
-            try {
-                keywords.split(" ")[1]
-            } catch (e: IndexOutOfBoundsException) {
-                ""
+        ensureActive()
+
+        val sanitizedKeyword = keywords.split(" ").getOrNull(1).takeIf { keywords.startsWith("#") } ?: keywords
+        val allApps = (getInstalledApps() + getUninstalledApps()).toArrayList()
+        val filteredApps = arrayListOf<PackageInfo>()
+
+        allApps.filterCategories(keywords).applyFilters(filteredApps)
+        filteredApps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+
+        ensureActive()
+
+        val searchResults = if (sanitizedKeyword.isNotEmpty()) {
+            if (SearchPreferences.isDeepSearchEnabled()) {
+                if (deepPackageInfos.isEmpty()) {
+                    loadDataForDeepSearch(filteredApps)
+                }
+                val deepSearchResults = arrayListOf<Search>().apply {
+                    addDeepSearchData(sanitizedKeyword, deepPackageInfos)
+                }
+                deepSearchResults.filter { hasValidCounts(it) || hasMatchingNames(it, sanitizedKeyword) }
+            } else {
+                filteredApps.map { Search(it) }.filter { hasMatchingNames(it, sanitizedKeyword) }
             }
         } else {
-            keywords
+            filteredApps.map { Search(it) }
         }
 
-        apps = apps.filterCategories(keywords)
-        apps.applyFilters(filteredList)
-        filteredList.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
-
-        if (sanitizedKeyword.isNotEmpty()) {
-            when {
-                SearchPreferences.isDeepSearchEnabled() -> {
-                    if (deepPackageInfos.isEmpty()) {
-                        loadDataForDeepSearch(filteredList)
-                    }
-
-                    list.addDeepSearchData(sanitizedKeyword, deepPackageInfos)
-
-                    // Filter out apps with no results
-                    list = if (list.isNotEmpty()) {
-                        list.filter { search ->
-                            hasValidCounts(search) || hasMatchingNames(search, sanitizedKeyword)
-                        } as ArrayList<Search>
-                    } else {
-                        arrayListOf()
-                    }
-                }
-                else -> {
-                    list.addAll(filteredList.map { Search(it) }.filter { search ->
-                        hasMatchingNames(search, sanitizedKeyword)
-                    } as ArrayList<Search>)
-                }
-            }
-        } else {
-            list.addAll(filteredList.map { Search(it) } as ArrayList<Search>)
-        }
-
-        if (Thread.currentThread().name == thread?.name) {
-            searchData.postValue(list)
-        }
+        ensureActive()
+        searchData.postValue(ArrayList(searchResults))
     }
 
     private fun hasValidCounts(search: Search): Boolean {
@@ -164,25 +147,28 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    private fun ArrayList<Search>.addDeepSearchData(keywords: String, deepSearchData: ArrayList<PackageInfo>) {
+    private suspend fun ArrayList<Search>.addDeepSearchData(keywords: String, deepSearchData: ArrayList<PackageInfo>) = coroutineScope {
         try {
-            deepSearchData.parallelStream().forEach { it ->
-                try {
-                    val search = Search()
+            deepSearchData.map { packageInfo ->
+                async {
+                    ensureActive()
+                    try {
+                        val search = Search()
 
-                    search.packageInfo = it
-                    search.permissions = it.requestedPermissions?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
-                    search.activities = it.activities?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                    search.services = it.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                    search.receivers = it.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                    search.providers = it.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                    search.resources = APKParser.getXmlFiles(it.safeApplicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
+                        search.packageInfo = packageInfo
+                        search.permissions = packageInfo.requestedPermissions?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
+                        search.activities = packageInfo.activities?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                        search.services = packageInfo.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                        search.receivers = packageInfo.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                        search.providers = packageInfo.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                        search.resources = APKParser.getXmlFiles(packageInfo.safeApplicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
 
-                    addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
-                } catch (e: NameNotFoundException) {
-                    Log.e(TAG, e.stackTraceToString())
+                        addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
+                    } catch (e: NameNotFoundException) {
+                        Log.e(TAG, e.stackTraceToString())
+                    }
                 }
-            }
+            }.awaitAll()
         } catch (e: ConcurrentModificationException) {
             e.printStackTrace()
         }
@@ -281,8 +267,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     override fun onCleared() {
         super.onCleared()
         try {
-            thread?.interrupt()
-            Log.d("SearchViewModel", "onCleared: ${thread?.name}")
+            searchJobs.forEach { it.cancel() }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
@@ -293,7 +278,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         searchData.postValue(arrayListOf())
 
         try {
-            thread?.interrupt()
+            searchJobs.forEach { it.cancel() }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
