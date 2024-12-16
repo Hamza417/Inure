@@ -198,9 +198,9 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun loadDataForDeepSearch(list: ArrayList<PackageInfo>) {
         list.forEach {
             kotlin.runCatching {
-                val pkg = packageManager.getPackageInfo(it.packageName, FLAGS)
-                pkg.safeApplicationInfo.name = it.safeApplicationInfo.name
-                deepPackageInfos.addIfNotExists(pkg, comparator = { a, b -> a?.packageName == b?.packageName })
+                val packageInfo = packageManager.getPackageInfo(it.packageName, FLAGS)
+                packageInfo.safeApplicationInfo.name = it.safeApplicationInfo.name
+                deepPackageInfos.addIfNotExists(packageInfo, comparator = { a, b -> a?.packageName == b?.packageName })
             }.getOrElse {
                 Log.e(TAG, it.stackTraceToString())
             }
