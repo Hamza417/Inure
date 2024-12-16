@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.parsers.APKParser
+import app.simple.inure.apk.parsers.APKParser.getMatchedResourcesSize
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
@@ -24,6 +24,7 @@ import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -31,6 +32,8 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import java.util.stream.Collectors
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
@@ -38,6 +41,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var deepPackageInfos: ArrayList<PackageInfo> = arrayListOf()
     private var searchJobs: MutableSet<Job> = mutableSetOf()
+    private val semaphore = Semaphore(MAX_PARALLEL_STREAMS)
 
     private val searchKeywords: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
@@ -80,6 +84,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 ensureActive()
                 loadSearchData(keywords)
             } catch (e: IllegalStateException) {
+                e.printStackTrace()
+            } catch (e: CancellationException) {
                 e.printStackTrace()
             }
         }
@@ -152,20 +158,35 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             deepSearchData.map { packageInfo ->
                 async {
                     ensureActive()
-                    try {
-                        val search = Search()
 
-                        search.packageInfo = packageInfo
-                        search.permissions = packageInfo.requestedPermissions?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
-                        search.activities = packageInfo.activities?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                        search.services = packageInfo.services?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                        search.receivers = packageInfo.receivers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                        search.providers = packageInfo.providers?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
-                        search.resources = APKParser.getXmlFiles(packageInfo.safeApplicationInfo.sourceDir, keywords, SearchPreferences.isCasingIgnored()).size
+                    /**
+                     * I think parcel has a limit of how much data it can pass at once without crashing
+                     * so I'm using a semaphore to limit the matching to [MAX_PARALLEL_STREAMS] at a time.
+                     */
+                    semaphore.withPermit {
+                        try {
+                            val search = Search()
+                            ensureActive()
 
-                        addIfNotExists(search, comparator = { a, b -> a?.packageInfo?.packageName == b?.packageInfo?.packageName })
-                    } catch (e: NameNotFoundException) {
-                        Log.e(TAG, e.stackTraceToString())
+                            search.packageInfo = packageInfo
+                            search.permissions = packageInfo.requestedPermissions
+                                ?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it!! } ?: 0
+                            search.activities = packageInfo.activities
+                                ?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                            search.services = packageInfo.services
+                                ?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                            search.receivers = packageInfo.receivers
+                                ?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                            search.providers = packageInfo.providers
+                                ?.getMatchedCount(keywords, SearchPreferences.isCasingIgnored()) { it?.name!! } ?: 0
+                            search.resources = packageInfo.getMatchedResourcesSize(keywords, SearchPreferences.isCasingIgnored())
+
+                            addIfNotExists(search, comparator = { a, b ->
+                                a?.packageInfo?.packageName == b?.packageInfo?.packageName
+                            })
+                        } catch (e: NameNotFoundException) {
+                            Log.e(TAG, e.stackTraceToString())
+                        }
                     }
                 }
             }.awaitAll()
@@ -186,42 +207,48 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
     }
 
-    private fun ArrayList<PackageInfo>.applyFilters(filtered: ArrayList<PackageInfo>) {
-        parallelStream().forEach { app ->
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                if (app.safeApplicationInfo.enabled.invert()) {
-                    if (app.isInstalled()) {
+    private suspend fun ArrayList<PackageInfo>.applyFilters(filtered: ArrayList<PackageInfo>) = coroutineScope {
+        map { app ->
+            ensureActive()
+
+            async {
+                ensureActive()
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (app.safeApplicationInfo.enabled.invert()) {
+                        if (app.isInstalled()) {
+                            filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (app.safeApplicationInfo.enabled) {
+                        if (app.isInstalled()) {
+                            filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (app.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (app.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                        filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    if (app.isInstalled().invert()) {
                         filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
                     }
                 }
             }
-
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                if (app.safeApplicationInfo.enabled) {
-                    if (app.isInstalled()) {
-                        filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
-                    }
-                }
-            }
-
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.APK)) {
-                if (app.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                    filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
-                }
-            }
-
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                if (app.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
-                    filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
-                }
-            }
-
-            if (FlagUtils.isFlagSet(SearchPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                if (app.isInstalled().invert()) {
-                    filtered.addIfNotExists(app, comparator = { a, b -> a?.packageName == b?.packageName })
-                }
-            }
-        }
+        }.awaitAll()
     }
 
     private fun ArrayList<PackageInfo>.filterCategories(keywords: String): ArrayList<PackageInfo> {
@@ -310,5 +337,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         }
 
         private const val TAG = "SearchViewModel"
+        private const val MAX_PARALLEL_STREAMS = 10
     }
 }

@@ -2,13 +2,16 @@ package app.simple.inure.apk.parsers
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Extensions.isExtrasFile
 import app.simple.inure.constants.Extensions.isImageFile
 import app.simple.inure.exceptions.ApkParserException
 import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.models.Extra
 import app.simple.inure.models.Graphic
+import app.simple.inure.preferences.SearchPreferences
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
@@ -270,6 +273,10 @@ object APKParser {
             it.lowercase()
         }
         return xmlFiles
+    }
+
+    fun PackageInfo.getMatchedResourcesSize(keyword: String, case: Boolean = SearchPreferences.isCasingIgnored()): Int {
+        return getXmlFiles(safeApplicationInfo.sourceDir, keyword, case).size
     }
 
     /**

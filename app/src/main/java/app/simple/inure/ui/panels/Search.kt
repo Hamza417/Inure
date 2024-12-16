@@ -252,9 +252,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 this@Search.keywords = keywords
                 removeHandlerCallbacks()
                 if (keywords.isNotEmpty()) {
-                    postDelayed(1000L) { // Todo : Find a better way to do this
-                        searchViewModel.initiateSearch(keywords)
-                    }
+                    searchViewModel.initiateSearch(keywords)
                 } else {
                     searchViewModel.clearSearch()
                 }

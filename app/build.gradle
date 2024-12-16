@@ -16,6 +16,7 @@ android {
         viewBinding false
         aidl true
         buildConfig true
+        compose false
     }
 
     defaultConfig {
