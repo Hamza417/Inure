@@ -65,8 +65,8 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = if (headerMode) position_ - 1 else position_
+    override fun onBindViewHolder(holder: VerticalListViewHolder, holderPosition: Int) {
+        val position = if (headerMode) holderPosition - 1 else holderPosition
         val minusValue = if (headerMode) 1 else 0
 
         if (holder is Holder) {
@@ -112,7 +112,9 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 holder.container.removeRipple()
             }
         } else if (holder is Header) {
-            holder.total.text = list.size.toString()
+            holder.total.text = buildString {
+                list.size.toString()
+            }
         }
     }
 
