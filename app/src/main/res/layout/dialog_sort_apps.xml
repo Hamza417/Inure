@@ -284,12 +284,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/foss" />
 
-            <app.simple.inure.decorations.views.Chip
-                android:id="@+id/combine_flags"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/combine_flags" />
-
         </com.google.android.material.chip.ChipGroup>
 
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>

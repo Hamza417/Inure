@@ -38,7 +38,6 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         return appData.value.isNullOrEmpty()
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun loadAppData() {
         viewModelScope.launch(Dispatchers.Default) {
             var apps = (getInstalledApps() + getUninstalledApps()).toArrayList()
@@ -148,82 +147,67 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
 
             var filteredList = arrayListOf<PackageInfo>()
 
-            /**
-             * We'll treat uninstalled as a separate app state other than disabled
-             * and enabled, so we'll invert the enabled flag, if the app is not
-             * installed to have it filtered out in case [SortConstant.UNINSTALLED]
-             * flag is not set.
-             *
-             * Combined flags should check for both enabled and disabled apps, if the
-             * app is not installed, it should be filtered out
-             */
-            if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
-                filteredList.addAll((apps.clone() as ArrayList<PackageInfo>).parallelStream().filter { packageInfo ->
-                    checkCombinedFlags(packageInfo)
-                }.collect(Collectors.toList()) as ArrayList<PackageInfo>)
-            } else {
-                for (packageInfo in apps) {
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                        if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
-                        }
-                    }
-
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                        if (packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
-                        }
-                    }
-
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                        if (!packageInfo.safeApplicationInfo.enabled &&
-                                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
-                        }
-                    }
-
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                        if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
-                        }
-                    }
-
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                        if (packageInfo.safeApplicationInfo.enabled &&
-                                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
-                        }
-                    }
-
-                    if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
-                        if (FOSSParser.isPackageFOSS(packageInfo)) {
-                            if (!filteredList.contains(packageInfo)) {
-                                filteredList.add(packageInfo)
-                            }
+            for (packageInfo in apps) {
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
+                    if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
                         }
                     }
                 }
 
-                // Remove duplicate elements
-                filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
+                    if (packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
+                    if (!packageInfo.safeApplicationInfo.enabled &&
+                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
+                    if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
+                    if (packageInfo.safeApplicationInfo.enabled &&
+                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
+                        }
+                    }
+                }
+
+                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
+                    if (FOSSParser.isPackageFOSS(packageInfo)) {
+                        if (!filteredList.contains(packageInfo)) {
+                            filteredList.add(packageInfo)
+                        }
+                    }
+                }
             }
 
+            // Remove duplicate elements
+            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
             filteredList.getSortedList(AppsPreferences.getSortStyle(), AppsPreferences.isReverseSorting())
 
             appData.postValue(filteredList as ArrayList<PackageInfo>?)
         }
     }
 
+    @Suppress("unused")
     private fun checkCombinedFlags(packageInfo: PackageInfo): Boolean {
         return when {
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {

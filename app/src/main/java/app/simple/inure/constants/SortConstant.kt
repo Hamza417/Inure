@@ -17,7 +17,6 @@ object SortConstant {
     const val SPLIT = 1 shl 4
     const val UNINSTALLED = 1 shl 5
     const val FOSS = 1 shl 6
-    const val COMBINE_FLAGS = 1 shl 7
     const val ALL = DISABLED or ENABLED or APK or SPLIT
 
     const val CATEGORY_UNSPECIFIED = 1L shl 1
