@@ -132,4 +132,11 @@ object ArrayUtils {
             it != null && fieldExtractor(it).contains(keyword, ignoreCase = ignoreCase)
         }.size
     }
+
+    /**
+     * Get second item from the list
+     */
+    fun <T> List<T>.second(): T {
+        return this[1]
+    }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isAppStopped
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
@@ -55,8 +56,8 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+    override fun onBindViewHolder(holder: VerticalListViewHolder, holderPosition: Int) {
+        val position = holderPosition - 1
         if (holder is Holder) {
 
             holder.icon.transitionName = apps[position].packageName
@@ -64,13 +65,16 @@ class AdapterApps(private val apps: ArrayList<PackageInfo>) : RecyclerView.Adapt
             holder.packageId.text = apps[position].packageName
 
             if (apps[position].isInstalled()) {
-                holder.icon.loadAppIcon(apps[position].packageName, apps[position].safeApplicationInfo.enabled)
+                holder.icon.loadAppIcon(
+                        apps[position].packageName,
+                        apps[position].safeApplicationInfo.enabled || apps[position].isAppStopped())
             } else {
-                holder.icon.loadAppIcon(apps[position].packageName, false, apps[position].safeApplicationInfo.sourceDir.toFileOrNull())
+                holder.icon.loadAppIcon(
+                        apps[position].packageName, false,
+                        apps[position].safeApplicationInfo.sourceDir.toFileOrNull())
             }
 
             holder.name.setAppVisualStates(apps[position])
-
             holder.info.setAppInfo(apps[position])
 
             holder.container.setOnClickListener {
