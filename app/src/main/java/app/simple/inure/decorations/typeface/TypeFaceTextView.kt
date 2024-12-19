@@ -78,7 +78,7 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
 
         setTextColor(false)
 
-        if (DevelopmentPreferences.get(DevelopmentPreferences.PREFERENCES_INDICATOR) && isDrawableHidden) {
+        if (DevelopmentPreferences.get(DevelopmentPreferences.TEXTVIEW_DRAWABLE_INDICATOR) && isDrawableHidden) {
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             setDrawableTint(false)

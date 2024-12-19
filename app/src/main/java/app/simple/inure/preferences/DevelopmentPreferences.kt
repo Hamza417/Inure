@@ -5,7 +5,7 @@ import app.simple.inure.models.DevelopmentPreferencesModel
 object DevelopmentPreferences {
 
     const val IS_WEBVIEW_XML_VIEWER = "is_xml_viewer_web_view"
-    const val PREFERENCES_INDICATOR = "is_preferences_indicator_hidden"
+    const val TEXTVIEW_DRAWABLE_INDICATOR = "is_preferences_indicator_hidden"
     const val CRASH_HANDLER = "is_using_native_crash_handler"
     const val MUSIC = "is_music_enabled"
     const val IMAGE_CACHING = "is_image_caching_enabled"
@@ -46,9 +46,9 @@ object DevelopmentPreferences {
                                             IS_WEBVIEW_XML_VIEWER,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-                DevelopmentPreferencesModel("Hide Preferences Indicator",
-                                            "Hides the indicators in the settings and dialogs.",
-                                            PREFERENCES_INDICATOR,
+                DevelopmentPreferencesModel("Hide Text View Indicators",
+                                            "Hides the indicators in the settings, dialogs and various other places in the app.",
+                                            TEXTVIEW_DRAWABLE_INDICATOR,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Music",

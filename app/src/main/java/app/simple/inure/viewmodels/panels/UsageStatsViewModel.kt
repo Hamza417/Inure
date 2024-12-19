@@ -22,8 +22,9 @@ import app.simple.inure.util.UsageInterval
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
+import app.simple.inure.extensions.viewmodels.UsageStatsViewModel as MainUsageStatsViewModel
 
-class UsageStatsViewModel(application: Application) : app.simple.inure.extensions.viewmodels.UsageStatsViewModel(application) {
+class UsageStatsViewModel(application: Application) : MainUsageStatsViewModel(application) {
 
     val usageData: MutableLiveData<ArrayList<PackageStats>> by lazy {
         MutableLiveData<ArrayList<PackageStats>>()
@@ -67,7 +68,8 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                 }
 
                 for (app in list) {
-                    app.packageInfo!!.safeApplicationInfo.name = getApplicationName(applicationContext(), app.packageInfo!!.safeApplicationInfo)
+                    app.packageInfo!!.safeApplicationInfo.name =
+                        getApplicationName(applicationContext(), app.packageInfo!!.safeApplicationInfo)
                 }
 
                 if (StatisticsPreferences.areUnusedAppHidden()) {
@@ -77,7 +79,6 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
                 }
 
                 list.sortStats()
-
                 usageData.postValue(list)
             } catch (e: SecurityException) {
                 postWarning(Warnings.USAGE_STATS_ACCESS_BLOCKED)
@@ -143,17 +144,26 @@ class UsageStatsViewModel(application: Application) : app.simple.inure.extension
 
                 val uid: Int = packageStats.packageInfo?.safeApplicationInfo?.uid!!
 
-                if (mobileData.containsKey(uid)) {
-                    packageStats.mobileData = mobileData[uid]
-                } else packageStats.mobileData = DataUsage.EMPTY
-                if (wifiData.containsKey(uid)) {
-                    packageStats.wifiData = wifiData[uid]
-                } else packageStats.wifiData = DataUsage.EMPTY
+                when {
+                    mobileData.containsKey(uid) -> {
+                        packageStats.mobileData = mobileData[uid]
+                    }
+                    else -> {
+                        packageStats.mobileData = DataUsage.EMPTY
+                    }
+                }
+
+                when {
+                    wifiData.containsKey(uid) -> {
+                        packageStats.wifiData = wifiData[uid]
+                    }
+                    else -> {
+                        packageStats.wifiData = DataUsage.EMPTY
+                    }
+                }
 
                 packageStats.appSize = getCacheSize(app)
-
                 list.add(packageStats)
-
                 progress.postValue(list.size)
             }.getOrElse {
                 it.printStackTrace()
