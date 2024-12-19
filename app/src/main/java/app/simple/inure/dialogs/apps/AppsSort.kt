@@ -45,6 +45,7 @@ class AppsSort : ScopedBottomSheetFragment() {
             sortChipGroup.removeView(view.findViewById(R.id.min_sdk))
         }
 
+        filterChipGroup.removeView(view.findViewById(R.id.combine_flags))
         setAppsCategory()
         setAppsFilter()
 
@@ -188,11 +189,11 @@ class AppsSort : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, SortConstant.FOSS)
             }
 
-            sourceFlags = if (checkedIds.contains(R.id.combine_flags)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
-            }
+            //            sourceFlags = if (checkedIds.contains(R.id.combine_flags)) {
+            //                FlagUtils.setFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
+            //            } else {
+            //                FlagUtils.unsetFlag(sourceFlags, SortConstant.COMBINE_FLAGS)
+            //            }
 
             AppsPreferences.setAppsFilter(sourceFlags)
         }
@@ -335,9 +336,9 @@ class AppsSort : ScopedBottomSheetFragment() {
             filterChipGroup.check(R.id.foss)
         }
 
-        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
-            filterChipGroup.check(R.id.combine_flags)
-        }
+        //        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.COMBINE_FLAGS)) {
+        //            filterChipGroup.check(R.id.combine_flags)
+        //        }
     }
 
     companion object {
