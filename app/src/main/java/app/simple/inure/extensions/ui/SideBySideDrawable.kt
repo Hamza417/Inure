@@ -1,3 +1,5 @@
+package app.simple.inure.extensions.ui
+
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.ColorFilter
@@ -99,5 +101,24 @@ class SideBySideDrawable : Drawable {
     )
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
+    }
+
+    override fun getConstantState(): ConstantState {
+        return SideBySideConstantState(drawable1.constantState, drawable2?.constantState)
+    }
+
+    private class SideBySideConstantState(
+            private val state1: ConstantState?, private val state2: ConstantState?) : ConstantState() {
+        override fun newDrawable(): Drawable {
+            val drawable1 = state1?.newDrawable()
+            val drawable2 = state2?.newDrawable()
+            return SideBySideDrawable(drawable1!!, drawable2).apply {
+                setPadding(padding)
+            }
+        }
+
+        override fun getChangingConfigurations(): Int {
+            return (state1?.changingConfigurations ?: 0) or (state2?.changingConfigurations ?: 0)
+        }
     }
 }

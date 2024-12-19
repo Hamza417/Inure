@@ -1,6 +1,5 @@
 package app.simple.inure.util
 
-import SideBySideDrawable
 import android.content.pm.PackageInfo
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
@@ -14,6 +13,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.extensions.ui.SideBySideDrawable
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.singletons.TrackerTags
 import app.simple.inure.util.NullSafety.isNull

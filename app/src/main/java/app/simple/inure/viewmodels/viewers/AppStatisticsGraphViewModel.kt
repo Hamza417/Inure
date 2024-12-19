@@ -106,7 +106,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     } else if (event.eventType == UsageEvents.Event.ACTIVITY_PAUSED) {
                         endTime = eventTime
                         skipNew = false
-                        if (packageInfo.packageName.equals(event.packageName)) {
+                        if (packageInfo.packageName == event.packageName) {
                             val time = endTime - startTime + 1
                             packageStats.appUsage?.add(iteration, AppUsageModel(startTime, time, endTime))
                             packageStats.launchCount = iteration.plus(1)
@@ -165,7 +165,7 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
                     BarEntry(6f, 0f, getDayString(LocalDate.now().minusDays(6)))
             )
 
-            packageStats.appUsage?.forEach { it ->
+            packageStats.appUsage?.forEach {
                 val number = it.date.getNumberOfDaysBetweenTwoDates()
 
                 try {
@@ -267,13 +267,17 @@ class AppStatisticsGraphViewModel(application: Application, private val packageI
     }
 
     private fun Long.toLocalDate(): LocalDate {
-        return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDate()
+        return Instant.ofEpochMilli(this)
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
     }
 
     private fun Long.getNumberOfDaysBetweenTwoDates(): Int {
         return Instant.ofEpochMilli(this)
-            .atZone(ZoneId.systemDefault()).toLocalDate()
-            .until(LocalDate.now(), ChronoUnit.DAYS).toInt()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+            .until(LocalDate.now(), ChronoUnit.DAYS)
+            .toInt()
     }
 
     @Suppress("unused")
