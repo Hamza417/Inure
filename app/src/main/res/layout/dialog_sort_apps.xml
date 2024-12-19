@@ -284,7 +284,24 @@
                 android:layout_height="wrap_content"
                 android:text="@string/foss" />
 
-        </com.google.android.material.chip.ChipGroup>
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/large_heap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/large_heap" />
 
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/launchable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/launchable" />
+
+            <app.simple.inure.decorations.views.Chip
+                android:id="@+id/stopped"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stopped" />
+
+        </com.google.android.material.chip.ChipGroup>
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 </FrameLayout>

@@ -262,7 +262,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
     }
 
     private fun ArrayList<Pair<Int, Int>>.rootMenu() {
-        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+        if (PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
             add(Pair(R.drawable.ic_launch, R.string.launch))
         }
 
@@ -306,7 +306,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
     }
 
     private fun ArrayList<Pair<Int, Int>>.shizukuMenu() {
-        if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+        if (PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
             add(Pair(R.drawable.ic_launch, R.string.launch))
         }
 
@@ -351,7 +351,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
     private fun ArrayList<Pair<Int, Int>>.normalMenu() {
         if (packageInfo.isUserApp()) {
-            if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
+            if (PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName) && isNotThisApp()) {
                 add(Pair(R.drawable.ic_launch, R.string.launch))
             }
 
@@ -363,7 +363,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 add(Pair(R.drawable.ic_delete, R.string.uninstall))
             }
         } else {
-            if (PackageUtils.checkIfAppIsLaunchable(applicationContext(), packageInfo.packageName)) {
+            if (PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName)) {
                 add(Pair(R.drawable.ic_launch, R.string.launch))
             }
 

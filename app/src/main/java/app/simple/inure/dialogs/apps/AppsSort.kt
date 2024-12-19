@@ -188,6 +188,24 @@ class AppsSort : ScopedBottomSheetFragment() {
                 FlagUtils.unsetFlag(sourceFlags, SortConstant.FOSS)
             }
 
+            sourceFlags = if (checkedIds.contains(R.id.large_heap)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.LARGE_HEAP)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.LARGE_HEAP)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.launchable)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.LAUNCHABLE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.LAUNCHABLE)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.stopped)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.STOPPED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.STOPPED)
+            }
+
             AppsPreferences.setAppsFilter(sourceFlags)
         }
 
@@ -327,6 +345,18 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
             filterChipGroup.check(R.id.foss)
+        }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LARGE_HEAP)) {
+            filterChipGroup.check(R.id.large_heap)
+        }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LAUNCHABLE)) {
+            filterChipGroup.check(R.id.launchable)
+        }
+
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.STOPPED)) {
+            filterChipGroup.check(R.id.stopped)
         }
     }
 

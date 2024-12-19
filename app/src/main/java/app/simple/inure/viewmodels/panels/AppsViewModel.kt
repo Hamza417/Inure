@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
+import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
@@ -42,168 +43,106 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         viewModelScope.launch(Dispatchers.Default) {
             var apps = (getInstalledApps() + getUninstalledApps()).toArrayList()
 
-            when (AppsPreferences.getAppsType()) {
-                SortConstant.SYSTEM -> {
-                    apps = apps.parallelStream().filter { packageInfo ->
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-                SortConstant.USER -> {
-                    apps = apps.parallelStream().filter { packageInfo ->
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
-                    }.collect(Collectors.toList()) as ArrayList<PackageInfo>
-                }
-            }
+            apps = filterAppsByType(apps)
+            apps = filterAppsByCategory(apps)
+            val filteredList = filterAppsByFlags(apps)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val categoryList = ArrayList<PackageInfo>()
-
-                for (app in apps) {
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_UNDEFINED) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_UNSPECIFIED)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_GAME) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_GAME)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_AUDIO) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_AUDIO)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_VIDEO) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_VIDEO)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_IMAGE) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_IMAGE)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_SOCIAL) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_SOCIAL)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_NEWS) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_NEWS)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_MAPS) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_MAPS)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_PRODUCTIVITY) {
-                        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_PRODUCTIVITY)) {
-                            if (!categoryList.contains(app)) {
-                                categoryList.add(app)
-                            }
-                        }
-                    }
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        if (app.safeApplicationInfo.category == ApplicationInfo.CATEGORY_ACCESSIBILITY) {
-                            if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), SortConstant.CATEGORY_ACCESSIBILITY)) {
-                                if (!categoryList.contains(app)) {
-                                    categoryList.add(app)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                apps = categoryList //.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo> // Unnecessary ??
-            }
-
-            var filteredList = arrayListOf<PackageInfo>()
-
-            for (packageInfo in apps) {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED)) {
-                    if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                    if (packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                    if (!packageInfo.safeApplicationInfo.enabled &&
-                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                    if (packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                    if (packageInfo.safeApplicationInfo.enabled &&
-                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS)) {
-                    if (FOSSParser.isPackageFOSS(packageInfo)) {
-                        if (!filteredList.contains(packageInfo)) {
-                            filteredList.add(packageInfo)
-                        }
-                    }
-                }
-            }
-
-            // Remove duplicate elements
-            filteredList = filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
             filteredList.getSortedList(AppsPreferences.getSortStyle(), AppsPreferences.isReverseSorting())
+            appData.postValue(filteredList)
+        }
+    }
 
-            appData.postValue(filteredList as ArrayList<PackageInfo>?)
+    private fun filterAppsByType(apps: ArrayList<PackageInfo>): ArrayList<PackageInfo> {
+        return when (AppsPreferences.getAppsType()) {
+            SortConstant.SYSTEM -> {
+                apps.parallelStream().filter { packageInfo ->
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            SortConstant.USER -> {
+                apps.parallelStream().filter { packageInfo ->
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            else -> apps
+        }
+    }
+
+    private fun filterAppsByCategory(apps: ArrayList<PackageInfo>): ArrayList<PackageInfo> {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return apps
+
+        val categoryList = ArrayList<PackageInfo>()
+        for (app in apps) {
+            when (app.safeApplicationInfo.category) {
+                ApplicationInfo.CATEGORY_UNDEFINED -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_UNSPECIFIED)
+                ApplicationInfo.CATEGORY_GAME -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_GAME)
+                ApplicationInfo.CATEGORY_AUDIO -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_AUDIO)
+                ApplicationInfo.CATEGORY_VIDEO -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_VIDEO)
+                ApplicationInfo.CATEGORY_IMAGE -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_IMAGE)
+                ApplicationInfo.CATEGORY_SOCIAL -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_SOCIAL)
+                ApplicationInfo.CATEGORY_NEWS -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_NEWS)
+                ApplicationInfo.CATEGORY_MAPS -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_MAPS)
+                ApplicationInfo.CATEGORY_PRODUCTIVITY -> addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_PRODUCTIVITY)
+                ApplicationInfo.CATEGORY_ACCESSIBILITY -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        addAppIfFlagSet(categoryList, app, SortConstant.CATEGORY_ACCESSIBILITY)
+                    }
+                }
+            }
+        }
+        return categoryList
+    }
+
+    private fun addAppIfFlagSet(categoryList: ArrayList<PackageInfo>, app: PackageInfo, flag: Long) {
+        if (FlagUtils.isFlagSet(AppsPreferences.getAppsCategory(), flag) && !categoryList.contains(app)) {
+            categoryList.add(app)
+        }
+    }
+
+    private fun filterAppsByFlags(apps: ArrayList<PackageInfo>): ArrayList<PackageInfo> {
+        val filteredList = arrayListOf<PackageInfo>()
+        for (packageInfo in apps) {
+            if (shouldAddApp(packageInfo)) {
+                filteredList.add(packageInfo)
+            }
+        }
+        return filteredList.stream().distinct().collect(Collectors.toList()) as ArrayList<PackageInfo>
+    }
+
+    private fun shouldAddApp(packageInfo: PackageInfo): Boolean {
+        return when {
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED) -> {
+                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT) -> {
+                packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {
+                !packageInfo.safeApplicationInfo.enabled &&
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK) -> {
+                packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED) -> {
+                packageInfo.safeApplicationInfo.enabled &&
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS) -> {
+                FOSSParser.isPackageFOSS(packageInfo)
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LARGE_HEAP) -> {
+                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_LARGE_HEAP != 0
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LAUNCHABLE) -> {
+                PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName)
+            }
+            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.STOPPED) -> {
+                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_STOPPED != 0
+            }
+            else -> {
+                false
+            }
         }
     }
 

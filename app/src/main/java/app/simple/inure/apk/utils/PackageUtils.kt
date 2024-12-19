@@ -368,7 +368,7 @@ object PackageUtils {
         }
     }
 
-    fun checkIfAppIsLaunchable(context: Context, packageName: String): Boolean {
+    fun isAppLaunchable(context: Context, packageName: String): Boolean {
         return context.packageManager
             .getLaunchIntentForPackage(packageName) != null
     }

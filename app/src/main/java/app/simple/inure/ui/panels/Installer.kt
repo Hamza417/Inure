@@ -412,7 +412,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private fun checkLaunchStatus() {
         try {
             if (requirePackageManager().isPackageInstalled(packageInfo.packageName) &&
-                    PackageUtils.checkIfAppIsLaunchable(requireContext(), packageInfo.packageName)) {
+                    PackageUtils.isAppLaunchable(requireContext(), packageInfo.packageName)) {
                 launch.visible(animate = false)
 
                 launch.setOnClickListener {

@@ -761,4 +761,7 @@
     <string name="list_style_desc">Choose the layout appearance of the main lists in the app.</string>
     <string name="condensed">Condensed</string>
     <string name="links">Links</string>
+    <string name="large_heap">Large Heap</string>
+    <string name="launchable">Launchable</string>
+    <string name="stopped">Stopped</string>
 </resources>
