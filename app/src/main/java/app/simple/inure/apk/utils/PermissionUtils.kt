@@ -26,6 +26,8 @@ object PermissionUtils {
             "android.permission.DUMP",
             "android.permission.READ_LOGS",
             "android.permission.READ_FRAME_BUFFER",
+            "android.permission.PACKAGE_USAGE_STATS",
+            "android.permission.INTERACT_ACROSS_USERS",
     )
 
     fun String.getPermissionInfo(context: Context): PermissionInfo? {
