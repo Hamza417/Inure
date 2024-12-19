@@ -87,6 +87,14 @@ object PackageUtils {
         }
     }
 
+    fun PackageInfo.isAppStopped(): Boolean {
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_STOPPED != 0
+    }
+
+    fun PackageInfo.isAppLargeHeap(): Boolean {
+        return safeApplicationInfo.flags and ApplicationInfo.FLAG_LARGE_HEAP != 0
+    }
+
     fun PackageManager.getPackageInfo(packageName: String): PackageInfo? {
         try {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

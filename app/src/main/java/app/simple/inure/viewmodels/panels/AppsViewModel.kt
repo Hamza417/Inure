@@ -9,12 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils
+import app.simple.inure.apk.utils.PackageUtils.isAppLargeHeap
+import app.simple.inure.apk.utils.PackageUtils.isAppStopped
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.ArrayUtils.toArrayList
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort.getSortedList
 import kotlinx.coroutines.Dispatchers
@@ -132,81 +133,16 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 FOSSParser.isPackageFOSS(packageInfo)
             }
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LARGE_HEAP) -> {
-                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_LARGE_HEAP != 0
+                packageInfo.isAppLargeHeap()
             }
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LAUNCHABLE) -> {
                 PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName)
             }
             FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.STOPPED) -> {
-                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_STOPPED != 0
+                packageInfo.isAppStopped()
             }
             else -> {
                 false
-            }
-        }
-    }
-
-    @Suppress("unused")
-    private fun checkCombinedFlags(packageInfo: PackageInfo): Boolean {
-        return when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED)) {
-                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                } else {
-                    packageInfo.safeApplicationInfo.enabled.invert() &&
-                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                }
-            }
-            else -> {
-                true
-            }
-        } && when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED) -> {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED)) {
-                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                } else {
-                    packageInfo.safeApplicationInfo.enabled &&
-                            packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-                }
-            }
-            else -> {
-                true
-            }
-        } && when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK) -> {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT)) {
-                    true
-                } else {
-                    packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()
-                }
-            }
-            else -> {
-                true
-            }
-        } && when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT) -> {
-                if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK)) {
-                    true
-                } else {
-                    packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() ?: false
-                }
-            }
-            else -> {
-                true
-            }
-        } && when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED) -> {
-                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-            }
-            else -> {
-                true
-            }
-        } && when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS) -> {
-                FOSSParser.isPackageFOSS(packageInfo)
-            }
-            else -> {
-                true
             }
         }
     }
