@@ -9,6 +9,8 @@ body:
         attributes:
             value: |
                 Thanks for suggesting a feature! Please provide as much detail as possible.
+                
+                Do not merge multiple feature requests into one issue. Each feature request should be in a separate issue.
 
     -   type: checkboxes
         id: confirmation
@@ -31,7 +33,7 @@ body:
         validations:
             required: true
 
-    -   type: input
+    -   type: textarea
         id: solution
         attributes:
             label: Describe the Solution
@@ -43,14 +45,14 @@ body:
     -   type: textarea
         id: alternatives
         attributes:
-            label: Describe Alternatives
+            label: Describe Alternatives (if applicable)
             description: A clear and concise description of any alternative solutions or features you've considered.
             placeholder: Describe alternatives here
 
     -   type: textarea
         id: additional_context
         attributes:
-            label: Additional Context
+            label: Additional Context (if applicable)
             description: Add any other context or screenshots about the feature request here.
             placeholder: Provide additional context here
 
@@ -62,4 +64,6 @@ body:
                 Please confirm the following:
             options:
                 -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue
+                    required: true
+                -   label: I did not merge multiple feature requests into one issue
                     required: true
