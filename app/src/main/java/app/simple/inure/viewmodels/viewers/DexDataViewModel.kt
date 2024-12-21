@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.models.DexClass
+import app.simple.inure.util.TrackerUtils
 import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,20 +16,37 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
 
     private val classes = ArrayList<String>()
 
-    private val dexData: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>().also {
+    private val dexData: MutableLiveData<ArrayList<DexClass>> by lazy {
+        MutableLiveData<ArrayList<DexClass>>().also {
             loadDexData()
         }
     }
 
-    fun getDexClasses(): MutableLiveData<ArrayList<String>> {
+    fun getDexClasses(): MutableLiveData<ArrayList<DexClass>> {
         return dexData
     }
 
     private fun loadDexData() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                dexData.postValue(getClassesOfPackage(packageInfo.packageName))
+                val classes: ArrayList<String> = getClassesOfPackage(packageInfo.packageName)
+                val dexClasses = ArrayList<DexClass>()
+                val trackerSignatures = TrackerUtils.getTrackerSignatures()
+                val trackerSignaturesPattern = trackerSignatures.joinToString("|") {
+                    Regex.escape(it.lowercase())
+                }.toRegex()
+
+                for (className in classes) {
+                    val dexClass = DexClass(className)
+                    val lowerCaseClassName = className.lowercase()
+
+                    dexClass.trackerSignature = trackerSignaturesPattern.find(lowerCaseClassName)?.value
+                    dexClass.isTracker = dexClass.trackerSignature != null
+
+                    dexClasses.add(dexClass)
+                }
+
+                dexData.postValue(dexClasses)
             }.getOrElse {
                 postError(it)
             }
@@ -52,15 +71,17 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
 
     fun filterClasses(query: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            val filteredClasses = ArrayList<String>()
+            runCatching {
+                val filteredClasses = ArrayList<DexClass>()
 
-            for (className in classes) {
-                if (className.lowercase().contains(query.lowercase(), true)) {
-                    filteredClasses.add(className)
+                for (dexClass in dexData.value!!) {
+                    if (dexClass.className.lowercase().contains(query.lowercase(), true)) {
+                        filteredClasses.add(dexClass)
+                    }
                 }
-            }
 
-            dexData.postValue(filteredClasses)
+                dexData.postValue(filteredClasses)
+            }
         }
     }
 }

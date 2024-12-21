@@ -63,6 +63,16 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/loader"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="5dp"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
+
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/search"
             android:layout_width="@dimen/button_size"

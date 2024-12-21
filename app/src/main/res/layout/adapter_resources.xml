@@ -8,5 +8,7 @@
     android:maxLines="1"
     android:padding="@dimen/header_padding"
     android:textSize="@dimen/info_text_medium"
+    android:drawablePadding="5dp"
     app:appFontStyle="bold"
+    app:drawableTintStyle="accent"
     app:textColorStyle="primary" />

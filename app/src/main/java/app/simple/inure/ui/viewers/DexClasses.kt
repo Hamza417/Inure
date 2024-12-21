@@ -3,7 +3,6 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,12 @@ import app.simple.inure.adapters.viewers.AdapterDexData
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DexClassesPreferences
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
 class DexClasses : SearchBarScopedFragment() {
@@ -25,6 +26,7 @@ class DexClasses : SearchBarScopedFragment() {
     private lateinit var dexDataViewModel: DexDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
     private lateinit var recyclerView: CustomVerticalRecyclerView
+    private lateinit var loader: CustomProgressBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_dex_data, container, false)
@@ -33,6 +35,7 @@ class DexClasses : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.search_edit_text)
         title = view.findViewById(R.id.dex_title)
         recyclerView = view.findViewById(R.id.dexs_recycler_view)
+        loader = view.findViewById(R.id.loader)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
         dexDataViewModel = ViewModelProvider(this, packageInfoFactory)[DexDataViewModel::class.java]
@@ -52,6 +55,7 @@ class DexClasses : SearchBarScopedFragment() {
         }
 
         dexDataViewModel.getDexClasses().observe(viewLifecycleOwner) {
+            loader.gone(animate = true)
             setCount(it.size)
 
             if (recyclerView.adapter.isNull()) {
@@ -68,9 +72,7 @@ class DexClasses : SearchBarScopedFragment() {
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
-            Log.d("DexClasses", "onViewCreated: $text")
             if (searchBox.isFocused) {
-                Log.d("DexClasses", "Doin it")
                 dexDataViewModel.filterClasses(text.toString().trim())
             }
         }
