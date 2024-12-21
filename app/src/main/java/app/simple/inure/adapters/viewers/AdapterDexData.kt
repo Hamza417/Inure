@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.viewers
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,6 +91,13 @@ class AdapterDexData(private val dexs: ArrayList<String>, val keyword: String) :
 
     override fun getItemCount(): Int {
         return dexs.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(it: java.util.ArrayList<String>?) {
+        dexs.clear()
+        dexs.addAll(it!!)
+        notifyDataSetChanged()
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

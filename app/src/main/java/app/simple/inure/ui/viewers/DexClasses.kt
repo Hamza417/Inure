@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import app.simple.inure.preferences.DexClassesPreferences
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
-class Dexs : SearchBarScopedFragment() {
+class DexClasses : SearchBarScopedFragment() {
 
     private lateinit var dexDataViewModel: DexDataViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
@@ -61,11 +62,15 @@ class Dexs : SearchBarScopedFragment() {
                 }
 
                 recyclerView.adapter = adapter
+            } else {
+                (recyclerView.adapter as AdapterDexData).updateData(it)
             }
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
+            Log.d("DexClasses", "onViewCreated: $text")
             if (searchBox.isFocused) {
+                Log.d("DexClasses", "Doin it")
                 dexDataViewModel.filterClasses(text.toString().trim())
             }
         }
@@ -92,10 +97,10 @@ class Dexs : SearchBarScopedFragment() {
     }
 
     companion object {
-        fun newInstance(packageInfo: PackageInfo): Dexs {
+        fun newInstance(packageInfo: PackageInfo): DexClasses {
             val args = Bundle()
             args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            val fragment = Dexs()
+            val fragment = DexClasses()
             fragment.arguments = args
             return fragment
         }

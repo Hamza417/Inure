@@ -51,14 +51,16 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     }
 
     fun filterClasses(query: String) {
-        val filteredClasses = ArrayList<String>()
+        viewModelScope.launch(Dispatchers.Default) {
+            val filteredClasses = ArrayList<String>()
 
-        for (className in classes) {
-            if (className.contains(query, true)) {
-                filteredClasses.add(className)
+            for (className in classes) {
+                if (className.lowercase().contains(query.lowercase(), true)) {
+                    filteredClasses.add(className)
+                }
             }
-        }
 
-        dexData.postValue(filteredClasses)
+            dexData.postValue(filteredClasses)
+        }
     }
 }
