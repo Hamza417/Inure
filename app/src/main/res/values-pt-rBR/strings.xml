@@ -761,4 +761,9 @@
     <string name="list_style_title">Estilo da Lista</string>
     <string name="list_style_desc">Escolha o layout das listas principais no aplicativo.</string>
     <string name="condensed">Condensado</string>
+    <string name="links">Links</string>
+    <string name="large_heap">Texto grande</string>
+    <string name="launchable">Inicializável</string>
+    <string name="stopped">Interrompidos</string>
+    <string name="provider">Provedor</string>
 </resources>
