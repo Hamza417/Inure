@@ -12,6 +12,7 @@ import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -41,6 +42,9 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
             trackers[position].isReceiver -> {
                 holder.icon.loadIconFromActivityInfo(trackers[position].receiverInfo)
             }
+            trackers[position].isProvider -> {
+                holder.icon.loadIconFromProviderInfo(trackers[position].providerInfo)
+            }
         }
 
         holder.name.text = trackers[position].componentName.substringAfterLast(".")
@@ -56,6 +60,9 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
                 }
                 trackers[position].isReceiver -> {
                     appendFlag(holder.itemView.context.getString(R.string.receiver))
+                }
+                trackers[position].isProvider -> {
+                    appendFlag(holder.itemView.context.getString(R.string.provider))
                 }
             }
 

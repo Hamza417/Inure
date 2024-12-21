@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import app.simple.inure.apk.utils.ProvidersUtils
 import app.simple.inure.apk.utils.ReceiversUtils
 import app.simple.inure.apk.utils.ServicesUtils
 import app.simple.inure.models.Tracker
@@ -32,6 +33,7 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
+@Suppress("USELESS_ELVIS_RIGHT_IS_NULL")
 object TrackerUtils {
 
     private const val TRACKERS_JSON = "/trackers.json"
@@ -157,10 +159,8 @@ object TrackerUtils {
                                 }.getOrElse {
                                     false
                                 }
-                                tracker1.isReceiver = false
-                                tracker1.isService = false
-                                tracker1.isActivity = true
 
+                                tracker1.isActivity = true
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -194,10 +194,8 @@ object TrackerUtils {
                                 }.getOrElse {
                                     false
                                 }
-                                tracker1.isReceiver = false
-                                tracker1.isService = true
-                                tracker1.isActivity = false
 
+                                tracker1.isService = true
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -231,10 +229,43 @@ object TrackerUtils {
                                 }.getOrElse {
                                     false
                                 }
-                                tracker1.isReceiver = true
-                                tracker1.isService = false
-                                tracker1.isActivity = false
 
+                                tracker1.isReceiver = true
+                                trackersList.add(tracker1)
+
+                                return@forEach
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return trackersList
+    }
+
+    fun PackageInfo.getProviderTrackers(context: Context, trackersData: ArrayList<Tracker>, keyword: String = ""): ArrayList<Tracker> {
+        val providers = providers ?: null
+        val trackersList = arrayListOf<Tracker>()
+
+        if (providers != null) {
+            for (provider in providers) {
+                for (tracker in trackersData) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (provider.name.lowercase().contains(keyword.lowercase()) || it.lowercase().contains(keyword.lowercase())) {
+                            if (provider.name.lowercase().contains(it.lowercase())) {
+                                val tracker1 = Tracker()
+                                tracker.copyBasicTrackerInfo(tracker1)
+
+                                tracker1.providerInfo = provider
+                                tracker1.componentName = provider.name
+                                tracker1.isEnabled = kotlin.runCatching {
+                                    ProvidersUtils.isEnabled(context, packageName, provider.name)
+                                }.getOrElse {
+                                    false
+                                }
+
+                                tracker1.isProvider = true
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -252,6 +283,7 @@ object TrackerUtils {
         val activities = activities ?: null
         val services = services ?: null
         val receivers = receivers ?: null
+        val providers = providers ?: null
 
         if (activities != null) {
             for (activity in activities) {
@@ -289,6 +321,18 @@ object TrackerUtils {
             }
         }
 
+        if (providers != null) {
+            for (provider in providers) {
+                for (tracker in trackersData) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (provider.name.contains(it)) {
+                            return true
+                        }
+                    }
+                }
+            }
+        }
+
         return false
     }
 
@@ -298,6 +342,7 @@ object TrackerUtils {
             PackageManager.GET_ACTIVITIES or
                     PackageManager.GET_SERVICES or
                     PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_PROVIDERS or
                     PackageManager.MATCH_DISABLED_COMPONENTS or
                     PackageManager.MATCH_UNINSTALLED_PACKAGES
         } else {
@@ -305,6 +350,7 @@ object TrackerUtils {
             PackageManager.GET_ACTIVITIES or
                     PackageManager.GET_SERVICES or
                     PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_PROVIDERS or
                     PackageManager.GET_DISABLED_COMPONENTS or
                     PackageManager.GET_UNINSTALLED_PACKAGES
         }
@@ -348,7 +394,9 @@ object TrackerUtils {
         val activityNodes = document.getElementsByTagName("activity")
         val serviceNodes = document.getElementsByTagName("service")
         val broadcastNodes = document.getElementsByTagName("broadcast")
+        val providerNodes = document.getElementsByTagName("provider")
 
+        // Activity Nodes
         for (i in 0 until activityNodes.length) {
             val activityNode: Node = activityNodes.item(i)
             if (activityNode.nodeType == Node.ELEMENT_NODE) {
@@ -369,6 +417,7 @@ object TrackerUtils {
             }
         }
 
+        // Service Nodes
         for (i in 0 until serviceNodes.length) {
             val serviceNode: Node = serviceNodes.item(i)
             if (serviceNode.nodeType == Node.ELEMENT_NODE) {
@@ -389,12 +438,34 @@ object TrackerUtils {
             }
         }
 
+        // Broadcast Nodes
         for (i in 0 until broadcastNodes.length) {
             val broadcastNode: Node = broadcastNodes.item(i)
             if (broadcastNode.nodeType == Node.ELEMENT_NODE) {
                 val broadcastElement = broadcastNode as Element
                 val isBlocked = broadcastElement.getAttribute("block").toBoolean()
                 val componentFilters: NodeList = broadcastElement.getElementsByTagName("component-filter")
+                for (j in 0 until componentFilters.length) {
+                    val componentFilterNode: Node = componentFilters.item(j)
+                    if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
+                        val componentFilterElement = componentFilterNode as Element
+                        val componentName = componentFilterElement.getAttribute("name")
+
+                        trackersList.find { it.componentName == componentName.split("/")[1] }?.let {
+                            it.isBlocked = isBlocked
+                        }
+                    }
+                }
+            }
+        }
+
+        // Provider Nodes
+        for (i in 0 until providerNodes.length) {
+            val providerNode: Node = providerNodes.item(i)
+            if (providerNode.nodeType == Node.ELEMENT_NODE) {
+                val providerElement = providerNode as Element
+                val isBlocked = providerElement.getAttribute("block").toBoolean()
+                val componentFilters: NodeList = providerElement.getElementsByTagName("component-filter")
                 for (j in 0 until componentFilters.length) {
                     val componentFilterNode: Node = componentFilters.item(j)
                     if (componentFilterNode.nodeType == Node.ELEMENT_NODE) {
@@ -426,6 +497,10 @@ object TrackerUtils {
      *          <component-filter name="package_name/component_name" />
      *          ...
      *      </broadcast>
+     *      <provider block="true" log="false">
+     *          <component-filter name="package_name/component_name" />
+     *          ...
+     *      </provider>
      * </rules>
      *
      * Parse the file following the above structure and append the components
@@ -583,6 +658,37 @@ object TrackerUtils {
                     }
                 }
             }
+
+            if (tracker.isProvider) {
+                // Check if the provider tag exists
+                val provider = doc.getElementsByTagName("provider").item(0)
+
+                if (provider == null) {
+                    val provider1 = doc.createElement("provider")
+                    provider1.setAttribute("block", "true")
+                    provider1.setAttribute("log", "false")
+                    provider1.appendChild(componentFilter)
+
+                    rules.appendChild(provider1)
+                } else {
+                    /**
+                     * Check if block already exists and is true, if false
+                     * create another provider tag with block and log attributes
+                     * set to true
+                     */
+                    if (provider.attributes.getNamedItem("block") != null
+                            && provider.attributes.getNamedItem("block").nodeValue == "false") {
+                        val provider1 = doc.createElement("provider")
+                        provider1.setAttribute("block", "true")
+                        provider1.setAttribute("log", "false")
+                        provider1.appendChild(componentFilter)
+
+                        rules.appendChild(provider1)
+                    } else {
+                        provider.appendChild(componentFilter)
+                    }
+                }
+            }
         }
 
         // Write the XML document back to the file
@@ -667,8 +773,11 @@ object TrackerUtils {
             val children = root.childNodes
             for (i in 0 until children.length) {
                 val child = children.item(i)
-                if (child.nodeType == Node.ELEMENT_NODE
-                        && child.nodeName != "activity" && child.nodeName != "service" && child.nodeName != "broadcast") {
+                if (child.nodeType == Node.ELEMENT_NODE &&
+                        child.nodeName != "activity" &&
+                        child.nodeName != "service" &&
+                        child.nodeName != "broadcast" &&
+                        child.nodeName != "provider") {
                     return false
                 }
             }

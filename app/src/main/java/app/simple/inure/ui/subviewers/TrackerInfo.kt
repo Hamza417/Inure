@@ -14,6 +14,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.interfaces.parsers.LinkCallbacks
 import app.simple.inure.models.Tracker
@@ -79,6 +80,9 @@ class TrackerInfo : ScopedFragment() {
             tracker?.isReceiver == true -> {
                 icon.loadIconFromActivityInfo(tracker?.receiverInfo!!)
             }
+            tracker?.isProvider == true -> {
+                icon.loadIconFromProviderInfo(tracker?.providerInfo!!)
+            }
         }
 
         tags.text = buildString {
@@ -91,6 +95,9 @@ class TrackerInfo : ScopedFragment() {
                 }
                 tracker?.isReceiver == true -> {
                     appendFlag(getString(R.string.receiver))
+                }
+                tracker?.isProvider == true -> {
+                    appendFlag(getString(R.string.provider))
                 }
             }
 

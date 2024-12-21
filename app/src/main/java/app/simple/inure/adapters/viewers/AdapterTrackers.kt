@@ -11,6 +11,7 @@ import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
+import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
 import app.simple.inure.preferences.ConfigurationPreferences
@@ -25,7 +26,8 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     private var isRoot = ConfigurationPreferences.isUsingRoot()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_trackers, parent, false))
+        return Holder(LayoutInflater.from(parent.context)
+                          .inflate(R.layout.adapter_trackers, parent, false))
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -38,6 +40,9 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             }
             list[position].isReceiver -> {
                 holder.icon.loadIconFromActivityInfo(list[position].receiverInfo)
+            }
+            list[position].isProvider -> {
+                holder.icon.loadIconFromProviderInfo(list[position].providerInfo)
             }
         }
 
@@ -54,6 +59,9 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
                 }
                 list[position].isReceiver -> {
                     appendFlag(holder.itemView.context.getString(R.string.receiver))
+                }
+                list[position].isProvider -> {
+                    appendFlag(holder.itemView.context.getString(R.string.provider))
                 }
             }
 

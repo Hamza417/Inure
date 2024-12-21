@@ -18,6 +18,7 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.TrackerUtils
 import app.simple.inure.util.TrackerUtils.getActivityTrackers
+import app.simple.inure.util.TrackerUtils.getProviderTrackers
 import app.simple.inure.util.TrackerUtils.getReceiverTrackers
 import app.simple.inure.util.TrackerUtils.getServiceTrackers
 import com.topjohnwu.superuser.nio.FileSystemManager
@@ -66,6 +67,7 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
                 trackersList.addAll(packageInfo.getActivityTrackers(applicationContext(), trackersData, keyword))
                 trackersList.addAll(packageInfo.getServiceTrackers(applicationContext(), trackersData, keyword))
                 trackersList.addAll(packageInfo.getReceiverTrackers(applicationContext(), trackersData, keyword))
+                trackersList.addAll(packageInfo.getProviderTrackers(applicationContext(), trackersData, keyword))
 
                 trackersList.sortBy {
                     it.componentName
@@ -90,39 +92,9 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
     private fun getPackageInfo(): PackageInfo {
         return if (packageManager.isPackageInstalled(packageInfo.packageName)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                packageManager.getPackageInfo(
-                        packageInfo.packageName,
-                        PackageManager.GET_ACTIVITIES or
-                                PackageManager.GET_RECEIVERS or
-                                PackageManager.GET_SERVICES or
-                                PackageManager.MATCH_DISABLED_COMPONENTS)!!
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageInfo(
-                        packageInfo.packageName,
-                        PackageManager.GET_ACTIVITIES or
-                                PackageManager.GET_RECEIVERS or
-                                PackageManager.GET_SERVICES or
-                                PackageManager.GET_DISABLED_COMPONENTS)!!
-            }
+            packageManager.getPackageInfo(packageInfo.packageName, COMPONENT_FLAGS)
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                packageManager.getPackageArchiveInfo(
-                        packageInfo.safeApplicationInfo.sourceDir,
-                        PackageManager.GET_ACTIVITIES or
-                                PackageManager.GET_RECEIVERS or
-                                PackageManager.GET_SERVICES or
-                                PackageManager.MATCH_DISABLED_COMPONENTS)!!
-            } else {
-                @Suppress("DEPRECATION")
-                packageManager.getPackageArchiveInfo(
-                        packageInfo.packageName,
-                        PackageManager.GET_ACTIVITIES or
-                                PackageManager.GET_RECEIVERS or
-                                PackageManager.GET_SERVICES or
-                                PackageManager.GET_DISABLED_COMPONENTS)!!
-            }
+            packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, COMPONENT_FLAGS)!!
         }
     }
 
@@ -202,5 +174,19 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
 
     companion object {
         private const val TAG = "TrackersViewModel"
+        private val COMPONENT_FLAGS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_PROVIDERS or
+                    PackageManager.MATCH_DISABLED_COMPONENTS
+        } else {
+            @Suppress("DEPRECATION")
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_PROVIDERS or
+                    PackageManager.GET_DISABLED_COMPONENTS
+        }
     }
 }

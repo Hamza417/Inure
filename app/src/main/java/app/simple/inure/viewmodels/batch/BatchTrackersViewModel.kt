@@ -17,6 +17,7 @@ import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.TrackerUtils
 import app.simple.inure.util.TrackerUtils.getActivityTrackers
+import app.simple.inure.util.TrackerUtils.getProviderTrackers
 import app.simple.inure.util.TrackerUtils.getReceiverTrackers
 import app.simple.inure.util.TrackerUtils.getServiceTrackers
 import com.topjohnwu.superuser.nio.FileSystemManager
@@ -70,6 +71,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                 trackersList.addAll(packageInfo.getActivityTrackers(applicationContext(), trackersData))
                 trackersList.addAll(packageInfo.getServiceTrackers(applicationContext(), trackersData))
                 trackersList.addAll(packageInfo.getReceiverTrackers(applicationContext(), trackersData))
+                trackersList.addAll(packageInfo.getProviderTrackers(applicationContext(), trackersData))
 
                 try {
                     TrackerUtils.readIntentFirewallXml(
@@ -97,6 +99,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         PackageManager.GET_ACTIVITIES or
                                 PackageManager.GET_RECEIVERS or
                                 PackageManager.GET_SERVICES or
+                                PackageManager.GET_PROVIDERS or
                                 PackageManager.MATCH_DISABLED_COMPONENTS or
                                 PackageManager.MATCH_UNINSTALLED_PACKAGES)!!
             } else {
@@ -106,6 +109,7 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                         PackageManager.GET_ACTIVITIES or
                                 PackageManager.GET_RECEIVERS or
                                 PackageManager.GET_SERVICES or
+                                PackageManager.GET_PROVIDERS or
                                 PackageManager.GET_DISABLED_COMPONENTS or
                                 PackageManager.GET_UNINSTALLED_PACKAGES)!!
             }
@@ -130,6 +134,9 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
                             }
                             it.isReceiver -> {
                                 it.receiverInfo.packageName == packageName
+                            }
+                            it.isProvider -> {
+                                it.providerInfo.packageName == packageName
                             }
                             else -> {
                                 false

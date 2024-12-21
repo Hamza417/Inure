@@ -71,7 +71,7 @@ import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.Activities
 import app.simple.inure.ui.viewers.Boot
 import app.simple.inure.ui.viewers.Certificate
-import app.simple.inure.ui.viewers.Dexs
+import app.simple.inure.ui.viewers.DexClasses
 import app.simple.inure.ui.viewers.Extras
 import app.simple.inure.ui.viewers.Features
 import app.simple.inure.ui.viewers.Graphics
@@ -333,7 +333,7 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.dex_classes -> {
-                            openFragmentArc(Dexs.newInstance(packageInfo), icon, Dexs.TAG)
+                            openFragmentArc(DexClasses.newInstance(packageInfo), icon, DexClasses.TAG)
                         }
 
                         R.string.trackers -> {

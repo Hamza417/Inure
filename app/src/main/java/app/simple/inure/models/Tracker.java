@@ -1,6 +1,7 @@
 package app.simple.inure.models;
 
 import android.content.pm.ActivityInfo;
+import android.content.pm.ProviderInfo;
 import android.content.pm.ServiceInfo;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,11 +30,13 @@ public class Tracker implements Parcelable {
     private boolean isActivity = false;
     private boolean isService = false;
     private boolean isReceiver = false;
+    private boolean isProvider = false;
     private boolean isBlocked = false;
     private boolean isEnabled = true;
     private ActivityInfo activityInfo = null;
     private ActivityInfo receiverInfo = null;
     private ServiceInfo serviceInfo = null;
+    private ProviderInfo providerInfo = null;
     private String componentName;
     public boolean isLogged = false; // I don't know why I added this
     
@@ -49,15 +52,17 @@ public class Tracker implements Parcelable {
         website = in.readString();
         categories = in.createStringArray();
         documentation = in.createStringArray();
-        componentName = in.readString();
         isActivity = in.readByte() != 0;
         isService = in.readByte() != 0;
         isReceiver = in.readByte() != 0;
+        isProvider = in.readByte() != 0;
         isBlocked = in.readByte() != 0;
         isEnabled = in.readByte() != 0;
         activityInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         receiverInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         serviceInfo = in.readParcelable(ServiceInfo.class.getClassLoader());
+        providerInfo = in.readParcelable(ProviderInfo.class.getClassLoader());
+        componentName = in.readString();
         isLogged = in.readByte() != 0;
     }
     
@@ -71,15 +76,17 @@ public class Tracker implements Parcelable {
         dest.writeString(website);
         dest.writeStringArray(categories);
         dest.writeStringArray(documentation);
-        dest.writeString(componentName);
         dest.writeByte((byte) (isActivity ? 1 : 0));
         dest.writeByte((byte) (isService ? 1 : 0));
         dest.writeByte((byte) (isReceiver ? 1 : 0));
+        dest.writeByte((byte) (isProvider ? 1 : 0));
         dest.writeByte((byte) (isBlocked ? 1 : 0));
         dest.writeByte((byte) (isEnabled ? 1 : 0));
         dest.writeParcelable(activityInfo, flags);
         dest.writeParcelable(receiverInfo, flags);
         dest.writeParcelable(serviceInfo, flags);
+        dest.writeParcelable(providerInfo, flags);
+        dest.writeString(componentName);
         dest.writeByte((byte) (isLogged ? 1 : 0));
     }
     
@@ -88,7 +95,7 @@ public class Tracker implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Tracker> CREATOR = new Creator <>() {
+    public static final Creator <Tracker> CREATOR = new Creator <Tracker>() {
         @Override
         public Tracker createFromParcel(Parcel in) {
             return new Tracker(in);
@@ -162,6 +169,11 @@ public class Tracker implements Parcelable {
     
     public void setActivity(boolean activity) {
         isActivity = activity;
+        if (isActivity) {
+            isService = false;
+            isReceiver = false;
+            isProvider = false;
+        }
     }
     
     public boolean isService() {
@@ -170,6 +182,11 @@ public class Tracker implements Parcelable {
     
     public void setService(boolean service) {
         isService = service;
+        if (isService) {
+            isProvider = false;
+            isActivity = false;
+            isReceiver = false;
+        }
     }
     
     public boolean isReceiver() {
@@ -178,6 +195,11 @@ public class Tracker implements Parcelable {
     
     public void setReceiver(boolean receiver) {
         isReceiver = receiver;
+        if (isReceiver) {
+            isProvider = false;
+            isActivity = false;
+            isService = false;
+        }
     }
     
     public boolean isBlocked() {
@@ -242,6 +264,27 @@ public class Tracker implements Parcelable {
     
     public void setComponentName(String componentName) {
         this.componentName = componentName;
+    }
+    
+    public ProviderInfo getProviderInfo() {
+        return providerInfo;
+    }
+    
+    public void setProviderInfo(ProviderInfo providerInfo) {
+        this.providerInfo = providerInfo;
+    }
+    
+    public boolean isProvider() {
+        return isProvider;
+    }
+    
+    public void setProvider(boolean provider) {
+        isProvider = provider;
+        if (isProvider) {
+            isActivity = false;
+            isService = false;
+            isReceiver = false;
+        }
     }
     
     @NonNull
@@ -309,11 +352,13 @@ public class Tracker implements Parcelable {
         tracker.setActivity(isActivity());
         tracker.setService(isService());
         tracker.setReceiver(isReceiver());
+        tracker.setProvider(isProvider());
         tracker.setBlocked(isBlocked());
         tracker.setEnabled(isEnabled());
         tracker.setActivityInfo(getActivityInfo());
         tracker.setReceiverInfo(getReceiverInfo());
         tracker.setServiceInfo(getServiceInfo());
+        tracker.setProviderInfo(getProviderInfo());
         tracker.setLogged(isLogged());
     }
     
