@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.extensions.viewmodels.RootServiceViewModel
 import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.NullSafety.isNotNull
@@ -33,7 +34,11 @@ class BatchTrackersViewModel(application: Application, private val packages: Arr
 
     private val trackers: MutableLiveData<ArrayList<Tracker>> by lazy {
         MutableLiveData<ArrayList<Tracker>>().also {
-            initRootProc()
+            if (ConfigurationPreferences.isUsingRoot()) {
+                initRootProc()
+            } else {
+                scanTrackers()
+            }
         }
     }
 
