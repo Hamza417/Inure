@@ -55,7 +55,6 @@ class Providers : SearchBarScopedFragment() {
 
         providersViewModel.getProviders().observe(viewLifecycleOwner) {
             adapterProviders = AdapterProviders(it, packageInfo, searchBox.text.toString().trim())
-            recyclerView.adapter = adapterProviders
             setCount(it.size)
 
             adapterProviders?.setOnProvidersCallbackListener(object : AdapterProviders.Companion.ProvidersCallbacks {
@@ -84,10 +83,12 @@ class Providers : SearchBarScopedFragment() {
                 }
             })
 
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    providersViewModel.getProvidersData(text.toString().trim())
-                }
+            recyclerView.setExclusiveAdapter(adapterProviders)
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                providersViewModel.getProvidersData(text.toString().trim())
             }
         }
 

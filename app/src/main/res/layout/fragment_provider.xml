@@ -103,6 +103,7 @@
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
         app:isFastScrollRequired="false"
+        app:manuallyAnimated="true"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
