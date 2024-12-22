@@ -55,7 +55,6 @@ class Services : SearchBarScopedFragment() {
 
         servicesViewModel.getServices().observe(viewLifecycleOwner) {
             adapterServices = AdapterServices(it, packageInfo, searchBox.text.toString().trim())
-            recyclerView.adapter = adapterServices
             setCount(it.size)
 
             adapterServices?.setOnServiceCallbackListener(object : AdapterServices.Companion.ServicesCallbacks {
@@ -84,10 +83,12 @@ class Services : SearchBarScopedFragment() {
                 }
             })
 
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    servicesViewModel.getServicesData(text.toString().trim())
-                }
+            recyclerView.setExclusiveAdapter(adapterServices)
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                servicesViewModel.getServicesData(text.toString().trim())
             }
         }
 
