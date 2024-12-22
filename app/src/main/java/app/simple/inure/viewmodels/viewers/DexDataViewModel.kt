@@ -2,7 +2,6 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
@@ -63,7 +62,6 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     private fun getClassesOfPackage(packageName: String): ArrayList<String> {
         val appContext = applicationContext().createPackageContext(packageName, 0)
         val packageCodePath: String = appContext.packageCodePath
-        Log.d("DexDataViewModel", "Package code path: $packageCodePath")
         val dexFile = DexFile(packageCodePath)
         val enumeration = dexFile.entries()
 
@@ -78,20 +76,24 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     fun filterClasses(query: String) {
         viewModelScope.launch(Dispatchers.Default) {
             runCatching {
-                if (query.isEmpty()) {
-                    val filteredClasses = ArrayList<DexClass>()
-
-                    for (dexClass in backup) {
-                        if (dexClass.className.lowercase().contains(query.lowercase(), true)) {
-                            filteredClasses.add(dexClass)
-                        }
+                if (query.isNotEmpty()) {
+                    if (TRACKER.contains(query.lowercase())) {
+                        dexData.postValue(ArrayList(backup.filter {
+                            it.isTracker
+                        }))
+                    } else {
+                        dexData.postValue(ArrayList(backup.filter {
+                            it.className.lowercase().contains(query.lowercase(), true)
+                        }))
                     }
-
-                    dexData.postValue(filteredClasses)
                 } else {
                     dexData.postValue(backup)
                 }
             }
         }
+    }
+
+    companion object {
+        private val TRACKER = arrayOf("tracker", "trackers")
     }
 }
