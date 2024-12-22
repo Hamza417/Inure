@@ -247,9 +247,9 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
     }
 
     fun setExclusiveAdapter(adapter: Adapter<*>?) {
-        if (adapter == null) {
+        if (this.adapter == null) {
             setAdapter(adapter)
-            if (!manuallyAnimated && isInEditMode.invert()) {
+            if (AccessibilityPreferences.isAnimationReduced().invert()) {
                 scheduleLayoutAnimation()
             }
         } else {

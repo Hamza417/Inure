@@ -55,7 +55,6 @@ class Receivers : SearchBarScopedFragment() {
 
         receiversViewModel.getReceivers().observe(viewLifecycleOwner) {
             adapterReceivers = AdapterReceivers(it, packageInfo, searchBox.text.toString().trim())
-            recyclerView.adapter = adapterReceivers
             setCount(it.size)
 
             adapterReceivers?.setOnReceiversCallbackListener(object : AdapterReceivers.Companion.ReceiversCallbacks {
@@ -84,10 +83,12 @@ class Receivers : SearchBarScopedFragment() {
                 }
             })
 
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    receiversViewModel.getReceiversData(text.toString().trim())
-                }
+            recyclerView.setExclusiveAdapter(adapterReceivers)
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                receiversViewModel.getReceiversData(text.toString().trim())
             }
         }
 
