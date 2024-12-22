@@ -22,6 +22,7 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
     private lateinit var search: DynamicCornerEditText
     private lateinit var searchKeywordDatabaseViewModel: SearchKeywordDatabaseViewModel
     private lateinit var searchKeywordDatabaseCallback: SearchKeywordDatabaseCallback
+    private var adapter: AdapterSearchKeywordDatabase? = null
 
     private var keyword: String = ""
 
@@ -48,18 +49,22 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
         when (requireArguments().getInt(BundleConstants.mode)) {
             PERMISSIONS -> {
                 searchKeywordDatabaseViewModel.getPermissions().observe(viewLifecycleOwner) { strings ->
-                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings, keyword) {
+                    adapter = AdapterSearchKeywordDatabase(strings, keyword) {
                         searchKeywordDatabaseCallback.onSearchKeywordDatabaseClicked(it)
                         dismiss()
                     }
+
+                    recyclerView.setExclusiveAdapter(adapter)
                 }
             }
             TRACKERS -> {
                 searchKeywordDatabaseViewModel.getTrackers().observe(viewLifecycleOwner) { strings ->
-                    recyclerView.adapter = AdapterSearchKeywordDatabase(strings, keyword) {
+                    adapter = AdapterSearchKeywordDatabase(strings, keyword) {
                         searchKeywordDatabaseCallback.onSearchKeywordDatabaseClicked(it)
                         dismiss()
                     }
+
+                    recyclerView.setExclusiveAdapter(adapter)
                 }
             }
         }

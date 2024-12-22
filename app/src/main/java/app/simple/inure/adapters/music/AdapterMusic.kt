@@ -113,7 +113,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             }
         } else if (holder is Header) {
             holder.total.text = buildString {
-                list.size.toString()
+                append(list.size)
             }
         }
     }
