@@ -66,7 +66,6 @@ class Permissions : SearchBarScopedFragment() {
 
         permissionsViewModel.getPermissions().observe(viewLifecycleOwner) { permissionInfos ->
             adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
-            recyclerView.adapter = adapterPermissions
             setCount(permissionInfos.size)
 
             adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
@@ -135,11 +134,7 @@ class Permissions : SearchBarScopedFragment() {
                 }
             })
 
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    permissionsViewModel.loadPermissionData(text.toString().trim())
-                }
-            }
+            recyclerView.setExclusiveAdapter(adapterPermissions)
         }
 
         permissionsViewModel.getError().observe(viewLifecycleOwner) {
@@ -148,6 +143,12 @@ class Permissions : SearchBarScopedFragment() {
 
         permissionsViewModel.getWarning().observe(viewLifecycleOwner) {
             showWarning(it)
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                permissionsViewModel.loadPermissionData(text.toString().trim())
+            }
         }
 
         options.setOnClickListener {

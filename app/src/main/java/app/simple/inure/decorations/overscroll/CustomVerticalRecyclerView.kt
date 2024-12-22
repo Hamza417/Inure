@@ -246,6 +246,17 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
         }
     }
 
+    fun setExclusiveAdapter(adapter: Adapter<*>?) {
+        if (adapter == null) {
+            setAdapter(adapter)
+            if (!manuallyAnimated && isInEditMode.invert()) {
+                scheduleLayoutAnimation()
+            }
+        } else {
+            swapAdapter(adapter, false)
+        }
+    }
+
     override fun isPaddingOffsetRequired(): Boolean {
         return isTopFadingEdge
     }

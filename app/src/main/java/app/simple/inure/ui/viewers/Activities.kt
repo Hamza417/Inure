@@ -106,14 +106,7 @@ class Activities : SearchBarScopedFragment() {
                 }
             })
 
-            if (recyclerView.adapter == null) {
-                recyclerView.adapter = adapterActivities
-                recyclerView.scheduleLayoutAnimation()
-            } else {
-                adapterActivities?.let {
-                    recyclerView.swapAdapter(it, false)
-                }
-            }
+            recyclerView.setExclusiveAdapter(adapterActivities)
         }
 
         activitiesViewModel.getError().observe(viewLifecycleOwner) {
