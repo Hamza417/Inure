@@ -10,6 +10,8 @@ import app.simple.inure.models.DexClass
 import app.simple.inure.util.TrackerUtils
 import dalvik.system.DexFile
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -31,24 +33,26 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val classes: ArrayList<String> = getClassesOfPackage(packageInfo.packageName)
-                val dexClasses = ArrayList<DexClass>()
                 val trackerSignatures = TrackerUtils.getTrackerSignatures()
                 val trackerSignaturesPattern = trackerSignatures.joinToString("|") {
                     Regex.escape(it.lowercase())
                 }.toRegex()
 
-                for (className in classes) {
-                    val dexClass = DexClass(className)
-                    val lowerCaseClassName = className.lowercase()
+                val deferredDexClasses = classes.map { className ->
+                    async {
+                        val dexClass = DexClass(className)
+                        val lowerCaseClassName = className.lowercase()
 
-                    dexClass.trackerSignature = trackerSignaturesPattern.find(lowerCaseClassName)?.value
-                    dexClass.isTracker = dexClass.trackerSignature != null
+                        dexClass.trackerSignature = trackerSignaturesPattern.find(lowerCaseClassName)?.value
+                        dexClass.isTracker = dexClass.trackerSignature != null
 
-                    dexClasses.add(dexClass)
-                    backup.add(dexClass)
+                        dexClass
+                    }
                 }
 
-                dexData.postValue(dexClasses)
+                val dexClasses = deferredDexClasses.awaitAll()
+                backup.addAll(dexClasses)
+                dexData.postValue(ArrayList(dexClasses))
             }.getOrElse {
                 postError(it)
             }
