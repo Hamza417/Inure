@@ -58,6 +58,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textSize="@dimen/info_text_tiny"
+                android:text="@string/loading"
                 app:appFontStyle="regular"
                 app:textColorStyle="secondary" />
 
@@ -69,7 +70,7 @@
             android:layout_width="@dimen/panel_icon_size"
             android:layout_height="@dimen/panel_icon_size"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="5dp"
+            android:layout_marginHorizontal="5dp"
             android:indeterminateTint="?attr/colorAppAccent"
             android:padding="10dp" />
 
