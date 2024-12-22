@@ -17,7 +17,6 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DexClassesPreferences
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.viewers.DexDataViewModel
 
@@ -58,17 +57,13 @@ class DexClasses : SearchBarScopedFragment() {
             loader.gone(animate = true)
             setCount(it.size)
 
-            if (recyclerView.adapter.isNull()) {
-                val adapter = AdapterDexData(it, searchBox.text.toString().trim())
+            val adapter = AdapterDexData(it, searchBox.text.toString().trim())
 
-                adapter.onDetailsClicked = { dexClass ->
-                    openFragmentSlide(ClassSource.newInstance(dexClass, packageInfo), ClassSource.TAG)
-                }
-
-                recyclerView.adapter = adapter
-            } else {
-                (recyclerView.adapter as AdapterDexData).updateData(it)
+            adapter.onDetailsClicked = { dexClass ->
+                openFragmentSlide(ClassSource.newInstance(dexClass, packageInfo), ClassSource.TAG)
             }
+
+            recyclerView.setExclusiveAdapter(adapter)
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

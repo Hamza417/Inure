@@ -1,6 +1,5 @@
 package app.simple.inure.adapters.viewers
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +21,11 @@ class AdapterDexData(private val dexs: ArrayList<DexClass>, val keyword: String)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = dexs[position].className
         holder.name.setTrackingIcon(dexs[position].isTracker)
-        AdapterUtils.searchHighlighter(holder.name, keyword, ignoreCasing = true)
 
         if (dexs[position].isTracker) {
             AdapterUtils.searchHighlighter(holder.name, dexs[position].trackerSignature, ignoreCasing = true)
+        } else {
+            AdapterUtils.searchHighlighter(holder.name, keyword, ignoreCasing = true)
         }
 
         holder.name.setOnClickListener {
@@ -35,13 +35,6 @@ class AdapterDexData(private val dexs: ArrayList<DexClass>, val keyword: String)
 
     override fun getItemCount(): Int {
         return dexs.size
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(it: java.util.ArrayList<DexClass>?) {
-        dexs.clear()
-        dexs.addAll(it!!)
-        notifyDataSetChanged()
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

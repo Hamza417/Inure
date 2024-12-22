@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 class DexDataViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
     private val classes = ArrayList<String>()
+    private val backup = ArrayList<DexClass>()
 
     private val dexData: MutableLiveData<ArrayList<DexClass>> by lazy {
         MutableLiveData<ArrayList<DexClass>>().also {
@@ -44,6 +45,7 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
                     dexClass.isTracker = dexClass.trackerSignature != null
 
                     dexClasses.add(dexClass)
+                    backup.add(dexClass)
                 }
 
                 dexData.postValue(dexClasses)
@@ -72,15 +74,19 @@ class DexDataViewModel(application: Application, private val packageInfo: Packag
     fun filterClasses(query: String) {
         viewModelScope.launch(Dispatchers.Default) {
             runCatching {
-                val filteredClasses = ArrayList<DexClass>()
+                if (query.isEmpty()) {
+                    val filteredClasses = ArrayList<DexClass>()
 
-                for (dexClass in dexData.value!!) {
-                    if (dexClass.className.lowercase().contains(query.lowercase(), true)) {
-                        filteredClasses.add(dexClass)
+                    for (dexClass in backup) {
+                        if (dexClass.className.lowercase().contains(query.lowercase(), true)) {
+                            filteredClasses.add(dexClass)
+                        }
                     }
-                }
 
-                dexData.postValue(filteredClasses)
+                    dexData.postValue(filteredClasses)
+                } else {
+                    dexData.postValue(backup)
+                }
             }
         }
     }
