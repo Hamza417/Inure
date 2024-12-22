@@ -57,7 +57,6 @@ class Activities : SearchBarScopedFragment() {
 
         activitiesViewModel.getActivities().observe(viewLifecycleOwner) { it ->
             adapterActivities = AdapterActivities(packageInfo, it, searchBox.text.toString().trim())
-            recyclerView.adapter = adapterActivities
             setCount(it.size)
 
             adapterActivities?.setOnActivitiesCallbacks(object : AdapterActivities.Companion.ActivitiesCallbacks {
@@ -107,9 +106,12 @@ class Activities : SearchBarScopedFragment() {
                 }
             })
 
-            searchBox.doOnTextChanged { text, _, _, _ ->
-                if (searchBox.isFocused) {
-                    activitiesViewModel.getActivitiesData(text.toString().trim())
+            if (recyclerView.adapter == null) {
+                recyclerView.adapter = adapterActivities
+                recyclerView.scheduleLayoutAnimation()
+            } else {
+                adapterActivities?.let {
+                    recyclerView.swapAdapter(it, false)
                 }
             }
         }
@@ -120,6 +122,12 @@ class Activities : SearchBarScopedFragment() {
 
         activitiesViewModel.notFound.observe(viewLifecycleOwner) {
             showWarning(R.string.no_activities_found)
+        }
+
+        searchBox.doOnTextChanged { text, _, _, _ ->
+            if (searchBox.isFocused) {
+                activitiesViewModel.getActivitiesData(text.toString().trim())
+            }
         }
 
         search.setOnClickListener {

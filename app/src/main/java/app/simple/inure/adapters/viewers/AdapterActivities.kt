@@ -99,6 +99,10 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         return activities.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return activities[position].name.hashCode().toLong()
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.adapter_activity_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_name)
