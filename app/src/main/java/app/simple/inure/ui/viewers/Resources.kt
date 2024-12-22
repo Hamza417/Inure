@@ -16,7 +16,6 @@ import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ResourcesPreferences
-import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.viewmodels.viewers.ApkDataViewModel
 
 class Resources : SearchBarScopedFragment() {
@@ -48,24 +47,22 @@ class Resources : SearchBarScopedFragment() {
         componentsViewModel.getResources().observe(viewLifecycleOwner) {
             setCount(it.size)
 
-            if (recyclerView.adapter.isNull()) {
-                val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
-                recyclerView.adapter = adapterResources
+            val adapterResources = AdapterResources(it, searchBox.text.toString().trim())
+            recyclerView.setExclusiveAdapter(adapterResources)
 
-                adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
-                    override fun onResourceClicked(path: String) {
-                        if (DevelopmentPreferences.get(DevelopmentPreferences.IS_WEBVIEW_XML_VIEWER)) {
-                            openFragmentSlide(XMLWebView.newInstance(packageInfo, path), XMLWebView.TAG)
-                        } else {
-                            openFragmentSlide(XML.newInstance(packageInfo, false, path), XML.TAG)
-                        }
+            adapterResources.setOnResourceClickListener(object : AdapterResources.ResourceCallbacks {
+                override fun onResourceClicked(path: String) {
+                    if (DevelopmentPreferences.get(DevelopmentPreferences.IS_WEBVIEW_XML_VIEWER)) {
+                        openFragmentSlide(XMLWebView.newInstance(packageInfo, path), XMLWebView.TAG)
+                    } else {
+                        openFragmentSlide(XML.newInstance(packageInfo, false, path), XML.TAG)
                     }
+                }
 
-                    override fun onResourceLongClicked(path: String, view: View, position: Int) {
-                        openFragmentSlide(Text.newInstance(packageInfo, path), Text.TAG)
-                    }
-                })
-            }
+                override fun onResourceLongClicked(path: String, view: View, position: Int) {
+                    openFragmentSlide(Text.newInstance(packageInfo, path), Text.TAG)
+                }
+            })
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

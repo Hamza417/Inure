@@ -98,6 +98,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/list_animation_controller"
+        app:manuallyAnimated="true"
         app:statusBarPaddingRequired="false" />
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
