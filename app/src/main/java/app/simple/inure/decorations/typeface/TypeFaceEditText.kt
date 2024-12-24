@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -54,6 +55,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         if (isInEditMode.invert()) {
             typeface = TypeFace.getTypeFace(AppearancePreferences.getAppFont(), typedArray.getInt(R.styleable.TypeFaceTextView_appFontStyle, -1), context)
             colorMode = typedArray.getInt(R.styleable.TypeFaceTextView_textColorStyle, 1)
+            imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI
             setHighlightColor()
             setTextColor(colorMode, false)
             setHintTextColor(ThemeManager.theme.textViewTheme.tertiaryTextColor)
