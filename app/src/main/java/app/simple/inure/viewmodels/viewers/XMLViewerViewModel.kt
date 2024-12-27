@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.decoders.XMLDecoder
+import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.util.FileUtils.toFile
@@ -19,6 +20,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.util.zip.ZipException
 
 class XMLViewerViewModel(val packageInfo: PackageInfo,
                          private val pathToXml: String,
@@ -50,13 +54,25 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
     private fun getSpannedXml() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val code: String = if (raw) {
-                    FileInputStream(File(pathToXml)).use {
-                        it.readTextSafely()
+                val code: String = when {
+                    raw -> {
+                        FileInputStream(File(pathToXml)).use {
+                            it.readTextSafely()
+                        }
                     }
-                } else {
-                    Log.d("XMLViewerViewModel", "getSpannedXml: $pathToXml")
-                    XMLDecoder(packageInfo.safeApplicationInfo.sourceDir.toFile()).decode(pathToXml)
+                    else -> {
+                        try {
+                            XMLDecoder(packageInfo.safeApplicationInfo.sourceDir.toFile())
+                                .decode(pathToXml)
+                        } catch (e: ZipException) {
+                            Log.e(TAG, "Error decoding XML", e)
+                            val byteBuffer: ByteBuffer = APKParser
+                                .getManifestByteBuffer(packageInfo.safeApplicationInfo.sourceDir.toFile())
+                                .order(ByteOrder.LITTLE_ENDIAN)
+
+                            XMLDecoder.decode(byteBuffer)
+                        }
+                    }
                 }
 
                 spanned.postValue(code.formatXML().getPrettyXML())
@@ -84,5 +100,9 @@ class XMLViewerViewModel(val packageInfo: PackageInfo,
                 string.postValue(it.stackTraceToString())
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "XMLViewerViewModel"
     }
 }

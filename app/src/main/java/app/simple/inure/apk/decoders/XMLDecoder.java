@@ -8,7 +8,6 @@ import com.reandroid.arsc.chunk.PackageBlock;
 import com.reandroid.arsc.chunk.xml.ResXmlDocument;
 import com.reandroid.arsc.chunk.xml.ResXmlPullParser;
 import com.reandroid.arsc.io.BlockReader;
-import com.reandroid.xml.XMLDocument;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -29,14 +28,17 @@ import app.simple.inure.util.IntegerUtils;
 
 import static org.xmlpull.v1.XmlPullParser.END_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.END_TAG;
-import static org.xmlpull.v1.XmlPullParser.START_DOCUMENT;
 import static org.xmlpull.v1.XmlPullParser.START_TAG;
 
 public class XMLDecoder {
     
+    private static PackageBlock frameworkPackageBlock;
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 50;
     private final ZipFile zipFile;
     
+    /**
+     * @noinspection unused
+     */
     public XMLDecoder(ZipFile zipFile) {
         this.zipFile = zipFile;
     }
@@ -82,18 +84,18 @@ public class XMLDecoder {
         }
     }
     
-    public boolean isBinaryXml(@NonNull ByteBuffer buffer) {
+    public static boolean isBinaryXml(@NonNull ByteBuffer buffer) {
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.mark();
         int version = IntegerUtils.getUInt16(buffer);
         int header = IntegerUtils.getUInt16(buffer);
         buffer.reset();
-        // 0x0000 is NULL header. The only example of application using a NULL header is NP Manager
+        // 0x0000 is NULL header
         return (version == 0x0003 || version == 0x0000) && header == 0x0008;
     }
     
     @NonNull
-    public String decode(@NonNull byte[] data) throws IOException {
+    public static String decode(@NonNull byte[] data) throws IOException {
         if (isBinaryXml(ByteBuffer.wrap(data))) {
             return decode(ByteBuffer.wrap(data));
         } else {
@@ -102,7 +104,7 @@ public class XMLDecoder {
     }
     
     @NonNull
-    public String decode(@NonNull InputStream is) throws IOException {
+    public static String decode(@NonNull InputStream is) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
         int n;
@@ -113,7 +115,7 @@ public class XMLDecoder {
     }
     
     @NonNull
-    public String decode(@NonNull ByteBuffer byteBuffer) throws IOException {
+    public static String decode(@NonNull ByteBuffer byteBuffer) throws IOException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             decode(byteBuffer, bos);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -130,17 +132,17 @@ public class XMLDecoder {
              PrintStream out = new PrintStream(os)) {
             ResXmlDocument resXmlDocument = new ResXmlDocument();
             resXmlDocument.readBytes(reader);
-            try (ResXmlPullParser parser = new ResXmlPullParser()) {
-                parser.setCurrentPackage(getFrameworkPackageBlock());
-                parser.setResXmlDocument(resXmlDocument);
+            resXmlDocument.setPackageBlock(getFrameworkPackageBlock());
+            
+            try (ResXmlPullParser parser = new ResXmlPullParser(resXmlDocument)) {
                 StringBuilder indent = new StringBuilder(10);
                 final String indentStep = "  ";
                 out.println("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-                XML_BUILDER:
+                
                 while (true) {
                     int type = parser.next();
                     switch (type) {
-                        case START_TAG: {
+                        case START_TAG:
                             out.printf("%s<%s%s", indent, getNamespacePrefix(parser.getPrefix()), parser.getName());
                             indent.append(indentStep);
                             
@@ -163,31 +165,19 @@ public class XMLDecoder {
                             
                             out.println(">");
                             break;
-                        }
-                        case END_TAG: {
+                        case END_TAG:
                             indent.setLength(indent.length() - indentStep.length());
                             out.printf("%s</%s%s>%n", indent, getNamespacePrefix(parser.getPrefix()), parser.getName());
                             break;
-                        }
                         case END_DOCUMENT:
-                            break XML_BUILDER;
-                        case START_DOCUMENT:
-                            // Unreachable statement
+                            return;
+                        default:
                             break;
                     }
                 }
             }
         } catch (XmlPullParserException e) {
             throw new IOException(e);
-        }
-    }
-    
-    public static XMLDocument decodeToXml(@NonNull ByteBuffer byteBuffer) throws IOException {
-        ResXmlDocument xmlBlock = new ResXmlDocument();
-        try (BlockReader reader = new BlockReader(byteBuffer.array())) {
-            xmlBlock.readBytes(reader);
-            xmlBlock.setPackageBlock(getFrameworkPackageBlock());
-            return xmlBlock.decodeToXml();
         }
     }
     
@@ -200,13 +190,11 @@ public class XMLDecoder {
     }
     
     @NonNull
-    static PackageBlock getFrameworkPackageBlock() throws IOException {
+    static PackageBlock getFrameworkPackageBlock() {
         if (frameworkPackageBlock != null) {
             return frameworkPackageBlock;
         }
         frameworkPackageBlock = AndroidFrameworks.getLatest().getTableBlock().getAllPackages().next();
         return frameworkPackageBlock;
     }
-    
-    private static PackageBlock frameworkPackageBlock;
 }

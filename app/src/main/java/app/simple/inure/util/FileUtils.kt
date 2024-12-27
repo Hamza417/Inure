@@ -25,6 +25,7 @@ import java.util.zip.ZipOutputStream
 
 object FileUtils {
 
+    const val FILE_MODE_READ = "r"
     private const val BUFFER = 1024
 
     fun openFolder(context: Context, location: String) {

@@ -3,6 +3,7 @@ package app.simple.inure.apk.parsers
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import androidx.annotation.Nullable
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Extensions.isExtrasFile
@@ -12,11 +13,23 @@ import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.models.Extra
 import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.FileUtils
+import com.android.apksig.apk.ApkFormatException
+import com.android.apksig.apk.ApkUtils
+import com.android.apksig.apk.ApkUtils.ZipSections
+import com.android.apksig.internal.zip.CentralDirectoryRecord
+import com.android.apksig.internal.zip.LocalFileRecord
+import com.android.apksig.util.DataSource
+import com.android.apksig.util.DataSources
+import com.android.apksig.zip.ZipFormatException
 import net.dongliu.apk.parser.ApkFile
 import net.dongliu.apk.parser.bean.ApkMeta
 import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.io.IOException
+import java.io.RandomAccessFile
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -30,6 +43,7 @@ object APKParser {
     private const val MIPS = "mips"
     private const val x86 = "x86"
     private const val x86_64 = "x86_64"
+    private const val ANDROID_MANIFEST = "AndroidManifest.xml"
 
     /**
      * Fetch the install location of an APK file
@@ -396,5 +410,75 @@ object APKParser {
         }
 
         return extraFiles
+    }
+
+    @Throws(ApkParserException::class, IOException::class)
+    fun getManifestByteBuffer(file: File): ByteBuffer {
+        RandomAccessFile(file, FileUtils.FILE_MODE_READ).use { randomAccessFile ->
+            val source: DataSource = DataSources.asDataSource(randomAccessFile)
+            val zipSections: ZipSections = ApkUtils.findZipSections(source)
+            val centralDirectoryRecords: List<CentralDirectoryRecord> = parseZipCentralDirectory(source, zipSections)
+            val slicedSource = source.slice(0, zipSections.zipCentralDirectoryOffset)
+            return extractAndroidManifest(centralDirectoryRecords, slicedSource)
+        }
+    }
+
+    @Throws(IOException::class, ApkFormatException::class)
+    fun parseZipCentralDirectory(apk: DataSource, sections: ZipSections): List<CentralDirectoryRecord> {
+        val sizeBytes: Long = sections.zipCentralDirectorySizeBytes.checkSizeOrThis()
+        val offset = sections.zipCentralDirectoryOffset
+        val buffer: ByteBuffer = apk.getByteBuffer(offset, sizeBytes.toInt())
+            .order(ByteOrder.LITTLE_ENDIAN)
+        val expectedCdRecordCount = sections.zipCentralDirectoryRecordCount
+        val records: MutableList<CentralDirectoryRecord> = ArrayList(expectedCdRecordCount)
+
+        for (i in 0 until expectedCdRecordCount) {
+            val record: CentralDirectoryRecord = CentralDirectoryRecord.getRecord(buffer)
+
+            /**
+             * ZIP entry ending with '/' is a directory entry. We are not interested in
+             * directory entries.
+             */
+            if (record.name.endsWith("/")) {
+                continue
+            } else {
+                records.add(record)
+            }
+        }
+
+        return records
+    }
+
+    @Throws(IOException::class, ApkFormatException::class, ZipFormatException::class)
+    private fun extractAndroidManifest(records: List<CentralDirectoryRecord>, logicalHeaderFileSection: DataSource): ByteBuffer {
+        val androidManifestCentralDirectoryRecord: CentralDirectoryRecord = findCentralDirectoryRecord(records)
+            ?: throw ApkFormatException("$ANDROID_MANIFEST not found in APK's Central Directory")
+        return ByteBuffer.wrap(LocalFileRecord.getUncompressedData(
+                logicalHeaderFileSection, androidManifestCentralDirectoryRecord, logicalHeaderFileSection.size()))
+    }
+
+    @Nullable
+    private fun findCentralDirectoryRecord(records: List<CentralDirectoryRecord>): CentralDirectoryRecord? {
+        for (record in records) {
+            if (ANDROID_MANIFEST == record.name) {
+                return record
+            }
+        }
+
+        return null
+    }
+
+    private fun Long.checkSizeOrThis(): Long {
+        when {
+            this > Int.MAX_VALUE -> {
+                throw ApkFormatException("ZIP Central Directory too large: $this bytes")
+            }
+            this < 0 -> {
+                throw ApkFormatException("ZIP Central Directory negative size: $this bytes")
+            }
+            else -> {
+                return this
+            }
+        }
     }
 }
