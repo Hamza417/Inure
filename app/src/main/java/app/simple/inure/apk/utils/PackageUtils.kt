@@ -381,6 +381,16 @@ object PackageUtils {
             .getLaunchIntentForPackage(packageName) != null
     }
 
+    fun PackageInfo.isAppLaunchable(context: Context): Boolean {
+        return context.packageManager
+            .getLaunchIntentForPackage(this.packageName) != null
+    }
+
+    fun ApplicationInfo.isAppLaunchable(context: Context): Boolean {
+        return context.packageManager
+            .getLaunchIntentForPackage(this.packageName) != null
+    }
+
     @Throws(NameNotFoundException::class, NullPointerException::class)
     fun PackageInfo.launchThisPackage(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(this.packageName)

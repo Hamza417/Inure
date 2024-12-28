@@ -8,8 +8,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.parsers.FOSSParser
-import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isAppLargeHeap
+import app.simple.inure.apk.utils.PackageUtils.isAppLaunchable
 import app.simple.inure.apk.utils.PackageUtils.isAppStopped
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
@@ -117,21 +117,21 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
         val appInfo = packageInfo.safeApplicationInfo
 
         val conditions = listOf(
-                FlagUtils.isFlagSet(filter, SortConstant.UNINSTALLED) && !packageInfo.isInstalled(),
-                FlagUtils.isFlagSet(filter, SortConstant.SPLIT) && !appInfo.splitSourceDirs.isNullOrEmpty(),
-                FlagUtils.isFlagSet(filter, SortConstant.DISABLED) && !appInfo.enabled && packageInfo.isInstalled(),
-                FlagUtils.isFlagSet(filter, SortConstant.APK) && appInfo.splitSourceDirs.isNullOrEmpty(),
-                FlagUtils.isFlagSet(filter, SortConstant.ENABLED) && appInfo.enabled && packageInfo.isInstalled(),
-                FlagUtils.isFlagSet(filter, SortConstant.FOSS) && FOSSParser.isPackageFOSS(packageInfo),
-                FlagUtils.isFlagSet(filter, SortConstant.LARGE_HEAP) && packageInfo.isAppLargeHeap(),
-                FlagUtils.isFlagSet(filter, SortConstant.LAUNCHABLE) && PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName),
-                FlagUtils.isFlagSet(filter, SortConstant.STOPPED) && packageInfo.isAppStopped()
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.UNINSTALLED), !packageInfo.isInstalled()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.SPLIT), !appInfo.splitSourceDirs.isNullOrEmpty()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.DISABLED), !appInfo.enabled && packageInfo.isInstalled()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.APK), appInfo.splitSourceDirs.isNullOrEmpty()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.ENABLED), appInfo.enabled && packageInfo.isInstalled()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.FOSS), FOSSParser.isPackageFOSS(packageInfo)),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.LARGE_HEAP), packageInfo.isAppLargeHeap()),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.LAUNCHABLE), packageInfo.isAppLaunchable(applicationContext())),
+                Pair(FlagUtils.isFlagSet(filter, SortConstant.STOPPED), packageInfo.isAppStopped())
         )
 
         return if (AppsPreferences.isFilterStyleAnd()) {
-            conditions.all { it }
+            conditions.filter { it.first }.all { it.second }
         } else {
-            conditions.any { it }
+            conditions.any { it.first && it.second }
         }
     }
 

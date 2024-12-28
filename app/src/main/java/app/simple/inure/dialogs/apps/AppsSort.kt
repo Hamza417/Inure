@@ -153,66 +153,6 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
         }
 
-        filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
-            var sourceFlags = AppsPreferences.getAppsFilter()
-
-            sourceFlags = if (checkedIds.contains(R.id.disabled)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.DISABLED)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.DISABLED)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.enabled)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.ENABLED)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.ENABLED)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.apk)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.APK)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.APK)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.split)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.SPLIT)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.SPLIT)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.uninstalled)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.UNINSTALLED)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.UNINSTALLED)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.foss)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.FOSS)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.FOSS)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.large_heap)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.LARGE_HEAP)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.LARGE_HEAP)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.launchable)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.LAUNCHABLE)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.LAUNCHABLE)
-            }
-
-            sourceFlags = if (checkedIds.contains(R.id.stopped)) {
-                FlagUtils.setFlag(sourceFlags, SortConstant.STOPPED)
-            } else {
-                FlagUtils.unsetFlag(sourceFlags, SortConstant.STOPPED)
-            }
-
-            AppsPreferences.setAppsFilter(sourceFlags)
-        }
-
         categoryChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             var categoryFlags = SortConstant.ALL_CATEGORIES
 
@@ -279,6 +219,66 @@ class AppsSort : ScopedBottomSheetFragment() {
             }
 
             AppsPreferences.setAppsCategory(categoryFlags)
+        }
+
+        filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            var sourceFlags = AppsPreferences.getAppsFilter()
+
+            sourceFlags = if (checkedIds.contains(R.id.disabled)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.DISABLED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.DISABLED)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.enabled)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.ENABLED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.ENABLED)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.apk)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.APK)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.APK)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.split)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.SPLIT)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.SPLIT)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.uninstalled)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.UNINSTALLED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.UNINSTALLED)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.foss)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.FOSS)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.FOSS)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.large_heap)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.LARGE_HEAP)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.LARGE_HEAP)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.launchable)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.LAUNCHABLE)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.LAUNCHABLE)
+            }
+
+            sourceFlags = if (checkedIds.contains(R.id.stopped)) {
+                FlagUtils.setFlag(sourceFlags, SortConstant.STOPPED)
+            } else {
+                FlagUtils.unsetFlag(sourceFlags, SortConstant.STOPPED)
+            }
+
+            AppsPreferences.setAppsFilter(sourceFlags)
         }
 
         logicalOperatorGroup.addOnButtonCheckedListener { group, _, _ ->
