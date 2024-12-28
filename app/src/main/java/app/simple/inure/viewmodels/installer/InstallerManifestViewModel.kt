@@ -1,45 +1,23 @@
 package app.simple.inure.viewmodels.installer
 
 import android.app.Application
-import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.parsers.ApkManifestFetcher
+import app.simple.inure.apk.decoders.XMLDecoder
+import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.util.XMLUtils
+import app.simple.inure.util.XMLUtils.formatXML
+import app.simple.inure.util.XMLUtils.getPrettyXML
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.ApkFile
 import java.io.File
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.util.zip.ZipException
 
 class InstallerManifestViewModel(application: Application, private val file: File) : WrappedViewModel(application) {
-
-    private val quotations: Pattern = Pattern.compile("\"([^\"]*)\"", Pattern.MULTILINE)
-
-    @Suppress("RegExpDuplicateAlternationBranch")
-    private val tags = Pattern.compile("" /*Only for indentation */ +
-                                               "<\\w+\\.+\\S+" + // <xml.yml.zml>
-                                               "|<\\w+\\.+\\S+" + // <xml.yml.zml...nthml
-                                               "|</\\w+.+>" + // </xml.yml.zml>
-                                               "|</\\w+-+\\S+>" + // </xml-yml>
-                                               "|<\\w+-+\\S+" + // <xml-yml-zml...nthml
-                                               "|</\\w+>" + // </xml>
-                                               "|</\\w+" + // </xml
-                                               "|<\\w+/>" + // <xml/>
-                                               "|<\\w+>" +  // <xml>
-                                               "|<\\w+" +  // <xml
-                                               "|<.\\w+" + // <?xml
-                                               "|\\?>" + // ?>
-                                               "|/>", // />
-                                       Pattern.MULTILINE or Pattern.CASE_INSENSITIVE)
 
     private val spanned: MutableLiveData<Spanned> by lazy {
         MutableLiveData<Spanned>().also {
@@ -54,34 +32,18 @@ class InstallerManifestViewModel(application: Application, private val file: Fil
     private fun getSpannedXml() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                val formattedContent: SpannableString
+                val code: String = try {
+                    XMLDecoder(file)
+                        .decode(APKParser.ANDROID_MANIFEST)
+                } catch (e: ZipException) {
+                    val byteBuffer: ByteBuffer = APKParser
+                        .getManifestByteBuffer(file)
+                        .order(ByteOrder.LITTLE_ENDIAN)
 
-                val code: String = kotlin.runCatching {
-                    ApkFile(file).use {
-                        it.manifestXml
-                    }
-                }.getOrElse {
-                    /**
-                     * Alternate engine for parsing manifest
-                     */
-                    XMLUtils.getProperXml(ApkManifestFetcher.getManifestXmlFromFile(file)!!)!!
+                    XMLDecoder.decode(byteBuffer)
                 }
 
-                formattedContent = SpannableString(code)
-                val matcher: Matcher = tags.matcher(code)
-                while (matcher.find()) {
-                    formattedContent.setSpan(ForegroundColorSpan(Color.parseColor("#2980B9")), matcher.start(),
-                                             matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-
-                matcher.usePattern(quotations)
-                while (matcher.find()) {
-                    formattedContent.setSpan(ForegroundColorSpan(AppearancePreferences.getAccentColor()),
-                                             matcher.start(), matcher.end(),
-                                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-
-                spanned.postValue(formattedContent)
+                spanned.postValue(code.formatXML().getPrettyXML())
             }.getOrElse {
                 it.printStackTrace()
             }

@@ -3,7 +3,6 @@ package app.simple.inure.apk.parsers
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import androidx.annotation.Nullable
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Extensions.isExtrasFile
@@ -13,6 +12,7 @@ import app.simple.inure.exceptions.DexClassesNotFoundException
 import app.simple.inure.models.Extra
 import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import com.android.apksig.apk.ApkFormatException
 import com.android.apksig.apk.ApkUtils
@@ -43,7 +43,8 @@ object APKParser {
     private const val MIPS = "mips"
     private const val x86 = "x86"
     private const val x86_64 = "x86_64"
-    private const val ANDROID_MANIFEST = "AndroidManifest.xml"
+
+    const val ANDROID_MANIFEST = "AndroidManifest.xml"
 
     /**
      * Fetch the install location of an APK file
@@ -433,39 +434,31 @@ object APKParser {
         val records: MutableList<CentralDirectoryRecord> = ArrayList(expectedCdRecordCount)
 
         for (i in 0 until expectedCdRecordCount) {
-            val record: CentralDirectoryRecord = CentralDirectoryRecord.getRecord(buffer)
-
             /**
-             * ZIP entry ending with '/' is a directory entry. We are not interested in
-             * directory entries.
+             * ZIP entry ending with '/' is a directory entry.
              */
-            if (record.name.endsWith("/")) {
-                continue
-            } else {
-                records.add(record)
+            CentralDirectoryRecord.getRecord(buffer).let {
+                if (it.name.endsWith("/").invert()) {
+                    records.add(it)
+                }
             }
         }
+
+
 
         return records
     }
 
     @Throws(IOException::class, ApkFormatException::class, ZipFormatException::class)
     private fun extractAndroidManifest(records: List<CentralDirectoryRecord>, logicalHeaderFileSection: DataSource): ByteBuffer {
-        val androidManifestCentralDirectoryRecord: CentralDirectoryRecord = findCentralDirectoryRecord(records)
+        val androidManifestRecord = records.find { it.name == ANDROID_MANIFEST }
             ?: throw ApkFormatException("$ANDROID_MANIFEST not found in APK's Central Directory")
-        return ByteBuffer.wrap(LocalFileRecord.getUncompressedData(
-                logicalHeaderFileSection, androidManifestCentralDirectoryRecord, logicalHeaderFileSection.size()))
-    }
 
-    @Nullable
-    private fun findCentralDirectoryRecord(records: List<CentralDirectoryRecord>): CentralDirectoryRecord? {
-        for (record in records) {
-            if (ANDROID_MANIFEST == record.name) {
-                return record
-            }
-        }
+        val uncompressedData = LocalFileRecord.getUncompressedData(
+                logicalHeaderFileSection, androidManifestRecord, logicalHeaderFileSection.size()
+        )
 
-        return null
+        return ByteBuffer.wrap(uncompressedData)
     }
 
     private fun Long.checkSizeOrThis(): Long {
