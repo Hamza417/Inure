@@ -239,6 +239,34 @@
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
 
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/logical_operator_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <app.simple.inure.decorations.views.Button
+                android:id="@+id/and"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="@string/and" />
+
+            <app.simple.inure.decorations.views.Button
+                android:id="@+id/or"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="@string/or" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/filter_chip_group"
             android:layout_width="match_parent"

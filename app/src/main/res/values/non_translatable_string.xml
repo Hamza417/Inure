@@ -70,4 +70,9 @@
     <string name="foss" translatable="false">FOSS</string>
     <string name="aosp" translatable="false">AOSP</string>
     <string name="click_to_participate" translatable="false">Click to participate in the translation on Crowdin.</string>
+    <string name="and" translatable="false">AND</string>
+    <string name="or" translatable="false">OR</string>
+    <string name="not" translatable="false">NOT</string>
+    <string name="xor" translatable="false">XOR</string>
+
 </resources>

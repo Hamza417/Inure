@@ -11,6 +11,9 @@ object SortConstant {
     const val ASCENDING = "ascending"
     const val DESCENDING = "descending"
 
+    const val FILTER_STYLE_AND = "filter_style_and"
+    const val FILTER_STYLE_OR = "filter_style_or"
+
     const val DISABLED = 1 shl 1
     const val ENABLED = 1 shl 2
     const val APK = 1 shl 3

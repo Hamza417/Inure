@@ -12,6 +12,7 @@ import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.AppsPreferences
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.Sort
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.ChipGroup
 
 class AppsSort : ScopedBottomSheetFragment() {
@@ -21,6 +22,7 @@ class AppsSort : ScopedBottomSheetFragment() {
     private lateinit var applicationTypeChipGroup: ChipGroup
     private lateinit var categoryChipGroup: ChipGroup
     private lateinit var filterChipGroup: ChipGroup
+    private lateinit var logicalOperatorGroup: MaterialButtonToggleGroup
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_sort_apps, container, false)
@@ -30,6 +32,7 @@ class AppsSort : ScopedBottomSheetFragment() {
         filterChipGroup = view.findViewById(R.id.filter_chip_group)
         categoryChipGroup = view.findViewById(R.id.category_chip_group)
         applicationTypeChipGroup = view.findViewById(R.id.application_type_chip_group)
+        logicalOperatorGroup = view.findViewById(R.id.logical_operator_group)
 
         return view
     }
@@ -47,6 +50,7 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         setAppsCategory()
         setAppsFilter()
+        setLogicalOperator()
 
         when (AppsPreferences.getSortStyle()) {
             Sort.NAME -> {
@@ -276,6 +280,22 @@ class AppsSort : ScopedBottomSheetFragment() {
 
             AppsPreferences.setAppsCategory(categoryFlags)
         }
+
+        logicalOperatorGroup.addOnButtonCheckedListener { group, _, _ ->
+            val checkedButtonIds = group.checkedButtonIds
+
+            when {
+                checkedButtonIds.contains(R.id.and) -> {
+                    AppsPreferences.setFilterStyle(SortConstant.FILTER_STYLE_AND)
+                }
+                checkedButtonIds.contains(R.id.or) -> {
+                    AppsPreferences.setFilterStyle(SortConstant.FILTER_STYLE_OR)
+                }
+                else -> {
+                    AppsPreferences.setFilterStyle(SortConstant.FILTER_STYLE_OR)
+                }
+            }
+        }
     }
 
     private fun setAppsCategory() {
@@ -357,6 +377,14 @@ class AppsSort : ScopedBottomSheetFragment() {
 
         if (FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.STOPPED)) {
             filterChipGroup.check(R.id.stopped)
+        }
+    }
+
+    private fun setLogicalOperator() {
+        if (AppsPreferences.isFilterStyleAnd()) {
+            logicalOperatorGroup.check(R.id.and)
+        } else {
+            logicalOperatorGroup.check(R.id.or)
         }
     }
 

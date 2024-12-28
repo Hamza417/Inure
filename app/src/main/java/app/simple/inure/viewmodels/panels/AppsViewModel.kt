@@ -11,6 +11,7 @@ import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.isAppLargeHeap
 import app.simple.inure.apk.utils.PackageUtils.isAppStopped
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.DataGeneratorViewModel
@@ -91,6 +92,7 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
                 }
             }
         }
+
         return categoryList
     }
 
@@ -111,39 +113,25 @@ class AppsViewModel(application: Application) : DataGeneratorViewModel(applicati
     }
 
     private fun shouldAddApp(packageInfo: PackageInfo): Boolean {
-        return when {
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.UNINSTALLED) -> {
-                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.SPLIT) -> {
-                packageInfo.safeApplicationInfo.splitSourceDirs?.isNotEmpty() == true
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.DISABLED) -> {
-                !packageInfo.safeApplicationInfo.enabled &&
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.APK) -> {
-                packageInfo.safeApplicationInfo.splitSourceDirs.isNullOrEmpty()
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.ENABLED) -> {
-                packageInfo.safeApplicationInfo.enabled &&
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.FOSS) -> {
-                FOSSParser.isPackageFOSS(packageInfo)
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LARGE_HEAP) -> {
-                packageInfo.isAppLargeHeap()
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.LAUNCHABLE) -> {
-                PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName)
-            }
-            FlagUtils.isFlagSet(AppsPreferences.getAppsFilter(), SortConstant.STOPPED) -> {
-                packageInfo.isAppStopped()
-            }
-            else -> {
-                false
-            }
+        val filter = AppsPreferences.getAppsFilter()
+        val appInfo = packageInfo.safeApplicationInfo
+
+        val conditions = listOf(
+                FlagUtils.isFlagSet(filter, SortConstant.UNINSTALLED) && !packageInfo.isInstalled(),
+                FlagUtils.isFlagSet(filter, SortConstant.SPLIT) && !appInfo.splitSourceDirs.isNullOrEmpty(),
+                FlagUtils.isFlagSet(filter, SortConstant.DISABLED) && !appInfo.enabled && packageInfo.isInstalled(),
+                FlagUtils.isFlagSet(filter, SortConstant.APK) && appInfo.splitSourceDirs.isNullOrEmpty(),
+                FlagUtils.isFlagSet(filter, SortConstant.ENABLED) && appInfo.enabled && packageInfo.isInstalled(),
+                FlagUtils.isFlagSet(filter, SortConstant.FOSS) && FOSSParser.isPackageFOSS(packageInfo),
+                FlagUtils.isFlagSet(filter, SortConstant.LARGE_HEAP) && packageInfo.isAppLargeHeap(),
+                FlagUtils.isFlagSet(filter, SortConstant.LAUNCHABLE) && PackageUtils.isAppLaunchable(applicationContext(), packageInfo.packageName),
+                FlagUtils.isFlagSet(filter, SortConstant.STOPPED) && packageInfo.isAppStopped()
+        )
+
+        return if (AppsPreferences.isFilterStyleAnd()) {
+            conditions.all { it }
+        } else {
+            conditions.any { it }
         }
     }
 

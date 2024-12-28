@@ -12,6 +12,7 @@ object AppsPreferences {
     const val COMBINE_FILTER = "combine_filter"
     const val APPS_CATEGORY = "apps_category_flags"
     const val INFO_CUSTOM_FILTER = "info_custom_filter"
+    const val FILTER_STYLE = "filter_style"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -81,5 +82,26 @@ object AppsPreferences {
 
     fun getInfoCustomFilter(): Int {
         return SharedPreferences.getSharedPreferences().getInt(INFO_CUSTOM_FILTER, SortConstant.INFO_DEFAULT)
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setFilterStyle(value: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(FILTER_STYLE, value).apply()
+    }
+
+    fun getFilterStyle(): String {
+        return SharedPreferences.getSharedPreferences()
+            .getString(FILTER_STYLE, SortConstant.FILTER_STYLE_OR)!!
+    }
+
+    fun isFilterStyleAnd(): Boolean {
+        return SharedPreferences.getSharedPreferences()
+            .getString(FILTER_STYLE, SortConstant.FILTER_STYLE_OR) == SortConstant.FILTER_STYLE_AND
+    }
+
+    fun isFilterStyleOr(): Boolean {
+        return SharedPreferences.getSharedPreferences()
+            .getString(FILTER_STYLE, SortConstant.FILTER_STYLE_OR) == SortConstant.FILTER_STYLE_OR
     }
 }
