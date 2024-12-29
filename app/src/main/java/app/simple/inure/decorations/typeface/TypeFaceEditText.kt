@@ -157,7 +157,9 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
         val valueAnimator = ValueAnimator.ofArgb(backgroundTintList!!.defaultColor, endColor)
         valueAnimator.duration = resources.getInteger(R.integer.theme_change_duration).toLong()
         valueAnimator.interpolator = DecelerateInterpolator()
-        valueAnimator.addUpdateListener { animation: ValueAnimator -> backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int) }
+        valueAnimator.addUpdateListener { animation: ValueAnimator ->
+            backgroundTintList = ColorStateList.valueOf(animation.animatedValue as Int)
+        }
         valueAnimator.start()
         return valueAnimator
     }
@@ -171,7 +173,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     open fun hideInput() {
         clearFocus()
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(windowToken, InputMethodManager.RESULT_UNCHANGED_SHOWN)
+            .hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
     @Suppress("unused")
