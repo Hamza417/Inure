@@ -67,12 +67,14 @@ public class GridRecyclerView extends RecyclerView {
     }
     
     public void setLayoutControllerAnimation(@AnimRes int animationController) {
-        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getContext(), animationController);
+        LayoutAnimationController controller = AnimationUtils
+                .loadLayoutAnimation(getContext(), animationController);
         setLayoutAnimation(controller);
     }
     
     public void setLayoutControllerAnimation(@AnimRes int animationController, float delay) {
-        LayoutAnimationController controller = new LayoutAnimationController(AnimationUtils.loadAnimation(getContext(), animationController), delay);
+        LayoutAnimationController controller = new LayoutAnimationController(
+                AnimationUtils.loadAnimation(getContext(), animationController), delay);
         setLayoutAnimation(controller);
     }
 }

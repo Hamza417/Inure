@@ -99,6 +99,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     public void startAnimation() {
         if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
             animateXY(1000, 500, Easing.EaseOutCubic);
+        } else {
+            animateXY(0, 0, Easing.EaseOutCubic);
         }
     }
     
