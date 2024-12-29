@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="at.krixec.ied" translatable="false">MIT</string>
     <string name="info.puzz.a10000sentences" translatable="false">Apache-2.0</string>
     <string name="com.github.ashutoshgngwr.tenbitclockwidget" translatable="false">GPL-3.0-only</string>
     <string name="dev.lonami.klooni" translatable="false">GPL-3.0-or-later</string>
@@ -472,6 +473,7 @@
     <string name="com.wordpress.sarfraznawaz.callerdetails" translatable="false">Apache-2.0</string>
     <string name="com.integralblue.callerid" translatable="false">GPL-3.0-only</string>
     <string name="cc.calliope.mini" translatable="false">MIT</string>
+    <string name="de.swgross.calorimeter" translatable="false">GPL-3.0-or-later</string>
     <string name="org.calyxinstitute.vpn" translatable="false">GPL-3.0-only</string>
     <string name="ryey.camcov" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.tvbarthel.apps.cameracolorpicker" translatable="false">Apache-2.0</string>
@@ -559,6 +561,7 @@
     <string name="com.nathanosman.chronosnap" translatable="false">MIT</string>
     <string name="agrigolo.chubbyclick" translatable="false">GPL-3.0-or-later</string>
     <string name="us.lindanrandy.cidrcalculator" translatable="false">Apache-2.0</string>
+    <string name="org.gnu.itsmoroto.cifrasoletras" translatable="false">GPL-3.0-or-later</string>
     <string name="com.wa2c.android.cifsdocumentsprovider" translatable="false">MIT</string>
     <string name="net.retiolus.cigalo" translatable="false">AGPL-3.0-only</string>
     <string name="cat.jordihernandez.cinecat" translatable="false">GPL-3.0-only</string>
@@ -1022,6 +1025,7 @@
     <string name="com.easwareapps.f2lflap2lock_adfree" translatable="false">GPL-3.0-or-later</string>
     <string name="io.davidar.fabularium" translatable="false">GPL-2.0-or-later</string>
     <string name="com.fadcam" translatable="false">GPL-3.0-only</string>
+    <string name="com.chenyifaer.fafarunner" translatable="false">MIT</string>
     <string name="de.example.fahrraddiebstahl_berlin" translatable="false">GPL-3.0-only</string>
     <string name="eu.faircode.email" translatable="false">GPL-3.0-only</string>
     <string name="community.fairphone.checkup" translatable="false">Apache-2.0</string>
@@ -2246,6 +2250,7 @@
     <string name="audio.omgsoundboard" translatable="false">Apache-2.0</string>
     <string name="it.feio.android.omninotes.foss" translatable="false">GPL-3.0-only</string>
     <string name="net.pherth.omnomagon" translatable="false">BSD-3-Clause</string>
+    <string name="com.bartixxx.opflashcontrol" translatable="false">GPL-3.0-only</string>
     <string name="de.ptrlx.oneshot" translatable="false">GPL-3.0-or-later</string>
     <string name="pl.ascendit.onetimealarm" translatable="false">GPL-3.0-or-later</string>
     <string name="com.nicue.onetwo" translatable="false">MIT</string>
