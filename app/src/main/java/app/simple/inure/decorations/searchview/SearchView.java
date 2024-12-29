@@ -309,10 +309,20 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             ViewUtils.INSTANCE.gone(more, false);
             handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
         } else {
-            ViewUtils.INSTANCE.gone(settings, true);
-            ViewUtils.INSTANCE.gone(refresh, true);
             ViewUtils.INSTANCE.gone(filter, true);
-            ViewUtils.INSTANCE.visible(more, true);
+            ViewUtils.INSTANCE.gone(refresh, true);
+            ViewUtils.INSTANCE.gone(settings, true, () -> {
+                /*
+                 * There is an animation glitch here, since I made the animation in sequential order
+                 * the layout transition stops abruptly when more button becomes visible. The best
+                 * workaround is to make the button visible but with 0 alpha and scale, then animate it.
+                 *
+                 * The best way to learn this behavior is to look into LayoutTransition and how it works.
+                 */
+                more.setVisibility(View.VISIBLE);
+                ViewUtils.INSTANCE.visible(more, true);
+                return Unit.INSTANCE;
+            });
         }
     }
     
