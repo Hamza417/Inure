@@ -111,6 +111,10 @@ class Extras : SearchBarScopedFragment() {
             showError(it)
         }
 
+        extrasViewModel.notFound.observe(viewLifecycleOwner) {
+            showWarning(R.string.no_extras_found)
+        }
+
         options.setOnClickListener {
             PopupExtrasMenu(requireView())
         }
