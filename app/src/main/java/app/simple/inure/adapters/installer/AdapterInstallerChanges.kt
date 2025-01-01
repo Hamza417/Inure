@@ -33,8 +33,8 @@ class AdapterInstallerChanges(private val list: ArrayList<Triple<String, String,
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.title.text = list[position].first
-        holder.added.text = list[position].second
-        holder.removed.text = list[position].third
+        holder.title.text = list[position].first()
+        holder.added.text = list[position].second()
+        holder.removed.text = list[position].third()
     }
 }

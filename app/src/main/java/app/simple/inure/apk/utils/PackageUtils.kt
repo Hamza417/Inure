@@ -555,4 +555,17 @@ object PackageUtils {
     fun getIntentFilter(s: String): Intent {
         return Intent(s)
     }
+
+    fun getInstallerPackageName(context: Context, packageName: String): String? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            context.packageManager.getInstallSourceInfo(packageName).installingPackageName
+        } else {
+            @Suppress("DEPRECATION")
+            context.packageManager.getInstallerPackageName(packageName)
+        }
+    }
+
+    fun PackageInfo.getInstallerPackageName(context: Context): String? {
+        return getInstallerPackageName(context, this.packageName)
+    }
 }

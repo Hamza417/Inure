@@ -8,31 +8,38 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AnalyticsDataAdapter
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.app.AppMenu
+import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.subpanels.AnalyticsViewModelFactory
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.viewmodels.subviewers.AnalyticsDataViewModel
+import app.simple.inure.viewmodels.subviewers.AnalyticsInstallerViewModel
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieEntry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class AnalyticsPackageType : ScopedFragment() {
+class AnalyticsInstaller : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
     private lateinit var count: TypeFaceTextView
     private lateinit var loader: CustomProgressBar
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var analyticsDataViewModel: AnalyticsDataViewModel
+    private lateinit var analyticsInstallerViewModel: AnalyticsInstallerViewModel
+
+    private var pieEntry: PieEntry? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics_sdk, container, false)
@@ -42,8 +49,11 @@ class AnalyticsPackageType : ScopedFragment() {
         count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
-        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
-        analyticsDataViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsDataViewModel::class.java]
+
+        pieEntry = requireArguments().parcelable(BundleConstants.entry)!!
+
+        val analyticsViewModelFactory = AnalyticsViewModelFactory(pieEntry!!)
+        analyticsInstallerViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsInstallerViewModel::class.java]
 
         return view
     }
@@ -51,35 +61,41 @@ class AnalyticsPackageType : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (analyticsDataViewModel.getMinimumSDKData().value != null) {
+        if (analyticsInstallerViewModel.getInstallerApps().value != null) {
             postponeEnterTransition()
         } else {
             startPostponedEnterTransition()
         }
 
-        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
+        lifecycleScope.launch(Dispatchers.Default) {
+            val label = requirePackageManager().getPackageInfo(pieEntry!!.label, 0).safeApplicationInfo
+                .loadLabel(requirePackageManager()).toString()
+
+            withContext(Dispatchers.Main) {
+                title.text = label
+            }
+        }
 
         back.setOnClickListener {
             popBackStack()
         }
 
-        analyticsDataViewModel.getPackageTypeData().observe(viewLifecycleOwner) {
+        analyticsInstallerViewModel.getInstallerApps().observe(viewLifecycleOwner) {
             loader.gone(animate = true)
             count.text = getString(R.string.total_apps, it.size)
-            val analyticsDataAdapter = AnalyticsDataAdapter(it)
+            val adapter = AnalyticsDataAdapter(it)
 
-            analyticsDataAdapter.setOnAdapterCallbacks(object : AdapterCallbacks {
+            adapter.setOnAdapterCallbacks(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppMenu.newInstance(packageInfo)
-                        .show(childFragmentManager, "apps_menu")
+                    childFragmentManager.showAppMenu(packageInfo)
                 }
             })
 
-            recyclerView.adapter = analyticsDataAdapter
+            recyclerView.adapter = adapter
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -88,14 +104,14 @@ class AnalyticsPackageType : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(e: Entry?): AnalyticsPackageType {
+        fun newInstance(e: Entry?): AnalyticsInstaller {
             val args = Bundle()
             args.putParcelable(BundleConstants.entry, e)
-            val fragment = AnalyticsPackageType()
+            val fragment = AnalyticsInstaller()
             fragment.arguments = args
             return fragment
         }
 
-        const val TAG = "AnalyticsPackageType"
+        const val TAG = "AnalyticsInstaller"
     }
 }

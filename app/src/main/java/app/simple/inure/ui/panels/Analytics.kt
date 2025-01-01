@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
+import app.simple.inure.adapters.analytics.AdapterInstallerLegend
 import app.simple.inure.adapters.analytics.AdapterLegend
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
@@ -19,6 +20,7 @@ import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
 import app.simple.inure.preferences.AnalyticsPreferences
+import app.simple.inure.ui.subpanels.AnalyticsInstaller
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsPackageType
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
@@ -40,15 +42,18 @@ class Analytics : ScopedFragment() {
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
     private lateinit var packageTypePie: ThemePieChart
+    private lateinit var installerPie: ThemePieChart
     private lateinit var minimumOsLegend: LegendRecyclerView
     private lateinit var targetOsLegend: LegendRecyclerView
     private lateinit var packageTypeLegend: LegendRecyclerView
+    private lateinit var installerLegend: LegendRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
     private var minimumOS: AdapterLegend? = null
     private var targetOS: AdapterLegend? = null
     private var packageTypeAdapter: AdapterLegend? = null
+    private var installerAdapter: AdapterInstallerLegend? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
@@ -61,6 +66,8 @@ class Analytics : ScopedFragment() {
         minimumOsLegend = view.findViewById(R.id.minimum_os_legend)
         targetOsLegend = view.findViewById(R.id.target_os_legend)
         packageTypeLegend = view.findViewById(R.id.package_type_legend)
+        installerPie = view.findViewById(R.id.installer_pie)
+        installerLegend = view.findViewById(R.id.installer_legend)
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             minimumOsPie.gone()
@@ -239,6 +246,56 @@ class Analytics : ScopedFragment() {
             packageTypePie.setAnimation(true)
             packageTypePie.notifyDataSetChanged()
             packageTypePie.invalidate()
+        }
+
+        analyticsViewModel.getInstallerData().observe(viewLifecycleOwner) {
+            hideLoader()
+
+            installerPie.apply {
+                PieDataSet(it.first, "").apply {
+                    data = PieData(this)
+                    colors = it.second
+                    valueTextColor = Color.TRANSPARENT
+                    setEntryLabelColor(Color.TRANSPARENT)
+                }
+
+                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        PopupChartEntry(view, e) {
+                            // openFragmentSlide(AnalyticsPackageType.newInstance(it), AnalyticsPackageType.TAG)
+                        }.setOnDismissListener {
+                            runCatching {
+                                installerPie.highlightValues(null)
+                                installerAdapter?.highlightEntry(null)
+                            }
+                        }
+
+                        runCatching {
+                            installerAdapter?.highlightEntry(e as PieEntry?)
+                        }
+                    }
+                })
+
+                installerAdapter = AdapterInstallerLegend(it.first, it.second, it.third) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        openFragmentSlide(AnalyticsInstaller.newInstance(pieEntry), AnalyticsInstaller.TAG)
+                    } else {
+                        installerPie.highlightValue(Highlight(
+                                it.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    }
+                }
+
+                installerLegend.adapter = installerAdapter
+            }
+
+            installerPie.setAnimation(true)
+            installerPie.notifyDataSetChanged()
+            installerPie.invalidate()
         }
     }
 

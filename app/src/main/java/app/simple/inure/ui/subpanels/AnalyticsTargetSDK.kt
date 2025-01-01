@@ -17,7 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.app.AppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.subpanels.AnalyticsSDKViewModelFactory
+import app.simple.inure.factories.subpanels.AnalyticsViewModelFactory
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ParcelUtils.parcelable
@@ -44,8 +44,8 @@ class AnalyticsTargetSDK : ScopedFragment() {
         count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
-        val analyticsSDKViewModelFactory = AnalyticsSDKViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
-        analyticsDataViewModel = ViewModelProvider(this, analyticsSDKViewModelFactory)[AnalyticsDataViewModel::class.java]
+        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
+        analyticsDataViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsDataViewModel::class.java]
 
         return view
     }

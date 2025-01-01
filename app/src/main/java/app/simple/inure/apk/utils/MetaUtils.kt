@@ -346,7 +346,9 @@ object MetaUtils {
             val unapprovedDomains = userState?.hostToStateMap
                 ?.filterValues { it == DomainVerificationUserState.DOMAIN_STATE_NONE }
 
-            return listOf(verifiedDomains, selectedDomains, unapprovedDomains).any { it?.isNotEmpty() == true }
+            return listOf(verifiedDomains, selectedDomains, unapprovedDomains).any {
+                it?.isNotEmpty() == true
+            }
         }.getOrElse {
             it.printStackTrace()
             return false

@@ -2,34 +2,34 @@ package app.simple.inure.models;
 
 public class Tuple <T, K> {
     
-    private T mObjectOne;
-    private K mObjectTwo;
+    private T one;
+    private K two;
     
     public Tuple(T param1, K param2) {
-        mObjectOne = param1;
-        mObjectTwo = param2;
+        one = param1;
+        two = param2;
     }
     
     public T getFirst() {
-        return mObjectOne;
+        return one;
     }
     
     public K getSecond() {
-        return mObjectTwo;
+        return two;
     }
     
     public void setFirst(T t) {
-        mObjectOne = t;
+        one = t;
     }
     
     public void setSecond(K k) {
-        mObjectTwo = k;
+        two = k;
     }
     
     public int compareTo(Tuple tt) {
-        int i = mObjectOne.toString().toLowerCase().compareTo(tt.getFirst().toString().toLowerCase());
+        int i = one.toString().toLowerCase().compareTo(tt.getFirst().toString().toLowerCase());
         if (i == 0) {
-            return mObjectTwo.toString().toLowerCase().compareTo(tt.getSecond().toString().toLowerCase());
+            return two.toString().toLowerCase().compareTo(tt.getSecond().toString().toLowerCase());
         }
         else if (i < 0) {
             return -1;
