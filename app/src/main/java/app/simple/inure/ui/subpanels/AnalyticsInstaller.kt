@@ -68,11 +68,17 @@ class AnalyticsInstaller : ScopedFragment() {
         }
 
         lifecycleScope.launch(Dispatchers.Default) {
-            val label = requirePackageManager().getPackageInfo(pieEntry!!.label, 0).safeApplicationInfo
-                .loadLabel(requirePackageManager()).toString()
+            runCatching {
+                val label = requirePackageManager().getPackageInfo(pieEntry!!.label, 0).safeApplicationInfo
+                    .loadLabel(requirePackageManager()).toString()
 
-            withContext(Dispatchers.Main) {
-                title.text = label
+                withContext(Dispatchers.Main) {
+                    title.text = label
+                }
+            }.getOrElse {
+                withContext(Dispatchers.Main) {
+                    title.text = pieEntry!!.label
+                }
             }
         }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getInstallerPackageName
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import com.github.mikephil.charting.data.Entry
@@ -24,10 +25,11 @@ class AnalyticsInstallerViewModel(application: Application, private val entry: E
     private fun loadInstallerApps(apps: ArrayList<PackageInfo>) {
         viewModelScope.launch(Dispatchers.Default) {
             val installerApps = arrayListOf<PackageInfo>()
+            val unknown = getString(R.string.unknown)
 
             for (app in apps) {
-                val installer = app.getInstallerPackageName(applicationContext())
-                if (installer == (entry as PieEntry).label) {
+                val installer = app.getInstallerPackageName(applicationContext()) ?: unknown
+                if (installer.lowercase() == (entry as PieEntry).label.lowercase()) {
                     installerApps.add(app)
                 }
             }
