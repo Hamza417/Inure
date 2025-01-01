@@ -19,6 +19,7 @@ import app.simple.inure.decorations.views.LegendRecyclerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
+import app.simple.inure.popups.charts.PopupInstallerChartEntry
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsInstaller
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
@@ -265,8 +266,8 @@ class Analytics : ScopedFragment() {
                     }
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
-                        PopupChartEntry(view, e) {
-                            // openFragmentSlide(AnalyticsPackageType.newInstance(it), AnalyticsPackageType.TAG)
+                        PopupInstallerChartEntry(view, e, it.third) {
+                            openFragmentSlide(AnalyticsInstaller.newInstance(it), AnalyticsInstaller.TAG)
                         }.setOnDismissListener {
                             runCatching {
                                 installerPie.highlightValues(null)
