@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.getInstallerPackageName
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
+import app.simple.inure.constants.Colors
 import app.simple.inure.constants.InstallerColors
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
@@ -162,7 +163,8 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             }
 
             installers.keys.distinct().forEach { packageName ->
-                colors.add(InstallerColors.getInstallerColorMap()[packageName] ?: InstallerColors.UNKNOWN)
+                colors.add(InstallerColors.getInstallerColorMap()[packageName]
+                               ?: Colors.getRetroColor()[installers.keys.distinct().indexOf(packageName)])
                 labels[packageName] = kotlin.runCatching {
                     packageManager.getApplicationLabel(packageManager.getApplicationInfo(packageName)!!).toString()
                 }.getOrElse {
