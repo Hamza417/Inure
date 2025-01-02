@@ -82,7 +82,8 @@ class Analytics : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        bottomRightCornerMenu?.initBottomMenuWithScrollView(BottomMenuConstants.getGenericBottomMenuItems(), scrollView) { id, _ ->
+        bottomRightCornerMenu?.initBottomMenuWithScrollView(
+                BottomMenuConstants.getGenericBottomMenuItems(), scrollView) { id, _ ->
             when (id) {
                 R.drawable.ic_settings -> {
                     AnalyticsMenu.newInstance()
@@ -132,11 +133,11 @@ class Analytics : ScopedFragment() {
 
                 minimumOS = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), AnalyticsMinimumSDK.TAG)
-                    } else {
                         minimumOsPie.highlightValue(Highlight(
                                 pieData.first.indexOf(pieEntry).toFloat(),
                                 0, 0), false)
+                    } else {
+                        openFragmentSlide(AnalyticsMinimumSDK.newInstance(pieEntry), AnalyticsMinimumSDK.TAG)
                     }
                 }
 
@@ -184,11 +185,11 @@ class Analytics : ScopedFragment() {
 
                 targetOS = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), AnalyticsTargetSDK.TAG)
-                    } else {
                         targetOsPie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
                                 0, 0), false)
+                    } else {
+                        openFragmentSlide(AnalyticsTargetSDK.newInstance(pieEntry), AnalyticsTargetSDK.TAG)
                     }
                 }
 
@@ -233,11 +234,11 @@ class Analytics : ScopedFragment() {
 
                 packageTypeAdapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), AnalyticsPackageType.TAG)
-                    } else {
                         packageTypePie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
                                 0, 0), false)
+                    } else {
+                        openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), AnalyticsPackageType.TAG)
                     }
                 }
 
@@ -283,11 +284,11 @@ class Analytics : ScopedFragment() {
 
                 installerAdapter = AdapterInstallerLegend(it.first, it.second, it.third) { pieEntry, longPressed ->
                     if (longPressed) {
-                        openFragmentSlide(AnalyticsInstaller.newInstance(pieEntry), AnalyticsInstaller.TAG)
-                    } else {
                         installerPie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
                                 0, 0), false)
+                    } else {
+                        openFragmentSlide(AnalyticsInstaller.newInstance(pieEntry), AnalyticsInstaller.TAG)
                     }
                 }
 
