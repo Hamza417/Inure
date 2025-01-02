@@ -133,6 +133,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         super.onViewCreated(view, savedInstanceState)
         kotlin.runCatching {
             bottomRightCornerMenu = requireActivity().findViewById(R.id.bottom_menu)
+            bottomRightCornerMenu?.setPostTranslationY(requireArguments().getInt(BOTTOM_MENU_POSITION, 0))
         }
 
         animateBlur()
@@ -197,6 +198,12 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
 
         registerSharedPreferenceChangeListener()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause: ${bottomRightCornerMenu?.translationY}")
+        requireArguments().putInt(BOTTOM_MENU_POSITION, bottomRightCornerMenu?.translationY?.toInt() ?: 0)
     }
 
     override fun onStop() {
@@ -780,7 +787,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    @Suppress("unused", "UNUSED_VARIABLE")
+    @Suppress("unused", "UNUSED_VARIABLE", "UnusedReceiverParameter")
     @RequiresApi(Build.VERSION_CODES.R)
     protected fun View.setKeyboardChangeListener() {
         val cb = object : WindowInsetsAnimation.Callback(DISPATCH_MODE_STOP) {
@@ -868,5 +875,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         private const val MAX_WINDOW_HEIGHT = 5
 
         private const val TAG = "ScopedFragment"
+        private const val BOTTOM_MENU_POSITION = "bottom_menu_position"
     }
 }

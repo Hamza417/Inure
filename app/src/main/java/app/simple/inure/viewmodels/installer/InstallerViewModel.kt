@@ -289,7 +289,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
         }
     }
 
-    fun install(user: User?) {
+    fun install(user: User? = null) {
         this.user = user
 
         if (ConfigurationPreferences.isUsingShizuku() || ConfigurationPreferences.isUsingRoot()) {
@@ -313,7 +313,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
             try {
                 val uris = files!!.map { file ->
-                    FileProvider.getUriForFile(applicationContext(), "${applicationContext().packageName}.provider", file)
+                    FileProvider.getUriForFile(
+                            applicationContext(), "${applicationContext().packageName}.provider", file)
                 }
 
                 val packageInstaller = PackageInstaller()

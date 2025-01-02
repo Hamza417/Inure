@@ -42,6 +42,7 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
     private static final String TAG = "BottomMenuRecyclerView";
     private int containerHeight;
     private int displayWidth;
+    private int postTranslationY = 0;
     private boolean isScrollListenerAdded = false;
     private boolean isInitialized = false;
     private boolean isBottomMenuVisible = true;
@@ -141,6 +142,8 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
                     }
                 }
             }
+            
+            executePostTranslationY();
         });
     }
     
@@ -332,6 +335,8 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
             if (getTranslationY() < containerHeight) {
                 setTranslationY(getTranslationY() + dy);
                 setTranslationY(RangesKt.coerceAtMost(getTranslationY(), containerHeight));
+            } else {
+                setTranslationY(containerHeight);
             }
         } else {
             if (getTranslationY() > 0) {
@@ -343,6 +348,20 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
     
     public void setInitialized(boolean initialized) {
         isInitialized = initialized;
+    }
+    
+    public void setPostTranslationY(int postTranslationY) {
+        this.postTranslationY = postTranslationY;
+    }
+    
+    public boolean isPostTranslationY() {
+        return postTranslationY != 0;
+    }
+    
+    private void executePostTranslationY() {
+        if (isPostTranslationY()) {
+            setTranslationY(postTranslationY);
+        }
     }
     
     public void clear() {

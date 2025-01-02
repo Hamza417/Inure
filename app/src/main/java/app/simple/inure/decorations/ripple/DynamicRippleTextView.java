@@ -105,11 +105,12 @@ public class DynamicRippleTextView extends TypeFaceTextView {
                             .scaleY(1F)
                             .scaleX(1F)
                             .alpha(1F)
-                            .setStartDelay(50)
                             .setInterpolator(new LinearOutSlowInInterpolator())
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
+                
+                return super.onTouchEvent(event);
             }
         }
         return super.onTouchEvent(event);

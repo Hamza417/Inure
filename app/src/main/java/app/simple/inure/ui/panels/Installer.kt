@@ -248,7 +248,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                             update.gone()
                             uninstall.gone()
                             launch.gone()
-                            installerViewModel.install(null)
+                            installerViewModel.install()
                         }
                     } else {
                         loader.visible(true)
@@ -256,7 +256,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                         update.gone()
                         uninstall.gone()
                         launch.gone()
-                        installerViewModel.install(null)
+                        installerViewModel.install()
                     }
                 }
 
