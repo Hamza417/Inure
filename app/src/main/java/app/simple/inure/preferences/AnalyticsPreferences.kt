@@ -1,9 +1,12 @@
 package app.simple.inure.preferences
 
+import app.simple.inure.constants.SortConstant
+
 object AnalyticsPreferences {
 
     const val SDK_VALUE = "analytics_sdk_value"
     const val PIE_HOLE_RADIUS = "pie_hole_radius"
+    const val APPLICATION_TYPE = "application_type_analytics"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -25,4 +28,13 @@ object AnalyticsPreferences {
         return SharedPreferences.getSharedPreferences().getFloat(PIE_HOLE_RADIUS, 50F)
     }
 
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setApplicationType(value: String) {
+        SharedPreferences.getSharedPreferences().edit().putString(APPLICATION_TYPE, value).apply()
+    }
+
+    fun getApplicationType(): String {
+        return SharedPreferences.getSharedPreferences().getString(APPLICATION_TYPE, SortConstant.BOTH)!!
+    }
 }

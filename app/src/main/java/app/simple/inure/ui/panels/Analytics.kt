@@ -12,11 +12,13 @@ import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AdapterInstallerLegend
 import app.simple.inure.adapters.analytics.AdapterLegend
 import app.simple.inure.constants.BottomMenuConstants
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LegendRecyclerView
 import app.simple.inure.dialogs.analytics.AnalyticsMenu
+import app.simple.inure.dialogs.analytics.AnalyticsSort.Companion.showAnalyticsSort
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
 import app.simple.inure.popups.charts.PopupInstallerChartEntry
@@ -39,6 +41,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 class Analytics : ScopedFragment() {
 
     private lateinit var scrollView: PaddingAwareNestedScrollView
+    private lateinit var filterStyle: TypeFaceTextView
     private lateinit var minSdkHeading: TypeFaceTextView
     private lateinit var minimumOsPie: ThemePieChart
     private lateinit var targetOsPie: ThemePieChart
@@ -60,6 +63,7 @@ class Analytics : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_analytics, container, false)
 
         scrollView = view.findViewById(R.id.scroll_view)
+        filterStyle = view.findViewById(R.id.filter_style)
         minSdkHeading = view.findViewById(R.id.min_sdk_heading)
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
@@ -80,10 +84,12 @@ class Analytics : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setFilterStyle()
         startPostponedEnterTransition()
 
         bottomRightCornerMenu?.initBottomMenuWithScrollView(
-                BottomMenuConstants.getGenericBottomMenuItems(), scrollView) { id, _ ->
+                BottomMenuConstants.getAllAppsBottomMenuItems(), scrollView) { id, _ ->
             when (id) {
                 R.drawable.ic_settings -> {
                     AnalyticsMenu.newInstance()
@@ -95,6 +101,9 @@ class Analytics : ScopedFragment() {
                 R.drawable.ic_refresh -> {
                     showLoader(manualOverride = true)
                     analyticsViewModel.refreshPackageData()
+                }
+                R.drawable.ic_filter -> {
+                    childFragmentManager.showAnalyticsSort()
                 }
             }
         }
@@ -232,7 +241,8 @@ class Analytics : ScopedFragment() {
                     }
                 })
 
-                packageTypeAdapter = AdapterLegend(it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
+                packageTypeAdapter = AdapterLegend(
+                        it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
                         packageTypePie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
@@ -301,11 +311,36 @@ class Analytics : ScopedFragment() {
         }
     }
 
+    private fun setFilterStyle() {
+        filterStyle.text = when (AnalyticsPreferences.getApplicationType()) {
+            SortConstant.USER -> {
+                getString(R.string.user)
+            }
+            SortConstant.SYSTEM -> {
+                getString(R.string.system)
+            }
+            SortConstant.BOTH -> {
+                with(StringBuilder()) {
+                    append(getString(R.string.user))
+                    append(" | ")
+                    append(getString(R.string.system))
+                }
+            }
+            else -> {
+                getString(R.string.unknown)
+            }
+        }
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
             AnalyticsPreferences.SDK_VALUE -> {
                 analyticsViewModel.refreshPackageData()
+            }
+            AnalyticsPreferences.APPLICATION_TYPE -> {
+                analyticsViewModel.refreshPackageData()
+                setFilterStyle()
             }
         }
     }

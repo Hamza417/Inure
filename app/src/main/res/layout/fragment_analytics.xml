@@ -48,8 +48,20 @@
                     app:appFontStyle="light"
                     app:textColorStyle="heading" />
 
-
             </LinearLayout>
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/filter_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:drawablePadding="@dimen/popup_padding"
+                android:layout_marginHorizontal="@dimen/panel_item_padding"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:drawableStartCompat="@drawable/ic_filter_16dp"
+                app:drawableTintStyle="secondary"
+                app:textColorStyle="tertiary" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
                 android:id="@+id/min_sdk_heading"

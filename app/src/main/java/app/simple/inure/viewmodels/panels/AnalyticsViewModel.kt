@@ -1,6 +1,7 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -12,6 +13,7 @@ import app.simple.inure.apk.utils.PackageUtils.getInstallerPackageName
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Colors
 import app.simple.inure.constants.InstallerColors
+import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ConditionUtils.isNotZero
@@ -19,6 +21,7 @@ import app.simple.inure.util.SDKUtils
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.stream.Collectors
 
 class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(application) {
 
@@ -177,13 +180,31 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
+        val filteredApps = filterAppsByType(apps)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            loadMinimumOsData(apps)
+            loadMinimumOsData(filteredApps)
         }
 
-        loadTargetOsData(apps)
-        loadPackageTypeData(apps)
-        loadInstallerData(apps)
+        loadTargetOsData(filteredApps)
+        loadPackageTypeData(filteredApps)
+        loadInstallerData(filteredApps)
+    }
+
+    private fun filterAppsByType(apps: ArrayList<PackageInfo>): ArrayList<PackageInfo> {
+        return when (AnalyticsPreferences.getApplicationType()) {
+            SortConstant.SYSTEM -> {
+                apps.parallelStream().filter { packageInfo ->
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            SortConstant.USER -> {
+                apps.parallelStream().filter { packageInfo ->
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0
+                }.collect(Collectors.toList()) as ArrayList<PackageInfo>
+            }
+            else -> apps
+        }
     }
 
     override fun onAppUninstalled(packageName: String?) {
