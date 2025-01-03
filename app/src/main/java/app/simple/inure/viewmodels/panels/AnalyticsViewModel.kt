@@ -144,7 +144,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             val labels = hashMapOf<String, String>()
 
             for (app in apps) {
-                val installer = app.getInstallerPackageName(application.applicationContext)
+                val installer = app.getInstallerPackageName(applicationContext())
 
                 if (installer != null) {
                     if (installers.containsKey(installer)) {

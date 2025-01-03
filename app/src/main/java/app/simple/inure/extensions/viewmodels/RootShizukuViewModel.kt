@@ -65,6 +65,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                         Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.DEBUG_MODE)
 
                         kotlin.runCatching {
+                            @Suppress("DEPRECATION")
                             Shell.setDefaultBuilder(
                                     Shell.Builder
                                         .create()

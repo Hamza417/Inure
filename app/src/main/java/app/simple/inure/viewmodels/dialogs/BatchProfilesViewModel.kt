@@ -28,7 +28,7 @@ class BatchProfilesViewModel(application: Application) : WrappedViewModel(applic
     private fun loadProfiles() {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                BatchProfileDatabase.getInstance(application)?.batchProfileDao().let { dao ->
+                BatchProfileDatabase.getInstance(applicationContext())?.batchProfileDao().let { dao ->
                     dao?.getBatchProfiles()?.let { profiles ->
                         if (profiles.isNotEmpty()) {
                             this@BatchProfilesViewModel.profiles.postValue(profiles as ArrayList<BatchProfile>)
@@ -54,7 +54,7 @@ class BatchProfilesViewModel(application: Application) : WrappedViewModel(applic
     fun deleteProfile(profile: BatchProfile, function: () -> Unit = {}) {
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
-                BatchProfileDatabase.getInstance(application)?.batchProfileDao().let { dao ->
+                BatchProfileDatabase.getInstance(applicationContext())?.batchProfileDao().let { dao ->
                     dao?.deleteBatchProfile(profile.id)
                     withContext(Dispatchers.Main) {
                         function()

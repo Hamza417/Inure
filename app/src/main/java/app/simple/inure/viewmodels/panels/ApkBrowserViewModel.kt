@@ -58,7 +58,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
     private fun loadApkPaths() {
         viewModelScope.launch(Dispatchers.IO) {
             val externalStoragePaths: ArrayList<File?> = if (ApkBrowserPreferences.isExternalStorage()) {
-                arrayListOf(Environment.getExternalStorageDirectory(), SDCard.findSdCardPath(application))
+                arrayListOf(Environment.getExternalStorageDirectory(), SDCard.findSdCardPath(applicationContext()))
             } else {
                 arrayListOf(Environment.getExternalStorageDirectory())
             }

@@ -61,9 +61,9 @@ class ActivitiesViewModel(application: Application, private val packageInfo: Pac
 
                     with(StringBuilder()) {
                         append(" | ")
-                        append(MetaUtils.getLaunchMode(ai.launchMode, application))
+                        append(MetaUtils.getLaunchMode(ai.launchMode, applicationContext()))
                         append(" | ")
-                        append(MetaUtils.getOrientation(ai.screenOrientation, application))
+                        append(MetaUtils.getOrientation(ai.screenOrientation, applicationContext()))
 
                         activityInfoModel.status = this.toString()
                     }

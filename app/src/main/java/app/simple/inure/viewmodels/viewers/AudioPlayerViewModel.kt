@@ -25,7 +25,7 @@ class AudioPlayerViewModel(application: Application, private val uri: Uri) : Wra
      * given uri and returns a list of audio models
      */
     private fun loadAudio() {
-        val metadata = MetadataHelper.getAudioMetadata(application, uri)
+        val metadata = MetadataHelper.getAudioMetadata(applicationContext(), uri)
         val audioModel = AudioModel()
 
         audioModel.title = metadata.title

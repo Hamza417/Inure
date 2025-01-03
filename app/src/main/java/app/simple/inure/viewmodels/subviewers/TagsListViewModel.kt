@@ -29,7 +29,7 @@ class TagsListViewModel(application: Application, private val tag: String) : Pac
     private fun loadTaggedApps() {
         viewModelScope.launch(Dispatchers.IO) {
             val apps = ArrayList<PackageInfo>()
-            val tag = TagsDatabase.getInstance(application.applicationContext)?.getTagDao()?.getTag(tag)
+            val tag = TagsDatabase.getInstance(applicationContext())?.getTagDao()?.getTag(tag)
             val allApps = getInstalledApps() + getUninstalledApps()
 
             tag?.packages?.split(",")?.forEach {
@@ -46,11 +46,11 @@ class TagsListViewModel(application: Application, private val tag: String) : Pac
 
     fun deleteTaggedApp(position: String, packageInfo: String, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val tag = TagsDatabase.getInstance(application.applicationContext)?.getTagDao()?.getTag(position)
+            val tag = TagsDatabase.getInstance(applicationContext())?.getTagDao()?.getTag(position)
             val packages = tag?.packages?.split(",")?.toMutableList()
             packages?.remove(packageInfo)
             tag?.packages = packages?.joinToString(",")
-            TagsDatabase.getInstance(application.applicationContext)?.getTagDao()?.updateTag(tag!!)
+            TagsDatabase.getInstance(applicationContext())?.getTagDao()?.updateTag(tag!!)
 
             withContext(Dispatchers.Main) {
                 function()

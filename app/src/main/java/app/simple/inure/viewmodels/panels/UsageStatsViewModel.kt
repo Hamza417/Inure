@@ -273,7 +273,7 @@ class UsageStatsViewModel(application: Application) : MainUsageStatsViewModel(ap
     }
 
     private fun getCacheSize(packageInfo: PackageInfo): Long {
-        with(packageInfo.getPackageSize(application)) {
+        with(packageInfo.getPackageSize(applicationContext())) {
             return cacheSize +
                     externalCacheSize +
                     dataSize +

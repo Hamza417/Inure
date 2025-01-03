@@ -121,6 +121,7 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun setNavColor() {
         if (AppearancePreferences.isAccentOnNavigationBar()) {
             window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))

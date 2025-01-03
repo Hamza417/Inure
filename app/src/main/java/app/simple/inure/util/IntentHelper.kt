@@ -3,7 +3,6 @@ package app.simple.inure.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 object IntentHelper {
@@ -62,6 +61,6 @@ object IntentHelper {
 
         val browserIntent = Intent(Intent.ACTION_VIEW, this)
         browserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        ContextCompat.startActivity(context, browserIntent, null)
+        context.startActivity(browserIntent, null)
     }
 }

@@ -148,7 +148,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     private fun loadTags() {
         viewModelScope.launch(Dispatchers.IO) {
-            val tagsDatabase = TagsDatabase.getInstance(application.applicationContext)
+            val tagsDatabase = TagsDatabase.getInstance(applicationContext())
             tags.postValue(tagsDatabase?.getTagDao()?.getTagsNameOnly()?.toArrayList() ?: arrayListOf())
         }
     }
@@ -254,7 +254,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun ArrayList<PackageInfo>.filterCategories(keywords: String): ArrayList<PackageInfo> {
         when {
             keywords.startsWith("#") -> {
-                val tagsDatabase = TagsDatabase.getInstance(application.applicationContext)
+                val tagsDatabase = TagsDatabase.getInstance(applicationContext())
                 val tag = keywords.split(" ")[0].substring(1)
                 val tagApps = tagsDatabase?.getTagDao()?.getTag(tag)?.packages?.split(",")
 

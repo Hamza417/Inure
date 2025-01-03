@@ -25,7 +25,7 @@ class TerminalCommandsViewModel(application: Application) : WrappedViewModel(app
     private fun loadTerminalCommands() {
         viewModelScope.launch(Dispatchers.IO) {
             terminalCommands.postValue(TerminalCommandDatabase
-                                           .getInstance(application)!!
+                                           .getInstance(applicationContext())!!
                                            .terminalCommandDao()!!
                                            .getAllTerminalCommands() as ArrayList<TerminalCommand>?)
         }
@@ -34,7 +34,7 @@ class TerminalCommandsViewModel(application: Application) : WrappedViewModel(app
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
             TerminalCommandDatabase
-                .getInstance(application)!!
+                .getInstance(applicationContext())!!
                 .terminalCommandDao()!!
                 .nukeTable()
             terminalCommands.postValue(arrayListOf())
@@ -44,11 +44,11 @@ class TerminalCommandsViewModel(application: Application) : WrappedViewModel(app
     fun addNewCommands(terminalCommand: TerminalCommand) {
         viewModelScope.launch(Dispatchers.IO) {
             TerminalCommandDatabase
-                .getInstance(application)!!
+                .getInstance(applicationContext())!!
                 .terminalCommandDao()!!
                 .insertTerminalCommand(terminalCommand)
             terminalCommands.postValue(TerminalCommandDatabase
-                                           .getInstance(application)!!
+                                           .getInstance(applicationContext())!!
                                            .terminalCommandDao()!!
                                            .getAllTerminalCommands() as ArrayList<TerminalCommand>?)
         }
@@ -57,7 +57,7 @@ class TerminalCommandsViewModel(application: Application) : WrappedViewModel(app
     fun deleteCommand(terminalCommand: TerminalCommand?) {
         viewModelScope.launch(Dispatchers.IO) {
             TerminalCommandDatabase
-                .getInstance(application)!!
+                .getInstance(applicationContext())!!
                 .terminalCommandDao()!!
                 .deleteTerminalCommand(terminalCommand!!)
 
@@ -68,7 +68,7 @@ class TerminalCommandsViewModel(application: Application) : WrappedViewModel(app
     fun updateCommand(terminalCommand: TerminalCommand) {
         viewModelScope.launch(Dispatchers.IO) {
             TerminalCommandDatabase
-                .getInstance(application)!!
+                .getInstance(applicationContext())!!
                 .terminalCommandDao()!!
                 .updateTerminalCommand(terminalCommand)
         }

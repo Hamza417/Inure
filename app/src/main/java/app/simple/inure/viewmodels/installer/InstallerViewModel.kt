@@ -261,12 +261,12 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         Log.d(TAG, "Error: ${result.err}")
                         success.postValue((0..50).random())
 
-                        Log.d(TAG, "Setting installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
-                        Shell.cmd("pm set-installer ${packageInfo.value!!.packageName} ${application.packageName}").exec().let {
+                        Log.d(TAG, "Setting installer to ${applicationContext().packageName} for ${packageInfo.value!!.packageName}")
+                        Shell.cmd("pm set-installer ${packageInfo.value!!.packageName} ${applicationContext().packageName}").exec().let {
                             if (it.isSuccess) {
-                                Log.d(TAG, "Installer set to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                Log.d(TAG, "Installer set to ${applicationContext().packageName} for ${packageInfo.value!!.packageName}")
                             } else {
-                                Log.d(TAG, "Unable to set installer to ${application.packageName} for ${packageInfo.value!!.packageName}")
+                                Log.d(TAG, "Unable to set installer to ${applicationContext().packageName} for ${packageInfo.value!!.packageName}")
                                 Log.e(TAG, "Output: ${it.out}")
                             }
                         }
@@ -353,9 +353,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
          * Users feature is only available after Nougat
          */
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            "pm install-create -i ${application.packageName} --user ${user?.id ?: getCurrentUser()} -S"
+            "pm install-create -i ${applicationContext().packageName} --user ${user?.id ?: getCurrentUser()} -S"
         } else {
-            "pm install-create -i ${application.packageName} -S"
+            "pm install-create -i ${applicationContext().packageName} -S"
         }
     }
 
@@ -364,7 +364,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             kotlin.runCatching {
                 val path = packageInfo.value!!.applicationInfo?.sourceDir?.escapeSpecialCharactersForUnixPath()
 
-                Shell.cmd("run-as ${application.packageName}").exec()
+                Shell.cmd("run-as ${applicationContext().packageName}").exec()
                 Shell.cmd("pm install --bypass-low-target-sdk-block $path").exec().let {
                     if (it.isSuccess) {
                         success.postValue((0..50).random())

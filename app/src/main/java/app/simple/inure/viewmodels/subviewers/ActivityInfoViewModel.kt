@@ -47,47 +47,47 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
 
     private fun getLaunchMode(): Pair<Int, Spannable> {
         return Pair(R.string.launch_mode,
-                    MetaUtils.getLaunchMode(activityInfoModel.activityInfo.launchMode, application).applySecondaryTextColor())
+                    MetaUtils.getLaunchMode(activityInfoModel.activityInfo.launchMode, applicationContext()).applySecondaryTextColor())
     }
 
     private fun getOrientation(): Pair<Int, Spannable> {
         return Pair(R.string.orientation,
-                    MetaUtils.getOrientation(activityInfoModel.activityInfo.screenOrientation, application).applySecondaryTextColor())
+                    MetaUtils.getOrientation(activityInfoModel.activityInfo.screenOrientation, applicationContext()).applySecondaryTextColor())
     }
 
     private fun getSoftInputMode(): Pair<Int, Spannable> {
         return Pair(R.string.soft_input_mode,
-                    MetaUtils.getSoftInputMode(activityInfoModel.activityInfo.softInputMode, application).applyAccentColor())
+                    MetaUtils.getSoftInputMode(activityInfoModel.activityInfo.softInputMode, applicationContext()).applyAccentColor())
     }
 
     private fun getColorMode(): Pair<Int, Spannable> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Pair(R.string.color_mode,
-                 MetaUtils.getColorMode(activityInfoModel.activityInfo.colorMode, application as Application).applySecondaryTextColor())
+                 MetaUtils.getColorMode(activityInfoModel.activityInfo.colorMode, applicationContext()).applySecondaryTextColor())
         } else {
             Pair(R.string.soft_input_mode,
-                 MetaUtils.getColorMode(-1, application).applySecondaryTextColor())
+                 MetaUtils.getColorMode(-1, applicationContext()).applySecondaryTextColor())
         }
     }
 
     private fun getDocumentLaunchMode(): Pair<Int, Spannable> {
         return Pair(R.string.document_launch_mode,
-                    MetaUtils.getDocumentLaunchMode(activityInfoModel.activityInfo.documentLaunchMode, application).applySecondaryTextColor())
+                    MetaUtils.getDocumentLaunchMode(activityInfoModel.activityInfo.documentLaunchMode, applicationContext()).applySecondaryTextColor())
     }
 
     private fun getPersistableMode(): Pair<Int, Spannable> {
         return Pair(R.string.persistable_mode,
-                    MetaUtils.getPersistableMode(activityInfoModel.activityInfo.persistableMode, application).applySecondaryTextColor())
+                    MetaUtils.getPersistableMode(activityInfoModel.activityInfo.persistableMode, applicationContext()).applySecondaryTextColor())
     }
 
     private fun getFlags(): Pair<Int, Spannable> {
         return Pair(R.string.flags,
-                    MetaUtils.getFlags(activityInfoModel.activityInfo.flags, application).applyAccentColor())
+                    MetaUtils.getFlags(activityInfoModel.activityInfo.flags, applicationContext()).applyAccentColor())
     }
 
     private fun getConfigurationsChanges(): Pair<Int, Spannable> {
         return Pair(R.string.configuration_changes,
-                    MetaUtils.getConfigurationsChanges(activityInfoModel.activityInfo.configChanges, application).applyAccentColor())
+                    MetaUtils.getConfigurationsChanges(activityInfoModel.activityInfo.configChanges, applicationContext()).applyAccentColor())
     }
 
     private fun getTaskAffinity(): Pair<Int, Spannable> {

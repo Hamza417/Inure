@@ -31,6 +31,7 @@ class ShellExecutorViewModel(application: Application, private val command: Stri
         return success
     }
 
+    @Suppress("DEPRECATION")
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

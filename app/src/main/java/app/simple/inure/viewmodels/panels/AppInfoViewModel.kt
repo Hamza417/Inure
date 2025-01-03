@@ -457,7 +457,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
     private fun loadTags() {
         viewModelScope.launch(Dispatchers.IO) {
-            val tagsDataBase = TagsDatabase.getInstance(application.applicationContext)
+            val tagsDataBase = TagsDatabase.getInstance(applicationContext())
             val tags = tagsDataBase?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toArrayList()
 
             if (tags.isNullOrEmpty().invert()) {
@@ -469,7 +469,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
     }
 
     private fun isNotThisApp(): Boolean {
-        return packageInfo.packageName != application.packageName
+        return packageInfo.packageName != applicationContext().packageName
     }
 
     fun reinitPackageInfo(): PackageInfo {

@@ -46,9 +46,9 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
 
                     activityInfoModel.activityInfo = ai
                     activityInfoModel.name = ai.name
-                    activityInfoModel.target = ai.targetActivity ?: application.getString(R.string.not_available)
+                    activityInfoModel.target = ai.targetActivity ?: getString(R.string.not_available)
                     activityInfoModel.exported = ai.exported
-                    activityInfoModel.permission = ai.permission ?: application.getString(R.string.no_permissions_required)
+                    activityInfoModel.permission = ai.permission ?: getString(R.string.no_permissions_required)
 
                     for (signature in signatures) {
                         if (ai.name!!.contains(signature)) {
@@ -59,9 +59,9 @@ class ReceiversViewModel(application: Application, val packageInfo: PackageInfo)
 
                     with(StringBuilder()) {
                         append(" | ")
-                        append(MetaUtils.getLaunchMode(ai.launchMode, application))
+                        append(MetaUtils.getLaunchMode(ai.launchMode, applicationContext()))
                         append(" | ")
-                        append(MetaUtils.getOrientation(ai.screenOrientation, application))
+                        append(MetaUtils.getOrientation(ai.screenOrientation, applicationContext()))
                         activityInfoModel.status = this.toString()
                     }
 

@@ -10,7 +10,6 @@ import android.content.pm.ShortcutInfo
 import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import app.simple.inure.models.ActivityInfoModel
@@ -25,7 +24,7 @@ object ActivityUtils {
         val launchIntent = Intent(Intent.ACTION_MAIN)
         launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         launchIntent.component = ComponentName(packageName, packageId)
-        startActivity(context, launchIntent, null)
+        context.startActivity(launchIntent, null)
     }
 
     @Suppress("DEPRECATION")
@@ -76,7 +75,7 @@ object ActivityUtils {
         launchIntent.addCategory(Intent.CATEGORY_LAUNCHER)
         launchIntent.action = action
         launchIntent.component = ComponentName(packageName, packageId)
-        startActivity(context, launchIntent, null)
+        context.startActivity(launchIntent, null)
     }
 
     fun Context.isAppInLockTaskMode(): Boolean {

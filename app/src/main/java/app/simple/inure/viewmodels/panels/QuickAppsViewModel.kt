@@ -76,7 +76,7 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
 
             for (i in apps.indices) {
                 apps[i].safeApplicationInfo.name = PackageUtils
-                    .getApplicationName(application.applicationContext, apps[i].safeApplicationInfo)
+                    .getApplicationName(applicationContext(), apps[i].safeApplicationInfo)
             }
 
             this@QuickAppsViewModel.quickApps.postValue(apps)
@@ -118,7 +118,7 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
     override fun onCleared() {
         super.onCleared()
         db?.close()
-        LocalBroadcastManager.getInstance(application.applicationContext)
+        LocalBroadcastManager.getInstance(applicationContext())
             .unregisterReceiver(broadcastReceiver!!)
     }
 }

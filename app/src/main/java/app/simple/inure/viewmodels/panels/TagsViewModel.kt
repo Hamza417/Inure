@@ -53,7 +53,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private suspend fun loadTags() {
-        val database = TagsDatabase.getInstance(application.applicationContext)
+        val database = TagsDatabase.getInstance(applicationContext())
         val tags = database?.getTagDao()?.getTags()
         val apps = getInstalledApps() + getUninstalledApps()
 
@@ -84,7 +84,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private suspend fun loadTagNames() {
-        val database = TagsDatabase.getInstance(application.applicationContext)
+        val database = TagsDatabase.getInstance(applicationContext())
         val tags = database?.getTagDao()?.getTags()
         val apps = getInstalledApps() + getUninstalledApps()
 
@@ -102,14 +102,14 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     }
 
     private suspend fun loadTrackerTags() {
-        val database = TagsDatabase.getInstance(application.applicationContext)
+        val database = TagsDatabase.getInstance(applicationContext())
         val tags = database?.getTagDao()?.getTrackers()
         TrackerTags.setTrackerPackages(tags?.split(",")?.toHashSet())
     }
 
     fun addTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
+            val database = TagsDatabase.getInstance(applicationContext())
             val tags = database?.getTagDao()?.getTagsNameOnly()
 
             if (tags.isNullOrEmpty().invert()) {
@@ -138,7 +138,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     fun removeTag(tag: String, packageInfo: PackageInfo, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
+            val database = TagsDatabase.getInstance(applicationContext())
             val tags = database?.getTagDao()?.getTagsByPackage(packageInfo.packageName)?.toSet()
 
             if (tags.isNullOrEmpty().invert()) {
@@ -172,7 +172,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     fun deleteTag(tag: Tag) {
         viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
+            val database = TagsDatabase.getInstance(applicationContext())
             database?.getTagDao()?.deleteTag(tag)
             tags.value?.remove(tag)
             withContext(Dispatchers.Main) {
@@ -183,7 +183,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
 
     fun addMultipleAppsToTag(currentAppsList: java.util.ArrayList<BatchPackageInfo>, it: String, function: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
+            val database = TagsDatabase.getInstance(applicationContext())
             val tags = database?.getTagDao()?.getTagsNameOnly()
 
             if (tags.isNullOrEmpty().invert()) {
@@ -219,7 +219,7 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
     @RequiresApi(Build.VERSION_CODES.O)
     fun autoTag(storedFlags: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val database = TagsDatabase.getInstance(application.applicationContext)
+            val database = TagsDatabase.getInstance(applicationContext())
             val tags = database?.getTagDao()?.getTagsNameOnly()
             val apps = getInstalledApps() + getUninstalledApps()
             val trackersData = TrackerUtils.getTrackersData()

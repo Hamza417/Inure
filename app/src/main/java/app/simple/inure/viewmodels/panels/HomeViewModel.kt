@@ -174,7 +174,7 @@ class HomeViewModel(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val stats = with(UsageInterval.getTimeInterval()) {
-                    (application.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
+                    (applicationContext().getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager)
                         .queryAndAggregateUsageStats(startTime, endTime)
                 }
 
@@ -239,7 +239,7 @@ class HomeViewModel(application: Application) :
 
     private fun loadFOSSApps() {
         viewModelScope.launch(Dispatchers.IO) {
-            FOSSParser.init(application.applicationContext)
+            FOSSParser.init(applicationContext())
 
             val apps = getInstalledApps().stream()
                 .filter { FOSSParser.isPackageFOSS(it) }

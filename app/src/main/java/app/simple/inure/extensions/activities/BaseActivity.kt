@@ -339,6 +339,7 @@ open class BaseActivity : AppCompatActivity(),
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun makeAppFullScreen() {
         if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
@@ -399,6 +400,7 @@ open class BaseActivity : AppCompatActivity(),
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun setNavColor(accent: Boolean = false) {
         val startColor: Int
         val endColor: Int

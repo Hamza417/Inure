@@ -235,7 +235,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
 
         for (i in list.indices) {
             list[i].packageInfo.safeApplicationInfo.name = PackageUtils.getApplicationName(
-                    application.applicationContext, list[i].packageInfo.safeApplicationInfo)
+                    applicationContext(), list[i].packageInfo.safeApplicationInfo)
         }
 
         if (BatchPreferences.isSelectionOnTop()) {

@@ -28,7 +28,7 @@ object RootStateHelper {
                         Shell.setDefaultBuilder(
                                 Shell.Builder
                                     .create()
-                                    .setFlags(Shell.FLAG_REDIRECT_STDERR or Shell.FLAG_MOUNT_MASTER)
+                                    .setFlags(Shell.FLAG_MOUNT_MASTER)
                                     .setTimeout(10))
                     }.getOrElse {
                         Log.e(TAG, "onSwitchChecked: $it")

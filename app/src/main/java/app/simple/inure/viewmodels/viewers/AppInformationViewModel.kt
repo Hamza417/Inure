@@ -41,7 +41,6 @@ import app.simple.inure.util.StringUtils.endsWithAny
 import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.dongliu.apk.parser.bean.ApkMeta
 import net.lingala.zip4j.ZipFile
 import java.io.File
 import java.text.NumberFormat
@@ -204,7 +203,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getCacheSize(): Pair<Int, Spannable> {
         kotlin.runCatching {
-            val packageSizes = packageInfo.getPackageSize(application)
+            val packageSizes = packageInfo.getPackageSize(applicationContext())
             packageSizes.cacheSize.let {
                 val s = it.toSize()
                 return Pair(R.string.cache, s.applySecondaryTextColor())
@@ -306,14 +305,8 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 "${packageInfo.safeApplicationInfo.minSdkVersion}, ${SDKUtils.getSdkTitle(packageInfo.safeApplicationInfo.minSdkVersion)}"
             } else {
-                when (val apkMeta: Any = packageInfo.safeApplicationInfo.getApkMeta()) {
-                    is ApkMeta -> {
-                        "${apkMeta.minSdkVersion}, ${SDKUtils.getSdkTitle(apkMeta.minSdkVersion)}"
-                    }
-
-                    else -> {
-                        getString(R.string.not_available)
-                    }
+                with(packageInfo.safeApplicationInfo.getApkMeta()) {
+                    "${minSdkVersion}, ${SDKUtils.getSdkTitle(minSdkVersion)}"
                 }
             }
         }.getOrElse {
@@ -337,7 +330,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getFOSS(): Pair<Int, Spannable> {
-        FOSSParser.init(application)
+        FOSSParser.init(applicationContext())
         val isFOSS = FOSSParser.isPackageFOSS(packageInfo)
         return Pair(R.string.foss,
                     (if (isFOSS) getString(R.string.yes) else getString(R.string.no))
@@ -345,7 +338,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getFOSSLicense(): Pair<Int, Spannable> {
-        FOSSParser.init(application)
+        FOSSParser.init(applicationContext())
         val licenses = FOSSParser.getPackageLicense(packageInfo)
         return Pair(R.string.open_source_licenses,
                     licenses.toString().applySecondaryTextColor())
@@ -434,9 +427,9 @@ class AppInformationViewModel(application: Application, private var packageInfo:
         @Suppress("deprecation")
         val name = kotlin.runCatching {
             val p0 = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                application.packageManager.getInstallSourceInfo(packageInfo.packageName).installingPackageName
+                packageManager.getInstallSourceInfo(packageInfo.packageName).installingPackageName
             } else {
-                application.packageManager.getInstallerPackageName(packageInfo.packageName)
+                packageManager.getInstallerPackageName(packageInfo.packageName)
             }
 
             PackageUtils.getApplicationName(context, p0!!)

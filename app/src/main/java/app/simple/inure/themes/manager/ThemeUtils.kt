@@ -195,6 +195,7 @@ object ThemeUtils {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
     }
 
+    @Suppress("DEPRECATION")
     private fun setStatusAndNavColors(window: Window) {
         if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
             window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
