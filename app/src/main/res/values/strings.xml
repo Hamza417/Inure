@@ -765,4 +765,5 @@
     <string name="launchable">Launchable</string>
     <string name="stopped">Stopped</string>
     <string name="provider">Provider</string>
+    <string name="chart_labels">Chart Labels</string>
 </resources>

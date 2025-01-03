@@ -1,7 +1,6 @@
 package app.simple.inure.ui.panels
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +16,7 @@ import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.theme.ThemePieChart
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LegendRecyclerView
-import app.simple.inure.dialogs.analytics.AnalyticsMenu
+import app.simple.inure.dialogs.analytics.AnalyticsMenu.Companion.showAnalyticsMenu
 import app.simple.inure.dialogs.analytics.AnalyticsSort.Companion.showAnalyticsSort
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.charts.PopupChartEntry
@@ -92,8 +91,7 @@ class Analytics : ScopedFragment() {
                 BottomMenuConstants.getAllAppsBottomMenuItems(), scrollView) { id, _ ->
             when (id) {
                 R.drawable.ic_settings -> {
-                    AnalyticsMenu.newInstance()
-                        .show(childFragmentManager, "analytics_menu")
+                    childFragmentManager.showAnalyticsMenu()
                 }
                 R.drawable.ic_search -> {
                     openFragmentSlide(Search.newInstance(true), "search")
@@ -115,8 +113,7 @@ class Analytics : ScopedFragment() {
                 PieDataSet(pieData.first, "").apply {
                     data = PieData(this)
                     colors = pieData.second
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
+                    checkLabelState()
                 }
 
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -167,8 +164,7 @@ class Analytics : ScopedFragment() {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
                     colors = it.second
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
+                    checkLabelState()
                 }
 
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -216,8 +212,7 @@ class Analytics : ScopedFragment() {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
                     colors = ColorTemplate.PASTEL_COLORS.toMutableList()
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
+                    checkLabelState()
                 }
 
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -267,8 +262,7 @@ class Analytics : ScopedFragment() {
                 PieDataSet(it.first, "").apply {
                     data = PieData(this)
                     colors = it.second
-                    valueTextColor = Color.TRANSPARENT
-                    setEntryLabelColor(Color.TRANSPARENT)
+                    checkLabelState()
                 }
 
                 setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -342,6 +336,20 @@ class Analytics : ScopedFragment() {
                 analyticsViewModel.refreshPackageData()
                 setFilterStyle()
             }
+            AnalyticsPreferences.CHART_LABEL -> {
+                minimumOsPie.checkLabelState()
+                targetOsPie.checkLabelState()
+                packageTypePie.checkLabelState()
+                installerPie.checkLabelState()
+            }
+        }
+    }
+
+    private fun ThemePieChart.checkLabelState() {
+        if (AnalyticsPreferences.getChartLabel()) {
+            enableChartLabels(existingDataSet)
+        } else {
+            disableChartLabels(existingDataSet)
         }
     }
 
