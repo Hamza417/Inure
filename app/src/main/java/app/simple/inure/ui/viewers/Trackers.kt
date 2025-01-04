@@ -64,9 +64,9 @@ class Trackers : SearchBarScopedFragment() {
         startPostponedEnterTransition()
 
         if (ConfigurationPreferences.isUsingRoot()) {
-            rootWarning.gone(true)
+            rootWarning.gone(false)
         } else {
-            rootWarning.visible(animate = true)
+            rootWarning.visible(animate = false)
         }
 
         trackersViewModel.getTrackers().observe(viewLifecycleOwner) { trackers ->
