@@ -107,7 +107,7 @@ jobs:
                     to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
                     token: ${{ secrets.TG_BOT_KEY }}
                     message: |
-                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store.
+                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store. This is a major release with a lot of new features and improvements, so make sure to read the changelogs. 🚀
 
 #            -   name: Send First APK to Telegram
 #                uses: appleboy/telegram-action@master
