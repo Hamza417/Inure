@@ -4421,6 +4421,7 @@
     <string name="com.inspiredandroid.newsout" translatable="false">Apache-2.0</string>
     <string name="dev.anilbeesetti.nextplayer" translatable="false">GPL-3.0-only</string>
     <string name="eu.seldon1000.nextpass" translatable="false">Apache-2.0</string>
+    <string name="org.unifiedpush.distributor.nextpush" translatable="false">Apache-2.0</string>
     <string name="com.surfaceocean.nexttraceroute" translatable="false">GPL-3.0-only</string>
     <string name="com.nfcalarmclock" translatable="false">GPL-3.0-only</string>
     <string name="de.tu_darmstadt.seemoo.nfcgate" translatable="false">Apache-2.0</string>
@@ -4886,6 +4887,7 @@
     <string name="aliendrew.ms.stickynotes" translatable="false">GPL-3.0-only</string>
     <string name="unofficial.tandoor.recipes" translatable="false">GPL-3.0-only</string>
     <string name="me.cosarara.up" translatable="false">GPL-3.0-or-later</string>
+    <string name="org.unifiedpush.example" translatable="false">Apache-2.0</string>
     <string name="com.updateme" translatable="false">Apache-2.0</string>
     <string name="com.samueljhuf.upnp_explorer" translatable="false">MIT</string>
     <string name="com.cyb3rg0d.urlchecker" translatable="false">GPL-3.0-only</string>
