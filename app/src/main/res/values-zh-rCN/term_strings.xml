@@ -93,7 +93,7 @@
     <string name="title_use_keyboard_shortcuts">使用键盘快捷键</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: 循环浏览窗口\nCtrl-Shift-N: 新窗口\nCtrl-Shift-V: 粘贴.</string>
     <string name="help">帮助</string>
-    <string name="activity_term_here_title">这是终端</string>
+    <string name="activity_term_here_title">在此打开终端</string>
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">终端快捷方式</string>
