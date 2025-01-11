@@ -17,7 +17,6 @@ object MainPreferences {
     private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_enabled"
     private const val DISCLAIMER_AGREED = "disclaimer_agreed"
     private const val IS_RATE_REMINDER_SHOWN = "is_rate_reminder_shown_2"
-    const val BOTTOM_MENU_HEIGHT = "bottom_menu_height"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -116,15 +115,5 @@ object MainPreferences {
 
     fun isShowRateReminder(): Boolean {
         return getSharedPreferences().getBoolean(IS_RATE_REMINDER_SHOWN, true)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setBottomMenuHeight(value: Int) {
-        getSharedPreferences().edit().putInt(BOTTOM_MENU_HEIGHT, value).apply()
-    }
-
-    fun getBottomMenuHeight(): Int {
-        return getSharedPreferences().getInt(BOTTOM_MENU_HEIGHT, 0)
     }
 }

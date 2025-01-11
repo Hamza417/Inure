@@ -1,5 +1,6 @@
 package app.simple.inure.decorations.overscroll
 
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -14,7 +15,13 @@ open class HorizontalListViewHolder(itemView: View) : RecyclerView.ViewHolder(it
         return ContextCompat.getDrawable(itemView.context, resID)!!
     }
 
-    var currentVelocity = 0f
+    fun getResources(): Resources {
+        return itemView.resources
+    }
+
+    fun getContext() = itemView.context
+
+    private var currentVelocity = 0f
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation rotates the view with a bouncy

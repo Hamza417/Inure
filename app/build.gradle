@@ -258,7 +258,7 @@ dependencies {
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
     // Refine
-    annotationProcessor "dev.rikka.tools.refine:annotation-processor:4.4.0"
+    kapt "dev.rikka.tools.refine:annotation-processor:4.4.0"
     //noinspection GradleDependency
     compileOnly "dev.rikka.tools.refine:annotation:4.3.0"
 

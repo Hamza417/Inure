@@ -28,7 +28,6 @@ import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView;
 import app.simple.inure.interfaces.menus.BottomMenuCallbacks;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.DevelopmentPreferences;
-import app.simple.inure.preferences.MainPreferences;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.util.ViewUtils;
 import kotlin.Pair;
@@ -124,7 +123,6 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
             layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
-            MainPreferences.INSTANCE.setBottomMenuHeight(getHeight() - layoutParams.topMargin - layoutParams.bottomMargin);
             setLayoutParams(layoutParams);
             
             if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.CENTER_BOTTOM_MENU)) {

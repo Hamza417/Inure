@@ -17,7 +17,6 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.appearances.PopupPalettes
 import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.preferences.MainPreferences
 import app.simple.inure.util.TextViewUtils.makeLinks
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -183,22 +182,6 @@ class AccessibilityScreen : ScopedFragment() {
                             .start()
                     }
                     .start()
-            }
-
-            AccessibilityPreferences.BOTTOM_MENU_CONTEXT -> {
-                /**
-                 * Reset the bottom menu height so that it can be reinitialized
-                 * with the updated height later in [app.simple.inure.decorations.views.FloatingMenuRecyclerView].
-                 *
-                 * This is done because the height of the bottom menu is calculated
-                 * based on the height of the bottom menu items. So, if the height of the
-                 * bottom menu items is changed, the height of the bottom menu should be
-                 * recalculated. For some reason the height of the bottom menu items is not
-                 * recalculated when the height of the bottom menu is changed.
-                 *
-                 * This is a workaround for that.
-                 */
-                MainPreferences.setBottomMenuHeight(0)
             }
         }
     }
