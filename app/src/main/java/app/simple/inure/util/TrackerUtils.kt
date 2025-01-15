@@ -42,6 +42,10 @@ object TrackerUtils {
     private const val TAG = "TrackersUtils"
 
     fun getTrackerSignatures(): List<String> {
+        return getFinalTrackerSignatures() + getETIPTrackerSignatures()
+    }
+
+    private fun getFinalTrackerSignatures(): List<String> {
         ProcessUtils.ensureNotOnMainThread {
             val bufferedReader = BufferedReader(InputStreamReader(
                     TrackerUtils::class.java.getResourceAsStream(TRACKERS_JSON)))
@@ -62,6 +66,35 @@ object TrackerUtils {
                 val key = keysIterator.next()
                 val tracker = trackers.getJSONObject(key)
                 val codeSignature = tracker.getString("code_signature")
+
+                codeSignature.split("|").forEach {
+                    if (it.isNotEmpty()) {
+                        signatures.add(it)
+                    }
+                }
+            }
+
+            return signatures
+        }
+    }
+
+    private fun getETIPTrackerSignatures(): List<String> {
+        ProcessUtils.ensureNotOnMainThread {
+            val bufferedReader = BufferedReader(InputStreamReader(
+                    TrackerUtils::class.java.getResourceAsStream(ETIP_TRACKERS_JSON)))
+            val stringBuilder = StringBuilder()
+            var line: String?
+            while (bufferedReader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
+
+            val json = stringBuilder.toString()
+            val jsonArray = JSONArray(json)
+            val signatures = arrayListOf<String>()
+
+            for (i in 0 until jsonArray.length()) {
+                val trackerJson = jsonArray.getJSONObject(i)
+                val codeSignature = trackerJson.getString("code_signature")
 
                 codeSignature.split("|").forEach {
                     if (it.isNotEmpty()) {
