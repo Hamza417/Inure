@@ -13,6 +13,7 @@ import app.simple.inure.util.ArrayUtils.toStringArray
 import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.nio.ExtendedFile
 import com.topjohnwu.superuser.nio.FileSystemManager
+import org.json.JSONArray
 import org.json.JSONObject
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -37,9 +38,14 @@ import javax.xml.transform.stream.StreamResult
 object TrackerUtils {
 
     private const val TRACKERS_JSON = "/trackers.json"
+    private const val ETIP_TRACKERS_JSON = "/etip_trackers.json"
     private const val TAG = "TrackersUtils"
 
     fun getTrackerSignatures(): List<String> {
+        return getFinalTrackerSignatures() + getETIPTrackerSignatures()
+    }
+
+    private fun getFinalTrackerSignatures(): List<String> {
         ProcessUtils.ensureNotOnMainThread {
             val bufferedReader = BufferedReader(InputStreamReader(
                     TrackerUtils::class.java.getResourceAsStream(TRACKERS_JSON)))
@@ -72,6 +78,40 @@ object TrackerUtils {
         }
     }
 
+    private fun getETIPTrackerSignatures(): List<String> {
+        ProcessUtils.ensureNotOnMainThread {
+            val bufferedReader = BufferedReader(InputStreamReader(
+                    TrackerUtils::class.java.getResourceAsStream(ETIP_TRACKERS_JSON)))
+            val stringBuilder = StringBuilder()
+            var line: String?
+            while (bufferedReader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
+
+            val json = stringBuilder.toString()
+            val jsonArray = JSONArray(json)
+            val signatures = arrayListOf<String>()
+
+            for (i in 0 until jsonArray.length()) {
+                val trackerJson = jsonArray.getJSONObject(i)
+                val codeSignature = trackerJson.getString("code_signature")
+
+                codeSignature.split("|").forEach {
+                    if (it.isNotEmpty()) {
+                        signatures.add(it)
+                    }
+                }
+            }
+
+            return signatures
+        }
+    }
+
+    fun getTrackersData(): ArrayList<Tracker> {
+        return (getFinalTrackersData() + getETIPTrackersData())
+                as ArrayList<Tracker>
+    }
+
     /**
      * {
      *     "trackers": {
@@ -91,7 +131,7 @@ object TrackerUtils {
      *     }
      *  }
      */
-    fun getTrackersData(): ArrayList<Tracker> {
+    private fun getFinalTrackersData(): ArrayList<Tracker> {
         ProcessUtils.ensureNotOnMainThread {
             val bufferedReader = BufferedReader(InputStreamReader(
                     TrackerUtils::class.java.getResourceAsStream(TRACKERS_JSON)))
@@ -137,6 +177,53 @@ object TrackerUtils {
                 it.codeSignature.isNotEmpty()
             } as ArrayList<Tracker>
         }
+    }
+
+    private fun getETIPTrackersData(): ArrayList<Tracker> {
+        ProcessUtils.ensureNotOnMainThread {
+            val bufferedReader = BufferedReader(InputStreamReader(
+                    TrackerUtils::class.java.getResourceAsStream(ETIP_TRACKERS_JSON)))
+            val stringBuilder = StringBuilder()
+            var line: String?
+            while (bufferedReader.readLine().also { line = it } != null) {
+                stringBuilder.append(line)
+            }
+
+            val json = stringBuilder.toString()
+            val jsonArray = JSONArray(json)
+            val trackersList = arrayListOf<Tracker>()
+
+            for (i in 0 until jsonArray.length()) {
+                val trackerJson = jsonArray.getJSONObject(i)
+                val tracker = Tracker().apply {
+                    name = trackerJson.getString("name")
+                    codeSignature = trackerJson.getString("code_signature")
+                    networkSignature = trackerJson.getString("network_signature")
+                    website = trackerJson.getString("website")
+                    creationDate = trackerJson.getString("creation_date")
+                    description = trackerJson.getString("description")
+                    categories = fetchCategoryNames(trackerJson.getJSONArray("category"))
+                    documentation = trackerJson.getJSONArray("documentation").toStringArray()
+                }
+                trackersList.add(tracker)
+            }
+
+            return trackersList.filter {
+                it.codeSignature.isNotEmpty()
+            } as ArrayList<Tracker>
+        }
+    }
+
+    private fun fetchCategoryNames(jsonArray: JSONArray): Array<String> {
+        val categoryNames = arrayListOf<String>()
+
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val names = jsonObject.getString("name")
+            categoryNames.add(names)
+        }
+
+        return categoryNames.toTypedArray()
     }
 
     fun PackageInfo.getActivityTrackers(context: Context, trackersData: ArrayList<Tracker>, keyword: String = ""): ArrayList<Tracker> {
