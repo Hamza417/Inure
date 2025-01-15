@@ -19,6 +19,7 @@ import app.simple.inure.apk.parsers.FOSSParser
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.database.instances.TagsDatabase
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -307,6 +308,13 @@ class AppMenu : ScopedDialogFragment() {
                             childFragmentManager.showMarkFossDialog().onMarkFossSaved = { license ->
                                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
                                     FOSSParser.addPackage(packageInfo.packageName, license, requireContext())
+                                    TagsDatabase.getInstance(requireContext())?.let {
+                                        it.getTagDao()?.getTag(getString(R.string.foss))?.let { tag ->
+                                            tag.packages = tag.packages.plus("," + packageInfo.packageName)
+                                            it.getTagDao()?.updateTag(tag)
+                                        }
+                                    }
+
                                     withContext(Dispatchers.Main) {
                                         setOpenSourceState(false)
                                     }
