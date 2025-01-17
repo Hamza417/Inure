@@ -767,4 +767,6 @@
     <string name="stopped">Interrompidos</string>
     <string name="provider">Provedor</string>
     <string name="chart_labels">Etiquetas do Gráfico</string>
+    <string name="suspected_tracker">Rastreador Suspeito</string>
+    <string name="etip_desc">O componente está na lista do ETIP. Se é um rastreador ou não está sendo investigado.</string>
 </resources>
