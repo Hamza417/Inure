@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.adapters.viewers.AdapterTrackers
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.CheckBox
@@ -73,6 +74,10 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
 
         AdapterUtils.searchHighlighter(holder.packageID, trackers[position].codeSignature)
         holder.checkBox.isChecked = trackers[position].isBlocked.invert()
+
+        if (trackers[position].isETIP) {
+            holder.container.setWarningBackground(AdapterTrackers.ETIP_HIGHLIGHT)
+        }
 
         if (isRooted) {
             holder.checkBox.visible(false)

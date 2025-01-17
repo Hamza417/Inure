@@ -33,6 +33,7 @@ public class Tracker implements Parcelable {
     private boolean isProvider = false;
     private boolean isBlocked = false;
     private boolean isEnabled = true;
+    private boolean isETIP = false;
     private ActivityInfo activityInfo = null;
     private ActivityInfo receiverInfo = null;
     private ServiceInfo serviceInfo = null;
@@ -58,6 +59,7 @@ public class Tracker implements Parcelable {
         isProvider = in.readByte() != 0;
         isBlocked = in.readByte() != 0;
         isEnabled = in.readByte() != 0;
+        isETIP = in.readByte() != 0;
         activityInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         receiverInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         serviceInfo = in.readParcelable(ServiceInfo.class.getClassLoader());
@@ -82,6 +84,7 @@ public class Tracker implements Parcelable {
         dest.writeByte((byte) (isProvider ? 1 : 0));
         dest.writeByte((byte) (isBlocked ? 1 : 0));
         dest.writeByte((byte) (isEnabled ? 1 : 0));
+        dest.writeByte((byte) (isETIP ? 1 : 0));
         dest.writeParcelable(activityInfo, flags);
         dest.writeParcelable(receiverInfo, flags);
         dest.writeParcelable(serviceInfo, flags);
@@ -95,7 +98,7 @@ public class Tracker implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Tracker> CREATOR = new Creator <Tracker>() {
+    public static final Creator <Tracker> CREATOR = new Creator <>() {
         @Override
         public Tracker createFromParcel(Parcel in) {
             return new Tracker(in);
@@ -216,6 +219,14 @@ public class Tracker implements Parcelable {
     
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+    
+    public boolean isETIP() {
+        return isETIP;
+    }
+    
+    public void setETIP(boolean ETIP) {
+        isETIP = ETIP;
     }
     
     public ActivityInfo getActivityInfo() {

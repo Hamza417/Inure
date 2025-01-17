@@ -41,8 +41,26 @@ object TrackerUtils {
     private const val ETIP_TRACKERS_JSON = "/etip_trackers.json"
     private const val TAG = "TrackersUtils"
 
+    private val _ETIP_Signatures = hashMapOf<String, Boolean>()
+
     fun getTrackerSignatures(): List<String> {
-        return getFinalTrackerSignatures() + getETIPTrackerSignatures()
+        with(getETIPTrackerSignatures()) {
+            this.forEach {
+                _ETIP_Signatures[it] = true
+            }
+
+            return getFinalTrackerSignatures() + this
+        }
+    }
+
+    private fun initETIPSignatures() {
+        getETIPTrackerSignatures().forEach {
+            _ETIP_Signatures[it] = true
+        }
+    }
+
+    fun isETIPTracker(signature: String): Boolean {
+        return _ETIP_Signatures[signature] ?: false
     }
 
     private fun getFinalTrackerSignatures(): List<String> {
@@ -108,6 +126,7 @@ object TrackerUtils {
     }
 
     fun getTrackersData(): ArrayList<Tracker> {
+        initETIPSignatures() // Since this function will always run in background thread, it's safe to call this here
         return (getFinalTrackersData() + getETIPTrackersData())
                 as ArrayList<Tracker>
     }
@@ -169,6 +188,7 @@ object TrackerUtils {
                 trackerObject.description = description
                 trackerObject.categories = categories.toStringArray()
                 trackerObject.documentation = documentation.toStringArray()
+                trackerObject.isETIP = false
 
                 trackersList.add(trackerObject)
             }
@@ -204,6 +224,7 @@ object TrackerUtils {
                     description = trackerJson.getString("description")
                     categories = fetchCategoryNames(trackerJson.getJSONArray("category"))
                     documentation = trackerJson.getJSONArray("documentation").toStringArray()
+                    isETIP = true
                 }
                 trackersList.add(tracker)
             }
@@ -248,6 +269,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isActivity = true
+                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -283,6 +305,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isService = true
+                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -318,6 +341,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isReceiver = true
+                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -353,6 +377,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isProvider = true
+                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
                                 trackersList.add(tracker1)
 
                                 return@forEach
