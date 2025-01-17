@@ -68,6 +68,12 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             list[position].categories.forEach {
                 appendFlag(it)
             }
+
+            list[position].isETIP.let {
+                if (it) {
+                    appendFlag(holder.itemView.context.getString(R.string.suspected_tracker))
+                }
+            }
         }
 
         AdapterUtils.searchHighlighter(holder.packageId, list[position].codeSignature)

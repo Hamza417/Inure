@@ -74,5 +74,6 @@
     <string name="or" translatable="false">OR</string>
     <string name="not" translatable="false">NOT</string>
     <string name="xor" translatable="false">XOR</string>
+    <string name="etip">ETIP</string>
 
 </resources>

@@ -114,6 +114,10 @@ class TrackerInfo : ScopedFragment() {
             } else {
                 appendFlag(getString(R.string.disabled))
             }
+
+            if (tracker?.isETIP == true) {
+                appendFlag(getString(R.string.suspected_tracker))
+            }
         }
 
         name.text = tracker?.componentName?.substringAfterLast(".")

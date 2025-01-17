@@ -70,6 +70,12 @@ class AdapterBatchTracker(private val trackers: ArrayList<Tracker>, private val 
             trackers[position].categories.forEach {
                 appendFlag(it)
             }
+
+            trackers[position].isETIP.let {
+                if (it) {
+                    appendFlag(holder.itemView.context.getString(R.string.suspected_tracker))
+                }
+            }
         }
 
         AdapterUtils.searchHighlighter(holder.packageID, trackers[position].codeSignature)
