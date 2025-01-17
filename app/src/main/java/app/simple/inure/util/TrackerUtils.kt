@@ -222,6 +222,7 @@ object TrackerUtils {
                     website = trackerJson.getString("website")
                     creationDate = trackerJson.getString("creation_date")
                     description = trackerJson.getString("description")
+                    _ETIP_ID = trackerJson.getString("id")
                     categories = fetchCategoryNames(trackerJson.getJSONArray("category"))
                     documentation = trackerJson.getJSONArray("documentation").toStringArray()
                     isETIP = true
@@ -270,6 +271,9 @@ object TrackerUtils {
 
                                 tracker1.isActivity = true
                                 tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                if (tracker1.isETIP) {
+                                    tracker1._ETIP_ID = tracker._ETIP_ID
+                                }
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -306,6 +310,9 @@ object TrackerUtils {
 
                                 tracker1.isService = true
                                 tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                if (tracker1.isETIP) {
+                                    tracker1._ETIP_ID = tracker._ETIP_ID
+                                }
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -342,6 +349,9 @@ object TrackerUtils {
 
                                 tracker1.isReceiver = true
                                 tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                if (tracker1.isETIP) {
+                                    tracker1._ETIP_ID = tracker._ETIP_ID
+                                }
                                 trackersList.add(tracker1)
 
                                 return@forEach
@@ -378,6 +388,9 @@ object TrackerUtils {
 
                                 tracker1.isProvider = true
                                 tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                if (tracker1.isETIP) {
+                                    tracker1._ETIP_ID = tracker._ETIP_ID
+                                }
                                 trackersList.add(tracker1)
 
                                 return@forEach

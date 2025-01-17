@@ -34,6 +34,7 @@ public class Tracker implements Parcelable {
     private boolean isBlocked = false;
     private boolean isEnabled = true;
     private boolean isETIP = false;
+    private String _ETIP_ID = null;
     private ActivityInfo activityInfo = null;
     private ActivityInfo receiverInfo = null;
     private ServiceInfo serviceInfo = null;
@@ -60,6 +61,7 @@ public class Tracker implements Parcelable {
         isBlocked = in.readByte() != 0;
         isEnabled = in.readByte() != 0;
         isETIP = in.readByte() != 0;
+        _ETIP_ID = in.readString();
         activityInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         receiverInfo = in.readParcelable(ActivityInfo.class.getClassLoader());
         serviceInfo = in.readParcelable(ServiceInfo.class.getClassLoader());
@@ -85,6 +87,7 @@ public class Tracker implements Parcelable {
         dest.writeByte((byte) (isBlocked ? 1 : 0));
         dest.writeByte((byte) (isEnabled ? 1 : 0));
         dest.writeByte((byte) (isETIP ? 1 : 0));
+        dest.writeString(_ETIP_ID);
         dest.writeParcelable(activityInfo, flags);
         dest.writeParcelable(receiverInfo, flags);
         dest.writeParcelable(serviceInfo, flags);
@@ -98,7 +101,7 @@ public class Tracker implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Tracker> CREATOR = new Creator <>() {
+    public static final Creator <Tracker> CREATOR = new Creator <Tracker>() {
         @Override
         public Tracker createFromParcel(Parcel in) {
             return new Tracker(in);
@@ -227,6 +230,14 @@ public class Tracker implements Parcelable {
     
     public void setETIP(boolean ETIP) {
         isETIP = ETIP;
+    }
+    
+    public String get_ETIP_ID() {
+        return _ETIP_ID;
+    }
+    
+    public void set_ETIP_ID(String _ETIP_ID) {
+        this._ETIP_ID = _ETIP_ID;
     }
     
     public ActivityInfo getActivityInfo() {

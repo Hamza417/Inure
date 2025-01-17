@@ -10,7 +10,7 @@ import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
-import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
+import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -36,7 +36,8 @@ class TrackerInfo : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
-    private lateinit var etipContainer: DynamicCornerFrameLayout
+    private lateinit var etipContainer: DynamicCornerLinearLayout
+    private lateinit var etipPage: DynamicRippleImageButton
     private lateinit var etipDesc: TypeFaceTextView
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
@@ -58,6 +59,7 @@ class TrackerInfo : ScopedFragment() {
         title = view.findViewById(R.id.title)
         etipContainer = view.findViewById(R.id.etip_container)
         etipDesc = view.findViewById(R.id.etip_desc)
+        etipPage = view.findViewById(R.id.etip_page)
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageId = view.findViewById(R.id.package_id)
@@ -134,6 +136,13 @@ class TrackerInfo : ScopedFragment() {
         if (tracker?.isETIP == true) {
             etipContainer.visibility = View.VISIBLE
             etipContainer.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+            etipPage.setOnClickListener {
+                if (tracker?._ETIP_ID != null) {
+                    (ETIP_PAGE_ADDRESS + tracker?._ETIP_ID)
+                        .toUri()
+                        .openInBrowser(requireContext())
+                }
+            }
         } else {
             etipContainer.visibility = View.GONE
         }
@@ -235,5 +244,6 @@ class TrackerInfo : ScopedFragment() {
         private const val DATE_FORMAT = "EEE, yyyy MMM dd"
         private const val MARKDOWN_BULLET_PREFIX = "* "
         private const val MARKDOWN_LINE_BREAK = "\r\n"
+        private const val ETIP_PAGE_ADDRESS = "https://etip.exodus-privacy.eu.org/trackers/"
     }
 }
