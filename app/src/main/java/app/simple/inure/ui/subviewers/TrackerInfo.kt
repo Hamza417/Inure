@@ -1,5 +1,6 @@
 package app.simple.inure.ui.subviewers
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
+import app.simple.inure.decorations.corners.DynamicCornerFrameLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
@@ -18,6 +20,7 @@ import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.interfaces.parsers.LinkCallbacks
 import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.DateUtils.toLong
 import app.simple.inure.util.IntentHelper.openInBrowser
@@ -33,6 +36,8 @@ class TrackerInfo : ScopedFragment() {
 
     private lateinit var back: DynamicRippleImageButton
     private lateinit var title: TypeFaceTextView
+    private lateinit var etipContainer: DynamicCornerFrameLayout
+    private lateinit var etipDesc: TypeFaceTextView
     private lateinit var icon: AppIconImageView
     private lateinit var name: TypeFaceTextView
     private lateinit var packageId: TypeFaceTextView
@@ -51,6 +56,8 @@ class TrackerInfo : ScopedFragment() {
 
         back = view.findViewById(R.id.back)
         title = view.findViewById(R.id.title)
+        etipContainer = view.findViewById(R.id.etip_container)
+        etipDesc = view.findViewById(R.id.etip_desc)
         icon = view.findViewById(R.id.icon)
         name = view.findViewById(R.id.name)
         packageId = view.findViewById(R.id.package_id)
@@ -124,6 +131,12 @@ class TrackerInfo : ScopedFragment() {
         title.text = tracker?.componentName?.substringAfterLast(".")
         packageId.text = tracker?.componentName
         trackerName.text = tracker?.name
+        if (tracker?.isETIP == true) {
+            etipContainer.visibility = View.VISIBLE
+            etipContainer.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+        } else {
+            etipContainer.visibility = View.GONE
+        }
         date.apply {
             val text = getString(R.string.created_on, tracker?.creationDate
                 ?.toLong() // Convert to long, probably a timestamp in format yyyy-MM-dd
