@@ -766,4 +766,6 @@
     <string name="stopped">Stopped</string>
     <string name="provider">Provider</string>
     <string name="chart_labels">Chart Labels</string>
+    <string name="suspected_tracker">Suspected Tracker</string>
+    <string name="etip_desc">The component is in ETIP\'s list. If it\'s a tracker or not is still being investigated.</string>
 </resources>

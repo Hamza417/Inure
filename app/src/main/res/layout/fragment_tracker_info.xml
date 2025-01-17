@@ -123,6 +123,39 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+                    android:id="@+id/etip_container"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/panel_item_padding"
+                    android:padding="@dimen/dialog_padding"
+                    android:layout_height="wrap_content">
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/etip_desc"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/info_text_small"
+                        android:text="@string/etip_desc"
+                        android:layout_marginEnd="@dimen/dialog_padding"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        android:drawablePadding="@dimen/popup_padding"
+                        android:textStyle="italic"
+                        app:appFontStyle="regular"
+                        app:drawableTintStyle="regular"
+                        app:textColorStyle="white" />
+
+                    <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                        android:id="@+id/etip_page"
+                        android:layout_width="@dimen/button_size"
+                        android:layout_height="@dimen/button_size"
+                        android:src="@drawable/ic_open_in_new"
+                        android:layout_gravity="center_vertical"
+                        app:buttonTintType="white" />
+
+                </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/tracker_name"
                     android:layout_width="match_parent"

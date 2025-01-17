@@ -372,6 +372,5 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         const val ICON_TINT_WARNING = 3
         const val ICON_TINT_ERROR = 4
         const val ICON_TINT_SUCCESS = 5
-
     }
 }

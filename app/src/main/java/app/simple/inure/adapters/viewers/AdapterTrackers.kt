@@ -68,6 +68,12 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
             list[position].categories.forEach {
                 appendFlag(it)
             }
+
+            list[position].isETIP.let {
+                if (it) {
+                    appendFlag(holder.itemView.context.getString(R.string.suspected_tracker))
+                }
+            }
         }
 
         AdapterUtils.searchHighlighter(holder.packageId, list[position].codeSignature)
@@ -75,6 +81,10 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
 
         holder.container.setOnClickListener {
             trackersCallbacks?.onTrackersClicked(list[position])
+        }
+
+        if (list[position].isETIP) {
+            holder.container.setWarningBackground(ETIP_HIGHLIGHT)
         }
 
         if (isRoot) {
@@ -128,5 +138,9 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     interface TrackersCallbacks {
         fun onTrackerSwitchChanged(tracker: Tracker, enabled: Boolean, position: Int)
         fun onTrackersClicked(tracker: Tracker)
+    }
+
+    companion object {
+        const val ETIP_HIGHLIGHT = 0xFFFFC3C3.toInt()
     }
 }
