@@ -85,91 +85,95 @@ object ActivityUtils {
 
     @kotlin.jvm.Throws(java.lang.IllegalArgumentException::class)
     fun isEnabled(context: Context, packageName: String, clsName: String): Boolean {
-        val componentName = ComponentName(packageName, clsName)
+        try {
+            val componentName = ComponentName(packageName, clsName)
 
-        return when (context.packageManager.getComponentEnabledSetting(componentName)) {
-            PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
-            PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->       // We need to get the application info to get the component's default state
-                try {
-                    val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            context.packageManager
-                                .getPackageInfo(packageName,
-                                                PackageManager.PackageInfoFlags.of(
-                                                        (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+            return when (context.packageManager.getComponentEnabledSetting(componentName)) {
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED -> false
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED -> true
+                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ->       // We need to get the application info to get the component's default state
+                    try {
+                        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                context.packageManager
+                                    .getPackageInfo(packageName,
+                                                    PackageManager.PackageInfoFlags.of(
+                                                            (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+                            } else {
+                                context.packageManager
+                                    .getPackageInfo(packageName,
+                                                    PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                            }
                         } else {
-                            context.packageManager
-                                .getPackageInfo(packageName,
-                                                PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                            @Suppress("deprecation")
+                            context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
+                                    or PackageManager.GET_DISABLED_COMPONENTS)
                         }
-                    } else {
-                        @Suppress("deprecation")
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_DISABLED_COMPONENTS)
+
+                        val components: ArrayList<ComponentInfo> = ArrayList()
+
+                        if (packageInfo.activities.isNotNull()) {
+                            for (i in packageInfo.activities!!) {
+                                components.add(i)
+                            }
+                        }
+
+                        for (componentInfo in components) {
+                            if (componentInfo.name == clsName) {
+                                return componentInfo.isEnabled
+                            }
+                        }
+
+                        // the component is not declared in the AndroidManifest
+                        false
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        // the package isn't installed on the device
+                        false
                     }
 
-                    val components: ArrayList<ComponentInfo> = ArrayList()
-
-                    if (packageInfo.activities.isNotNull()) {
-                        for (i in packageInfo.activities!!) {
-                            components.add(i)
-                        }
-                    }
-
-                    for (componentInfo in components) {
-                        if (componentInfo.name == clsName) {
-                            return componentInfo.isEnabled
-                        }
-                    }
-
-                    // the component is not declared in the AndroidManifest
-                    false
-                } catch (e: PackageManager.NameNotFoundException) {
-                    // the package isn't installed on the device
-                    false
-                }
-
-            else -> {
-                try {
-                    val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            context.packageManager
-                                .getPackageInfo(packageName,
-                                                PackageManager.PackageInfoFlags.of(
-                                                        (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+                else -> {
+                    try {
+                        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                context.packageManager
+                                    .getPackageInfo(packageName,
+                                                    PackageManager.PackageInfoFlags.of(
+                                                            (PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS).toLong()))
+                            } else {
+                                context.packageManager
+                                    .getPackageInfo(packageName,
+                                                    PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                            }
                         } else {
-                            context.packageManager
-                                .getPackageInfo(packageName,
-                                                PackageManager.GET_ACTIVITIES or PackageManager.MATCH_DISABLED_COMPONENTS)
+                            @Suppress("deprecation")
+                            context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
+                                    or PackageManager.GET_DISABLED_COMPONENTS)
                         }
-                    } else {
-                        @Suppress("deprecation")
-                        context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_DISABLED_COMPONENTS)
-                    }
 
-                    val components: ArrayList<ComponentInfo> = ArrayList()
+                        val components: ArrayList<ComponentInfo> = ArrayList()
 
-                    if (packageInfo.activities.isNotNull()) {
-                        for (i in packageInfo.activities!!) {
-                            components.add(i)
+                        if (packageInfo.activities.isNotNull()) {
+                            for (i in packageInfo.activities!!) {
+                                components.add(i)
+                            }
                         }
-                    }
 
-                    for (componentInfo in components) {
-                        if (componentInfo.name == clsName) {
-                            return componentInfo.isEnabled
+                        for (componentInfo in components) {
+                            if (componentInfo.name == clsName) {
+                                return componentInfo.isEnabled
+                            }
                         }
-                    }
 
-                    // the component is not declared in the AndroidManifest
-                    false
-                } catch (e: PackageManager.NameNotFoundException) {
-                    // the package isn't installed on the device
-                    false
+                        // the component is not declared in the AndroidManifest
+                        false
+                    } catch (e: PackageManager.NameNotFoundException) {
+                        // the package isn't installed on the device
+                        false
+                    }
                 }
             }
+        } catch (e: IllegalArgumentException) {
+            return false
         }
     }
 

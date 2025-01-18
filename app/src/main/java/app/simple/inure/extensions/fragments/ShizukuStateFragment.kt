@@ -147,6 +147,8 @@ abstract class ShizukuStateFragment : ScopedFragment() {
                 // Since the fragment is destroyed, the view is not available
                 // So, we catch the exception and ignore it
                 Log.e(ConfigurationScreen.TAG, "setShizukuPermissionState: $e")
+            } catch (e: UninitializedPropertyAccessException) {
+                Log.e(ConfigurationScreen.TAG, "setShizukuPermissionState: $e")
             }
         }
     }

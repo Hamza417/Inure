@@ -3,6 +3,7 @@ package app.simple.inure.viewmodels.panels
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
@@ -144,20 +145,24 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
             val labels = hashMapOf<String, String>()
 
             for (app in apps) {
-                val installer = app.getInstallerPackageName(applicationContext())
+                try {
+                    val installer = app.getInstallerPackageName(applicationContext())
 
-                if (installer != null) {
-                    if (installers.containsKey(installer)) {
-                        installers[installer] = installers[installer]!!.inc()
+                    if (installer != null) {
+                        if (installers.containsKey(installer)) {
+                            installers[installer] = installers[installer]!!.inc()
+                        } else {
+                            installers[installer] = 1
+                        }
                     } else {
-                        installers[installer] = 1
+                        if (installers.containsKey(getString(R.string.unknown))) {
+                            installers[getString(R.string.unknown)] = installers[getString(R.string.unknown)]!!.inc()
+                        } else {
+                            installers[getString(R.string.unknown)] = 1
+                        }
                     }
-                } else {
-                    if (installers.containsKey(getString(R.string.unknown))) {
-                        installers[getString(R.string.unknown)] = installers[getString(R.string.unknown)]!!.inc()
-                    } else {
-                        installers[getString(R.string.unknown)] = 1
-                    }
+                } catch (e: NameNotFoundException) {
+                    e.printStackTrace()
                 }
             }
 

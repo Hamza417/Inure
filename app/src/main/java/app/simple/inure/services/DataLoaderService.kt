@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Binder
 import android.os.Build
+import android.os.DeadObjectException
 import android.os.IBinder
 import android.os.UserHandle
 import android.util.Log
@@ -201,17 +202,21 @@ class DataLoaderService : Service() {
     }
 
     private fun loadUninstalledApps() {
-        if (uninstalledApps.isEmpty()) {
-            val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
-            } else {
-                @Suppress("DEPRECATION")
-                PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
-            }
+        try {
+            if (uninstalledApps.isEmpty()) {
+                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
+                } else {
+                    @Suppress("DEPRECATION")
+                    PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
+                }
 
-            uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
-                packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-            }.collect(Collectors.toList()).loadPackageNames().toArrayList()
+                uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
+                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                }.collect(Collectors.toList()).loadPackageNames().toArrayList()
+            }
+        } catch (e: DeadObjectException) {
+            Log.e(TAG, "loadUninstalledApps: $e")
         }
     }
 

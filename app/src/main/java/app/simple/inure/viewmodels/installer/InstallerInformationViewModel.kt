@@ -58,6 +58,10 @@ class InstallerInformationViewModel(application: Application, private val file: 
             //                val existingPackage = packageManager.getPackageInfo(packageInfo!!.packageName)!!
             //                packageInfo?.applicationInfo?.uid = existingPackage.applicationInfo.uid
             //            }
+
+            if (packageInfo!!.packageName.isEmpty()) {
+                throw NullPointerException("package is invalid")
+            }
         }.onFailure {
             postError(it)
             return
