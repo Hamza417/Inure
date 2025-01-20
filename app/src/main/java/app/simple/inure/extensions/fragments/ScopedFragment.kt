@@ -86,7 +86,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected var maximumAngle = 90
     protected var minimumHorizontalAngle = 80
     protected var minimumVerticalAngle = 15
-    private var maximumElevation = 0x27D8
+    private var maximumElevation = 0x283C
 
     val transitionSet = TransitionSet().apply {
         addTransition(Fade(Fade.MODE_OUT))

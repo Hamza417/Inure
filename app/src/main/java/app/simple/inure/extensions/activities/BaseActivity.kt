@@ -94,7 +94,7 @@ open class BaseActivity : AppCompatActivity(),
     private var loader: Loader? = null
 
     private var cutoutDepth = 0
-    private var requestCode = 0x27D8
+    private var requestCode = 0x283C
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
