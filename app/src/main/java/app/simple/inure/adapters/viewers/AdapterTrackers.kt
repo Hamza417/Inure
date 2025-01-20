@@ -14,8 +14,10 @@ import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.Tracker
+import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.visible
@@ -141,6 +143,6 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
     }
 
     companion object {
-        const val ETIP_HIGHLIGHT = 0xFFFFC3C3.toInt()
+        val ETIP_HIGHLIGHT = ColorUtils.lightenColor(AppearancePreferences.getAccentColor(), 0.1f)
     }
 }
