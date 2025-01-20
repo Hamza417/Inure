@@ -397,7 +397,11 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
+        try {
+            LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver)
+        } catch (e: UninitializedPropertyAccessException) {
+            e.printStackTrace()
+        }
     }
 
     private fun success() {

@@ -230,7 +230,12 @@ public class Term extends BaseActivity implements UpdateCallback,
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        settings.readPrefs(sharedPreferences);
+        try {
+            settings.readPrefs(sharedPreferences);
+        } catch (NullPointerException e) {
+            //noinspection CallToPrintStackTrace
+            e.printStackTrace();
+        }
     }
     
     private ServiceConnection TSConnection = new ServiceConnection() {
@@ -968,9 +973,14 @@ public class Term extends BaseActivity implements UpdateCallback,
     }
     
     private void toggleSoftKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-        getCurrentEmulatorView().requestFocus();
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            getCurrentEmulatorView().requestFocus();
+        } catch (NullPointerException e) {
+            //noinspection CallToPrintStackTrace
+            e.printStackTrace();
+        }
     }
     
     /**

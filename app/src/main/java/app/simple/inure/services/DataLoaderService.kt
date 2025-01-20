@@ -216,6 +216,7 @@ class DataLoaderService : Service() {
                 }.collect(Collectors.toList()).loadPackageNames().toArrayList()
             }
         } catch (e: DeadObjectException) {
+            uninstalledApps = arrayListOf()
             Log.e(TAG, "loadUninstalledApps: $e")
         }
     }
