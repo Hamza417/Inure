@@ -127,8 +127,16 @@ object TrackerUtils {
 
     fun getTrackersData(): ArrayList<Tracker> {
         initETIPSignatures() // Since this function will always run in background thread, it's safe to call this here
-        return (getFinalTrackersData() + getETIPTrackersData())
-                as ArrayList<Tracker>
+        val uniqueTrackers = hashSetOf<String>()
+        val finalTrackers = arrayListOf<Tracker>()
+
+        (getFinalTrackersData() + getETIPTrackersData()).forEach { tracker ->
+            if (uniqueTrackers.add(tracker.codeSignature)) {
+                finalTrackers.add(tracker)
+            }
+        }
+
+        return finalTrackers
     }
 
     /**
