@@ -41,7 +41,7 @@ class Downgrade : ScopedBottomSheetFragment() {
         }
 
         close.setOnClickListener {
-            requireActivity().finish()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
