@@ -10,6 +10,7 @@ import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.constants.Misc
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.corners.DynamicCornerLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -133,6 +134,7 @@ class TrackerInfo : ScopedFragment() {
         title.text = tracker?.componentName?.substringAfterLast(".")
         packageId.text = tracker?.componentName
         trackerName.text = tracker?.name
+
         if (tracker?.isETIP == true) {
             etipContainer.visibility = View.VISIBLE
             etipContainer.backgroundTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
@@ -141,11 +143,14 @@ class TrackerInfo : ScopedFragment() {
                     (ETIP_PAGE_ADDRESS + tracker?._ETIP_ID)
                         .toUri()
                         .openInBrowser(requireContext())
+                } else {
+                    showWarning(Warnings.ETIP_ID_NULL, goBack = false)
                 }
             }
         } else {
             etipContainer.visibility = View.GONE
         }
+
         date.apply {
             val text = getString(R.string.created_on, tracker?.creationDate
                 ?.toLong() // Convert to long, probably a timestamp in format yyyy-MM-dd

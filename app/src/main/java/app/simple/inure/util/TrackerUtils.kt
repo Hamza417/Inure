@@ -44,6 +44,8 @@ object TrackerUtils {
     private val _ETIP_Signatures = hashMapOf<String, Boolean>()
 
     fun getTrackerSignatures(): List<String> {
+        initETIPSignatures()
+
         with(getETIPTrackerSignatures()) {
             this.forEach {
                 _ETIP_Signatures[it] = true
@@ -126,15 +128,20 @@ object TrackerUtils {
     }
 
     fun getTrackersData(): ArrayList<Tracker> {
-        initETIPSignatures() // Since this function will always run in background thread, it's safe to call this here
-        val uniqueTrackers = hashSetOf<String>()
+        initETIPSignatures()
+
+        val uniqueTrackers = hashMapOf<String, Tracker>()
         val finalTrackers = arrayListOf<Tracker>()
 
-        (getFinalTrackersData() + getETIPTrackersData()).forEach { tracker ->
-            if (uniqueTrackers.add(tracker.codeSignature)) {
-                finalTrackers.add(tracker)
-            }
+        getFinalTrackersData().forEach { tracker ->
+            uniqueTrackers[tracker.codeSignature] = tracker
         }
+
+        getETIPTrackersData().forEach { tracker ->
+            uniqueTrackers[tracker.codeSignature] = tracker
+        }
+
+        finalTrackers.addAll(uniqueTrackers.values)
 
         return finalTrackers
     }
@@ -278,7 +285,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isActivity = true
-                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                tracker1.isETIP = isETIPTracker(tracker.codeSignature)
                                 if (tracker1.isETIP) {
                                     tracker1._ETIP_ID = tracker._ETIP_ID
                                 }
@@ -317,7 +324,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isService = true
-                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                tracker1.isETIP = isETIPTracker(tracker.codeSignature)
                                 if (tracker1.isETIP) {
                                     tracker1._ETIP_ID = tracker._ETIP_ID
                                 }
@@ -356,7 +363,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isReceiver = true
-                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                tracker1.isETIP = isETIPTracker(tracker.codeSignature)
                                 if (tracker1.isETIP) {
                                     tracker1._ETIP_ID = tracker._ETIP_ID
                                 }
@@ -395,7 +402,7 @@ object TrackerUtils {
                                 }
 
                                 tracker1.isProvider = true
-                                tracker1.isETIP = isETIPTracker(tracker1.codeSignature)
+                                tracker1.isETIP = isETIPTracker(tracker.codeSignature)
                                 if (tracker1.isETIP) {
                                     tracker1._ETIP_ID = tracker._ETIP_ID
                                 }
