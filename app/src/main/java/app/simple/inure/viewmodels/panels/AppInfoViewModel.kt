@@ -385,31 +385,9 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
         viewModelScope.launch(Dispatchers.Default) {
             kotlin.runCatching {
                 val packageInfo: PackageInfo = try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_SERVICES
-                                or PackageManager.GET_RECEIVERS
-                                or PackageManager.MATCH_DISABLED_COMPONENTS)
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getPackageInfo(packageInfo.packageName, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_SERVICES
-                                or PackageManager.GET_RECEIVERS
-                                or PackageManager.GET_DISABLED_COMPONENTS)
-                    }
+                    packageManager.getPackageInfo(packageInfo.packageName, PACKAGE_DATA_FLAGS)
                 } catch (e: NameNotFoundException) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_SERVICES
-                                or PackageManager.GET_RECEIVERS
-                                or PackageManager.MATCH_DISABLED_COMPONENTS)!!
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PackageManager.GET_ACTIVITIES
-                                or PackageManager.GET_SERVICES
-                                or PackageManager.GET_RECEIVERS
-                                or PackageManager.GET_DISABLED_COMPONENTS)!!
-                    }
+                    packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PACKAGE_DATA_FLAGS)!!
                 }
 
                 val trackers = TrackerUtils.getTrackerSignatures()
@@ -441,6 +419,17 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                     for (receiver in packageInfo.receivers!!) {
                         for (tracker in trackers) {
                             if (receiver.name.lowercase().contains(tracker.lowercase())) {
+                                count++
+                                break
+                            }
+                        }
+                    }
+                }
+
+                if (packageInfo.providers != null) {
+                    for (provider in packageInfo.providers!!) {
+                        for (tracker in trackers) {
+                            if (provider.name.lowercase().contains(tracker.lowercase())) {
                                 count++
                                 break
                             }
@@ -579,6 +568,24 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        private const val TAG = "AppInfoViewModel"
+        private val PACKAGE_DATA_FLAGS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_PROVIDERS or
+                    PackageManager.MATCH_DISABLED_COMPONENTS
+        } else {
+            @Suppress("DEPRECATION")
+            PackageManager.GET_ACTIVITIES or
+                    PackageManager.GET_SERVICES or
+                    PackageManager.GET_RECEIVERS or
+                    PackageManager.GET_PROVIDERS or
+                    PackageManager.GET_DISABLED_COMPONENTS
         }
     }
 }

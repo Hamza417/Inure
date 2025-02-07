@@ -551,6 +551,20 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             }
         }
 
+        if (packageInfo.providers != null) {
+            for (provider in packageInfo.providers!!) {
+                for (tracker in trackers) {
+                    tracker.codeSignature.split("|").forEach {
+                        if (provider.name.lowercase().contains(it.lowercase())) {
+                            count++
+                            list.add(tracker.name)
+                            return@forEach
+                        }
+                    }
+                }
+            }
+        }
+
         buildString {
             for (tracker in list.distinct()) {
                 if (this.isEmpty()) {
