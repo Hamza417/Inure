@@ -71,10 +71,8 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
                 appendFlag(it)
             }
 
-            list[position].isETIP.let {
-                if (it) {
-                    appendFlag(holder.itemView.context.getString(R.string.suspected_tracker))
-                }
+            if (list[position].isETIP) {
+                appendFlag(holder.itemView.context.getString(R.string.suspected_tracker))
             }
         }
 
@@ -87,6 +85,8 @@ class AdapterTrackers(private val list: ArrayList<Tracker>, private val keyword:
 
         if (list[position].isETIP) {
             holder.container.setWarningBackground(ETIP_HIGHLIGHT)
+        } else {
+            holder.container.setDefaultBackground(false)
         }
 
         if (isRoot) {
