@@ -231,7 +231,7 @@ dependencies {
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.anggrayudi:storage:1.5.5'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation "com.github.AppDevNext:AndroidChart:3.1.0.25"
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
