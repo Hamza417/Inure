@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import app.simple.inure.R
 import app.simple.inure.adapters.analytics.AdapterInstallerLegend
-import app.simple.inure.adapters.analytics.AdapterLegend
+import app.simple.inure.adapters.analytics.AdapterPieLegend
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.SortConstant
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
@@ -53,9 +53,9 @@ class Analytics : ScopedFragment() {
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
-    private var minimumOS: AdapterLegend? = null
-    private var targetOS: AdapterLegend? = null
-    private var packageTypeAdapter: AdapterLegend? = null
+    private var minimumOS: AdapterPieLegend? = null
+    private var targetOS: AdapterPieLegend? = null
+    private var packageTypeAdapter: AdapterPieLegend? = null
     private var installerAdapter: AdapterInstallerLegend? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -137,7 +137,7 @@ class Analytics : ScopedFragment() {
                     }
                 })
 
-                minimumOS = AdapterLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
+                minimumOS = AdapterPieLegend(pieData.first, pieData.second) { pieEntry, longPressed ->
                     if (longPressed) {
                         minimumOsPie.highlightValue(Highlight(
                                 pieData.first.indexOf(pieEntry).toFloat(),
@@ -188,7 +188,7 @@ class Analytics : ScopedFragment() {
                     }
                 })
 
-                targetOS = AdapterLegend(it.first, it.second) { pieEntry, longPressed ->
+                targetOS = AdapterPieLegend(it.first, it.second) { pieEntry, longPressed ->
                     if (longPressed) {
                         targetOsPie.highlightValue(Highlight(
                                 it.first.indexOf(pieEntry).toFloat(),
@@ -236,7 +236,7 @@ class Analytics : ScopedFragment() {
                     }
                 })
 
-                packageTypeAdapter = AdapterLegend(
+                packageTypeAdapter = AdapterPieLegend(
                         it.first, ColorTemplate.PASTEL_COLORS.toMutableList().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
                         packageTypePie.highlightValue(Highlight(
