@@ -46,6 +46,6 @@ object AnalyticsPreferences {
     }
 
     fun getChartLabel(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(CHART_LABEL, true)
+        return SharedPreferences.getSharedPreferences().getBoolean(CHART_LABEL, false)
     }
 }

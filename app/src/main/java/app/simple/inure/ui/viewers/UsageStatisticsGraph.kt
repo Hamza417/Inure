@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.analytics.AdapterLegend
+import app.simple.inure.adapters.analytics.AdapterPieLegend
 import app.simple.inure.adapters.analytics.AdapterLegendBar
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
@@ -260,7 +260,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                     }
                 })
 
-                val adapter = AdapterLegend(it, BAR_COLORS.reversed().toArrayList()) { pieEntry, longPressed ->
+                val adapter = AdapterPieLegend(it, BAR_COLORS.reversed().toArrayList()) { pieEntry, longPressed ->
                     if (longPressed) {
                         // openFragmentSlide(AnalyticsPackageType.newInstance(pieEntry), "package_type")
                     } else {
