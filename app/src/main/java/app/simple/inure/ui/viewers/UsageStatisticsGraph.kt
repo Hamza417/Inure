@@ -38,11 +38,14 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.IValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.github.mikephil.charting.utils.ViewPortHandler
+import java.text.DecimalFormat
 import java.util.concurrent.TimeUnit
 
 class UsageStatisticsGraph : ScopedFragment() {
@@ -240,7 +243,7 @@ class UsageStatisticsGraph : ScopedFragment() {
                     setEntryLabelColor(ThemeManager.theme.textViewTheme.primaryTextColor)
                     setEntryLabelTextSize(9F)
                     setEntryLabelTypeface(TypeFace.getBoldTypeFace(requireContext()))
-                    valueFormatter = PercentFormatter(pieChart)
+                    valueFormatter = PercentFormatter(DecimalFormat())
                     setDrawIcons(true)
                     xValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
                     yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
@@ -295,37 +298,37 @@ class UsageStatisticsGraph : ScopedFragment() {
         }
     }
 
-    inner class AxisFormatter : ValueFormatter() {
-        override fun getBarLabel(barEntry: BarEntry?): String {
+    inner class AxisFormatter : IValueFormatter {
+        override fun getFormattedValue(value: Float, entry: Entry?, dataSetIndex: Int, viewPortHandler: ViewPortHandler?): String {
             return when {
-                TimeUnit.MILLISECONDS.toSeconds(barEntry!!.y.toLong()) < 60 -> {
+                TimeUnit.MILLISECONDS.toSeconds(entry!!.y.toLong()) < 60 -> {
                     getString(R.string.for_seconds,
-                              TimeUnit.MILLISECONDS.toSeconds(barEntry.y.toLong()).toString())
+                              TimeUnit.MILLISECONDS.toSeconds(entry.y.toLong()).toString())
                 }
 
-                TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) < 60 -> {
+                TimeUnit.MILLISECONDS.toMinutes(entry.y.toLong()) < 60 -> {
                     getString(R.string.for_short,
-                              TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()).toString())
+                              TimeUnit.MILLISECONDS.toMinutes(entry.y.toLong()).toString())
                 }
 
-                TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()) < 24 -> {
+                TimeUnit.MILLISECONDS.toHours(entry.y.toLong()) < 24 -> {
                     getString(R.string.for_long,
-                              TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()).toString(),
-                              (TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) % 60).toString())
+                              TimeUnit.MILLISECONDS.toHours(entry.y.toLong()).toString(),
+                              (TimeUnit.MILLISECONDS.toMinutes(entry.y.toLong()) % 60).toString())
                 }
 
                 else -> {
                     getString(R.string.for_days,
-                              TimeUnit.MILLISECONDS.toDays(barEntry.y.toLong()).toString(),
-                              TimeUnit.MILLISECONDS.toHours(barEntry.y.toLong()).toString(),
-                              (TimeUnit.MILLISECONDS.toMinutes(barEntry.y.toLong()) % 60).toString())
+                              TimeUnit.MILLISECONDS.toDays(entry.y.toLong()).toString(),
+                              TimeUnit.MILLISECONDS.toHours(entry.y.toLong()).toString(),
+                              (TimeUnit.MILLISECONDS.toMinutes(entry.y.toLong()) % 60).toString())
                 }
             }
         }
     }
 
-    inner class XAxisFormatter : ValueFormatter() {
-        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+    inner class XAxisFormatter : IAxisValueFormatter {
+        override fun getFormattedValue(value: Float, axis: AxisBase?): String {
             // val todayNumber = CalendarUtils.getWeekNumberFromDate(System.currentTimeMillis())
             // val dayValue = (value + todayNumber).toInt() % 7 // Offset the day value by today's day
             return barEntries.getOrNull(barEntries.size.minus(1) - value.toInt())?.data?.toString() ?: getString(R.string.not_available)
