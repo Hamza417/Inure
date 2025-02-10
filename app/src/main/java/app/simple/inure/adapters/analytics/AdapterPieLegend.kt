@@ -11,15 +11,20 @@ import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.ColorUtils
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import com.github.mikephil.charting.data.PieEntry
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
-class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
-                    private val colors: ArrayList<Int>,
-                    private val function: ((PieEntry, Boolean) -> Unit)? = null) : RecyclerView.Adapter<AdapterLegend.Holder>() {
+class AdapterPieLegend(private val pieEntries: ArrayList<PieEntry>,
+                       private val colors: ArrayList<Int>,
+                       private val function: ((PieEntry, Boolean) -> Unit)? = null) : RecyclerView.Adapter<AdapterPieLegend.Holder>() {
 
     private var highLightedEntry: PieEntry? = null
     private var lastHighlightedEntry: PieEntry? = null
+    private val decimalFormat = DecimalFormat("#0.0")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -28,7 +33,15 @@ class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.color.backgroundTintList = ColorStateList.valueOf(colors[position])
-        holder.label.text = pieEntries[position].label
+
+        val percent = pieEntries[position].value / pieEntries.sumOf { it.value.toInt() }.toFloat() * 100F
+        val percentFormatted = decimalFormat.format(percent)
+        holder.label.text = buildString {
+            append(pieEntries[position].label)
+            append(" (")
+            append("$percentFormatted%")
+            append(")")
+        }
 
         holder.container.setOnClickListener {
             function?.invoke(pieEntries[position], false)
