@@ -2,6 +2,9 @@ package app.simple.inure.adapters.analytics
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +13,19 @@ import app.simple.inure.R
 import app.simple.inure.decorations.corners.DynamicCornerAccentColor
 import app.simple.inure.decorations.ripple.DynamicRippleLegendLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.NullSafety.isNotNull
 import com.github.mikephil.charting.data.PieEntry
+import java.text.DecimalFormat
 
-class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
-                    private val colors: ArrayList<Int>,
-                    private val function: ((PieEntry, Boolean) -> Unit)? = null) : RecyclerView.Adapter<AdapterLegend.Holder>() {
+class AdapterPieLegend(private val pieEntries: ArrayList<PieEntry>,
+                       private val colors: ArrayList<Int>,
+                       private val function: ((PieEntry, Boolean) -> Unit)? = null) : RecyclerView.Adapter<AdapterPieLegend.Holder>() {
 
     private var highLightedEntry: PieEntry? = null
     private var lastHighlightedEntry: PieEntry? = null
+    private val decimalFormat = DecimalFormat("#0.0")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -28,7 +34,23 @@ class AdapterLegend(private val pieEntries: ArrayList<PieEntry>,
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.color.backgroundTintList = ColorStateList.valueOf(colors[position])
-        holder.label.text = pieEntries[position].label
+
+        val percent = pieEntries[position].value / pieEntries.sumOf { it.value.toInt() }.toFloat() * 100F
+        val percentFormatted = decimalFormat.format(percent)
+        val label = pieEntries[position].label
+        val spannableString = SpannableString("$label ($percentFormatted%)")
+        val start = label.length + 1 // Start of the percent value
+        val end = spannableString.length // End of the percent value
+        val dimColor = ThemeManager.theme.textViewTheme.quaternaryTextColor
+
+        spannableString.setSpan(
+                ForegroundColorSpan(dimColor),
+                start,
+                end,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        holder.label.text = spannableString
 
         holder.container.setOnClickListener {
             function?.invoke(pieEntries[position], false)
