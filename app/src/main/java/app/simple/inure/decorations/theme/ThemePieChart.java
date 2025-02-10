@@ -32,6 +32,8 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
     private ValueAnimator valueAnimator;
     private boolean animate = true;
     
+    private final String PERCENT_PATTERN = "#0.0";
+    
     public ThemePieChart(Context context) {
         super(context);
         initProps();
@@ -185,7 +187,7 @@ public class ThemePieChart extends PieChart implements SharedPreferences.OnShare
         setEntryLabelColor(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor());
         setEntryLabelTextSize(9F);
         setEntryLabelTypeface(TypeFace.INSTANCE.getRegularTypeFace(getContext()));
-        dataSet.setValueFormatter(new PercentFormatter(new DecimalFormat()));
+        dataSet.setValueFormatter(new PercentFormatter(new DecimalFormat(PERCENT_PATTERN)));
         dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setDrawIcons(true);
