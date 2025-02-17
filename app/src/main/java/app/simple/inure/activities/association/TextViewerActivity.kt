@@ -5,6 +5,7 @@ import android.os.Bundle
 import app.simple.inure.R
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.ui.association.Text
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.ParcelUtils.parcelable
@@ -14,6 +15,11 @@ class TextViewerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (AppUtils.isPlayFlavor()) {
+            showWarning("ERR: text viewer has been removed from play builds.")
+            return
+        }
 
         if (savedInstanceState.isNull()) {
             if (hasAppPath().invert()) {

@@ -520,6 +520,7 @@
             android:clearTaskOnLaunch="true"
             android:documentLaunchMode="always"
             android:exported="true"
+            android:enabled="false"
             android:label="@string/text_viewer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
