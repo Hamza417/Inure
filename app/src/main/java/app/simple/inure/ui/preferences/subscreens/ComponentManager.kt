@@ -47,7 +47,7 @@ class ComponentManager : ScopedFragment() {
                     Triple(R.mipmap.ic_launcher, R.string.app_information, AppInformationActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.installer, ApkInstallerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.manifest, ManifestAssociationActivity::class.java),
-                    Triple(R.mipmap.ic_launcher, R.string.text_viewer, TextViewerActivity::class.java),
+                    // Triple(R.mipmap.ic_launcher, R.string.text_viewer, TextViewerActivity::class.java),
                     Triple(R.mipmap.ic_launcher, R.string.ttf_viewer, TTFViewerActivity::class.java),
                     Triple(R.mipmap.ic_terminal, R.string.activity_term_here_title, TermHere::class.java),
                     // Triple(R.mipmap.ic_terminal, R.string.execute, BashAssociation::class.java),
