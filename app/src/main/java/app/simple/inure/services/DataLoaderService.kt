@@ -9,9 +9,11 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.LauncherApps
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.BadParcelableException
 import android.os.Binder
 import android.os.Build
 import android.os.DeadObjectException
+import android.os.DeadSystemException
 import android.os.IBinder
 import android.os.UserHandle
 import android.util.Log
@@ -198,26 +200,63 @@ class DataLoaderService : Service() {
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return packageManager.getInstalledPackages(flags).loadPackageNames()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                return packageManager.getInstalledPackages(flags).loadPackageNames()
+            } catch (e: DeadObjectException) {
+                e.printStackTrace()
+                return mutableListOf()
+            } catch (e: DeadSystemException) {
+                e.printStackTrace()
+                return mutableListOf()
+            }
+        } else {
+            try {
+                return packageManager.getInstalledPackages(flags).loadPackageNames()
+            } catch (e: DeadObjectException) {
+                e.printStackTrace()
+                return mutableListOf()
+            }
+        }
     }
 
+    @Suppress("DEPRECATION")
     private fun loadUninstalledApps() {
-        try {
-            if (uninstalledApps.isEmpty()) {
-                val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
-                } else {
-                    @Suppress("DEPRECATION")
-                    PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                if (uninstalledApps.isEmpty()) {
+                    val flags = PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
 
-                uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
-                    packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                }.collect(Collectors.toList()).loadPackageNames().toArrayList()
+                    uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                    }.collect(Collectors.toList()).loadPackageNames().toArrayList()
+                }
+            } catch (e: DeadObjectException) {
+                uninstalledApps = arrayListOf()
+                e.printStackTrace()
+            } catch (e: DeadSystemException) {
+                uninstalledApps = arrayListOf()
+                e.printStackTrace()
+            } catch (e: BadParcelableException) {
+                uninstalledApps = arrayListOf()
+                e.printStackTrace()
             }
-        } catch (e: DeadObjectException) {
-            uninstalledApps = arrayListOf()
-            Log.e(TAG, "loadUninstalledApps: $e")
+        } else {
+            try {
+                if (uninstalledApps.isEmpty()) {
+                    val flags = PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
+
+                    uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
+                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
+                    }.collect(Collectors.toList()).loadPackageNames().toArrayList()
+                }
+            } catch (e: DeadObjectException) {
+                uninstalledApps = arrayListOf()
+                e.printStackTrace()
+            } catch (e: BadParcelableException) {
+                uninstalledApps = arrayListOf()
+                e.printStackTrace()
+            }
         }
     }
 

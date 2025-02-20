@@ -125,7 +125,6 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(PackageUtils.flags))
                 } else {
-                    @Suppress("DEPRECATION")
                     getPackageInfo(packageName, PackageUtils.flags.toInt())
                 }
                 return true
