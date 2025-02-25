@@ -3,3 +3,4 @@
 /workspace.xml
 # GitHub Copilot persisted chat sessions
 /copilot/chatSessions
+deploymentTargetDropDown.xml
