@@ -164,6 +164,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
             packageInfo.safeApplicationInfo.sourceDir = file.absolutePath
             packageInfo.safeApplicationInfo.publicSourceDir = file.absolutePath
             packageInfo.safeApplicationInfo.name = packageManager.getApplicationLabel(packageInfo.safeApplicationInfo).toString()
+            packageInfo.safeApplicationInfo.splitSourceDirs = files!!.filter { it != baseApk }.map { it.absolutePath }.toTypedArray()
             this.packageInfo.postValue(packageInfo)
             baseApkLiveData.postValue(file)
             baseApk = file

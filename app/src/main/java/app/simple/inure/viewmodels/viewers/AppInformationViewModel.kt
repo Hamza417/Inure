@@ -269,8 +269,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         return Pair(R.string.native_libraries,
-                    packageInfo.safeApplicationInfo.sourceDir.toFile()
-                        .getNativeLibraries(context).toString().applySecondaryTextColor())
+                    packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
     }
 
     private fun getNativeLibsDir(): Pair<Int, Spannable> {

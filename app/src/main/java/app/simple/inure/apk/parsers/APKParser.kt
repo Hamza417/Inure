@@ -69,6 +69,38 @@ object APKParser {
         }
     }
 
+    fun PackageInfo.getNativeLibraries(context: Context): StringBuilder {
+        val stringBuilder = StringBuilder()
+        val appInfo = safeApplicationInfo
+        val allFiles = arrayListOf<String>()
+
+        allFiles.add(appInfo.sourceDir)
+        kotlin.runCatching {
+            allFiles.addAll(appInfo.splitSourceDirs!!)
+        }
+
+        allFiles.forEach {
+            val file = File(it)
+            if (file.exists()) {
+                val libs = file.getNativeLibraries(context).toString()
+
+                if (libs.isNotBlank() && libs != context.getString(R.string.none)) {
+                    if (stringBuilder.isNotEmpty()) {
+                        stringBuilder.append("\n")
+                    }
+
+                    stringBuilder.append(libs)
+                }
+            }
+        }
+
+        if (stringBuilder.isBlank()) {
+            stringBuilder.append(context.getString(R.string.none))
+        }
+
+        return stringBuilder
+    }
+
     fun File.getNativeLibraries(context: Context): StringBuilder {
         val stringBuilder = StringBuilder()
         var zipFile: ZipFile? = null

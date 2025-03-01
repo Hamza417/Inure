@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.os.Build
 import android.text.Spannable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,6 +25,7 @@ import app.simple.inure.apk.utils.PackageUtils.isXposedModule
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.preferences.FormattingPreferences
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.applyAccentColor
@@ -62,6 +64,18 @@ class InstallerInformationViewModel(application: Application, private val file: 
             if (packageInfo!!.packageName.isEmpty()) {
                 throw NullPointerException("package is invalid")
             }
+
+            file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!.forEach {
+                Log.d("InstallerInformationViewModel", it.absolutePath)
+            }
+
+            packageInfo?.safeApplicationInfo?.splitSourceDirs = file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!
+                .filter {
+                    it.extension == "apk"
+                }
+                .map {
+                    it.absolutePath
+                }.toTypedArray()
         }.onFailure {
             postError(it)
             return
@@ -153,7 +167,7 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         return Pair(R.string.native_libraries,
-                    file.getNativeLibraries(context).toString().applySecondaryTextColor())
+                    packageInfo?.getNativeLibraries(context).toString().applySecondaryTextColor())
     }
 
     private fun getUID(): Pair<Int, Spannable> {
