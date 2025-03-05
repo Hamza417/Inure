@@ -55,7 +55,7 @@ class AppPath : ScopedDialogFragment() {
         editText.doOnTextChanged { text, _, _, _ ->
             pathInfo.text = PackageData.getPackageDir(requireContext(), text.toString())?.absolutePath
 
-            if (text.toString().containsAny(reservedCharactersAndroid)) {
+            if (text.toString().isValidPath().invert()) {
                 pathInfo.error = "Invalid path: ${pathInfo.text} "
             } else {
                 pathInfo.error = null
@@ -64,7 +64,7 @@ class AppPath : ScopedDialogFragment() {
 
         save.setOnClickListener {
             kotlin.runCatching {
-                if (editText.text.toString().containsAny(reservedCharactersAndroid).invert()) {
+                if (editText.text.toString().isValidPath()) {
                     PackageData.makePackageFolder(requireContext(), editText.text.toString())
                     ConfigurationPreferences.setAppPath(editText.text.toString())
                     dismiss()
@@ -112,6 +112,12 @@ class AppPath : ScopedDialogFragment() {
                 }
             }
         }
+    }
+
+    private fun String.isValidPath(): Boolean {
+        val packageDir = PackageData.getPackageDir(requireContext(), this)
+        return (packageDir?.exists() == true && packageDir.isDirectory)
+                || !containsAny(reservedCharactersAndroid)
     }
 
     companion object {
