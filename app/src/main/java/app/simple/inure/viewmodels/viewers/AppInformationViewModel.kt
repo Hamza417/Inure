@@ -268,8 +268,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
-        return Pair(R.string.native_libraries,
-                    packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+        kotlin.runCatching {
+            return Pair(R.string.native_libraries,
+                        packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.native_libraries,
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getNativeLibsDir(): Pair<Int, Spannable> {

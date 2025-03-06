@@ -168,8 +168,13 @@ class InstallerInformationViewModel(application: Application, private val file: 
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
-        return Pair(R.string.native_libraries,
-                    packageInfo?.getNativeLibraries(context).toString().applySecondaryTextColor())
+        runCatching {
+            return Pair(R.string.native_libraries,
+                        packageInfo?.getNativeLibraries(context).toString().applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.native_libraries,
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getUID(): Pair<Int, Spannable> {

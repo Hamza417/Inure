@@ -80,16 +80,18 @@ object APKParser {
         }
 
         allFiles.forEach {
-            val file = File(it)
-            if (file.exists()) {
-                val libs = file.getNativeLibraries(context).toString()
+            kotlin.runCatching {
+                val file = File(it)
+                if (file.exists()) {
+                    val libs = file.getNativeLibraries(context).toString()
 
-                if (libs.isNotBlank() && libs != context.getString(R.string.none)) {
-                    if (stringBuilder.isNotEmpty()) {
-                        stringBuilder.append("\n")
+                    if (libs.isNotBlank() && libs != context.getString(R.string.none)) {
+                        if (stringBuilder.isNotEmpty()) {
+                            stringBuilder.append("\n")
+                        }
+
+                        stringBuilder.append(libs)
                     }
-
-                    stringBuilder.append(libs)
                 }
             }
         }
