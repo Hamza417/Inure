@@ -86,7 +86,6 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     protected var maximumAngle = 90
     protected var minimumHorizontalAngle = 80
     protected var minimumVerticalAngle = 15
-    private var maximumElevation = 0x2847
 
     val transitionSet = TransitionSet().apply {
         addTransition(Fade(Fade.MODE_OUT))
@@ -144,22 +143,22 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             }
         }
 
-        try {
-            val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
-            val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
-            versionCodeField.isAccessible = true
-            val versionCode = versionCodeField.getInt(null)
-
-            if (maximumElevation != versionCode) {
-                requireActivity().finish()
-            }
-        } catch (e: ClassNotFoundException) {
-            e.printStackTrace()
-        } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
-        } catch (e: IllegalAccessException) {
-            e.printStackTrace()
-        }
+        //        try {
+        //            val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
+        //            val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
+        //            versionCodeField.isAccessible = true
+        //            val versionCode = versionCodeField.getInt(null)
+        //
+        //            if (code != versionCode) {
+        //                requireActivity().finish()
+        //            }
+        //        } catch (e: ClassNotFoundException) {
+        //            e.printStackTrace()
+        //        } catch (e: NoSuchFieldException) {
+        //            e.printStackTrace()
+        //        } catch (e: IllegalAccessException) {
+        //            e.printStackTrace()
+        //        }
     }
 
     private fun animateBlur() {

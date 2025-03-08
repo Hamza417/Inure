@@ -94,7 +94,6 @@ open class BaseActivity : AppCompatActivity(),
     private var loader: Loader? = null
 
     private var cutoutDepth = 0
-    private var requestCode = 0x2847
 
     override fun attachBaseContext(newBaseContext: Context) {
         SharedPreferences.init(newBaseContext)
@@ -597,6 +596,7 @@ open class BaseActivity : AppCompatActivity(),
     private fun applyInsets() {
         lifecycleScope.launch {
             delay((0x2710..0x61A8).random().toLong())
+
             try {
                 val method = TrialPreferences::class.java.getDeclaredMethod("getMaxDays")
                 method.isAccessible = true
@@ -619,22 +619,22 @@ open class BaseActivity : AppCompatActivity(),
                 e.printStackTrace()
             }
 
-            try {
-                val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
-                val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
-                versionCodeField.isAccessible = true
-                val versionCode = versionCodeField.getInt(null)
-
-                if (requestCode != versionCode) {
-                    finish()
-                }
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-            } catch (e: NoSuchFieldException) {
-                e.printStackTrace()
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            }
+            //            try {
+            //                val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
+            //                val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
+            //                versionCodeField.isAccessible = true
+            //                val versionCode = versionCodeField.getInt(null)
+            //
+            //                if (code != versionCode) {
+            //                    finish()
+            //                }
+            //            } catch (e: ClassNotFoundException) {
+            //                e.printStackTrace()
+            //            } catch (e: NoSuchFieldException) {
+            //                e.printStackTrace()
+            //            } catch (e: IllegalAccessException) {
+            //                e.printStackTrace()
+            //            }
         }
     }
 
