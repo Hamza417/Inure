@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils.getInstallerPackageName
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Colors
@@ -18,6 +19,7 @@ import app.simple.inure.constants.SortConstant
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.SDKUtils
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         MutableLiveData<Triple<ArrayList<PieEntry>, ArrayList<Int>, HashMap<String, String>>>()
     }
 
+    private val signatureAlgorithm: MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> by lazy {
+        MutableLiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>>()
+    }
+
     fun getMinimumOsData(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
         return minimumOsData
     }
@@ -56,6 +62,10 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
     fun getInstallerData(): LiveData<Triple<ArrayList<PieEntry>, ArrayList<Int>, HashMap<String, String>>> {
         return installerData
+    }
+
+    fun getSignatureAlgorithm(): LiveData<Pair<ArrayList<PieEntry>, ArrayList<Int>>> {
+        return signatureAlgorithm
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -184,6 +194,38 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
+    private fun loadSignatureAlgorithmData(apps: ArrayList<PackageInfo>) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val data = arrayListOf<PieEntry>()
+            val colors = arrayListOf<Int>()
+            val algorithms = hashMapOf<String, Int>()
+
+            for (app in apps) {
+                val signatures = APKCertificateUtils(
+                        app.safeApplicationInfo.sourceDir.toFile(), app.packageName, applicationContext()).x509Certificates
+
+                for (signature in signatures) {
+                    val algorithm = signature.sigAlgName
+                    if (algorithms.containsKey(algorithm)) {
+                        algorithms[algorithm] = algorithms[algorithm]!!.inc()
+                    } else {
+                        algorithms[algorithm] = 1
+                    }
+                }
+            }
+
+            for (algorithm in algorithms) {
+                data.add(PieEntry(algorithm.value.toFloat(), algorithm.key))
+            }
+
+            algorithms.keys.distinct().forEach { algorithm ->
+                colors.add(Colors.getRetroColor()[algorithms.keys.distinct().indexOf(algorithm)])
+            }
+
+            signatureAlgorithm.postValue(Pair(data, colors))
+        }
+    }
+
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         val filteredApps = filterAppsByType(apps)
 
@@ -194,6 +236,7 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         loadTargetOsData(filteredApps)
         loadPackageTypeData(filteredApps)
         loadInstallerData(filteredApps)
+        loadSignatureAlgorithmData(filteredApps)
     }
 
     private fun filterAppsByType(apps: ArrayList<PackageInfo>): ArrayList<PackageInfo> {

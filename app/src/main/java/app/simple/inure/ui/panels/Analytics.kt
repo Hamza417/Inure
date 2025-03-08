@@ -25,6 +25,7 @@ import app.simple.inure.preferences.AnalyticsPreferences
 import app.simple.inure.ui.subpanels.AnalyticsInstaller
 import app.simple.inure.ui.subpanels.AnalyticsMinimumSDK
 import app.simple.inure.ui.subpanels.AnalyticsPackageType
+import app.simple.inure.ui.subpanels.AnalyticsSignAlgorithm
 import app.simple.inure.ui.subpanels.AnalyticsTargetSDK
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ViewUtils.gone
@@ -46,10 +47,12 @@ class Analytics : ScopedFragment() {
     private lateinit var targetOsPie: ThemePieChart
     private lateinit var packageTypePie: ThemePieChart
     private lateinit var installerPie: ThemePieChart
+    private lateinit var signAlgorithmPie: ThemePieChart
     private lateinit var minimumOsLegend: LegendRecyclerView
     private lateinit var targetOsLegend: LegendRecyclerView
     private lateinit var packageTypeLegend: LegendRecyclerView
     private lateinit var installerLegend: LegendRecyclerView
+    private lateinit var signAlgorithmLegend: LegendRecyclerView
 
     private val analyticsViewModel: AnalyticsViewModel by viewModels()
 
@@ -67,11 +70,13 @@ class Analytics : ScopedFragment() {
         minimumOsPie = view.findViewById(R.id.minimum_os_pie)
         targetOsPie = view.findViewById(R.id.target_os_pie)
         packageTypePie = view.findViewById(R.id.package_type_pie)
+        signAlgorithmPie = view.findViewById(R.id.sign_algorithm_pie)
         minimumOsLegend = view.findViewById(R.id.minimum_os_legend)
         targetOsLegend = view.findViewById(R.id.target_os_legend)
         packageTypeLegend = view.findViewById(R.id.package_type_legend)
         installerPie = view.findViewById(R.id.installer_pie)
         installerLegend = view.findViewById(R.id.installer_legend)
+        signAlgorithmLegend = view.findViewById(R.id.sign_algorithm_legend)
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             minimumOsPie.gone()
@@ -302,6 +307,47 @@ class Analytics : ScopedFragment() {
             installerPie.setAnimation(true)
             installerPie.notifyDataSetChanged()
             installerPie.invalidate()
+        }
+
+        analyticsViewModel.getSignatureAlgorithm().observe(viewLifecycleOwner) {
+            hideLoader()
+
+            signAlgorithmPie.apply {
+                PieDataSet(it.first, "").apply {
+                    data = PieData(this)
+                    colors = it.second
+                    checkLabelState()
+                }
+
+                setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                    override fun onNothingSelected() {
+                        /* no-op */
+                    }
+
+                    override fun onValueSelected(e: Entry?, h: Highlight?) {
+                        PopupChartEntry(view, e) {
+                            openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), AnalyticsMinimumSDK.TAG)
+                        }.setOnDismissListener {
+                            runCatching {
+                                signAlgorithmPie.highlightValues(null)
+                            }
+                        }
+                    }
+                })
+
+                signAlgorithmLegend.adapter = AdapterPieLegend(it.first, it.second) { pieEntry, longPressed ->
+                    if (longPressed) {
+                        signAlgorithmPie.highlightValue(Highlight(
+                                it.first.indexOf(pieEntry).toFloat(),
+                                0, 0), false)
+                    } else {
+                        openFragmentSlide(AnalyticsSignAlgorithm.newInstance(pieEntry), AnalyticsSignAlgorithm.TAG)
+                    }
+                }
+            }
+
+            signAlgorithmPie.setAnimation(true)
+            signAlgorithmPie.startAnimation()
         }
     }
 

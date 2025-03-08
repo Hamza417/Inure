@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
+import app.simple.inure.apk.utils.APKCertificateUtils
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
@@ -31,6 +32,10 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
         MutableLiveData<ArrayList<PackageInfo>>()
     }
 
+    private val signAlgorithm: MutableLiveData<ArrayList<PackageInfo>> by lazy {
+        MutableLiveData<ArrayList<PackageInfo>>()
+    }
+
     fun getMinimumSDKData(): MutableLiveData<ArrayList<PackageInfo>> {
         return minimumSDK
     }
@@ -41,6 +46,10 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
     fun getPackageTypeData(): MutableLiveData<ArrayList<PackageInfo>> {
         return splitPackages
+    }
+
+    fun getSignAlgorithmData(): MutableLiveData<ArrayList<PackageInfo>> {
+        return signAlgorithm
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -131,6 +140,32 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
         }
     }
 
+    private fun loadSignAlgorithmAppsList(apps: ArrayList<PackageInfo>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val signAlgorithmApps = arrayListOf<PackageInfo>()
+            val signAlgorithm = (entry as PieEntry).label
+
+            for (app in apps) {
+                for (cert in APKCertificateUtils(app, applicationContext()).x509Certificates) {
+                    if (cert.sigAlgName == signAlgorithm) {
+                        signAlgorithmApps.add(app)
+                        break
+                    }
+                }
+            }
+
+            for (app in signAlgorithmApps) {
+                app.safeApplicationInfo.name = PackageUtils.getApplicationName(applicationContext(), app.packageName)
+            }
+
+            signAlgorithmApps.sortBy {
+                it.safeApplicationInfo.name
+            }
+
+            this@AnalyticsDataViewModel.signAlgorithm.postValue(signAlgorithmApps)
+        }
+    }
+
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -139,5 +174,6 @@ class AnalyticsDataViewModel(application: Application, private val entry: Entry)
 
         loadTargetSDKFilteredAppsList(apps)
         loadSplitPackageAppsList(apps)
+        loadSignAlgorithmAppsList(apps)
     }
 }

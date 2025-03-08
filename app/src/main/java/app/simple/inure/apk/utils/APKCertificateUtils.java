@@ -38,6 +38,12 @@ public class APKCertificateUtils {
         this.context = context;
     }
     
+    public APKCertificateUtils(PackageInfo packageInfo, Context context) {
+        this.apkFile = new File(packageInfo.applicationInfo.sourceDir);
+        this.packageName = packageInfo.packageName;
+        this.context = context;
+    }
+    
     public static String getCertificateFingerprint(X509Certificate cert, String hashAlgorithm) {
         String hash;
         try {
