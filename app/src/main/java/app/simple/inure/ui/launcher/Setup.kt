@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
@@ -34,7 +35,6 @@ import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.invisible
 import app.simple.inure.util.ViewUtils.visible
-import rikka.shizuku.Shizuku
 
 class Setup : ShizukuStateFragment() {
 
@@ -95,13 +95,17 @@ class Setup : ShizukuStateFragment() {
         rootSwitchView.setRootState(viewLifecycleOwner = viewLifecycleOwner)
 
         usageAccess.setOnClickListener {
-            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-            intent.data = Uri.fromParts("package", requireContext().packageName, null)
-            kotlin.runCatching {
-                startActivity(intent)
-            }.onFailure {
-                intent.data = null
-                startActivity(intent)
+            try {
+                val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                intent.data = Uri.fromParts("package", requireContext().packageName, null)
+                kotlin.runCatching {
+                    startActivity(intent)
+                }.onFailure {
+                    intent.data = null
+                    startActivity(intent)
+                }
+            } catch (e: ActivityNotFoundException) {
+                showWarning("ERROR: No Activity found to handle this intent", goBack = false)
             }
         }
 
@@ -196,7 +200,7 @@ class Setup : ShizukuStateFragment() {
      */
     private fun askPermission() {
         try {
-            val uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}")
+            val uri = "package:${BuildConfig.APPLICATION_ID}".toUri()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 startActivity(Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri))
@@ -205,14 +209,6 @@ class Setup : ShizukuStateFragment() {
             }
         } catch (e: ActivityNotFoundException) {
             showWarning("ERROR: No Activity found to handle this intent", goBack = false)
-        }
-    }
-
-    private fun isShizukuPermissionGranted(): Boolean {
-        return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
-            false
-        } else {
-            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
     }
 
