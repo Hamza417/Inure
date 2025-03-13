@@ -7,7 +7,6 @@ An elegant Android app manager.
 ## Stats
 
 [![](https://img.shields.io/endpoint?url=https://ghloc.vercel.app/api/Hamza417/Inure/badge?style=flat&logo=kotlin&logoColor=white&label=Total%20Lines&color=indianred)](https://ghloc.vercel.app/Hamza417/Inure?branch=master)
-[![Hits-of-Code](https://hitsofcode.com/github/hamza417/inure?branch=master&label=Hits%20of%20Code)](https://hitsofcode.com/github/hamza417/inure/view?branch=master&label=Hits-of-Code)
 [![](https://img.shields.io/github/downloads/Hamza417/inure/total?color=orange&label=Total%20Downloads%20(GitHub)&logo=github&logoColor=white)](https://tooomm.github.io/github-release-stats/?username=Hamza417&repository=Inure)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FHamza417%2FInure&count_bg=%239A3DC8&title_bg=%23555555&icon=tencentweibo.svg&icon_color=%23E7E7E7&title=Visitors&edge_flat=false)](https://hits.seeyoufarm.com)
 [![Release](https://img.shields.io/github/v/release/Hamza417/Inure?color=52be80&label=Current%20Release)](https://github.com/Hamza417/Inure/releases)
