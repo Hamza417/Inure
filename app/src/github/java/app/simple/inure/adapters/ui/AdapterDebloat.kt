@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isAppStopped
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.DebloatSortConstants
@@ -23,7 +24,7 @@ import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.sort.DebloatSort
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
@@ -75,10 +76,15 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                     url?.asUri()?.openInBrowser(holder.desc.context)
                 })
 
-                holder.icon.loadAppIcon(
-                        bloats[pos].packageInfo.packageName,
-                        bloats[pos].packageInfo.safeApplicationInfo.enabled,
-                        bloats[pos].packageInfo.safeApplicationInfo.sourceDir.toFile())
+                if (bloats[position].packageInfo.isInstalled()) {
+                    holder.icon.loadAppIcon(
+                            bloats[position].packageInfo.packageName,
+                            bloats[position].packageInfo.safeApplicationInfo.enabled || bloats[position].packageInfo.isAppStopped())
+                } else {
+                    holder.icon.loadAppIcon(
+                            bloats[position].packageInfo.packageName, false,
+                            bloats[position].packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+                }
 
                 holder.checkBox.setOnCheckedChangeListener {
                     bloats[pos].isSelected = it
