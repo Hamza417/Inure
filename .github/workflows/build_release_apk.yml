@@ -47,7 +47,7 @@ jobs:
             #                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
             -   name: Archive APKs
-                uses: actions/upload-artifact@v3
+                uses: actions/upload-artifact@v4
                 with:
                     name: Release APKs
                     path: |
