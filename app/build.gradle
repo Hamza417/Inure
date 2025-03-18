@@ -97,28 +97,19 @@ android {
             signingConfig signingConfigs.release
             // versionNameSuffix "-play"
         }
-        beta {
+        pre {
             dimension "version"
-            applicationIdSuffix ".beta"
-            versionNameSuffix "-test"
-
-            // Remove permissions for beta build
-            manifestPlaceholders = [
-                    removePermission : "inure.terminal.permission.RUN_SCRIPT",
-                    removePermission2: "inure.terminal.permission.APPEND_TO_PATH",
-                    removePermission3: "inure.terminal.permission.PREPEND_TO_PATH"
-            ]
+            versionNameSuffix "-pre"
+            signingConfig signingConfigs.release
 
             // Include all github flavor files
             sourceSets {
-                beta {
+                pre {
                     java.srcDirs += 'src/github/java'
                     res.srcDirs += 'src/github/res'
                     resources.srcDirs += 'src/github/resources'
                 }
             }
-
-            signingConfig signingConfigs.debug
         }
     }
 
@@ -244,7 +235,7 @@ dependencies {
 
     githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
-    betaImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    preImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
     // root
     def libsuVersion = '6.0.0'

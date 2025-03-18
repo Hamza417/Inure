@@ -1,4 +1,4 @@
-name: Build APK (Beta)
+name: Build APK (Pre-Release)
 
 on:
     push:
@@ -17,7 +17,7 @@ on:
             message:
                 description: 'Message to be sent'
                 required: true
-                default: 'The beta build is ready for testing'
+                default: 'New pre-release APK available for testing!'
 
 jobs:
     validation:
@@ -38,11 +38,11 @@ jobs:
                         echo "CANCEL_WORKFLOW=false" >> $GITHUB_OUTPUT
                     else
                         commit_message=$(git log --format=%B -n 1)
-                        if [[ ! "$commit_message" == *"build beta"* ]]; then
-                            echo "Commit message does not contain 'build beta'. Cancelling workflow."
+                        if [[ ! "$commit_message" == *"build pre"* ]]; then
+                            echo "Commit message does not contain 'build pre'. Cancelling workflow."
                             echo "CANCEL_WORKFLOW=true" >> $GITHUB_OUTPUT
                         else
-                            echo "Commit message contains 'build beta'. Proceeding with the workflow."
+                            echo "Commit message contains 'build pre'. Proceeding with the workflow."
                             echo "CANCEL_WORKFLOW=false" >> $GITHUB_OUTPUT
                         fi
                     fi
@@ -105,14 +105,14 @@ jobs:
                 run: |
                     echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 | head -n 1)" >> $GITHUB_ENV
 
-            -   name: Build APK
+            -   name: Build APK (Pre-Release)
                 run: |
                     if [[ -n "${{ env.GRADLE_PATH }}" ]]; then
                         chmod +x "${{ env.GRADLE_PATH }}"
-                        ${{ env.GRADLE_PATH }} clean assembleBetaRelease
+                        ${{ env.GRADLE_PATH }} clean assemblePreRelease
                     else
                         chmod +x ./gradlew
-                        ./gradlew clean assembleBetaRelease
+                        ./gradlew clean assemblePreRelease
                     fi
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
@@ -162,5 +162,5 @@ jobs:
             -   name: Archive APK
                 uses: actions/upload-artifact@v4
                 with:
-                    name: Beta APK (Debug)
+                    name: Pre-Release APK (GitHub)
                     path: ${{ env.APK_PATH }}
