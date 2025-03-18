@@ -12,7 +12,6 @@ import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLa
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.BatteryOptimizationModel
@@ -23,6 +22,7 @@ import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortBatteryOptimization
 import app.simple.inure.util.StatusBarHeight
+import com.bumptech.glide.Glide
 
 class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimizationModel>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -145,7 +145,7 @@ class AdapterBatteryOptimization(private val apps: ArrayList<BatteryOptimization
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
     }
 

@@ -10,13 +10,13 @@ import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLa
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.ApkFile
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.toSize
+import com.bumptech.glide.Glide
 import java.util.Locale
 
 class AdapterApksSearch(var paths: ArrayList<ApkFile> = arrayListOf(),
@@ -69,7 +69,7 @@ class AdapterApksSearch(var paths: ArrayList<ApkFile> = arrayListOf(),
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
     }
 

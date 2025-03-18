@@ -6,12 +6,12 @@ import android.net.Uri
 import android.widget.ImageView
 import app.simple.inure.R
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Greyscale
 import app.simple.inure.glide.transformation.Padding
 import app.simple.inure.glide.uricover.UriCoverModel
 import app.simple.inure.preferences.AppearancePreferences
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -27,7 +27,7 @@ object AudioCoverUtil {
      * Asynchronously load Album Arts for song files from their URIs using file descriptor
      */
     fun ImageView.loadFromFileDescriptor(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transform(RoundedCorners(AppearancePreferences.getCornerRadius()
                                           .div(2).toInt().coerceAtLeast(1)),
@@ -58,7 +58,7 @@ object AudioCoverUtil {
      * Asynchronously load Album Arts for song files from their URIs using file descriptor
      */
     fun ImageView.loadFromFileDescriptorFullScreen(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transform(CenterCrop())
             .load(DescriptorCoverModel(this.context, uri))
@@ -84,7 +84,7 @@ object AudioCoverUtil {
      * Asynchronously load Album Arts for song files from their URIs using file descriptor
      */
     fun ImageView.loadFromFileDescriptorGreyscale(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transform(CenterCrop(), Greyscale())
             .load(DescriptorCoverModel(this.context, uri))
@@ -109,7 +109,7 @@ object AudioCoverUtil {
      * Asynchronously load Album Arts for song files from their URIs
      */
     fun ImageView.loadFromUri(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transform(RoundedCorners(AppearancePreferences.getCornerRadius()
                                           .div(2).toInt().coerceAtLeast(1)),
@@ -134,7 +134,7 @@ object AudioCoverUtil {
     }
 
     fun ImageView.loadFromUriWithoutTransform(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .dontTransform()
             .load(UriCoverModel(this.context, uri))
@@ -154,7 +154,7 @@ object AudioCoverUtil {
     }
 
     fun ImageView.loadFromFileDescriptorWithoutTransform(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .dontTransform()
             .load(DescriptorCoverModel(this.context, uri))

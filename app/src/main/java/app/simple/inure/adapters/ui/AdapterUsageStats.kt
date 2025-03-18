@@ -13,7 +13,6 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
@@ -27,6 +26,7 @@ import app.simple.inure.util.SortUsageStats
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.visible
+import com.bumptech.glide.Glide
 import java.util.concurrent.TimeUnit
 
 class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerView.Adapter<VerticalListViewHolder>(), PopupTextProvider {
@@ -207,7 +207,7 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
     }
 

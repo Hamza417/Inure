@@ -15,7 +15,6 @@ import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.NotesPackageInfo
@@ -23,6 +22,7 @@ import app.simple.inure.preferences.NotesPreferences
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.RecyclerViewUtils
+import com.bumptech.glide.Glide
 
 class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -101,7 +101,7 @@ class AdapterNotes(var notes: ArrayList<NotesPackageInfo>) : RecyclerView.Adapte
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
         if (holder is Header) {
             Handler(Looper.getMainLooper()).removeCallbacksAndMessages(null)

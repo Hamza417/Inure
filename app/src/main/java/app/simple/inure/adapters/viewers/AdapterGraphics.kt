@@ -12,7 +12,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadGraphics
 import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.GraphicsPreferences
@@ -21,6 +20,7 @@ import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.StringUtils.highlightExtensions
 import app.simple.inure.util.StringUtils.optimizeToColoredString
+import com.bumptech.glide.Glide
 
 class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyword: String) : RecyclerView.Adapter<AdapterGraphics.Holder>(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -78,7 +78,7 @@ class AdapterGraphics(val path: String, var list: MutableList<Graphic>, var keyw
 
     override fun onViewRecycled(holder: Holder) {
         super.onViewRecycled(holder)
-        GlideApp.with(holder.image).clear(holder.image)
+        Glide.with(holder.image).clear(holder.image)
     }
 
     @SuppressLint("NotifyDataSetChanged")

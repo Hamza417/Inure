@@ -12,7 +12,6 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.ApkFile
@@ -22,6 +21,7 @@ import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FlagUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortApks
+import com.bumptech.glide.Glide
 import java.util.Locale
 
 class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
@@ -156,7 +156,7 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
     }
 

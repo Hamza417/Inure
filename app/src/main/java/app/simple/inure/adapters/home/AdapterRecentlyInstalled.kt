@@ -12,12 +12,12 @@ import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLa
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.InfoStripUtils.setRecentlyInstalledInfo
 import app.simple.inure.util.RecyclerViewUtils
+import com.bumptech.glide.Glide
 
 class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -68,7 +68,7 @@ class AdapterRecentlyInstalled : RecyclerView.Adapter<VerticalListViewHolder>() 
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.icon).clear(holder.icon)
+            Glide.with(holder.icon).clear(holder.icon)
         }
     }
 

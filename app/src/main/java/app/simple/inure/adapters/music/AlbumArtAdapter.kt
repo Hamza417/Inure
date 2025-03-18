@@ -11,11 +11,11 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.transformation.Blur
 import app.simple.inure.glide.uricover.UriCoverModel
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
@@ -68,7 +68,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
      * Asynchronously load Album Arts for song files from their URIs using file descriptor
      */
     fun ImageView.loadFromFileDescriptor(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .dontAnimate()
             .transform(CenterCrop())
@@ -89,7 +89,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
     }
 
     fun ImageView.loadFromUri(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .dontAnimate()
             .transform(CenterCrop())
@@ -110,7 +110,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
     }
 
     fun ImageView.loadBlurredBackgroundDescriptor(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transition(BitmapTransitionOptions.withCrossFade())
             .transform(CenterCrop(), Blur(25))
@@ -119,7 +119,7 @@ class AlbumArtAdapter(val list: ArrayList<AudioModel>) : RecyclerView.Adapter<Al
     }
 
     fun ImageView.loadBlurredBackground(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transition(BitmapTransitionOptions.withCrossFade())
             .transform(CenterCrop(), Blur(25))

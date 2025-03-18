@@ -11,7 +11,6 @@ import app.simple.inure.R
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptorWithoutTransform
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromUri
@@ -20,6 +19,7 @@ import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.util.RecyclerViewUtils
+import com.bumptech.glide.Glide
 
 class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -135,7 +135,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
     override fun onViewRecycled(holder: VerticalListViewHolder) {
         super.onViewRecycled(holder)
         if (holder is Holder) {
-            GlideApp.with(holder.art).clear(holder.art)
+            Glide.with(holder.art).clear(holder.art)
         }
     }
 

@@ -34,7 +34,6 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.glide.filedescriptorcover.DescriptorCoverModel
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
@@ -48,6 +47,7 @@ import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.NumberUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -441,7 +441,7 @@ class AudioPlayer : ScopedFragment() {
     fun ImageView.loadFromFileDescriptor(uri: Uri) {
         postponeEnterTransition()
 
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .dontAnimate()
             .transform(CenterCrop())

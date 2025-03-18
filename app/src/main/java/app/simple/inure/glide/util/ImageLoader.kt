@@ -11,13 +11,13 @@ import app.simple.inure.glide.apkIcon.ApkIcon
 import app.simple.inure.glide.drawable.DrawableModel
 import app.simple.inure.glide.graphics.AppGraphicsModel
 import app.simple.inure.glide.icon.AppIcon
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.providers.ProviderIconModel
 import app.simple.inure.glide.services.ServiceIconModel
 import app.simple.inure.glide.svg.SVG
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
 import app.simple.inure.preferences.AppearancePreferences
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.io.File
 
@@ -28,7 +28,7 @@ object ImageLoader {
      * @param packageName is package id of the app whose icon needs to be loaded
      */
     fun ImageView.loadAppIcon(packageName: String, enabled: Boolean, file: File? = null) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(AppIcon(this.context, packageName, enabled, file))
             .into(this)
@@ -40,7 +40,7 @@ object ImageLoader {
      * @param file
      */
     fun ImageView.loadAppIcon(file: File) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(ApkIcon(this.context, file))
             .into(this)
@@ -53,49 +53,49 @@ object ImageLoader {
      * @param filePath - path of the raster file inside the zip/apk file
      */
     fun ImageView.loadGraphics(path: String, filePath: String) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(AppGraphicsModel(path, filePath))
             .into(this)
     }
 
     fun ImageView.loadIconFromActivityInfo(activityInfo: ActivityInfo) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(ActivityIconModel(activityInfo, this.context))
             .into(this)
     }
 
     fun ImageView.loadIconFromServiceInfo(serviceInfo: ServiceInfo) {
-        GlideApp.with(this.context)
+        Glide.with(this.context)
             .asBitmap()
             .load(ServiceIconModel(serviceInfo, this.context))
             .into(this)
     }
 
     fun ImageView.loadIconFromProviderInfo(providerInfo: ProviderInfo) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(ProviderIconModel(providerInfo, this.context))
             .into(this)
     }
 
     fun ImageView.loadAPKIcon(file: File) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(ApkIcon(this.context, file))
             .into(this)
     }
 
     fun ImageView.loadAPKIcon(path: String) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(ApkIcon(this.context, File(path)))
             .into(this)
     }
 
     fun ImageView.loadSvg(uri: Uri) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .load(SVG(context, uri))
             .into(this)
@@ -105,7 +105,7 @@ object ImageLoader {
      * Loads drawable asynchronously
      */
     fun ImageView.loadDrawable(@DrawableRes res: Int) {
-        GlideApp.with(this)
+        Glide.with(this)
             .asBitmap()
             .transform(RoundedCorners(AppearancePreferences.getCornerRadius()
                                           .toInt().coerceAtLeast(1)),

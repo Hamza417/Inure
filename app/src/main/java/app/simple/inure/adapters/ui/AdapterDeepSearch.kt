@@ -13,13 +13,13 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
-import app.simple.inure.glide.modules.GlideApp
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.models.Search
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.InfoStripUtils.setAppInfo
+import com.bumptech.glide.Glide
 
 class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private var searchKeyword: String = "") : RecyclerView.Adapter<AdapterDeepSearch.Holder>() {
 
@@ -83,7 +83,7 @@ class AdapterDeepSearch(private var deepSearchInfo: ArrayList<Search>, private v
 
     override fun onViewRecycled(holder: Holder) {
         super.onViewRecycled(holder)
-        GlideApp.with(holder.icon).clear(holder.icon)
+        Glide.with(holder.icon).clear(holder.icon)
     }
 
     override fun getItemCount(): Int {
