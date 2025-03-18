@@ -67,19 +67,19 @@ android {
     }
 
     signingConfigs {
-        betaRelease {
-            def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
-            def allFilesFromDir = new File(tmpFilePath).listFiles()
+        release {
+            def path = System.getProperty("user.home") + "/work/_temp/keystore/"
+            def keystoreFileName = "key.jks"
+            def keystoreFile = new File(path, keystoreFileName)
 
-            if (allFilesFromDir != null) {
-                def keystoreFile = allFilesFromDir.first()
-                keystoreFile.renameTo("keystore/key.jks")
+            if (keystoreFile.exists()) {
+                storeFile = keystoreFile
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            } else {
+                println("Keystore file not found at: " + keystoreFile)
             }
-
-            storeFile = file("keystore/key.jks")
-            storePassword System.getenv("KEY_STORE_PASSWORD")
-            keyAlias System.getenv("ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
         }
     }
 
@@ -89,10 +89,12 @@ android {
         github { // GitHub build
             dimension "version"
             // versionNameSuffix "-github"
+            signingConfig signingConfigs.release
         }
         play { // Play Store build
             dimension "version"
             applicationIdSuffix ".play"
+            signingConfig signingConfigs.release
             // versionNameSuffix "-play"
         }
         beta {
