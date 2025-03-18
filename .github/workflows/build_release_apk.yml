@@ -35,15 +35,6 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: Build Play Release APK
-                run: |
-                    chmod +x ./gradlew
-                    ./gradlew clean assemblePlayRelease
-                env:
-                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
-                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-
             # If you want to build both APKs in parallel, uncomment the following lines
 
             #            -   name: Build GitHub Release and Play Release APKs
@@ -60,7 +51,6 @@ jobs:
                 with:
                     name: Release APKs
                     path: |
-                        app/**/play/release/*.apk
                         app/**/github/release/*.apk
 
             -   name: Extract Version Name and Version Code
@@ -85,21 +75,21 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
-            -   name: Read and Store Release Notes
-                id: read_release_notes
-                run: |
-                    cat assets/release.html > release.html
-                env:
-                    RELEASE_NOTES_FILE: release.html
+#            -   name: Read and Store Release Notes
+#                id: read_release_notes
+#                run: |
+#                    cat assets/release.html > release.html
+#                env:
+#                    RELEASE_NOTES_FILE: release.html
 
-            -   name: Create GitHub Release
-                uses: softprops/action-gh-release@v1
-                with:
-                    files: |
-                        app/**/play/release/*.apk
-                        app/**/github/release/*.apk
-                    name: ${{ env.VERSION_NAME }} # Use the original case for the release name
-                    tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: ${{ env.RELEASE_NOTES_FILE }}
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#            -   name: Create GitHub Release
+#                uses: softprops/action-gh-release@v1
+#                with:
+#                    files: |
+#                        app/**/play/release/*.apk
+#                        app/**/github/release/*.apk
+#                    name: ${{ env.VERSION_NAME }} # Use the original case for the release name
+#                    tag_name: ${{ env.TAG }} # Use lowercase for the tag
+#                    body: ${{ env.RELEASE_NOTES_FILE }}
+#                env:
+#                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
