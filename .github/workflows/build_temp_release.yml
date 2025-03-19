@@ -1,4 +1,4 @@
-name: Build APKs (Release)
+name: Build Temporary Release APK
 
 on:
     workflow_dispatch:  # Allow manual triggering
@@ -13,7 +13,7 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Set up Java and Android SDK
-                uses: actions/setup-java@v3
+                uses: actions/setup-java@v4
                 with:
                     java-version: '21' # Adjust the Java version as needed
                     distribution: 'temurin'
@@ -34,26 +34,6 @@ jobs:
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
                     SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: Build Play Release APK
-                run: |
-                    chmod +x ./gradlew
-                    ./gradlew clean assemblePlayRelease --no-build-cache --rerun-tasks
-                env:
-                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
-                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-
-            # If you want to build both APKs in parallel, uncomment the following lines
-
-            #            -   name: Build GitHub Release and Play Release APKs
-            #                run: |
-            #                    chmod +x ./gradlew
-            #                    ./gradlew clean assembleGithubRelease assemblePlayRelease --parallel
-            #                env:
-            #                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
-            #                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-            #                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-
             -   name: Extract Version Name and Version Code
                 run: |
                     # Extract versionName and versionCode from build.gradle
@@ -70,28 +50,9 @@ jobs:
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
                     echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
-            -   name: Set Tag
-                run: |
-                    TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
-                    echo "TAG=${TAG}" >> $GITHUB_ENV
-                    echo "Tag: ${TAG}" # Print tag to console
-
             -   name: Archive APKs
                 uses: actions/upload-artifact@v4
                 with:
-                    name: ${{ env.VERSION_NAME }} APKs
+                    name: ${{ env.VERSION_NAME }}
                     path: |
                         app/**/github/release/*.apk
-                        app/**/play/release/*.apk
-
-            -   name: Create GitHub Release
-                uses: softprops/action-gh-release@v2
-                with:
-                    files: |
-                        app/**/play/release/*.apk
-                        app/**/github/release/*.apk
-                    name: ${{ env.VERSION_NAME }} # Use the original case for the release name
-                    tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: ${{ env.RELEASE_NOTES_FILE }}
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
