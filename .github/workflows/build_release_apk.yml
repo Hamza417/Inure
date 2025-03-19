@@ -15,7 +15,7 @@ jobs:
             -   name: Set up Java and Android SDK
                 uses: actions/setup-java@v3
                 with:
-                    java-version: '17' # Adjust the Java version as needed
+                    java-version: '21' # Adjust the Java version as needed
                     distribution: 'temurin'
                     cache: 'gradle'
 
@@ -55,14 +55,6 @@ jobs:
             #                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
             #                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
 
-            -   name: Archive APKs
-                uses: actions/upload-artifact@v4
-                with:
-                    name: Release APKs
-                    path: |
-                        app/**/github/release/*.apk
-                        app/**/play/release/*.apk
-
             -   name: Extract Version Name and Version Code
                 run: |
                     # Extract versionName and versionCode from build.gradle
@@ -85,17 +77,17 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
-            -   name: Read and Store Release Notes
-                id: read_release_notes
-                run: |
-                    cat assets/release.html > release.html
-                env:
-                    RELEASE_NOTES_FILE: release.html
+            -   name: Archive APKs
+                uses: actions/upload-artifact@v4
+                with:
+                    name: ${{ env.VERSION_NAME }} APKs
+                    path: |
+                        app/**/github/release/*.apk
+                        app/**/play/release/*.apk
 
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v2
                 with:
-                    draft: true
                     files: |
                         app/**/play/release/*.apk
                         app/**/github/release/*.apk
