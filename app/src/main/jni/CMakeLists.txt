@@ -1,6 +1,7 @@
 # Sets the minimum version of CMake required to build the native
 # library.
 cmake_minimum_required(VERSION 3.4.1)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=.")
 
 project(inure)
 
@@ -31,3 +32,4 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib})
+

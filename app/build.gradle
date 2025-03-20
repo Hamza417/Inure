@@ -78,7 +78,7 @@ android {
                 keyAlias = System.getenv("SIGNING_KEY_ALIAS")
                 keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
             } else {
-                println("Keystore file not found at: " + keystoreFile)
+                storeFile = null
             }
         }
     }
@@ -88,19 +88,23 @@ android {
     productFlavors {
         github { // GitHub build
             dimension "version"
-            // versionNameSuffix "-github"
-            signingConfig signingConfigs.release
+            if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
         }
         play { // Play Store build
             dimension "version"
             applicationIdSuffix ".play"
-            signingConfig signingConfigs.release
-            // versionNameSuffix "-play"
+            if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
         }
         pre {
             dimension "version"
             versionNameSuffix "-pre"
-            signingConfig signingConfigs.release
+            if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
+            }
 
             // Include all github flavor files
             sourceSets {
