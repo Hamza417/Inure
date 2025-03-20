@@ -9,6 +9,38 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+            -   name: Prepare Android SDK Directory
+                run: |
+                    sudo mkdir -p /opt/sdk
+                    sudo chown -R $USER:$USER /opt/sdk
+
+            -   name: Install Android Command Line Tools (Latest)
+                run: |
+                    wget $(curl -s https://developer.android.com/studio | grep -oP 'https://dl.google.com/android/repository/commandlinetools-linux-\d+_latest.zip') -O cmdline-tools.zip
+                    mkdir -p /opt/sdk/cmdline-tools/latest
+                    unzip cmdline-tools.zip -d /opt/sdk/cmdline-tools/latest
+                    mv /opt/sdk/cmdline-tools/latest/cmdline-tools/* /opt/sdk/cmdline-tools/latest/
+                    rm -rf /opt/sdk/cmdline-tools/latest/cmdline-tools
+                    echo "export PATH=/opt/sdk/cmdline-tools/latest/bin:$PATH" >> ~/.bashrc
+                    echo "export PATH=/opt/sdk/cmdline-tools/latest/bin:$PATH" >> ~/.profile
+                    export PATH=/opt/sdk/cmdline-tools/latest/bin:$PATH
+                    sdkmanager --version  # Verify that sdkmanager is available
+
+            -   name: Accept Android SDK Licenses
+                run: yes | /opt/sdk/cmdline-tools/latest/bin/sdkmanager --licenses
+
+            -   name: Set Android SDK Environment Variables
+                env:
+                    ANDROID_HOME: /opt/sdk
+                    ANDROID_SDK_ROOT: /opt/sdk
+                    ANDROID_SDK_HOME: /opt/sdk
+                    PATH: /opt/sdk/cmdline-tools/latest/bin:$PATH
+                run: echo "Using Android SDK at $ANDROID_HOME"
+
+            -   name: Configure Android SDK in local.properties
+                run: |
+                    echo "sdk.dir=/opt/sdk" > local.properties
+
             -   name: Checkout code
                 uses: actions/checkout@v4
 
