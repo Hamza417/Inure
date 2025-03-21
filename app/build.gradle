@@ -8,6 +8,34 @@ plugins {
     id 'dev.rikka.tools.refine' version '4.4.0'
 }
 
+static def loadProperties(filePath) {
+    def properties = new Properties()
+    def file = new File(filePath)
+    if (file.exists()) {
+        properties.load(new FileInputStream(file))
+    } else {
+        println("Properties file not found: $filePath")
+    }
+    return properties
+}
+
+static def findKeystoreFile(properties) {
+    def path = System.getProperty("user.home") + "/work/_temp/keystore/"
+    def fallbackPath = properties.get("KEYSTORE_PATH")
+    def keystoreFileName = "key.jks"
+    def keystoreFile = new File(path, keystoreFileName)
+
+    if (!keystoreFile.exists() && fallbackPath != null) {
+        keystoreFile = new File(fallbackPath)
+    }
+
+    return keystoreFile
+}
+
+static def getEnvOrProperty(envKey, properties) {
+    return System.getenv(envKey) ?: properties.get(envKey)
+}
+
 android {
 
     compileSdk 35
@@ -68,17 +96,17 @@ android {
 
     signingConfigs {
         release {
-            def path = System.getProperty("user.home") + "/work/_temp/keystore/"
-            def keystoreFileName = "key.jks"
-            def keystoreFile = new File(path, keystoreFileName)
+            def properties = loadProperties("local.properties")
+            def keystoreFile = findKeystoreFile(properties)
 
             if (keystoreFile.exists()) {
                 storeFile = keystoreFile
-                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+                storePassword = getEnvOrProperty("SIGNING_STORE_PASSWORD", properties)
+                keyAlias = getEnvOrProperty("SIGNING_KEY_ALIAS", properties)
+                keyPassword = getEnvOrProperty("SIGNING_KEY_PASSWORD", properties)
             } else {
                 storeFile = null
+                logger.error("Keystore file not found, signing disabled.")
             }
         }
     }
@@ -131,7 +159,6 @@ android {
         }
         debug {
             versionNameSuffix "_debug"
-            applicationIdSuffix ".debug"
             debuggable true
 
             minifyEnabled false
@@ -142,6 +169,10 @@ android {
             dependenciesInfo {
                 includeInApk true
                 includeInBundle true
+            }
+
+            if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
+                signingConfig signingConfigs.release
             }
         }
     }
