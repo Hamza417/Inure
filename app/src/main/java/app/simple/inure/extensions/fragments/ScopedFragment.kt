@@ -546,7 +546,11 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         if (parentFragmentManager.backStackEntryCount > 0) { // Make sure we have fragments in backstack
             requireActivity().onBackPressedDispatcher.addCallback(this) {
                 Log.d(tag ?: TAG, "onBackPressed")
-                parentFragmentManager.popBackStackImmediate()
+                try {
+                    parentFragmentManager.popBackStackImmediate()
+                } catch (e: IllegalStateException) {
+                    Log.e(TAG, "setupBackPressedDispatcher: ", e)
+                }
 
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

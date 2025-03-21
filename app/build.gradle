@@ -131,6 +131,7 @@ android {
         }
         debug {
             versionNameSuffix "_debug"
+            applicationIdSuffix ".debug"
             debuggable true
 
             minifyEnabled false
