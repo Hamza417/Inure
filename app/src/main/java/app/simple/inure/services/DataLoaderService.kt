@@ -49,7 +49,7 @@ class DataLoaderService : Service() {
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
     private var isLoading = false
-    private var flags = PackageManager.GET_META_DATA
+    private var flags = 0
 
     private var broadcastReceiver: BroadcastReceiver? = null
     private var intentFilter: IntentFilter = IntentFilter()
@@ -222,41 +222,26 @@ class DataLoaderService : Service() {
 
     @Suppress("DEPRECATION")
     private fun loadUninstalledApps() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            try {
-                if (uninstalledApps.isEmpty()) {
-                    val flags = PackageManager.GET_META_DATA or PackageManager.MATCH_UNINSTALLED_PACKAGES
-
-                    uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                    }.collect(Collectors.toList()).loadPackageNames().toArrayList()
-                }
-            } catch (e: DeadObjectException) {
-                uninstalledApps = arrayListOf()
-                e.printStackTrace()
-            } catch (e: DeadSystemException) {
-                uninstalledApps = arrayListOf()
-                e.printStackTrace()
-            } catch (e: BadParcelableException) {
-                uninstalledApps = arrayListOf()
-                e.printStackTrace()
-            }
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.flags or PackageManager.MATCH_UNINSTALLED_PACKAGES
         } else {
-            try {
-                if (uninstalledApps.isEmpty()) {
-                    val flags = PackageManager.GET_META_DATA or PackageManager.GET_UNINSTALLED_PACKAGES
+            this.flags or PackageManager.GET_UNINSTALLED_PACKAGES
+        }
 
-                    uninstalledApps = packageManager.getInstalledPackages(flags).stream().filter { packageInfo: PackageInfo ->
-                        packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0
-                    }.collect(Collectors.toList()).loadPackageNames().toArrayList()
-                }
-            } catch (e: DeadObjectException) {
-                uninstalledApps = arrayListOf()
-                e.printStackTrace()
-            } catch (e: BadParcelableException) {
-                uninstalledApps = arrayListOf()
-                e.printStackTrace()
-            }
+        if (uninstalledApps.isNotEmpty()) return
+
+        try {
+            uninstalledApps = packageManager.getInstalledPackages(flags).stream()
+                .filter { packageInfo -> packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED == 0 }
+                .collect(Collectors.toList())
+                .loadPackageNames()
+                .toArrayList()
+        } catch (e: DeadObjectException) {
+            uninstalledApps = arrayListOf()
+            e.printStackTrace()
+        } catch (e: BadParcelableException) {
+            uninstalledApps = arrayListOf()
+            e.printStackTrace()
         }
     }
 
