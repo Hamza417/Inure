@@ -12,6 +12,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
@@ -111,8 +112,10 @@ class Tags : ScopedFragment() {
                 }
             })
 
-            recyclerView.layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL).apply {
-                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            if (recyclerView.layoutManager == null || recyclerView.layoutManager is LinearLayoutManager) {
+                recyclerView.layoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL).apply {
+                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                }
             }
 
             recyclerView.adapter = adapter
@@ -145,6 +148,7 @@ class Tags : ScopedFragment() {
                         openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
                     R.drawable.ic_refresh -> {
+                        showLoader(true)
                         tagsViewModel?.refresh()
                     }
                 }

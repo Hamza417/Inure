@@ -241,8 +241,10 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
          * Setup fast scroller only when adapter is large enough
          * to require a fast scroller
          */
-        if (adapter!!.itemCount > 25 && fastScroll && !isFastScrollerAdded) {
-            setupFastScroller()
+        adapter?.let {
+            if (adapter.itemCount > 0 && fastScroll && !isFastScrollerAdded) {
+                setupFastScroller()
+            }
         }
     }
 
