@@ -43,8 +43,6 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
 
     private var edgeColor = 0
 
-    var parentViewTag: String? = null
-
     init {
         if (isInEditMode.invert()) {
             context.theme.obtainStyledAttributes(attrs, R.styleable.RecyclerView, 0, 0).apply {

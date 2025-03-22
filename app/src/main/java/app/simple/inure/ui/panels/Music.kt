@@ -151,24 +151,24 @@ class Music : KeyboardScopedFragment() {
             })
 
             if (DevelopmentPreferences.get(DevelopmentPreferences.USE_PERISTYLE_INTERFACE)) {
-                val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+                if (recyclerView.layoutManager == null || recyclerView.layoutManager !is GridLayoutManager) {
+                    val gridLayoutManager = GridLayoutManager(requireContext(), 2)
 
-                gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                    override fun getSpanSize(position: Int): Int {
-                        return if (position % 5 == 0) {
-                            2
-                        } else {
-                            1
+                    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                        override fun getSpanSize(position: Int): Int {
+                            return if (position % 5 == 0) {
+                                2
+                            } else {
+                                1
+                            }
                         }
                     }
+
+                    recyclerView.layoutManager = gridLayoutManager
+
+                    // Remove fading edge effect
+                    recyclerView.isVerticalFadingEdgeEnabled = false
                 }
-
-                recyclerView.layoutManager = gridLayoutManager
-
-                // Remove fading edge effect
-                recyclerView.isVerticalFadingEdgeEnabled = false
-            } else {
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
             }
 
             recyclerView.adapter = adapterMusic
