@@ -43,7 +43,6 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.utils.GooglePlayUtils.showAppReview
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
-import net.dongliu.apk.parser.Main
 import rikka.shizuku.Shizuku
 
 class Home : ScopedFragment() {
