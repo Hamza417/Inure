@@ -24,16 +24,13 @@ import app.simple.inure.viewmodels.panels.HomeViewModel
 class MostUsed : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var adapterFrequentlyUsed: AdapterMostUsed
-
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var adapterMostUsed: AdapterMostUsed
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_most_used, container, false)
 
         recyclerView = view.findViewById(R.id.most_used_recycler_view)
-        adapterFrequentlyUsed = AdapterMostUsed()
-
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
 
         return view
@@ -61,14 +58,14 @@ class MostUsed : ScopedFragment() {
             postponeEnterTransition()
             hideLoader()
 
-            adapterFrequentlyUsed.apps = it
-            recyclerView.adapter = adapterFrequentlyUsed
+            adapterMostUsed = AdapterMostUsed(it)
+            recyclerView.adapter = adapterMostUsed
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
             }
 
-            adapterFrequentlyUsed.setOnItemClickListener(object : AdapterCallbacks {
+            adapterMostUsed.setCallback(object : AdapterCallbacks {
                 override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
                     openAppInfo(packageInfo, icon)
                 }

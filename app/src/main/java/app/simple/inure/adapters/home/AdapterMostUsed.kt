@@ -19,9 +19,8 @@ import app.simple.inure.util.RecyclerViewUtils
 import com.bumptech.glide.Glide
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterMostUsed(private var apps: ArrayList<PackageStats> = arrayListOf()) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    var apps = arrayListOf<PackageStats>()
     private lateinit var adapterCallbacks: AdapterCallbacks
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
@@ -108,7 +107,7 @@ class AdapterMostUsed : RecyclerView.Adapter<VerticalListViewHolder>() {
         } else RecyclerViewUtils.TYPE_ITEM
     }
 
-    fun setOnItemClickListener(adapterCallbacks: AdapterCallbacks) {
+    fun setCallback(adapterCallbacks: AdapterCallbacks) {
         this.adapterCallbacks = adapterCallbacks
     }
 
