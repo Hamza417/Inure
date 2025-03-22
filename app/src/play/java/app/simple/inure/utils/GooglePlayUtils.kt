@@ -22,6 +22,7 @@ object GooglePlayUtils {
                     // reviewed or not, or even whether the review dialog was shown. Thus, no
                     // matter the result, we continue our app flow.
                     Log.i(TAG, "review flow complete.")
+                    MainPreferences.setShowRateReminder(false)
                 }
 
                 flow.addOnFailureListener { e ->

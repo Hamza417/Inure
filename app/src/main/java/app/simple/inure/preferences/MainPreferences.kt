@@ -28,10 +28,6 @@ object MainPreferences {
         return getSharedPreferences().getInt(LAUNCH_COUNT, 0)
     }
 
-    fun shouldShowRateReminder(): Boolean {
-        return getLaunchCount() > 10
-    }
-
     fun incrementLaunchCount() {
         setLaunchCount(getLaunchCount() + 1)
     }

@@ -43,6 +43,7 @@ import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.utils.GooglePlayUtils.showAppReview
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.QuickAppsViewModel
+import net.dongliu.apk.parser.Main
 import rikka.shizuku.Shizuku
 
 class Home : ScopedFragment() {
@@ -306,8 +307,8 @@ class Home : ScopedFragment() {
     private fun showRateDialog() {
         runCatching {
             if (AppUtils.isPlayFlavor()) {
-                if (MainPreferences.shouldShowRateReminder()) {
-                    if (TrialPreferences.isFullVersion()) { // Pop up the rate dialog only if the user has the full version
+                if (TrialPreferences.isFullVersion()) { // Pop up the rate dialog only if the user has the full version
+                    if (MainPreferences.isShowRateReminder()) {
                         requireActivity().showAppReview()
                     }
                 }
