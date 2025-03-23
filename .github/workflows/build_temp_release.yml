@@ -1,11 +1,11 @@
-name: Build Temporary Release APK
+name: Build Test APK
 
 on:
     workflow_dispatch:  # Allow manual triggering
 
 jobs:
     build:
-        name: Build Release APK
+        name: Build Pre-Release APK
         runs-on: ubuntu-latest
 
         steps:
@@ -25,10 +25,10 @@ jobs:
                     fileName: 'keystore/key.jks'
                     encodedString: ${{ secrets.SIGN_KEY }}
 
-            -   name: Build GitHub Release APK
+            -   name: Build Pre-Release APK
                 run: |
                     chmod +x ./gradlew
-                    ./gradlew clean assembleGithubRelease --no-build-cache --rerun-tasks
+                    ./gradlew clean assemblePreRelease --no-build-cache --rerun-tasks
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -55,4 +55,4 @@ jobs:
                 with:
                     name: ${{ env.VERSION_NAME }}
                     path: |
-                        app/**/github/release/*.apk
+                        app/**/pre/release/*.apk
