@@ -3,15 +3,14 @@ package app.simple.inure.viewmodels.installer
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.Triple
-import app.simple.inure.util.FileUtils.toFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -61,8 +60,8 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
 
             oldPackageInfo = try {
                 applicationContext().packageManager.getPackageInfo(packageInfo!!.packageName, flags)
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to get old package info", e)
+            } catch (e: NameNotFoundException) {
+                Log.e(TAG, "Failed to get installed package info", e)
                 PackageInfo()
             }
 
@@ -81,387 +80,74 @@ class InstallerChangesViewModel(application: Application, val file: File) : Wrap
 
     private fun getPermissionChanges(): Triple<String, String, String> {
         val title = getString(R.string.permissions)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val permissions = arrayListOf<String>()
-        val oldPermissions = arrayListOf<String>()
+        val permissions = packageInfo?.requestedPermissions?.toSet() ?: emptySet()
+        val oldPermissions = oldPackageInfo?.requestedPermissions?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.requestedPermissions?.let {
-                permissions.addAll(it)
-            }
+        val added = permissions.subtract(oldPermissions).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldPermissions.subtract(permissions).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.requestedPermissions?.let {
-                oldPermissions.addAll(it)
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get permissions", it)
-        }
-
-        added = buildString {
-            for (permission in permissions) {
-                if (!oldPermissions.contains(permission)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$permission\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (permission in oldPermissions) {
-                if (!permissions.contains(permission)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$permission\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     private fun getActivitiesChanges(): Triple<String, String, String> {
         val title = getString(R.string.activities)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val activities = arrayListOf<String>()
-        val oldActivities = arrayListOf<String>()
+        val activities = packageInfo?.activities?.map { it.name }?.toSet() ?: emptySet()
+        val oldActivities = oldPackageInfo?.activities?.map { it.name }?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.activities!!.let {
-                activities.addAll(it.map { activity -> activity.name })
-            }
+        val added = activities.subtract(oldActivities).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldActivities.subtract(activities).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.activities!!.let {
-                oldActivities.addAll(it.map { activity -> activity.name })
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get activities", it)
-        }
-
-        added = buildString {
-            for (activity in activities) {
-                if (!oldActivities.contains(activity)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$activity\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (activity in oldActivities) {
-                if (!activities.contains(activity)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$activity\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     private fun getServicesChanges(): Triple<String, String, String> {
         val title = getString(R.string.services)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val services = arrayListOf<String>()
-        val oldServices = arrayListOf<String>()
+        val services = packageInfo?.services?.map { it.name }?.toSet() ?: emptySet()
+        val oldServices = oldPackageInfo?.services?.map { it.name }?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.services!!.let {
-                services.addAll(it.map { service -> service.name })
-            }
+        val added = services.subtract(oldServices).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldServices.subtract(services).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.services!!.let {
-                oldServices.addAll(it.map { service -> service.name })
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get services", it)
-        }
-
-        added = buildString {
-            for (service in services) {
-                if (!oldServices.contains(service)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$service\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (service in oldServices) {
-                if (!services.contains(service)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$service\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     private fun getReceiversChanges(): Triple<String, String, String> {
         val title = getString(R.string.receivers)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val receivers = arrayListOf<String>()
-        val oldReceivers = arrayListOf<String>()
+        val receivers = packageInfo?.receivers?.map { it.name }?.toSet() ?: emptySet()
+        val oldReceivers = oldPackageInfo?.receivers?.map { it.name }?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.receivers!!.let {
-                receivers.addAll(it.map { receiver -> receiver.name })
-            }
+        val added = receivers.subtract(oldReceivers).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldReceivers.subtract(receivers).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.receivers!!.let {
-                oldReceivers.addAll(it.map { receiver -> receiver.name })
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get receivers", it)
-        }
-
-        added = buildString {
-            for (receiver in receivers) {
-                if (!oldReceivers.contains(receiver)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$receiver\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (receiver in oldReceivers) {
-                if (!receivers.contains(receiver)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$receiver\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     private fun getProvidersChanges(): Triple<String, String, String> {
         val title = getString(R.string.providers)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val providers = arrayListOf<String>()
-        val oldProviders = arrayListOf<String>()
+        val providers = packageInfo?.providers?.map { it.name }?.toSet() ?: emptySet()
+        val oldProviders = oldPackageInfo?.providers?.map { it.name }?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.providers!!.let {
-                providers.addAll(it.map { provider -> provider.name })
-            }
+        val added = providers.subtract(oldProviders).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldProviders.subtract(providers).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.providers!!.let {
-                oldProviders.addAll(it.map { provider -> provider.name })
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get providers", it)
-        }
-
-        added = buildString {
-            for (provider in providers) {
-                if (!oldProviders.contains(provider)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$provider\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (provider in oldProviders) {
-                if (!providers.contains(provider)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$provider\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     private fun getFeaturesChanges(): Triple<String, String, String> {
         val title = getString(R.string.uses_feature)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
 
-        val features = arrayListOf<String>()
-        val oldFeatures = arrayListOf<String>()
+        val features = packageInfo?.reqFeatures?.map { it.name }?.toSet() ?: emptySet()
+        val oldFeatures = oldPackageInfo?.reqFeatures?.map { it.name }?.toSet() ?: emptySet()
 
-        kotlin.runCatching {
-            packageInfo!!.reqFeatures!!.let {
-                features.addAll(it.map { feature -> feature.name })
-            }
+        val added = features.subtract(oldFeatures).joinToString("\n").ifEmpty { getString(R.string.no_new_additions) }
+        val removed = oldFeatures.subtract(features).joinToString("\n").ifEmpty { getString(R.string.no_new_removals) }
 
-            oldPackageInfo!!.reqFeatures!!.let {
-                oldFeatures.addAll(it.map { feature -> feature.name })
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get features", it)
-        }
-
-        added = buildString {
-            for (feature in features) {
-                if (!oldFeatures.contains(feature)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$feature\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (feature in oldFeatures) {
-                if (!features.contains(feature)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$feature\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
-    }
-
-    private fun getNativeLibrariesChanges(): Triple<String, String, String> {
-        val title = getString(R.string.native_libraries)
-        var added = getString(R.string.no_new_additions)
-        var removed = getString(R.string.no_new_removals)
-
-        val nativeLibraries = arrayListOf<String>()
-        val oldNativeLibraries = arrayListOf<String>()
-
-        kotlin.runCatching {
-            packageInfo!!.safeApplicationInfo.nativeLibraryDir?.let {
-                nativeLibraries.addAll(it.toFile().list().orEmpty())
-            }
-
-            oldPackageInfo!!.safeApplicationInfo.nativeLibraryDir?.let {
-                oldNativeLibraries.addAll(it.toFile().list().orEmpty())
-            }
-        }.onFailure {
-            Log.e(TAG, "Failed to get native libraries", it)
-        }
-
-        added = buildString {
-            for (nativeLibrary in nativeLibraries) {
-                if (!oldNativeLibraries.contains(nativeLibrary)) {
-                    if (added == getString(R.string.no_new_additions)) {
-                        added = ""
-                    }
-
-                    append("$nativeLibrary\n")
-                }
-            }
-        }
-
-        removed = buildString {
-            for (nativeLibrary in oldNativeLibraries) {
-                if (!nativeLibraries.contains(nativeLibrary)) {
-                    if (removed == getString(R.string.no_new_removals)) {
-                        removed = ""
-                    }
-
-                    append("$nativeLibrary\n")
-                }
-            }
-        }
-
-        if (added.isEmpty()) {
-            added = getString(R.string.no_new_additions)
-        }
-
-        if (removed.isEmpty()) {
-            removed = getString(R.string.no_new_removals)
-        }
-
-        return Triple(title, added.trim(), removed.trim())
+        return Triple(title, added, removed)
     }
 
     companion object {
