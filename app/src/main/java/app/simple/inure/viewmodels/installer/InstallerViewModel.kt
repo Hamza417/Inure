@@ -21,6 +21,7 @@ import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.shizuku.PackageInstaller
+import app.simple.inure.singletons.ApplicationUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.escapeSpecialCharactersForUnixPath
@@ -318,6 +319,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                             applicationContext(), "${applicationContext().packageName}.provider", file)
                 }
 
+                ApplicationUtils.setApplication(application) //Should be initialized at application level, not here
                 val packageInstaller = PackageInstaller()
                 val shizukuInstall = packageInstaller.install(uris, applicationContext())
 
