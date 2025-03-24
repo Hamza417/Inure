@@ -21,12 +21,25 @@
 
 <ul>
     <li>Added <b>Sign Algorithm</b> chart in <b>Analytics</b> panel.</li>
+    <li>Added toggle to show changes in diff style in <b>Changes</b> panel.</li>
 </ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
     <li><b>Setup</b> crashing in some devices with no usage access activity.</li>
+    <li>Set to fetch only minimum information required for the app to load to prevent some crashes
+        in low memory devices.
+    </li>
+    <li>Fixed invalid scroll position state in <b>Setup</b> panel.</li>
+    <li>Fixed broken refresh animation in various lists.</li>
+    <li>Fixed a bug causing <b>Changes</b> to not load any data.</li>
+</ul>
+
+<h4>Changes</h4>
+
+<ul>
+    <li>Automatically enable skip loading toggle if it takes too long to load the app.</li>
 </ul>
 
 <br/>
@@ -42,7 +55,6 @@
 <h4>User Interface</h4>
 <ul>
     <li>Added percentage values in pie chart legends.</li>
-    <li>Added toggle to show changes in diff style in <b>Changes</b> panel.</li>
 </ul>
 
 <h4>Bug Fixes</h4>
@@ -50,12 +62,6 @@
 <ul>
     <li>Fixed a DeadSystemError in Data Loader service.</li>
     <li>Fixed <b>Path</b> dialog not accepting subdirectories.</li>
-    <li>Set to fetch only minimum information required for the app to load to prevent some crashes
-        in low memory devices.
-    </li>
-    <li>Fixed invalid scroll position state in <b>Setup</b> panel.</li>
-    <li>Fixed broken refresh animation in various lists.</li>
-    <li>Fixed a bug causing <b>Changes</b> to not load any data.</li>
 </ul>
 
 <h4>Removed</h4>
@@ -68,7 +74,6 @@
 
 <ul>
     <li><b>App information</b> panel should scan split apks for native libraries as well.</li>
-    <li>Automatically enable skip loading toggle if it takes too long to load the app.</li>
 </ul>
 
 <br>
