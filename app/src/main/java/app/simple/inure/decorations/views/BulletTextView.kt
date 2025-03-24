@@ -3,9 +3,9 @@ package app.simple.inure.decorations.views
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.text.TextUtils
 import android.util.AttributeSet
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.util.NullSafety.isNotNull
 import kotlin.math.abs
 
 class BulletTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : TypeFaceTextView(context, attrs) {
@@ -18,25 +18,30 @@ class BulletTextView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     private fun setBulletPoint(drawableLeft: Drawable?, canvas: Canvas?) {
-        if (!TextUtils.isEmpty(text)) {
-            drawableLeft?.let { it ->
-                if (lineCount == 1) {
-                    setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
-                } else {
-                    val buttonWidth = it.intrinsicWidth
-                    val buttonHeight = it.intrinsicHeight
-                    val topSpace = abs(buttonHeight - lineHeight)
+        if (!text.isNullOrEmpty()) {
+            if (bulletDrawable.isNotNull()) {
+                drawableLeft?.let {
+                    if (lineCount == 1) {
+                        setCompoundDrawablesWithIntrinsicBounds(it, null, null, null)
+                    } else {
+                        val buttonWidth = it.intrinsicWidth
+                        val buttonHeight = it.intrinsicHeight
+                        val topSpace = abs(buttonHeight - lineHeight)
 
-                    setPadding(buttonWidth + compoundDrawablePadding, 0, 0, 0)
+                        setPadding(buttonWidth + compoundDrawablePadding, 0, 0, 0)
 
-                    it.setBounds(0, topSpace, buttonWidth, topSpace + buttonHeight)
+                        it.setBounds(0, topSpace, buttonWidth, topSpace + buttonHeight)
 
-                    canvas?.apply {
-                        save()
-                        it.draw(canvas)
-                        restore()
+                        canvas?.apply {
+                            save()
+                            it.draw(canvas)
+                            restore()
+                        }
                     }
                 }
+            } else {
+                setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                setPadding(0, 0, 0, 0)
             }
         }
     }
@@ -45,5 +50,10 @@ class BulletTextView @JvmOverloads constructor(context: Context, attrs: Attribut
         bulletDrawable = drawable
         bulletDrawable!!.setTint(getDrawableTintColor())
         setBulletPoint(drawableLeft = bulletDrawable, canvas = Canvas())
+    }
+
+    fun removeBulletDrawable() {
+        bulletDrawable = null
+        setBulletPoint(drawableLeft = null, canvas = Canvas())
     }
 }

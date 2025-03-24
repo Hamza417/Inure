@@ -1,5 +1,6 @@
 package app.simple.inure.ui.installer
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.InstallerLoaderScopedFragment
 import app.simple.inure.factories.installer.InstallerViewModelFactory
+import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.viewmodels.installer.InstallerChangesViewModel
 import java.io.File
@@ -48,6 +50,15 @@ class Changes : InstallerLoaderScopedFragment() {
 
     override fun setupBackPressedCallback(view: ViewGroup) {
         /* no-op */
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            InstallerPreferences.IS_DIFF_STYLE_CHANGES -> {
+                (recyclerView.adapter as AdapterInstallerChanges).isDiffStyle = InstallerPreferences.isDiffStyleChanges()
+            }
+        }
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package app.simple.inure.preferences
 
+import androidx.core.content.edit
+
 object InstallerPreferences {
 
     const val IS_CHANGES_VISIBLE = "isChangesVisible"
@@ -8,6 +10,7 @@ object InstallerPreferences {
     const val IS_CERTIFICATE_VISIBLE = "isCertificateVisible"
     const val IS_MANIFEST_VISIBLE = "isManifestVisible"
     const val IS_TRACKERS_VISIBLE = "isTrackersVisible"
+    const val IS_DIFF_STYLE_CHANGES = "isDiffStyleChanges"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -16,6 +19,16 @@ object InstallerPreferences {
     }
 
     fun setPanelVisibility(key: String, value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(key, value).apply()
+        SharedPreferences.getSharedPreferences().edit { putBoolean(key, value) }
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun isDiffStyleChanges(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(IS_DIFF_STYLE_CHANGES, false)
+    }
+
+    fun setDiffStyleChanges(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit { putBoolean(IS_DIFF_STYLE_CHANGES, value) }
     }
 }
