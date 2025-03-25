@@ -202,7 +202,7 @@ android {
 }
 
 dependencies {
-    // compileOnly project(':hidden-api-stub')
+    compileOnly project(':stub')
 
     // Android Tools
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
@@ -293,7 +293,6 @@ dependencies {
 
     // Hidden API
     implementation "dev.rikka.hidden:compat:4.3.3"
-    compileOnly "dev.rikka.hidden:stub:4.3.3"
 
     // Room
     implementation 'androidx.room:room-ktx:2.6.1'
