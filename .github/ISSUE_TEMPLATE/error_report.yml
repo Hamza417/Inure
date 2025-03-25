@@ -2,7 +2,6 @@ name: Error Report
 description: Report an error or a crash in the app.
 title: "[Error] Your Title Here"
 labels: [ error ]
-assignees: [ Hamza417 ]
 
 body:
     -   type: markdown

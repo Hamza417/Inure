@@ -2,7 +2,6 @@ name: Feature Request
 description: Suggest a new feature or enhancement.
 title: "[Feature Request] Your Title Here"
 labels: [ feature request ]
-assignees: [ Hamza417 ]
 
 body:
     -   type: markdown

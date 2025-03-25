@@ -2,7 +2,6 @@ name: Bug Report
 description: Report a bug or a functional problem in the app.
 title: "[Bug] Your Title Here"
 labels: [ bug ]
-assignees: [ Hamza417 ]
 
 body:
     -   type: markdown
