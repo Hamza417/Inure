@@ -1,0 +1,38 @@
+plugins {
+    id('com.android.library')
+    id('kotlin-kapt')
+}
+
+android {
+    compileSdkVersion 35
+    namespace 'app.inure.stub'
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 35
+    }
+
+    buildFeatures {
+        buildConfig false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    // Refine
+    annotationProcessor "dev.rikka.tools.refine:annotation-processor:4.4.0"
+    //noinspection GradleDependency
+    compileOnly "dev.rikka.tools.refine:annotation:4.3.0"
+
+    compileOnly "androidx.annotation:annotation:1.9.1"
+}

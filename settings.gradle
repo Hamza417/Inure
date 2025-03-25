@@ -1,2 +1,2 @@
-include ':app'//, ':hidden-api-stub'
+include ':app', ":stub"
 rootProject.name = "Inure"
