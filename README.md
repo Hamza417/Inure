@@ -69,6 +69,8 @@ The app is in stable testing stage. You can join
 app's [Telegram Group](https://t.me/inure_app_manager)
 and get development related updates.
 
+**Inure also supports fully reproducible builds**
+
 ### Features
 
 See the [concise list of features of the app here](./FEATURES.md).
@@ -217,6 +219,18 @@ from `app/src/main/res/values-locale-code` directory.
 **Inure App Manager** is released as open source software under
 the [GPL v3](https://opensource.org/licenses/gpl-3.0.html)
 license, see the [LICENSE](./LICENSE) file in the project root for the full license text.
+
+## Facts
+
+- Inure comprises of more than 250K lines written by only a single person.
+- Despite being a large size project Inure has zero memory leaks and doesn't uses `WeakReference` anywhere in the project.
+  - My first ever Android project was full of it :')
+- Inure is fully reproducible #401
+- Inure is first ever Android app that utilizes panel level and app level preferences architecture.
+  - All preferences have realtime feedbacks and no loading screens.
+- Inure is visually challenged users compatible.
+- Inure follows the concepts of chic design.
+- ... and many more.
 
 ## Behind The Scenes
 
