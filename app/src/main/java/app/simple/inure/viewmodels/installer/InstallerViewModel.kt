@@ -319,7 +319,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                             applicationContext(), "${applicationContext().packageName}.provider", file)
                 }
 
-                ApplicationUtils.setApplication(application) //Should be initialized at application level, not here
+                ApplicationUtils.setApplication(application) // Should be initialized at application level, not here
                 val packageInstaller = PackageInstaller()
                 val shizukuInstall = packageInstaller.install(uris, applicationContext())
 
@@ -330,7 +330,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                postWarning(e.message ?: "Unknown error")
+                postWarning(e.message ?: e.stackTraceToString())
             }
         }
     }
@@ -356,9 +356,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
          * Users feature is only available after Nougat
          */
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            "pm install-create -i ${applicationContext().packageName} --user ${user?.id ?: getCurrentUser()} -S"
+            "pm install-create -i ${applicationContext().packageName} -t -d --user ${user?.id ?: getCurrentUser()} -S"
         } else {
-            "pm install-create -i ${applicationContext().packageName} -S"
+            "pm install-create -i ${applicationContext().packageName} -t -d -S"
         }
     }
 
@@ -379,7 +379,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     Log.d(TAG, "Output: ${it.out}")
                 }
             }.onFailure {
-                postWarning(it.message ?: "Unknown error")
+                postWarning(it.message ?: it.stackTraceToString())
             }
         }
     }
