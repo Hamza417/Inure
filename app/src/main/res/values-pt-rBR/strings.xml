@@ -769,4 +769,5 @@
     <string name="chart_labels">Etiquetas do Gráfico</string>
     <string name="suspected_tracker">Rastreador Suspeito</string>
     <string name="etip_desc">O componente está na lista do ETIP. Se é um rastreador ou não está sendo investigado.</string>
+    <string name="show_diff_styled_changes">Exibir alterações no estilo Diff</string>
 </resources>
