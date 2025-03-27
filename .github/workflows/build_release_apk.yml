@@ -29,6 +29,7 @@ jobs:
                 run: |
                     chmod +x ./gradlew
                     ./gradlew clean assembleGithubRelease --no-build-cache --rerun-tasks
+                    mv app/build/outputs/apk/github/release/app-github-release.apk ${{ runner.temp }}/app-github-release.apk
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -38,6 +39,7 @@ jobs:
                 run: |
                     chmod +x ./gradlew
                     ./gradlew clean assemblePlayRelease --no-build-cache --rerun-tasks
+                    mv app/build/outputs/apk/play/release/app-play-release.apk ${{ runner.temp }}/app-play-release.apk
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -47,6 +49,7 @@ jobs:
                 run: |
                     chmod +x ./gradlew
                     ./gradlew clean bundlePlayRelease --no-build-cache --rerun-tasks
+                    mv app/build/outputs/bundle/playRelease/app-play-release.aab ${{ runner.temp }}/app-play-release.aab
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
                     SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -85,22 +88,13 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
-            -   name: Archive APKs
-                uses: actions/upload-artifact@v4
-                with:
-                    name: ${{ env.VERSION_NAME }} APKs
-                    path: |
-                        app/build/outputs/apk/github/release/app-github-release.apk
-                        app/build/outputs/apk/play/release/app-play-release.apk
-                        app/build/outputs/bundle/play/release/app-play-release.aab
-
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v2
                 with:
                     files: |
-                        app/build/outputs/apk/github/release/app-github-release.apk
-                        app/build/outputs/apk/play/release/app-play-release.apk
-                        app/build/outputs/bundle/play/release/app-play-release.aab
+                        ${{ runner.temp }}/app-github-release.apk
+                        ${{ runner.temp }}/app-play-release.apk
+                        ${{ runner.temp }}/app-play-release.aab
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
                     body: _to be updated_
@@ -112,8 +106,16 @@ jobs:
                 with:
                     serviceAccountJsonPlainText: ${{ secrets.PLAY_CONSOLE_CREDENTIALS }}
                     packageName: app.simple.inure.play
-                    releaseFiles: app/build/outputs/bundle/play/release/app-play-release.aab
+                    releaseFiles: ~/app-play-release.aab
                     track: production
                     status: inProgress
                     inAppUpdatePriority: 2
-                    userFraction: 1.0
+
+            -   name: Archive APKs
+                uses: actions/upload-artifact@v4
+                with:
+                    name: ${{ env.VERSION_NAME }} APKs
+                    path: |
+                        ${{ runner.temp }}/app-github-release.apk
+                        ${{ runner.temp }}/app-play-release.apk
+                        ${{ runner.temp }}/app-play-release.aab
