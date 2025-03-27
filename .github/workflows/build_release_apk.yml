@@ -90,19 +90,30 @@ jobs:
                 with:
                     name: ${{ env.VERSION_NAME }} APKs
                     path: |
-                        app/**/github/release/*.apk
-                        app/**/play/release/*.apk
-                        app/**/play/release/*.aab
+                        app/build/outputs/apk/github/release/app-github-release.apk
+                        app/build/outputs/apk/play/release/app-play-release.apk
+                        app/build/outputs/bundle/play/release/app-play-release.aab
 
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v2
                 with:
                     files: |
-                        app/**/play/release/*.apk
-                        app/**/play/release/*.aab
-                        app/**/github/release/*.apk
+                        app/build/outputs/apk/github/release/app-github-release.apk
+                        app/build/outputs/apk/play/release/app-play-release.apk
+                        app/build/outputs/bundle/play/release/app-play-release.aab
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
                     body: _to be updated_
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Publish On Play Store
+                uses: r0adkll/upload-google-play@v1
+                with:
+                    serviceAccountJsonPlainText: ${{ PLAY_CONSOLE_CREDENTIALS }}
+                    packageName: app.simple.inure.play
+                    releaseFiles: app/build/outputs/bundle/play/release/app-play-release.aab
+                    track: production
+                    status: inProgress
+                    inAppUpdatePriority: 2
+                    userFraction: 1.0
