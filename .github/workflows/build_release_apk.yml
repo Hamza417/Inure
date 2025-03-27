@@ -110,7 +110,7 @@ jobs:
             -   name: Publish On Play Store
                 uses: r0adkll/upload-google-play@v1
                 with:
-                    serviceAccountJsonPlainText: ${{ PLAY_CONSOLE_CREDENTIALS }}
+                    serviceAccountJsonPlainText: ${{ secrets.PLAY_CONSOLE_CREDENTIALS }}
                     packageName: app.simple.inure.play
                     releaseFiles: app/build/outputs/bundle/play/release/app-play-release.aab
                     track: production
