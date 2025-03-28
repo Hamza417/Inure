@@ -1,14 +1,24 @@
-# Sets the minimum version of CMake required to build the native
-# library.
+# Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=.")
+
+# Enable reproducible builds
+set(CMAKE_REPRODUCIBLE 1)
+
+# Define compile flags for reproducible builds
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. -ffile-prefix-map=${ANDROID_HOME}=. -ffile-prefix-map=${CMAKE_TOOLCHAIN_FILE}=. -ffile-prefix-map=${PROJECT_ROOT}=.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffile-prefix-map=${CMAKE_SOURCE_DIR}=. -ffile-prefix-map=${ANDROID_HOME}=. -ffile-prefix-map=${CMAKE_TOOLCHAIN_FILE}=. -ffile-prefix-map=${PROJECT_ROOT}=.")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -g -fdebug-prefix-map=${CMAKE_SOURCE_DIR}=. -fdebug-prefix-map=${ANDROID_HOME}=. -fdebug-prefix-map=${CMAKE_TOOLCHAIN_FILE}=. -fdebug-prefix-map=${PROJECT_ROOT}=.")
+
+# Define linker flags to strip debug symbols
+add_link_options(-Wl,--hash-style=gnu,--build-id=none -Wl,--strip-debug)
+
+# Set the archiver and ranlib to use llvm tools
+set(CMAKE_AR "llvm-ar")
+set(CMAKE_RANLIB "llvm-ranlib")
 
 project(inure)
 
-# Creates the project's shared lib: libnative-lib.so.
-# The lib is loaded by this project's Java code in MainActivity.java:
-#     System.loadLibrary("native-lib");
-# The lib name in both places must match.
+# Creates the project's shared libraries
 add_library(inure_terminal_emulator
         SHARED
         termExec.cpp
@@ -20,16 +30,9 @@ add_library(inure_su
         SHARED
         root_proc.cpp)
 
+# Find the log library
 find_library(log-lib log)
 
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in the
-# build script, prebuilt third-party libraries, or system libraries.
-
-target_link_libraries( # Specifies the target library.
-        inure_terminal_emulator
-
-        # Links the target library to the log library
-        # included in the NDK.
-        ${log-lib})
-
+# Link the log library to the target libraries
+target_link_libraries(inure_terminal_emulator ${log-lib})
+target_link_libraries(inure_su ${log-lib})

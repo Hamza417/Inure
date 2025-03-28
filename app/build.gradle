@@ -62,9 +62,7 @@ android {
 
         externalNativeBuild {
             cmake {
-                cFlags "-ffile-prefix-map=${rootDir}= -ffile-prefix-map=${System.getenv("ANDROID_HOME")}= "
-                cppFlags "-ffile-prefix-map=${rootDir}= -ffile-prefix-map=${System.getenv("ANDROID_HOME")}= "
-                arguments "-DANDROID_LINKER_FLAGS=-Wl,--hash-style=gnu,--build-id=none"
+                cppFlags ""
             }
         }
 
