@@ -153,8 +153,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             dependenciesInfo {
-                includeInApk true
-                includeInBundle true
+                includeInApk false
+                includeInBundle false
             }
         }
         debug {
@@ -167,8 +167,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             dependenciesInfo {
-                includeInApk true
-                includeInBundle true
+                includeInApk false
+                includeInBundle false
             }
 
             if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
