@@ -1,5 +1,5 @@
-Note: From Build10400, Inure is not built reproducible on Android. You may need to uninstall the
-previous version before installing this version due to signature change on F-Droid.
+Note: From Build10400, Inure is now built reproducible. You may need to uninstall the
+previous version before installing due to signature change on F-Droid.
 
 Refer to Change Logs under About section of the app to get the detailed list of all changes in this version.
 
