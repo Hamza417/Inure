@@ -53,6 +53,8 @@ object SDKUtils {
             32 -> "Android 12L"
             33 -> "Android 13"
             34 -> "Android 14"
+            35 -> "Android 15"
+            36 -> "Android 16"
             else -> ""
         }
     }
@@ -99,6 +101,8 @@ object SDKUtils {
             32 -> "12L"
             33 -> "13"
             34 -> "14"
+            35 -> "15"
+            36 -> "16"
             else -> ""
         }
     }
@@ -145,6 +149,8 @@ object SDKUtils {
             "32" -> "Android 12L"
             "33" -> "Android 13"
             "34" -> "Android 14"
+            "35" -> "Android 15"
+            "36" -> "Android 16"
             else -> ""
         }
     }
@@ -191,6 +197,8 @@ object SDKUtils {
             32 -> getColor(context, R.color.android_12L)
             33 -> getColor(context, R.color.android_13)
             34 -> getColor(context, R.color.android_14)
+            35 -> getColor(context, R.color.android_15)
+            36 -> getColor(context, R.color.android_16)
             else -> Color.WHITE
         }
     }
@@ -231,6 +239,8 @@ object SDKUtils {
             "12L" -> 32
             "13" -> 33
             "14" -> 34
+            "15" -> 35
+            "16" -> 36
             else -> 0
         }
     }
