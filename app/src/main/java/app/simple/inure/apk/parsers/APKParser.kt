@@ -309,6 +309,8 @@ object APKParser {
             }
         } catch (e: IOException) {
             e.printStackTrace()
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
         } finally {
             if (zipFile != null) {
                 try {
