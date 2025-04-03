@@ -88,6 +88,15 @@ jobs:
                     echo "TAG=${TAG}" >> $GITHUB_ENV
                     echo "Tag: ${TAG}" # Print tag to console
 
+            -   name: Check Fastlane Changelogs
+                run: |
+                    if [ -f "fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt" ]; then
+                      echo "Changelog exists for version code ${{ env.VERSION_CODE }}."
+                    else
+                      echo "Changelog does not exist for version code ${{ env.VERSION_CODE }}."
+                      exit 1
+                    fi
+
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@v2
                 with:
