@@ -765,4 +765,12 @@
     <string name="list_style_desc">Выберите внешний вид основных списков в приложении.</string>
     <string name="condensed">Сжатый</string>
     <string name="links">Ссылки</string>
+    <string name="large_heap">Большая куча</string>
+    <string name="launchable">Запускаемые</string>
+    <string name="stopped">Остановленные</string>
+    <string name="provider">Поставщик</string>
+    <string name="chart_labels">Ярлык диаграммы</string>
+    <string name="suspected_tracker">Подозреваемый трекер</string>
+    <string name="etip_desc">Компонент находится в списке ETIP. Является ли он трекером или нет, пока изучается.</string>
+    <string name="show_diff_styled_changes">Показать изменения в другом стиле</string>
 </resources>
