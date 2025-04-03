@@ -108,8 +108,9 @@ jobs:
                     packageName: app.simple.inure.play
                     releaseFiles: ~/app-play-release.aab
                     track: production
-                    status: inProgress
+                    status: completed
                     inAppUpdatePriority: 2
+                    whatsNewDirectory: distribution
 
             -   name: Archive APKs
                 uses: actions/upload-artifact@v4
