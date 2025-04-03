@@ -73,7 +73,7 @@ jobs:
                     VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
                     
                     # Make the version name sentence case
-                    VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
+                    # VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
                     
                     echo "Version Name: $VERSION_NAME"
                     echo "Version Code: $VERSION_CODE"
@@ -106,7 +106,7 @@ jobs:
                 with:
                     serviceAccountJsonPlainText: ${{ secrets.PLAY_CONSOLE_CREDENTIALS }}
                     packageName: app.simple.inure.play
-                    releaseFiles: ~/app-play-release.aab
+                    releaseFiles: ${{ runner.temp }}/app-play-release.aab
                     track: production
                     status: completed
                     inAppUpdatePriority: 2
