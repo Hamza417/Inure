@@ -231,7 +231,8 @@ license, see the [LICENSE](./LICENSE) file in the project root for the full lice
   - All preferences have realtime feedbacks and no loading screens.
 - Inure is visually challenged users compatible.
 - Inure follows the concepts of chic design.
-- ... and many more.
+- Inure's concept was thought out in 2018 while it's actual development only began in 2021.
+   - In the meantime I developed three mini apps to support and test the potential of the idea: [Positional](https://github.com/Hamza417/Positional), [Flaner](https://github.com/Hamza417/Flaner) and Beatz (private)
 
 ## Behind The Scenes
 
