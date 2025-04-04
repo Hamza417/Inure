@@ -223,16 +223,19 @@ license, see the [LICENSE](./LICENSE) file in the project root for the full lice
 
 ## Facts
 
-- Inure comprises of more than 250K lines written by only a single person.
-- Despite being a large size project Inure has zero memory leaks and doesn't uses `WeakReference` anywhere in the project.
-  - My first ever Android project was full of it :')
-- Inure is fully reproducible #401
-- Inure is first ever Android app that utilizes panel level and app level preferences architecture.
-  - All preferences have realtime feedbacks and no loading screens.
-- Inure is visually challenged users compatible.
-- Inure follows the concepts of chic design.
-- Inure's concept was thought out in 2018 while it's actual development only began in 2021.
-   - In the meantime I developed three mini apps to support and test the potential of the idea: [Positional](https://github.com/Hamza417/Positional), [Flaner](https://github.com/Hamza417/Flaner) and Beatz (private)
+- Inure comprises over 250K lines of code, written entirely by a single person.
+- Despite its size, Inure has **zero memory leaks** and does not use `WeakReference` anywhere in the project.
+  - my first Android project was full of them :’)
+- Inure is fully reproducible ([#400](https://github.com/Hamza417/Inure/issues/400)).
+- Inure is the **first-ever Android app** to implement both **panel-level** and **app-level preferences architecture**.
+  - All preferences provide **real-time feedback** with no loading screens.
+- Inure is accessible to **visually challenged users**.
+- The app follows the principles of **chic design**.
+- The concept of Inure was first envisioned in **2018**, however the development only began properly in the third quarter of **2021**.
+  - During the interim, I developed three mini apps to test and validate its potential:
+    - [Positional](https://github.com/Hamza417/Positional)
+    - [Flaner](https://github.com/Hamza417/Flaner)
+    - **Beatz** (private)
 
 ## Behind The Scenes
 
