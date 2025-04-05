@@ -767,4 +767,7 @@
     <string name="stopped">Parado</string>
     <string name="provider">Proveedor</string>
     <string name="chart_labels">Etiquetas de gráfico</string>
+    <string name="suspected_tracker">Sospecha de rastreador</string>
+    <string name="etip_desc">El componente está en la lista de ETIP. Si es un rastreador o no está siendo investigado.</string>
+    <string name="show_diff_styled_changes">Mostrar cambios en estilo Diff</string>
 </resources>
