@@ -29,7 +29,7 @@ alle_apps</string>
     <string name="preferences">Einstellungen</string>
     <string name="about">Über</string>
     <string name="corner_radius_desc">Radius der abgerundeten Ecken verschiedener Teile der App.</string>
-    <string name="corner_radius">Eckenradius </string>
+    <string name="corner_radius">Bogenradius</string>
     <string name="layouts">Aussehen</string>
     <string name="set">Anwenden</string>
     <string name="cancel">Abbrechen</string>
@@ -40,8 +40,9 @@ alle_apps</string>
     <string name="dim_windows_desc">Dimme die darunter liegenden Fenster, wenn ein Pop-up auf dem Bildschirm erscheint.\n\n Das abzuschalten, kann dazu beitragen, dass die Höhenschatten mehr auffallen, aber den Kontrast verringern und umgekehrt.</string>
     <string name="dim_windows">Fenster dimmen</string>
     <string name="blur_windows">Unscharfe Fenster</string>
-    <string name="blur_windows_desc">Unschärfe der darunterliegenden Fenster, wenn ein Pop-up auf dem Bildschirm erscheint.\n\nKann die Leistung der App beeinflussen.</string>
-    <string name="shadows_desc">Fügt die schön aussehenden Akzente mit farbigen Umgebungsschatten verschiedenen erhöhten Ansichten der App hinzu.\n\nNur verfügbar in API 28 oder höher.</string>
+    <string name="blur_windows_desc">Unschärfe der darunterliegenden Fenster, wenn ein Pop-up auf dem Bildschirm erscheint.
+\n\nKann die Leistung der App beeinflussen</string>
+    <string name="shadows_desc">Fügt die schön aussehenden Akzente mit farbigen Umgebungsschatten verschiedenen erhöhten Ansichten der App hinzu.\n\n Nur verfügbar in API 28 oder höher.</string>
     <string name="show_colored_shadows">Farbige Schatten anzeigen</string>
     <string name="configuration">Konfiguration</string>
     <string name="desc_application_theme">Festlegen, ob die App den Dunkelmodus oder den hellen Modus verwendet.</string>
