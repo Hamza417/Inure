@@ -769,4 +769,5 @@
     <string name="chart_labels">चार्ट लेबल</string>
     <string name="suspected_tracker">संदिग्ध ट्रैकर</string>
     <string name="etip_desc">यह घटक ETIP की सूची में है। यह ट्रैकर है या नहीं, इसकी जांच अभी भी चल रही है।</string>
+    <string name="show_diff_styled_changes">अलग-अलग शैली में परिवर्तन दिखाएं</string>
 </resources>
