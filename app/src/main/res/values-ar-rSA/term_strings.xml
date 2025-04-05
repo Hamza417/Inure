@@ -59,7 +59,7 @@
     <string name="summary_ime_preference">اختر طريقة الإدخال للوحة المفاتيح الناعمة.</string>
     <string name="title_shell_preference">سطر الأوامر</string>
     <string name="summary_shell_preference">حدد سطر أوامر shell.</string>
-    <string name="title_initialcommand_preference">الأمر الأولي</string>
+    <string name="title_initialcommand_preference">أمر عند البَدْءِ</string>
     <string name="summary_initialcommand_preference">تم إرساله إلى الواجهة الطرفية (shell) عند بدء التشغيل.</string>
     <string name="title_termtype_preference">Terminal نوع</string>
     <string name="summary_termtype_preference">ما نوع المحطة الطرفية التي يجب الإبلاغ عنها shell.</string>
