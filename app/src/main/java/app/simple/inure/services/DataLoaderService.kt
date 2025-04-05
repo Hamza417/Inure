@@ -49,7 +49,7 @@ class DataLoaderService : Service() {
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
     private var isLoading = false
-    private var flags = 0
+    private var flags = PackageManager.GET_META_DATA
 
     private var broadcastReceiver: BroadcastReceiver? = null
     private var intentFilter: IntentFilter = IntentFilter()
