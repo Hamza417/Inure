@@ -75,6 +75,8 @@ object LocaleUtils {
             Locales("हिन्दी (Hindi)", "hi-IN"),
             // German
             Locales("Deutsch (German)", "de-DE"),
+            // French
+            Locales("Français (French)", "fr-FR"),
     )
 
     fun getAppLocale(): Locale {
