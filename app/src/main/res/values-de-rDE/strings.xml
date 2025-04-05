@@ -29,7 +29,7 @@ alle_apps</string>
     <string name="preferences">Einstellungen</string>
     <string name="about">Über</string>
     <string name="corner_radius_desc">Radius der abgerundeten Ecken verschiedener Teile der App.</string>
-    <string name="corner_radius">Eckenradius</string>
+    <string name="corner_radius">Eckenradius </string>
     <string name="layouts">Aussehen</string>
     <string name="set">Anwenden</string>
     <string name="cancel">Abbrechen</string>
