@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">Neues Fenster</string>
+    <string name="close_window">Fenster schließen</string>
+    <string name="window_list">Fenster</string>
+    <string name="prev_window">Vorheriges Fenster</string>
+    <string name="next_window">Nächstes Fenster</string>
+    <string name="special_keys"></string>
+    <string name="toggle_soft_keyboard">Tastatur umschalten</string>
+    <string name="reset_toast_notification">Der Terminalstatus dieses Fensters wurde zurückgesetzt.</string>
+    <string name="enable_wakelock">WakeLock nehmen</string>
+    <string name="disable_wakelock">WakeLock ablegen</string>
+    <string name="enable_wifilock">WifiLock nehmen</string>
+    <string name="disable_wifilock">WifiLock ablegen</string>
+    <string name="select_text">Text auswählen</string>
+    <string name="copy_all">Alles kopieren</string>
+    <string name="paste">Einfügen</string>
+    <string name="send_control_key">Steuertaste senden</string>
+    <string name="send_fn_key">fn key senden</string>
+    <string name="window_title">Fenster %1$d</string>
+    <string name="service_notify_text">Terminalsitzung läuft</string>
+    <string name="process_exit_message">Terminalsitzung beendet</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">Bildschirm</string>
+    <string name="title_cursorblink_preference">Cursor-Blinke</string>
+    <string name="summary_cursorblink_preference">Cursor in Terminalfenstern regelmäßig blinken.</string>
+    <string name="text_preferences">Text</string>
+    <string name="title_utf8_by_default_preference">Standard auf UTF-8</string>
+    <string name="summary_utf8_by_default_preference">Gibt an, ob der UTF-8-Modus standardmäßig aktiviert ist.</string>
+    <string name="title_fontsize_preference">Schriftgröße</string>
+    <string name="summary_fontsize_preference">Wähle die Zeichenhöhe in Punkten.</string>
+    <string name="dialog_title_fontsize_preference">Schriftgröße</string>
+    <string name="title_color_preference">Farben</string>
+    <string name="summary_color_preference">Textfarbe wählen.</string>
+    <string name="dialog_title_color_preference">Textfarbe</string>
+    <string name="keyboard_preferences">Tastatur</string>
+    <string name="title_backaction_preference">Zurück-Knopf Verhalten</string>
+    <string name="summary_backaction_preference">Wählen Sie, was mit der Zurück-Taste geschieht.</string>
+    <string name="title_controlkey_preference">Steuerungsschlüssel</string>
+    <string name="summary_controlkey_preference">Steuertaste wählen.</string>
+    <string name="title_fnkey_preference">Fn-Taste</string>
+    <string name="summary_fnkey_preference">Wählen Sie Fn Schlüssel.</string>
+    <string name="title_ime_preference">Eingabemethode</string>
+    <string name="summary_ime_preference">Wählen Sie die Eingabemethode für die Soft-Tastatur.</string>
+    <string name="title_shell_preference">Befehlszeile</string>
+    <string name="summary_shell_preference">Geben Sie die Shell-Befehlszeile an.</string>
+    <string name="title_initialcommand_preference">Initialer Befehl</string>
+    <string name="summary_initialcommand_preference">Wird an die Shell gesendet, wenn sie beginnt.</string>
+    <string name="title_termtype_preference">Terminal Typ</string>
+    <string name="summary_termtype_preference">Welcher Terminaltyp soll an die Shell gemeldet werden.</string>
+    <string name="title_close_window_on_process_exit_preference">Fenster beim Beenden schließen</string>
+    <string name="summary_close_window_on_process_exit_preference">Ob ein Fenster beim Beenden der Shell geschlossen werden soll.</string>
+    <string name="title_verify_path_preference">PATH Einträge überprüfen</string>
+    <string name="summary_verify_path_preference">Gibt an, ob unzugängliche Verzeichnisse aus dem PATH entfernt werden sollen.</string>
+    <string name="title_do_path_extensions_preference">PATH-Erweiterungen erlauben</string>
+    <string name="summary_do_path_extensions_preference">Gibt an, ob andere Apps zusätzliche Befehle zur Verfügung stellen dürfen (zum PATH hinzufügen).</string>
+    <string name="title_allow_prepend_path_preference">PATH voranstellen</string>
+    <string name="summary_allow_prepend_path_preference">Gibt an, ob andere Apps existierende Befehle überschreiben dürfen (zum Anfang von PATH hinzufügen).</string>
+    <string name="title_home_path_preference">HOME Ordner</string>
+    <string name="summary_home_path_preference">Pfad zu einem beschreibbaren Ordner, der als HOME verwendet werden soll.</string>
+    <string name="control_key_dialog_title">Steuerungs- und Funktionstasten</string>
+    <string name="control_key_dialog_control_disabled_text">Kein Kontrollschlüssel gesetzt.</string>
+    <string name="control_key_dialog_fn_disabled_text">Keine Funktionstaste gesetzt.</string>
+    <string name="confirm_window_close_message">Dieses Fenster schließen?</string>
+    <string name="perm_run_script">Führe beliebige Befehle im Terminal Emulator aus</string>
+    <string name="permdesc_run_script">Ermöglicht der Anwendung, neue Fenster in Terminal Emulator für Android zu öffnen und Befehle in diesen Fenstern mit allen Berechtigungen des Terminal Emulator auszuführen, einschließlich Zugang zum Internet und Ihrer SD-Karte.</string>
+    <string name="perm_append_to_path">Befehle zum Terminal Emulator hinzufügen</string>
+    <string name="permdesc_append_to_path">Ermöglicht der Anwendung, zusätzliche Befehle (Verzeichnisse zum PATH hinzufügen) für Terminal Emulator bereitzustellen.</string>
+    <string name="perm_prepend_to_path">Befehle im Terminal Emulator überschreiben</string>
+    <string name="permdesc_prepend_to_path">Ermöglicht der Anwendung, bestehende Befehle mit eigenen Versionen zu überschreiben (dem PATH vorangestellt) im Terminal Emulator.</string>
+    <string name="email_transcript_chooser_title">E-Mail Transkript mit:</string>
+    <string name="email_transcript_no_email_activity_found">Konnte keine E-Mail-Aktivität zum Senden des Transkripts auswählen.</string>
+    <string name="alt_sends_esc">Alt-Taste sendet ESC</string>
+    <string name="title_mouse_tracking_preference">Maus Ereignisse senden</string>
+    <string name="summary_mouse_tracking_preference">Ob Ereignisse als Escrollen und Tippen an das Terminal gesendet werden sollen.</string>
+    <string name="title_use_rish">RISH verwenden</string>
+    <string name="summary_use_rish">Gibt an, ob Shizuku RISH (Remote Interactive Shell-Host) verwendet werden soll.\n\nShizuku Zugriff ist erforderlich.</string>
+    <string name="title_use_keyboard_shortcuts">Tastaturkürzel verwenden</string>
+    <string name="use_keyboard_shortcuts_summary_on">Strg-Tab: Wechseln Sie durch die Fenster\nStrg-Shift-N: Neues Fenster\nStrg-Shift-V: Einfügen.</string>
+    <string name="help">Hilfe</string>
+    <string name="activity_term_here_title">Begriff hier</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">Begriffsverknüpfung</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">Aktion</string>
+    <string name="addshortcut_button_find_command">Suche Befehl</string>
+    <string name="addshortcut_navigator_title">WÄHLEN SHORTCUT ZIEL</string>
+    <string name="addshortcut_command_window_instructions">Befehlsfenster erfordert vollen Pfad, keine Argumente. Für andere Befehle verwenden Sie das Arguments-Fenster (z. B. cd /sdcard).</string>
+    <string name="addshortcut_arguments_label">Argumente</string>
+    <string name="addshortcut_shortcut_label">Verknüpfung benennen</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">ERFASSUNG</string>
+    <string name="colorvalue_icon_text_entry_hint">Symboltext eingeben</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
