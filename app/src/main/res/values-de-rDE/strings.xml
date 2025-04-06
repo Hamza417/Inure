@@ -18,8 +18,7 @@
     <string name="desc_app_typeface">Ändere den Stil der Anwendungsschrift (Nur lateinische Zeichen).</string>
     <string name="appearance">Erscheinungsbild</string>
     <string name="appearance_icon">Aussehen Icon</string>
-    <string name="total_apps">%1$d Apps
-alle_apps</string>
+    <string name="total_apps">%1$d Apps</string>
     <string name="total_sensors">%1$d Sensoren</string>
     <string name="total_notes">%1$d Notizen</string>
     <string name="total_tags">%1$d Tags</string>
