@@ -110,9 +110,9 @@
     <string name="back_button">Mặt sau</string>
     <string name="files">Tệp</string>
     <string name="method_count">Đếm phương pháp</string>
-    <string name="multi_dex">Multi Dex, %1 $ s</string>
+    <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">DEX đơn, %1$s</string>
-    <string name="activity_status">%1 $ s | %2 $ s</string>
+    <string name="activity_status">%1$s | %2$s</string>
     <string name="device_info">Thông tin thiết bị</string>
     <string name="terminal">Phần cuối</string>
     <string name="usage_statistics">Thống kê sử dụng</string>

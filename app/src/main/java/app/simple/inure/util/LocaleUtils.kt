@@ -77,6 +77,8 @@ object LocaleUtils {
             Locales("Deutsch (German)", "de-DE"),
             // French
             Locales("Français (French)", "fr-FR"),
+            // Vietnamese
+            Locales("Tiếng Việt (Vietnamese)", "vi-VN"),
     )
 
     fun getAppLocale(): Locale {
