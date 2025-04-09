@@ -110,9 +110,9 @@
     <string name="back_button">Mặt sau</string>
     <string name="files">Tệp</string>
     <string name="method_count">Đếm phương pháp</string>
-    <string name="multi_dex">Multi Dex, %1 $ s</string>
+    <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">DEX đơn, %1$s</string>
-    <string name="activity_status">%1 $ s | %2 $ s</string>
+    <string name="activity_status">%1$s | %2$s</string>
     <string name="device_info">Thông tin thiết bị</string>
     <string name="terminal">Phần cuối</string>
     <string name="usage_statistics">Thống kê sử dụng</string>
@@ -469,7 +469,7 @@
     <string name="desc_share_02">Quét trang mã QR để mở ứng dụng trên Play Store hoặc chia sẻ liên kết của ứng dụng.</string>
     <string name="share_message">Chia sẻ tin nhắn</string>
     <string name="reduce_animations">Giảm hình ảnh động</string>
-    <string name="desc_reduce_animations">Tắt một số hình ảnh động không cần thiết trong suốt ứng dụng. Có thể cải thiện hiệu suất của ứng dụng trong một số thiết bị.</string>
+    <string name="desc_reduce_animations">Tắt một số hoạt ảnh không cần thiết trong toàn bộ ứng dụng. Có thể cải thiện hiệu suất của ứng dụng trên một số thiết bị.\n\nĐể tắt hoạt ảnh chuyển tiếp, hãy vào bảng điều khiển %1$s.</string>
     <string name="info_uninstalled">Danh sách này chỉ hiển thị các ứng dụng đã bị xóa bằng cờ<bold>DELETE_KEEP_DATA</bold> with a possibility of being reinstalled in future.\n\nThis list does not monitor regularly uninstalled applications.</string>
     <string name="gestures">Cử chỉ</string>
     <string name="not_selected">Không được chọn</string>
