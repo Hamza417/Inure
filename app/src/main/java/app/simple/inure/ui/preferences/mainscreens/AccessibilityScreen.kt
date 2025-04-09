@@ -131,11 +131,15 @@ class AccessibilityScreen : ScopedFragment() {
             AccessibilityPreferences.setAppElementsContext(it)
         }
 
-        reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behavior), object : View.OnClickListener {
-            override fun onClick(v: View) {
-                openFragmentSlide(BehaviourScreen.newInstance(), "behavior_screen")
-            }
-        }))
+        try {
+            reduceAnimationsDesc.makeLinks(Pair(getString(R.string.behavior), object : View.OnClickListener {
+                override fun onClick(v: View) {
+                    openFragmentSlide(BehaviourScreen.newInstance(), "behavior_screen")
+                }
+            }))
+        } catch (e: IndexOutOfBoundsException) {
+            e.printStackTrace()
+        }
 
         colorfulIcons.setOnSwitchCheckedChangeListener {
             if (fullVersionCheck(goBack = false)) {

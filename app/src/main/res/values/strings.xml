@@ -468,7 +468,7 @@
     <string name="desc_share_02">Scan the QR Code to open app\'s page on Play Store or share app\'s link.</string>
     <string name="share_message">Share Message</string>
     <string name="reduce_animations">Reduce Animations</string>
-    <string name="desc_reduce_animations">Disable some unnecessary animations throughout the app. May improve app\'s performance in some devices.\n\nTo disable transition animations, go to %1s panel.</string>
+    <string name="desc_reduce_animations">Disable some unnecessary animations throughout the app. May improve app\'s performance in some devices.\n\nTo disable transition animations, go to %1$s panel.</string>
     <string name="info_uninstalled">This list only shows apps that have been deleted with the flag <bold>DELETE_KEEP_DATA</bold> with a possibility of being reinstalled in future.\n\nThis list does not monitor regularly uninstalled applications.</string>
     <string name="gestures">Gestures</string>
     <string name="not_selected">Not Selected</string>
