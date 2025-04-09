@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<resources>
+    <string name="new_window">Cửa sổ mới</string>
+    <string name="close_window">Đóng cửa sổ</string>
+    <string name="window_list">Cửa sổ</string>
+    <string name="prev_window">Cửa sổ trước</string>
+    <string name="next_window">Cửa sổ tiếp theo</string>
+    <string name="special_keys">Chìa khóa đặc biệt</string>
+    <string name="toggle_soft_keyboard">Chuyển đổi bàn phím mềm</string>
+    <string name="reset_toast_notification">Trạng thái thiết bị đầu cuối của cửa sổ này đã được đặt lại.</string>
+    <string name="enable_wakelock">Lấy Wakelock</string>
+    <string name="disable_wakelock">Thả Wakelock</string>
+    <string name="enable_wifilock">Lấy wifilock</string>
+    <string name="disable_wifilock">Thả wifilock</string>
+    <string name="select_text">Chọn văn bản</string>
+    <string name="copy_all">Sao chép tất cả</string>
+    <string name="paste">Dán</string>
+    <string name="send_control_key">Gửi khóa điều khiển</string>
+    <string name="send_fn_key">Gửi khóa FN</string>
+    <string name="window_title">Cửa sổ %1 $ d</string>
+    <string name="service_notify_text">Phiên cuối đang chạy</string>
+    <string name="process_exit_message">Phiên cuối cùng kết thúc</string>
+    <!-- Preference dialog -->
+    <string name="screen_preferences">Màn hình</string>
+    <string name="title_cursorblink_preference">Con trỏ chớp mắt</string>
+    <string name="summary_cursorblink_preference">Blink con trỏ định kỳ trong các cửa sổ đầu cuối.</string>
+    <string name="text_preferences">Chữ</string>
+    <string name="title_utf8_by_default_preference">Mặc định là UTF-8</string>
+    <string name="summary_utf8_by_default_preference">Liệu chế độ UTF-8 được bật theo mặc định.</string>
+    <string name="title_fontsize_preference">Kích thước phông chữ</string>
+    <string name="summary_fontsize_preference">Chọn chiều cao ký tự theo điểm.</string>
+    <string name="dialog_title_fontsize_preference">Kích thước phông chữ</string>
+    <string name="title_color_preference">Màu sắc</string>
+    <string name="summary_color_preference">Chọn màu văn bản.</string>
+    <string name="dialog_title_color_preference">Màu văn bản</string>
+    <string name="keyboard_preferences">Bàn phím</string>
+    <string name="title_backaction_preference">Hành vi nút quay lại</string>
+    <string name="summary_backaction_preference">Chọn những gì nhấn nút quay lại làm.</string>
+    <string name="title_controlkey_preference">Khóa điều khiển</string>
+    <string name="summary_controlkey_preference">Chọn Khóa điều khiển.</string>
+    <string name="title_fnkey_preference">Phím fn</string>
+    <string name="summary_fnkey_preference">Chọn phím FN.</string>
+    <string name="title_ime_preference">Phương pháp đầu vào</string>
+    <string name="summary_ime_preference">Chọn phương thức đầu vào cho bàn phím mềm.</string>
+    <string name="title_shell_preference">Dòng lệnh</string>
+    <string name="summary_shell_preference">Chỉ định dòng lệnh shell.</string>
+    <string name="title_initialcommand_preference">Lệnh ban đầu</string>
+    <string name="summary_initialcommand_preference">Gửi đến vỏ khi nó bắt đầu.</string>
+    <string name="title_termtype_preference">Loại thiết bị đầu cuối</string>
+    <string name="summary_termtype_preference">Loại thiết bị đầu cuối nào để báo cáo cho vỏ.</string>
+    <string name="title_close_window_on_process_exit_preference">Đóng cửa sổ trên lối ra</string>
+    <string name="summary_close_window_on_process_exit_preference">Cho dù một cửa sổ nên đóng khi vỏ của nó thoát ra.</string>
+    <string name="title_verify_path_preference">Xác minh các mục nhập đường dẫn</string>
+    <string name="summary_verify_path_preference">Liệu các thư mục không thể truy cập nên được xóa khỏi đường dẫn.</string>
+    <string name="title_do_path_extensions_preference">Cho phép mở rộng đường dẫn</string>
+    <string name="summary_do_path_extensions_preference">Liệu các ứng dụng khác có được phép cung cấp các lệnh bổ sung hay không (thêm vào đường dẫn).</string>
+    <string name="title_allow_prepend_path_preference">Cho phép đường dẫn đường</string>
+    <string name="summary_allow_prepend_path_preference">Liệu các ứng dụng khác có được phép ghi đè các lệnh hiện có hay không (thêm vào đầu đường dẫn).</string>
+    <string name="title_home_path_preference">Thư mục nhà</string>
+    <string name="summary_home_path_preference">Đường dẫn đến một thư mục có thể viết được sử dụng làm nhà.</string>
+    <string name="control_key_dialog_title">Khóa kiểm soát và chức năng</string>
+    <string name="control_key_dialog_control_disabled_text">Không có bộ kiểm soát.</string>
+    <string name="control_key_dialog_fn_disabled_text">Không có khóa chức năng.</string>
+    <string name="confirm_window_close_message">Đóng cửa sổ này?</string>
+    <string name="perm_run_script">Chạy các lệnh tùy ý trong trình giả lập thiết bị đầu cuối</string>
+    <string name="permdesc_run_script">Cho phép ứng dụng mở Windows mới trong Trình giả lập Terminal cho Android và chạy các lệnh trong các Windows đó với tất cả các quyền của Trình giả lập Terminal, bao gồm truy cập vào Internet và thẻ SD của bạn.</string>
+    <string name="perm_append_to_path">Thêm các lệnh vào Trình giả lập thiết bị đầu cuối</string>
+    <string name="permdesc_append_to_path">Cho phép ứng dụng cung cấp các lệnh bổ sung (thêm thư mục vào đường dẫn) cho trình giả lập thiết bị đầu cuối.</string>
+    <string name="perm_prepend_to_path">Ghi đè các lệnh trong Trình giả lập thiết bị đầu cuối</string>
+    <string name="permdesc_prepend_to_path">Cho phép ứng dụng ghi đè các lệnh hiện có với các phiên bản riêng của nó (các thư mục dự bị vào đường dẫn) trong Trình giả lập thiết bị đầu cuối.</string>
+    <string name="email_transcript_chooser_title">Bảng điểm gửi thư bằng cách sử dụng:</string>
+    <string name="email_transcript_no_email_activity_found">Không thể chọn một hoạt động email để gửi bảng điểm.</string>
+    <string name="alt_sends_esc">Key ALT gửi ESC</string>
+    <string name="title_mouse_tracking_preference">Gửi sự kiện chuột</string>
+    <string name="summary_mouse_tracking_preference">Liệu các sự kiện Tap và Scroll có nên được gửi dưới dạng trình tự thoát tới thiết bị đầu cuối hay không.</string>
+    <string name="title_use_rish">Sử dụng Rish</string>
+    <string name="summary_use_rish">Có nên sử dụng shizuku rish (máy chủ shell tương tác từ xa). \ An \ shizuku truy cập là bắt buộc.</string>
+    <string name="title_use_keyboard_shortcuts">Sử dụng phím tắt</string>
+    <string name="use_keyboard_shortcuts_summary_on">Ctrl-tab: Chu kỳ thông qua Windows \ NCTRL-SHIFT-N: Cửa sổ mới \ NCTRL-SHIFT-V: Dán.</string>
+    <string name="help">Giúp đỡ</string>
+    <string name="activity_term_here_title">Thuật ngữ ở đây</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
+    <string name="activity_shortcut_create">Thời hạn phím tắt</string>
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
+    <string name="addshortcut_command_hint">Yêu cầu</string>
+    <string name="addshortcut_button_find_command">Tìm lệnh</string>
+    <string name="addshortcut_navigator_title">Chọn mục tiêu phím tắt</string>
+    <string name="addshortcut_command_window_instructions">Cửa sổ lệnh yêu cầu đường dẫn đầy đủ, không có đối số. Đối với các lệnh khác, hãy sử dụng cửa sổ Đối số (ví dụ: CD /SDCARD).</string>
+    <string name="addshortcut_arguments_label">Lập luận</string>
+    <string name="addshortcut_shortcut_label">Nhãn phím tắt</string>
+    <!-- ColorValue.java -->
+    <string name="colorvalue_label_lock_button_column">KHÓA</string>
+    <string name="colorvalue_icon_text_entry_hint">Nhập văn bản biểu tượng</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
+</resources>
