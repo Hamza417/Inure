@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/popup_item_gap_length"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/popup_padding"
+            android:text="@string/installer_options"
+            android:textSize="@dimen/info_text_medium"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/installer_package_name"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.corners.DynamicCornerEditText
+                android:id="@+id/installer_package_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/package_name"
+                android:layout_marginTop="@dimen/popup_padding"
+                android:importantForAutofill="no"
+                android:maxLength="@integer/tag_character_limit"
+                android:inputType="textNoSuggestions"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/dialog_padding"
+                android:textCursorDrawable="@drawable/text_cursor"
+                app:appFontStyle="medium"
+                app:textColorStyle="primary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/grant_all_permissions"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/grant_all_runtime_permissions"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/allow_downgrade"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/allow_downgrade"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/allow_test_packages"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/allow_test_packages"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/bypass_target_sdk"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/bypass_target_sdk_check"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/replace_existing"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/replace_existing"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

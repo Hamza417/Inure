@@ -21,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 
 import app.simple.inure.adapters.apis.IIntentSenderAdapter;
 import app.simple.inure.models.ShizukuInstall;
+import app.simple.inure.preferences.InstallerPreferences;
 import app.simple.inure.util.IntentSenderUtils;
 import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuBinderWrapper;
@@ -31,15 +32,6 @@ import rikka.shizuku.ShizukuBinderWrapper;
 public class PackageInstaller {
     
     private final String TAG = "PackageInstaller";
-    
-    private final int FLAGS =
-            0x00000004 // PackageManager.INSTALL_ALLOW_TEST
-                    | 0x00000002 // PackageManager.INSTALL_REPLACE_EXISTING
-                    | 0x01000000 // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
-                    | 0x00000008 // PackageManager.INSTALL_FORCE_VOLUME_UUID
-                    | 0x00100000 // PackageManager.INSTALL_ALLOW_DOWNGRADE
-                    | 0x00000004 // PackageManager.INSTALL_ALLOW_TEST
-            ;
     
     public ShizukuInstall install(List <Uri> uris, Context context) throws Exception {
         android.content.pm.PackageInstaller packageInstaller;
@@ -89,7 +81,7 @@ public class PackageInstaller {
         android.content.pm.PackageInstaller.SessionParams params =
                 new android.content.pm.PackageInstaller.SessionParams(android.content.pm.PackageInstaller.SessionParams.MODE_FULL_INSTALL);
         int installFlags = PackageInstallerUtils.getInstallFlags(params);
-        installFlags |= FLAGS;
+        installFlags |= getInstallFlags();
         PackageInstallerUtils.setInstallFlags(params, installFlags);
         
         return packageInstaller.createSession(params);
@@ -145,5 +137,30 @@ public class PackageInstaller {
         session.close();
         
         return new ShizukuInstall(status, message);
+    }
+    
+    private int getInstallFlags() {
+        int flags = 0;
+        
+        if (InstallerPreferences.INSTANCE.isGrantRuntimePermissions()) {
+            flags |= 0x00000100; // PackageManager.INSTALL_GRANT_RUNTIME_PERMISSIONS
+        }
+        if (InstallerPreferences.INSTANCE.isTestPackages()) {
+            flags |= 0x00000004; // PackageManager.INSTALL_ALLOW_TEST
+        }
+        if (InstallerPreferences.INSTANCE.isReplaceExisting()) {
+            flags |= 0x00000002; // PackageManager.INSTALL_REPLACE_EXISTING
+        }
+        if (InstallerPreferences.INSTANCE.isBypassLowTargetSdk()) {
+            flags |= 0x01000000; // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
+        }
+        
+        flags |= 0x00000008; // PackageManager.INSTALL_FORCE_VOLUME_UUID
+        
+        if (InstallerPreferences.INSTANCE.isVersionCodeDowngrade()) {
+            flags |= 0x00100000; // PackageManager.INSTALL_ALLOW_DOWNGRADE
+        }
+        
+        return flags;
     }
 }

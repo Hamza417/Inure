@@ -769,4 +769,11 @@
     <string name="suspected_tracker">Suspected Tracker</string>
     <string name="etip_desc">The component is in ETIP\'s list. If it\'s a tracker or not is still being investigated.</string>
     <string name="show_diff_styled_changes">Show Changes in Diff Style</string>
+    <string name="installer_options">Installer Options</string>
+    <string name="grant_all_runtime_permissions">Grant All Runtime Permissions</string>
+    <string name="allow_downgrade">Allow Version Code Downgrade</string>
+    <string name="installer_package_name">Installer Package Name</string>
+    <string name="allow_test_packages">Allow Test Packages</string>
+    <string name="bypass_target_sdk_check">Bypass Low Target SDK</string>
+    <string name="replace_existing">Replace Existing</string>
 </resources>
