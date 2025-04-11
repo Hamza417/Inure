@@ -469,7 +469,7 @@
     <string name="desc_share_02">Escaneie o Código QR para abrir a página do aplicativo na Play Store ou compartilhar o link do aplicativo.</string>
     <string name="share_message">Compartilhar mensagem</string>
     <string name="reduce_animations">Reduzir animações</string>
-    <string name="desc_reduce_animations">Desative algumas animações desnecessárias durante o aplicativo. Pode melhorar o desempenho do aplicativo em alguns dispositivos.\n\nPara desativar animações de transição, vá ao painel %1s.</string>
+    <string name="desc_reduce_animations">Desative algumas animações desnecessárias durante o aplicativo. Pode melhorar o desempenho do aplicativo em alguns dispositivos.\n\nPara desativar animações de transição, vá ao painel %1$s.</string>
     <string name="info_uninstalled">Esta lista mostra apenas aplicativos que foram excluídos com o sinalizador <bold>DELETE_KEEP_DATA</bold> com a possibilidade de serem reinstalados no futuro.\n\nEsta lista não monitora aplicativos desinstalados regularmente.</string>
     <string name="gestures">Gestos</string>
     <string name="not_selected">Não selecionado</string>
@@ -770,4 +770,11 @@
     <string name="suspected_tracker">Rastreador Suspeito</string>
     <string name="etip_desc">O componente está na lista do ETIP. Se é um rastreador ou não está sendo investigado.</string>
     <string name="show_diff_styled_changes">Exibir alterações no estilo Diff</string>
+    <string name="installer_options">Opções do instalador</string>
+    <string name="grant_all_runtime_permissions">Conceder Todos as Permissões do Runtime</string>
+    <string name="allow_downgrade">Permitir downgrade do Código da Versão</string>
+    <string name="installer_package_name">Nome do Pacote Instalador</string>
+    <string name="allow_test_packages">Permitir Teste de Pacotes</string>
+    <string name="bypass_target_sdk_check">Ignorar SDK de Baixo Destino</string>
+    <string name="replace_existing">Substituir Existente</string>
 </resources>
