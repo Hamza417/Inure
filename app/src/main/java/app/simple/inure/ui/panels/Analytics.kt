@@ -326,7 +326,7 @@ class Analytics : ScopedFragment() {
 
                     override fun onValueSelected(e: Entry?, h: Highlight?) {
                         PopupChartEntry(view, e) {
-                            openFragmentSlide(AnalyticsMinimumSDK.newInstance(it), AnalyticsMinimumSDK.TAG)
+                            openFragmentSlide(AnalyticsSignAlgorithm.newInstance(e as PieEntry), AnalyticsSignAlgorithm.TAG)
                         }.setOnDismissListener {
                             runCatching {
                                 signAlgorithmPie.highlightValues(null)
