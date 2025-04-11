@@ -76,14 +76,14 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
                     url?.asUri()?.openInBrowser(holder.desc.context)
                 })
 
-                if (bloats[position].packageInfo.isInstalled()) {
+                if (bloats[pos].packageInfo.isInstalled()) {
                     holder.icon.loadAppIcon(
-                            bloats[position].packageInfo.packageName,
-                            bloats[position].packageInfo.safeApplicationInfo.enabled || bloats[position].packageInfo.isAppStopped())
+                            bloats[pos].packageInfo.packageName,
+                            bloats[pos].packageInfo.safeApplicationInfo.enabled || bloats[pos].packageInfo.isAppStopped())
                 } else {
                     holder.icon.loadAppIcon(
-                            bloats[position].packageInfo.packageName, false,
-                            bloats[position].packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+                            bloats[pos].packageInfo.packageName, false,
+                            bloats[pos].packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
                 }
 
                 holder.checkBox.setOnCheckedChangeListener {
