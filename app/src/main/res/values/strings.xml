@@ -776,4 +776,5 @@
     <string name="allow_test_packages">Allow Test Packages</string>
     <string name="bypass_target_sdk_check">Bypass Low Target SDK</string>
     <string name="replace_existing">Replace Existing</string>
+    <string name="dont_kill">Don\'t Kill</string>
 </resources>

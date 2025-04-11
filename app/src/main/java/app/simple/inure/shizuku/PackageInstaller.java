@@ -63,7 +63,7 @@ public class PackageInstaller {
     }
     
     private String getInstallerPackageName(Context context, boolean isRootUser) {
-        return isRootUser ? context.getPackageName() : "com.android.shell";
+        return isRootUser ? InstallerPreferences.INSTANCE.getInstallerPackageName(context) : "com.android.shell";
     }
     
     private int getUserId(boolean isRootUser) {
@@ -159,6 +159,11 @@ public class PackageInstaller {
         
         if (InstallerPreferences.INSTANCE.isVersionCodeDowngrade()) {
             flags |= 0x00100000; // PackageManager.INSTALL_ALLOW_DOWNGRADE
+            flags |= 0x00000080; // PackageManager.INSTALL_REQUEST_DOWNGRADE
+        }
+        
+        if (InstallerPreferences.INSTANCE.isDontKill()) {
+            flags |= 0x00001000; // PackageManager.INSTALL_DONT_KILL_APP
         }
         
         return flags;

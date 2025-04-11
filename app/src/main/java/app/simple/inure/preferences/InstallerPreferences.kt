@@ -19,6 +19,7 @@ object InstallerPreferences {
     private const val INSTALLER_TEST_PACKAGES = "installer_test_packages"
     private const val INSTALLER_BYPASS_LOW_TARGET_SDK = "installer_bypass_low_target_sdk"
     private const val INSTALLER_REPLACE_EXISTING = "installer_replace_existing"
+    private const val INSTALLER_DONT_KILL = "installer_dont_kill"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -99,5 +100,15 @@ object InstallerPreferences {
 
     fun setReplaceExisting(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit { putBoolean(INSTALLER_REPLACE_EXISTING, value) }
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun isDontKill(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(INSTALLER_DONT_KILL, false)
+    }
+
+    fun setDontKill(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit { putBoolean(INSTALLER_DONT_KILL, value) }
     }
 }

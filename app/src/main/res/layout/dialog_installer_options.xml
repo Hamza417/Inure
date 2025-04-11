@@ -197,6 +197,33 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/popup_padding"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.toggles.CheckBox
+                android:id="@+id/dont_kill"
+                android:layout_width="@dimen/checkbox_dimensions"
+                android:layout_height="@dimen/checkbox_dimensions"
+                android:layout_marginEnd="@dimen/popup_padding"
+                android:layout_gravity="center_vertical" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/dont_kill"
+                android:textSize="@dimen/info_text_small"
+                android:layout_gravity="center_vertical"
+                app:appFontStyle="medium"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
     </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
 
 </FrameLayout>

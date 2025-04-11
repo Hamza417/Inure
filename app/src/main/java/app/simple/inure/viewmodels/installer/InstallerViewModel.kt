@@ -362,7 +362,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     InstallerPreferences.isVersionCodeDowngrade() to "-d",
                     InstallerPreferences.isTestPackages() to "-t",
                     InstallerPreferences.isBypassLowTargetSdk() to "--bypass-low-target-sdk-block",
-                    InstallerPreferences.isReplaceExisting() to "-r"
+                    InstallerPreferences.isReplaceExisting() to "-r",
+                    InstallerPreferences.isDontKill() to "--dont-kill"
             )
 
             options.forEach { (condition, flag) ->

@@ -20,6 +20,7 @@ class InstallerOptions : ScopedBottomSheetFragment() {
     private lateinit var testPackages: CheckBox
     private lateinit var bypassTargetSDK: CheckBox
     private lateinit var replaceExisting: CheckBox
+    private lateinit var dontKill: CheckBox
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_installer_options, container, false)
@@ -30,6 +31,7 @@ class InstallerOptions : ScopedBottomSheetFragment() {
         testPackages = view.findViewById(R.id.allow_test_packages)
         bypassTargetSDK = view.findViewById(R.id.bypass_target_sdk)
         replaceExisting = view.findViewById(R.id.replace_existing)
+        dontKill = view.findViewById(R.id.dont_kill)
 
         return view
     }
@@ -43,6 +45,7 @@ class InstallerOptions : ScopedBottomSheetFragment() {
         testPackages.isChecked = InstallerPreferences.isTestPackages()
         bypassTargetSDK.isChecked = InstallerPreferences.isBypassLowTargetSdk()
         replaceExisting.isChecked = InstallerPreferences.isReplaceExisting()
+        dontKill.isChecked = InstallerPreferences.isDontKill()
 
         packagename.doOnTextChanged { text, _, _, _ ->
             InstallerPreferences.setInstallerPackageName(text.toString())
@@ -66,6 +69,10 @@ class InstallerOptions : ScopedBottomSheetFragment() {
 
         replaceExisting.setOnCheckedChangeListener { isChecked ->
             InstallerPreferences.setReplaceExisting(isChecked)
+        }
+
+        dontKill.setOnCheckedChangeListener { isChecked ->
+            InstallerPreferences.setDontKill(isChecked)
         }
     }
 
