@@ -3,7 +3,6 @@ package app.simple.inure.activities.app
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,7 @@ import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -321,7 +321,7 @@ class MainActivity : BaseActivity() {
     override fun onThemeChanged(theme: Theme, animate: Boolean) {
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
-        window.setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
+        window.setBackgroundDrawable(ThemeManager.theme.viewGroupTheme.background.toDrawable())
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

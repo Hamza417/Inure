@@ -43,7 +43,8 @@ object InstallerPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun getInstallerPackageName(context: Context): String {
-        return SharedPreferences.getSharedPreferences().getString(INSTALLER_PACKAGE_NAME, context.packageName) ?: context.packageName
+        return SharedPreferences.getSharedPreferences()
+            .getString(INSTALLER_PACKAGE_NAME, context.packageName) ?: context.packageName
     }
 
     fun setInstallerPackageName(value: String) {

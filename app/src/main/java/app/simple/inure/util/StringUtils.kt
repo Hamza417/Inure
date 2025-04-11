@@ -209,4 +209,8 @@ object StringUtils {
             string
         }
     }
+
+    fun String?.whenEmptyOrNull(default: String): String {
+        return this?.ifEmpty { default } ?: default
+    }
 }
