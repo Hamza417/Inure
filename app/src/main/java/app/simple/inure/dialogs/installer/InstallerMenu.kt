@@ -10,8 +10,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.installer.InstallerOptions.Companion.showInstallerOptions
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
+import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.ui.preferences.subscreens.InstallerCustomization
+import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.visible
 
 class InstallerMenu : ScopedBottomSheetFragment() {
 
@@ -35,6 +38,12 @@ class InstallerMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         diffStyleSwitch.isChecked = InstallerPreferences.isDiffStyleChanges()
+
+        if (ConfigurationPreferences.isRootOrShizuku()) {
+            installerOptions.visible(false)
+        } else {
+            installerOptions.gone(false)
+        }
 
         installerOptions.setOnClickListener {
             parentFragmentManager.showInstallerOptions().also {
