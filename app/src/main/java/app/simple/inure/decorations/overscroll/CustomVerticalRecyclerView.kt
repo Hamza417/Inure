@@ -23,8 +23,7 @@ import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
 import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
-import app.simple.inure.util.ViewUtils.navigationEdgeToEdge
-import app.simple.inure.util.ViewUtils.statusBarEdgeToEdge
+import app.simple.inure.util.ViewUtils.applyEdgeToEdge
 
 /**
  * Custom recycler view with nice layout animation and
@@ -49,12 +48,7 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
             context.theme.obtainStyledAttributes(attrs, R.styleable.RecyclerView, 0, 0).apply {
                 try {
                     edgeColor = AppearancePreferences.getAccentColor()
-
-                    if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
-                        statusBarEdgeToEdge()
-                    }
-
-                    navigationEdgeToEdge()
+                    applyEdgeToEdge(getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true), true)
 
                     if (getBoolean(R.styleable.RecyclerView_isFadingEdgeRequired, false)) {
                         isVerticalFadingEdgeEnabled = true

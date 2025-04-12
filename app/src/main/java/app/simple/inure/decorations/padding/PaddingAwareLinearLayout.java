@@ -35,7 +35,7 @@ public class PaddingAwareLinearLayout extends ThemeLinearLayout implements Share
         if (isInEditMode()) {
             return;
         }
-        ViewUtils.INSTANCE.statusBarEdgeToEdge(this);
+        ViewUtils.INSTANCE.applyEdgeToEdge(this, true, false);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     

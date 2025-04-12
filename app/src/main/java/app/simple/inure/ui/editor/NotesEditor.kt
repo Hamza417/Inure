@@ -59,9 +59,8 @@ import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.ViewUtils.applyEdgeToEdge
 import app.simple.inure.util.ViewUtils.gone
-import app.simple.inure.util.ViewUtils.navigationEdgeToEdge
-import app.simple.inure.util.ViewUtils.statusBarEdgeToEdge
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
@@ -112,9 +111,7 @@ class NotesEditor : KeyboardScopedFragment() {
         settings = view.findViewById(R.id.settings)
         formattingStrip = view.findViewById(R.id.formatting_strip)
         this.container = view.findViewById(R.id.container)
-
-        this.container.statusBarEdgeToEdge()
-        formattingStrip.navigationEdgeToEdge()
+        this.container.applyEdgeToEdge(listenForStatusBars = true, listenForNavigationBars = true)
 
         bold = view.findViewById(R.id.bold)
         italic = view.findViewById(R.id.italic)

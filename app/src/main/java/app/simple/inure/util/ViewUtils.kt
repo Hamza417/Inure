@@ -485,40 +485,40 @@ object ViewUtils {
         }
     }
 
-    fun View.statusBarEdgeToEdge() {
+    fun View.applyEdgeToEdge(
+            listenForStatusBars: Boolean = false,
+            listenForNavigationBars: Boolean = false
+    ) {
         val originalPaddingLeft = paddingLeft
         val originalPaddingTop = paddingTop
         val originalPaddingRight = paddingRight
         val originalPaddingBottom = paddingBottom
 
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+            var leftInset = 0
+            var topInset = 0
+            var rightInset = 0
+            var bottomInset = 0
+
+            if (listenForStatusBars) {
+                val statusBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+                leftInset += statusBarInsets.left
+                topInset += statusBarInsets.top
+                rightInset += statusBarInsets.right
+            }
+
+            if (listenForNavigationBars) {
+                val navigationBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                leftInset += navigationBarInsets.left
+                rightInset += navigationBarInsets.right
+                bottomInset += navigationBarInsets.bottom
+            }
 
             view.setPadding(
-                    originalPaddingLeft + insets.left,
-                    originalPaddingTop + insets.top,
-                    originalPaddingRight + insets.right,
-                    originalPaddingBottom + insets.bottom
-            )
-
-            WindowInsetsCompat.CONSUMED
-        }
-    }
-
-    fun View.navigationEdgeToEdge() {
-        val originalPaddingLeft = paddingLeft
-        val originalPaddingTop = paddingTop
-        val originalPaddingRight = paddingRight
-        val originalPaddingBottom = paddingBottom
-
-        ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
-
-            view.setPadding(
-                    originalPaddingLeft + insets.left,
-                    originalPaddingTop + insets.top,
-                    originalPaddingRight + insets.right,
-                    originalPaddingBottom + insets.bottom
+                    originalPaddingLeft + leftInset,
+                    originalPaddingTop + topInset,
+                    originalPaddingRight + rightInset,
+                    originalPaddingBottom + bottomInset
             )
 
             WindowInsetsCompat.CONSUMED
