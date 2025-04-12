@@ -93,7 +93,7 @@
     <string name="title_use_keyboard_shortcuts">Usa scorciatoie tastiera</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Cicla attraverso le finestre\nCtrl-Shift-N: Nuova finestra\nCtrl-Shift-V: Incolla.</string>
     <string name="help">Aiuto</string>
-    <string name="activity_term_here_title">Terminale qui</string>
+    <string name="activity_term_here_title">Termine Qui</string>
     <!-- BEGIN SHORTCUT RELATED STRINGS -->
     <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Scorciatoia terminale</string>
