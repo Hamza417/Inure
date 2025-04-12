@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageInstaller
-import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -31,10 +30,10 @@ import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
-import app.simple.inure.decorations.tablayout.SmartTabLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.decorations.views.TabBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
 import app.simple.inure.dialogs.installer.Downgrade.Companion.showDowngradeDialog
@@ -51,7 +50,6 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
-import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
@@ -77,7 +75,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private lateinit var uninstall: DynamicRippleTextView
     private lateinit var loader: CustomProgressBar
     private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: SmartTabLayout
+    private lateinit var tabBar: TabBar
 
     private lateinit var broadcastReceiver: BroadcastReceiver
     private val intentFilter = IntentFilter()
@@ -97,7 +95,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         update = view.findViewById(R.id.update)
         uninstall = view.findViewById(R.id.uninstall)
         viewPager = view.findViewById(R.id.viewPager)
-        tabLayout = view.findViewById(R.id.tabLayout)
+        tabBar = view.findViewById(R.id.tab_bar)
         loader = view.findViewById(R.id.loader)
 
         kotlin.runCatching {
@@ -118,11 +116,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             5
         } else {
             ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
-        }
-
-        tabLayout.apply {
-            setDefaultTabTextColor(ColorStateList.valueOf(ThemeManager.theme.textViewTheme.secondaryTextColor))
-            setSelectedIndicatorColors(ThemeManager.theme.viewGroupTheme.selectedBackground)
         }
 
         postponeEnterTransition()
@@ -323,7 +316,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 }
 
                 viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toArray(arrayOf<String>()))
-                tabLayout.setViewPager2(viewPager)
+                tabBar.initWithViewPager(viewPager, titles)
             }.onFailure {
                 showError(it)
             }
