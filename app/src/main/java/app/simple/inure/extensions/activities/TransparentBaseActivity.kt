@@ -7,13 +7,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.view.WindowManager
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.preferences.AppearancePreferences
@@ -76,48 +72,11 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
         if (Build.VERSION.SDK_INT in 23..29) {
             WindowCompat.setDecorFitsSystemWindows(window, true)
-        } else if (Build.VERSION.SDK_INT >= 30) {
+        } else
             WindowCompat.setDecorFitsSystemWindows(window, false)
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = Color.TRANSPARENT
-        }
-    }
-
-    private fun fixNavigationBarOverlap() {
-        /**
-         * Making the Navigation system bar not overlapping with the activity
-         */
-        if (Build.VERSION.SDK_INT >= 30) {
-            /**
-             * Root ViewGroup of my activity
-             */
-            val root = findViewById<CoordinatorLayout>(R.id.app_container)
-
-            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-                /**
-                 * Apply the insets as a margin to the view. Here the system is setting
-                 * only the bottom, left, and right dimensions, but apply whichever insets are
-                 * appropriate to your layout. You can also update the view padding
-                 * if that's more appropriate.
-                 */
-
-                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = insets.left
-                    bottomMargin = insets.bottom
-                    rightMargin = insets.right
-                }
-
-                /**
-                 * Return CONSUMED if you don't want want the window insets to keep being
-                 * passed down to descendant views.
-                 */
-                WindowInsetsCompat.CONSUMED
-            }
-
         }
     }
 
