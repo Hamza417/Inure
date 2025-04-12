@@ -29,7 +29,6 @@ class AppearanceScreen : ScopedFragment() {
     private lateinit var appTheme: DynamicRippleRelativeLayout
     private lateinit var iconShadows: Switch
     private lateinit var coloredIconShadows: Switch
-    private lateinit var accentOnNav: Switch
     private lateinit var accentOnBottomMenu: Switch
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,7 +42,6 @@ class AppearanceScreen : ScopedFragment() {
         appTheme = view.findViewById(R.id.appearance_app_theme)
         iconShadows = view.findViewById(R.id.appearance_icons_shadow_switch)
         coloredIconShadows = view.findViewById(R.id.colored_icons_switch)
-        accentOnNav = view.findViewById(R.id.appearance_nav_color_switch)
         accentOnBottomMenu = view.findViewById(R.id.accent_on_bottom_menu_switch)
 
         startPostponedEnterTransition()
@@ -57,7 +55,6 @@ class AppearanceScreen : ScopedFragment() {
 
         iconShadows.isChecked = AppearancePreferences.isIconShadowsOn()
         coloredIconShadows.isChecked = AppearancePreferences.getColoredIconShadows()
-        accentOnNav.isChecked = AppearancePreferences.isAccentOnNavigationBar()
         accentOnBottomMenu.isChecked = AppearancePreferences.isAccentColorOnBottomMenu()
         setLayoutStyle()
 
@@ -100,10 +97,6 @@ class AppearanceScreen : ScopedFragment() {
             if (fullVersionCheck(goBack = false)) {
                 AppearancePreferences.setColoredIconShadowsState(it)
             }
-        }
-
-        accentOnNav.setOnSwitchCheckedChangeListener {
-            AppearancePreferences.setAccentOnNavigationBar(it)
         }
 
         accentOnBottomMenu.setOnSwitchCheckedChangeListener {

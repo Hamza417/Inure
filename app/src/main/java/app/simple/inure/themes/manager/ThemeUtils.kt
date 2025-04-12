@@ -10,7 +10,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import app.simple.inure.R
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.util.CalendarUtils
 
@@ -186,7 +185,7 @@ object ThemeUtils {
     private fun lightBars(window: Window) {
         setStatusAndNavColors(window)
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = !AppearancePreferences.isAccentOnNavigationBar()
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = true
     }
 
     private fun darkBars(window: Window) {
@@ -195,17 +194,9 @@ object ThemeUtils {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightNavigationBars = false
     }
 
-    @Suppress("DEPRECATION")
     private fun setStatusAndNavColors(window: Window) {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
-        } else {
-            window.statusBarColor = Color.TRANSPARENT
-        }
-
-        if (!AppearancePreferences.isAccentOnNavigationBar()) {
-            window.navigationBarColor = ThemeManager.theme.viewGroupTheme.background
-        }
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
     }
 
     fun isNightMode(resources: Resources): Boolean {

@@ -384,8 +384,6 @@
     <string name="desc_licenses">用于开发此应用的开源库的许可列表。</string>
     <string name="change_logs">更新日志</string>
     <string name="desc_changelogs">检查当前版本应用程序的更改和改进以及未来更新的计划。</string>
-    <string name="accent_for_nav">导航栏强调色</string>
-    <string name="desc_accent_on_nav">在导航栏上应用强调色，而不是使用系统指定的背景。</string>
     <string name="static_backgrounds">静态背景</string>
     <string name="desc_static_backgrounds">将整个应用程序中所有可点击图标和按钮的波纹效果替换为静态背景和点击反馈替代.</string>
     <string name="accessibility">无障碍</string>

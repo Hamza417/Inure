@@ -86,6 +86,7 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
         int padding = getResources().getDimensionPixelOffset(R.dimen.popup_padding);
         setPadding(padding, padding, padding, padding);
         setElevation(getResources().getDimensionPixelOffset(R.dimen.app_views_elevation));
+        ViewUtils.INSTANCE.marginEdgeToEdge(this);
         LayoutBackground.setBackground(getContext(), this, attributeSet);
         ViewUtils.INSTANCE.addShadow(this);
         setClipToPadding(false);
@@ -117,10 +118,10 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
             scrollToPosition(bottomMenuItems.size() - 1);
             ViewGroup.MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
             
-            layoutParams.topMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-            layoutParams.bottomMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-            layoutParams.leftMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
-            layoutParams.rightMargin = getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
+            layoutParams.topMargin += getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
+            layoutParams.bottomMargin += getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
+            layoutParams.leftMargin += getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
+            layoutParams.rightMargin += getResources().getDimensionPixelOffset(R.dimen.bottom_menu_margin);
             
             containerHeight = getHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
             setLayoutParams(layoutParams);

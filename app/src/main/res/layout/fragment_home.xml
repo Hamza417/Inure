@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareNestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_behavior="@string/over_scroll_behavior">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
-            android:id="@+id/home_scroll_view"
+        <app.simple.inure.decorations.views.GridRecyclerView
+            android:id="@+id/home_menu"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/grid_list_animation_controller"
+            android:overScrollMode="never" />
+
+        <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
+            android:id="@+id/quick_app_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
-            app:layout_behavior="@string/over_scroll_behavior">
+            android:layoutAnimation="@anim/horizontal_list_controller"
+            android:nestedScrollingEnabled="false"
+            android:padding="@dimen/popup_padding"
+            android:visibility="gone"
+            app:statusBarPaddingRequired="false" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+    </LinearLayout>
 
-                <app.simple.inure.decorations.views.GridRecyclerView
-                    android:id="@+id/home_menu"
-                    android:layout_width="match_parent"
-                    android:scrollbars="none"
-                    android:layout_height="wrap_content"
-                    android:layoutAnimation="@anim/grid_list_animation_controller"
-                    android:overScrollMode="never" />
-
-                <app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
-                    android:id="@+id/quick_app_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:layoutAnimation="@anim/horizontal_list_controller"
-                    android:nestedScrollingEnabled="false"
-                    android:padding="@dimen/popup_padding"
-                    android:visibility="gone"
-                    app:statusBarPaddingRequired="false" />
-
-            </LinearLayout>
-        </app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+</app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>

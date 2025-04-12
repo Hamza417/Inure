@@ -24,8 +24,6 @@ import app.simple.inure.decorations.views.ZoomImageView
 import app.simple.inure.extensions.activities.BaseActivity
 import app.simple.inure.glide.svg.SVG
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.preferences.DevelopmentPreferences.get
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
@@ -45,7 +43,6 @@ import com.bumptech.glide.request.target.Target
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.material.animation.ArgbEvaluatorCompat
-import kotlin.math.abs
 
 class ImageActivity : BaseActivity() {
 
@@ -72,19 +69,10 @@ class ImageActivity : BaseActivity() {
         setBackgroundColor(animate = false)
 
         with(header) {
-            if (get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-                if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
-                    setPadding(paddingLeft,
-                               abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
-                               paddingRight,
-                               paddingBottom)
-                }
-            } else {
-                setPadding(paddingLeft,
-                           StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
-                           paddingRight,
-                           paddingBottom)
-            }
+            setPadding(paddingLeft,
+                       StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
+                       paddingRight,
+                       paddingBottom)
         }
 
         val uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("image/") == true) {

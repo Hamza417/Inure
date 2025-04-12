@@ -56,7 +56,6 @@ object PreferencesSearchConstants {
     private val appearanceData = arrayListOf(
             PreferenceModel(R.drawable.ic_dark_mode, R.string.application_theme, R.string.desc_application_theme, options, color, appearance),
             PreferenceModel(R.drawable.ic_colors, R.string.accent_colors, R.string.accent_colors, options, color, appearance),
-            PreferenceModel(R.drawable.ic_navigation_color, R.string.accent_for_nav, R.string.desc_accent_on_nav, toggleable, color, appearance),
             PreferenceModel(R.drawable.ic_text_fields, R.string.app_typeface, R.string.desc_app_typeface, options, layouts, appearance),
             PreferenceModel(R.drawable.ic_rounded_corner, R.string.corner_radius, R.string.corner_radius_desc, popup, layouts, appearance),
             PreferenceModel(R.drawable.ic_light_shadow, R.string.icon_shadows, R.string.icon_shadow_desc, toggleable, icons, appearance),

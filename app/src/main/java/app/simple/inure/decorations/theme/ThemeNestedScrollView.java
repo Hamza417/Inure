@@ -9,12 +9,12 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView;
+import androidx.core.widget.NestedScrollView;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Theme;
 import app.simple.inure.themes.manager.ThemeManager;
 
-public class ThemeNestedScrollView extends EdgeEffectNestedScrollView implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ThemeNestedScrollView extends NestedScrollView implements ThemeChangedListener, SharedPreferences.OnSharedPreferenceChangeListener {
     
     private ValueAnimator valueAnimator;
     

@@ -20,7 +20,6 @@ import app.simple.inure.R
 import app.simple.inure.adapters.home.AdapterQuickApps
 import app.simple.inure.adapters.ui.AdapterHome
 import app.simple.inure.constants.Warnings
-import app.simple.inure.decorations.edgeeffect.EdgeEffectNestedScrollView
 import app.simple.inure.decorations.overscroll.CustomHorizontalRecyclerView
 import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
@@ -47,7 +46,6 @@ import rikka.shizuku.Shizuku
 
 class Home : ScopedFragment() {
 
-    private lateinit var scrollView: EdgeEffectNestedScrollView
     private lateinit var navigationRecyclerView: GridRecyclerView
     private lateinit var quickAppsRecyclerView: CustomHorizontalRecyclerView
 
@@ -64,7 +62,6 @@ class Home : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(getHomeLayout(), container, false)
 
-        scrollView = view.findViewById(R.id.home_scroll_view)
         quickAppsRecyclerView = view.findViewById(R.id.quick_app_recycler_view)
         navigationRecyclerView = view.findViewById(R.id.home_menu)
 

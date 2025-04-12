@@ -15,11 +15,9 @@ import android.text.style.StyleSpan
 import android.text.style.SubscriptSpan
 import android.text.style.SuperscriptSpan
 import android.text.style.UnderlineSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.addCallback
@@ -61,8 +59,9 @@ import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.NullSafety.isNull
-import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
+import app.simple.inure.util.ViewUtils.navigationEdgeToEdge
+import app.simple.inure.util.ViewUtils.statusBarEdgeToEdge
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.panels.NotesEditorViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
@@ -114,6 +113,9 @@ class NotesEditor : KeyboardScopedFragment() {
         formattingStrip = view.findViewById(R.id.formatting_strip)
         this.container = view.findViewById(R.id.container)
 
+        this.container.statusBarEdgeToEdge()
+        formattingStrip.navigationEdgeToEdge()
+
         bold = view.findViewById(R.id.bold)
         italic = view.findViewById(R.id.italic)
         underline = view.findViewById(R.id.underline)
@@ -150,13 +152,6 @@ class NotesEditor : KeyboardScopedFragment() {
         name.text = packageInfo.safeApplicationInfo.name
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()
-
-        if (StatusBarHeight.isLandscape(requireContext())) {
-            val params: FrameLayout.LayoutParams = formattingStrip.layoutParams as FrameLayout.LayoutParams
-            params.gravity = Gravity.CENTER_HORIZONTAL
-            formattingStrip.layoutParams = params
-        }
-
         noteEditText.addTextChangedListener(customTextWatcher)
 
         noteEditText.addOnSelectionChangedListener(object : TypeFaceEditText.Companion.OnSelectionChangedListener {

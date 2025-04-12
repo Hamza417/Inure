@@ -384,8 +384,6 @@
     <string name="desc_licenses">Danh sách giấy phép của các thư viện nguồn mở được sử dụng để phát triển ứng dụng này.</string>
     <string name="change_logs">Thay đổi nhật ký</string>
     <string name="desc_changelogs">Kiểm tra các thay đổi và cải tiến trong phiên bản hiện tại của các ứng dụng và kế hoạch cho các bản cập nhật trong tương lai.</string>
-    <string name="accent_for_nav">Màu nhấn trên thanh điều hướng</string>
-    <string name="desc_accent_on_nav">Áp dụng màu Accent trên thanh điều hướng thay vì sử dụng nền được chỉ định của hệ thống.</string>
     <string name="static_backgrounds">Nền tĩnh</string>
     <string name="desc_static_backgrounds">Thay thế các hiệu ứng Ripple từ tất cả các biểu tượng và nút có thể nhấp trong toàn bộ ứng dụng bằng nền tĩnh và phản hồi nhấp chuột thay thế.</string>
     <string name="accessibility">Khả năng tiếp cận</string>

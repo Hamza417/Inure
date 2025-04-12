@@ -384,8 +384,6 @@
     <string name="desc_licenses">Список лицензий библиотек с открытым исходным кодом, использованных при разработке этого приложения.</string>
     <string name="change_logs">Список изменений</string>
     <string name="desc_changelogs">Ознакомьтесь с изменениями и улучшениями в текущей версии приложения и планами на будущие обновления.</string>
-    <string name="accent_for_nav">Цвет акцента в панели навигации</string>
-    <string name="desc_accent_on_nav">Применить цвет акцента на панели навигации вместо заданного системой фона.</string>
     <string name="static_backgrounds">Статический фон</string>
     <string name="desc_static_backgrounds">Заменить пульсирующие эффекты всех интерактивных значков и кнопок в приложении на статический фон и альтернативную обратную связь на нажатие.</string>
     <string name="accessibility">Специальные возможности</string>

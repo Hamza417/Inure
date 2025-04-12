@@ -137,7 +137,8 @@
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbarSize="0dp"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:id="@+id/scroll_view">
 
         <app.simple.inure.decorations.theme.ThemeLinearLayout
             android:id="@+id/formatting_strip"

@@ -389,8 +389,6 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="desc_licenses">Liste der Lizenzen der Open-Source-Bibliotheken, die für die Entwicklung dieser App verwendet werden.</string>
     <string name="change_logs">Anderungsprotokoll</string>
     <string name="desc_changelogs">Überprüfen Sie Änderungen und Verbesserungen in der aktuellen Version der Apps und Pläne für zukünftige Updates.</string>
-    <string name="accent_for_nav">Akzentfarbe in Navigationsleiste</string>
-    <string name="desc_accent_on_nav">Akzente Farbe auf der Navigationsleiste anstelle des von System angegebenen Hintergrunds anwenden.</string>
     <string name="static_backgrounds">Statische Hintergründe</string>
     <string name="desc_static_backgrounds">Ersetzen Sie Rippeleffekte von allen anklickbaren Icons und Buttons in der gesamten App mit statischen Hintergründen und alternativen Klick-Feedback.</string>
     <string name="accessibility">Barrierefreiheit</string>

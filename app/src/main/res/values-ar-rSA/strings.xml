@@ -384,8 +384,6 @@
     <string name="desc_licenses">قائمة تراخيص المكتبات مفتوحة المصدر المستخدمة في تطوير هذا التطبيق.</string>
     <string name="change_logs">تغيير السجلات</string>
     <string name="desc_changelogs">تحقق من التغييرات والتحسينات في الإصدار الحالي من التطبيقات والخطط للتحديثات المستقبلية.</string>
-    <string name="accent_for_nav">لون التمييز على شريط التنقل</string>
-    <string name="desc_accent_on_nav">تطبيق لون التمييز على شريط التنقل بدلا من استخدام الخلفيات المحددة من قبل النظام.</string>
     <string name="static_backgrounds">خلفيات ثابتة</string>
     <string name="desc_static_backgrounds">استبدل تأثيرات التموج من جميع الرموز والأزرار القابلة للنقر في جميع أنحاء التطبيق بخلفيات ثابتة وتعليقات نقرات بديلة.</string>
     <string name="accessibility">امكانيه الوصول</string>

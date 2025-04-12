@@ -10,11 +10,9 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import app.simple.inure.R
 import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
@@ -55,15 +53,10 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            makeAppFullScreen()
-            // fixNavigationBarOverlap()
-        }
-
+        makeAppFullScreen()
         ThemeUtils.setAppTheme(resources)
         setTransparentTheme()
         ThemeUtils.setBarColors(resources, window)
-        setNavColor()
     }
 
     @Suppress("Deprecation")
@@ -77,14 +70,6 @@ open class TransparentBaseActivity : AppCompatActivity(), ThemeChangedListener {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.navigationBarDividerColor = Color.TRANSPARENT
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun setNavColor() {
-        if (AppearancePreferences.isAccentOnNavigationBar()) {
-            window.navigationBarColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAppAccent))
-                .getColor(0, 0)
         }
     }
 

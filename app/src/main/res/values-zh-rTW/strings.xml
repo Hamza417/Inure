@@ -384,8 +384,6 @@
     <string name="desc_licenses">列出應用程式開發中使用的開放原始碼程式庫的授權清單。</string>
     <string name="change_logs">變更記錄</string>
     <string name="desc_changelogs">檢查目前應用程式版本的變更和改進以及未來的更新計畫。</string>
-    <string name="accent_for_nav">導覽列輔色</string>
-    <string name="desc_accent_on_nav">將輔色套用至導覽列，而非使用系統指定的背景。</string>
     <string name="static_backgrounds">靜態背景</string>
     <string name="desc_static_backgrounds">將整個應用程式中可按下的所有圖示和按鈕的波紋效果取代為靜態背景和替代按下回饋。</string>
     <string name="accessibility">無障礙</string>

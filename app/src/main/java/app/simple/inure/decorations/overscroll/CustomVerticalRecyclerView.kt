@@ -17,13 +17,14 @@ import app.simple.inure.decorations.itemdecorations.DividerItemDecoration
 import app.simple.inure.decorations.theme.ThemeRecyclerView
 import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.RecyclerViewUtils.flingTranslationMagnitude
 import app.simple.inure.util.RecyclerViewUtils.overScrollTranslationMagnitude
 import app.simple.inure.util.StatusBarHeight
+import app.simple.inure.util.ViewUtils.navigationEdgeToEdge
+import app.simple.inure.util.ViewUtils.statusBarEdgeToEdge
 
 /**
  * Custom recycler view with nice layout animation and
@@ -50,10 +51,10 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
                     edgeColor = AppearancePreferences.getAccentColor()
 
                     if (getBoolean(R.styleable.RecyclerView_statusBarPaddingRequired, true)) {
-                        if (!DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-                            setPadding(paddingLeft, StatusBarHeight.getStatusBarHeight(resources) + paddingTop, paddingRight, paddingBottom)
-                        }
+                        statusBarEdgeToEdge()
                     }
+
+                    navigationEdgeToEdge()
 
                     if (getBoolean(R.styleable.RecyclerView_isFadingEdgeRequired, false)) {
                         isVerticalFadingEdgeEnabled = true
