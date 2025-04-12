@@ -132,62 +132,6 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="InureTabLayout">
-        <attr name="ddIndicatorHeight" format="dimension" />
-        <attr name="ddIndicatorColor" format="color" />
-        <attr name="ddCenterAlign" format="boolean" />
-        <attr name="ddAnimatedIndicator" format="enum">
-            <enum name="dachshund" value="0" />
-            <enum name="pointMove" value="1" />
-            <enum name="lineMove" value="2" />
-            <enum name="pointFade" value="3" />
-            <enum name="lineFade" value="4" />
-        </attr>
-    </declare-styleable>
-
-    <declare-styleable name="SmartTabLayout">
-        <attr name="indicatorAlwaysInCenter" format="boolean" />
-        <attr name="indicatorWithoutPadding" format="boolean" />
-        <attr name="indicatorInFront" format="boolean" />
-        <attr name="indicatorInterpolation" format="enum">
-            <enum name="smart" value="0" />
-            <enum name="linear" value="1" />
-        </attr>
-        <attr name="indicatorGravity" format="enum">
-            <enum name="bottom" value="0" />
-            <enum name="top" value="1" />
-            <enum name="center" value="2" />
-        </attr>
-        <attr name="indicatorColor" format="color" />
-        <attr name="indicatorColors" format="reference" />
-        <attr name="indicatorThickness" format="dimension" />
-        <attr name="indicatorWidth" format="dimension">
-            <enum name="auto" value="-1" />
-        </attr>
-        <attr name="indicatorCornerRadius" format="dimension" />
-        <attr name="overlineColor" format="color" />
-        <attr name="overlineThickness" format="dimension" />
-        <attr name="underlineColor" format="color" />
-        <attr name="underlineThickness" format="dimension" />
-        <attr name="dividerColor" format="color" />
-        <attr name="dividerColors" format="reference" />
-        <attr name="dividerThickness" format="dimension" />
-        <attr name="defaultTabBackground" format="reference" />
-        <attr name="defaultTabTextAllCaps" format="boolean" />
-        <attr name="defaultTabTextColor" format="color|reference" />
-        <attr name="defaultTabTextSize" format="dimension" />
-        <attr name="defaultTabTextHorizontalPadding" format="dimension" />
-        <attr name="defaultTabTextMinWidth" format="dimension" />
-        <attr name="customTabTextLayoutId" format="reference" />
-        <attr name="customTabTextViewId" format="reference" />
-        <attr name="distributeEvenly" format="boolean" />
-        <attr name="clickable" format="boolean" />
-        <attr name="titleOffset" format="dimension">
-            <enum name="auto_center" value="-1" />
-        </attr>
-        <attr name="drawDecorationAfterTab" format="boolean" />
-    </declare-styleable>
-
     <declare-styleable name="LrcView">
         <attr name="lrcTextSize" format="dimension" />
         <attr name="lrcLineSpaceSize" format="dimension" />
