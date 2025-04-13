@@ -112,9 +112,8 @@
                         android:id="@+id/typeFaceTextView08"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
                         android:text="@string/keep_screen_on_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
@@ -321,9 +320,8 @@
                         android:id="@+id/typeFaceTextView020"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
                         android:text="@string/desc_app_path"
                         android:textSize="@dimen/desc_text_size"
                         app:appFontStyle="regular"
@@ -331,6 +329,63 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView16"
                         app:layout_constraintTop_toBottomOf="@id/typeFaceTextView019"
+                        app:textColorStyle="tertiary" />
+
+                </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
+
+                <app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
+                    android:id="@+id/vt_api"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/vt_logo"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_virustotal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/vt_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/virustotal_api"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toTopOf="@+id/vt_desc"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/vt_logo"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/vt_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/virustotal_api_desc"
+                        android:textSize="@dimen/desc_text_size"
+                        app:appFontStyle="regular"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/vt_logo"
+                        app:layout_constraintTop_toBottomOf="@id/vt_title"
                         app:textColorStyle="tertiary" />
 
                 </app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout>
@@ -386,9 +441,8 @@
                         android:id="@+id/configuration_show_user_list_desc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
                         android:text="@string/show_user_list_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
@@ -464,9 +518,8 @@
                         android:id="@+id/typeFaceTextView15"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
                         android:text="@string/root_desc"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"

@@ -769,4 +769,6 @@
     <string name="suspected_tracker">Suspected Tracker</string>
     <string name="etip_desc">The component is in ETIP\'s list. If it\'s a tracker or not is still being investigated.</string>
     <string name="show_diff_styled_changes">Show Changes in Diff Style</string>
+    <string name="virustotal_api">VirusTotal API</string>
+    <string name="virustotal_api_desc">Enter your VirusTotal API key to use the scan feature.</string>
 </resources>
