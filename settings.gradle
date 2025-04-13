@@ -1,2 +1,2 @@
-include ':app', ":stub", ":virustotal"
+include ':app', ":stub"
 rootProject.name = "Inure"

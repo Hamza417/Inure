@@ -413,6 +413,7 @@
       <w>uint</w>
       <w>ulong</w>
       <w>unanimated</w>
+      <w>uncached</w>
       <w>unexported</w>
       <w>unhide</w>
       <w>unlckr</w>
