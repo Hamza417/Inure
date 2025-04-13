@@ -85,7 +85,7 @@ object InstallerPreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun isBypassLowTargetSdk(): Boolean {
-        return SharedPreferences.getSharedPreferences().getBoolean(INSTALLER_BYPASS_LOW_TARGET_SDK, false)
+        return SharedPreferences.getSharedPreferences().getBoolean(INSTALLER_BYPASS_LOW_TARGET_SDK, true)
     }
 
     fun setBypassLowTargetSdk(value: Boolean) {

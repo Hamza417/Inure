@@ -16,7 +16,7 @@ abstract class FOSSDatabase : RoomDatabase() {
     companion object {
         private var instance: FOSSDatabase? = null
         private var migration_1_2 = FOSSMigration(1, 2)
-        private const val db_name = "foss_markings.db"
+        private const val DB_NAME = "foss_markings.db"
 
         fun getFOSSDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -25,7 +25,7 @@ abstract class FOSSDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): FOSSDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, FOSSDatabase::class.java, db_name)
+                Room.databaseBuilder(context, FOSSDatabase::class.java, DB_NAME)
                     .addMigrations(migration_1_2)
                     .fallbackToDestructiveMigration()
                     .build()
@@ -33,7 +33,7 @@ abstract class FOSSDatabase : RoomDatabase() {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, FOSSDatabase::class.java, db_name)
+                    Room.databaseBuilder(context, FOSSDatabase::class.java, DB_NAME)
                         .addMigrations(migration_1_2)
                         .fallbackToDestructiveMigration()
                         .build()
