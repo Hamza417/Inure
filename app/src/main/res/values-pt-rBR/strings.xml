@@ -777,4 +777,5 @@
     <string name="allow_test_packages">Permitir Teste de Pacotes</string>
     <string name="bypass_target_sdk_check">Ignorar SDK de Baixo Destino</string>
     <string name="replace_existing">Substituir Existente</string>
+    <string name="dont_kill">Não Matar</string>
 </resources>
