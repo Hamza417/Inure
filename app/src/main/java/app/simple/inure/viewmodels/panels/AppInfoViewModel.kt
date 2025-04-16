@@ -237,6 +237,8 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 }
             }
 
+            list.add(Pair(R.drawable.ic_virustotal, R.string.virustotal))
+
             menuItems.postValue(list)
         }
     }

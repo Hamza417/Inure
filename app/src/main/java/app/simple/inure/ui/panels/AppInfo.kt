@@ -86,6 +86,7 @@ import app.simple.inure.ui.viewers.SharedLibs
 import app.simple.inure.ui.viewers.Trackers
 import app.simple.inure.ui.viewers.UsageStatistics
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
+import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.ui.viewers.XML
 import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
@@ -350,6 +351,10 @@ class AppInfo : ScopedFragment() {
 
                         R.string.shared_prefs -> {
                             openFragmentArc(SharedPreferences_Alias.newInstance(packageInfo), icon, SharedPreferences_Alias.TAG)
+                        }
+                        
+                        R.string.virustotal -> {
+                            openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
                         }
                     }
                 }
