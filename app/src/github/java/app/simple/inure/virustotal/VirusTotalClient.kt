@@ -16,7 +16,7 @@ import org.json.JSONObject
 import java.io.File
 import java.security.MessageDigest
 
-class VirusTotal(private val apiKey: String) {
+class VirusTotalClient(private val apiKey: String) {
 
     private val client: OkHttpClient = OkHttpClient.Builder()
         .eventListener(object : okhttp3.EventListener() {
@@ -104,12 +104,15 @@ class VirusTotal(private val apiKey: String) {
     }
 
     private fun pollAnalysisResult(analysisId: String): Flow<VirusTotalResult> = callbackFlow {
-        repeat(MAX_POLLING_ATTEMPTS) {
+        repeat(MAX_POLLING_ATTEMPTS) { it ->
             val request = Request.Builder()
                 .url("$baseUrl/analyses/$analysisId")
                 .addHeader("x-apikey", apiKey)
                 .get()
                 .build()
+
+            trySend(VirusTotalResult.Progress("Polling for analysis result... Attempt: " +
+                                                      "${it + 1}, next in ${POLLING_INTERVAL / 1000} seconds"))
 
             try {
                 val response = client.newCall(request).execute()
@@ -120,7 +123,7 @@ class VirusTotal(private val apiKey: String) {
                         val status = json.getJSONObject("data")
                             .getJSONObject("attributes")
                             .getString("status")
-                        trySend(VirusTotalResult.Progress("Scan status: $status"))
+                        // trySend(VirusTotalResult.Progress("Scan status: $status, waiting...\n"))
                         if (status == "completed") {
                             trySend(VirusTotalResult.Success(json))
                             close()
@@ -147,7 +150,7 @@ class VirusTotal(private val apiKey: String) {
         emit(VirusTotalResult.Progress("Calculating file hash..."))
         val hash = computeSHA256(file)
 
-        emit(VirusTotalResult.Progress("Checking hash at VirusTotal..."))
+        emit(VirusTotalResult.Progress("Checking hash $hash at VirusTotal..."))
         val hashResult = checkHash(hash)
 
         if (hashResult != null) {
@@ -174,21 +177,21 @@ class VirusTotal(private val apiKey: String) {
     companion object {
         private const val TAG = "VirusTotal"
 
-        fun getInstance(apiKey: String): VirusTotal {
-            return VirusTotal(apiKey)
+        fun getInstance(apiKey: String): VirusTotalClient {
+            return VirusTotalClient(apiKey)
         }
 
-        fun getInstance(): VirusTotal {
+        fun getInstance(): VirusTotalClient {
             val apiKey = VirusTotalPreferences.getVirusTotalApiKey()
             return if (apiKey.isNotEmpty()) {
-                VirusTotal(apiKey)
+                VirusTotalClient(apiKey)
             } else {
                 throw IllegalStateException("VirusTotal API key is not set.")
             }
         }
 
         private const val MAX_FREE_FILE_SIZE = 32 * 1024 * 1024 // 32 MB
-        private const val MAX_POLLING_ATTEMPTS = 10
+        private const val MAX_POLLING_ATTEMPTS = 30
         private const val POLLING_INTERVAL = 10_000L
     }
 }

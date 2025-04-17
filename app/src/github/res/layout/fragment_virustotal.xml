@@ -74,5 +74,35 @@
         android:layout_height="1px" />
 
     <!-- TODO : Add a whole UI here -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/response"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dialog_padding"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="regular"
+                app:textColorStyle="primary" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
