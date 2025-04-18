@@ -349,18 +349,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        /**
-         * Store the touch coordinates
-         */
-        if (ev.action == MotionEvent.ACTION_DOWN) {
-            Misc.xOffset = ev.rawX
-            Misc.yOffset = ev.rawY
-        }
-
-        return super.dispatchTouchEvent(ev)
-    }
-
     /**
      * Useless test although a nice one ;)
      *

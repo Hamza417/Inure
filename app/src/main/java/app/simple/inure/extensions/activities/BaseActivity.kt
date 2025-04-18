@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.transition.Fade
 import android.util.Log
+import android.view.MotionEvent
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
@@ -548,6 +550,18 @@ open class BaseActivity : AppCompatActivity(),
                 enableNotchArea()
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        /**
+         * Store the touch coordinates
+         */
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            Misc.xOffset = ev.x
+            Misc.yOffset = ev.y
+        }
+
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onPause() {

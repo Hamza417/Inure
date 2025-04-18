@@ -43,7 +43,11 @@ class Information : InstallerLoaderScopedFragment() {
 
             adapterInformation.setOnAdapterInformationCallbacks(object : AdapterInformation.Companion.AdapterInformationCallbacks {
                 override fun onInformationClicked(view: View, string: String) {
-                    PopupInformation(requireView(), string, showAsDropDown = false)
+                    kotlin.runCatching {
+                        PopupInformation(requireActivity().findViewById(android.R.id.content), string, showAsDropDown = false)
+                    }.getOrElse {
+                        PopupInformation(requireView(), string, showAsDropDown = false)
+                    }
                 }
 
                 override fun onWarning(string: String) {
