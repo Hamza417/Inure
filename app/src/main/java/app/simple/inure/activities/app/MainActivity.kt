@@ -354,8 +354,8 @@ class MainActivity : BaseActivity() {
          * Store the touch coordinates
          */
         if (ev.action == MotionEvent.ACTION_DOWN) {
-            Misc.xOffset = ev.rawX
-            Misc.yOffset = ev.rawY
+            Misc.xOffset = ev.x
+            Misc.yOffset = ev.y
         }
 
         return super.dispatchTouchEvent(ev)
