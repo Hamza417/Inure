@@ -385,8 +385,6 @@
     <string name="desc_licenses">Liste des licences des bibliothèques open source utilisées pour le développement de cette application.</string>
     <string name="change_logs">Journal des Modifications</string>
     <string name="desc_changelogs">Vérifiez les changements et améliorations dans la version actuelle des applications et planifiez les mises à jour futures.</string>
-    <string name="accent_for_nav">Couleur d\'accentuation sur la barre de navigation</string>
-    <string name="desc_accent_on_nav">Appliquer la couleur d\'accentuation sur la barre de navigation au lieu d\'utiliser les arrière-plans spécifiés par le système.</string>
     <string name="static_backgrounds">Arrière-plans statiques</string>
     <string name="desc_static_backgrounds">Remplacer les effets d\'ondulation de toutes les icônes et boutons cliquables au travers de l\'application par des arrière-plans statiques et retour de clic alternatif.</string>
     <string name="accessibility">Accessibilté</string>

@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView;
-import app.simple.inure.preferences.DevelopmentPreferences;
-import app.simple.inure.util.StatusBarHeight;
+import app.simple.inure.util.ViewUtils;
 
 public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView implements SharedPreferences.OnSharedPreferenceChangeListener {
     public PaddingAwareNestedScrollView(@NonNull Context context) {
@@ -25,33 +24,13 @@ public class PaddingAwareNestedScrollView extends FastScrollNestedScrollView imp
         if (isInEditMode()) {
             return;
         }
-        updatePadding();
-    }
-    
-    private void updatePadding() {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
-                setPadding(getPaddingLeft(),
-                        Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
-                        getPaddingRight(),
-                        getPaddingBottom());
-            }
-        } else {
-            setPadding(getPaddingLeft(),
-                    StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
-                    getPaddingRight(),
-                    getPaddingBottom());
-        }
+        
+        ViewUtils.INSTANCE.paddingEdgeToEdge(this);
     }
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        try {
-            if (key.equals(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-                updatePadding();
-            }
-        } catch (Exception ignored) {
-        }
+    
     }
     
     @Override

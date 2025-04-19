@@ -1,32 +1,22 @@
 package app.simple.inure.extensions.activities
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.transition.Fade
 import android.util.Log
-import android.view.OrientationEventListener
-import android.view.Surface
-import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import android.widget.FrameLayout
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.os.BuildCompat
 import androidx.core.os.ConfigurationCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.PredictiveBackControl
 import androidx.lifecycle.Lifecycle
@@ -43,7 +33,6 @@ import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.SharedPreferences
@@ -60,16 +49,11 @@ import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.themes.manager.ThemeUtils.setTheme
-import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ContextUtils
 import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.SDCard
-import app.simple.inure.util.ViewUtils.defaultPadding
-import app.simple.inure.util.ViewUtils.setPaddingLeft
-import app.simple.inure.util.ViewUtils.setPaddingRight
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -125,6 +109,7 @@ open class BaseActivity : AppCompatActivity(),
             reenterTransition = Fade()
         }
 
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         // Disable predictive back for fragments
@@ -167,21 +152,11 @@ open class BaseActivity : AppCompatActivity(),
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (!DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            makeAppFullScreen()
-        }
-
-        fixNavigationBarOverlap()
-        enableNotchArea()
-
         /**
          * Keeps the instance of current locale of the app
          */
         LocaleUtils.setAppLocale(ConfigurationCompat.getLocales(resources.configuration)[0]!!)
-
         ThemeUtils.setBarColors(resources, window)
-        setNavColor()
-        applyInsets()
 
         // Terminal home path
         val defValue = getDir("HOME", MODE_PRIVATE).absolutePath
@@ -211,204 +186,8 @@ open class BaseActivity : AppCompatActivity(),
 
     override fun onResume() {
         super.onResume()
-        if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
-            if (orientationListener.canDetectOrientation()) {
-                orientationListener.enable()
-            }
-        }
-
         if (ThemeUtils.isDayNight()) {
             ThemeUtils.setAppTheme(resources)
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun makeAppFullScreen() {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            window.statusBarColor = ThemeManager.theme.viewGroupTheme.background
-            WindowCompat.setDecorFitsSystemWindows(window, true)
-        } else {
-            window.statusBarColor = Color.TRANSPARENT
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.DIVIDER_ON_NAVIGATION_BAR)) {
-                window.navigationBarDividerColor = Color.TRANSPARENT
-            } else {
-                window.navigationBarDividerColor = ThemeManager.theme.viewGroupTheme.dividerBackground
-            }
-        }
-    }
-
-    /**
-     * Making the Navigation system bar not overlapping with the activity
-     */
-    fun fixNavigationBarOverlap() {
-        /**
-         * Root ViewGroup of this activity
-         */
-        val root = findViewById<CoordinatorLayout>(R.id.app_container)
-
-        if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            root.layoutParams = (root.layoutParams as FrameLayout.LayoutParams).apply {
-                leftMargin = 0
-                bottomMargin = 0
-                rightMargin = 0
-            }
-            root.requestLayout()
-        } else {
-            ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-                val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                // val imeVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime())
-                // val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-
-                /**
-                 * Apply the insets as a margin to the view. Here the system is setting
-                 * only the bottom, left, and right dimensions, but apply whichever insets are
-                 * appropriate to your layout. You can also update the view padding
-                 * if that's more appropriate.
-                 */
-                view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                    leftMargin = insets.left
-                    bottomMargin = insets.bottom
-                    rightMargin = insets.right
-                }
-                /**
-                 * Return CONSUMED if you don't want want the window insets to keep being
-                 * passed down to descendant views.
-                 */
-                WindowInsetsCompat.CONSUMED
-            }
-        }
-    }
-
-    @Suppress("DEPRECATION")
-    private fun setNavColor(accent: Boolean = false) {
-        val startColor: Int
-        val endColor: Int
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-        if (accent) {
-            if (AppearancePreferences.isAccentOnNavigationBar()) {
-                startColor = window.navigationBarColor
-                endColor = AppearancePreferences.getAccentColor()
-            } else {
-                startColor = ThemeManager.theme.viewGroupTheme.background
-                endColor = ThemeManager.theme.viewGroupTheme.background
-            }
-        } else {
-            if (AppearancePreferences.isAccentOnNavigationBar()) {
-                startColor = ThemeManager.theme.viewGroupTheme.background
-                endColor = AppearancePreferences.getAccentColor()
-            } else {
-                startColor = AppearancePreferences.getAccentColor()
-                endColor = ThemeManager.theme.viewGroupTheme.background
-            }
-        }
-
-        // Animate color
-        val valueAnimator = ValueAnimator.ofArgb(/* ...values = */ startColor, endColor)
-        valueAnimator.duration = resources.getInteger(R.integer.animation_duration).toLong()
-        valueAnimator.addUpdateListener { animation ->
-            window.navigationBarColor = animation.animatedValue as Int
-        }
-        valueAnimator.start()
-
-        ThemeUtils.updateNavAndStatusColors(resources, window)
-    }
-
-    private fun enableNotchArea() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
-                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            } else {
-                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
-            }
-
-            /**
-             * If the notch area is enabled, we need to add padding to the left side of the app
-             * to avoid the notch area overlapping the app content and the app content overlapping
-             * the notch area.
-             */
-            if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED)) {
-                val root = findViewById<ViewGroup>(R.id.app_container)
-
-                ViewCompat.setOnApplyWindowInsetsListener(root) { _, windowInsets ->
-                    val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-                    cutoutDepth = insets.top
-                    WindowInsetsCompat.CONSUMED
-                }
-            }
-        }
-    }
-
-    private val orientationListener by lazy {
-        object : OrientationEventListener(applicationContext, SensorManager.SENSOR_DELAY_NORMAL) {
-            override fun onOrientationChanged(orientation: Int) {
-                try {
-                    if (DevelopmentPreferences.get(DevelopmentPreferences.IS_NOTCH_AREA_ENABLED).invert()) {
-                        return
-                    }
-
-                    if (orientation == ORIENTATION_UNKNOWN) {
-                        return
-                    }
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        with(findViewById<ViewGroup>(R.id.app_container)) {
-                            when (display?.rotation) {
-                                Surface.ROTATION_0 -> {
-                                    // Bottom - reset the padding in portrait
-                                    defaultPadding()
-                                }
-
-                                Surface.ROTATION_90 -> {
-                                    // Left
-                                    setPaddingLeft(cutoutDepth)
-                                }
-
-                                Surface.ROTATION_180 -> {
-                                    // Top - reset the padding if upside down
-                                    defaultPadding()
-                                }
-
-                                Surface.ROTATION_270 -> {
-                                    // Right
-                                    setPaddingRight(cutoutDepth)
-                                }
-                            }
-                        }
-                    } else {
-                        with(findViewById<ViewGroup>(R.id.app_container)) {
-                            @Suppress("DEPRECATION")
-                            when ((getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
-                                Surface.ROTATION_0 -> {
-                                    // Bottom - reset the padding in portrait
-                                    defaultPadding()
-                                }
-
-                                Surface.ROTATION_90 -> {
-                                    // Left
-                                    setPaddingLeft(cutoutDepth)
-                                }
-
-                                Surface.ROTATION_180 -> {
-                                    // Top - reset the padding if upside down
-                                    defaultPadding()
-                                }
-
-                                Surface.ROTATION_270 -> {
-                                    // Right
-                                    setPaddingRight(cutoutDepth)
-                                }
-                            }
-                        }
-                    }
-                } catch (_: NullPointerException) {
-                    /* no-op */
-                }
-            }
         }
     }
 
@@ -477,82 +256,10 @@ open class BaseActivity : AppCompatActivity(),
         })
     }
 
-    private fun applyInsets() {
-        lifecycleScope.launch {
-            delay((0x2710..0x61A8).random().toLong())
-
-            try {
-                val method = TrialPreferences::class.java.getDeclaredMethod("getMaxDays")
-                method.isAccessible = true
-
-                // Check if the method is static
-                val isStatic = java.lang.reflect.Modifier.isStatic(method.modifiers)
-                val maxDays = if (isStatic) {
-                    method.invoke(null) as Int
-                } else {
-                    val instance = TrialPreferences // Create an instance if the method is not static
-                    method.invoke(instance) as Int
-                }
-
-                if (maxDays > 0xF) {
-                    finish()
-                }
-            } catch (e: NoSuchMethodException) {
-                finish()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            //            try {
-            //                val buildConfigClass = Class.forName("app.simple.inure.BuildConfig")
-            //                val versionCodeField = buildConfigClass.getDeclaredField("VERSION_CODE")
-            //                versionCodeField.isAccessible = true
-            //                val versionCode = versionCodeField.getInt(null)
-            //
-            //                if (code != versionCode) {
-            //                    finish()
-            //                }
-            //            } catch (e: ClassNotFoundException) {
-            //                e.printStackTrace()
-            //            } catch (e: NoSuchFieldException) {
-            //                e.printStackTrace()
-            //            } catch (e: IllegalAccessException) {
-            //                e.printStackTrace()
-            //            }
-        }
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: android.content.SharedPreferences?, key: String?) {
         when (key) {
-            DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS,
-            DevelopmentPreferences.DIVIDER_ON_NAVIGATION_BAR -> {
-                makeAppFullScreen()
-                fixNavigationBarOverlap()
-            }
 
-            AppearancePreferences.ACCENT_COLOR,
-            AppearancePreferences.ACCENT_ON_NAV -> {
-                Log.d("BaseActivity", "Accent color changed")
-                setNavColor()
-            }
-
-            BehaviourPreferences.ARC_TYPE -> {
-                // setArc()
-            }
-
-            BehaviourPreferences.TRANSITION_TYPE -> {
-                // setTransitions()
-            }
-
-            DevelopmentPreferences.IS_NOTCH_AREA_ENABLED -> {
-                enableNotchArea()
-            }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        orientationListener.disable()
     }
 
     override fun onDestroy() {

@@ -384,8 +384,6 @@
     <string name="desc_licenses">Lista de licenças das bibliotecas de código aberto usadas no desenvolvimento deste aplicativo.</string>
     <string name="change_logs">Registro de mudanças</string>
     <string name="desc_changelogs">Verificar alterações e melhorias na versão atual dos apps e planos para as atualizações futuras.</string>
-    <string name="accent_for_nav">Cor de destaque na barra de navegação</string>
-    <string name="desc_accent_on_nav">Aplicar cor de destaque na barra de navegação em vez de usar fundos especificados pelo sistema.</string>
     <string name="static_backgrounds">Fundos Estáticos</string>
     <string name="desc_static_backgrounds">Substitua efeitos de ondulação de todos os ícones e botões clicáveis em todo o app com fundos estáticos e feedback de cliques alternativos.</string>
     <string name="accessibility">Acessibilidade</string>

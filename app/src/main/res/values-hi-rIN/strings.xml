@@ -384,8 +384,6 @@
     <string name="desc_licenses">इस ऐप के विकास में प्रयुक्त ओपन सोर्स लाइब्रेरीज़ के लाइसेंसों की सूची।</string>
     <string name="change_logs">चेंज लॉग</string>
     <string name="desc_changelogs">ऐप्स के वर्तमान संस्करण में परिवर्तन और सुधार देखें तथा भविष्य के अपडेट की योजना देखें।</string>
-    <string name="accent_for_nav">नेविगेशन बार पर एक्सेंट रंग</string>
-    <string name="desc_accent_on_nav">सिस्टम द्वारा निर्दिष्ट पृष्ठभूमि का उपयोग करने के बजाय नेविगेशन बार पर एक्सेंट रंग लागू करें।</string>
     <string name="static_backgrounds">स्थैतिक पृष्ठभूमि</string>
     <string name="desc_static_backgrounds">संपूर्ण ऐप में सभी क्लिक करने योग्य आइकन और बटनों के तरंग प्रभावों को स्थिर पृष्ठभूमि और वैकल्पिक क्लिक फीडबैक से बदलें।</string>
     <string name="accessibility">एक्सेसिबिलिटी</string>

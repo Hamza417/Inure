@@ -19,6 +19,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginStart
+import androidx.core.view.updateLayoutParams
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
 import app.simple.inure.R.dimen
@@ -443,6 +449,80 @@ object ViewUtils {
                 /* no-op */
             }
         })
+    }
+
+    fun View.marginEdgeToEdge() {
+        ViewCompat.setOnApplyWindowInsetsListener(this) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left + v.marginStart
+                bottomMargin = insets.bottom + v.marginBottom
+                rightMargin = insets.right + v.marginEnd
+            }
+
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    fun View.paddingEdgeToEdge() {
+        val originalPaddingLeft = paddingLeft
+        val originalPaddingTop = paddingTop
+        val originalPaddingRight = paddingRight
+        val originalPaddingBottom = paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+
+            view.setPadding(
+                    originalPaddingLeft + insets.left,
+                    originalPaddingTop + insets.top,
+                    originalPaddingRight + insets.right,
+                    originalPaddingBottom + insets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        }
+    }
+
+    fun View.applyEdgeToEdge(
+            listenForStatusBars: Boolean = false,
+            listenForNavigationBars: Boolean = false
+    ) {
+        val originalPaddingLeft = paddingLeft
+        val originalPaddingTop = paddingTop
+        val originalPaddingRight = paddingRight
+        val originalPaddingBottom = paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+            var leftInset = 0
+            var topInset = 0
+            var rightInset = 0
+            var bottomInset = 0
+
+            if (listenForStatusBars) {
+                val statusBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars())
+                leftInset += statusBarInsets.left
+                topInset += statusBarInsets.top
+                rightInset += statusBarInsets.right
+            }
+
+            if (listenForNavigationBars) {
+                val navigationBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                leftInset += navigationBarInsets.left
+                rightInset += navigationBarInsets.right
+                bottomInset += navigationBarInsets.bottom
+            }
+
+            view.setPadding(
+                    originalPaddingLeft + leftInset,
+                    originalPaddingTop + topInset,
+                    originalPaddingRight + rightInset,
+                    originalPaddingBottom + bottomInset
+            )
+
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     fun ViewGroup.setPaddingLeft(padding: Int) {

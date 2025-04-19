@@ -28,7 +28,6 @@ object AppearancePreferences {
     const val IS_CUSTOM_COLOR = "is_custom_color"
     const val THEME = "current_app_theme"
     const val ACCENT_COLOR = "app_accent_color"
-    const val ACCENT_ON_NAV = "accent_color_on_nav_bar"
     const val ICON_SIZE = "app_icon_size"
 
     var minIconSize = 0
@@ -182,16 +181,6 @@ object AppearancePreferences {
 
     fun isIconShadowsOn(): Boolean {
         return getSharedPreferences().getBoolean(ICON_SHADOWS, true)
-    }
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setAccentOnNavigationBar(boolean: Boolean) {
-        getSharedPreferences().edit().putBoolean(ACCENT_ON_NAV, boolean).apply()
-    }
-
-    fun isAccentOnNavigationBar(): Boolean {
-        return getSharedPreferences().getBoolean(ACCENT_ON_NAV, false)
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

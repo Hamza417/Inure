@@ -384,8 +384,6 @@
     <string name="desc_licenses">Bu uygulamanın geliştirilmesinde kullanılan açık kaynak kütüphanelerinin lisanslarının listesi.</string>
     <string name="change_logs">Değişim Günlükleri</string>
     <string name="desc_changelogs">Uygulamaların mevcut sürümündeki değişiklikleri ve iyileştirmeleri ve gelecekteki güncellemeler için planları kontrol edin.</string>
-    <string name="accent_for_nav">Gezinti Çubuğundaki Vurgu Rengi</string>
-    <string name="desc_accent_on_nav">Sistem tarafından belirlenen arka planları kullanmak yerine Gezinti Çubuğuna vurgu rengi uygulayın.</string>
     <string name="static_backgrounds">Statik Arka Planlar</string>
     <string name="desc_static_backgrounds">Uygulamadaki tüm tıklanabilir simgeler ve düğmelerdeki dalgalanma efektlerini statik arka planlar ve alternatif tıklama geri bildirimleriyle değiştirin.</string>
     <string name="accessibility">Erişilebilirlik</string>

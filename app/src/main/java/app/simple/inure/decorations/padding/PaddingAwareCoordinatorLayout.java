@@ -12,8 +12,7 @@ import org.jetbrains.annotations.TestOnly;
 import androidx.annotation.Nullable;
 import app.simple.inure.R;
 import app.simple.inure.decorations.theme.ThemeCoordinatorLayout;
-import app.simple.inure.preferences.DevelopmentPreferences;
-import app.simple.inure.util.StatusBarHeight;
+import app.simple.inure.util.ViewUtils;
 
 public class PaddingAwareCoordinatorLayout extends ThemeCoordinatorLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -36,7 +35,7 @@ public class PaddingAwareCoordinatorLayout extends ThemeCoordinatorLayout implem
         if (isInEditMode()) {
             return;
         }
-        updatePadding();
+        ViewUtils.INSTANCE.paddingEdgeToEdge(this);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
     
@@ -51,31 +50,9 @@ public class PaddingAwareCoordinatorLayout extends ThemeCoordinatorLayout implem
         getLayoutTransition().setInterpolator(LayoutTransition.DISAPPEARING, new DecelerateInterpolator(1.5F));
     }
     
-    private void updatePadding() {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
-                setPadding(getPaddingLeft(),
-                        Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
-                        getPaddingRight(),
-                        getPaddingBottom());
-            }
-        } else {
-            setPadding(getPaddingLeft(),
-                    StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
-                    getPaddingRight(),
-                    getPaddingBottom());
-        }
-    }
-    
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        try {
-            if (key.equals(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-                updatePadding();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+    
     }
     
     @Override

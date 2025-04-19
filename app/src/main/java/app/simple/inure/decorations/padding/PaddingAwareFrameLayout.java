@@ -7,8 +7,7 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import app.simple.inure.decorations.theme.ThemeFrameLayout;
-import app.simple.inure.preferences.DevelopmentPreferences;
-import app.simple.inure.util.StatusBarHeight;
+import app.simple.inure.util.ViewUtils;
 
 public class PaddingAwareFrameLayout extends ThemeFrameLayout implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -26,32 +25,14 @@ public class PaddingAwareFrameLayout extends ThemeFrameLayout implements SharedP
         if (isInEditMode()) {
             return;
         }
-    
-        updatePadding();
+        
+        ViewUtils.INSTANCE.paddingEdgeToEdge(this);
         app.simple.inure.preferences.SharedPreferences.INSTANCE.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-    
-    private void updatePadding() {
-        if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            if (getPaddingTop() >= StatusBarHeight.getStatusBarHeight(getResources())) {
-                setPadding(getPaddingLeft(),
-                        Math.abs(StatusBarHeight.getStatusBarHeight(getResources()) - getPaddingTop()),
-                        getPaddingRight(),
-                        getPaddingBottom());
-            }
-        } else {
-            setPadding(getPaddingLeft(),
-                    StatusBarHeight.getStatusBarHeight(getResources()) + getPaddingTop(),
-                    getPaddingRight(),
-                    getPaddingBottom());
-        }
     }
     
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-            updatePadding();
-        }
+    
     }
     
     @Override

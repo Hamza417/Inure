@@ -36,7 +36,6 @@ class CrashReporterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crash)
-        fixNavigationBarOverlap()
 
         warning = findViewById(R.id.warning)
         message = findViewById(R.id.message)

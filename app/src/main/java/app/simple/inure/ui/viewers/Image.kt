@@ -33,7 +33,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.ImageViewerViewModelFactory
 import app.simple.inure.popups.viewers.PopupImageViewer
 import app.simple.inure.preferences.AppearancePreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.ImageViewerPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
@@ -46,7 +45,6 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import java.io.File
 import java.io.IOException
-import kotlin.math.abs
 
 class Image : ScopedFragment() {
 
@@ -113,19 +111,10 @@ class Image : ScopedFragment() {
         setBackgroundColor(animate = false)
 
         with(header) {
-            if (DevelopmentPreferences.get(DevelopmentPreferences.DISABLE_TRANSPARENT_STATUS)) {
-                if (paddingTop >= StatusBarHeight.getStatusBarHeight(resources)) {
-                    setPadding(paddingLeft,
-                               abs(StatusBarHeight.getStatusBarHeight(resources) - paddingTop),
-                               paddingRight,
-                               paddingBottom)
-                }
-            } else {
-                setPadding(paddingLeft,
-                           StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
-                           paddingRight,
-                           paddingBottom)
-            }
+            setPadding(paddingLeft,
+                       StatusBarHeight.getStatusBarHeight(resources) + paddingTop,
+                       paddingRight,
+                       paddingBottom)
         }
 
         imageViewerViewModel.getBitmap().observe(viewLifecycleOwner) {

@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import androidx.core.content.edit
 import app.simple.inure.models.DevelopmentPreferencesModel
 
 object DevelopmentPreferences {
@@ -18,16 +19,13 @@ object DevelopmentPreferences {
     const val ENABLE_DEVICE_INFO = "is_device_info_enabled"
     const val ADD_BITMAP_TO_METADATA = "is_bitmap_added_to_metadata"
     const val ENABLE_HIDDEN_APPS = "is_hidden_apps_enabled"
-    const val DISABLE_TRANSPARENT_STATUS = "is_transparent_status_disabled_removed"
     const val LOAD_ALL_INSTALLER_PAGES = "is_all_installer_pages_loaded"
-    const val IS_NOTCH_AREA_ENABLED = "is_notch_area_enabled"
     const val IS_TEXT_SELECTABLE = "is_text_selectable"
     const val SHOW_GREETING_IN_TERMINAL = "is_greeting_shown_in_terminal"
     const val OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG = "is_old_style_scrolling_behavior_dialog_enabled"
     const val USE_ALTERNATE_AUDIO_PLAYER_INTERFACE = "is_alternate_audio_player_interface_enabled"
     const val SHOW_COMPLETE_APP_SIZE = "is_complete_app_size_shown"
     const val PADDING_LESS_POPUP_MENUS = "is_padding_less_popup_menus_enabled"
-    const val DIVIDER_ON_NAVIGATION_BAR = "is_divider_on_navigation_bar_enabled"
     const val PAUSE_IMAGE_LOADER = "is_image_loader_paused"
     const val EXPAND_HOME_HEADER = "is_home_header_expanded"
     const val IS_SWITCH_FANCY_DRAGGABLE = "is_switch_fancy_draggable"
@@ -118,22 +116,9 @@ object DevelopmentPreferences {
                                             ENABLE_HIDDEN_APPS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
-                DevelopmentPreferencesModel("Disable Transparent Status",
-                                            "Disable transparent status bar in the app. This will make the status bar opaque.",
-                                            DISABLE_TRANSPARENT_STATUS,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
                 DevelopmentPreferencesModel("Load All Installer Pages",
                                             "Load all installer pages at once, reduces initial performance but improves scrolling performance.",
                                             LOAD_ALL_INSTALLER_PAGES,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable Notch Area",
-                                            "Enable notch area in the app. This will make the app render in the notch" +
-                                                    " cutout area (Android Version >= P 9.0)." +
-                                                    "\n\n" +
-                                                    "May cause navigation bar overlapping issue.",
-                                            IS_NOTCH_AREA_ENABLED,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Text Selection",
@@ -164,11 +149,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Padding Less Popup Menus",
                                             "Remove padding from popup menus.",
                                             PADDING_LESS_POPUP_MENUS,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Hide Divider On Navigation Bar",
-                                            "Hide divider on navigation bar in the app (Android Version >= P 9.0).",
-                                            DIVIDER_ON_NAVIGATION_BAR,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Pause Image Loader",
@@ -233,7 +213,7 @@ object DevelopmentPreferences {
     }
 
     fun set(key: String, value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(key, value).apply()
+        SharedPreferences.getSharedPreferences().edit { putBoolean(key, value) }
     }
 
     // ---------------------------------------------------------------------------------------------------------- //
