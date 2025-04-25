@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -35,6 +35,8 @@ import app.simple.inure.dialogs.batch.BatchProfiles.Companion.showBatchProfiles
 import app.simple.inure.dialogs.batch.BatchSaveProfile.Companion.showBatchProfileSave
 import app.simple.inure.dialogs.batch.BatchSort.Companion.showBatchSort
 import app.simple.inure.dialogs.batch.BatchState.Companion.showBatchStateDialog
+import app.simple.inure.dialogs.batch.BatchStateSelector.Companion.BatchStateSelectorCallback
+import app.simple.inure.dialogs.batch.BatchStateSelector.Companion.showBatchStateSelector
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.dialogs.miscellaneous.GenerateAppData.Companion.showGeneratedDataTypeSelector
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
@@ -49,7 +51,6 @@ import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.models.BatchProfile
 import app.simple.inure.models.Tag
-import app.simple.inure.popups.batch.PopupBatchState
 import app.simple.inure.preferences.BatchPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SharedPreferences.registerSharedPreferenceChangeListener
@@ -226,7 +227,7 @@ class Batch : ScopedFragment() {
                 }
 
                 R.drawable.ic_extension -> {
-                    childFragmentManager.showBatchActions().setBatchActionCallbackListener { iconId, view ->
+                    childFragmentManager.showBatchActions().setBatchActionCallbackListener { iconId, _ ->
                         when (iconId) {
                             R.drawable.ic_delete -> {
                                 if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
@@ -240,7 +241,7 @@ class Batch : ScopedFragment() {
                                                     @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
                                                     intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
                                                     intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
-                                                    intent.data = Uri.parse("package:${app.packageInfo.packageName}")
+                                                    intent.data = "package:${app.packageInfo.packageName}".toUri()
                                                     appUninstallObserver.launch(intent)
                                                 }
                                             }
@@ -253,7 +254,7 @@ class Batch : ScopedFragment() {
 
                             R.drawable.ic_hide_source -> {
                                 if (adapterBatch?.getSelectedAppsCount()!! < adapterBatch?.itemCount!!.minus(1)) { // We're subtracting one because header
-                                    PopupBatchState(view).setOnPopupBatchStateCallbacks(object : PopupBatchState.Companion.PopupBatchStateCallbacks {
+                                    childFragmentManager.showBatchStateSelector().onBatchStateSelectorCallback(object : BatchStateSelectorCallback {
                                         override fun onEnableAll() {
                                             onSure {
                                                 childFragmentManager.showBatchStateDialog(adapterBatch!!.getCurrentAppsList(), true) {
