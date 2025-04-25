@@ -69,197 +69,66 @@ object APKParser {
         }
     }
 
-    fun PackageInfo.getNativeLibraries(context: Context): StringBuilder {
-        val stringBuilder = StringBuilder()
-        val appInfo = safeApplicationInfo
-        val allFiles = arrayListOf<String>()
-
-        allFiles.add(appInfo.sourceDir)
-        kotlin.runCatching {
-            allFiles.addAll(appInfo.splitSourceDirs!!)
+    fun PackageInfo.getNativeLibraries(context: Context): String {
+        val allFiles = mutableListOf<String>().apply {
+            add(safeApplicationInfo.sourceDir)
+            safeApplicationInfo.splitSourceDirs?.let { addAll(it) }
+            safeApplicationInfo.splitPublicSourceDirs?.let { addAll(it) }
         }
 
-        allFiles.forEach {
-            kotlin.runCatching {
-                val file = File(it)
-                if (file.exists()) {
-                    val libs = file.getNativeLibraries(context).toString()
+        val libraries = allFiles.mapNotNull { filePath ->
+            File(filePath).takeIf { it.exists() }?.getNativeLibraries(context)
+        }.filter { it.isNotBlank() }
 
-                    if (libs.isNotBlank() && libs != context.getString(R.string.none)) {
-                        if (stringBuilder.isNotEmpty()) {
-                            stringBuilder.append("\n")
-                        }
-
-                        stringBuilder.append(libs)
-                    }
-                }
-            }
+        return if (libraries.isEmpty()) {
+            context.getString(R.string.none)
+        } else {
+            libraries.joinToString("\n")
         }
-
-        if (stringBuilder.isBlank()) {
-            stringBuilder.append(context.getString(R.string.none))
-        }
-
-        return stringBuilder
     }
 
-    fun File.getNativeLibraries(context: Context): StringBuilder {
-        val stringBuilder = StringBuilder()
-        var zipFile: ZipFile? = null
-        try {
-            zipFile = ZipFile(path)
-            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
-            while (entries.hasMoreElements()) {
-                val entry: ZipEntry? = entries.nextElement()
-                val name: String = entry!!.name
-                if (name.contains("lib") || name.contains("libs")) {
-                    if (name.endsWith(".so")) {
-                        if (stringBuilder.isNotEmpty()) {
-                            stringBuilder.append("\n")
-                        }
+    fun File.getNativeLibraries(context: Context): String {
+        return try {
+            ZipFile(this).use { zipFile ->
+                zipFile.entries().asSequence()
+                    .mapNotNull { it?.name }
+                    .filter { it.contains("lib") && it.endsWith(".so") }
+                    .joinToString("\n")
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            context.getString(R.string.error)
+        }
+    }
 
-                        stringBuilder.append(name)
-                    }
+    fun File.getApkArchitecture(context: Context): String {
+        val architectures = mapOf(
+                ARMEABI to "32-bit ARM",
+                ARM64 to "64-bit ARM",
+                ARMv7 to "32-bit ARMv7",
+                MIPS to "MIPS",
+                x86 to "32-bit x86",
+                x86_64 to "64-bit x86"
+        )
+
+        return try {
+            ZipFile(this).use { zipFile ->
+                val detectedArchitectures = zipFile.entries().asSequence()
+                    .mapNotNull { it?.name }
+                    .filter { it.contains("lib") }
+                    .mapNotNull { name -> architectures.keys.find { name.contains(it) } }
+                    .distinct()
+                    .map { architectures[it] ?: it }
+                    .joinToString(" | ")
+
+                detectedArchitectures.ifBlank {
+                    context.getString(R.string.unspecified)
                 }
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            if (stringBuilder.isBlank()) {
-                stringBuilder.append(context.getString(R.string.error))
-            }
-        } finally {
-            if (zipFile != null) {
-                try {
-                    zipFile.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
+            context.getString(R.string.error)
         }
-
-        if (stringBuilder.isBlank()) {
-            stringBuilder.append(context.getString(R.string.none))
-        }
-
-        return stringBuilder
-    }
-
-    fun File.getApkArchitecture(context: Context): StringBuilder {
-        var zipFile: ZipFile? = null
-        val stringBuilder = StringBuilder()
-
-        try {
-            zipFile = ZipFile(path)
-            val entries: Enumeration<out ZipEntry?> = zipFile.entries()
-            while (entries.hasMoreElements()) {
-                val entry: ZipEntry? = entries.nextElement()
-                val name: String = entry!!.name
-
-                if (name.contains("lib")) {
-                    if (name.contains(ARMEABI)) {
-                        if (!stringBuilder.contains(ARMEABI)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(ARMEABI)
-                            stringBuilder.append(" \"generic\" 32-bit ARM")
-                        }
-                    }
-
-                    if (name.contains(ARM64)) {
-                        if (!stringBuilder.contains(ARM64)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(ARM64)
-                        }
-                    }
-
-                    if (name.contains(ARMv7)) {
-                        if (!stringBuilder.contains(ARMv7)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(ARMv7)
-                        }
-                    }
-
-                    if (name.contains(MIPS)) {
-                        if (!stringBuilder.contains(MIPS)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(MIPS)
-                        }
-                    }
-
-                    if (name.contains(x86)) {
-                        if (!stringBuilder.contains(x86)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(x86)
-                        }
-                    }
-
-                    if (name.contains(x86_64)) {
-                        if (!stringBuilder.contains(x86_64)) {
-                            if (stringBuilder.isNotBlank()) {
-                                stringBuilder.append(" | ")
-                            }
-
-                            stringBuilder.append(x86_64)
-                        }
-                    }
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            if (stringBuilder.isBlank()) {
-                stringBuilder.append(context.getString(R.string.error))
-            }
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-            if (stringBuilder.isBlank()) {
-                stringBuilder.append(context.getString(R.string.not_available))
-            }
-        } finally {
-            if (zipFile != null) {
-                try {
-                    zipFile.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-
-        when {
-            stringBuilder.isBlank() -> {
-                stringBuilder.append(context.getString(R.string.unspecified))
-            }
-            else -> {
-                // Append 32 bit and 64 bit to the start of the string
-                // If it contains the familiar architecture
-                if (stringBuilder.contains(ARMEABI) ||
-                        stringBuilder.contains(ARMv7) ||
-                        stringBuilder.contains(x86) ||
-                        stringBuilder.contains(MIPS)) {
-                    stringBuilder.insert(0, "32-bit | ")
-                }
-
-                if (stringBuilder.contains(ARM64) ||
-                        stringBuilder.contains(x86_64)) {
-                    stringBuilder.insert(0, "64-bit | ")
-                }
-            }
-        }
-
-        return stringBuilder
     }
 
     /**
