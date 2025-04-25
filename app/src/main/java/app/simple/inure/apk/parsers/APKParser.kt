@@ -92,7 +92,7 @@ object APKParser {
             ZipFile(this).use { zipFile ->
                 zipFile.entries().asSequence()
                     .mapNotNull { it?.name }
-                    .filter { it.contains("lib") && it.endsWith(".so") }
+                    .filter { it.contains("lib") && it.endsWith(".so") || it.endsWith(".a") }
                     .joinToString("\n")
             }
         } catch (e: IOException) {
@@ -102,13 +102,13 @@ object APKParser {
     }
 
     fun File.getApkArchitecture(context: Context): String {
-        val architectures = mapOf(
-                ARMEABI to "32-bit ARM",
-                ARM64 to "64-bit ARM",
-                ARMv7 to "32-bit ARMv7",
-                MIPS to "MIPS",
-                x86 to "32-bit x86",
-                x86_64 to "64-bit x86"
+        val architectures = listOf(
+                ARMEABI,
+                ARM64,
+                ARMv7,
+                MIPS,
+                x86,
+                x86_64
         )
 
         return try {
@@ -116,9 +116,9 @@ object APKParser {
                 val detectedArchitectures = zipFile.entries().asSequence()
                     .mapNotNull { it?.name }
                     .filter { it.contains("lib") }
-                    .mapNotNull { name -> architectures.keys.find { name.contains(it) } }
+                    .mapNotNull { name -> architectures.find { name.contains(it) } }
                     .distinct()
-                    .map { architectures[it] ?: it }
+                    .map { architectures }
                     .joinToString(" | ")
 
                 detectedArchitectures.ifBlank {

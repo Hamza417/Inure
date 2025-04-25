@@ -264,13 +264,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getArchitecture(): Pair<Int, Spannable> {
         return Pair(R.string.architecture,
                     packageInfo.safeApplicationInfo.sourceDir.toFile()
-                        .getApkArchitecture(context).toString().applyAccentColor())
+                        .getApkArchitecture(context).applyAccentColor())
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         kotlin.runCatching {
             return Pair(R.string.native_libraries,
-                        packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+                        packageInfo.getNativeLibraries(context).applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.native_libraries,
                         getString(R.string.not_available).applySecondaryTextColor())
