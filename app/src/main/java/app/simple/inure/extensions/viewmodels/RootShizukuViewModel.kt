@@ -162,6 +162,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
     protected fun getCurrentUser(): Int {
         kotlin.runCatching {
             var user = 0
+
             if (ConfigurationPreferences.isUsingRoot()) {
                 Shell.cmd("am get-current-user").exec().let { result ->
                     if (result.isSuccess) {
@@ -178,6 +179,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                 }
             }
 
+            Log.d("RootViewModel", "Current user: $user")
             return user
         }.onFailure {
             postError(it)

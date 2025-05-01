@@ -227,13 +227,13 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Shell.cmd("run-as ${applicationContext().packageName}").exec()
+                // Shell.cmd("run-as ${applicationContext().packageName}").exec()
 
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d(TAG, "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
                     Log.d(TAG, "Output: $out")
-                    with(out[0]) {
+                    with(out.first()) {
                         substringAfter("[").substringBefore("]").toInt()
                     }
                 }
@@ -354,6 +354,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
     private fun installCommand(): String {
         return buildString {
+            Log.i(TAG, "creating install command...")
             append("pm install-create")
             append(" -i ${InstallerPreferences.getInstallerPackageName(applicationContext())}")
 
