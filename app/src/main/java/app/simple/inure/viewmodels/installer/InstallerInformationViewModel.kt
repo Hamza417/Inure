@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
+import app.simple.inure.apk.parsers.APKParser.getArchitecture
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getMinSDK
@@ -55,11 +55,6 @@ class InstallerInformationViewModel(application: Application, private val file: 
     private fun loadInformation() {
         kotlin.runCatching {
             packageInfo = packageManager.getPackageArchiveInfo(file)
-
-            //            if (packageManager.isPackageInstalled(packageName = packageInfo!!.packageName)) {
-            //                val existingPackage = packageManager.getPackageInfo(packageInfo!!.packageName)!!
-            //                packageInfo?.applicationInfo?.uid = existingPackage.applicationInfo.uid
-            //            }
 
             if (packageInfo!!.packageName.isEmpty()) {
                 throw NullPointerException("package is invalid")
@@ -164,13 +159,13 @@ class InstallerInformationViewModel(application: Application, private val file: 
 
     private fun getArchitecture(): Pair<Int, Spannable> {
         return Pair(R.string.architecture,
-                    file.getApkArchitecture(context).toString().applyAccentColor())
+                    file.getArchitecture(context).applyAccentColor())
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         runCatching {
             return Pair(R.string.native_libraries,
-                        packageInfo?.getNativeLibraries(context).toString().applySecondaryTextColor())
+                        packageInfo!!.getNativeLibraries(context).applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.native_libraries,
                         getString(R.string.not_available).applySecondaryTextColor())

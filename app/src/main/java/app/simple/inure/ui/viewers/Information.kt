@@ -62,6 +62,10 @@ class Information : ScopedFragment() {
             recyclerView.adapter = adapterInformation
         }
 
+        viewModel.error.observe(viewLifecycleOwner) {
+            showError(it, goBack = true)
+        }
+
         back.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }

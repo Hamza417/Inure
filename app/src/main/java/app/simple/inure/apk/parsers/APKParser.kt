@@ -69,16 +69,23 @@ object APKParser {
         }
     }
 
+    @kotlin.jvm.Throws(IOException::class, NullPointerException::class)
     fun PackageInfo.getNativeLibraries(context: Context): String {
-        val allFiles = mutableListOf<String>().apply {
-            add(safeApplicationInfo.sourceDir)
-            safeApplicationInfo.splitSourceDirs?.let { addAll(it) }
-            safeApplicationInfo.splitPublicSourceDirs?.let { addAll(it) }
+        val files = mutableListOf<String>()
+        files.add(safeApplicationInfo.sourceDir)
+        try {
+            files.addAll(safeApplicationInfo.splitSourceDirs ?: emptyArray())
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
         }
 
-        val libraries = allFiles.mapNotNull { filePath ->
-            File(filePath).takeIf { it.exists() }?.getNativeLibraries(context)
-        }.filter { it.isNotBlank() }
+        val libraries = files.mapNotNull { filePath ->
+            File(filePath).takeIf {
+                it.exists()
+            }?.getNativeLibraries()
+        }.filter {
+            it.isNotBlank()
+        }
 
         return if (libraries.isEmpty()) {
             context.getString(R.string.none)
@@ -87,21 +94,16 @@ object APKParser {
         }
     }
 
-    fun File.getNativeLibraries(context: Context): String {
-        return try {
-            ZipFile(this).use { zipFile ->
-                zipFile.entries().asSequence()
-                    .mapNotNull { it?.name }
-                    .filter { it.contains("lib") && it.endsWith(".so") || it.endsWith(".a") }
-                    .joinToString("\n")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            context.getString(R.string.error)
+    fun File.getNativeLibraries(): String {
+        return ZipFile(this).use { zipFile ->
+            zipFile.entries().asSequence()
+                .mapNotNull { it?.name }
+                .filter { it.contains("lib") && it.endsWith(".so") || it.endsWith(".a") }
+                .joinToString("\n")
         }
     }
 
-    fun File.getApkArchitecture(context: Context): String {
+    fun File.getArchitecture(context: Context): String {
         val architectures = listOf(
                 ARMEABI,
                 ARM64,
@@ -118,7 +120,6 @@ object APKParser {
                     .filter { it.contains("lib") }
                     .mapNotNull { name -> architectures.find { name.contains(it) } }
                     .distinct()
-                    .map { architectures }
                     .joinToString(" | ")
 
                 detectedArchitectures.ifBlank {

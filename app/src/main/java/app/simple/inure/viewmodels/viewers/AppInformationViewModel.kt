@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
+import app.simple.inure.apk.parsers.APKParser.getArchitecture
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
@@ -148,7 +148,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             information.postValue(informationList)
         }.onFailure {
             it.printStackTrace()
-            postWarning(it.toString())
+            postError(it)
         }
     }
 
@@ -264,7 +264,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     private fun getArchitecture(): Pair<Int, Spannable> {
         return Pair(R.string.architecture,
                     packageInfo.safeApplicationInfo.sourceDir.toFile()
-                        .getApkArchitecture(context).applyAccentColor())
+                        .getArchitecture(context).applyAccentColor())
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
