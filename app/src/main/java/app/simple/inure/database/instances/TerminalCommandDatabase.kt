@@ -15,7 +15,7 @@ abstract class TerminalCommandDatabase : RoomDatabase() {
 
     companion object {
         private var instance: TerminalCommandDatabase? = null
-        private const val db_name = "terminal_commands.db"
+        private const val DB_NAME = "terminal_commands.db"
 
         fun getTerminalCommandDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -25,13 +25,11 @@ abstract class TerminalCommandDatabase : RoomDatabase() {
         fun getInstance(context: Context): TerminalCommandDatabase? {
             kotlin.runCatching {
                 if (instance!!.isOpen.invert()) {
-                    instance = Room.databaseBuilder(context, TerminalCommandDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    instance = Room.databaseBuilder(context, TerminalCommandDatabase::class.java, DB_NAME)
                         .build()
                 }
             }.getOrElse {
-                instance = Room.databaseBuilder(context, TerminalCommandDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                instance = Room.databaseBuilder(context, TerminalCommandDatabase::class.java, DB_NAME)
                     .build()
             }
 

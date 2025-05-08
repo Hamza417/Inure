@@ -27,7 +27,6 @@ abstract class FOSSDatabase : RoomDatabase() {
             instance = if (instance.isNull()) {
                 Room.databaseBuilder(context, FOSSDatabase::class.java, DB_NAME)
                     .addMigrations(migration_1_2)
-                    .fallbackToDestructiveMigration()
                     .build()
             } else {
                 if (instance!!.isOpen) {
@@ -35,7 +34,6 @@ abstract class FOSSDatabase : RoomDatabase() {
                 } else {
                     Room.databaseBuilder(context, FOSSDatabase::class.java, DB_NAME)
                         .addMigrations(migration_1_2)
-                        .fallbackToDestructiveMigration()
                         .build()
                 }
             }

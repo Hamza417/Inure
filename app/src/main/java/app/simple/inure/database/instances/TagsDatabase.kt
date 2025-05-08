@@ -15,7 +15,7 @@ abstract class TagsDatabase : RoomDatabase() {
 
     companion object {
         private var instance: TagsDatabase? = null
-        private const val db_name = "tag_data.db"
+        private const val DB_NAME = "tag_data.db"
 
         fun getTagDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -24,15 +24,13 @@ abstract class TagsDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): TagsDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, TagsDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                Room.databaseBuilder(context, TagsDatabase::class.java, DB_NAME)
                     .build()
             } else {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, TagsDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    Room.databaseBuilder(context, TagsDatabase::class.java, DB_NAME)
                         .build()
                 }
             }
