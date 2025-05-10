@@ -14,6 +14,7 @@ import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
+import app.simple.inure.util.NullSafety.isNotNullOrEmpty
 import com.android.apksig.apk.ApkFormatException
 import com.android.apksig.apk.ApkUtils
 import com.android.apksig.apk.ApkUtils.ZipSections
@@ -73,8 +74,11 @@ object APKParser {
     fun PackageInfo.getNativeLibraries(context: Context): String {
         val files = mutableListOf<String>()
         files.add(safeApplicationInfo.sourceDir)
+
         try {
-            files.addAll(safeApplicationInfo.splitSourceDirs ?: emptyArray())
+            if (safeApplicationInfo.splitSourceDirs.isNotNullOrEmpty()) {
+                files.addAll(safeApplicationInfo.splitSourceDirs!!)
+            }
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
