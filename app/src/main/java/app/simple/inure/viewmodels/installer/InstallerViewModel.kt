@@ -331,7 +331,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                postWarning(e.message ?: e.stackTraceToString())
+                postError(e)
             }
         }
     }

@@ -289,33 +289,16 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     hideLoader()
                 }
 
-                val titles = arrayListOf<String>()
-
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_INFO_VISIBLE)) {
-                    titles.add(getString(R.string.information))
+                val titles = arrayListOf<String>().apply {
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_INFO_VISIBLE)) add(getString(R.string.information))
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CHANGES_VISIBLE)) add(getString(R.string.changes))
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_PERMISSIONS_VISIBLE)) add(getString(R.string.permissions))
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_MANIFEST_VISIBLE)) add(getString(R.string.manifest))
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CERTIFICATE_VISIBLE)) add(getString(R.string.certificate))
+                    if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) add(getString(R.string.trackers))
                 }
 
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CHANGES_VISIBLE)) {
-                    titles.add(getString(R.string.changes))
-                }
-
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_PERMISSIONS_VISIBLE)) {
-                    titles.add(getString(R.string.permissions))
-                }
-
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_MANIFEST_VISIBLE)) {
-                    titles.add(getString(R.string.manifest))
-                }
-
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CERTIFICATE_VISIBLE)) {
-                    titles.add(getString(R.string.certificate))
-                }
-
-                if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) {
-                    titles.add(getString(R.string.trackers))
-                }
-
-                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toArray(arrayOf<String>()))
+                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray())
                 tabBar.initWithViewPager(viewPager, titles)
             }.onFailure {
                 showError(it)
