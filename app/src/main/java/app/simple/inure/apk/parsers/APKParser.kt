@@ -14,7 +14,6 @@ import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
-import app.simple.inure.util.StringUtils.appendFlag
 import com.android.apksig.apk.ApkFormatException
 import com.android.apksig.apk.ApkUtils
 import com.android.apksig.apk.ApkUtils.ZipSections
@@ -118,8 +117,34 @@ object APKParser {
         }
     }
 
+    fun PackageInfo.getArchitecture(context: Context): String {
+        val files = mutableListOf<String>()
+        files.add(safeApplicationInfo.sourceDir)
+
+        safeApplicationInfo.splitSourceDirs?.let {
+            files.addAll(it)
+        }
+
+        val architectures: List<String> = files.mapNotNull { filePath ->
+            File(filePath).takeIf {
+                it.exists()
+            }?.getArchitecture(context)
+        }.filter {
+            it.isNotBlank()
+        }
+
+        return if (architectures.isEmpty()) {
+            context.getString(R.string.unspecified)
+        } else {
+            architectures.joinToString(" | ")
+                .split(" | ")
+                .distinct()
+                .joinToString(" | ")
+        }
+    }
+
     fun File.getArchitecture(context: Context): String {
-        val architectures = _32Bit + _64Bit
+        val architectures = _64Bit + _32Bit
 
         return try {
             ZipFile(this).use { zipFile ->
@@ -145,9 +170,7 @@ object APKParser {
                     append(detectedArchitectures.joinToString(" | "))
                 }
 
-                result.ifBlank {
-                    context.getString(R.string.unspecified)
-                }
+                result
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -227,7 +250,6 @@ object APKParser {
      * Get list of all raster image files within an APK file
      */
     fun getGraphicsFiles(path: String?, keyword: String): MutableList<Graphic> {
-
         val graphicsFiles: MutableList<Graphic> = ArrayList()
         var zipFile: ZipFile? = null
         try {

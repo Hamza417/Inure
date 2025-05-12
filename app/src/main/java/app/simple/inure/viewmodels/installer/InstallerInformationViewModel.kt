@@ -161,8 +161,13 @@ class InstallerInformationViewModel(application: Application, private val file: 
     }
 
     private fun getArchitecture(): Pair<Int, Spannable> {
-        return Pair(R.string.architecture,
-                    file.getArchitecture(context).applyAccentColor())
+        kotlin.runCatching {
+            return Pair(R.string.architecture,
+                        packageInfo!!.getArchitecture(context).applyAccentColor())
+        }.getOrElse {
+            return Pair(R.string.architecture,
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
