@@ -61,6 +61,8 @@ class InstallerInformationViewModel(application: Application, private val file: 
                 throw NullPointerException("package is invalid")
             }
 
+            packageInfo?.safeApplicationInfo?.sourceDir = file.absolutePath
+
             file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!.forEach {
                 Log.d("InstallerInformationViewModel", it.absolutePath)
             }

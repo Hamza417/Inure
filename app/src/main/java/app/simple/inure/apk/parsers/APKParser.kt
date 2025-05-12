@@ -14,6 +14,7 @@ import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils
+import app.simple.inure.util.StringUtils.appendFlag
 import com.android.apksig.apk.ApkFormatException
 import com.android.apksig.apk.ApkUtils
 import com.android.apksig.apk.ApkUtils.ZipSections
@@ -34,15 +35,30 @@ import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
-@Suppress("ConstPropertyName")
+@Suppress("ConstPropertyName", "ObjectPrivatePropertyName")
 object APKParser {
 
-    private const val ARMEABI = "armeabi"
+    private const val ARMEABI = "armeabi \"generic\" 32-bit ARM"
     private const val ARM64 = "arm64-v8a"
     private const val ARMv7 = "armeabi-v7a"
     private const val MIPS = "mips"
     private const val x86 = "x86"
     private const val x86_64 = "x86_64"
+
+    private const val __32Bit = "32-bit"
+    private const val __64Bit = "64-bit"
+
+    private val _32Bit = listOf(
+            ARMEABI,
+            ARMv7,
+            MIPS,
+            x86
+    )
+
+    private val _64Bit = listOf(
+            ARM64,
+            x86_64
+    )
 
     const val ANDROID_MANIFEST = "AndroidManifest.xml"
 
@@ -97,31 +113,39 @@ object APKParser {
         return ZipFile(this).use { zipFile ->
             zipFile.entries().asSequence()
                 .mapNotNull { it?.name }
-                .filter { it.contains("lib") && it.endsWith(".so") || it.endsWith(".a") }
+                .filter { it.contains("lib") && it.endsWith(".so") }
                 .joinToString("\n")
         }
     }
 
     fun File.getArchitecture(context: Context): String {
-        val architectures = listOf(
-                ARMEABI,
-                ARM64,
-                ARMv7,
-                MIPS,
-                x86,
-                x86_64
-        )
+        val architectures = _32Bit + _64Bit
 
         return try {
             ZipFile(this).use { zipFile ->
-                val detectedArchitectures = zipFile.entries().asSequence()
+                val entries = zipFile.entries().asSequence()
                     .mapNotNull { it?.name }
+                    .toList() // Convert the sequence to a list to allow multiple iterations
+
+                val detectedArchitectures = entries
                     .filter { it.contains("lib") }
                     .mapNotNull { name -> architectures.find { name.contains(it) } }
                     .distinct()
-                    .joinToString(" | ")
 
-                detectedArchitectures.ifBlank {
+                val result = buildString {
+                    if (detectedArchitectures.any { _32Bit.contains(it) }) {
+                        append(__32Bit)
+                        append(" | ")
+                    }
+                    if (detectedArchitectures.any { _64Bit.contains(it) }) {
+                        append(__64Bit)
+                        append(" | ")
+                    }
+
+                    append(detectedArchitectures.joinToString(" | "))
+                }
+
+                result.ifBlank {
                     context.getString(R.string.unspecified)
                 }
             }
