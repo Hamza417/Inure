@@ -8,6 +8,7 @@ import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
+import app.simple.inure.shizuku.ShizukuUtils
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,12 +36,14 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
             val stateCommand = if (state) "enable" else "disable"
 
             for (app in list) {
-                shizukuServiceHelper.service!!.simpleExecute("pm $stateCommand ${app.packageInfo.packageName}").let {
-                    if (it!!.isSuccess) {
-                        app.packageInfo.safeApplicationInfo.enabled = state
-                    } else {
-                        Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
-                    }
+                kotlin.runCatching {
+                    ShizukuUtils.setAppDisabled(app.packageInfo.safeApplicationInfo.enabled, setOf(app.packageInfo.packageName))
+                }.onFailure {
+                    Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
+                }.onSuccess {
+                    app.packageInfo.safeApplicationInfo.enabled = state
+                }.getOrElse {
+                    Log.e("BatchStateViewModel", "Failed to $stateCommand ${app.packageInfo.packageName}")
                 }
             }
 
