@@ -57,6 +57,11 @@ class Information : InstallerLoaderScopedFragment() {
 
             recyclerView.adapter = adapterInformation
         }
+
+        installerInformationViewModel.getError().observe(viewLifecycleOwner) {
+            onLoadingFinished()
+            showError(it, false)
+        }
     }
 
     override fun setupBackPressedDispatcher() {

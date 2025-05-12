@@ -36,6 +36,7 @@ import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.text.NumberFormat
 
+// TODO - create a base class for this and the other information viewmodels
 class InstallerInformationViewModel(application: Application, private val file: File) : WrappedViewModel(application) {
 
     private var packageInfo: PackageInfo? = null
