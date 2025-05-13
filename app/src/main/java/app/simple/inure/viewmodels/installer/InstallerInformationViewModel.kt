@@ -67,15 +67,14 @@ class InstallerInformationViewModel(application: Application, private val file: 
                 Log.d("InstallerInformationViewModel", it.absolutePath)
             }
 
-            packageInfo?.safeApplicationInfo?.splitSourceDirs =
-                file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!
-                    .filter {
-                        it.extension == "apk" && it.name != file.name
-                    }
-                    .map {
-                        it.absolutePath
-                    }
-                    .toTypedArray()
+            packageInfo?.safeApplicationInfo?.splitSourceDirs = file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!
+                .filter {
+                    it.extension == "apk" && it.name != file.name
+                }
+                .map {
+                    it.absolutePath
+                }
+                .toTypedArray()
 
         }.onFailure {
             postError(it)

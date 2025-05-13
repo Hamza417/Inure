@@ -140,7 +140,7 @@ public class PackageInstaller {
     }
     
     private int getInstallFlags() {
-        int flags = 0;
+        int flags = INSTALL_ALL_WHITELIST_RESTRICTED_PERMISSIONS;
         
         if (InstallerPreferences.INSTANCE.isGrantRuntimePermissions()) {
             flags |= 0x00000100; // PackageManager.INSTALL_GRANT_RUNTIME_PERMISSIONS
@@ -155,7 +155,7 @@ public class PackageInstaller {
             flags |= 0x01000000; // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
         }
         
-        // flags |= 0x00000008; // PackageManager.INSTALL_FORCE_VOLUME_UUID
+        flags |= 0x00000008; // PackageManager.INSTALL_FORCE_VOLUME_UUID
         
         if (InstallerPreferences.INSTANCE.isVersionCodeDowngrade()) {
             flags |= 0x00100000; // PackageManager.INSTALL_ALLOW_DOWNGRADE
