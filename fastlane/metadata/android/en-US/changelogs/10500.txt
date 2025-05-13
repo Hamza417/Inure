@@ -1,0 +1,6 @@
+Note: From Build10400, Inure is now built reproducible. You may need to uninstall the
+previous version before installing due to signature change on F-Droid.
+
+Refer to Change Logs under About section of the app to get the detailed list of all changes in this version.
+
+Feel free to join app's Telegram channel for future development updates: https://t.me/inure_app_manager
