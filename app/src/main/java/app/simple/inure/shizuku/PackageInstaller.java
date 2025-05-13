@@ -32,7 +32,6 @@ import rikka.shizuku.ShizukuBinderWrapper;
 public class PackageInstaller {
     
     private final String TAG = "PackageInstaller";
-    private final int INSTALL_ALL_WHITELIST_RESTRICTED_PERMISSIONS = 0x00400000;
     
     public ShizukuInstall install(List <Uri> uris, Context context) throws Exception {
         android.content.pm.PackageInstaller packageInstaller;
@@ -79,12 +78,13 @@ public class PackageInstaller {
     
     private int createSession(android.content.pm.PackageInstaller packageInstaller)
             throws IOException, NoSuchFieldException, IllegalAccessException {
-        android.content.pm.PackageInstaller.SessionParams sessionParams =
+        android.content.pm.PackageInstaller.SessionParams params =
                 new android.content.pm.PackageInstaller.SessionParams(android.content.pm.PackageInstaller.SessionParams.MODE_FULL_INSTALL);
-        int installFlags = getInstallFlags();
-        PackageInstallerUtils.setInstallFlags(sessionParams, installFlags);
+        int installFlags = PackageInstallerUtils.getInstallFlags(params);
+        installFlags |= getInstallFlags();
+        PackageInstallerUtils.setInstallFlags(params, installFlags);
         
-        return packageInstaller.createSession(sessionParams);
+        return packageInstaller.createSession(params);
     }
     
     private android.content.pm.PackageInstaller.Session openSession(IPackageInstaller packageInstallerService, int sessionId)
@@ -140,7 +140,7 @@ public class PackageInstaller {
     }
     
     private int getInstallFlags() {
-        int flags = INSTALL_ALL_WHITELIST_RESTRICTED_PERMISSIONS;
+        int flags = 0;
         
         if (InstallerPreferences.INSTANCE.isGrantRuntimePermissions()) {
             flags |= 0x00000100; // PackageManager.INSTALL_GRANT_RUNTIME_PERMISSIONS
