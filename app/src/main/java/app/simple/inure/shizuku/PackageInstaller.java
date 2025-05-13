@@ -155,8 +155,6 @@ public class PackageInstaller {
             flags |= 0x01000000; // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
         }
         
-        flags |= 0x00000008; // PackageManager.INSTALL_FORCE_VOLUME_UUID
-        
         if (InstallerPreferences.INSTANCE.isVersionCodeDowngrade()) {
             flags |= 0x00100000; // PackageManager.INSTALL_ALLOW_DOWNGRADE
             flags |= 0x00000080; // PackageManager.INSTALL_REQUEST_DOWNGRADE
