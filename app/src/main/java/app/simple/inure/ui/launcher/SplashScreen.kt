@@ -62,7 +62,6 @@ import app.simple.inure.viewmodels.panels.NotesViewModel
 import app.simple.inure.viewmodels.panels.SearchViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
-import app.simple.inure.viewmodels.viewers.SensorsViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -207,7 +206,6 @@ class SplashScreen : ScopedFragment() {
 
         val appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
-        val sensorsViewModel = ViewModelProvider(requireActivity())[SensorsViewModel::class.java]
         val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
@@ -253,12 +251,6 @@ class SplashScreen : ScopedFragment() {
         usageStatsData.usageData.observe(viewLifecycleOwner) {
             Log.d(TAG, "Usage stats loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isUsageDataLoaded = true
-            openApp()
-        }
-
-        sensorsViewModel.getSensorsData().observe(viewLifecycleOwner) {
-            Log.d(TAG, "Sensors loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
-            areSensorsLoaded = true
             openApp()
         }
 

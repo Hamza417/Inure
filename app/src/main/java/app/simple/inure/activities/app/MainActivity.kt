@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,7 +16,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
@@ -41,7 +39,6 @@ import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Apps
 import app.simple.inure.ui.panels.Batch
 import app.simple.inure.ui.panels.Debloat
-import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.FOSS
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.MostUsed
@@ -230,11 +227,6 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                 openHome(isNewIntent)
                 openFragment(AudioPlayer.newInstance(MusicPreferences.getMusicPosition()), AudioPlayer.TAG)
-            }
-
-            "open_device_info" -> {
-                openHome(isNewIntent)
-                openFragment(DeviceInfo.newInstance(), DeviceInfo.TAG)
             }
 
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {
