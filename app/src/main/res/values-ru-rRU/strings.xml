@@ -569,8 +569,6 @@
     <string name="count_done">%1$d выполнено</string>
     <string name="count_failed">%1$d неудачно</string>
     <string name="count_queued">%1$d в очереди</string>
-    <string name="lock_screen">Блокировка экрана</string>
-    <string name="lock_screen_desc">Позволяет приложению блокировать экран устройства.</string>
     <string name="device_admin_desc">Позволяет приложению выполнять действия уровня устройства.</string>
     <string name="delete">Удалить</string>
     <string name="open">Открыть</string>

@@ -566,8 +566,6 @@
     <string name="count_done">%1$d Bitti</string>
     <string name="count_failed">%1$d Başarısız</string>
     <string name="count_queued">%1$d Sırada</string>
-    <string name="lock_screen">Kilit Ekranı</string>
-    <string name="lock_screen_desc">Uygulamaya, cihazın ekranını kilitleme izni verir.</string>
     <string name="device_admin_desc">Uygulamaya, cihaz düzeyinde işlemler gerçekleştirme izni verir.</string>
     <string name="delete">Sil</string>
     <string name="open">Aç</string>
