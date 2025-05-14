@@ -566,8 +566,6 @@
     <string name="count_done">%1$d 項工作完成</string>
     <string name="count_failed">%1$d 項工作失敗</string>
     <string name="count_queued">%1$d 已佇列</string>
-    <string name="lock_screen">鎖定螢幕</string>
-    <string name="lock_screen_desc">允許這個應用程式鎖定裝置螢幕。</string>
     <string name="device_admin_desc">允許這個應用程式處理裝置層級動作。</string>
     <string name="delete">刪除</string>
     <string name="open">開啟</string>

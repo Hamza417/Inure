@@ -58,10 +58,6 @@
         android:label="@string/perm_prepend_to_path"
         android:protectionLevel="dangerous" />
 
-    <uses-feature
-        android:name="android.software.device_admin"
-        android:required="false" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -805,23 +801,6 @@
         </receiver>
 
         <receiver
-            android:name="app.simple.inure.widgets.LockScreenWidget"
-            android:description="@string/lock_screen_desc"
-            android:enabled="false"
-            android:exported="false"
-            android:icon="@mipmap/ic_lock_screen"
-            android:label="@string/lock_screen"
-            android:roundIcon="@mipmap/ic_lock_screen_round">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_lock_provider" />
-        </receiver>
-
-        <receiver
             android:name=".receivers.AppUninstalledBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
@@ -833,23 +812,6 @@
                 <action android:name="app.simple.inure.action.APP_UNINSTALLED" />
 
                 <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name="app.simple.inure.receivers.AdminReceiver"
-            android:description="@string/device_admin_desc"
-            android:enabled="false"
-            android:exported="false"
-            android:label="@string/app_name_full"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data
-                android:name="android.app.device_admin"
-                android:resource="@xml/device_admin_props" />
-            <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-                <action android:name="android.app.action.ACTION_DEVICE_ADMIN_DISABLE_REQUESTED" />
-                <action android:name="android.app.action.ACTION_DEVICE_ADMIN_DISABLED" />
             </intent-filter>
         </receiver>
 

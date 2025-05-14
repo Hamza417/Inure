@@ -566,8 +566,6 @@
     <string name="count_done">%1$d हो गया</string>
     <string name="count_failed">%1$d विफल</string>
     <string name="count_queued">%1$d कतार में</string>
-    <string name="lock_screen">लॉक स्क्रीन</string>
-    <string name="lock_screen_desc">एप्लिकेशन को डिवाइस की स्क्रीन लॉक करने की अनुमति देता है।</string>
     <string name="device_admin_desc">एप्लिकेशन को डिवाइस स्तर की क्रियाएं करने की अनुमति देता है।</string>
     <string name="delete">मिटाए</string>
     <string name="open">खोलें</string>
