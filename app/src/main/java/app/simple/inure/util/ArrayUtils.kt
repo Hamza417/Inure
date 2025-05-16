@@ -139,4 +139,9 @@ object ArrayUtils {
     fun <T> List<T>.second(): T {
         return this[1]
     }
+
+    fun <T> List<T>?.circularGet(index: Int): T? {
+        if (this.isNullOrEmpty()) return null
+        return this[index % size]
+    }
 }
