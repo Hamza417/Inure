@@ -30,9 +30,6 @@ import java.util.stream.Collectors
 class HomeViewModel(application: Application) :
         PackageUtilsViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Suppress("PrivatePropertyName")
-    private val PRIVATE_FLAG_HIDDEN = 1 shl 0
-
     init {
         registerSharedPreferenceChangeListener()
     }
@@ -60,10 +57,6 @@ class HomeViewModel(application: Application) :
     }
 
     private val foss: MutableLiveData<ArrayList<PackageInfo>> by lazy {
-        MutableLiveData<ArrayList<PackageInfo>>()
-    }
-
-    private val hidden: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>()
     }
 
@@ -101,10 +94,6 @@ class HomeViewModel(application: Application) :
 
     fun getFossApps(): LiveData<ArrayList<PackageInfo>> {
         return foss
-    }
-
-    fun getHiddenApps(): LiveData<ArrayList<PackageInfo>> {
-        return hidden
     }
 
     fun getMenuItems(): LiveData<List<Pair<Int, Int>>> {
@@ -253,20 +242,6 @@ class HomeViewModel(application: Application) :
         }
     }
 
-    private fun loadHiddenApps() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val apps = getInstalledApps().stream()
-                .filter { it.safeApplicationInfo.flags and PRIVATE_FLAG_HIDDEN == 0 }
-                .collect(Collectors.toList()) as ArrayList<PackageInfo>
-
-            apps.sortBy {
-                it.safeApplicationInfo.name
-            }
-
-            hidden.postValue(apps)
-        }
-    }
-
     private fun loadItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = arrayListOf<Pair<Int, Int>>()
@@ -320,10 +295,6 @@ class HomeViewModel(application: Application) :
             }
 
             list.add(Pair(R.drawable.ic_open_source, R.string.foss))
-
-            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
-                list.add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
-            }
 
             list.add(Pair(0, 0)) // Divider
 
@@ -403,7 +374,6 @@ class HomeViewModel(application: Application) :
         loadMostUsed()
         loadRecentlyUpdatedAppData()
         loadDisabledApps()
-        loadHiddenApps()
         loadFOSSApps()
     }
 
@@ -413,10 +383,6 @@ class HomeViewModel(application: Application) :
 
     fun refreshMostUsed() {
         loadMostUsed()
-    }
-
-    fun refreshMenuItems() {
-        loadItems()
     }
 
     fun refreshFOSSApps() {
@@ -429,7 +395,6 @@ class HomeViewModel(application: Application) :
             DevelopmentPreferences.ENABLE_DEVICE_INFO,
             ConfigurationPreferences.IS_USING_ROOT,
             ConfigurationPreferences.IS_USING_SHIZUKU,
-            DevelopmentPreferences.ENABLE_HIDDEN_APPS,
             HomePreferences.IS_TERMINAL_VISIBLE,
             HomePreferences.IS_USAGE_STATISTICS_VISIBLE,
             HomePreferences.IS_ANALYTICS_VISIBLE,
@@ -442,7 +407,7 @@ class HomeViewModel(application: Application) :
             HomePreferences.IS_BOOT_MANAGER_VISIBLE,
             HomePreferences.IS_APKS_VISIBLE,
             HomePreferences.IS_PREFERENCES_VISIBLE
-            -> {
+                -> {
                 loadItems()
             }
         }
