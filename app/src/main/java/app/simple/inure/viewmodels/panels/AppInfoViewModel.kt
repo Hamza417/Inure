@@ -15,7 +15,6 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.MetaUtils.hasDefaultLinks
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.getApplicationInfo
-import app.simple.inure.apk.utils.PackageUtils.isAppHidden
 import app.simple.inure.apk.utils.PackageUtils.isInstalled
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.isSystemApp
@@ -27,7 +26,6 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatteryOptimizationModel
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
@@ -289,14 +287,6 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 add(Pair(R.drawable.ic_check, R.string.enable))
             }
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
-                if (packageManager.isAppHidden(packageInfo.packageName)) {
-                    add(Pair(R.drawable.ic_visibility, R.string.visible))
-                } else {
-                    add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
-                }
-            }
-
             add(Pair(R.drawable.ic_close, R.string.force_stop))
             add(Pair(R.drawable.ic_delete_sweep, R.string.clear_data))
         }
@@ -331,14 +321,6 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 add(Pair(R.drawable.ic_disable, R.string.disable))
             } else {
                 add(Pair(R.drawable.ic_check, R.string.enable))
-            }
-
-            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_HIDDEN_APPS)) {
-                if (packageManager.isAppHidden(packageInfo.packageName)) {
-                    add(Pair(R.drawable.ic_visibility, R.string.visible))
-                } else {
-                    add(Pair(R.drawable.ic_visibility_off, R.string.hidden))
-                }
             }
 
             add(Pair(R.drawable.ic_close, R.string.force_stop))

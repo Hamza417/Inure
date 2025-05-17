@@ -166,10 +166,6 @@ class Home : ScopedFragment() {
                             openFragmentArc(Debloat.newInstance(), icon, Debloat.TAG)
                         }
 
-                        R.string.hidden -> {
-                            openFragmentArc(Hidden.newInstance(), icon, Hidden.TAG)
-                        }
-
                         R.string.crash_report -> {
                             openFragmentArc(StackTraces.newInstance(), icon, StackTraces.TAG)
                         }
