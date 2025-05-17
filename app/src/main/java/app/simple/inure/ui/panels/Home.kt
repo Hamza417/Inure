@@ -115,13 +115,6 @@ class Home : ScopedFragment() {
                         R.string.usage_statistics -> {
                             openFragmentArc(Statistics.newInstance(), icon, Statistics.TAG)
                         }
-
-                        R.string.device_info -> {
-                            openFragmentArc(DeviceInfo.newInstance(), icon, DeviceInfo.TAG)
-                        }
-                        //                        R.string.sensors -> {
-                        //                            openFragmentArc(Sensors.newInstance(), icon, "sensors")
-                        //                        }
                         R.string.batch -> {
                             openFragmentArc(Batch.newInstance(), icon, Batch.TAG)
                         }

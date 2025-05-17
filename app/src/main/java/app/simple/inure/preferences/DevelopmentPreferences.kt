@@ -15,7 +15,6 @@ object DevelopmentPreferences {
     const val ALTERNATIVE_BATTERY_OPTIMIZATION_SWITCH = "is_alternative_battery_optimization_switch_enabled"
     const val LOAD_ALBUM_ART_FROM_FILE = "is_album_art_loaded_from_file"
     const val USE_OLD_STYLE_USAGE_STATS_PANEL = "is_old_style_usage_stats_panel_enabled"
-    const val ENABLE_DEVICE_INFO = "is_device_info_enabled"
     const val ADD_BITMAP_TO_METADATA = "is_bitmap_added_to_metadata"
     const val ENABLE_HIDDEN_APPS = "is_hidden_apps_enabled"
     const val DISABLE_TRANSPARENT_STATUS = "is_transparent_status_disabled_removed"
@@ -97,12 +96,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Old Style Usage Stats Panel",
                                             "Use old raw data style usage stats panel instead of the current one.",
                                             USE_OLD_STYLE_USAGE_STATS_PANEL,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable Device Info",
-                                            "Enable Device Info panel in the app. It was planned but never implemented. " +
-                                                    "This isn't officially supported and any info that\'s being showed here isn\'t guaranteed to be accurate.",
-                                            ENABLE_DEVICE_INFO,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Add Bitmap To Metadata",
