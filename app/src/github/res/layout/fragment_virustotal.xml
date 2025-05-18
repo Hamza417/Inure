@@ -38,7 +38,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -67,42 +67,46 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.views.LoaderImageView
+            android:id="@+id/loader"
+            android:layout_width="@dimen/loader_size"
+            android:layout_height="@dimen/loader_size"
+            android:layout_gravity="center_vertical" />
+
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <!-- TODO : Add a whole UI here -->
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <FrameLayout
+        android:padding="@dimen/panel_item_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <app.simple.inure.decorations.views.ShimmerImageView
+            android:id="@+id/shield"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_policy" />
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/progress"
+        <!-- TODO : Add a whole UI here -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="regular"
-                app:textColorStyle="accent" />
+                android:orientation="vertical">
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/response"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dialog_padding"
-                android:textSize="@dimen/info_text_small"
-                app:appFontStyle="regular"
-                app:textColorStyle="primary" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
 
 </app.simple.inure.decorations.theme.ThemeLinearLayout>
