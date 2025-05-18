@@ -14,6 +14,7 @@ import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
 import app.simple.inure.virustotal.VirusTotalResult
@@ -40,6 +41,10 @@ class VirusTotal : ScopedFragment() {
 
         shield.setUnfilledColor(Color.LTGRAY)
         shield.setWaveColor(AppearancePreferences.getAccentColor())
+
+        if (requireArguments().getBoolean(SHIELD_VISIBILITY, true).invert()) {
+            shield.visibility = View.GONE
+        }
 
         virusTotalViewModel.getFailed().observe(viewLifecycleOwner) {
             showWarning(it.message)
@@ -72,6 +77,12 @@ class VirusTotal : ScopedFragment() {
 
         virusTotalViewModel.getResponse().observe(viewLifecycleOwner) {
             shield.setFillPercent(1.0F)
+            shield.animate()
+                .alpha(0F)
+                .setDuration(250L)
+                .start()
+
+            requireArguments().putBoolean(SHIELD_VISIBILITY, false)
         }
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {
@@ -89,5 +100,7 @@ class VirusTotal : ScopedFragment() {
         }
 
         const val TAG = "VirusTotal"
+
+        private const val SHIELD_VISIBILITY = "shield_visibility"
     }
 }

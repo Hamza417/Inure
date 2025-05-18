@@ -170,17 +170,13 @@ class WaveFillImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        val w = width.toFloat()
-        val h = height.toFloat()
-        val waveY = h * (1f - fillPercent)
+        val waveY = height.toFloat() * (1f - fillPercent)
 
-        // Step 1: Draw skeleton image
         val save1 = canvas.saveLayer(null, null)
         super.onDraw(canvas)
         canvas.drawColor(unfilledColor, PorterDuff.Mode.SRC_IN)
         canvas.restoreToCount(save1)
 
-        // Step 2: Draw wave-filled part
         val save2 = canvas.saveLayer(null, null)
         super.onDraw(canvas)
 

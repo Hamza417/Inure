@@ -168,6 +168,8 @@ class VirusTotalClient(private val apiKey: String) {
                             status = "File already scanned. Analysis ID: ${hashResult.getJSONObject("data").getString("id")}"
                     )
             )
+
+            emit(VirusTotalResult.Success(hashResult))
         } else {
             emit(VirusTotalResult.Progress(VirusTotalResult.Progress.UPLOADING, "File not found. Uploading..."))
             val uploadResults = mutableListOf<VirusTotalResult>()
