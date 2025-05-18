@@ -70,7 +70,10 @@ class VirusTotalClient(private val apiKey: String) {
     private fun uploadFile(file: File): Flow<VirusTotalResult> = callbackFlow {
         if (file.length() <= MAX_FREE_FILE_SIZE) {
             val progressBody = ProgressRequestBody(file, "application/octet-stream".toMediaTypeOrNull()) { percent ->
-                trySend(VirusTotalResult.Progress("Uploading file: $percent%"))
+                trySend(VirusTotalResult.Progress(
+                        progressCode = VirusTotalResult.Progress.UPLOADING,
+                        status = "Uploading file: $percent%",
+                        progress = percent.toFloat()))
             }
 
             val requestBody = MultipartBody.Builder()
@@ -111,8 +114,13 @@ class VirusTotalClient(private val apiKey: String) {
                 .get()
                 .build()
 
-            trySend(VirusTotalResult.Progress("Polling for analysis result... Attempt: " +
-                                                      "${it + 1}, next in ${POLLING_INTERVAL / 1000} seconds"))
+            trySend(
+                    VirusTotalResult.Progress(
+                            progressCode = VirusTotalResult.Progress.POLLING,
+                            status = "Polling for analysis result... Attempt: " +
+                                    "${it + 1}, next in ${POLLING_INTERVAL / 1000} seconds",
+                            progress = (it + 1).toFloat() / MAX_POLLING_ATTEMPTS
+                    ))
 
             try {
                 val response = client.newCall(request).execute()
@@ -147,16 +155,16 @@ class VirusTotalClient(private val apiKey: String) {
             return@flow
         }
 
-        emit(VirusTotalResult.Progress("Calculating file hash..."))
+        emit(VirusTotalResult.Progress(VirusTotalResult.Progress.CALCULATING, "Calculating file hash..."))
         val hash = computeSHA256(file)
 
-        emit(VirusTotalResult.Progress("Checking hash $hash at VirusTotal..."))
+        emit(VirusTotalResult.Progress(VirusTotalResult.Progress.CALCULATING, "Checking hash $hash at VirusTotal..."))
         val hashResult = checkHash(hash)
 
         if (hashResult != null) {
             emit(VirusTotalResult.Success(hashResult))
         } else {
-            emit(VirusTotalResult.Progress("File not found. Uploading..."))
+            emit(VirusTotalResult.Progress(VirusTotalResult.Progress.UPLOADING, "File not found. Uploading..."))
             uploadFile(file).collect { result ->
                 emit(result)
             }
@@ -164,7 +172,10 @@ class VirusTotalClient(private val apiKey: String) {
             val uploadResult = uploadFile(file).firstOrNull { it is VirusTotalResult.Success } as? VirusTotalResult.Success
             if (uploadResult != null) {
                 val analysisId = uploadResult.result.getJSONObject("data").getString("id")
-                emit(VirusTotalResult.Progress("File uploaded. Analysis ID: $analysisId"))
+                emit(VirusTotalResult.Progress(
+                        progressCode = VirusTotalResult.Progress.UPLOAD_SUCCESS,
+                        progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
+                        status = "File uploaded. Analysis ID: $analysisId"))
                 pollAnalysisResult(analysisId).collect { result ->
                     emit(result)
                 }

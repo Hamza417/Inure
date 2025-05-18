@@ -13,6 +13,7 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
+import app.simple.inure.virustotal.VirusTotalResult
 
 class VirusTotal : ScopedFragment() {
 
@@ -37,15 +38,35 @@ class VirusTotal : ScopedFragment() {
         startPostponedEnterTransition()
 
         virusTotalViewModel.getFailed().observe(viewLifecycleOwner) {
-            showWarning(it)
+            showWarning(it.message)
         }
 
         virusTotalViewModel.getProgress().observe(viewLifecycleOwner) {
-            progress.text = it
+            when (it.progressCode) {
+                VirusTotalResult.Progress.CALCULATING -> {
+
+                }
+                VirusTotalResult.Progress.UPLOADING -> {
+
+                }
+                VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
+
+                }
+                VirusTotalResult.Progress.POLLING -> {
+
+                }
+                else -> {
+
+                }
+            }
         }
 
         virusTotalViewModel.getResponse().observe(viewLifecycleOwner) {
             response.text = it.toString()
+        }
+
+        virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
         }
     }
 

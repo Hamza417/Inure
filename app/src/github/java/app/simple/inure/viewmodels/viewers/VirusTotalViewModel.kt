@@ -10,7 +10,6 @@ import app.simple.inure.virustotal.VirusTotalClient
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 class VirusTotalViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -18,45 +17,49 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
         loadVirusTotalData()
     }
 
-    private val response: MutableLiveData<JSONObject> by lazy {
-        MutableLiveData<JSONObject>()
+    private val response: MutableLiveData<VirusTotalResult.Success> by lazy {
+        MutableLiveData<VirusTotalResult.Success>()
     }
 
-    private val progress: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+    private val progress: MutableLiveData<VirusTotalResult.Progress> by lazy {
+        MutableLiveData<VirusTotalResult.Progress>()
     }
 
-    private val failed: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+    // Error message
+    private val failed: MutableLiveData<VirusTotalResult.Error> by lazy {
+        MutableLiveData<VirusTotalResult.Error>()
     }
 
-    fun getResponse(): LiveData<JSONObject> {
+    fun getResponse(): LiveData<VirusTotalResult.Success> {
         return response
     }
 
-    fun getProgress(): LiveData<String> {
+    fun getProgress(): LiveData<VirusTotalResult.Progress> {
         return progress
     }
 
-    fun getFailed(): LiveData<String> {
+    fun getFailed(): LiveData<VirusTotalResult.Error> {
         return failed
     }
 
     private fun loadVirusTotalData() {
         viewModelScope.launch(Dispatchers.IO) {
-            VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { virusTotalResult ->
-                when (virusTotalResult) {
-                    is VirusTotalResult.Error -> {
-                        failed.postValue(virusTotalResult.message)
-                    }
-                    is VirusTotalResult.Progress -> {
-                        progress.postValue(virusTotalResult.status)
-                    }
-                    is VirusTotalResult.Success -> {
-                        val json = virusTotalResult.result
-                        response.postValue(json)
+            try {
+                VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { result ->
+                    when (result) {
+                        is VirusTotalResult.Error -> {
+                            failed.postValue(result)
+                        }
+                        is VirusTotalResult.Progress -> {
+                            progress.postValue(result)
+                        }
+                        is VirusTotalResult.Success -> {
+                            response.postValue(result)
+                        }
                     }
                 }
+            } catch (e: IllegalStateException) {
+                postWarning(e.message)
             }
         }
     }
