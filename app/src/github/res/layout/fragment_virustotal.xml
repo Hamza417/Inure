@@ -67,11 +67,13 @@
 
         </LinearLayout>
 
-        <app.simple.inure.decorations.views.LoaderImageView
+        <app.simple.inure.decorations.views.CustomProgressBar
             android:id="@+id/loader"
-            android:layout_width="@dimen/loader_size"
-            android:layout_height="@dimen/loader_size"
-            android:layout_gravity="center_vertical" />
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp" />
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
@@ -84,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <app.simple.inure.decorations.views.ShimmerImageView
+        <app.simple.inure.decorations.views.WaveFillImageView
             android:id="@+id/shield"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,7 +1,7 @@
 package app.simple.inure.ui.viewers
 
 import android.content.pm.PackageInfo
-import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
-import app.simple.inure.decorations.views.LoaderImageView
-import app.simple.inure.decorations.views.ShimmerImageView
+import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
 import app.simple.inure.preferences.AppearancePreferences
@@ -21,8 +21,8 @@ import app.simple.inure.virustotal.VirusTotalResult
 
 class VirusTotal : ScopedFragment() {
 
-    private lateinit var shield: ShimmerImageView
-    private lateinit var loader: LoaderImageView
+    private lateinit var shield: WaveFillImageView
+    private lateinit var loader: CustomProgressBar
     private lateinit var virusTotalViewModel: VirusTotalViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,24 +41,24 @@ class VirusTotal : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        shield.imageTintList = ColorStateList.valueOf(AppearancePreferences.getAccentColor())
+        shield.setUnfilledColor(Color.LTGRAY)
+        shield.setWaveColor(AppearancePreferences.getAccentColor())
 
         virusTotalViewModel.getFailed().observe(viewLifecycleOwner) {
             showWarning(it.message)
-            loader.error()
             loader.gone(animate = true)
         }
 
         virusTotalViewModel.getProgress().observe(viewLifecycleOwner) {
             when (it.progressCode) {
                 VirusTotalResult.Progress.CALCULATING -> {
-                    loader.start()
+                    shield.setFillPercent(0.1F)
                 }
                 VirusTotalResult.Progress.UPLOADING -> {
 
                 }
                 VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
-
+                    shield.setFillPercent(0.5F)
                 }
                 VirusTotalResult.Progress.POLLING -> {
 
@@ -70,7 +70,6 @@ class VirusTotal : ScopedFragment() {
         }
 
         virusTotalViewModel.getResponse().observe(viewLifecycleOwner) {
-            loader.loaded()
             loader.gone(animate = true)
         }
 

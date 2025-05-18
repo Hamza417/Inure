@@ -2,6 +2,7 @@ package app.simple.inure.viewmodels.viewers
 
 import android.app.Application
 import android.content.pm.PackageInfo
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -49,12 +50,15 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
                     when (result) {
                         is VirusTotalResult.Error -> {
                             failed.postValue(result)
+                            Log.e(TAG, result.message)
                         }
                         is VirusTotalResult.Progress -> {
                             progress.postValue(result)
+                            Log.i(TAG, "Progress: ${result.progressCode} - ${result.status} - ${result.progress}")
                         }
                         is VirusTotalResult.Success -> {
                             response.postValue(result)
+                            Log.i(TAG, "Success: ${result.result}")
                         }
                     }
                 }
@@ -62,5 +66,9 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
                 postWarning(e.message)
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "VirusTotalViewModel"
     }
 }
