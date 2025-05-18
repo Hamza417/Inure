@@ -18,6 +18,7 @@ import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.HomePreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.util.ArrayUtils.circularGet
 import app.simple.inure.util.ConditionUtils.isZero
 import app.simple.inure.util.RecyclerViewUtils
 
@@ -71,8 +72,8 @@ class AdapterHome(private val list: List<Pair<Int, Int>>) : RecyclerView.Adapter
                 holder.icon.imageTintList = ColorStateList(arrayOf(intArrayOf(
                         android.R.attr.state_enabled
                 ), intArrayOf()), intArrayOf(
-                        Colors.getColors()[position],
-                        Colors.getColors()[position]
+                        Colors.getColors().circularGet(position)!!,
+                        Colors.getColors().circularGet(position)!!
                 ))
 
                 if (AccessibilityPreferences.isHighlightMode()) {

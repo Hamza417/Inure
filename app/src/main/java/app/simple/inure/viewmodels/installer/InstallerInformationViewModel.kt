@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
+import app.simple.inure.apk.parsers.APKParser.getArchitecture
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getMinSDK
@@ -36,6 +36,7 @@ import net.dongliu.apk.parser.bean.DexClass
 import java.io.File
 import java.text.NumberFormat
 
+// TODO - create a base class for this and the other information viewmodels
 class InstallerInformationViewModel(application: Application, private val file: File) : WrappedViewModel(application) {
 
     private var packageInfo: PackageInfo? = null
@@ -56,14 +57,11 @@ class InstallerInformationViewModel(application: Application, private val file: 
         kotlin.runCatching {
             packageInfo = packageManager.getPackageArchiveInfo(file)
 
-            //            if (packageManager.isPackageInstalled(packageName = packageInfo!!.packageName)) {
-            //                val existingPackage = packageManager.getPackageInfo(packageInfo!!.packageName)!!
-            //                packageInfo?.applicationInfo?.uid = existingPackage.applicationInfo.uid
-            //            }
-
             if (packageInfo!!.packageName.isEmpty()) {
                 throw NullPointerException("package is invalid")
             }
+
+            packageInfo?.safeApplicationInfo?.sourceDir = file.absolutePath
 
             file.absolutePath.substringBeforeLast("/").toFile().listFiles()!!.forEach {
                 Log.d("InstallerInformationViewModel", it.absolutePath)
@@ -163,14 +161,19 @@ class InstallerInformationViewModel(application: Application, private val file: 
     }
 
     private fun getArchitecture(): Pair<Int, Spannable> {
-        return Pair(R.string.architecture,
-                    file.getApkArchitecture(context).toString().applyAccentColor())
+        kotlin.runCatching {
+            return Pair(R.string.architecture,
+                        packageInfo!!.getArchitecture(context).applyAccentColor())
+        }.getOrElse {
+            return Pair(R.string.architecture,
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         runCatching {
             return Pair(R.string.native_libraries,
-                        packageInfo?.getNativeLibraries(context).toString().applySecondaryTextColor())
+                        packageInfo!!.getNativeLibraries(context).applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.native_libraries,
                         getString(R.string.not_available).applySecondaryTextColor())

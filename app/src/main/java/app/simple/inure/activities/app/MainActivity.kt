@@ -3,21 +3,19 @@ package app.simple.inure.activities.app
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings
@@ -321,7 +319,7 @@ class MainActivity : BaseActivity() {
     override fun onThemeChanged(theme: Theme, animate: Boolean) {
         ThemeUtils.setBarColors(resources, window)
         content.setBackgroundColor(ThemeManager.theme.viewGroupTheme.background)
-        window.setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
+        window.setBackgroundDrawable(ThemeManager.theme.viewGroupTheme.background.toDrawable())
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -347,18 +345,6 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        /**
-         * Store the touch coordinates
-         */
-        if (ev.action == MotionEvent.ACTION_DOWN) {
-            Misc.xOffset = ev.rawX
-            Misc.yOffset = ev.rawY
-        }
-
-        return super.dispatchTouchEvent(ev)
     }
 
     /**

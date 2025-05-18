@@ -14,7 +14,7 @@ abstract class BatchDatabase : RoomDatabase() {
 
     companion object {
         private var instance: BatchDatabase? = null
-        private const val db_name = "batch_data.db"
+        private const val DB_NAME = "batch_data.db"
 
         fun getBatchDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -24,13 +24,11 @@ abstract class BatchDatabase : RoomDatabase() {
         fun getInstance(context: Context): BatchDatabase? {
             kotlin.runCatching {
                 if (instance!!.isOpen.invert()) {
-                    instance = Room.databaseBuilder(context, BatchDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    instance = Room.databaseBuilder(context, BatchDatabase::class.java, DB_NAME)
                         .build()
                 }
             }.getOrElse {
-                instance = Room.databaseBuilder(context, BatchDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                instance = Room.databaseBuilder(context, BatchDatabase::class.java, DB_NAME)
                     .build()
             }
 

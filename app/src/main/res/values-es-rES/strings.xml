@@ -566,8 +566,6 @@
     <string name="count_done">%1$d hecho</string>
     <string name="count_failed">%1$d fallaron</string>
     <string name="count_queued">%1$d en cola</string>
-    <string name="lock_screen">Bloquear pantalla</string>
-    <string name="lock_screen_desc">Permite a la app bloquear la pantalla del dispositivo.</string>
     <string name="device_admin_desc">Permite que la aplicación realice acciones de nivel de dispositivo.</string>
     <string name="delete">Borrar</string>
     <string name="open">Abrir</string>

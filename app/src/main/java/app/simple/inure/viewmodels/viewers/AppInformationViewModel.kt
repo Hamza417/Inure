@@ -10,8 +10,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
-import app.simple.inure.apk.parsers.APKParser.getApkArchitecture
 import app.simple.inure.apk.parsers.APKParser.getApkMeta
+import app.simple.inure.apk.parsers.APKParser.getArchitecture
 import app.simple.inure.apk.parsers.APKParser.getDexData
 import app.simple.inure.apk.parsers.APKParser.getGlEsVersion
 import app.simple.inure.apk.parsers.APKParser.getNativeLibraries
@@ -148,7 +148,7 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             information.postValue(informationList)
         }.onFailure {
             it.printStackTrace()
-            postWarning(it.toString())
+            postError(it)
         }
     }
 
@@ -262,15 +262,19 @@ class AppInformationViewModel(application: Application, private var packageInfo:
     }
 
     private fun getArchitecture(): Pair<Int, Spannable> {
-        return Pair(R.string.architecture,
-                    packageInfo.safeApplicationInfo.sourceDir.toFile()
-                        .getApkArchitecture(context).toString().applyAccentColor())
+        runCatching {
+            return Pair(R.string.architecture,
+                        packageInfo.getArchitecture(context).applyAccentColor())
+        }.getOrElse {
+            return Pair(R.string.architecture,
+                        getString(R.string.not_available).applySecondaryTextColor())
+        }
     }
 
     private fun getNativeLibraries(): Pair<Int, Spannable> {
         kotlin.runCatching {
             return Pair(R.string.native_libraries,
-                        packageInfo.getNativeLibraries(context).toString().applySecondaryTextColor())
+                        packageInfo.getNativeLibraries(context).applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.native_libraries,
                         getString(R.string.not_available).applySecondaryTextColor())

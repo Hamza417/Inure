@@ -18,10 +18,25 @@
         android:padding="@dimen/dialog_padding">
 
         <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/installer_options"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_dot_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
             android:id="@+id/visibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/popup_item_gap_length"
             android:layout_weight="1"
             android:padding="@dimen/dialog_padding"
             android:text="@string/visibility_customization"

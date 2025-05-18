@@ -20,6 +20,7 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
+import app.simple.inure.preferences.InstallerPreferences
 import app.simple.inure.shizuku.PackageInstaller
 import app.simple.inure.singletons.ApplicationUtils
 import app.simple.inure.util.ConditionUtils.invert
@@ -226,13 +227,13 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private fun rootInstall() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Shell.cmd("run-as ${applicationContext().packageName}").exec()
+                // Shell.cmd("run-as ${applicationContext().packageName}").exec()
 
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d(TAG, "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
                     Log.d(TAG, "Output: $out")
-                    with(out[0]) {
+                    with(out.first()) {
                         substringAfter("[").substringBefore("]").toInt()
                     }
                 }
@@ -330,7 +331,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                postWarning(e.message ?: e.stackTraceToString())
+                postError(e)
             }
         }
     }
@@ -352,13 +353,29 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     private fun installCommand(): String {
-        /**
-         * Users feature is only available after Nougat
-         */
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            "pm install-create -i ${applicationContext().packageName} -t -d --user ${user?.id ?: getCurrentUser()} -S"
-        } else {
-            "pm install-create -i ${applicationContext().packageName} -t -d -S"
+        return buildString {
+            Log.i(TAG, "creating install command...")
+            append("pm install-create")
+            append(" -i ${InstallerPreferences.getInstallerPackageName(applicationContext())}")
+
+            val options = listOf(
+                    InstallerPreferences.isGrantRuntimePermissions() to "-g",
+                    InstallerPreferences.isVersionCodeDowngrade() to "-d",
+                    InstallerPreferences.isTestPackages() to "-t",
+                    InstallerPreferences.isBypassLowTargetSdk() to "--bypass-low-target-sdk-block",
+                    InstallerPreferences.isReplaceExisting() to "-r",
+                    InstallerPreferences.isDontKill() to "--dont-kill"
+            )
+
+            options.forEach { (condition, flag) ->
+                if (condition) append(" $flag")
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                append(" --user ${user?.id ?: getCurrentUser()}")
+            }
+
+            append(" -S")
         }
     }
 

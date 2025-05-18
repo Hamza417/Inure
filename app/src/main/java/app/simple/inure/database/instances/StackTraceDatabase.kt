@@ -15,7 +15,7 @@ abstract class StackTraceDatabase : RoomDatabase() {
 
     companion object {
         private var instance: StackTraceDatabase? = null
-        private const val db_name = "stacktrace.db"
+        private const val DB_NAME = "stacktrace.db"
 
         fun getStackTraceDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -25,13 +25,12 @@ abstract class StackTraceDatabase : RoomDatabase() {
         fun init(context: Context) {
             kotlin.runCatching {
                 if (instance!!.isOpen.invert()) {
-                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, DB_NAME)
+
                         .build()
                 }
             }.getOrElse {
-                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, DB_NAME)
                     .build()
             }
         }
@@ -40,13 +39,11 @@ abstract class StackTraceDatabase : RoomDatabase() {
         fun getInstance(context: Context): StackTraceDatabase? {
             kotlin.runCatching {
                 if (instance!!.isOpen.invert()) {
-                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, DB_NAME)
                         .build()
                 }
             }.getOrElse {
-                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                instance = Room.databaseBuilder(context, StackTraceDatabase::class.java, DB_NAME)
                     .build()
             }
 

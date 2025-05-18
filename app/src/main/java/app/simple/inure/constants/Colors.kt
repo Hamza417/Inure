@@ -1,8 +1,10 @@
 package app.simple.inure.constants
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import app.simple.inure.preferences.AccessibilityPreferences
 
+@SuppressLint("UseKtx")
 @Suppress("MemberVisibilityCanBePrivate")
 object Colors {
 

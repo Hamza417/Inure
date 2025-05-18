@@ -230,7 +230,6 @@ license, see the [LICENSE](./LICENSE) file in the project root for the full lice
 - Inure is the **first-ever Android app** to implement both **panel-level** and **app-level preferences architecture**.
   - All preferences provide **real-time feedback** with no loading screens.
 - Inure is accessible to **visually challenged users**.
-- The app follows the principles of **chic design**.
 - The concept of Inure was first envisioned in **2018**, however the development only began properly in the third quarter of **2021**.
   - During the interim, I developed three mini apps to test and validate its potential:
     - [Positional](https://github.com/Hamza417/Positional)

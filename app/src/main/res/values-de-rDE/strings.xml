@@ -571,8 +571,6 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="count_done">%1$d Fertig</string>
     <string name="count_failed">%1$d Fehler</string>
     <string name="count_queued">%1$d Warteschlange</string>
-    <string name="lock_screen">Sperrbildschirm</string>
-    <string name="lock_screen_desc">Ermöglicht der App, den Bildschirm des Geräts zu sperren.</string>
     <string name="device_admin_desc">Ermöglicht der App, Aktionen auf Gerätebene durchzuführen.</string>
     <string name="delete">Löschen</string>
     <string name="open">Offen</string>

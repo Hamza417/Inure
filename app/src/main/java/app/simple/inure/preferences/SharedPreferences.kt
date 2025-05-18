@@ -2,9 +2,9 @@ package app.simple.inure.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import app.simple.inure.util.NullSafety.isNull
+import dev.spght.encryptedprefs.EncryptedSharedPreferences
+import dev.spght.encryptedprefs.MasterKey
 import java.io.File
 
 object SharedPreferences {
@@ -20,10 +20,6 @@ object SharedPreferences {
         if (sharedPreferences.isNull()) {
             sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
         }
-    }
-
-    fun SharedPreferences.nullify() {
-        sharedPreferences = null
     }
 
     fun initEncrypted(context: Context) {

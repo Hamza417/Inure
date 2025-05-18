@@ -565,8 +565,6 @@
     <string name="count_done">%1$d Done</string>
     <string name="count_failed">%1$d Failed</string>
     <string name="count_queued">%1$d Queued</string>
-    <string name="lock_screen">Lock Screen</string>
-    <string name="lock_screen_desc">Allows the app to lock the screen of the device.</string>
     <string name="device_admin_desc">Allows the app to perform device level actions.</string>
     <string name="delete">Delete</string>
     <string name="open">Open</string>
@@ -770,4 +768,12 @@
     <string name="etip_desc">The component is in ETIP\'s list. If it\'s a tracker or not is still being investigated.</string>
     <string name="show_diff_styled_changes">Show Changes in Diff Style</string>
     <string name="virustotal_api_desc">Enter your VirusTotal API key to use the scan feature.</string>
+    <string name="installer_options">Installer Options</string>
+    <string name="grant_all_runtime_permissions">Grant All Runtime Permissions</string>
+    <string name="allow_downgrade">Allow Version Code Downgrade</string>
+    <string name="installer_package_name">Installer Package Name</string>
+    <string name="allow_test_packages">Allow Test Packages</string>
+    <string name="bypass_target_sdk_check">Bypass Low Target SDK</string>
+    <string name="replace_existing">Replace Existing</string>
+    <string name="dont_kill">Don\'t Kill</string>
 </resources>

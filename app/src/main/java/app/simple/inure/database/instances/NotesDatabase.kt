@@ -14,7 +14,7 @@ abstract class NotesDatabase : RoomDatabase() {
 
     companion object {
         private var instance: NotesDatabase? = null
-        private const val db_name = "notes_data.db"
+        private const val DB_NAME = "notes_data.db"
 
         fun getNotesDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -23,15 +23,13 @@ abstract class NotesDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): NotesDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, NotesDatabase::class.java, db_name)
-                    .fallbackToDestructiveMigration()
+                Room.databaseBuilder(context, NotesDatabase::class.java, DB_NAME)
                     .build()
             } else {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, NotesDatabase::class.java, db_name)
-                        .fallbackToDestructiveMigration()
+                    Room.databaseBuilder(context, NotesDatabase::class.java, DB_NAME)
                         .build()
                 }
             }

@@ -4,14 +4,13 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
-import android.transition.ArcMotion
 import android.transition.Fade
 import android.util.Log
+import android.view.MotionEvent
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.ViewGroup
@@ -23,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.os.BuildCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
@@ -34,6 +34,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
+import app.simple.inure.constants.Misc
 import app.simple.inure.database.instances.StackTraceDatabase
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
@@ -42,8 +43,6 @@ import app.simple.inure.dialogs.miscellaneous.Error.Companion.showError
 import app.simple.inure.dialogs.miscellaneous.Loader
 import app.simple.inure.dialogs.miscellaneous.Warning.Companion.showWarning
 import app.simple.inure.interfaces.fragments.SureCallbacks
-import app.simple.inure.popups.behavior.PopupArcType
-import app.simple.inure.popups.behavior.PopupTransitionType
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
@@ -71,12 +70,6 @@ import app.simple.inure.util.SDCard
 import app.simple.inure.util.ViewUtils.defaultPadding
 import app.simple.inure.util.ViewUtils.setPaddingLeft
 import app.simple.inure.util.ViewUtils.setPaddingRight
-import com.google.android.material.transition.platform.MaterialArcMotion
-import com.google.android.material.transition.platform.MaterialContainerTransform
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
-import com.google.android.material.transition.platform.MaterialElevationScale
-import com.google.android.material.transition.platform.MaterialFadeThrough
-import com.google.android.material.transition.platform.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -125,7 +118,7 @@ open class BaseActivity : AppCompatActivity(),
 
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
-            setBackgroundDrawable(ColorDrawable(ThemeManager.theme.viewGroupTheme.background))
+            setBackgroundDrawable(ThemeManager.theme.viewGroupTheme.background.toDrawable())
             sharedElementsUseOverlay = true
             sharedElementEnterTransition = DetailsTransitionArc()
             sharedElementReturnTransition = DetailsTransitionArc()
@@ -228,113 +221,6 @@ open class BaseActivity : AppCompatActivity(),
 
         if (ThemeUtils.isDayNight()) {
             ThemeUtils.setAppTheme(resources)
-        }
-    }
-
-    @Suppress("unused")
-    private fun setTransitions() {
-        with(window) {
-            if (BehaviourPreferences.isTransitionOn()) {
-                when (BehaviourPreferences.getTransitionType()) {
-                    PopupTransitionType.FADE -> {
-                        exitTransition = Fade()
-                        enterTransition = Fade()
-                        reenterTransition = Fade()
-                    }
-
-                    PopupTransitionType.ELEVATION -> {
-                        exitTransition = MaterialElevationScale(false)
-                        enterTransition = MaterialElevationScale(true)
-                        reenterTransition = MaterialElevationScale(false)
-                    }
-
-                    PopupTransitionType.SHARED_AXIS_X -> {
-                        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-                        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-                    }
-
-                    PopupTransitionType.SHARED_AXIS_Y -> {
-                        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-                        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-                    }
-
-                    PopupTransitionType.SHARED_AXIS_Z -> {
-                        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-                        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-                        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-                        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-                    }
-
-                    PopupTransitionType.THROUGH -> {
-                        exitTransition = MaterialFadeThrough()
-                        enterTransition = MaterialFadeThrough()
-                        reenterTransition = MaterialFadeThrough()
-                    }
-                }
-            }
-        }
-    }
-
-    @Suppress("unused", "KotlinConstantConditions")
-    private fun setArc() {
-        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
-
-        with(window) {
-            if (BehaviourPreferences.isArcAnimationOn()) {
-                // TODO - Fix activity crashing on [MaterialContainerTransform]
-                when (PopupArcType.LEGACY /* BehaviourPreferences.getArcType() */) {
-                    PopupArcType.INURE -> {
-                        sharedElementEnterTransition = MaterialContainerTransform().apply {
-                            duration = resources.getInteger(R.integer.animation_duration).toLong()
-                            setAllContainerColors(Color.TRANSPARENT)
-                            scrimColor = Color.TRANSPARENT
-                            addTarget(android.R.id.content)
-                            pathMotion = ArcMotion().apply {
-                                maximumAngle = this.maximumAngle
-                                minimumHorizontalAngle = this.minimumHorizontalAngle
-                                minimumVerticalAngle = this.minimumVerticalAngle
-                            }
-                        }
-                        sharedElementReturnTransition = MaterialContainerTransform().apply {
-                            duration = resources.getInteger(R.integer.animation_duration).toLong()
-                            setAllContainerColors(Color.TRANSPARENT)
-                            scrimColor = Color.TRANSPARENT
-                            addTarget(android.R.id.content)
-                            pathMotion = ArcMotion().apply {
-                                maximumAngle = this.maximumAngle
-                                minimumHorizontalAngle = this.minimumHorizontalAngle
-                                minimumVerticalAngle = this.minimumVerticalAngle
-                            }
-                        }
-                    }
-
-                    PopupArcType.MATERIAL -> {
-                        sharedElementEnterTransition = MaterialContainerTransform().apply {
-                            duration = resources.getInteger(R.integer.animation_duration).toLong()
-                            setAllContainerColors(Color.TRANSPARENT)
-                            scrimColor = Color.TRANSPARENT
-                            addTarget(android.R.id.content)
-                            pathMotion = MaterialArcMotion()
-                        }
-                        sharedElementReturnTransition = MaterialContainerTransform().apply {
-                            duration = resources.getInteger(R.integer.animation_duration).toLong()
-                            setAllContainerColors(Color.TRANSPARENT)
-                            scrimColor = Color.TRANSPARENT
-                            addTarget(android.R.id.content)
-                            pathMotion = MaterialArcMotion()
-                        }
-                    }
-
-                    PopupArcType.LEGACY -> {
-                        sharedElementEnterTransition = DetailsTransitionArc()
-                        sharedElementReturnTransition = DetailsTransitionArc()
-                    }
-                }
-            }
         }
     }
 
@@ -664,6 +550,18 @@ open class BaseActivity : AppCompatActivity(),
                 enableNotchArea()
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        /**
+         * Store the touch coordinates
+         */
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            Misc.xOffset = ev.x
+            Misc.yOffset = ev.y
+        }
+
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onPause() {

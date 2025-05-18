@@ -3550,14 +3550,6 @@
     "removal": "Recommended"
   },
   "com.cnn.mobile.android.phone.edgepanel": {
-    "list": "Misc",
-    "description": "TCL version of Parental Center, a parental control app.",
-    "dependencies": [],
-    "neededBy": [],
-    "labels": [],
-    "removal": "Advanced"
-  },
-  "com.cnn.mobile.android.phone.edgepanel": {
     "list": "Oem",
     "description": "CNN Edge panel. Twitter trends, and news from CNN.\n",
     "dependencies": [],
@@ -16098,7 +16090,7 @@
   },
   "com.android.globalFileexplorer": {
     "list": "Oem",
-    "description": "Misleading package name. It's the Xiaomi Files Manager on older phones\n",
+      "description": "Xiaomi File Explorer\/Manager.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -16332,11 +16324,11 @@
   },
   "com.miui.global.packageinstaller": {
     "list": "Oem",
-    "description": "The security check / virus scan that runs after package installation.\nDisabling/Uninstalling does not cause a bootloop and package installation still works fine.",
+      "description": "MIUI Package Installer. Removal causes bootloop on Xiaomi EU ROMs. Use the built-in `com.*.android.packageinstaller instead`.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Advanced"
+      "removal": "Unsafe"
   },
   "com.miui.guardprovider": {
     "list": "Oem",
@@ -26680,8 +26672,8 @@
     "labels": []
   },
   "com.oplus.trafficmonitor": {
-    "description": "OnePlus Data usage\nOneplus traffic monitor (monthly data usage, etc). This app is so bloated.",
-    "removal": "Recommended",
+      "description": "OnePlus Data usage\nOneplus traffic monitor (monthly data usage, etc). If removed, the 'Data Usage' option under 'Mobile network' will not work. Also App Info screen's 'Data usage' option will disappear",
+      "removal": "Advanced",
     "list": "Oem",
     "dependencies": [],
     "neededBy": [],
@@ -26985,7 +26977,7 @@
   },
   "com.android.chrome": {
     "list": "Google",
-    "description": "Google Chrome (https://play.google.com/store/apps/details?id=com.android.chrome)\nOccasionally runs in the background.\nNOTE: disabling or uninstalling Chrome may break functionality for creating and storing passkeys (https://fidoalliance.org/passkeys/) on your phone, so keep this enabled if you want to use that form of authentication. G Play Services can provide this functionality on some devices",
+      "description": "Google Chrome (https://play.google.com/store/apps/details?id=com.android.chrome)\nOccasionally runs in the background.\nNOTE: Disabling or uninstalling Chrome may break functionality for creating and storing passkeys (https://fidoalliance.org/passkeys/) on your phone, so keep this enabled if you want to use that form of authentication. G Play Services can provide this functionality on some devices.\nWhen Chrome is updated via the Play Store, the Trichrome Library is also updated automatically. If Chrome is disabled or removed, it may impact WebView functionality.\nThis is because Chrome, WebView, and the Trichrome Library work together as a bundle starting from Android 10 (API 29) and above.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -27641,11 +27633,11 @@
   },
   "com.google.android.pixel.setupwizard": {
     "list": "Google",
-    "description": "It's the basic configuration setup guides you through the basics of setting up Google features on your device.\nThe second package is only present on Pixel phones.\n",
+      "description": "It's the basic configuration setup guides you through the basics of setting up Google features on your device.\nThe second package is only present on Pixel phones.\nBreaks the Google Play System update page found on \"Security & privacy\", for whatever reason...",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+      "removal": "Advanced"
   },
   "com.google.android.soundpicker": {
     "list": "Google",
@@ -34669,11 +34661,11 @@
   },
   "com.android.DeviceAsWebcam": {
     "list": "Oem",
-    "description": "Using smartphone as webcam.",
+      "description": "Using smartphone as webcam. Dependency for Private space on Pixel devices.\nhttps://source.android.com/docs/security/features/private-space",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+      "removal": "Advanced"
   },
   "com.android.omadm.service": {
     "list": "Oem",
@@ -34757,11 +34749,11 @@
   },
   "com.google.pixel.camera.services": {
     "list": "Oem",
-    "description": "CameraIDRemapper and a lot Debug stuff.",
+      "description": "CameraIDRemapper and a lot Debug stuff. Dependency for Private space on Pixel devices.\nhttps://source.android.com/docs/security/features/private-space",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Recommended"
+      "removal": "Advanced"
   },
   "com.google.android.apps.camera.services": {
     "list": "Oem",
@@ -36373,7 +36365,7 @@
   },
   "com.android.role.notes.enabled": {
     "list": "Oem",
-    "description": "Notes Role enabled\nUnknown overlay, but looks like a safe to remove, sets default notes.",
+      "description": "Notes Role enabled\nUnknown overlay, sets default notes. Breaks seamlessly disabling and enabling developer options on Google Pixel(s).\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -37691,8 +37683,7 @@
     "labels": [],
     "removal": "Unsafe"
   },
- 
-  "com.onyx.android.production.test":{
+    "com.onyx.android.production.test": {
     "list": "Oem",
     "description": "Test app enabled by clicking 5 times on the Onyx Version, it contains tests for screen quality",
     "dependencies": [],

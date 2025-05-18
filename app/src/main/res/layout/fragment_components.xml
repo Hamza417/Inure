@@ -18,30 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <app.simple.inure.decorations.theme.ThemeFrameLayout
+    <app.simple.inure.decorations.views.TabBar
+        android:id="@+id/tab_bar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:fadingEdge="horizontal"
+        android:padding="@dimen/popup_padding"
+        android:clipToPadding="false"
         android:clipChildren="false"
-        android:elevation="@dimen/app_views_elevation"
-        android:layout_height="45dp">
-
-        <app.simple.inure.decorations.tablayout.SmartTabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/small_button_size"
-            android:layout_gravity="bottom"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:paddingHorizontal="@dimen/dialog_padding"
-            app:appFontStyle="bold"
-            app:defaultTabBackground="@android:color/transparent"
-            app:defaultTabTextAllCaps="false"
-            app:dividerThickness="0dp"
-            app:indicatorGravity="center"
-            app:indicatorThickness="@dimen/small_button_size"
-            app:indicatorWithoutPadding="false"
-            app:underlineThickness="0dp" />
-
-    </app.simple.inure.decorations.theme.ThemeFrameLayout>
+        android:requiresFadingEdge="horizontal"
+        android:fadingEdgeLength="10dp"
+        app:statusBarPaddingRequired="false" />
 
 </LinearLayout>

@@ -15,7 +15,7 @@ abstract class QuickAppsDatabase : RoomDatabase() {
 
     companion object {
         private var instance: QuickAppsDatabase? = null
-        private const val db_name = "quickapps.db"
+        private const val DB_NAME = "quickapps.db"
 
         fun getQuickAppsDataPath(context: Context): String {
             return getInstance(context)!!.openHelper.writableDatabase.path!!
@@ -24,13 +24,13 @@ abstract class QuickAppsDatabase : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): QuickAppsDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                Room.databaseBuilder(context, QuickAppsDatabase::class.java, DB_NAME)
                     .build()
             } else {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, DB_NAME)
                         .build()
                 }
             }
@@ -39,15 +39,15 @@ abstract class QuickAppsDatabase : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context, db_name: String): QuickAppsDatabase? {
+        fun getInstance(context: Context, dbName: String): QuickAppsDatabase? {
             instance = if (instance.isNull()) {
-                Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                Room.databaseBuilder(context, QuickAppsDatabase::class.java, dbName)
                     .build()
             } else {
                 if (instance!!.isOpen) {
                     return instance
                 } else {
-                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, db_name)
+                    Room.databaseBuilder(context, QuickAppsDatabase::class.java, dbName)
                         .build()
                 }
             }

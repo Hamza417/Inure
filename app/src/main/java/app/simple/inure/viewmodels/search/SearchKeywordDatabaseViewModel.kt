@@ -40,12 +40,16 @@ class SearchKeywordDatabaseViewModel(application: Application) : WrappedViewMode
         when {
             permissions.hasActiveObservers() -> {
                 viewModelScope.launch(Dispatchers.Default) {
-                    permissions.postValue(PermissionUtils.getAndroidPermissionList().filter { it.contains(keyword, true) })
+                    permissions.postValue(PermissionUtils.getAndroidPermissionList().filter {
+                        it.contains(keyword, true)
+                    })
                 }
             }
             trackers.hasActiveObservers() -> {
                 viewModelScope.launch(Dispatchers.Default) {
-                    trackers.postValue(TrackerUtils.getTrackerSignatures().filter { it.contains(keyword, true) })
+                    trackers.postValue(TrackerUtils.getTrackerSignatures().filter {
+                        it.contains(keyword, true)
+                    })
                 }
             }
         }
