@@ -6,7 +6,6 @@ import app.simple.inure.preferences.VirusTotalPreferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -21,7 +20,7 @@ class VirusTotalClient(private val apiKey: String) {
     private val client: OkHttpClient = OkHttpClient.Builder()
         .eventListener(object : okhttp3.EventListener() {
             override fun connectStart(call: okhttp3.Call, inetSocketAddress: java.net.InetSocketAddress, proxy: java.net.Proxy) {
-                TrafficStats.setThreadStatsTag(1458)
+                TrafficStats.setThreadStatsTag(VIRUS_TOTAL_THREAD_TAG)
             }
         })
         .build()
@@ -162,20 +161,31 @@ class VirusTotalClient(private val apiKey: String) {
         val hashResult = checkHash(hash)
 
         if (hashResult != null) {
-            emit(VirusTotalResult.Success(hashResult))
+            emit(
+                    VirusTotalResult.Progress(
+                            progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
+                            progressCode = VirusTotalResult.Progress.HASH_RESULT,
+                            status = "File already scanned. Analysis ID: ${hashResult.getJSONObject("data").getString("id")}"
+                    )
+            )
         } else {
             emit(VirusTotalResult.Progress(VirusTotalResult.Progress.UPLOADING, "File not found. Uploading..."))
+            val uploadResults = mutableListOf<VirusTotalResult>()
             uploadFile(file).collect { result ->
                 emit(result)
+                uploadResults.add(result)
             }
 
-            val uploadResult = uploadFile(file).firstOrNull { it is VirusTotalResult.Success } as? VirusTotalResult.Success
+            val uploadResult = uploadResults.firstOrNull { it is VirusTotalResult.Success } as? VirusTotalResult.Success
             if (uploadResult != null) {
                 val analysisId = uploadResult.result.getJSONObject("data").getString("id")
-                emit(VirusTotalResult.Progress(
+                emit(
+                        VirusTotalResult.Progress(
                         progressCode = VirusTotalResult.Progress.UPLOAD_SUCCESS,
                         progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
-                        status = "File uploaded. Analysis ID: $analysisId"))
+                        status = "File uploaded. Analysis ID: $analysisId"
+                        )
+                )
                 pollAnalysisResult(analysisId).collect { result ->
                     emit(result)
                 }
@@ -202,7 +212,8 @@ class VirusTotalClient(private val apiKey: String) {
         }
 
         private const val MAX_FREE_FILE_SIZE = 32 * 1024 * 1024 // 32 MB
-        private const val MAX_POLLING_ATTEMPTS = 30
+        private const val MAX_POLLING_ATTEMPTS = 100
         private const val POLLING_INTERVAL = 10_000L
+        private const val VIRUS_TOTAL_THREAD_TAG = 1458
     }
 }

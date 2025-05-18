@@ -38,7 +38,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginStart="16dp"
             android:orientation="vertical">
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -67,14 +67,6 @@
 
         </LinearLayout>
 
-        <app.simple.inure.decorations.views.CustomProgressBar
-            android:id="@+id/loader"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="@dimen/panel_icon_size"
-            android:layout_height="@dimen/panel_icon_size"
-            android:layout_gravity="center_vertical"
-            android:padding="10dp" />
-
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
@@ -89,7 +81,7 @@
         <app.simple.inure.decorations.views.WaveFillImageView
             android:id="@+id/shield"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ic_policy" />
 
