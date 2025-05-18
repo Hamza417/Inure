@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
@@ -22,12 +23,14 @@ import app.simple.inure.virustotal.VirusTotalResult
 class VirusTotal : ScopedFragment() {
 
     private lateinit var shield: WaveFillImageView
+    private lateinit var status: TypeFaceTextView
     private lateinit var virusTotalViewModel: VirusTotalViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_virustotal, container, false)
 
         shield = view.findViewById(R.id.shield)
+        status = view.findViewById(R.id.status)
 
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
         virusTotalViewModel = ViewModelProvider(this, VirusTotalViewModelFactory(packageInfo))[VirusTotalViewModel::class.java]
@@ -44,6 +47,7 @@ class VirusTotal : ScopedFragment() {
 
         if (requireArguments().getBoolean(SHIELD_VISIBILITY, true).invert()) {
             shield.visibility = View.GONE
+            status.visibility = View.GONE
         }
 
         virusTotalViewModel.getFailed().observe(viewLifecycleOwner) {
@@ -55,22 +59,34 @@ class VirusTotal : ScopedFragment() {
             when (it.progressCode) {
                 VirusTotalResult.Progress.CALCULATING -> {
                     shield.setFillPercent(0.1F)
+                    status.text = getString(R.string.checking_hash)
+
                 }
                 VirusTotalResult.Progress.UPLOADING -> {
                     shield.setFillPercent(0.1f + (it.progress - 0.1f) / 99.9f * 0.5f)
+                    status.text = getString(R.string.uploading_file, it.progress.toInt())
                 }
                 VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
                     shield.setFillPercent(0.6F)
+                    status.text = getString(R.string.done)
                 }
                 VirusTotalResult.Progress.HASH_RESULT -> {
                     shield.setFillPercent(0.7F)
+                    status.text = getString(R.string.hash_found)
                     Log.d(TAG, it.status)
                 }
                 VirusTotalResult.Progress.POLLING -> {
+                    shield.setFillPercent(0.75F)
                     shield.startPollingWave()
+                    status.text = getString(R.string.polling_for_response, it.pollingAttempts)
                 }
                 else -> {
                     shield.setWaveAmplitude(0F)
+                    status.text = buildString {
+                        append(getString(R.string.unknown))
+                        append(" ")
+                        append(it.status)
+                    }
                 }
             }
         }
@@ -80,6 +96,13 @@ class VirusTotal : ScopedFragment() {
             shield.animate()
                 .alpha(0F)
                 .setDuration(250L)
+                .setStartDelay(1000L)
+                .start()
+
+            status.animate()
+                .alpha(0F)
+                .setDuration(250L)
+                .setStartDelay(250L)
                 .start()
 
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)

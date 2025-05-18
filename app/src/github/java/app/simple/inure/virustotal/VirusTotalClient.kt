@@ -4,6 +4,7 @@ import android.net.TrafficStats
 import android.util.Log
 import app.simple.inure.preferences.VirusTotalPreferences
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
@@ -72,7 +73,10 @@ class VirusTotalClient(private val apiKey: String) {
                 trySend(VirusTotalResult.Progress(
                         progressCode = VirusTotalResult.Progress.UPLOADING,
                         status = "Uploading file: $percent%",
-                        progress = percent.toFloat()))
+                        progress = percent))
+
+                log("Upload progress: $percent%")
+                ensureActive()
             }
 
             val requestBody = MultipartBody.Builder()
@@ -80,18 +84,22 @@ class VirusTotalClient(private val apiKey: String) {
                 .addFormDataPart("file", file.name, progressBody)
                 .build()
 
+            ensureActive()
+
             val request = Request.Builder()
                 .url("$baseUrl/files")
                 .addHeader("x-apikey", apiKey)
                 .post(requestBody)
                 .build()
 
+            ensureActive()
+
             try {
                 val response = client.newCall(request).execute()
                 response.use {
                     val json = it.body?.string()?.let { body -> JSONObject(body) }
                     if (json != null) {
-                        trySend(VirusTotalResult.Success(json))
+                        trySend(VirusTotalResult.Uploaded(json))
                     } else {
                         trySend(VirusTotalResult.Error("Upload failed: Empty response"))
                     }
@@ -107,6 +115,9 @@ class VirusTotalClient(private val apiKey: String) {
 
     private fun pollAnalysisResult(analysisId: String): Flow<VirusTotalResult> = callbackFlow {
         repeat(MAX_POLLING_ATTEMPTS) { it ->
+            ensureActive()
+            log("Polling for analysis result... Attempt: ${it + 1}")
+
             val request = Request.Builder()
                 .url("$baseUrl/analyses/$analysisId")
                 .addHeader("x-apikey", apiKey)
@@ -118,7 +129,8 @@ class VirusTotalClient(private val apiKey: String) {
                             progressCode = VirusTotalResult.Progress.POLLING,
                             status = "Polling for analysis result... Attempt: " +
                                     "${it + 1}, next in ${POLLING_INTERVAL / 1000} seconds",
-                            progress = (it + 1).toFloat() / MAX_POLLING_ATTEMPTS
+                            progress = (it + 1) / MAX_POLLING_ATTEMPTS,
+                            pollingAttempts = it + 1
                     ))
 
             try {
@@ -178,16 +190,17 @@ class VirusTotalClient(private val apiKey: String) {
                 uploadResults.add(result)
             }
 
-            val uploadResult = uploadResults.firstOrNull { it is VirusTotalResult.Success } as? VirusTotalResult.Success
+            val uploadResult = uploadResults.firstOrNull { it is VirusTotalResult.Uploaded } as? VirusTotalResult.Uploaded
             if (uploadResult != null) {
                 val analysisId = uploadResult.result.getJSONObject("data").getString("id")
                 emit(
                         VirusTotalResult.Progress(
-                        progressCode = VirusTotalResult.Progress.UPLOAD_SUCCESS,
-                        progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
-                        status = "File uploaded. Analysis ID: $analysisId"
+                                progressCode = VirusTotalResult.Progress.UPLOAD_SUCCESS,
+                                progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
+                                status = "File uploaded. Analysis ID: $analysisId"
                         )
                 )
+
                 pollAnalysisResult(analysisId).collect { result ->
                     emit(result)
                 }
@@ -214,7 +227,7 @@ class VirusTotalClient(private val apiKey: String) {
         }
 
         private const val MAX_FREE_FILE_SIZE = 32 * 1024 * 1024 // 32 MB
-        private const val MAX_POLLING_ATTEMPTS = 100
+        private const val MAX_POLLING_ATTEMPTS = 30
         private const val POLLING_INTERVAL = 10_000L
         private const val VIRUS_TOTAL_THREAD_TAG = 1458
     }

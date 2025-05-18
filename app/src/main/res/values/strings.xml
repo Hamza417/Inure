@@ -776,4 +776,8 @@
     <string name="bypass_target_sdk_check">Bypass Low Target SDK</string>
     <string name="replace_existing">Replace Existing</string>
     <string name="dont_kill">Don\'t Kill</string>
+    <string name="checking_hash">Checking Hash</string>
+    <string name="uploading_file">Uploading File %d%%</string>
+    <string name="hash_found">Hash already exist!</string>
+    <string name="polling_for_response">Polling for Response: %1$d</string>
 </resources>

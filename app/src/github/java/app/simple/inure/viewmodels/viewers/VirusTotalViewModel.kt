@@ -10,6 +10,7 @@ import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.virustotal.VirusTotalClient
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 
 class VirusTotalViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
@@ -47,18 +48,21 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { result ->
+                    ensureActive() // Check if UI is still active before posting any updates
+
                     when (result) {
                         is VirusTotalResult.Error -> {
                             failed.postValue(result)
-                            Log.e(TAG, result.message)
                         }
                         is VirusTotalResult.Progress -> {
                             progress.postValue(result)
-                            Log.i(TAG, "Progress: ${result.progressCode} - ${result.status} - ${result.progress}")
                         }
                         is VirusTotalResult.Success -> {
                             response.postValue(result)
-                            Log.i(TAG, "Success: ${result.result}")
+                        }
+                        is VirusTotalResult.Uploaded -> {
+                            // We don't need to show analysis ID in the UI
+                            Log.i(TAG, "Uploaded: ${result.result}")
                         }
                     }
                 }

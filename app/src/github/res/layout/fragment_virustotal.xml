@@ -53,18 +53,6 @@
                 app:appFontStyle="bold"
                 app:textColorStyle="accent" />
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:textSize="@dimen/info_text_tiny"
-                app:appFontStyle="regular"
-                app:textColorStyle="secondary" />
-
         </LinearLayout>
 
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
@@ -78,12 +66,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <app.simple.inure.decorations.views.WaveFillImageView
-            android:id="@+id/shield"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_policy" />
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.views.WaveFillImageView
+                android:id="@+id/shield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_policy" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/panel_item_padding"
+                android:gravity="center"
+                android:textSize="@dimen/home_heading_text_size"
+                app:appFontStyle="light"
+                app:textColorStyle="primary" />
+
+        </LinearLayout>
 
         <!-- TODO : Add a whole UI here -->
         <androidx.core.widget.NestedScrollView
