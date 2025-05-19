@@ -35,22 +35,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/malicious"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/malicious"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -59,22 +60,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/suspicious"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/suspicious"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -83,22 +85,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/undetected"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/undetected"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -107,22 +110,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/harmless"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/harmless"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -131,22 +135,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/timeout"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/timeout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -155,22 +160,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/confirmed_timeout"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/confirmed_timeout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -179,22 +185,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/failure"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/failure"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
             <TableRow>
@@ -203,22 +210,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="9"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:text="@string/type_unsupported"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
                     app:drawableStartCompat="@drawable/ic_dot_12dp"
-                    app:textColorStyle="accent" />
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
 
                 <app.simple.inure.decorations.typeface.TypeFaceTextView
                     android:id="@+id/type_unsupported"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="@dimen/info_text_small"
+                    android:textSize="@dimen/desc_text_size"
                     android:drawablePadding="5dp"
                     app:appFontStyle="regular"
-                    app:textColorStyle="secondary" />
+                    app:textColorStyle="tertiary" />
             </TableRow>
 
         </TableLayout>

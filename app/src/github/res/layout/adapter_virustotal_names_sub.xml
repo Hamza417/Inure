@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/name"
     android:layout_width="match_parent"
-    android:textSize="@dimen/info_text_small"
+    android:textSize="@dimen/desc_text_size"
     android:drawablePadding="5dp"
     android:layout_height="wrap_content"
     android:singleLine="true"

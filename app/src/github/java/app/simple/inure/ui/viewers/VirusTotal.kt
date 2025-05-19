@@ -102,7 +102,6 @@ class VirusTotal : ScopedFragment() {
             shield.animate()
                 .alpha(0F)
                 .setDuration(250L)
-                .setStartDelay(1000L)
                 .start()
 
             status.animate()
@@ -113,7 +112,7 @@ class VirusTotal : ScopedFragment() {
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
 
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            recyclerView.adapter = AdapterVirusTotal(it)
+            recyclerView.adapter = AdapterVirusTotal(it, packageInfo)
         }
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {

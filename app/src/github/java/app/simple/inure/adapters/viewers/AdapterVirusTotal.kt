@@ -1,19 +1,27 @@
 package app.simple.inure.adapters.viewers
 
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.sub.AdapterVirusTotalNamesList
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.DateUtils.toDate
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.virustotal.VirusTotalResponse
 
-class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : RecyclerView.Adapter<VerticalListViewHolder>() {
+class AdapterVirusTotal(
+        private val virusTotalResponse: VirusTotalResponse,
+        private val packageInfo: PackageInfo
+) : RecyclerView.Adapter<VerticalListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -60,8 +68,17 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                 holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString()
             }
             is TotalVotesHolder -> {
-                holder.satisfied.text = virusTotalResponse.totalVotes.harmless.toString()
-                holder.notSatisfied.text = virusTotalResponse.totalVotes.malicious.toString()
+                holder.satisfied.text = try {
+                    virusTotalResponse.totalVotes.harmless.toString()
+                } catch (e: NullPointerException) {
+                    0.toString()
+                }
+
+                holder.notSatisfied.text = try {
+                    virusTotalResponse.totalVotes.malicious.toString()
+                } catch (e: NullPointerException) {
+                    0.toString()
+                }
             }
             is AnalysisResultHolder -> {
                 val count = virusTotalResponse.lastAnalysisStats.malicious +
@@ -83,7 +100,7 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                 // Already set in the holder constructor
             }
             is NamesHolder -> {
-                holder.names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
+                // Already set in the holder constructor
             }
             else -> {
                 throw IllegalArgumentException("Invalid view holder")
@@ -107,6 +124,9 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
     }
 
     inner class GeneralInfoHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        val icon: ImageView = itemView.findViewById(R.id.icon)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val packageId: TypeFaceTextView = itemView.findViewById(R.id.package_name)
         val firstSubmissionDate: TypeFaceTextView = itemView.findViewById(R.id.first_submission_date)
         val lastSubmissionDate: TypeFaceTextView = itemView.findViewById(R.id.last_submission_date)
         val meaningfulName: TypeFaceTextView = itemView.findViewById(R.id.meaningful_name)
@@ -118,6 +138,12 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         init {
             val params = itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
             params.isFullSpan = true
+            icon.loadAppIcon(
+                    packageInfo.packageName,
+                    packageInfo.safeApplicationInfo.enabled,
+                    packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+            name.text = packageInfo.safeApplicationInfo.name
+            packageId.text = packageInfo.packageName
         }
     }
 
@@ -159,6 +185,7 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         init {
             names.layoutManager = LinearLayoutManager(itemView.context)
             names.setHasFixedSize(true)
+            names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
         }
     }
 

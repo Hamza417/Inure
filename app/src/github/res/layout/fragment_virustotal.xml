@@ -65,6 +65,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/list_animation_controller"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/popup_padding"
+            app:fastScrollEnabled="false"
+            app:isFadingEdgeRequired="false"
+            app:isFastScrollRequired="false"
+            app:statusBarPaddingRequired="false" />
+
         <LinearLayout
             android:padding="@dimen/panel_item_padding"
             android:layout_width="match_parent"
@@ -90,19 +103,6 @@
                 app:textColorStyle="primary" />
 
         </LinearLayout>
-
-        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutAnimation="@anim/list_animation_controller"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:padding="@dimen/popup_padding"
-            app:fastScrollEnabled="false"
-            app:isFadingEdgeRequired="false"
-            app:isFastScrollRequired="false"
-            app:statusBarPaddingRequired="false" />
 
     </FrameLayout>
 
