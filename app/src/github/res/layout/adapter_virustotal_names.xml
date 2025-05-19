@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="@dimen/app_views_elevation"
+    app:cardElevation="5dp"
+    app:contentPadding="@dimen/popup_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/names"
+            android:textSize="@dimen/info_text_medium"
+            android:drawablePadding="5dp"
+            app:appFontStyle="bold"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/names_recycler_view"
+            android:layout_width="match_parent"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="@dimen/popup_padding"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerMaterialCardView>

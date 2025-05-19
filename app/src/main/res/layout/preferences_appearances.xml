@@ -447,7 +447,7 @@
                         android:text="@string/corner_radius"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -636,7 +636,7 @@
                         android:text="@string/icon_size"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 

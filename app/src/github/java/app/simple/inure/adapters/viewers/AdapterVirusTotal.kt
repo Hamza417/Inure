@@ -3,9 +3,11 @@ package app.simple.inure.adapters.viewers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
+import app.simple.inure.adapters.sub.AdapterVirusTotalNamesList
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.DateUtils.toDate
@@ -23,7 +25,12 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
             TOTAL_VOTES -> {
                 TotalVotesHolder(
                         LayoutInflater.from(parent.context)
-                            .inflate(R.layout.adapter_total_votes, parent, false))
+                            .inflate(R.layout.adapter_virustotal_total_votes, parent, false))
+            }
+            NAMES -> {
+                NamesHolder(
+                        LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_virustotal_names, parent, false))
             }
             else -> {
                 throw IllegalArgumentException("Invalid view type")
@@ -32,8 +39,8 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
     }
 
     override fun onBindViewHolder(holder: VerticalListViewHolder, position: Int) {
-        when {
-            holder is GeneralInfoHolder -> {
+        when (holder) {
+            is GeneralInfoHolder -> {
                 holder.firstSubmissionDate.text = virusTotalResponse.firstSubmissionDate.times(1000L).toDate()
                 holder.lastSubmissionDate.text = virusTotalResponse.lastSubmissionDate.times(1000L).toDate()
                 holder.meaningfulName.text = virusTotalResponse.meaningfulName
@@ -42,21 +49,28 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                 holder.md5.text = virusTotalResponse.md5
                 holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString()
             }
-            holder is TotalVotesHolder -> {
+            is TotalVotesHolder -> {
                 holder.satisfied.text = virusTotalResponse.totalVotes.harmless.toString()
                 holder.notSatisfied.text = virusTotalResponse.totalVotes.malicious.toString()
+            }
+            is NamesHolder -> {
+                holder.names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
+            }
+            else -> {
+                throw IllegalArgumentException("Invalid view holder")
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return TOTAL_CARDS
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> GENERAL_INFO
             1 -> TOTAL_VOTES
+            2 -> NAMES
             else -> -1
         }
     }
@@ -81,8 +95,20 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         val notSatisfied: TypeFaceTextView = itemView.findViewById(R.id.not_satisfied_votes)
     }
 
+    inner class NamesHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        val names: RecyclerView = itemView.findViewById(R.id.names_recycler_view)
+
+        init {
+            names.layoutManager = LinearLayoutManager(itemView.context)
+            names.setHasFixedSize(true)
+        }
+    }
+
     companion object {
         private const val GENERAL_INFO = 0
         private const val TOTAL_VOTES = 1
+        private const val NAMES = 2
+
+        private const val TOTAL_CARDS = 3
     }
 }

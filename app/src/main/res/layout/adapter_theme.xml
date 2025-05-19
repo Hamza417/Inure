@@ -26,7 +26,7 @@
         android:layout_height="15dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/header_padding"
-        android:src="@drawable/ic_dot_tiny"
+        android:src="@drawable/ic_dot_16dp"
         android:visibility="invisible"
         app:tintType="secondary"
         tools:ignore="ContentDescription" />

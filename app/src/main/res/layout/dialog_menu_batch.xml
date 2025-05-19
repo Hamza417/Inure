@@ -107,7 +107,7 @@
                 android:textSize="@dimen/info_text_small"
                 android:drawablePadding="5dp"
                 app:appFontStyle="medium"
-                app:drawableEndCompat="@drawable/ic_dot_tiny"
+                app:drawableEndCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="accent" />
 

@@ -785,4 +785,5 @@
     <string name="last_submission_date">Last Submission Date</string>
     <string name="meaningful_name">Meaningful Name</string>
     <string name="times_submitted">Times Submitted</string>
+    <string name="names">Names</string>
 </resources>

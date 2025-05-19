@@ -477,7 +477,7 @@
                         android:textSize="@dimen/preferences_title_text_size"
                         android:gravity="center_vertical"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary"
                         tools:ignore="HardcodedText" />
@@ -511,7 +511,7 @@
                         android:text="@string/developer_profile"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_dot_tiny"
+                        app:drawableEndCompat="@drawable/ic_dot_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 

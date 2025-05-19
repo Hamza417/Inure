@@ -69,7 +69,7 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
                     holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_tiny, 0)
                 }
                 R.string.popup -> {
-                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_tiny, 0)
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_16dp, 0)
                 }
                 R.string.link -> {
                     holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_link_tiny, 0)

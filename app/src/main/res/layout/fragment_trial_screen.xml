@@ -107,7 +107,7 @@
                     android:text="@string/batch"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -121,7 +121,7 @@
                     android:text="@string/battery_optimization"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -135,7 +135,7 @@
                     android:text="@string/installer"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -149,7 +149,7 @@
                     android:text="@string/notes"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -163,7 +163,7 @@
                     android:text="@string/icon_shadows"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -177,7 +177,7 @@
                     android:text="@string/app_typeface"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -191,7 +191,7 @@
                     android:text="@string/activities"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -205,7 +205,7 @@
                     android:text="AppOps"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary"
                     tools:ignore="HardcodedText" />
@@ -220,7 +220,7 @@
                     android:text="@string/shared_prefs"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -234,7 +234,7 @@
                     android:text="@string/trackers"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -248,7 +248,7 @@
                     android:text="@string/usage_statistics"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -262,7 +262,7 @@
                     android:text="@string/boot_manager"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -276,7 +276,7 @@
                     android:text="@string/boot"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -290,7 +290,7 @@
                     android:text="@string/terminal"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -304,7 +304,7 @@
                     android:text="@string/terminal_commands"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -318,7 +318,7 @@
                     android:text="@string/music"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -332,7 +332,7 @@
                     android:text="@string/accent_colors"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -346,7 +346,7 @@
                     android:text="@string/corner_radius"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -360,7 +360,7 @@
                     android:text="@string/transitions"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -374,7 +374,7 @@
                     android:text="@string/arc_animations"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -388,7 +388,7 @@
                     android:text="@string/dividers"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -402,7 +402,7 @@
                     android:text="@string/deep_search"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -416,7 +416,7 @@
                     android:text="@string/APKs"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -430,7 +430,7 @@
                     android:text="@string/colorful_icons"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -444,7 +444,7 @@
                     android:text="@string/tags"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -459,7 +459,7 @@
                     android:text="@string/backup_and_restore_desc"
                     android:textSize="@dimen/info_text_small"
                     app:appFontStyle="regular"
-                    app:drawableStartCompat="@drawable/ic_dot_tiny"
+                    app:drawableStartCompat="@drawable/ic_dot_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
