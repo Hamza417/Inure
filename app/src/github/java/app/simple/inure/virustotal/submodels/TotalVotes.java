@@ -1,5 +1,7 @@
 package app.simple.inure.virustotal.submodels;
 
+import androidx.annotation.NonNull;
+
 public class TotalVotes {
     
     private int harmless;
@@ -21,5 +23,14 @@ public class TotalVotes {
     
     public void setMalicious(int malicious) {
         this.malicious = malicious;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "TotalVotes{" +
+                "harmless=" + harmless +
+                ", malicious=" + malicious +
+                '}';
     }
 }

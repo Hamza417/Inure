@@ -122,4 +122,19 @@ public class LastAnalysisStats implements Parcelable {
         dest.writeInt(failure);
         dest.writeInt(typeUnsupported);
     }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "LastAnalysisStats{" +
+                "malicious=" + malicious +
+                ", suspicious=" + suspicious +
+                ", undetected=" + undetected +
+                ", harmless=" + harmless +
+                ", timeout=" + timeout +
+                ", confirmedTimeout=" + confirmedTimeout +
+                ", failure=" + failure +
+                ", typeUnsupported=" + typeUnsupported +
+                '}';
+    }
 }

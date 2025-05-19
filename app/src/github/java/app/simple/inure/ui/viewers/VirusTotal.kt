@@ -105,6 +105,8 @@ class VirusTotal : ScopedFragment() {
                 .start()
 
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
+
+            Log.i(TAG, it.toString())
         }
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {

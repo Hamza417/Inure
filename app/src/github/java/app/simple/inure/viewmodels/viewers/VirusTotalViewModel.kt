@@ -7,11 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.utils.JsonParserUtil
 import app.simple.inure.virustotal.VirusTotalClient
+import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class VirusTotalViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
@@ -19,8 +22,8 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
         loadVirusTotalData()
     }
 
-    private val response: MutableLiveData<VirusTotalResult.Success> by lazy {
-        MutableLiveData<VirusTotalResult.Success>()
+    private val response: MutableLiveData<VirusTotalResponse> by lazy {
+        MutableLiveData<VirusTotalResponse>()
     }
 
     private val progress: MutableLiveData<VirusTotalResult.Progress> by lazy {
@@ -32,7 +35,7 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
         MutableLiveData<VirusTotalResult.Error>()
     }
 
-    fun getResponse(): LiveData<VirusTotalResult.Success> {
+    fun getResponse(): LiveData<VirusTotalResponse> {
         return response
     }
 
@@ -47,22 +50,22 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
     private fun loadVirusTotalData() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { result ->
+                VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { response ->
                     ensureActive() // Check if UI is still active before posting any updates
 
-                    when (result) {
+                    when (response) {
                         is VirusTotalResult.Error -> {
-                            failed.postValue(result)
+                            failed.postValue(response)
                         }
                         is VirusTotalResult.Progress -> {
-                            progress.postValue(result)
+                            progress.postValue(response)
                         }
                         is VirusTotalResult.Success -> {
-                            response.postValue(result)
+                            this@VirusTotalViewModel.response.postValue(handleResponse(response.result))
                         }
                         is VirusTotalResult.Uploaded -> {
                             // We don't need to show analysis ID in the UI
-                            Log.i(TAG, "Uploaded: ${result.result}")
+                            Log.i(TAG, "Uploaded: ${response.result}")
                         }
                     }
                 }
@@ -70,6 +73,10 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
                 postWarning(e.message)
             }
         }
+    }
+
+    fun handleResponse(jsonObject: JSONObject?): VirusTotalResponse? {
+        return JsonParserUtil.parseSingleAttributes(jsonObject, VirusTotalResponse::class.java)
     }
 
     companion object {

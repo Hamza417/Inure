@@ -1,23 +1,38 @@
 package app.simple.inure.virustotal;
 
-import app.simple.inure.virustotal.submodels.LastAnalysisResults;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+import app.simple.inure.virustotal.submodels.AnalysisResult;
 import app.simple.inure.virustotal.submodels.LastAnalysisStats;
-import app.simple.inure.virustotal.submodels.Names;
 import app.simple.inure.virustotal.submodels.TotalVotes;
 
 public class VirusTotalResponse {
     
+    @SerializedName ("last_analysis_stats")
     private LastAnalysisStats lastAnalysisStats;
-    private LastAnalysisResults lastAnalysisResults;
+    @SerializedName ("last_analysis_results")
+    private Map <String, AnalysisResult> lastAnalysisResults;
+    @SerializedName ("total_votes")
     private TotalVotes totalVotes;
-    private Names names;
-    
+    @SerializedName ("names")
+    private List <String> names;
+    @SerializedName ("first_submission_date")
     private long firstSubmissionDate;
+    @SerializedName ("last_submission_date")
     private long lastSubmissionDate;
+    @SerializedName ("meaningful_name")
     private String meaningfulName;
+    @SerializedName ("times_submitted")
     private int timesSubmitted;
+    @SerializedName ("sha256")
     private String sha256;
+    @SerializedName ("sha1")
     private String sha1;
+    @SerializedName ("md5")
     private String md5;
     
     public LastAnalysisStats getLastAnalysisStats() {
@@ -28,11 +43,11 @@ public class VirusTotalResponse {
         this.lastAnalysisStats = lastAnalysisStats;
     }
     
-    public LastAnalysisResults getLastAnalysisResults() {
+    public Map <String, AnalysisResult> getLastAnalysisResults() {
         return lastAnalysisResults;
     }
     
-    public void setLastAnalysisResults(LastAnalysisResults lastAnalysisResults) {
+    public void setLastAnalysisResults(Map <String, AnalysisResult> lastAnalysisResults) {
         this.lastAnalysisResults = lastAnalysisResults;
     }
     
@@ -44,11 +59,11 @@ public class VirusTotalResponse {
         this.totalVotes = totalVotes;
     }
     
-    public Names getNames() {
+    public List <String> getNames() {
         return names;
     }
     
-    public void setNames(Names names) {
+    public void setNames(List <String> names) {
         this.names = names;
     }
     
@@ -106,5 +121,23 @@ public class VirusTotalResponse {
     
     public void setMd5(String md5) {
         this.md5 = md5;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return "VirusTotalResponse{" +
+                "lastAnalysisStats=" + lastAnalysisStats +
+                ", lastAnalysisResults=" + lastAnalysisResults +
+                ", totalVotes=" + totalVotes +
+                ", names=" + names +
+                ", firstSubmissionDate=" + firstSubmissionDate +
+                ", lastSubmissionDate=" + lastSubmissionDate +
+                ", meaningfulName='" + meaningfulName + '\'' +
+                ", timesSubmitted=" + timesSubmitted +
+                ", sha256='" + sha256 + '\'' +
+                ", sha1='" + sha1 + '\'' +
+                ", md5='" + md5 + '\'' +
+                '}';
     }
 }
