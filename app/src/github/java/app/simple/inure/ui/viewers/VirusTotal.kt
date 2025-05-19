@@ -64,7 +64,7 @@ class VirusTotal : ScopedFragment() {
                 }
                 VirusTotalResult.Progress.UPLOADING -> {
                     shield.setFillPercent(0.1f + (it.progress - 0.1f) / 99.9f * 0.5f)
-                    status.text = getString(R.string.uploading_file, it.progress.toInt())
+                    status.text = getString(R.string.uploading_file, it.progress)
                 }
                 VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
                     shield.setFillPercent(0.6F)
@@ -102,7 +102,6 @@ class VirusTotal : ScopedFragment() {
             status.animate()
                 .alpha(0F)
                 .setDuration(250L)
-                .setStartDelay(250L)
                 .start()
 
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
