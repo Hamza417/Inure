@@ -37,7 +37,7 @@
             android:id="@+id/verdict"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/info_text_small"
+            android:textSize="@dimen/desc_text_size"
             android:text="@string/virustotal_verdict"
             app:appFontStyle="regular"
             app:textColorStyle="accent" />

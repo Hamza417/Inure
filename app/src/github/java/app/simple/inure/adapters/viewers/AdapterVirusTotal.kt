@@ -32,6 +32,11 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                         LayoutInflater.from(parent.context)
                             .inflate(R.layout.adapter_virustotal_analysis_result, parent, false))
             }
+            ANALYSIS_STATS -> {
+                AnalysisStatsHolder(
+                        LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_virustotal_analysis_stats, parent, false))
+            }
             NAMES -> {
                 NamesHolder(
                         LayoutInflater.from(parent.context)
@@ -74,6 +79,9 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                         virusTotalResponse.lastAnalysisResults.size - count
                 )
             }
+            is AnalysisStatsHolder -> {
+                // Already set in the holder constructor
+            }
             is NamesHolder -> {
                 holder.names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
             }
@@ -92,7 +100,8 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
             0 -> GENERAL_INFO
             1 -> TOTAL_VOTES
             2 -> ANALYSIS_RESULT
-            3 -> NAMES
+            3 -> ANALYSIS_STATS
+            4 -> NAMES
             else -> -1
         }
     }
@@ -122,6 +131,28 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         val verdict: TypeFaceTextView = itemView.findViewById(R.id.verdict)
     }
 
+    inner class AnalysisStatsHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        private val malicious: TypeFaceTextView = itemView.findViewById(R.id.malicious)
+        private val suspicious: TypeFaceTextView = itemView.findViewById(R.id.suspicious)
+        private val undetected: TypeFaceTextView = itemView.findViewById(R.id.undetected)
+        private val harmless: TypeFaceTextView = itemView.findViewById(R.id.harmless)
+        private val timeout: TypeFaceTextView = itemView.findViewById(R.id.timeout)
+        private val confirmedTimeout: TypeFaceTextView = itemView.findViewById(R.id.confirmed_timeout)
+        private val failure: TypeFaceTextView = itemView.findViewById(R.id.failure)
+        private val typeUnsupported: TypeFaceTextView = itemView.findViewById(R.id.type_unsupported)
+
+        init {
+            malicious.text = virusTotalResponse.lastAnalysisStats.malicious.toString()
+            suspicious.text = virusTotalResponse.lastAnalysisStats.suspicious.toString()
+            undetected.text = virusTotalResponse.lastAnalysisStats.undetected.toString()
+            harmless.text = virusTotalResponse.lastAnalysisStats.harmless.toString()
+            timeout.text = virusTotalResponse.lastAnalysisStats.timeout.toString()
+            confirmedTimeout.text = virusTotalResponse.lastAnalysisStats.confirmedTimeout.toString()
+            failure.text = virusTotalResponse.lastAnalysisStats.failure.toString()
+            typeUnsupported.text = virusTotalResponse.lastAnalysisStats.typeUnsupported.toString()
+        }
+    }
+
     inner class NamesHolder(itemView: View) : VerticalListViewHolder(itemView) {
         val names: RecyclerView = itemView.findViewById(R.id.names_recycler_view)
 
@@ -135,8 +166,9 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         private const val GENERAL_INFO = 0
         private const val TOTAL_VOTES = 1
         private const val ANALYSIS_RESULT = 2
-        private const val NAMES = 3
+        private const val ANALYSIS_STATS = 3
+        private const val NAMES = 4
 
-        private const val TOTAL_CARDS = 4
+        private const val TOTAL_CARDS = 5
     }
 }
