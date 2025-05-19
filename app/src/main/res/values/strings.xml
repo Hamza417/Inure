@@ -780,4 +780,9 @@
     <string name="uploading_file">Uploading File %d%%</string>
     <string name="hash_found">Hash already exist!</string>
     <string name="polling_for_response">Polling for Response: %1$d</string>
+    <string name="total_votes">Total Votes</string>
+    <string name="first_submission_date">First Submission Date</string>
+    <string name="last_submission_date">Last Submission Date</string>
+    <string name="meaningful_name">Meaningful Name</string>
+    <string name="times_submitted">Times Submitted</string>
 </resources>

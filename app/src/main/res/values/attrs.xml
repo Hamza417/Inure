@@ -63,6 +63,7 @@
             <flag name="warning" value="3" />
             <flag name="error" value="4" />
             <flag name="success" value="5" />
+            <flag name="custom" value="6" />
         </attr>
 
         <attr name="isDrawableHidden" format="boolean" />

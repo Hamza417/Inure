@@ -8,8 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
+import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -24,6 +27,7 @@ class VirusTotal : ScopedFragment() {
 
     private lateinit var shield: WaveFillImageView
     private lateinit var status: TypeFaceTextView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var virusTotalViewModel: VirusTotalViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,9 +35,11 @@ class VirusTotal : ScopedFragment() {
 
         shield = view.findViewById(R.id.shield)
         status = view.findViewById(R.id.status)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
-        virusTotalViewModel = ViewModelProvider(this, VirusTotalViewModelFactory(packageInfo))[VirusTotalViewModel::class.java]
+        virusTotalViewModel = ViewModelProvider(
+                this, VirusTotalViewModelFactory(packageInfo))[VirusTotalViewModel::class.java]
 
         return view
     }
@@ -106,7 +112,8 @@ class VirusTotal : ScopedFragment() {
 
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
 
-            Log.i(TAG, it.toString())
+            recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            recyclerView.adapter = AdapterVirusTotal(it)
         }
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {

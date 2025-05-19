@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="@dimen/app_views_elevation"
+    app:cardElevation="5dp"
+    app:contentPadding="@dimen/popup_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/total_votes"
+            android:textSize="@dimen/info_text_medium"
+            android:layout_marginBottom="@dimen/popup_padding"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/satisfied_votes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:drawablePadding="@dimen/popup_padding"
+                app:appFontStyle="regular"
+                app:drawableTint="#16a085"
+                app:drawableTintStyle="custom"
+                app:drawableTopCompat="@drawable/ic_satisfied_48dp"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/not_satisfied_votes"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:drawablePadding="@dimen/popup_padding"
+                app:appFontStyle="regular"
+                app:drawableTint="#cb4335"
+                app:drawableTintStyle="custom"
+                app:drawableTopCompat="@drawable/ic_not_satisfied_48dp"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerMaterialCardView>

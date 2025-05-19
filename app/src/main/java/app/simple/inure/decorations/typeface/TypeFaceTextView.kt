@@ -175,6 +175,9 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 ICON_TINT_ERROR -> {
                     animateDrawableColorChange(lastDrawableColor, Color.RED)
                 }
+                ICON_TINT_CUSTOM -> {
+                    /* no-op */
+                }
             }
         } else {
             when (drawableTintMode) {
@@ -189,11 +192,20 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
                 }
                 ICON_TINT_ERROR -> {
                     TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.RED))
-                } // Error
+                }
+                ICON_TINT_CUSTOM -> {
+                    /* no-op */
+                }
             }
         }
 
-        setLastDrawableColor()
+        if (drawableTintMode != ICON_TINT_CUSTOM) {
+            setLastDrawableColor()
+        }
+    }
+
+    private fun extracted() {
+        TextViewCompat.setCompoundDrawableTintList(this, ColorStateList.valueOf(Color.GRAY))
     }
 
     protected fun getDrawableTintColor(): Int {
@@ -372,5 +384,6 @@ open class TypeFaceTextView : AppCompatTextView, ThemeChangedListener, SharedPre
         const val ICON_TINT_WARNING = 3
         const val ICON_TINT_ERROR = 4
         const val ICON_TINT_SUCCESS = 5
+        const val ICON_TINT_CUSTOM = 6
     }
 }

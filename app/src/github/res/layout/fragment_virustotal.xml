@@ -62,11 +62,11 @@
         android:layout_height="1px" />
 
     <FrameLayout
-        android:padding="@dimen/panel_item_padding"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:padding="@dimen/panel_item_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -91,21 +91,18 @@
 
         </LinearLayout>
 
-        <!-- TODO : Add a whole UI here -->
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_view"
+        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            android:layoutAnimation="@anim/list_animation_controller"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/popup_padding"
+            app:fastScrollEnabled="false"
+            app:isFadingEdgeRequired="false"
+            app:isFastScrollRequired="false"
+            app:statusBarPaddingRequired="false" />
 
     </FrameLayout>
 
