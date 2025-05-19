@@ -13,6 +13,8 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.PorterDuffXfermode
 import android.util.AttributeSet
 import android.view.animation.LinearInterpolator
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 import kotlin.math.sin
 
 class WaveFillImageView @JvmOverloads constructor(
@@ -184,6 +186,13 @@ class WaveFillImageView @JvmOverloads constructor(
         canvas.drawPath(wavePath, wavePaint)
 
         canvas.restoreToCount(save2)
+    }
+
+    fun setSimpleDefaults() {
+        setFillPercent(0.6F, false)
+        setWaveColor(AppearancePreferences.getAccentColor())
+        setWaveAmplitude(5F, false)
+        setUnfilledColor(ThemeManager.theme.switchViewTheme.switchOffColor)
     }
 }
 

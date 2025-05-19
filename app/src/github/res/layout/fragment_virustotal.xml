@@ -55,6 +55,13 @@
 
         </LinearLayout>
 
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/options"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:src="@drawable/ic_more_vert"
+            app:buttonTintType="accent" />
+
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
@@ -79,7 +86,7 @@
             app:statusBarPaddingRequired="false" />
 
         <LinearLayout
-            android:padding="@dimen/panel_item_padding"
+            android:padding="32dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -98,9 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/panel_item_padding"
                 android:gravity="center"
-                android:textSize="@dimen/home_heading_text_size"
+                android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="light"
-                app:textColorStyle="primary" />
+                app:textColorStyle="tertiary" />
 
         </LinearLayout>
 

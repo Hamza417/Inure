@@ -68,21 +68,12 @@ class AdapterVirusTotal(
                 holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString()
             }
             is TotalVotesHolder -> {
-                holder.satisfied.text = try {
-                    virusTotalResponse.totalVotes.harmless.toString()
-                } catch (e: NullPointerException) {
-                    0.toString()
-                }
-
-                holder.notSatisfied.text = try {
-                    virusTotalResponse.totalVotes.malicious.toString()
-                } catch (e: NullPointerException) {
-                    0.toString()
-                }
+                holder.satisfied.text = (virusTotalResponse.totalVotes?.harmless ?: 0).toString()
+                holder.notSatisfied.text = (virusTotalResponse.totalVotes?.malicious ?: 0).toString()
             }
             is AnalysisResultHolder -> {
-                val count = virusTotalResponse.lastAnalysisStats.malicious +
-                        virusTotalResponse.lastAnalysisStats.suspicious
+                val count = (virusTotalResponse.lastAnalysisStats?.malicious ?: 0) +
+                        (virusTotalResponse.lastAnalysisStats?.suspicious ?: 0)
 
                 holder.result.text = buildString {
                     append(count)

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout
+        android:id="@+id/dialog_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:elevation="@dimen/dialog_elevation"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dialog_padding">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="5dp"
+                android:text="@string/loaders"
+                android:textSize="@dimen/info_text_small"
+                app:appFontStyle="bold"
+                app:drawableTintStyle="warning"
+                app:textColorStyle="primary" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/popup_padding" />
+
+            <HorizontalScrollView
+                android:id="@+id/icons"
+                android:layout_width="match_parent"
+                android:scrollbars="none"
+                android:fadingEdgeLength="@dimen/panel_item_padding"
+                android:requiresFadingEdge="horizontal"
+                android:fadingEdge="horizontal"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <app.simple.inure.decorations.views.WaveFillImageView
+                        android:id="@+id/policy"
+                        android:layout_width="@dimen/wavy_loader_option_dimension"
+                        android:layout_height="@dimen/wavy_loader_option_dimension"
+                        android:src="@drawable/ic_policy" />
+
+                    <Space
+                        android:layout_width="@dimen/popup_padding"
+                        android:layout_height="wrap_content" />
+
+                    <app.simple.inure.decorations.views.WaveFillImageView
+                        android:id="@+id/security"
+                        android:layout_width="@dimen/wavy_loader_option_dimension"
+                        android:layout_height="@dimen/wavy_loader_option_dimension"
+                        android:src="@drawable/ic_security" />
+
+                    <Space
+                        android:layout_width="@dimen/popup_padding"
+                        android:layout_height="wrap_content" />
+
+                    <app.simple.inure.decorations.views.WaveFillImageView
+                        android:id="@+id/find_in_page"
+                        android:layout_width="@dimen/wavy_loader_option_dimension"
+                        android:layout_height="@dimen/wavy_loader_option_dimension"
+                        android:src="@drawable/ic_find_in_page" />
+
+                    <Space
+                        android:layout_width="@dimen/popup_padding"
+                        android:layout_height="wrap_content" />
+
+                    <app.simple.inure.decorations.views.WaveFillImageView
+                        android:id="@+id/search"
+                        android:layout_width="@dimen/wavy_loader_option_dimension"
+                        android:layout_height="@dimen/wavy_loader_option_dimension"
+                        android:src="@drawable/ic_search" />
+
+                    <Space
+                        android:layout_width="@dimen/popup_padding"
+                        android:layout_height="wrap_content" />
+
+                    <app.simple.inure.decorations.views.WaveFillImageView
+                        android:id="@+id/fingerprint"
+                        android:layout_width="@dimen/wavy_loader_option_dimension"
+                        android:layout_height="@dimen/wavy_loader_option_dimension"
+                        android:src="@drawable/ic_fingerprint" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+
+        <app.simple.inure.decorations.theme.ThemeDivider
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_margin="@dimen/dialog_padding" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/dialog_open_apps_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:padding="@dimen/dialog_padding"
+            android:text="@string/open_application_settings"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>

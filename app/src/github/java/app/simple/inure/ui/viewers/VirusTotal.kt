@@ -1,7 +1,7 @@
 package app.simple.inure.ui.viewers
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,11 +13,15 @@ import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
+import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTotalMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
 import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.preferences.VirusTotalPreferences
+import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
@@ -27,6 +31,7 @@ class VirusTotal : ScopedFragment() {
 
     private lateinit var shield: WaveFillImageView
     private lateinit var status: TypeFaceTextView
+    private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var virusTotalViewModel: VirusTotalViewModel
 
@@ -35,6 +40,7 @@ class VirusTotal : ScopedFragment() {
 
         shield = view.findViewById(R.id.shield)
         status = view.findViewById(R.id.status)
+        options = view.findViewById(R.id.options)
         recyclerView = view.findViewById(R.id.recycler_view)
 
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
@@ -48,7 +54,8 @@ class VirusTotal : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        shield.setUnfilledColor(Color.LTGRAY)
+        setLoaderType()
+        shield.setUnfilledColor(ThemeManager.theme.switchViewTheme.switchOffColor)
         shield.setWaveColor(AppearancePreferences.getAccentColor())
 
         if (requireArguments().getBoolean(SHIELD_VISIBILITY, true).invert()) {
@@ -117,6 +124,39 @@ class VirusTotal : ScopedFragment() {
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {
             showWarning(it)
+        }
+
+        options.setOnClickListener {
+            childFragmentManager.showVirusTotalMenu()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            VirusTotalPreferences.LOADER_TYPE -> {
+                setLoaderType()
+            }
+        }
+    }
+
+    private fun setLoaderType() {
+        when (VirusTotalPreferences.getLoaderType()) {
+            VirusTotalPreferences.LOADER_TYPE_POLICY -> {
+                shield.setImageResource(R.drawable.ic_policy)
+            }
+            VirusTotalPreferences.LOADER_TYPE_SECURITY -> {
+                shield.setImageResource(R.drawable.ic_security)
+            }
+            VirusTotalPreferences.LOADER_TYPE_FIND_IN_PAGE -> {
+                shield.setImageResource(R.drawable.ic_find_in_page)
+            }
+            VirusTotalPreferences.LOADER_TYPE_SEARCH -> {
+                shield.setImageResource(R.drawable.ic_search)
+            }
+            VirusTotalPreferences.LOADER_TYPE_FINGERPRINT -> {
+                shield.setImageResource(R.drawable.ic_fingerprint)
+            }
         }
     }
 
