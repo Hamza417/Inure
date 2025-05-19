@@ -27,6 +27,11 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                         LayoutInflater.from(parent.context)
                             .inflate(R.layout.adapter_virustotal_total_votes, parent, false))
             }
+            ANALYSIS_RESULT -> {
+                AnalysisResultHolder(
+                        LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_virustotal_analysis_result, parent, false))
+            }
             NAMES -> {
                 NamesHolder(
                         LayoutInflater.from(parent.context)
@@ -53,6 +58,22 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
                 holder.satisfied.text = virusTotalResponse.totalVotes.harmless.toString()
                 holder.notSatisfied.text = virusTotalResponse.totalVotes.malicious.toString()
             }
+            is AnalysisResultHolder -> {
+                val count = virusTotalResponse.lastAnalysisStats.malicious +
+                        virusTotalResponse.lastAnalysisStats.suspicious
+
+                holder.result.text = buildString {
+                    append(count)
+                    append(" / ")
+                    append(virusTotalResponse.lastAnalysisResults.size)
+                }
+
+                holder.verdict.text = holder.getString(
+                        R.string.virustotal_verdict,
+                        count,
+                        virusTotalResponse.lastAnalysisResults.size - count
+                )
+            }
             is NamesHolder -> {
                 holder.names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
             }
@@ -70,7 +91,8 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         return when (position) {
             0 -> GENERAL_INFO
             1 -> TOTAL_VOTES
-            2 -> NAMES
+            2 -> ANALYSIS_RESULT
+            3 -> NAMES
             else -> -1
         }
     }
@@ -95,6 +117,11 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
         val notSatisfied: TypeFaceTextView = itemView.findViewById(R.id.not_satisfied_votes)
     }
 
+    inner class AnalysisResultHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        val result: TypeFaceTextView = itemView.findViewById(R.id.result)
+        val verdict: TypeFaceTextView = itemView.findViewById(R.id.verdict)
+    }
+
     inner class NamesHolder(itemView: View) : VerticalListViewHolder(itemView) {
         val names: RecyclerView = itemView.findViewById(R.id.names_recycler_view)
 
@@ -107,8 +134,9 @@ class AdapterVirusTotal(private val virusTotalResponse: VirusTotalResponse) : Re
     companion object {
         private const val GENERAL_INFO = 0
         private const val TOTAL_VOTES = 1
-        private const val NAMES = 2
+        private const val ANALYSIS_RESULT = 2
+        private const val NAMES = 3
 
-        private const val TOTAL_CARDS = 3
+        private const val TOTAL_CARDS = 4
     }
 }

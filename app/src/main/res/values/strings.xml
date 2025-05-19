@@ -786,4 +786,15 @@
     <string name="meaningful_name">Meaningful Name</string>
     <string name="times_submitted">Times Submitted</string>
     <string name="names">Names</string>
+    <string name="analysis_result">Analysis Result</string>
+    <string name="virustotal_verdict">%1$d found the application to be malicious or suspicious and %2$d found it to be safe.</string>
+    <string name="final_analysis_stats">Final Analysis Stats</string>
+    <string name="malicious">Malicious</string>
+    <string name="suspicious">Suspicious</string>
+    <string name="undetected">Undetected</string>
+    <string name="harmless">Harmless</string>
+    <string name="timeout">Timeout</string>
+    <string name="confirmed_timeout">Confirmed Timeout</string>
+    <string name="failure">Failure</string>
+    <string name="type_unsupported">Type Unsupported</string>
 </resources>
