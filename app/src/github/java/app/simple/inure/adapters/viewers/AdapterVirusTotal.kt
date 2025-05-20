@@ -53,6 +53,11 @@ class AdapterVirusTotal(
                         LayoutInflater.from(parent.context)
                             .inflate(R.layout.adapter_virustotal_names, parent, false))
             }
+            OPEN_PAGE -> {
+                OpenPageHolder(
+                        LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_virustotal_open_page, parent, false))
+            }
             else -> {
                 throw IllegalArgumentException("Invalid view type")
             }
@@ -91,13 +96,16 @@ class AdapterVirusTotal(
                 )
 
                 holder.container.setOnClickListener {
-                    adapterVirusTotalListener?.onAnalysisResultClick(virusTotalResponse)
+                    adapterVirusTotalListener?.onAnalysisResult(virusTotalResponse)
                 }
             }
             is AnalysisStatsHolder -> {
                 // Already set in the holder constructor
             }
             is NamesHolder -> {
+                // Already set in the holder constructor
+            }
+            is OpenPageHolder -> {
                 // Already set in the holder constructor
             }
             else -> {
@@ -117,6 +125,7 @@ class AdapterVirusTotal(
             2 -> ANALYSIS_RESULT
             3 -> ANALYSIS_STATS
             4 -> NAMES
+            5 -> OPEN_PAGE
             else -> -1
         }
     }
@@ -188,6 +197,16 @@ class AdapterVirusTotal(
         }
     }
 
+    inner class OpenPageHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        private val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
+
+        init {
+            container.setOnClickListener {
+                adapterVirusTotalListener?.onOpenReportPage(virusTotalResponse)
+            }
+        }
+    }
+
     fun setAdapterVirusTotalListener(adapterVirusTotalListener: AdapterVirusTotalListener) {
         this.adapterVirusTotalListener = adapterVirusTotalListener
     }
@@ -198,11 +217,13 @@ class AdapterVirusTotal(
         private const val ANALYSIS_RESULT = 2
         private const val ANALYSIS_STATS = 3
         private const val NAMES = 4
+        private const val OPEN_PAGE = 5
 
-        private const val TOTAL_CARDS = 5
+        private const val TOTAL_CARDS = 6
 
         interface AdapterVirusTotalListener {
-            fun onAnalysisResultClick(response: VirusTotalResponse)
+            fun onAnalysisResult(response: VirusTotalResponse)
+            fun onOpenReportPage(response: VirusTotalResponse)
         }
     }
 }

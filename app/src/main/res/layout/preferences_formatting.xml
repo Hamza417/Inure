@@ -220,7 +220,7 @@
                         android:text="@string/app_information"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 

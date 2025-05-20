@@ -56,7 +56,7 @@
                 android:text="@string/app_information"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
@@ -84,7 +84,7 @@
                 android:layout_marginBottom="@dimen/popup_item_gap_length"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
@@ -138,7 +138,7 @@
                     android:text="@string/permissions"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -153,7 +153,7 @@
                     android:text="@string/activities"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -176,7 +176,7 @@
                     android:text="@string/services"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -191,7 +191,7 @@
                     android:text="@string/receivers"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -212,7 +212,7 @@
                     android:text="@string/providers"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -226,7 +226,7 @@
                     android:text="@string/resources"
                     android:textSize="@dimen/popup_text_size"
                     app:appFontStyle="bold"
-                    app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                    app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                     app:drawableTintStyle="accent"
                     app:textColorStyle="secondary" />
 
@@ -247,7 +247,7 @@
                 android:text="@string/manifest"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
@@ -261,7 +261,7 @@
                 android:text="@string/trackers"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 
@@ -275,7 +275,7 @@
                 android:text="@string/notes"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="secondary" />
 

@@ -163,7 +163,7 @@
                         android:text="@string/title_fontsize_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -208,7 +208,7 @@
                         android:text="@string/title_color_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -393,7 +393,7 @@
                         android:text="@string/title_backaction_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -438,7 +438,7 @@
                         android:text="@string/title_controlkey_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 
@@ -485,7 +485,7 @@
                         android:text="@string/title_fnkey_preference"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:textColorStyle="primary" />
 

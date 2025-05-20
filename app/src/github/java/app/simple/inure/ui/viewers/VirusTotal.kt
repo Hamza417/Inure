@@ -24,6 +24,8 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
 import app.simple.inure.virustotal.VirusTotalResponse
@@ -124,8 +126,15 @@ class VirusTotal : ScopedFragment() {
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
             adapter.setAdapterVirusTotalListener(object : AdapterVirusTotal.Companion.AdapterVirusTotalListener {
-                override fun onAnalysisResultClick(response: VirusTotalResponse) {
+                override fun onAnalysisResult(response: VirusTotalResponse) {
                     childFragmentManager.showAnalysisResult(response.lastAnalysisResults)
+                }
+
+                override fun onOpenReportPage(response: VirusTotalResponse) {
+                    buildString {
+                        append("https://www.virustotal.com/gui/file/")
+                        append(response.sha256)
+                    }.asUri().openInBrowser(requireContext())
                 }
             })
 

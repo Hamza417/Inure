@@ -80,7 +80,7 @@
             android:gravity="center_vertical"
             android:drawablePadding="5dp"
             app:appFontStyle="regular"
-            app:drawableStartCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableStartCompat="@drawable/ic_arrow_right_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="secondary" />
 

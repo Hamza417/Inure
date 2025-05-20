@@ -42,7 +42,7 @@
             android:text="@string/visibility_customization"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -89,7 +89,7 @@
             android:text="@string/open_application_settings"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+            app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 

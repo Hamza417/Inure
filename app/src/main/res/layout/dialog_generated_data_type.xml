@@ -191,7 +191,7 @@
                 android:text="@string/generate_apps_list"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
-                app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+                app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="accent"
                 tools:ignore="HardcodedText" />
