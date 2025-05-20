@@ -127,7 +127,7 @@ class VirusTotal : ScopedFragment() {
 
             adapter.setAdapterVirusTotalListener(object : AdapterVirusTotal.Companion.AdapterVirusTotalListener {
                 override fun onAnalysisResult(response: VirusTotalResponse) {
-                    childFragmentManager.showAnalysisResult(response.lastAnalysisResults)
+                    childFragmentManager.showAnalysisResult(response.lastAnalysisResults ?: HashMap())
                 }
 
                 override fun onOpenReportPage(response: VirusTotalResponse) {

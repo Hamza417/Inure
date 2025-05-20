@@ -27,7 +27,7 @@
         android:layout_gravity="center_vertical"
         android:paddingHorizontal="8dp"
         android:textStyle="italic"
-        android:textSize="@dimen/info_text_small"
+        android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
         app:textColorStyle="tertiary" />
 

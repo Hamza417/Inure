@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import app.simple.inure.virustotal.submodels.AnalysisResult;
 import app.simple.inure.virustotal.submodels.LastAnalysisStats;
 import app.simple.inure.virustotal.submodels.TotalVotes;
@@ -43,6 +44,7 @@ public class VirusTotalResponse {
         this.lastAnalysisStats = lastAnalysisStats;
     }
     
+    @Nullable
     public HashMap <String, AnalysisResult> getLastAnalysisResults() {
         return lastAnalysisResults;
     }

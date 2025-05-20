@@ -69,7 +69,7 @@ class AdapterVirusTotalAnalysisResult(private val data: HashMap<String, Analysis
 
         holder.data.text = buildString {
             if (item.value.engineVersion.isNotNullOrEmpty()) {
-                appendFlag(item.value.engineVersion)
+                appendFlag("v" + item.value.engineVersion)
             }
 
             when (item.value.category) {

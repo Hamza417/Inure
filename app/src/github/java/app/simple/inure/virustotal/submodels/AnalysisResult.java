@@ -1,5 +1,7 @@
 package app.simple.inure.virustotal.submodels;
 
+import com.google.gson.annotations.SerializedName;
+
 import androidx.annotation.NonNull;
 
 /**
@@ -30,11 +32,17 @@ import androidx.annotation.NonNull;
  */
 public final class AnalysisResult {
     
+    @SerializedName ("method")
     private String method;
+    @SerializedName ("engine_name")
     private String engineName;
+    @SerializedName ("engine_version")
     private String engineVersion;
+    @SerializedName ("engine_update")
     private String engineUpdate;
+    @SerializedName ("category")
     private String category;
+    @SerializedName ("result")
     private String result;
     
     /**

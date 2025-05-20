@@ -3,17 +3,27 @@ package app.simple.inure.virustotal.submodels;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import androidx.annotation.NonNull;
 
 public class LastAnalysisStats implements Parcelable {
     
+    @SerializedName ("malicious")
     private int malicious;
+    @SerializedName ("suspicious")
     private int suspicious;
+    @SerializedName ("undetected")
     private int undetected;
+    @SerializedName ("harmless")
     private int harmless;
+    @SerializedName ("timeout")
     private int timeout;
+    @SerializedName ("confirmed-timeout")
     private int confirmedTimeout;
+    @SerializedName ("failure")
     private int failure;
+    @SerializedName ("type-unsupported")
     private int typeUnsupported;
     
     protected LastAnalysisStats(Parcel in) {

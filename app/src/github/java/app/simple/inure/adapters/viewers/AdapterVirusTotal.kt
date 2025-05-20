@@ -86,13 +86,13 @@ class AdapterVirusTotal(
                 holder.result.text = buildString {
                     append(count)
                     append(" / ")
-                    append(virusTotalResponse.lastAnalysisResults.size)
+                    append(virusTotalResponse.lastAnalysisResults?.size ?: 0)
                 }
 
                 holder.verdict.text = holder.getString(
                         R.string.virustotal_verdict,
                         count,
-                        virusTotalResponse.lastAnalysisResults.size - count
+                        (virusTotalResponse.lastAnalysisResults?.size ?: 0) - count
                 )
 
                 holder.container.setOnClickListener {
@@ -176,14 +176,26 @@ class AdapterVirusTotal(
         private val typeUnsupported: TypeFaceTextView = itemView.findViewById(R.id.type_unsupported)
 
         init {
-            malicious.text = virusTotalResponse.lastAnalysisStats.malicious.toString()
-            suspicious.text = virusTotalResponse.lastAnalysisStats.suspicious.toString()
-            undetected.text = virusTotalResponse.lastAnalysisStats.undetected.toString()
-            harmless.text = virusTotalResponse.lastAnalysisStats.harmless.toString()
-            timeout.text = virusTotalResponse.lastAnalysisStats.timeout.toString()
-            confirmedTimeout.text = virusTotalResponse.lastAnalysisStats.confirmedTimeout.toString()
-            failure.text = virusTotalResponse.lastAnalysisStats.failure.toString()
-            typeUnsupported.text = virusTotalResponse.lastAnalysisStats.typeUnsupported.toString()
+            try {
+                malicious.text = virusTotalResponse.lastAnalysisStats.malicious.toString()
+                suspicious.text = virusTotalResponse.lastAnalysisStats.suspicious.toString()
+                undetected.text = virusTotalResponse.lastAnalysisStats.undetected.toString()
+                harmless.text = virusTotalResponse.lastAnalysisStats.harmless.toString()
+                timeout.text = virusTotalResponse.lastAnalysisStats.timeout.toString()
+                confirmedTimeout.text = virusTotalResponse.lastAnalysisStats.confirmedTimeout.toString()
+                failure.text = virusTotalResponse.lastAnalysisStats.failure.toString()
+                typeUnsupported.text = virusTotalResponse.lastAnalysisStats.typeUnsupported.toString()
+            } catch (e: NullPointerException) {
+                // Handle the case where lastAnalysisStats is null
+                malicious.text = "0"
+                suspicious.text = "0"
+                undetected.text = "0"
+                harmless.text = "0"
+                timeout.text = "0"
+                confirmedTimeout.text = "0"
+                failure.text = "0"
+                typeUnsupported.text = "0"
+            }
         }
     }
 
@@ -193,7 +205,7 @@ class AdapterVirusTotal(
         init {
             names.layoutManager = LinearLayoutManager(itemView.context)
             names.setHasFixedSize(true)
-            names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names)
+            names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names ?: emptyList())
         }
     }
 
