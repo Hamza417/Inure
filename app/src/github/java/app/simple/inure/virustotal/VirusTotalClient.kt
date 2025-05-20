@@ -68,13 +68,44 @@ class VirusTotalClient(private val apiKey: String) {
     }
 
     private fun uploadFile(file: File): Flow<VirusTotalResult> = callbackFlow {
-        if (file.length() <= MAX_FREE_FILE_SIZE) {
-            val progressBody = ProgressRequestBody(file, "application/octet-stream".toMediaTypeOrNull()) { percent ->
-                trySend(VirusTotalResult.Progress(
-                        progressCode = VirusTotalResult.Progress.UPLOADING,
-                        status = "Uploading file: $percent%",
-                        progress = percent))
+        try {
+            val uploadEndpoint: String
+            if (file.length() <= MAX_FREE_FILE_SIZE) {
+                uploadEndpoint = "$baseUrl/files"
+            } else {
+                // Request upload URL for large files
+                log("Requesting upload URL for large file: ${file.absolutePath}")
 
+                val request = Request.Builder()
+                    .url("$baseUrl/files/upload_url")
+                    .addHeader("x-apikey", apiKey)
+                    .get()
+                    .build()
+                val response = client.newCall(request).execute()
+                response.use {
+                    if (!it.isSuccessful) {
+                        trySend(VirusTotalResult.Error("Failed to get upload URL: ${it.code}"))
+                        close()
+                        return@callbackFlow
+                    }
+                    val json = it.body?.string()?.let { body -> JSONObject(body) }
+                    uploadEndpoint = json?.getString("data")
+                        ?: run {
+                            trySend(VirusTotalResult.Error("Upload URL missing in response"))
+                            close()
+                            return@callbackFlow
+                        }
+                }
+            }
+
+            val progressBody = ProgressRequestBody(file, "application/octet-stream".toMediaTypeOrNull()) { percent ->
+                trySend(
+                        VirusTotalResult.Progress(
+                                progressCode = VirusTotalResult.Progress.UPLOADING,
+                                status = "Uploading file: $percent%",
+                                progress = percent
+                        )
+                )
                 log("Upload progress: $percent%")
                 ensureActive()
             }
@@ -86,29 +117,23 @@ class VirusTotalClient(private val apiKey: String) {
 
             ensureActive()
 
-            val request = Request.Builder()
-                .url("$baseUrl/files")
+            val uploadRequest = Request.Builder()
+                .url(uploadEndpoint)
                 .addHeader("x-apikey", apiKey)
                 .post(requestBody)
                 .build()
 
-            ensureActive()
-
-            try {
-                val response = client.newCall(request).execute()
-                response.use {
-                    val json = it.body?.string()?.let { body -> JSONObject(body) }
-                    if (json != null) {
-                        trySend(VirusTotalResult.Uploaded(json))
-                    } else {
-                        trySend(VirusTotalResult.Error("Upload failed: Empty response"))
-                    }
+            val uploadResponse = client.newCall(uploadRequest).execute()
+            uploadResponse.use {
+                val json = it.body?.string()?.let { body -> JSONObject(body) }
+                if (json != null) {
+                    trySend(VirusTotalResult.Uploaded(json))
+                } else {
+                    trySend(VirusTotalResult.Error("Upload failed: Empty response"))
                 }
-            } catch (e: Exception) {
-                trySend(VirusTotalResult.Error("Upload failed: ${e.message}"))
             }
-        } else {
-            trySend(VirusTotalResult.Error("File size exceeds the limit of 32 MB"))
+        } catch (e: Exception) {
+            trySend(VirusTotalResult.Error("Upload failed: ${e.message}"))
         }
         close()
     }
