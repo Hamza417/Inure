@@ -58,6 +58,11 @@ class AdapterVirusTotal(
                         LayoutInflater.from(parent.context)
                             .inflate(R.layout.adapter_virustotal_open_page, parent, false))
             }
+            VT_DISCLAIMER -> {
+                DisclaimerHolder(
+                        LayoutInflater.from(parent.context)
+                            .inflate(R.layout.adapter_virustotal_disclaimer, parent, false))
+            }
             else -> {
                 throw IllegalArgumentException("Invalid view type")
             }
@@ -108,6 +113,9 @@ class AdapterVirusTotal(
             is OpenPageHolder -> {
                 // Already set in the holder constructor
             }
+            is DisclaimerHolder -> {
+                // No action needed for disclaimer holder
+            }
             else -> {
                 throw IllegalArgumentException("Invalid view holder")
             }
@@ -126,6 +134,7 @@ class AdapterVirusTotal(
             3 -> ANALYSIS_STATS
             4 -> NAMES
             5 -> OPEN_PAGE
+            6 -> VT_DISCLAIMER
             else -> -1
         }
     }
@@ -219,6 +228,8 @@ class AdapterVirusTotal(
         }
     }
 
+    inner class DisclaimerHolder(itemView: View) : VerticalListViewHolder(itemView)
+
     fun setAdapterVirusTotalListener(adapterVirusTotalListener: AdapterVirusTotalListener) {
         this.adapterVirusTotalListener = adapterVirusTotalListener
     }
@@ -230,8 +241,9 @@ class AdapterVirusTotal(
         private const val ANALYSIS_STATS = 3
         private const val NAMES = 4
         private const val OPEN_PAGE = 5
+        private const val VT_DISCLAIMER = 6
 
-        private const val TOTAL_CARDS = 6
+        private const val TOTAL_CARDS = 7
 
         interface AdapterVirusTotalListener {
             fun onAnalysisResult(response: VirusTotalResponse)
