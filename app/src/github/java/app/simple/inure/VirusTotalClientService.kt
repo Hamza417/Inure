@@ -232,6 +232,7 @@ class VirusTotalClientService : Service() {
     private fun createNotification() {
         createNotificationChannel()
 
+        notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
         notificationBuilder.setContentTitle(getString(R.string.virustotal))
             .setSmallIcon(android.R.drawable.stat_sys_upload)
             .setCategory(Notification.CATEGORY_SERVICE)
