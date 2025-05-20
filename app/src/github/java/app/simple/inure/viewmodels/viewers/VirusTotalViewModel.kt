@@ -12,11 +12,14 @@ import app.simple.inure.virustotal.VirusTotalClient
 import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class VirusTotalViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
+
+    private var job: Job? = null
 
     init {
         loadVirusTotalData()
@@ -48,7 +51,8 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
     }
 
     private fun loadVirusTotalData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        job?.cancel()
+        job = viewModelScope.launch(Dispatchers.IO) {
             try {
                 VirusTotalClient.getInstance().scanFile(packageInfo.applicationInfo?.sourceDir!!).collect { response ->
                     ensureActive() // Check if UI is still active before posting any updates
@@ -75,8 +79,12 @@ class VirusTotalViewModel(application: Application, private val packageInfo: Pac
         }
     }
 
-    fun handleResponse(jsonObject: JSONObject?): VirusTotalResponse? {
+    private fun handleResponse(jsonObject: JSONObject?): VirusTotalResponse? {
         return JsonParserUtil.parseSingleAttributes(jsonObject, VirusTotalResponse::class.java)
+    }
+
+    fun refetch() {
+        loadVirusTotalData()
     }
 
     companion object {

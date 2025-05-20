@@ -799,4 +799,5 @@
     <string name="type_unsupported">Type Unsupported</string>
     <string name="loaders">Loaders</string>
     <string name="open_vt_page">Open Scan Report Page</string>
+    <string name="refetch_report">Refetch Report</string>
 </resources>

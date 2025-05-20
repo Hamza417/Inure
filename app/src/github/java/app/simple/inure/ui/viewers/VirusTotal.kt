@@ -17,6 +17,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.dialogs.virustotal.VirusTotalAnalysisResult.Companion.showAnalysisResult
+import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.VirusTotalMenuListener
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTotalMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
@@ -146,7 +147,11 @@ class VirusTotal : ScopedFragment() {
         }
 
         options.setOnClickListener {
-            childFragmentManager.showVirusTotalMenu()
+            childFragmentManager.showVirusTotalMenu().setVirusTotalMenuListener(object : VirusTotalMenuListener {
+                override fun onRefetch() {
+                    virusTotalViewModel.refetch()
+                }
+            })
         }
     }
 
