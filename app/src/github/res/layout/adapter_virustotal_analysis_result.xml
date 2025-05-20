@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
@@ -20,7 +21,7 @@
             android:textSize="@dimen/info_text_medium"
             android:drawablePadding="5dp"
             app:appFontStyle="bold"
-            app:drawableEndCompat="@drawable/ic_dot_12dp"
+            app:drawableEndCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -44,4 +45,4 @@
 
     </LinearLayout>
 
-</app.simple.inure.decorations.corners.DynamicCornerMaterialCardView>
+</app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView>

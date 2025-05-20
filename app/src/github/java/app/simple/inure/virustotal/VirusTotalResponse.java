@@ -2,8 +2,8 @@ package app.simple.inure.virustotal;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import app.simple.inure.virustotal.submodels.AnalysisResult;
@@ -15,7 +15,7 @@ public class VirusTotalResponse {
     @SerializedName ("last_analysis_stats")
     private LastAnalysisStats lastAnalysisStats;
     @SerializedName ("last_analysis_results")
-    private Map <String, AnalysisResult> lastAnalysisResults;
+    private HashMap <String, AnalysisResult> lastAnalysisResults;
     @SerializedName ("total_votes")
     private TotalVotes totalVotes;
     @SerializedName ("names")
@@ -43,11 +43,11 @@ public class VirusTotalResponse {
         this.lastAnalysisStats = lastAnalysisStats;
     }
     
-    public Map <String, AnalysisResult> getLastAnalysisResults() {
+    public HashMap <String, AnalysisResult> getLastAnalysisResults() {
         return lastAnalysisResults;
     }
     
-    public void setLastAnalysisResults(Map <String, AnalysisResult> lastAnalysisResults) {
+    public void setLastAnalysisResults(HashMap <String, AnalysisResult> lastAnalysisResults) {
         this.lastAnalysisResults = lastAnalysisResults;
     }
     

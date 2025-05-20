@@ -16,6 +16,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
+import app.simple.inure.dialogs.virustotal.VirusTotalAnalysisResult.Companion.showAnalysisResult
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTotalMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
@@ -25,6 +26,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
+import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
 
 class VirusTotal : ScopedFragment() {
@@ -118,8 +120,16 @@ class VirusTotal : ScopedFragment() {
 
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
 
+            val adapter = AdapterVirusTotal(it, packageInfo)
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            recyclerView.adapter = AdapterVirusTotal(it, packageInfo)
+
+            adapter.setAdapterVirusTotalListener(object : AdapterVirusTotal.Companion.AdapterVirusTotalListener {
+                override fun onAnalysisResultClick(response: VirusTotalResponse) {
+                    childFragmentManager.showAnalysisResult(response.lastAnalysisResults)
+                }
+            })
+
+            recyclerView.adapter = adapter
         }
 
         virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {

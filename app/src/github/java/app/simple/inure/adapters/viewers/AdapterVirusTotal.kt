@@ -12,6 +12,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.sub.AdapterVirusTotalNamesList
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.DateUtils.toDate
@@ -22,6 +23,8 @@ class AdapterVirusTotal(
         private val virusTotalResponse: VirusTotalResponse,
         private val packageInfo: PackageInfo
 ) : RecyclerView.Adapter<VerticalListViewHolder>() {
+
+    private var adapterVirusTotalListener: AdapterVirusTotalListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
@@ -86,6 +89,10 @@ class AdapterVirusTotal(
                         count,
                         virusTotalResponse.lastAnalysisResults.size - count
                 )
+
+                holder.container.setOnClickListener {
+                    adapterVirusTotalListener?.onAnalysisResultClick(virusTotalResponse)
+                }
             }
             is AnalysisStatsHolder -> {
                 // Already set in the holder constructor
@@ -146,6 +153,7 @@ class AdapterVirusTotal(
     inner class AnalysisResultHolder(itemView: View) : VerticalListViewHolder(itemView) {
         val result: TypeFaceTextView = itemView.findViewById(R.id.result)
         val verdict: TypeFaceTextView = itemView.findViewById(R.id.verdict)
+        val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
     }
 
     inner class AnalysisStatsHolder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -180,6 +188,10 @@ class AdapterVirusTotal(
         }
     }
 
+    fun setAdapterVirusTotalListener(adapterVirusTotalListener: AdapterVirusTotalListener) {
+        this.adapterVirusTotalListener = adapterVirusTotalListener
+    }
+
     companion object {
         private const val GENERAL_INFO = 0
         private const val TOTAL_VOTES = 1
@@ -188,5 +200,9 @@ class AdapterVirusTotal(
         private const val NAMES = 4
 
         private const val TOTAL_CARDS = 5
+
+        interface AdapterVirusTotalListener {
+            fun onAnalysisResultClick(response: VirusTotalResponse)
+        }
     }
 }
