@@ -50,6 +50,7 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
@@ -296,9 +297,12 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_MANIFEST_VISIBLE)) add(getString(R.string.manifest))
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CERTIFICATE_VISIBLE)) add(getString(R.string.certificate))
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) add(getString(R.string.trackers))
+                    if (AppUtils.isGithubFlavor()) {
+                        if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_VIRUSTOTAL_VISIBLE)) add(getString(R.string.virustotal))
+                    }
                 }
 
-                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray())
+                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray(), packageInfo)
                 tabBar.initWithViewPager(viewPager, titles)
             }.onFailure {
                 showError(it)

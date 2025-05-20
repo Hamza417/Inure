@@ -108,6 +108,10 @@
 
     </LinearLayout>
 
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

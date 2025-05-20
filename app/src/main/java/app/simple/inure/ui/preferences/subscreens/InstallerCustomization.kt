@@ -11,6 +11,7 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.models.VisibilityCustomizationModel
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.NullSafety.isNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,6 +43,9 @@ class InstallerCustomization : ScopedFragment() {
                 list.add(VisibilityCustomizationModel(R.string.certificate, -1, InstallerPreferences.IS_CERTIFICATE_VISIBLE))
                 list.add(VisibilityCustomizationModel(R.string.manifest, -1, InstallerPreferences.IS_MANIFEST_VISIBLE))
                 list.add(VisibilityCustomizationModel(R.string.trackers, -1, InstallerPreferences.IS_TRACKERS_VISIBLE))
+                if (AppUtils.isGithubFlavor()) {
+                    list.add(VisibilityCustomizationModel(R.string.virustotal, -1, InstallerPreferences.IS_VIRUSTOTAL_VISIBLE))
+                }
 
                 launch(Dispatchers.Main) {
                     recyclerView.adapter = AdapterInstallerCustomization(list)

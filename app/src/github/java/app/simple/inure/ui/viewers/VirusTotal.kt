@@ -20,7 +20,9 @@ import app.simple.inure.VirusTotalClientService
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
+import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.dialogs.virustotal.VirusTotalAnalysisResult.Companion.showAnalysisResult
@@ -75,6 +77,11 @@ class VirusTotal : ScopedFragment() {
         if (requireArguments().getBoolean(SHIELD_VISIBILITY, true).invert()) {
             shield.visibility = View.GONE
             status.visibility = View.GONE
+        }
+
+        if (requireArguments().getBoolean(HEADER_VISIBILITY, true).invert()) {
+            view.findViewById<PaddingAwareLinearLayout>(R.id.header).visibility = View.GONE
+            view.findViewById<ThemeDivider>(R.id.divider).visibility = View.GONE
         }
 
         options.setOnClickListener {
@@ -234,8 +241,12 @@ class VirusTotal : ScopedFragment() {
         super.onStop()
         if (virusTotalClientService != null) {
             if (serviceConnection != null) {
-                requireActivity().unbindService(serviceConnection!!)
-                serviceConnection = null
+                try {
+                    requireActivity().unbindService(serviceConnection!!)
+                    serviceConnection = null
+                } catch (e: IllegalArgumentException) {
+                    serviceConnection = null
+                }
             }
         }
     }
@@ -249,8 +260,18 @@ class VirusTotal : ScopedFragment() {
             return fragment
         }
 
+        fun newInstanceForInstaller(packageInfo: PackageInfo): VirusTotal {
+            val fragment = VirusTotal()
+            val args = Bundle()
+            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putBoolean(HEADER_VISIBILITY, false)
+            fragment.arguments = args
+            return fragment
+        }
+
         const val TAG = "VirusTotal"
 
         private const val SHIELD_VISIBILITY = "shield_visibility"
+        private const val HEADER_VISIBILITY = "header_visibility"
     }
 }

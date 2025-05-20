@@ -12,6 +12,7 @@
     android:paddingHorizontal="@dimen/panel_padding_horizontal">
 
     <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -65,6 +66,7 @@
     </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
 
     <app.simple.inure.decorations.theme.ThemeDivider
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
