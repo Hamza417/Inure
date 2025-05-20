@@ -52,6 +52,7 @@ class WaveFillImageView @JvmOverloads constructor(
             invalidate()
             return
         }
+
         fillAnimator?.cancel()
         fillAnimator = ValueAnimator.ofFloat(fillPercent, target).apply {
             duration = 600

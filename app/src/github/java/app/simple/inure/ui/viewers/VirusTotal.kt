@@ -1,15 +1,22 @@
 package app.simple.inure.ui.viewers
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
+import app.simple.inure.VirusTotalClientService
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -20,7 +27,6 @@ import app.simple.inure.dialogs.virustotal.VirusTotalAnalysisResult.Companion.sh
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.VirusTotalMenuListener
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTotalMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.factories.viewers.VirusTotalViewModelFactory
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.themes.manager.ThemeManager
@@ -28,9 +34,11 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.ParcelUtils.parcelable
-import app.simple.inure.viewmodels.viewers.VirusTotalViewModel
 import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.launch
 
 class VirusTotal : ScopedFragment() {
 
@@ -38,7 +46,9 @@ class VirusTotal : ScopedFragment() {
     private lateinit var status: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var virusTotalViewModel: VirusTotalViewModel
+
+    private var virusTotalClientService: VirusTotalClientService? = null
+    private var serviceConnection: ServiceConnection? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_virustotal, container, false)
@@ -49,12 +59,11 @@ class VirusTotal : ScopedFragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
 
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
-        virusTotalViewModel = ViewModelProvider(
-                this, VirusTotalViewModelFactory(packageInfo))[VirusTotalViewModel::class.java]
 
         return view
     }
 
+    @OptIn(FlowPreview::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
@@ -68,90 +77,114 @@ class VirusTotal : ScopedFragment() {
             status.visibility = View.GONE
         }
 
-        virusTotalViewModel.getFailed().observe(viewLifecycleOwner) {
-            showWarning(it.message)
-            shield.setWaveAmplitude(0F)
-        }
-
-        virusTotalViewModel.getProgress().observe(viewLifecycleOwner) {
-            when (it.progressCode) {
-                VirusTotalResult.Progress.CALCULATING -> {
-                    shield.setFillPercent(0.1F)
-                    status.text = getString(R.string.checking_hash)
-
-                }
-                VirusTotalResult.Progress.UPLOADING -> {
-                    shield.setFillPercent(0.1f + (it.progress - 0.1f) / 99.9f * 0.5f)
-                    status.text = getString(R.string.uploading_file, it.progress)
-                }
-                VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
-                    shield.setFillPercent(0.6F)
-                    status.text = getString(R.string.done)
-                }
-                VirusTotalResult.Progress.HASH_RESULT -> {
-                    shield.setFillPercent(0.7F)
-                    status.text = getString(R.string.hash_found)
-                    Log.d(TAG, it.status)
-                }
-                VirusTotalResult.Progress.POLLING -> {
-                    shield.setFillPercent(0.75F)
-                    shield.startPollingWave()
-                    status.text = getString(R.string.polling_for_response, it.pollingAttempts)
-                }
-                else -> {
-                    shield.setWaveAmplitude(0F)
-                    status.text = buildString {
-                        append(getString(R.string.unknown))
-                        append(" ")
-                        append(it.status)
-                    }
-                }
-            }
-        }
-
-        virusTotalViewModel.getResponse().observe(viewLifecycleOwner) {
-            shield.setFillPercent(1.0F)
-            shield.animate()
-                .alpha(0F)
-                .setDuration(250L)
-                .start()
-
-            status.animate()
-                .alpha(0F)
-                .setDuration(250L)
-                .start()
-
-            requireArguments().putBoolean(SHIELD_VISIBILITY, false)
-
-            val adapter = AdapterVirusTotal(it, packageInfo)
-            recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-            adapter.setAdapterVirusTotalListener(object : AdapterVirusTotal.Companion.AdapterVirusTotalListener {
-                override fun onAnalysisResult(response: VirusTotalResponse) {
-                    childFragmentManager.showAnalysisResult(response.lastAnalysisResults ?: HashMap())
-                }
-
-                override fun onOpenReportPage(response: VirusTotalResponse) {
-                    buildString {
-                        append("https://www.virustotal.com/gui/file/")
-                        append(response.sha256)
-                    }.asUri().openInBrowser(requireContext())
-                }
-            })
-
-            recyclerView.adapter = adapter
-        }
-
-        virusTotalViewModel.getWarning().observe(viewLifecycleOwner) {
-            showWarning(it)
-        }
-
         options.setOnClickListener {
             childFragmentManager.showVirusTotalMenu().setVirusTotalMenuListener(object : VirusTotalMenuListener {
                 override fun onRefetch() {
-                    virusTotalViewModel.refetch()
+                    // virusTotalClientService?.refetch()
                 }
             })
+        }
+
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
+                virusTotalClientService?.startUpload(packageInfo)
+
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        launch {
+                            virusTotalClientService?.progressFlow?.sample(100L)?.collect { progress ->
+                                when (progress.progressCode) {
+                                    VirusTotalResult.Progress.CALCULATING -> {
+                                        shield.setFillPercent(0.1F)
+                                        status.text = getString(R.string.checking_hash)
+
+                                    }
+                                    VirusTotalResult.Progress.UPLOADING -> {
+                                        shield.setFillPercent(0.1f + (progress.progress - 0.1f) / 99.9f * 0.5f)
+                                        status.text = getString(R.string.uploading_file, progress.progress)
+                                    }
+                                    VirusTotalResult.Progress.UPLOAD_SUCCESS -> {
+                                        shield.setFillPercent(0.6F)
+                                        status.text = getString(R.string.done)
+                                    }
+                                    VirusTotalResult.Progress.HASH_RESULT -> {
+                                        shield.setFillPercent(0.65F)
+                                        status.text = getString(R.string.hash_found)
+                                        Log.d(TAG, progress.status)
+                                    }
+                                    VirusTotalResult.Progress.POLLING -> {
+                                        shield.setFillPercent(0.7F)
+                                        shield.startPollingWave()
+                                        status.text = getString(R.string.polling_for_response, progress.pollingAttempts)
+                                    }
+                                    else -> {
+                                        shield.setWaveAmplitude(0F)
+                                        status.text = buildString {
+                                            append(getString(R.string.unknown))
+                                            append(" ")
+                                            append(progress.status)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        launch {
+                            virusTotalClientService?.successFlow?.collect { response ->
+                                shield.setFillPercent(1.0F)
+                                shield.animate()
+                                    .alpha(0F)
+                                    .setDuration(250L)
+                                    .start()
+
+                                status.animate()
+                                    .alpha(0F)
+                                    .setDuration(250L)
+                                    .start()
+
+                                requireArguments().putBoolean(SHIELD_VISIBILITY, false)
+
+                                val adapter = AdapterVirusTotal(response, packageInfo)
+                                recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+
+                                adapter.setAdapterVirusTotalListener(object : AdapterVirusTotal.Companion.AdapterVirusTotalListener {
+                                    override fun onAnalysisResult(response: VirusTotalResponse) {
+                                        childFragmentManager.showAnalysisResult(response.lastAnalysisResults ?: HashMap())
+                                    }
+
+                                    override fun onOpenReportPage(response: VirusTotalResponse) {
+                                        buildString {
+                                            append("https://www.virustotal.com/gui/file/")
+                                            append(response.sha256)
+                                        }.asUri().openInBrowser(requireContext())
+                                    }
+                                })
+
+                                recyclerView.adapter = adapter
+                            }
+                        }
+
+                        launch {
+                            virusTotalClientService?.failedFlow?.collect { error ->
+                                showWarning(error.message)
+                                shield.setWaveAmplitude(0F)
+                            }
+                        }
+
+                        launch {
+                            virusTotalClientService?.warningFlow?.collect { warning ->
+                                showWarning(warning)
+                                shield.setWaveAmplitude(0F)
+                            }
+                        }
+                    }
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                virusTotalClientService = null
+            }
         }
     }
 
@@ -181,6 +214,26 @@ class VirusTotal : ScopedFragment() {
             VirusTotalPreferences.LOADER_TYPE_FINGERPRINT -> {
                 shield.setImageResource(R.drawable.ic_fingerprint)
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (virusTotalClientService == null) {
+            requireActivity().startService(VirusTotalClientService.newIntent(requireActivity()))
+            requireActivity().bindService(
+                    VirusTotalClientService.newIntent(requireActivity()),
+                    serviceConnection!!,
+                    Context.BIND_AUTO_CREATE
+            )
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (virusTotalClientService != null) {
+            requireActivity().unbindService(serviceConnection!!)
+            serviceConnection = null
         }
     }
 

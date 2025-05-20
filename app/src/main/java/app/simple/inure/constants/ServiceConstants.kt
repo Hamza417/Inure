@@ -52,6 +52,9 @@ object ServiceConstants {
     const val actionQuitExtractService = "$appPackageName.quit.extract.service"
     const val actionCopyProgressMax = "$appPackageName.max.progress.service"
 
+    // VirusTotal
+    const val ACTION_VIRUS_TOTAL_CANCEL = "$appPackageName.virustotal.cancel"
+
     // Installer
     const val actionPackageInfo = "$appPackageName.package.info"
     const val actionSessionStatus = "$appPackageName.session.status"
