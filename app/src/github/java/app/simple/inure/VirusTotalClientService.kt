@@ -27,6 +27,7 @@ import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -90,6 +91,26 @@ class VirusTotalClientService : Service() {
         SharedPreferences.init(applicationContext)
         notificationManager = NotificationManagerCompat.from(applicationContext)
         notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun clearEverything(packageInfo: PackageInfo) {
+        if (packageInfo.packageName != lastPackageName) {
+            isScanning = false
+            lastPackageName = ""
+            uploadJob?.cancel()
+            notificationManager.cancel(NOTIFICATION_ID)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(STOP_FOREGROUND_REMOVE)
+            } else {
+                @Suppress("DEPRECATION")
+                stopForeground(true)
+            }
+            _progressFlow.resetReplayCache()
+            _failedFlow.resetReplayCache()
+            _successFlow.resetReplayCache()
+            _warningFlow.resetReplayCache()
+        }
     }
 
     fun startUpload(packageInfo: PackageInfo) {

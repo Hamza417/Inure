@@ -88,6 +88,7 @@ class VirusTotal : ScopedFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
+                virusTotalClientService?.clearEverything(packageInfo)
                 virusTotalClientService?.startUpload(packageInfo)
 
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -232,8 +233,10 @@ class VirusTotal : ScopedFragment() {
     override fun onStop() {
         super.onStop()
         if (virusTotalClientService != null) {
-            requireActivity().unbindService(serviceConnection!!)
-            serviceConnection = null
+            if (serviceConnection != null) {
+                requireActivity().unbindService(serviceConnection!!)
+                serviceConnection = null
+            }
         }
     }
 
