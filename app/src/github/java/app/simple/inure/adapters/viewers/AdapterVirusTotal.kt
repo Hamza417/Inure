@@ -213,7 +213,6 @@ class AdapterVirusTotal(
 
         init {
             names.layoutManager = LinearLayoutManager(itemView.context)
-            names.setHasFixedSize(true)
             names.adapter = AdapterVirusTotalNamesList(virusTotalResponse.names ?: emptyList())
         }
     }

@@ -793,7 +793,7 @@
             android:foregroundServiceType="dataSync" />
 
         <service
-            android:name=".VirusTotalClientService"
+            android:name=".services.VirusTotalClientService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />

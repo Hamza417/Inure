@@ -1,4 +1,4 @@
-package app.simple.inure
+package app.simple.inure.services
 
 import android.Manifest
 import android.app.Notification
@@ -18,6 +18,7 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.preferences.SharedPreferences

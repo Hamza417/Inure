@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
-import app.simple.inure.VirusTotalClientService
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
@@ -31,6 +30,7 @@ import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTot
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.VirusTotalPreferences
+import app.simple.inure.services.VirusTotalClientService
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper.asUri
