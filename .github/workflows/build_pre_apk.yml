@@ -109,10 +109,10 @@ jobs:
                 run: |
                     if [[ -n "${{ env.GRADLE_PATH }}" ]]; then
                         chmod +x "${{ env.GRADLE_PATH }}"
-                        ${{ env.GRADLE_PATH }} clean assemblePreRelease
+                        ${{ env.GRADLE_PATH }} clean assembleGithubRelease
                     else
                         chmod +x ./gradlew
-                        ./gradlew clean assemblePreRelease
+                        ./gradlew clean assembleGithubRelease
                     fi
                 env:
                     SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}

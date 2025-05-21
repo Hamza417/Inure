@@ -127,22 +127,6 @@ android {
                 signingConfig signingConfigs.release
             }
         }
-        pre {
-            dimension "version"
-            versionNameSuffix "-pre"
-            if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
-                signingConfig signingConfigs.release
-            }
-
-            // Include all github flavor files
-            sourceSets {
-                pre {
-                    java.srcDirs += 'src/github/java'
-                    res.srcDirs += 'src/github/res'
-                    resources.srcDirs += 'src/github/resources'
-                }
-            }
-        }
     }
 
     buildTypes {
@@ -270,7 +254,6 @@ dependencies {
 
     githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
-    preImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'dev.spght:encryptedprefs-ktx:1.0.1'
 
     // root
