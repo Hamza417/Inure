@@ -205,7 +205,6 @@ class VirusTotalClient(private val apiKey: String) {
                             status = "File already scanned. Analysis ID: ${hashResult.getJSONObject("data").getString("id")}"
                     )
             )
-
             emit(VirusTotalResult.Success(hashResult))
         } else {
             emit(VirusTotalResult.Progress(VirusTotalResult.Progress.UPLOADING, "File not found. Uploading..."))
@@ -226,8 +225,22 @@ class VirusTotalClient(private val apiKey: String) {
                         )
                 )
 
+                var analysisCompleted = false
                 pollAnalysisResult(analysisId).collect { result ->
                     emit(result)
+                    if (result is VirusTotalResult.Success) {
+                        analysisCompleted = true
+                    }
+                }
+
+                if (analysisCompleted) {
+                    // Fetch the full report using the hash after analysis is complete
+                    val fullReport = checkHash(hash)
+                    if (fullReport != null) {
+                        emit(VirusTotalResult.Success(fullReport))
+                    } else {
+                        emit(VirusTotalResult.Error("Failed to fetch full report after analysis."))
+                    }
                 }
             } else {
                 emit(VirusTotalResult.Error("Failed to upload file to VirusTotal."))
