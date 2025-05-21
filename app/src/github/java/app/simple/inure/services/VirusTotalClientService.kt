@@ -118,6 +118,80 @@ class VirusTotalClientService : Service() {
         }
     }
 
+    fun scanFile(packageInfo: PackageInfo) {
+        Log.d(TAG, lastPackageName)
+        if (isScanning && packageInfo.packageName == lastPackageName) {
+            Log.w(TAG, "Already scanning")
+            return
+        }
+
+        isScanning = true
+        lastPackageName = packageInfo.packageName
+        uploadJob?.cancel()
+
+        uploadJob = scope.launch {
+            withContext(Dispatchers.Main) {
+                createNotification()
+            }
+
+            try {
+                VirusTotalClient.getInstance().onlyScanFile(packageInfo.safeApplicationInfo.sourceDir).collect { response ->
+                    when (response) {
+                        is VirusTotalResult.Error -> {
+                            _failedFlow.emit(response)
+                            withContext(Dispatchers.Main) {
+                                notificationManager.cancel(NOTIFICATION_ID)
+                                notificationBuilder.setContentText(getString(R.string.error))
+                                    .setProgress(0, 0, false)
+                                    .setOngoing(false)
+                                notification = notificationBuilder.build()
+                                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS)
+                                        == PackageManager.PERMISSION_GRANTED) {
+                                    notificationManager.notify(NOTIFICATION_ID, notification)
+                                }
+                            }
+                        }
+                        is VirusTotalResult.Progress -> {
+                            _progressFlow.emit(response)
+                            withContext(Dispatchers.Main) {
+                                notificationBuilder.setContentText(response.status)
+                                    .setProgress(0, 0, false)
+                                notification = notificationBuilder.build()
+                                if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS)
+                                        == PackageManager.PERMISSION_GRANTED) {
+                                    notificationManager.notify(NOTIFICATION_ID, notification)
+                                }
+                            }
+                        }
+                        is VirusTotalResult.Success -> {
+                            handleResponse(response.result)?.let {
+                                _successFlow.emit(it)
+                            }
+                        }
+                        else -> { /* Ignore other types */
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Scan failed: ${e.message}")
+                _warningFlow.emit(e.message ?: "Unknown error")
+            } finally {
+                isScanning = false
+                lastPackageName = ""
+                uploadJob = null
+                withContext(Dispatchers.Main) {
+                    notificationManager.cancel(NOTIFICATION_ID)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                    } else {
+                        @Suppress("DEPRECATION")
+                        stopForeground(true)
+                    }
+                }
+            }
+        }
+    }
+
     fun startUpload(packageInfo: PackageInfo) {
         Log.d(TAG, lastPackageName)
         if (isScanning && packageInfo.packageName == lastPackageName) {

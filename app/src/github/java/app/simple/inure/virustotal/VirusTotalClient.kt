@@ -248,6 +248,39 @@ class VirusTotalClient(private val apiKey: String) {
         }
     }
 
+    fun onlyScanFile(filePath: String): Flow<VirusTotalResult> = flow {
+        val file = File(filePath)
+        if (!file.exists()) {
+            emit(VirusTotalResult.Error("File does not exist: $filePath"))
+            return@flow
+        }
+
+        emit(VirusTotalResult.Progress(VirusTotalResult.Progress.CALCULATING, "Calculating file hash..."))
+        val hash = computeSHA256(file)
+
+        emit(VirusTotalResult.Progress(VirusTotalResult.Progress.CALCULATING, "Checking hash $hash at VirusTotal..."))
+        val hashResult = checkHash(hash)
+
+        if (hashResult != null) {
+            emit(
+                    VirusTotalResult.Progress(
+                            progress = VirusTotalResult.Progress.COMPLETE_PROGRESS,
+                            progressCode = VirusTotalResult.Progress.HASH_RESULT,
+                            status = "File already scanned. Analysis ID: ${hashResult.getJSONObject("data").getString("id")}"
+                    )
+            )
+            emit(VirusTotalResult.Success(hashResult))
+        } else {
+            emit(
+                    VirusTotalResult.Progress(
+                            progressCode = VirusTotalResult.Progress.HASH_NOT_FOUND,
+                            status = "File hash not found on VirusTotal. Do you want to upload?",
+                            progress = 0
+                    )
+            )
+        }
+    }
+
     companion object {
         private const val TAG = "VirusTotal"
 

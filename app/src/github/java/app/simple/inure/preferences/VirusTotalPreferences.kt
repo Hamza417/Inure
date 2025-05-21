@@ -4,7 +4,7 @@ import androidx.core.content.edit
 
 object VirusTotalPreferences {
 
-    private const val VIRUS_TOTAL_API_KEY = "virus_total_api_key_"
+    private const val VIRUS_TOTAL_API_KEY = "virus_total_api_key"
 
     const val LOADER_TYPE = "loader_type"
 

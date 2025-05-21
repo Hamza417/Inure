@@ -800,4 +800,5 @@
     <string name="loaders">Loaders</string>
     <string name="open_vt_page">Open Scan Report Page</string>
     <string name="refetch_report">Refetch Report</string>
+    <string name="upload_file_to_vt">Do you want to upload the file?</string>
 </resources>

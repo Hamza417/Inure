@@ -24,6 +24,8 @@ import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
+import app.simple.inure.dialogs.virustotal.ShouldUpload
+import app.simple.inure.dialogs.virustotal.ShouldUpload.Companion.showShouldUpload
 import app.simple.inure.dialogs.virustotal.VirusTotalAnalysisResult.Companion.showAnalysisResult
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.VirusTotalMenuListener
 import app.simple.inure.dialogs.virustotal.VirusTotalMenu.Companion.showVirusTotalMenu
@@ -96,7 +98,7 @@ class VirusTotal : ScopedFragment() {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
                 virusTotalClientService?.clearEverything(packageInfo)
-                virusTotalClientService?.startUpload(packageInfo)
+                virusTotalClientService?.scanFile(packageInfo)
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -109,6 +111,7 @@ class VirusTotal : ScopedFragment() {
 
                                     }
                                     VirusTotalResult.Progress.UPLOADING -> {
+                                        shield.setWaveAmplitude(20F)
                                         shield.setFillPercent(0.1f + (progress.progress - 0.1f) / 99.9f * 0.5f)
                                         status.text = getString(R.string.uploading_file, progress.progress)
                                     }
@@ -120,6 +123,21 @@ class VirusTotal : ScopedFragment() {
                                         shield.setFillPercent(0.65F)
                                         status.text = getString(R.string.hash_found)
                                         Log.d(TAG, progress.status)
+                                    }
+                                    VirusTotalResult.Progress.HASH_NOT_FOUND -> {
+                                        shield.setWaveAmplitude(0F)
+                                        status.text = getString(R.string.not_available)
+
+                                        childFragmentManager.showShouldUpload(packageInfo)
+                                            .setOnShouldUploadListener(object : ShouldUpload.Companion.ShouldUploadListener {
+                                                override fun onYes() {
+                                                    virusTotalClientService?.startUpload(packageInfo)
+                                                }
+
+                                                override fun onClose() {
+                                                    goBack()
+                                                }
+                                            })
                                     }
                                     VirusTotalResult.Progress.POLLING -> {
                                         shield.setFillPercent(0.7F)

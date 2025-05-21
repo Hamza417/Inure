@@ -12,6 +12,7 @@ sealed class VirusTotalResult {
             const val UPLOADING = 0
             const val POLLING = 3
             const val HASH_RESULT = 4
+            const val HASH_NOT_FOUND = 5
             const val UPLOAD_SUCCESS = 1
             const val COMPLETE_PROGRESS = 100
         }
