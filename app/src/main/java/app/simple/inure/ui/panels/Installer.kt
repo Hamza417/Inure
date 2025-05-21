@@ -36,6 +36,8 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TabBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.configuration.VirusTotalAPI
+import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusTotalAPI
 import app.simple.inure.dialogs.installer.Downgrade.Companion.showDowngradeDialog
 import app.simple.inure.dialogs.installer.InstallAnyway.Companion.showInstallAnyway
 import app.simple.inure.dialogs.installer.InstallerMenu.Companion.showInstallerMenu
@@ -50,6 +52,7 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
@@ -376,7 +379,15 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         virusTotal.setOnClickListener {
             if (packageInfo.isNotNull()) {
-                openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
+                if (VirusTotalPreferences.hasValidAPI()) {
+                    openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
+                } else {
+                    childFragmentManager.showVirusTotalAPI().setOnVirusTotalAPIListener(object : VirusTotalAPI.Companion.onVirusTotalAPIListener {
+                        override fun onVirusTotalAPI() {
+                            openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
+                        }
+                    })
+                }
             }
         }
     }

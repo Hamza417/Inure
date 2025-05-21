@@ -4,7 +4,7 @@ import androidx.core.content.edit
 
 object VirusTotalPreferences {
 
-    private const val VIRUS_TOTAL_API_KEY = "virus_total_api_key"
+    private const val VIRUS_TOTAL_API_KEY = "virus_total_api_key_"
 
     const val LOADER_TYPE = "loader_type"
 
@@ -22,6 +22,15 @@ object VirusTotalPreferences {
 
     fun getVirusTotalApiKey(): String {
         return SharedPreferences.getEncryptedSharedPreferences().getString(VIRUS_TOTAL_API_KEY, "") ?: ""
+    }
+
+    fun String.validateAPI(): Boolean {
+        val regex = Regex("^[a-fA-F0-9]{64}$")
+        return regex.matches(this)
+    }
+
+    fun hasValidAPI(): Boolean {
+        return getVirusTotalApiKey().isNotEmpty() && getVirusTotalApiKey().validateAPI()
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

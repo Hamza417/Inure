@@ -1,24 +1,17 @@
 package app.simple.inure.dialogs.configuration
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.FragmentManager
-import app.simple.inure.extensions.fragments.ScopedDialogFragment
+import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 
-class VirusTotalAPI : ScopedDialogFragment() {
-
+class VirusTotalAPI : ScopedBottomSheetFragment() {
     companion object {
         const val TAG = "VirusTotalAPI"
-
-        fun newInstance(): VirusTotalAPI {
-            return VirusTotalAPI()
-        }
-
-        fun FragmentManager.showVirusTotalAPI() {
-            val dialog = newInstance()
-            if (findFragmentByTag(TAG) == null) {
-                dialog.show(this, TAG)
-            }
+        fun newInstance(): VirusTotalAPI = VirusTotalAPI()
+        fun FragmentManager.showVirusTotalAPI(): VirusTotalAPI = VirusTotalAPI()
+        interface onVirusTotalAPIListener {
+            fun onVirusTotalAPI() {}
         }
     }
+
+    fun setOnVirusTotalAPIListener(listener: onVirusTotalAPIListener) {}
 }

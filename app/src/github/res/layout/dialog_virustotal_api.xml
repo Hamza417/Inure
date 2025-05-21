@@ -1,81 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@android:color/transparent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="@dimen/dialog_padding">
+    android:padding="@dimen/dialog_padding"
+    android:layout_gravity="bottom">
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
+    <app.simple.inure.decorations.corners.DynamicCornerLinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/virustotal_api"
-        android:textSize="@dimen/popup_text_size"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        app:appFontStyle="bold"
-        app:drawableEndCompat="@drawable/ic_virustotal_12dp"
-        app:drawableTintStyle="accent"
-        app:textColorStyle="primary" />
+        android:backgroundTint="@android:color/transparent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
 
-    <app.simple.inure.decorations.corners.DynamicCornerEditText
-        android:id="@+id/text_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/dialog_padding"
-        android:importantForAutofill="no"
-        android:inputType="textNoSuggestions"
-        android:paddingHorizontal="@dimen/dialog_padding"
-        android:textCursorDrawable="@drawable/text_cursor"
-        app:appFontStyle="medium"
-        app:textColorStyle="primary" />
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/virustotal_api"
+            android:textSize="@dimen/popup_text_size"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            app:appFontStyle="bold"
+            app:drawableEndCompat="@drawable/ic_virustotal_12dp"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="primary" />
 
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dialog_padding"
-        android:text="@string/virustotal_disc"
-        android:textSize="@dimen/info_text_tiny"
-        app:appFontStyle="regular"
-        app:textColorStyle="primary" />
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
+            android:id="@+id/text_box"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginVertical="@dimen/dialog_padding"
+            android:importantForAutofill="no"
+            android:inputType="textNoSuggestions|textMultiLine"
+            android:paddingHorizontal="@dimen/dialog_padding"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:gravity="top|start"
+            app:appFontStyle="medium"
+            app:textColorStyle="primary" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:animateLayoutChanges="true"
-        android:orientation="horizontal">
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dialog_padding"
+            android:text="@string/virustotal_disc"
+            android:textSize="@dimen/info_text_tiny"
+            app:appFontStyle="regular"
+            app:textColorStyle="primary" />
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/cancel"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:gravity="center"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/cancel"
-            android:textSize="@dimen/info_text_small"
-            android:visibility="visible"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            android:layout_gravity="end"
+            android:animateLayoutChanges="true"
+            android:orientation="horizontal">
 
-        <app.simple.inure.decorations.ripple.DynamicRippleTextView
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
-            android:padding="@dimen/dialog_padding"
-            android:text="@string/save"
-            android:textSize="@dimen/info_text_small"
-            android:visibility="visible"
-            app:appFontStyle="bold"
-            app:textColorStyle="accent" />
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/cancel"
+                android:textSize="@dimen/info_text_small"
+                android:visibility="visible"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
 
-    </LinearLayout>
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:padding="@dimen/dialog_padding"
+                android:text="@string/save"
+                android:textSize="@dimen/info_text_small"
+                android:visibility="visible"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
 
-</app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+        </LinearLayout>
+
+    </app.simple.inure.decorations.corners.DynamicCornerLinearLayout>
+
+</FrameLayout>
