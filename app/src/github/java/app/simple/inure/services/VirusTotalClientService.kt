@@ -47,11 +47,13 @@ class VirusTotalClientService : Service() {
     private val _failedFlow = MutableSharedFlow<VirusTotalResult.Error>(replay = 1)
     private val _successFlow = MutableSharedFlow<VirusTotalResponse>(replay = 1)
     private val _warningFlow = MutableSharedFlow<String>(replay = 1)
+    private val _exitFlow = MutableSharedFlow<Unit>(replay = 1)
 
     val progressFlow = _progressFlow.asSharedFlow()
     val successFlow = _successFlow.asSharedFlow()
     val failedFlow = _failedFlow.asSharedFlow()
     val warningFlow = _warningFlow.asSharedFlow()
+    val exitFlow = _exitFlow.asSharedFlow()
 
     private lateinit var notificationManager: NotificationManagerCompat
     private lateinit var notificationBuilder: NotificationCompat.Builder
@@ -71,6 +73,9 @@ class VirusTotalClientService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ServiceConstants.ACTION_VIRUS_TOTAL_CANCEL) {
+            scope.launch {
+                _exitFlow.emit(Unit)
+            }
             uploadJob?.cancel()
             isScanning = false
             lastPackageName = ""
@@ -83,7 +88,6 @@ class VirusTotalClientService : Service() {
             }
             stopSelf()
         }
-
         return START_NOT_STICKY
     }
 

@@ -186,6 +186,12 @@ class VirusTotal : ScopedFragment() {
                                 shield.setWaveAmplitude(0F)
                             }
                         }
+
+                        launch {
+                            virusTotalClientService?.exitFlow?.collect {
+                                goBack()
+                            }
+                        }
                     }
                 }
             }
