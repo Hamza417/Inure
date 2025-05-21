@@ -50,8 +50,10 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.util.TextViewUtils.setDrawableLeft
@@ -68,6 +70,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
     private lateinit var version: TypeFaceTextView
+    private lateinit var virusTotal: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var install: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -89,6 +92,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         name = view.findViewById(R.id.name)
         packageName = view.findViewById(R.id.package_id)
         version = view.findViewById(R.id.version)
+        virusTotal = view.findViewById(R.id.virustotal)
         settings = view.findViewById(R.id.settings)
         install = view.findViewById(R.id.install)
         cancel = view.findViewById(R.id.cancel)
@@ -105,6 +109,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                            requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString())
         }.onFailure {
             icon.transitionName = requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath
+        }
+
+        if (AppUtils.isPlayFlavor()) {
+            virusTotal.gone(animate = false)
         }
 
         postponeEnterTransition()
@@ -297,9 +305,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_MANIFEST_VISIBLE)) add(getString(R.string.manifest))
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_CERTIFICATE_VISIBLE)) add(getString(R.string.certificate))
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) add(getString(R.string.trackers))
-                    if (AppUtils.isGithubFlavor()) {
-                        if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_VIRUSTOTAL_VISIBLE)) add(getString(R.string.virustotal))
-                    }
                 }
 
                 viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray(), packageInfo)
@@ -367,6 +372,12 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         settings.setOnClickListener {
             childFragmentManager.showInstallerMenu()
+        }
+
+        virusTotal.setOnClickListener {
+            if (packageInfo.isNotNull()) {
+                openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
+            }
         }
     }
 

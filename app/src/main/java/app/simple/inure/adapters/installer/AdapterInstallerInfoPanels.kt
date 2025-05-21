@@ -10,7 +10,6 @@ import app.simple.inure.ui.installer.Information
 import app.simple.inure.ui.installer.Manifest
 import app.simple.inure.ui.installer.Permissions
 import app.simple.inure.ui.installer.Trackers
-import app.simple.inure.ui.viewers.VirusTotal
 import java.io.File
 
 class AdapterInstallerInfoPanels(fragment: Fragment, file: File, private val titles: Array<String>, packageInfo: PackageInfo) : BaseFragmentStateAdapter(fragment) {
@@ -33,10 +32,6 @@ class AdapterInstallerInfoPanels(fragment: Fragment, file: File, private val tit
         }
         if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) {
             it.add(Trackers.newInstance(file))
-        }
-
-        if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_VIRUSTOTAL_VISIBLE)) {
-            it.add(VirusTotal.newInstanceForInstaller(packageInfo))
         }
     }
 

@@ -11,7 +11,6 @@ object InstallerPreferences {
     const val IS_CERTIFICATE_VISIBLE = "isCertificateVisible"
     const val IS_MANIFEST_VISIBLE = "isManifestVisible"
     const val IS_TRACKERS_VISIBLE = "isTrackersVisible"
-    const val IS_VIRUSTOTAL_VISIBLE = "isVirustotalVisible"
     const val IS_DIFF_STYLE_CHANGES = "isDiffStyleChanges"
 
     private const val INSTALLER_PACKAGE_NAME = "installer_package_name"
