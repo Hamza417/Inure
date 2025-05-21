@@ -380,13 +380,14 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         virusTotal.setOnClickListener {
             if (packageInfo.isNotNull()) {
                 if (VirusTotalPreferences.hasValidAPI()) {
-                    openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
+                    openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
                 } else {
-                    childFragmentManager.showVirusTotalAPI().setOnVirusTotalAPIListener(object : VirusTotalAPI.Companion.onVirusTotalAPIListener {
-                        override fun onVirusTotalAPI() {
-                            openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
-                        }
-                    })
+                    childFragmentManager.showVirusTotalAPI()
+                        .setOnVirusTotalAPIListener(object : VirusTotalAPI.Companion.onVirusTotalAPIListener {
+                            override fun onVirusTotalAPI() {
+                                openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
+                            }
+                        })
                 }
             }
         }
