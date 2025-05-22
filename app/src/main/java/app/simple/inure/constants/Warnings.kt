@@ -107,4 +107,9 @@ object Warnings {
     const val ETIP_ID_NULL = "0x014: ETIP ID is not available."
 
     const val UNIDENTIFIED_ERROR = "0x000788: unidentified error occurred"
+
+    /**
+     * Internet connection is not available
+     */
+    const val NO_INTERNET_CONNECTION = "0x015: Internet connection is not available. Please check your network settings and try again."
 }

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -31,9 +32,11 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.services.VirusTotalClientService
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.LocaleUtils
+import app.simple.inure.util.NetworkUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
@@ -176,6 +179,11 @@ class VirusTotal : ScopedFragment() {
     private fun createServiceConnection(view: View): ServiceConnection {
         return object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                if (NetworkUtils.isNetworkAvailable(requireContext()).invert()) {
+                    showWarning(Warnings.NO_INTERNET_CONNECTION)
+                    return
+                }
+
                 virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
                 virusTotalClientService?.clearEverything(packageInfo)
                 startElapsedTimer(System.currentTimeMillis())
