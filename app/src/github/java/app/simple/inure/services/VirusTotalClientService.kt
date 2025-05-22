@@ -253,7 +253,7 @@ class VirusTotalClientService : Service() {
                                 }
                                 VirusTotalResult.Progress.POLLING -> {
                                     withContext(Dispatchers.Main) {
-                                        notificationBuilder.setContentText(getString(R.string.polling_for_response, response.pollingAttempts))
+                                        notificationBuilder.setContentText(getString(R.string.scanning_desc))
                                             .setProgress(0, 0, false)
                                         notification = notificationBuilder.build()
                                         if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS)

@@ -109,6 +109,16 @@
                 android:gravity="center"
                 android:textSize="@dimen/popup_text_size"
                 app:appFontStyle="light"
+                app:textColorStyle="secondary" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/elapsed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/popup_padding"
+                android:textSize="@dimen/desc_text_size"
+                app:appFontStyle="regular"
                 app:textColorStyle="tertiary" />
 
         </LinearLayout>

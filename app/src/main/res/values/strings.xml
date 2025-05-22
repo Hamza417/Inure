@@ -779,7 +779,6 @@
     <string name="checking_hash">Checking Hash</string>
     <string name="uploading_file">Uploading File %d%%</string>
     <string name="hash_found">Hash already exist!</string>
-    <string name="polling_for_response">Polling for Response: %1$d</string>
     <string name="total_votes">Total Votes</string>
     <string name="first_submission_date">First Submission Date</string>
     <string name="last_submission_date">Last Submission Date</string>
@@ -797,9 +796,9 @@
     <string name="confirmed_timeout">Confirmed Timeout</string>
     <string name="failure">Failure</string>
     <string name="type_unsupported">Type Unsupported</string>
-    <string name="loaders">Loaders</string>
+    <string name="skin">Skin</string>
     <string name="open_vt_page">Open Scan Report Page</string>
-    <string name="refetch_report">Refetch Report</string>
     <string name="upload_file_to_vt">Do you want to upload the file?</string>
-    <string name="get_api_key">Get API Key</string>
+    <string name="get_api_key">Get My API Key</string>
+    <string name="scanning_desc">Scanning and analyzing file, this may take a while…</string>
 </resources>

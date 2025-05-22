@@ -13,7 +13,6 @@ import app.simple.inure.preferences.VirusTotalPreferences
 
 class VirusTotalMenu : ScopedBottomSheetFragment() {
 
-    private lateinit var refetch: DynamicRippleTextView
     private lateinit var policy: WaveFillImageView
     private lateinit var security: WaveFillImageView
     private lateinit var findInPage: WaveFillImageView
@@ -21,12 +20,9 @@ class VirusTotalMenu : ScopedBottomSheetFragment() {
     private lateinit var fingerprint: WaveFillImageView
     private lateinit var openSettings: DynamicRippleTextView
 
-    private var virusTotalMenuListener: VirusTotalMenuListener? = null
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_virustotal, container, false)
 
-        refetch = view.findViewById(R.id.refetch_report)
         policy = view.findViewById(R.id.policy)
         security = view.findViewById(R.id.security)
         findInPage = view.findViewById(R.id.find_in_page)
@@ -45,12 +41,6 @@ class VirusTotalMenu : ScopedBottomSheetFragment() {
         findInPage.setSimpleDefaults()
         search.setSimpleDefaults()
         fingerprint.setSimpleDefaults()
-
-        refetch.setOnClickListener {
-            virusTotalMenuListener?.onRefetch().also {
-                dismiss()
-            }
-        }
 
         policy.setOnClickListener {
             VirusTotalPreferences.setLoaderType(VirusTotalPreferences.LOADER_TYPE_POLICY)
@@ -82,10 +72,6 @@ class VirusTotalMenu : ScopedBottomSheetFragment() {
         }
     }
 
-    fun setVirusTotalMenuListener(listener: VirusTotalMenuListener) {
-        this.virusTotalMenuListener = listener
-    }
-
     companion object {
         fun newInstance(): VirusTotalMenu {
             val args = Bundle()
@@ -101,9 +87,5 @@ class VirusTotalMenu : ScopedBottomSheetFragment() {
         }
 
         const val TAG = "VirusTotalMenu"
-
-        interface VirusTotalMenuListener {
-            fun onRefetch()
-        }
     }
 }
