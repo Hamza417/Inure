@@ -12,10 +12,13 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.preferences.VirusTotalPreferences.validateAPI
+import app.simple.inure.util.IntentHelper.asUri
+import app.simple.inure.util.IntentHelper.openInBrowser
 
 class VirusTotalAPI : ScopedBottomSheetFragment() {
 
-    private lateinit var textBox: DynamicCornerEditText
+    private lateinit var box: DynamicCornerEditText
+    private lateinit var getAPIKey: DynamicRippleTextView
     private lateinit var save: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
 
@@ -24,7 +27,8 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_virustotal_api, container, false)
 
-        textBox = view.findViewById(R.id.text_box)
+        box = view.findViewById(R.id.text_box)
+        getAPIKey = view.findViewById(R.id.get_api_key)
         save = view.findViewById(R.id.save)
         cancel = view.findViewById(R.id.cancel)
 
@@ -37,7 +41,7 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textBox.doOnTextChanged { text, _, _, _ ->
+        box.doOnTextChanged { text, _, _, _ ->
             if (!text.isNullOrEmpty()) {
                 if (text.toString().validateAPI()) {
                     save.alpha = 1f
@@ -53,8 +57,8 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
         }
 
         save.setOnClickListener {
-            if (textBox.text.toString().validateAPI()) {
-                val apiKey = textBox.text.toString()
+            if (box.text.toString().validateAPI()) {
+                val apiKey = box.text.toString()
                 VirusTotalPreferences.setVirusTotalApiKey(apiKey)
                 dismiss()
             }
@@ -62,6 +66,12 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
 
         cancel.setOnClickListener {
             dismiss()
+        }
+
+        getAPIKey.setOnClickListener {
+            "https://docs.virustotal.com/docs/api-overview"
+                .asUri()
+                .openInBrowser(requireContext())
         }
     }
 

@@ -49,11 +49,26 @@
             app:textColorStyle="primary" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
+
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
+                android:id="@+id/get_api_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/button_padding"
+                android:textSize="@dimen/info_text_small"
+                android:text="@string/get_api_key"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/cancel"
