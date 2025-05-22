@@ -60,6 +60,7 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
             if (box.text.toString().validateAPI()) {
                 val apiKey = box.text.toString()
                 VirusTotalPreferences.setVirusTotalApiKey(apiKey)
+                virusTotalAPIListener?.onVirusTotalAPI()
                 dismiss()
             }
         }

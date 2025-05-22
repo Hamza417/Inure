@@ -84,7 +84,7 @@ class VirusTotal : ScopedFragment() {
             childFragmentManager.showVirusTotalMenu()
         }
 
-        serviceConnection = createServiceConnection(view)
+        serviceConnection = createServiceConnection()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -176,7 +176,7 @@ class VirusTotal : ScopedFragment() {
         }
     }
 
-    private fun createServiceConnection(view: View): ServiceConnection {
+    private fun createServiceConnection(): ServiceConnection {
         return object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 if (NetworkUtils.isNetworkAvailable(requireContext()).invert()) {
