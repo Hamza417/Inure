@@ -19,9 +19,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterVirusTotal
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.padding.PaddingAwareLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.theme.ThemeDivider
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.WaveFillImageView
 import app.simple.inure.dialogs.virustotal.ShouldUpload
@@ -79,8 +77,6 @@ class VirusTotal : ScopedFragment() {
         handleVisibility(
                 shield, status, elapsed, visible = requireArguments().getBoolean(SHIELD_VISIBILITY, true))
 
-        handleHeaderVisibility(view, requireArguments().getBoolean(HEADER_VISIBILITY, true))
-
         options.setOnClickListener {
             childFragmentManager.showVirusTotalMenu()
         }
@@ -90,7 +86,11 @@ class VirusTotal : ScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
-        if (key == VirusTotalPreferences.LOADER_TYPE) setLoaderType()
+        when (key) {
+            VirusTotalPreferences.LOADER_TYPE -> {
+                setLoaderType()
+            }
+        }
     }
 
     private fun setLoaderType() {
@@ -154,14 +154,7 @@ class VirusTotal : ScopedFragment() {
         views.forEach { it.visibility = visibility }
     }
 
-    private fun handleHeaderVisibility(view: View, visible: Boolean) {
-        val header = view.findViewById<PaddingAwareLinearLayout>(R.id.header)
-        val divider = view.findViewById<ThemeDivider>(R.id.divider)
-        val visibility = if (visible) View.VISIBLE else View.GONE
-        header.visibility = visibility
-        divider.visibility = visibility
-    }
-
+    @Suppress("SameParameterValue")
     private fun animateAlpha(vararg views: View, alpha: Float, duration: Long = 250L) {
         views.forEach {
             it.animate().alpha(alpha).setDuration(duration).start()
@@ -173,7 +166,7 @@ class VirusTotal : ScopedFragment() {
             try {
                 requireActivity().unbindService(serviceConnection!!)
             } catch (e: IllegalArgumentException) {
-                // Optionally log the exception
+                e.printStackTrace()
             } finally {
                 serviceConnection = null
             }
@@ -314,17 +307,7 @@ class VirusTotal : ScopedFragment() {
             return fragment
         }
 
-        fun newInstanceForInstaller(packageInfo: PackageInfo): VirusTotal {
-            val fragment = VirusTotal()
-            val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putBoolean(HEADER_VISIBILITY, false)
-            fragment.arguments = args
-            return fragment
-        }
-
         const val TAG = "VirusTotal"
         private const val SHIELD_VISIBILITY = "shield_visibility"
-        private const val HEADER_VISIBILITY = "header_visibility"
     }
 }
