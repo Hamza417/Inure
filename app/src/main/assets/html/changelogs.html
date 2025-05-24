@@ -15,12 +15,29 @@
 
 <!-- Write change logs here -->
 <sub>(Current Version)</sub>
-<h2>Build105.0.1</h2>
+<h2>Build106.0.0</h2>
 
 <h4>User Interface</h4>
 
 <ul>
     <li>Make sure bottom menu doesn't overlap the charts in <b>Analytics</b>.</li>
+</ul>
+
+<h4>VirusTotal</h4>
+
+<ul>
+    <li>Added <b>VirusTotal</b> panel in <b>App Info</b> and <b>Installer</b> page.</li>
+    <li>Added service based <b>VirusTotalClient</b> to outlive the app lifecycle if needed.
+        <br>
+        <small>It will be used to upload the file (especially large files) to <b>VirusTotal</b> data
+               in the background.</small>
+    </li>
+    <li>Added permission dialog to upload only when user asks the <b>VirusTotalClient</b> to do so.
+    </li>
+    <li>Added custom <b>Wavy Progress Animation</b> to fill the processing gaps and show nice
+        heuristics as the processing progresses.
+    </li>
+    <li>Added multiple icons for the loader animation for user personalization.</li>
 </ul>
 
 <br/>

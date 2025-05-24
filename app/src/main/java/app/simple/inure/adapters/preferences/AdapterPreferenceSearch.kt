@@ -66,10 +66,10 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
         if (!isDrawableHidden) {
             when (list[position].type) {
                 R.string.options -> {
-                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_tiny, 0)
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_right_16dp, 0)
                 }
                 R.string.popup -> {
-                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_tiny, 0)
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_dot_16dp, 0)
                 }
                 R.string.link -> {
                     holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_link_tiny, 0)
@@ -78,7 +78,7 @@ class AdapterPreferenceSearch : RecyclerView.Adapter<AdapterPreferenceSearch.Hol
                     holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_toggle_off_tiny, 0)
                 }
                 R.string.web_page -> {
-                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_web_page_tiny, 0)
+                    holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_web_page_12dp, 0)
                 }
                 else -> {
                     holder.title.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)

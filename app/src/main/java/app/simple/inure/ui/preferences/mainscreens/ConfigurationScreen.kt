@@ -10,6 +10,7 @@ import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.dialogs.configuration.AppPath.Companion.showAppPathDialog
+import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusTotalAPI
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ShizukuStateFragment
@@ -18,6 +19,7 @@ import app.simple.inure.root.RootStateHelper.setRootState
 import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 
 class ConfigurationScreen : ShizukuStateFragment() {
@@ -27,6 +29,7 @@ class ConfigurationScreen : ShizukuStateFragment() {
     private lateinit var components: DynamicRippleRelativeLayout
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var path: DynamicRippleConstraintLayout
+    private lateinit var virustotalAPI: DynamicRippleConstraintLayout
     private lateinit var showUsersSwitch: Switch
     private lateinit var rootSwitchView: Switch
 
@@ -38,6 +41,7 @@ class ConfigurationScreen : ShizukuStateFragment() {
         components = view.findViewById(R.id.configuration_component_manager)
         language = view.findViewById(R.id.configuration_language)
         path = view.findViewById(R.id.configuration_path)
+        virustotalAPI = view.findViewById(R.id.vt_api)
         showUsersSwitch = view.findViewById(R.id.configuration_show_user_list_switch)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
@@ -51,6 +55,14 @@ class ConfigurationScreen : ShizukuStateFragment() {
         keepScreenOnSwitchView.isChecked = ConfigurationPreferences.isKeepScreenOn()
         showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
+
+        if (AppUtils.isPlayFlavor()) {
+            virustotalAPI.visibility = View.GONE
+        } else {
+            virustotalAPI.setOnClickListener {
+                childFragmentManager.showVirusTotalAPI()
+            }
+        }
 
         rootSwitchView.setRootState(viewLifecycleOwner)
 

@@ -25,7 +25,7 @@
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         app:appFontStyle="bold"
-        app:drawableEndCompat="@drawable/ic_arrow_right_tiny"
+        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
         app:drawableTintStyle="secondary"
         app:layout_constraintBottom_toTopOf="@+id/tracker_name"
         app:layout_constraintEnd_toStartOf="@+id/switch_view"

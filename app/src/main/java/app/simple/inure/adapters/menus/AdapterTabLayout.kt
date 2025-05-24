@@ -25,7 +25,7 @@ class AdapterTabLayout(private val list: ArrayList<Int>) : RecyclerView.Adapter<
         holder.panelName.setText(list[position])
 
         if (selected == position) {
-            holder.panelName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_dot_tiny, 0, 0, 0)
+            holder.panelName.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_dot_16dp, 0, 0, 0)
         } else {
             holder.panelName.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
         }

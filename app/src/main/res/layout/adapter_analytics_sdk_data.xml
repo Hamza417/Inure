@@ -31,7 +31,7 @@
         android:textSize="@dimen/preferences_title_text_size"
         android:drawablePadding="5dp"
         app:appFontStyle="medium"
-        app:drawableStartCompat="@drawable/ic_dot_mini"
+        app:drawableStartCompat="@drawable/ic_dot_12dp"
         app:drawableTintStyle="secondary"
         app:textColorStyle="tertiary" />
 

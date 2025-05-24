@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.installer
 
+import android.content.pm.PackageInfo
 import androidx.fragment.app.Fragment
 import app.simple.inure.extensions.adapters.BaseFragmentStateAdapter
 import app.simple.inure.preferences.InstallerPreferences
@@ -11,7 +12,7 @@ import app.simple.inure.ui.installer.Permissions
 import app.simple.inure.ui.installer.Trackers
 import java.io.File
 
-class AdapterInstallerInfoPanels(fragment: Fragment, file: File, private val titles: Array<String>) : BaseFragmentStateAdapter(fragment) {
+class AdapterInstallerInfoPanels(fragment: Fragment, file: File, private val titles: Array<String>, packageInfo: PackageInfo) : BaseFragmentStateAdapter(fragment) {
 
     private val fragments = arrayListOf<Fragment>().also {
         if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_INFO_VISIBLE)) {

@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,7 +16,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.constants.ShortcutConstants
 import app.simple.inure.constants.ThemeConstants
 import app.simple.inure.constants.Warnings

@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:text="Universal Android Debloater"
                 app:appFontStyle="regular"
-                app:drawableStartCompat="@drawable/ic_web_page_tiny"
+                app:drawableStartCompat="@drawable/ic_web_page_12dp"
                 app:drawableTintStyle="secondary"
                 app:textColorStyle="tertiary"
                 tools:ignore="HardcodedText" />

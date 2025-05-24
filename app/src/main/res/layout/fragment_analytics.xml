@@ -73,7 +73,7 @@
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 android:textSize="@dimen/info_text_large"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableStartCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
@@ -96,7 +96,7 @@
                 android:textSize="@dimen/info_text_large"
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableStartCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
@@ -119,7 +119,7 @@
                 android:textSize="@dimen/info_text_large"
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableStartCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
@@ -143,7 +143,7 @@
                 android:textSize="@dimen/info_text_large"
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableStartCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 
@@ -166,7 +166,7 @@
                 android:textSize="@dimen/info_text_large"
                 android:layout_marginHorizontal="@dimen/popup_padding"
                 app:appFontStyle="bold"
-                app:drawableStartCompat="@drawable/ic_dot_tiny"
+                app:drawableStartCompat="@drawable/ic_dot_16dp"
                 app:drawableTintStyle="accent"
                 app:textColorStyle="primary" />
 

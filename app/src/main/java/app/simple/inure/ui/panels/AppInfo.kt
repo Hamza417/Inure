@@ -51,6 +51,8 @@ import app.simple.inure.dialogs.action.UpdatesUninstaller.Companion.showUpdatesU
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
 import app.simple.inure.dialogs.appinfo.SearchBox.Companion.showSearchBox
+import app.simple.inure.dialogs.configuration.VirusTotalAPI
+import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusTotalAPI
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
@@ -66,6 +68,7 @@ import app.simple.inure.preferences.AppInformationPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.Activities
@@ -86,6 +89,7 @@ import app.simple.inure.ui.viewers.SharedLibs
 import app.simple.inure.ui.viewers.Trackers
 import app.simple.inure.ui.viewers.UsageStatistics
 import app.simple.inure.ui.viewers.UsageStatisticsGraph
+import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.ui.viewers.XML
 import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
@@ -350,6 +354,18 @@ class AppInfo : ScopedFragment() {
 
                         R.string.shared_prefs -> {
                             openFragmentArc(SharedPreferences_Alias.newInstance(packageInfo), icon, SharedPreferences_Alias.TAG)
+                        }
+
+                        R.string.virustotal -> {
+                            if (VirusTotalPreferences.hasValidAPI()) {
+                                openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
+                            } else {
+                                childFragmentManager.showVirusTotalAPI().setOnVirusTotalAPIListener(object : VirusTotalAPI.Companion.onVirusTotalAPIListener {
+                                    override fun onVirusTotalAPI() {
+                                        openFragmentArc(VirusTotal.newInstance(packageInfo), icon, VirusTotal.TAG)
+                                    }
+                                })
+                            }
                         }
                     }
                 }

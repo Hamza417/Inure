@@ -71,7 +71,7 @@
             android:text="@string/screen_time"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -84,7 +84,7 @@
             android:paddingHorizontal="@dimen/panel_item_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
 
@@ -97,7 +97,7 @@
             android:text="@string/launched"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -110,7 +110,7 @@
             android:paddingHorizontal="@dimen/panel_item_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTint="@android:color/transparent"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
@@ -124,7 +124,7 @@
             android:text="@string/last_used"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -137,7 +137,7 @@
             android:paddingHorizontal="@dimen/panel_item_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTint="@android:color/transparent"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
@@ -151,7 +151,7 @@
             android:text="@string/mobile_data"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -164,7 +164,7 @@
             android:paddingHorizontal="@dimen/panel_item_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTint="@android:color/transparent"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
@@ -178,7 +178,7 @@
             android:text="@string/wifi"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 
@@ -191,7 +191,7 @@
             android:paddingHorizontal="@dimen/panel_item_padding"
             android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTint="@android:color/transparent"
             app:drawableTintStyle="secondary"
             app:textColorStyle="secondary" />
@@ -210,7 +210,7 @@
             android:text="@string/weekly_usage"
             android:textSize="@dimen/info_text_large"
             app:appFontStyle="bold"
-            app:drawableStartCompat="@drawable/ic_dot_tiny"
+            app:drawableStartCompat="@drawable/ic_dot_16dp"
             app:drawableTintStyle="accent"
             app:textColorStyle="primary" />
 

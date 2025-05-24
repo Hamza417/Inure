@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.corners.DynamicCornerMaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:elevation="@dimen/app_views_elevation"
+    app:cardElevation="5dp"
+    app:contentPadding="@dimen/popup_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/final_analysis_stats"
+            android:textSize="@dimen/info_text_medium"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/popup_padding" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/malicious"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/malicious"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/suspicious"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/suspicious"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/undetected"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/undetected"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/harmless"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/harmless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/timeout"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/timeout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/confirmed_timeout"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/confirmed_timeout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/failure"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/failure"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+            <TableRow>
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:textSize="@dimen/desc_text_size"
+                    android:text="@string/type_unsupported"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:drawableStartCompat="@drawable/ic_dot_12dp"
+                    app:drawableTintStyle="accent"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.typeface.TypeFaceTextView
+                    android:id="@+id/type_unsupported"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/desc_text_size"
+                    android:drawablePadding="5dp"
+                    app:appFontStyle="regular"
+                    app:textColorStyle="tertiary" />
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.corners.DynamicCornerMaterialCardView>

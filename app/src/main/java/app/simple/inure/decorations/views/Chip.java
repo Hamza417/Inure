@@ -38,7 +38,7 @@ public class Chip extends com.google.android.material.chip.Chip {
             return;
         }
         
-        setCheckedIconResource(R.drawable.ic_dot_mini);
+        setCheckedIconResource(R.drawable.ic_dot_12dp);
         setCheckedIconTint(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
         setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
         setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));

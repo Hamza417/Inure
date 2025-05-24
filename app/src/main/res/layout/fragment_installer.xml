@@ -83,7 +83,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/dialog_padding"
+        android:paddingHorizontal="@dimen/popup_padding"
         android:orientation="horizontal">
 
         <app.simple.inure.decorations.views.TabBar
@@ -97,6 +97,16 @@
             android:fadingEdgeLength="10dp"
             android:layout_gravity="center_vertical"
             app:statusBarPaddingRequired="false" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/virustotal"
+            android:src="@drawable/ic_virustotal"
+            android:transitionName="@string/virustotal"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/virustotal"
+            app:buttonTintType="regular" />
 
         <app.simple.inure.decorations.ripple.DynamicRippleImageButton
             android:id="@+id/settings"

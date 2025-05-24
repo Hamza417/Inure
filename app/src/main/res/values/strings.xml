@@ -767,6 +767,7 @@
     <string name="suspected_tracker">Suspected Tracker</string>
     <string name="etip_desc">The component is in ETIP\'s list. If it\'s a tracker or not is still being investigated.</string>
     <string name="show_diff_styled_changes">Show Changes in Diff Style</string>
+    <string name="virustotal_api_desc">Enter your VirusTotal API key to use the scan feature.</string>
     <string name="installer_options">Installer Options</string>
     <string name="grant_all_runtime_permissions">Grant All Runtime Permissions</string>
     <string name="allow_downgrade">Allow Version Code Downgrade</string>
@@ -775,4 +776,29 @@
     <string name="bypass_target_sdk_check">Bypass Low Target SDK</string>
     <string name="replace_existing">Replace Existing</string>
     <string name="dont_kill">Don\'t Kill</string>
+    <string name="checking_hash">Checking Hash</string>
+    <string name="uploading_file">Uploading File %d%%</string>
+    <string name="hash_found">Hash already exist!</string>
+    <string name="total_votes">Total Votes</string>
+    <string name="first_submission_date">First Submission Date</string>
+    <string name="last_submission_date">Last Submission Date</string>
+    <string name="meaningful_name">Meaningful Name</string>
+    <string name="times_submitted">Times Submitted</string>
+    <string name="names">Names</string>
+    <string name="analysis_result">Analysis Result</string>
+    <string name="virustotal_verdict">%1$d found the application to be malicious or suspicious and %2$d found it to be safe.</string>
+    <string name="final_analysis_stats">Final Analysis Stats</string>
+    <string name="malicious">Malicious</string>
+    <string name="suspicious">Suspicious</string>
+    <string name="undetected">Undetected</string>
+    <string name="harmless">Harmless</string>
+    <string name="timeout">Timeout</string>
+    <string name="confirmed_timeout">Confirmed Timeout</string>
+    <string name="failure">Failure</string>
+    <string name="type_unsupported">Type Unsupported</string>
+    <string name="skin">Skin</string>
+    <string name="open_vt_page">Open Scan Report Page</string>
+    <string name="upload_file_to_vt">Do you want to upload the file?</string>
+    <string name="get_api_key">Get My API Key</string>
+    <string name="scanning_desc">Scanning and analyzing file, this may take a while…</string>
 </resources>

@@ -36,6 +36,8 @@ import app.simple.inure.decorations.views.CustomProgressBar
 import app.simple.inure.decorations.views.TabBar
 import app.simple.inure.dialogs.action.Uninstaller.Companion.uninstallPackage
 import app.simple.inure.dialogs.app.Sure
+import app.simple.inure.dialogs.configuration.VirusTotalAPI
+import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusTotalAPI
 import app.simple.inure.dialogs.installer.Downgrade.Companion.showDowngradeDialog
 import app.simple.inure.dialogs.installer.InstallAnyway.Companion.showInstallAnyway
 import app.simple.inure.dialogs.installer.InstallerMenu.Companion.showInstallerMenu
@@ -50,7 +52,11 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.preferences.VirusTotalPreferences
+import app.simple.inure.ui.viewers.VirusTotal
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
+import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.util.TextViewUtils.setDrawableLeft
@@ -67,6 +73,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private lateinit var name: TypeFaceTextView
     private lateinit var packageName: TypeFaceTextView
     private lateinit var version: TypeFaceTextView
+    private lateinit var virusTotal: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
     private lateinit var install: DynamicRippleTextView
     private lateinit var cancel: DynamicRippleTextView
@@ -88,6 +95,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         name = view.findViewById(R.id.name)
         packageName = view.findViewById(R.id.package_id)
         version = view.findViewById(R.id.version)
+        virusTotal = view.findViewById(R.id.virustotal)
         settings = view.findViewById(R.id.settings)
         install = view.findViewById(R.id.install)
         cancel = view.findViewById(R.id.cancel)
@@ -104,6 +112,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                            requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString())
         }.onFailure {
             icon.transitionName = requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath
+        }
+
+        if (AppUtils.isPlayFlavor()) {
+            virusTotal.gone(animate = false)
         }
 
         postponeEnterTransition()
@@ -298,7 +310,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     if (InstallerPreferences.getPanelVisibility(InstallerPreferences.IS_TRACKERS_VISIBLE)) add(getString(R.string.trackers))
                 }
 
-                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray())
+                viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray(), packageInfo)
                 tabBar.initWithViewPager(viewPager, titles)
             }.onFailure {
                 showError(it)
@@ -363,6 +375,21 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         settings.setOnClickListener {
             childFragmentManager.showInstallerMenu()
+        }
+
+        virusTotal.setOnClickListener {
+            if (packageInfo.isNotNull()) {
+                if (VirusTotalPreferences.hasValidAPI()) {
+                    openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
+                } else {
+                    childFragmentManager.showVirusTotalAPI()
+                        .setOnVirusTotalAPIListener(object : VirusTotalAPI.Companion.onVirusTotalAPIListener {
+                            override fun onVirusTotalAPI() {
+                                openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
+                            }
+                        })
+                }
+            }
         }
     }
 
