@@ -20,6 +20,7 @@ import app.simple.inure.adapters.music.AdapterMusic
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
@@ -189,13 +190,15 @@ class Music : KeyboardScopedFragment() {
                         PopupMusicSort(view)
                     }
                     R.drawable.shuffle -> {
+                        val compensate = if (adapterMusic?.headerMode == true) 1 else 0
                         val randomPosition = (0 until audioModels.size).random()
                         MusicPreferences.setMusicPosition(randomPosition)
-                        (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(randomPosition, displayHeight / 2)
+                        (recyclerView.layoutManager as LinearLayoutManager)
+                            .scrollToPositionWithOffset(randomPosition + compensate, displayHeight / 2)
 
                         postDelayed(500) {
                             runCatching {
-                                val viewHolder = recyclerView.findViewHolderForAdapterPosition(randomPosition) as AdapterMusic.Holder
+                                val viewHolder = recyclerView.findViewHolderForAdapterPosition(randomPosition + compensate) as VerticalListViewHolder
                                 openAudioPlayer(randomPosition, viewHolder.itemView.findViewById(R.id.adapter_music_art))
                             }.onFailure {
                                 showError(it, goBack = false)
@@ -203,16 +206,16 @@ class Music : KeyboardScopedFragment() {
                         }
                     }
                     R.drawable.ic_play -> {
+                        val compensate = if (adapterMusic?.headerMode == true) 1 else 0
                         for (position in audioModels.indices) {
                             if (MusicPreferences.getLastMusicId() == audioModels[position].id) {
-                                (recyclerView.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, displayHeight / 2)
+                                (recyclerView.layoutManager as LinearLayoutManager)
+                                    .scrollToPositionWithOffset(position + compensate, displayHeight / 2)
 
                                 postDelayed(500) {
                                     runCatching {
-                                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(position) as AdapterMusic.Holder
+                                        val viewHolder = recyclerView.findViewHolderForAdapterPosition(position + compensate) as VerticalListViewHolder
                                         openAudioPlayer(MusicPreferences.getMusicPosition(), viewHolder.itemView.findViewById(R.id.adapter_music_art))
-                                    }.onFailure {
-                                        showError(it, goBack = false)
                                     }
                                 }
 

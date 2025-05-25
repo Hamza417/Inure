@@ -1,10 +1,10 @@
 package app.simple.inure.adapters.music
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
@@ -39,7 +39,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 }
                 RecyclerViewUtils.TYPE_ITEM -> {
                     if (useFelicityFlowInterface) {
-                        Holder(LayoutInflater.from(parent.context)
+                        PeristyleHolder(LayoutInflater.from(parent.context)
                                    .inflate(R.layout.adapter_music_flow, parent, false))
                     } else {
                         Holder(LayoutInflater.from(parent.context)
@@ -54,7 +54,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         } else {
             return when {
                 useFelicityFlowInterface -> {
-                    Holder(LayoutInflater.from(parent.context)
+                    PeristyleHolder(LayoutInflater.from(parent.context)
                                .inflate(R.layout.adapter_music_flow, parent, false))
                 }
                 else -> {
@@ -69,51 +69,72 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         val position = if (headerMode) holderPosition - 1 else holderPosition
         val minusValue = if (headerMode) 1 else 0
 
-        if (holder is Holder) {
-            holder.title.text = list[position].title
-            holder.artists.text = list[position].artists
-            holder.album.text = list[position].album
+        when (holder) {
+            is Holder -> {
+                holder.title.text = list[position].title
+                holder.artists.text = list[position].artists
+                holder.album.text = list[position].album
 
-            holder.art.transitionName = list[position].fileUri
+                holder.art.transitionName = list[position].fileUri
 
-            if (useFelicityFlowInterface) {
-                if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
-                    holder.art.loadFromFileDescriptorWithoutTransform(list[position].fileUri.toUri())
-                } else {
-                    holder.art.loadFromUriWithoutTransform(Uri.parse(list[position].artUri))
-                }
-            } else {
                 if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
                     holder.art.loadFromFileDescriptor(list[position].fileUri.toUri())
                 } else {
-                    holder.art.loadFromUri(Uri.parse(list[position].artUri))
+                    holder.art.loadFromUri(list[position].artUri.toUri())
+                }
+
+                holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
+
+                holder.container.setOnClickListener {
+                    id = list[holder.bindingAdapterPosition.minus(minusValue)].id
+                    MusicPreferences.setMusicPosition(holder.bindingAdapterPosition.minus(minusValue))
+                    musicCallbacks?.onMusicClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                                   holder.art,
+                                                   holder.bindingAdapterPosition.minus(minusValue))
+                    // We need the animations, this will break it
+                    // updateHighlightedSongState()
+                }
+
+                holder.container.setOnLongClickListener {
+                    musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                                       holder.art, holder.bindingAdapterPosition.minus(minusValue), it)
+                    true
                 }
             }
+            is PeristyleHolder -> {
+                holder.title.text = list[position].title
+                holder.artists.text = list[position].artists
+                holder.album.text = list[position].album
 
-            holder.container.setDefaultBackground(MusicPreferences.getLastMusicId() == list[position].id)
+                holder.art.transitionName = list[position].fileUri
 
-            holder.container.setOnClickListener {
-                id = list[holder.bindingAdapterPosition.minus(minusValue)].id
-                MusicPreferences.setMusicPosition(holder.bindingAdapterPosition.minus(minusValue))
-                musicCallbacks?.onMusicClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
-                                               holder.art,
-                                               holder.bindingAdapterPosition.minus(minusValue))
-                // We need the animations, this will break it
-                // updateHighlightedSongState()
+                if (DevelopmentPreferences.get(DevelopmentPreferences.LOAD_ALBUM_ART_FROM_FILE)) {
+                    holder.art.loadFromFileDescriptorWithoutTransform(list[position].fileUri.toUri())
+                } else {
+                    holder.art.loadFromUriWithoutTransform(list[position].artUri.toUri())
+                }
+
+                holder.container.setOnClickListener {
+                    id = list[holder.bindingAdapterPosition.minus(minusValue)].id
+                    MusicPreferences.setMusicPosition(holder.bindingAdapterPosition.minus(minusValue))
+                    musicCallbacks?.onMusicClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                                   holder.art,
+                                                   holder.bindingAdapterPosition.minus(minusValue))
+                    // We need the animations, this will break it
+                    // updateHighlightedSongState()
+                }
+
+                holder.container.setOnLongClickListener {
+                    musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
+                                                       holder.art, holder.bindingAdapterPosition.minus(minusValue), it)
+                    true
+                }
+
             }
-
-            holder.container.setOnLongClickListener {
-                musicCallbacks?.onMusicLongClicked(list[holder.bindingAdapterPosition.minus(minusValue)],
-                                                   holder.art, holder.bindingAdapterPosition.minus(minusValue), it)
-                true
-            }
-
-            if (useFelicityFlowInterface) {
-                holder.container.removeRipple()
-            }
-        } else if (holder is Header) {
-            holder.total.text = buildString {
-                append(list.size)
+            is Header -> {
+                holder.total.text = buildString {
+                    append(list.size)
+                }
             }
         }
     }
@@ -179,6 +200,14 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
         val artists: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_artists)
         val album: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_album)
         val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_music_container)
+    }
+
+    inner class PeristyleHolder(itemView: View) : VerticalListViewHolder(itemView) {
+        val art: ImageView = itemView.findViewById(R.id.adapter_music_art)
+        val title: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_name)
+        val artists: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_artists)
+        val album: TypeFaceTextView = itemView.findViewById(R.id.adapter_music_album)
+        val container: ConstraintLayout = itemView.findViewById(R.id.adapter_music_container)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
