@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import androidx.core.content.edit
 import app.simple.inure.models.DevelopmentPreferencesModel
 
 object DevelopmentPreferences {
@@ -16,7 +17,6 @@ object DevelopmentPreferences {
     const val LOAD_ALBUM_ART_FROM_FILE = "is_album_art_loaded_from_file"
     const val USE_OLD_STYLE_USAGE_STATS_PANEL = "is_old_style_usage_stats_panel_enabled"
     const val ADD_BITMAP_TO_METADATA = "is_bitmap_added_to_metadata"
-    const val ENABLE_HIDDEN_APPS = "is_hidden_apps_enabled"
     const val DISABLE_TRANSPARENT_STATUS = "is_transparent_status_disabled_removed"
     const val LOAD_ALL_INSTALLER_PAGES = "is_all_installer_pages_loaded"
     const val IS_NOTCH_AREA_ENABLED = "is_notch_area_enabled"
@@ -103,12 +103,6 @@ object DevelopmentPreferences {
                                                     "Useful for ROMs that shows Album Art on Lock Screen or " +
                                                     "if widgets are not showing the album art.",
                                             ADD_BITMAP_TO_METADATA,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable Hidden Apps",
-                                            "Enable Hidden Apps in the app. The feature was added but removed due to API changes by" +
-                                                    " Google and is not working properly anymore.",
-                                            ENABLE_HIDDEN_APPS,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Disable Transparent Status",
@@ -226,7 +220,7 @@ object DevelopmentPreferences {
     }
 
     fun set(key: String, value: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(key, value).apply()
+        SharedPreferences.getSharedPreferences().edit { putBoolean(key, value) }
     }
 
     // ---------------------------------------------------------------------------------------------------------- //

@@ -40,7 +40,6 @@ import app.simple.inure.dialogs.action.ClearCache
 import app.simple.inure.dialogs.action.ClearData
 import app.simple.inure.dialogs.action.Extract.Companion.launchExtract
 import app.simple.inure.dialogs.action.ForceStop
-import app.simple.inure.dialogs.action.Hide.Companion.showHide
 import app.simple.inure.dialogs.action.Reinstaller
 import app.simple.inure.dialogs.action.Reinstaller.Companion.showReinstaller
 import app.simple.inure.dialogs.action.Send
@@ -488,16 +487,6 @@ class AppInfo : ScopedFragment() {
                             childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
                                 override fun onSure() {
                                     childFragmentManager.showState(packageInfo).onSuccess = {
-                                        appInfoViewModel.loadActionOptions()
-                                    }
-                                }
-                            })
-                        }
-
-                        R.string.visible, R.string.hidden -> {
-                            childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
-                                override fun onSure() {
-                                    childFragmentManager.showHide(packageInfo).onSuccess = {
                                         appInfoViewModel.loadActionOptions()
                                     }
                                 }
