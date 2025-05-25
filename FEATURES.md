@@ -32,6 +32,8 @@ These features are available to all users without any extra requirements.
 - Identify Xposed modules in app info and package installer.
 - Create and manage Batch profiles for multiple apps.
 - Create activity shortcuts of any app.
+- Upload and scan apk files to VirusTotal and view the results. (Requires API key and limited to
+  Github builds only)
 
 ### Root Features
 These features require root access to work in the app.
@@ -108,4 +110,5 @@ that are not possible to have in play builds. Here are the list of feature exclu
 - Debloat
 - Bloat indicator for bloat apps throughout the app
 - Activate using license key without unlocker
+- VirusTotal integration (this is a non-paid feature and available to all users)
 - More store options

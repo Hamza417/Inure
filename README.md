@@ -100,7 +100,7 @@ See the [concise list of features of the app here](./FEATURES.md).
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |           0x0C            |           0x0D            |           0x0E            |
 
-| ![01](screenshots/14.png) | ![01](screenshots/16.png) | ![01](screenshots/21.jpg) |
+| ![01](screenshots/14.png) | ![01](screenshots/16.png) | ![01](screenshots/39.png) |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |           0x0F            |           0x11            |           0x12            | 
 
