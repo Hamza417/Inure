@@ -171,7 +171,7 @@ android {
         jvmTarget = JavaVersion.VERSION_17
     }
 
-    ndkVersion '25.2.9519653'
+    ndkVersion '29.0.13113456 rc1'
     namespace 'app.simple.inure'
 
     tasks.register('generateVersionTxt') {
@@ -208,12 +208,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // We use LocalBroadcastManager, Lol!!
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'androidx.fragment:fragment-ktx:1.8.6'
+    implementation 'androidx.fragment:fragment-ktx:1.8.7'
     implementation 'androidx.activity:activity-ktx:1.10.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.0'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
-    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
     implementation 'androidx.webkit:webkit:1.13.0'
     implementation 'androidx.documentfile:documentfile:1.1.0'
     implementation 'androidx.media:media:1.7.0'
