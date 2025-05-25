@@ -745,6 +745,7 @@
     <string name="suspected_tracker">Rastreador Suspeito</string>
     <string name="etip_desc">O componente está na lista do ETIP. Se é um rastreador ou não está sendo investigado.</string>
     <string name="show_diff_styled_changes">Exibir alterações no estilo Diff</string>
+    <string name="virustotal_api_desc">Digite sua chave da API VirusTotal para utilizar o recurso de verificação.</string>
     <string name="installer_options">Opções do instalador</string>
     <string name="grant_all_runtime_permissions">Conceder Todos as Permissões do Runtime</string>
     <string name="allow_downgrade">Permitir downgrade do Código da Versão</string>
@@ -753,4 +754,29 @@
     <string name="bypass_target_sdk_check">Ignorar SDK de Baixo Destino</string>
     <string name="replace_existing">Substituir Existente</string>
     <string name="dont_kill">Não Matar</string>
+    <string name="checking_hash">Verificando Hash</string>
+    <string name="uploading_file">Enviando arquivo %d%%k</string>
+    <string name="hash_found">Hash já existe!</string>
+    <string name="total_votes">Total De Votosç</string>
+    <string name="first_submission_date">Data da Primeira Submissão</string>
+    <string name="last_submission_date">Data da Última Submissão</string>
+    <string name="meaningful_name">Nome Significativo</string>
+    <string name="times_submitted">Vezes Enviados3</string>
+    <string name="names">Nomes</string>
+    <string name="analysis_result">Análise dos Resultados</string>
+    <string name="virustotal_verdict">%1$d achou que o aplicativo era malicioso ou suspeito e %2$d descobriu que estava seguro.</string>
+    <string name="final_analysis_stats">Estatísticas da Análise Final</string>
+    <string name="malicious">Malicioso</string>
+    <string name="suspicious">Suspeito</string>
+    <string name="undetected">Indetectável</string>
+    <string name="harmless">Inofensivo</string>
+    <string name="timeout">Tempo de espera</string>
+    <string name="confirmed_timeout">Tempo Limite Confirmado</string>
+    <string name="failure">Falha</string>
+    <string name="type_unsupported">Tipo não suportado</string>
+    <string name="skin">Aparência</string>
+    <string name="open_vt_page">Abrir Página de Relatório de Verificação</string>
+    <string name="upload_file_to_vt">Você quer enviar o arquivo?</string>
+    <string name="get_api_key">Obter minha chave de API</string>
+    <string name="scanning_desc">Verificando e analisando o arquivo, isso pode levar algum tempo…</string>
 </resources>
