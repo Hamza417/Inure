@@ -110,17 +110,6 @@ jobs:
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            -   name: Publish On Play Store
-                uses: r0adkll/upload-google-play@v1
-                with:
-                    serviceAccountJsonPlainText: ${{ secrets.PLAY_CONSOLE_CREDENTIALS }}
-                    packageName: app.simple.inure.play
-                    releaseFiles: ${{ runner.temp }}/app-play-release.aab
-                    track: production
-                    status: completed
-                    inAppUpdatePriority: 2
-                    whatsNewDirectory: distribution
-
             -   name: Archive APKs
                 uses: actions/upload-artifact@v4
                 with:
