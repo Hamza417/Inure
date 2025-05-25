@@ -39,7 +39,6 @@ import app.simple.inure.ui.panels.Analytics
 import app.simple.inure.ui.panels.Apps
 import app.simple.inure.ui.panels.Batch
 import app.simple.inure.ui.panels.Debloat
-import app.simple.inure.ui.panels.DeviceInfo
 import app.simple.inure.ui.panels.FOSS
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.ui.panels.MostUsed
@@ -228,11 +227,6 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.AUDIO_PLAYER_ACTION -> {
                 openHome(isNewIntent)
                 openFragment(AudioPlayer.newInstance(MusicPreferences.getMusicPosition()), AudioPlayer.TAG)
-            }
-
-            "open_device_info" -> {
-                openHome(isNewIntent)
-                openFragment(DeviceInfo.newInstance(), DeviceInfo.TAG)
             }
 
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {

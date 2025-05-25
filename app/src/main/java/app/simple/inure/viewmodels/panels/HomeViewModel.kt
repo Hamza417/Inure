@@ -295,10 +295,6 @@ class HomeViewModel(application: Application) :
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
             list.add(Pair(R.drawable.ic_tags, R.string.tags))
 
-            if (DevelopmentPreferences.get(DevelopmentPreferences.ENABLE_DEVICE_INFO)) {
-                list.add(Pair(R.drawable.ic_memory, R.string.device_info))
-            }
-
             if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
             }
@@ -426,7 +422,6 @@ class HomeViewModel(application: Application) :
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             DevelopmentPreferences.MUSIC,
-            DevelopmentPreferences.ENABLE_DEVICE_INFO,
             ConfigurationPreferences.IS_USING_ROOT,
             ConfigurationPreferences.IS_USING_SHIZUKU,
             DevelopmentPreferences.ENABLE_HIDDEN_APPS,
