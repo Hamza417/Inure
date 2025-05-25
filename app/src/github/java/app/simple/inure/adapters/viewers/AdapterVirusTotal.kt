@@ -74,11 +74,11 @@ class AdapterVirusTotal(
             is GeneralInfoHolder -> {
                 holder.firstSubmissionDate.text = virusTotalResponse.firstSubmissionDate.times(1000L).toDate()
                 holder.lastSubmissionDate.text = virusTotalResponse.lastSubmissionDate.times(1000L).toDate()
-                holder.meaningfulName.text = virusTotalResponse.meaningfulName
+                holder.meaningfulName.text = virusTotalResponse.meaningfulName.ifEmpty { holder.getString(R.string.not_available) }
                 holder.sha256.text = virusTotalResponse.sha256
                 holder.sha1.text = virusTotalResponse.sha1
                 holder.md5.text = virusTotalResponse.md5
-                holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString()
+                holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString() // Will always be at least 1
             }
             is TotalVotesHolder -> {
                 holder.satisfied.text = (virusTotalResponse.totalVotes?.harmless ?: 0).toString()
