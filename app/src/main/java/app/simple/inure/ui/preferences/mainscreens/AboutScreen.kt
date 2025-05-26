@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.text.toSpannable
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
@@ -75,7 +76,7 @@ class AboutScreen : ScopedFragment() {
         }
 
         github.setOnClickListener {
-            val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
+            val uri: Uri = "https://github.com/Hamza417/Inure".toUri()
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
 
