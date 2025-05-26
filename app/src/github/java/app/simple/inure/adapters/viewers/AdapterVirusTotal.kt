@@ -17,6 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileUtils.toFileOrNull
+import app.simple.inure.util.StringUtils.whenEmptyOrNull
 import app.simple.inure.virustotal.VirusTotalResponse
 
 class AdapterVirusTotal(
@@ -74,7 +75,7 @@ class AdapterVirusTotal(
             is GeneralInfoHolder -> {
                 holder.firstSubmissionDate.text = virusTotalResponse.firstSubmissionDate.times(1000L).toDate()
                 holder.lastSubmissionDate.text = virusTotalResponse.lastSubmissionDate.times(1000L).toDate()
-                holder.meaningfulName.text = virusTotalResponse.meaningfulName.ifEmpty { holder.getString(R.string.not_available) }
+                holder.meaningfulName.text = virusTotalResponse.meaningfulName.whenEmptyOrNull(holder.getString(R.string.not_available))
                 holder.sha256.text = virusTotalResponse.sha256
                 holder.sha1.text = virusTotalResponse.sha1
                 holder.md5.text = virusTotalResponse.md5
