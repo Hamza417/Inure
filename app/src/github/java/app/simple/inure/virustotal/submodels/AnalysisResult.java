@@ -1,5 +1,8 @@
 package app.simple.inure.virustotal.submodels;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import androidx.annotation.NonNull;
@@ -30,7 +33,7 @@ import androidx.annotation.NonNull;
  *   <li><b>result</b>: <code>String</code> - Engine result. Can be <code>null</code> if no verdict is available.</li>
  * </ul>
  */
-public final class AnalysisResult {
+public final class AnalysisResult implements Parcelable {
     
     @SerializedName ("method")
     private String method;
@@ -56,6 +59,27 @@ public final class AnalysisResult {
     public static final String CATEGORY_SUSPICIOUS = "suspicious";
     public static final String CATEGORY_MALICIOUS = "malicious";
     public static final String CATEGORY_TYPE_UNSUPPORTED = "type-unsupported";
+    
+    private AnalysisResult(Parcel in) {
+        method = in.readString();
+        engineName = in.readString();
+        engineVersion = in.readString();
+        engineUpdate = in.readString();
+        category = in.readString();
+        result = in.readString();
+    }
+    
+    public static final Creator <AnalysisResult> CREATOR = new Creator <AnalysisResult>() {
+        @Override
+        public AnalysisResult createFromParcel(Parcel in) {
+            return new AnalysisResult(in);
+        }
+        
+        @Override
+        public AnalysisResult[] newArray(int size) {
+            return new AnalysisResult[size];
+        }
+    };
     
     // Getters
     public String getMethod() {
@@ -118,5 +142,20 @@ public final class AnalysisResult {
                 ", category='" + category + '\'' +
                 ", result='" + result + '\'' +
                 '}';
+    }
+    
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(method);
+        dest.writeString(engineName);
+        dest.writeString(engineVersion);
+        dest.writeString(engineUpdate);
+        dest.writeString(category);
+        dest.writeString(result);
     }
 }
