@@ -70,31 +70,39 @@ class VirusTotalClient(private val apiKey: String) {
     private fun uploadFile(file: File): Flow<VirusTotalResult> = callbackFlow {
         try {
             val uploadEndpoint: String
-            if (file.length() <= MAX_FREE_FILE_SIZE) {
-                uploadEndpoint = "$baseUrl/files"
-            } else {
-                // Request upload URL for large files
-                log("Requesting upload URL for large file: ${file.absolutePath}")
+            when {
+                file.length() <= MAX_FREE_FILE_SIZE -> {
+                    uploadEndpoint = "$baseUrl/files"
+                }
+                file.length() <= MAX_LARGE_FILE_SIZE -> {
+                    // Request upload URL for large files
+                    log("Requesting upload URL for large file: ${file.absolutePath}")
 
-                val request = Request.Builder()
-                    .url("$baseUrl/files/upload_url")
-                    .addHeader("x-apikey", apiKey)
-                    .get()
-                    .build()
-                val response = client.newCall(request).execute()
-                response.use {
-                    if (!it.isSuccessful) {
-                        trySend(VirusTotalResult.Error("Failed to get upload URL: ${it.code}"))
-                        close()
-                        return@callbackFlow
-                    }
-                    val json = it.body?.string()?.let { body -> JSONObject(body) }
-                    uploadEndpoint = json?.getString("data")
-                        ?: run {
-                            trySend(VirusTotalResult.Error("Upload URL missing in response"))
+                    val request = Request.Builder()
+                        .url("$baseUrl/files/upload_url")
+                        .addHeader("x-apikey", apiKey)
+                        .get()
+                        .build()
+                    val response = client.newCall(request).execute()
+                    response.use {
+                        if (!it.isSuccessful) {
+                            trySend(VirusTotalResult.Error("Failed to get upload URL: ${it.code}"))
                             close()
                             return@callbackFlow
                         }
+                        val json = it.body?.string()?.let { body -> JSONObject(body) }
+                        uploadEndpoint = json?.getString("data")
+                            ?: run {
+                                trySend(VirusTotalResult.Error("Upload URL missing in response"))
+                                close()
+                                return@callbackFlow
+                            }
+                    }
+                }
+                else -> {
+                    trySend(VirusTotalResult.Error("File size exceeds maximum limit of 650 MB"))
+                    close()
+                    return@callbackFlow
                 }
             }
 
@@ -135,6 +143,7 @@ class VirusTotalClient(private val apiKey: String) {
         } catch (e: Exception) {
             trySend(VirusTotalResult.Error("Upload failed: ${e.message}"))
         }
+
         close()
     }
 
@@ -298,6 +307,7 @@ class VirusTotalClient(private val apiKey: String) {
         }
 
         private const val MAX_FREE_FILE_SIZE = 32 * 1024 * 1024 // 32 MB
+        private const val MAX_LARGE_FILE_SIZE = 650 * 1024 * 1024 // 650 MB
         private const val MAX_POLLING_ATTEMPTS = 30
         private const val POLLING_INTERVAL = 10_000L
         private const val VIRUS_TOTAL_THREAD_TAG = 1458
