@@ -23,6 +23,7 @@ import app.simple.inure.adapters.apis.IIntentSenderAdapter;
 import app.simple.inure.models.ShizukuInstall;
 import app.simple.inure.preferences.InstallerPreferences;
 import app.simple.inure.util.IntentSenderUtils;
+import app.simple.inure.util.SDKUtils;
 import rikka.shizuku.Shizuku;
 import rikka.shizuku.ShizukuBinderWrapper;
 
@@ -151,8 +152,10 @@ public class PackageInstaller {
         if (InstallerPreferences.INSTANCE.isReplaceExisting()) {
             flags |= 0x00000002; // PackageManager.INSTALL_REPLACE_EXISTING
         }
-        if (InstallerPreferences.INSTANCE.isBypassLowTargetSdk()) {
-            flags |= 0x01000000; // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
+        if (SDKUtils.INSTANCE.isUAndAbove()) {
+            if (InstallerPreferences.INSTANCE.isBypassLowTargetSdk()) {
+                flags |= 0x01000000; // PackageManager.INSTALL_BYPASS_LOW_TARGET_SDK_BLOCK
+            }
         }
         
         if (InstallerPreferences.INSTANCE.isVersionCodeDowngrade()) {

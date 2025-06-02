@@ -28,6 +28,7 @@ import app.simple.inure.util.FileUtils
 import app.simple.inure.util.FileUtils.escapeSpecialCharactersForUnixPath
 import app.simple.inure.util.FileUtils.getLength
 import app.simple.inure.util.NullSafety.isNull
+import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.endsWithAny
 import com.anggrayudi.storage.file.baseName
 import com.topjohnwu.superuser.Shell
@@ -362,7 +363,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     InstallerPreferences.isGrantRuntimePermissions() to "-g",
                     InstallerPreferences.isVersionCodeDowngrade() to "-d",
                     InstallerPreferences.isTestPackages() to "-t",
-                    InstallerPreferences.isBypassLowTargetSdk() to "--bypass-low-target-sdk-block",
+                    (InstallerPreferences.isBypassLowTargetSdk() && SDKUtils.isUAndAbove()) to "--bypass-low-target-sdk-block",
                     InstallerPreferences.isReplaceExisting() to "-r",
                     InstallerPreferences.isDontKill() to "--dont-kill"
             )

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
@@ -11,6 +12,7 @@ import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.util.SDKUtils
 
 class InstallerOptions : ScopedBottomSheetFragment() {
 
@@ -18,6 +20,7 @@ class InstallerOptions : ScopedBottomSheetFragment() {
     private lateinit var grantRuntimePermissions: CheckBox
     private lateinit var versionCodeDowngrade: CheckBox
     private lateinit var testPackages: CheckBox
+    private lateinit var bypassTargetSDKContainer: LinearLayout
     private lateinit var bypassTargetSDK: CheckBox
     private lateinit var replaceExisting: CheckBox
     private lateinit var dontKill: CheckBox
@@ -29,6 +32,7 @@ class InstallerOptions : ScopedBottomSheetFragment() {
         grantRuntimePermissions = view.findViewById(R.id.grant_all_permissions)
         versionCodeDowngrade = view.findViewById(R.id.allow_downgrade)
         testPackages = view.findViewById(R.id.allow_test_packages)
+        bypassTargetSDKContainer = view.findViewById(R.id.bypass_target_sdk_container)
         bypassTargetSDK = view.findViewById(R.id.bypass_target_sdk)
         replaceExisting = view.findViewById(R.id.replace_existing)
         dontKill = view.findViewById(R.id.dont_kill)
@@ -46,6 +50,12 @@ class InstallerOptions : ScopedBottomSheetFragment() {
         bypassTargetSDK.isChecked = InstallerPreferences.isBypassLowTargetSdk()
         replaceExisting.isChecked = InstallerPreferences.isReplaceExisting()
         dontKill.isChecked = InstallerPreferences.isDontKill()
+
+        if (SDKUtils.isUAndAbove()) {
+            bypassTargetSDKContainer.visibility = View.VISIBLE
+        } else {
+            bypassTargetSDKContainer.visibility = View.GONE
+        }
 
         packagename.doOnTextChanged { text, _, _, _ ->
             InstallerPreferences.setInstallerPackageName(text.toString())

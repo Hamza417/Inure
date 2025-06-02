@@ -252,4 +252,8 @@ object SDKUtils {
     fun isSAndAbove(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     }
+
+    fun isUAndAbove(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+    }
 }
