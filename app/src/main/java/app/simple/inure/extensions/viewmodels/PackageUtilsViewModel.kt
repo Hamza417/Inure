@@ -40,7 +40,6 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
         intentFilter.addAction(DataLoaderService.RELOAD_APPS)
 
-        @Suppress("UNCHECKED_CAST")
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()

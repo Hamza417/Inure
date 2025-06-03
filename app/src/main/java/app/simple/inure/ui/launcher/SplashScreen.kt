@@ -75,7 +75,6 @@ class SplashScreen : ScopedFragment() {
     private var isAppDataLoaded = false
     private var isBatchLoaded = false
     private var isUsageDataLoaded = false
-    private var areSensorsLoaded = false
     private var isSearchLoaded = false
     private var isNotesLoaded = false
     private var isUninstalledPackagesLoaded = false
@@ -193,16 +192,20 @@ class SplashScreen : ScopedFragment() {
         if (BehaviourPreferences.isSkipLoading()) {
             proceed()
         }
-    }
 
-    private fun proceed() {
-        postDelayed(12_000) {
+        postDelayed(MAX_LOADING_TIME) { // Give the service 7 seconds to load
             /**
              * If the user device takes longer to load just skip the loading screen
              * for any subsequent launches
              */
             BehaviourPreferences.setSkipLoadingMainScreenState(boolean = true)
+            Log.i(TAG, "proceeding to the next screen after loading timeout")
+            launchHome()
         }
+    }
+
+    private fun proceed() {
+        Log.d(TAG, "Registering observers in proceed()")
 
         val appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
@@ -256,12 +259,6 @@ class SplashScreen : ScopedFragment() {
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             Log.d(TAG, "Search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
-            isSearchLoaded = true
-            openApp()
-        }
-
-        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
-            Log.d(TAG, "Deep search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isSearchLoaded = true
             openApp()
         }
@@ -356,6 +353,7 @@ class SplashScreen : ScopedFragment() {
             launchHome()
         } else {
             if (isEverythingLoaded()) {
+                Log.d(TAG, "Everything is loaded, proceeding to the next screen")
                 launchHome()
             }
         }
@@ -368,7 +366,6 @@ class SplashScreen : ScopedFragment() {
     private fun isEverythingLoaded(): Boolean {
         return isAppDataLoaded &&
                 isUsageDataLoaded &&
-                areSensorsLoaded &&
                 isSearchLoaded &&
                 isUninstalledPackagesLoaded &&
                 isDisabledPackagesLoaded &&
@@ -459,6 +456,8 @@ class SplashScreen : ScopedFragment() {
         if (broadcastReceiver != null) {
             LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)
         }
+
+        handler.removeCallbacksAndMessages(null)
     }
 
     companion object {
@@ -471,5 +470,7 @@ class SplashScreen : ScopedFragment() {
         }
 
         const val TAG = "Splash Screen"
+
+        private const val MAX_LOADING_TIME = 7_000L // 7 seconds
     }
 }
