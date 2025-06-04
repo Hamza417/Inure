@@ -35,6 +35,7 @@ public class PackageInstaller {
     private final String TAG = "PackageInstaller";
     
     public ShizukuInstall install(List <Uri> uris, Context context) throws Exception {
+        Log.d(TAG, "install: start");
         android.content.pm.PackageInstaller packageInstaller;
         android.content.pm.PackageInstaller.Session session;
         ContentResolver contentResolver = context.getContentResolver();
@@ -53,12 +54,16 @@ public class PackageInstaller {
             installerAttributionTag = context.getAttributionTag();
         }
         userId = getUserId(isRootUser);
+        Log.d(TAG, "install: installerPackageName=" + installerPackageName + ", userId=" + userId + ", isRootUser=" + isRootUser);
         packageInstaller = createPackageInstaller(packageInstallerService, installerPackageName, installerAttributionTag, userId);
         
         int sessionId = createSession(packageInstaller);
+        Log.d(TAG, "install: created session with id " + sessionId);
         session = openSession(packageInstallerService, sessionId);
+        Log.d(TAG, "install: opened session with id " + session);
         
         writeApkFilesToSession(uris, contentResolver, session);
+        Log.d(TAG, "install: wrote APK files to session");
         
         return commitSession(session);
     }
@@ -98,7 +103,6 @@ public class PackageInstaller {
         int i = 0;
         for (Uri uri : uris) {
             String name = i + ".apk";
-            
             try (InputStream inputStream = contentResolver.openInputStream(uri);
                  OutputStream outputStream = session.openWrite(name, 0, -1)) {
                 
@@ -106,17 +110,17 @@ public class PackageInstaller {
                 int length;
                 while ((length = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, length);
-                    outputStream.flush();
-                    session.fsync(outputStream);
                 }
+                outputStream.flush();
+                session.fsync(outputStream);
             }
-            
             i++;
         }
     }
     
     private ShizukuInstall commitSession(android.content.pm.PackageInstaller.Session session)
             throws InterruptedException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+        Log.d(TAG, "install: committing session");
         Intent[] results = new Intent[] {null};
         CountDownLatch countDownLatch = new CountDownLatch(1);
         IntentSender intentSender = IntentSenderUtils.newInstance(new IIntentSenderAdapter() {
@@ -128,14 +132,17 @@ public class PackageInstaller {
         });
         
         session.commit(intentSender);
+        Log.d(TAG, "install: waiting for commit result");
         
         countDownLatch.await();
         Intent result = results[0];
         int status = result.getIntExtra(android.content.pm.PackageInstaller.EXTRA_STATUS, android.content.pm.PackageInstaller.STATUS_FAILURE);
         String message = result.getStringExtra(android.content.pm.PackageInstaller.EXTRA_STATUS_MESSAGE);
         Log.d(TAG, "install: commit done with status " + status + " (" + message + ")");
+        Log.d(TAG, "install: closing session");
         
         session.close();
+        Log.d(TAG, "install: session closed");
         
         return new ShizukuInstall(status, message);
     }

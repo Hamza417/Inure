@@ -321,6 +321,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                             applicationContext(), "${applicationContext().packageName}.provider", file)
                 }
 
+                Log.d(TAG, "Installing ${uris.size} apks")
                 ApplicationUtils.setApplication(application) // Should be initialized at application level, not here
                 val packageInstaller = PackageInstaller()
                 val shizukuInstall = packageInstaller.install(uris, applicationContext())
