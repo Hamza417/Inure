@@ -545,23 +545,27 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     open fun setupBackPressedDispatcher() {
         if (parentFragmentManager.backStackEntryCount > 0) { // Make sure we have fragments in backstack
             requireActivity().onBackPressedDispatcher.addCallback(this) {
-                Log.d(tag ?: TAG, "onBackPressed")
-                try {
-                    parentFragmentManager.popBackStackImmediate()
-                } catch (e: IllegalStateException) {
-                    Log.e(TAG, "setupBackPressedDispatcher: ", e)
-                }
-
-                try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        requireView().clearViewTranslationCallback()
-                    }
-                    requireView().clearAnimation()
-                    Log.i(TAG, "setupBackPressedDispatcher: Animations cleared")
-                } catch (e: IllegalStateException) {
-                    Log.e(TAG, "setupBackPressedDispatcher: ", e)
-                }
+                onBackPressed()
             }
+        }
+    }
+
+    open fun onBackPressed() {
+        Log.d(tag ?: TAG, "onBackPressed")
+        try {
+            parentFragmentManager.popBackStackImmediate()
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "setupBackPressedDispatcher: ", e)
+        }
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                requireView().clearViewTranslationCallback()
+            }
+            requireView().clearAnimation()
+            Log.i(TAG, "setupBackPressedDispatcher: Animations cleared")
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "setupBackPressedDispatcher: ", e)
         }
     }
 

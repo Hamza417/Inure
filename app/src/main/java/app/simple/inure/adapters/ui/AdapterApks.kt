@@ -178,6 +178,17 @@ class AdapterApks(var paths: ArrayList<ApkFile> = arrayListOf(),
         this.adapterCallbacks = adapterCallbacks
     }
 
+    fun removeSelections() {
+        for (i in paths.indices) {
+            if (paths[i].isSelected) {
+                paths[i].isSelected = false
+                notifyItemChanged(i + 1)
+            }
+        }
+
+        isSelectionMode = false
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
