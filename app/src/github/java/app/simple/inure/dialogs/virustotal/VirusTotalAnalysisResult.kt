@@ -28,7 +28,14 @@ class VirusTotalAnalysisResult : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val results = requireArguments().serializable<HashMap<String, AnalysisResult>>(BundleConstants.result) ?: HashMap()
+        val results = (requireArguments().serializable<HashMap<String, AnalysisResult>>(BundleConstants.result) ?: HashMap()).entries
+            .sortedBy {
+                it.value.category
+            }
+            .associateTo(LinkedHashMap()) {
+                it.toPair()
+            }
+
         val adapter = AdapterVirusTotalAnalysisResult(results)
         recyclerView.adapter = adapter
     }
