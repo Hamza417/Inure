@@ -59,6 +59,8 @@ class VirusTotal : ScopedFragment() {
     private var serviceConnection: ServiceConnection? = null
     private var elapsedJob: Job? = null
 
+    private var isBound = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_virustotal, container, false)
         shield = view.findViewById(R.id.shield)
@@ -111,7 +113,9 @@ class VirusTotal : ScopedFragment() {
 
     override fun onStart() {
         super.onStart()
+        Log.d(TAG, "onStart() called")
         if (virusTotalClientService == null) {
+            Log.d(TAG, "Starting VirusTotalClientService")
             requireActivity().startService(VirusTotalClientService.newIntent(requireActivity()))
             requireActivity().bindService(
                     VirusTotalClientService.newIntent(requireActivity()),
@@ -121,8 +125,8 @@ class VirusTotal : ScopedFragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         unbindServiceIfNeeded()
     }
 
@@ -165,13 +169,16 @@ class VirusTotal : ScopedFragment() {
     }
 
     private fun unbindServiceIfNeeded() {
+        Log.d(TAG, "Unbinding service if needed")
         if (virusTotalClientService != null && serviceConnection != null) {
+            Log.d(TAG, "Unbinding VirusTotalClientService")
             try {
                 requireActivity().unbindService(serviceConnection!!)
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
             } finally {
                 serviceConnection = null
+                virusTotalClientService = null
             }
         }
     }
@@ -179,6 +186,7 @@ class VirusTotal : ScopedFragment() {
     private fun createServiceConnection(): ServiceConnection {
         return object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                Log.d(TAG, "Service connected")
                 if (NetworkUtils.isNetworkAvailable(requireContext()).invert()) {
                     showWarning(Warnings.NO_INTERNET_CONNECTION)
                     return
@@ -201,6 +209,7 @@ class VirusTotal : ScopedFragment() {
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
+                Log.d(TAG, "Service disconnected")
                 virusTotalClientService = null
             }
         }
