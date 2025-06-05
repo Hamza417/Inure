@@ -779,4 +779,6 @@
     <string name="upload_file_to_vt">Você quer enviar o arquivo?</string>
     <string name="get_api_key">Obter minha chave de API</string>
     <string name="scanning_desc">Verificando e analisando o arquivo, isso pode levar algum tempo…</string>
+    <string name="disable_animations">Desativar Animações</string>
+    <string name="desc_disable_animations">Desativar as animações do aplicativo completamente.</string>
 </resources>
