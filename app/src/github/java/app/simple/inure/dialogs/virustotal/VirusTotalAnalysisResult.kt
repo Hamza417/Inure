@@ -17,6 +17,17 @@ class VirusTotalAnalysisResult : ScopedBottomSheetFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
+    private val severityOrder = listOf(
+            AnalysisResult.CATEGORY_MALICIOUS,
+            AnalysisResult.CATEGORY_SUSPICIOUS,
+            AnalysisResult.CATEGORY_HARMLESS,
+            AnalysisResult.CATEGORY_UNDETECTED,
+            AnalysisResult.CATEGORY_CONFIRMED_TIMEOUT,
+            AnalysisResult.CATEGORY_TIMEOUT,
+            AnalysisResult.CATEGORY_FAILURE,
+            AnalysisResult.CATEGORY_TYPE_UNSUPPORTED
+    )
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_virustotal_analysis_results, container, false)
 
@@ -29,8 +40,10 @@ class VirusTotalAnalysisResult : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val results = (requireArguments().serializable<HashMap<String, AnalysisResult>>(BundleConstants.result) ?: HashMap()).entries
-            .sortedBy {
-                it.value.category
+            .sortedBy { entry ->
+                severityOrder.indexOf(entry.value.category).let {
+                    if (it == -1) Int.MAX_VALUE else it
+                }
             }
             .associateTo(LinkedHashMap()) {
                 it.toPair()
