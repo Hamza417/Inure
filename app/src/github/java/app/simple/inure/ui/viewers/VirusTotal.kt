@@ -35,23 +35,19 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
-import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.NetworkUtils
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class VirusTotal : ScopedFragment() {
 
     private lateinit var shield: WaveFillImageView
     private lateinit var status: TypeFaceTextView
-    private lateinit var elapsed: TypeFaceTextView
     private lateinit var options: DynamicRippleImageButton
     private lateinit var recyclerView: CustomVerticalRecyclerView
 
@@ -63,7 +59,6 @@ class VirusTotal : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_virustotal, container, false)
         shield = view.findViewById(R.id.shield)
         status = view.findViewById(R.id.status)
-        elapsed = view.findViewById(R.id.elapsed)
         options = view.findViewById(R.id.options)
         recyclerView = view.findViewById(R.id.recycler_view)
         packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
@@ -78,7 +73,7 @@ class VirusTotal : ScopedFragment() {
         shield.setWaveColor(AppearancePreferences.getAccentColor())
 
         handleVisibility(
-                shield, status, elapsed, visible = requireArguments().getBoolean(SHIELD_VISIBILITY, true))
+                shield, status, visible = requireArguments().getBoolean(SHIELD_VISIBILITY, true))
 
         options.setOnClickListener {
             childFragmentManager.showVirusTotalMenu()
@@ -128,25 +123,8 @@ class VirusTotal : ScopedFragment() {
         unbindServiceIfNeeded()
     }
 
-    private fun startElapsedTimer(startTimeMillis: Long) {
-        elapsedJob?.cancel()
-        elapsedJob = viewLifecycleOwner.lifecycleScope.launch {
-            while (true) {
-                val elapsedMillis = System.currentTimeMillis() - startTimeMillis
-                elapsed.text = formatElapsedTime(elapsedMillis)
-                delay(1000)
-            }
-        }
-    }
-
     private fun stopElapsedTimer() {
         elapsedJob?.cancel()
-    }
-
-    private fun formatElapsedTime(millis: Long): String {
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) % 60
-        return String.format(LocaleUtils.getAppLocale(), "%02d:%02d", minutes, seconds)
     }
 
     override fun onDestroy() {
@@ -191,7 +169,6 @@ class VirusTotal : ScopedFragment() {
 
                 virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
                 virusTotalClientService?.clearEverything(packageInfo)
-                startElapsedTimer(System.currentTimeMillis())
                 virusTotalClientService?.scanFile(packageInfo)
 
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -270,7 +247,7 @@ class VirusTotal : ScopedFragment() {
         virusTotalClientService?.successFlow?.collect { response ->
             stopElapsedTimer()
             shield.setFillPercent(1.0F)
-            animateAlpha(shield, status, elapsed, alpha = 0F)
+            animateAlpha(shield, status, alpha = 0F)
             requireArguments().putBoolean(SHIELD_VISIBILITY, false)
             val adapter = AdapterVirusTotal(response, packageInfo)
             recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
