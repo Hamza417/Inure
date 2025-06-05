@@ -452,7 +452,7 @@
                     android:padding="15dp">
 
                     <app.simple.inure.decorations.theme.ThemeIcon
-                        android:id="@+id/disable_animation_icon"
+                        android:id="@+id/reduce_animation_icon"
                         android:layout_width="@dimen/preference_icon_size"
                         android:layout_height="@dimen/preference_icon_size"
                         android:layout_centerVertical="true"
@@ -477,7 +477,7 @@
                         app:layout_constraintBottom_toTopOf="@+id/reduce_animation_desc"
                         app:layout_constraintEnd_toStartOf="@+id/reduce_animation_switch"
                         app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/disable_animation_icon"
+                        app:layout_constraintStart_toEndOf="@+id/reduce_animation_icon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:textColorStyle="primary" />
 
@@ -485,19 +485,84 @@
                         android:id="@+id/reduce_animation_desc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginHorizontal="15dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="15dp"
                         android:textSize="@dimen/preferences_description_text_size"
                         app:appFontStyle="regular"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/reduce_animation_switch"
-                        app:layout_constraintStart_toEndOf="@+id/disable_animation_icon"
+                        app:layout_constraintStart_toEndOf="@+id/reduce_animation_icon"
                         app:layout_constraintTop_toBottomOf="@id/reduce_animation_tag"
                         app:textColorStyle="tertiary" />
 
                     <app.simple.inure.decorations.toggles.Switch
                         android:id="@+id/reduce_animation_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:padding="15dp">
+
+                    <app.simple.inure.decorations.theme.ThemeIcon
+                        android:id="@+id/disable_animation_icon"
+                        android:layout_width="@dimen/preference_icon_size"
+                        android:layout_height="@dimen/preference_icon_size"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_animation"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tintType="secondary"
+                        tools:ignore="ContentDescription" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/disable_animation_tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:drawablePadding="5dp"
+                        android:text="@string/disable_animations"
+                        android:textSize="@dimen/preferences_title_text_size"
+                        app:appFontStyle="bold"
+                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
+                        app:drawableTintStyle="accent"
+                        app:layout_constraintBottom_toTopOf="@+id/disable_animation_desc"
+                        app:layout_constraintEnd_toStartOf="@+id/disable_animation_switch"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/disable_animation_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:textColorStyle="primary" />
+
+                    <app.simple.inure.decorations.typeface.TypeFaceTextView
+                        android:id="@+id/disable_animation_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/preferences_description_text_size"
+                        app:appFontStyle="regular"
+                        android:text="@string/desc_disable_animations"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/disable_animation_switch"
+                        app:layout_constraintStart_toEndOf="@+id/disable_animation_icon"
+                        app:layout_constraintTop_toBottomOf="@id/disable_animation_tag"
+                        app:textColorStyle="tertiary" />
+
+                    <app.simple.inure.decorations.toggles.Switch
+                        android:id="@+id/disable_animation_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

@@ -17,6 +17,8 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.popups.appearances.PopupPalettes
 import app.simple.inure.preferences.AccessibilityPreferences
+import app.simple.inure.preferences.BehaviourPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.TextViewUtils.makeLinks
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -27,6 +29,7 @@ class AccessibilityScreen : ScopedFragment() {
     private lateinit var stroke: Switch
     private lateinit var divider: Switch
     private lateinit var reduceAnimations: Switch
+    private lateinit var disableAnimations: Switch
     private lateinit var enableContexts: Switch
     private lateinit var colorfulIcons: Switch
 
@@ -43,6 +46,7 @@ class AccessibilityScreen : ScopedFragment() {
         stroke = view.findViewById(R.id.highlight_stroke_switch)
         divider = view.findViewById(R.id.list_divider_switch)
         reduceAnimations = view.findViewById(R.id.reduce_animation_switch)
+        disableAnimations = view.findViewById(R.id.disable_animation_switch)
         enableContexts = view.findViewById(R.id.enable_context_switch)
         palette = view.findViewById(R.id.color_palette_popup)
         paletteRecyclerView = view.findViewById(R.id.palette_rv)
@@ -65,6 +69,10 @@ class AccessibilityScreen : ScopedFragment() {
         stroke.isChecked = AccessibilityPreferences.isHighlightStroke()
         divider.isChecked = AccessibilityPreferences.isDividerEnabled()
         reduceAnimations.isChecked = AccessibilityPreferences.isAnimationReduced()
+        disableAnimations.isChecked = AccessibilityPreferences.isAnimationReduced() &&
+                BehaviourPreferences.isMarqueeOn().invert() &&
+                BehaviourPreferences.isArcAnimationOn().invert() &&
+                BehaviourPreferences.isTransitionOn().invert()
         enableContexts.isChecked = AccessibilityPreferences.isAppElementsContext()
         colorfulIcons.isChecked = AccessibilityPreferences.isColorfulIcons()
         palette.setPalette()
@@ -125,6 +133,17 @@ class AccessibilityScreen : ScopedFragment() {
 
         reduceAnimations.setOnSwitchCheckedChangeListener {
             AccessibilityPreferences.setReduceAnimations(it)
+        }
+
+        disableAnimations.setOnSwitchCheckedChangeListener {
+            AccessibilityPreferences.setReduceAnimations(it)
+            BehaviourPreferences.setMarquee(it.invert())
+            BehaviourPreferences.setArcAnimations(it.invert())
+            BehaviourPreferences.setTransitionOn(it.invert())
+
+            postDelayed {
+                reduceAnimations.setChecked(it, true)
+            }
         }
 
         enableContexts.setOnSwitchCheckedChangeListener {

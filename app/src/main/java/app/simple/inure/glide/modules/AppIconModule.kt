@@ -8,7 +8,9 @@ import app.simple.inure.glide.icon.AppIcon
 import app.simple.inure.glide.icon.AppIconLoader
 import app.simple.inure.glide.transformation.BlurShadow
 import app.simple.inure.glide.transformation.Padding
+import app.simple.inure.preferences.AccessibilityPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
+import app.simple.inure.util.ConditionUtils.invert
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -27,7 +29,9 @@ class AppIconModule : AppGlideModule() {
 
     @SuppressLint("CheckResult")
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        builder.setDefaultTransitionOptions(Bitmap::class.java, BitmapTransitionOptions.withCrossFade())
+        if (AccessibilityPreferences.isAnimationReduced().invert()) {
+            builder.setDefaultTransitionOptions(Bitmap::class.java, BitmapTransitionOptions.withCrossFade())
+        }
 
         val requestOptions = RequestOptions()
 

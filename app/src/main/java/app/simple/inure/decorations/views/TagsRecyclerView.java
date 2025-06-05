@@ -38,7 +38,9 @@ public class TagsRecyclerView extends RecyclerView {
         layoutManager.setJustifyContent(JustifyContent.FLEX_START);
         setLayoutManager(layoutManager);
         
-        setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_pop_in_animation_controller));
+        if (!AccessibilityPreferences.INSTANCE.isAnimationReduced()) {
+            setLayoutAnimation(AnimationUtils.loadLayoutAnimation(getContext(), R.anim.list_pop_in_animation_controller));
+        }
     }
     
     @Override

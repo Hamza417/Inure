@@ -589,9 +589,14 @@ class AppInfo : ScopedFragment() {
                 details.append(getString(R.string.trackers_count, it))
             }
 
-            this.details.alpha = 0F
-            this.details.text = details
-            this.details.animate().alpha(1F).start()
+            if (AccessibilityPreferences.isAnimationReduced().invert()) {
+                this.details.alpha = 0F
+                this.details.text = details
+                this.details.animate().alpha(1F).start()
+            } else {
+                this.details.alpha = 1F
+                this.details.text = details
+            }
         }
 
         appInfoViewModel.getMiscellaneousItems().observe(viewLifecycleOwner) {

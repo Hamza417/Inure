@@ -778,4 +778,6 @@
     <string name="upload_file_to_vt">Do you want to upload the file?</string>
     <string name="get_api_key">Get My API Key</string>
     <string name="scanning_desc">Scanning and analyzing file, this may take a while…</string>
+    <string name="disable_animations">Disable Animations</string>
+    <string name="desc_disable_animations">Disable app animations completely.</string>
 </resources>

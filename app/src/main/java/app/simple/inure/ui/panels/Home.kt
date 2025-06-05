@@ -220,6 +220,8 @@ class Home : ScopedFragment() {
 
             if (AccessibilityPreferences.isAnimationReduced().invert()) {
                 navigationRecyclerView.scheduleLayoutAnimation()
+            } else {
+                navigationRecyclerView.layoutAnimation = null
             }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
@@ -287,8 +289,10 @@ class Home : ScopedFragment() {
 
         navigationRecyclerView.adapter = adapterHome
 
-        navigationRecyclerView.post {
-            TransitionManager.beginDelayedTransition(navigationRecyclerView)
+        if (AccessibilityPreferences.isAnimationReduced().invert()) {
+            navigationRecyclerView.post {
+                TransitionManager.beginDelayedTransition(navigationRecyclerView)
+            }
         }
     }
 
