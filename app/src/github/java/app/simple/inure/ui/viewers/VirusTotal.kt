@@ -59,8 +59,6 @@ class VirusTotal : ScopedFragment() {
     private var serviceConnection: ServiceConnection? = null
     private var elapsedJob: Job? = null
 
-    private var isBound = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_virustotal, container, false)
         shield = view.findViewById(R.id.shield)
@@ -117,11 +115,11 @@ class VirusTotal : ScopedFragment() {
         if (virusTotalClientService == null) {
             Log.d(TAG, "Starting VirusTotalClientService")
             requireActivity().startService(VirusTotalClientService.newIntent(requireActivity()))
-            requireActivity().bindService(
-                    VirusTotalClientService.newIntent(requireActivity()),
-                    serviceConnection!!,
-                    Context.BIND_AUTO_CREATE
-            )
+            serviceConnection?.let {
+                requireActivity().bindService(
+                        VirusTotalClientService.newIntent(requireActivity()), it, Context.BIND_AUTO_CREATE
+                )
+            }
         }
     }
 
@@ -177,7 +175,6 @@ class VirusTotal : ScopedFragment() {
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
             } finally {
-                serviceConnection = null
                 virusTotalClientService = null
             }
         }
