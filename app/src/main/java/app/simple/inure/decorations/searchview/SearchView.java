@@ -127,13 +127,27 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             return Unit.INSTANCE;
         });
         
-        settings.setOnClickListener(button -> searchViewEventListener.onSearchMenuPressed(button));
-        filter.setOnClickListener(button -> searchViewEventListener.onFilterPressed(button));
-        more.setOnClickListener(v -> moreButtonState(true));
+        settings.setOnClickListener(v -> {
+            searchViewEventListener.onSearchMenuPressed(v);
+            handler.removeCallbacks(moreButtonRunnable);
+            handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
+        });
+        
+        filter.setOnClickListener(v -> {
+            searchViewEventListener.onFilterPressed(v);
+            handler.removeCallbacks(moreButtonRunnable);
+            handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
+        });
+        
+        more.setOnClickListener(v -> {
+            moreButtonState(true);
+        });
         
         refresh.setOnClickListener(button -> {
             loader.setVisibility(View.VISIBLE);
             searchViewEventListener.onSearchRefreshPressed(button);
+            handler.removeCallbacks(moreButtonRunnable);
+            handler.postDelayed(moreButtonRunnable, MORE_BUTTON_DELAY);
         });
         
         clear.setOnClickListener(button -> {
