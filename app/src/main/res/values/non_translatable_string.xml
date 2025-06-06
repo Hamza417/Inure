@@ -77,9 +77,9 @@
     <string name="etip" translatable="false">ETIP</string>
     <string name="virustotal_api" translatable="false">VirusTotal API</string>
     <string name="virustotal" translatable="false">VirusTotal</string>
-    <string name="virustotal_disc" translatable="false">VirusTotal API is and it\'s logos are trademark of Chronicle LLC. This app is not affiliated with VirusTotal in any way. The API key is used to access the VirusTotal API and is not stored or shared with any third party. By using this app, you agree to the terms and conditions of VirusTotal.</string>
-    <string name="sha256">SHA256</string>
-    <string name="sha1">SHA1</string>
-    <string name="md5">MD5</string>
+    <string name="virustotal_disc" translatable="false">VirusTotal API is and its logos are trademark of Chronicle LLC. This app is not affiliated with VirusTotal in any way. The API key is used to access the VirusTotal API and is not stored or shared with any third party. By using this app, you agree to the terms and conditions of VirusTotal.</string>
+    <string name="sha256" translatable="false">SHA256</string>
+    <string name="sha1" translatable="false">SHA1</string>
+    <string name="md5" translatable="false">MD5</string>
 
 </resources>
