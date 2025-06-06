@@ -27,7 +27,7 @@
             android:text="@string/add_vote_desc"
             android:textSize="@dimen/desc_text_size"
             android:layout_marginBottom="@dimen/popup_padding"
-            app:appFontStyle="bold"
+            app:appFontStyle="regular"
             app:textColorStyle="primary" />
 
         <LinearLayout
