@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.viewers
 
 import android.content.pm.PackageInfo
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import app.simple.inure.adapters.sub.AdapterVirusTotalNamesList
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleMaterialCardView
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.DateUtils.toDate
@@ -82,8 +84,18 @@ class AdapterVirusTotal(
                 holder.timesSubmitted.text = virusTotalResponse.timesSubmitted.toString() // Will always be at least 1
             }
             is TotalVotesHolder -> {
-                holder.satisfied.text = (virusTotalResponse.totalVotes?.harmless ?: 0).toString()
-                holder.notSatisfied.text = (virusTotalResponse.totalVotes?.malicious ?: 0).toString()
+                holder.harmless.text = (virusTotalResponse.totalVotes?.harmless ?: 0).toString()
+                holder.malicious.text = (virusTotalResponse.totalVotes?.malicious ?: 0).toString()
+
+                holder.harmless.setOnClickListener {
+                    adapterVirusTotalListener?.onVote(true, virusTotalResponse)
+                }
+
+                holder.malicious.setOnClickListener {
+                    adapterVirusTotalListener?.onVote(false, virusTotalResponse)
+                }
+
+                holder.malicious.setRippleColor(ColorStateList.valueOf(0xFFCB4335.toInt()))
             }
             is AnalysisResultHolder -> {
                 val count = (virusTotalResponse.lastAnalysisStats?.malicious ?: 0) +
@@ -165,8 +177,8 @@ class AdapterVirusTotal(
     }
 
     inner class TotalVotesHolder(itemView: View) : VerticalListViewHolder(itemView) {
-        val satisfied: TypeFaceTextView = itemView.findViewById(R.id.satisfied_votes)
-        val notSatisfied: TypeFaceTextView = itemView.findViewById(R.id.not_satisfied_votes)
+        val harmless: DynamicRippleTextView = itemView.findViewById(R.id.satisfied_votes)
+        val malicious: DynamicRippleTextView = itemView.findViewById(R.id.not_satisfied_votes)
     }
 
     inner class AnalysisResultHolder(itemView: View) : VerticalListViewHolder(itemView) {
@@ -234,6 +246,10 @@ class AdapterVirusTotal(
         this.adapterVirusTotalListener = adapterVirusTotalListener
     }
 
+    fun updateTotalVotes() {
+        notifyItemChanged(TOTAL_VOTES)
+    }
+
     companion object {
         private const val GENERAL_INFO = 0
         private const val TOTAL_VOTES = 1
@@ -247,7 +263,9 @@ class AdapterVirusTotal(
 
         interface AdapterVirusTotalListener {
             fun onAnalysisResult(response: VirusTotalResponse)
+            fun onVote(isHarmless: Boolean, response: VirusTotalResponse)
             fun onOpenReportPage(response: VirusTotalResponse)
+            fun onWarning(message: String)
         }
     }
 }

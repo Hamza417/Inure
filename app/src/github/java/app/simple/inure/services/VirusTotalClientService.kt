@@ -22,10 +22,12 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.ServiceConstants
 import app.simple.inure.preferences.SharedPreferences
+import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.utils.JsonParserUtil
 import app.simple.inure.virustotal.VirusTotalClient
 import app.simple.inure.virustotal.VirusTotalResponse
 import app.simple.inure.virustotal.VirusTotalResult
+import app.simple.inure.virustotal.VirusTotalVoter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -40,8 +42,10 @@ import org.json.JSONObject
 class VirusTotalClientService : Service() {
 
     private val binder = LocalBinder()
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scannerScope = CoroutineScope(Dispatchers.IO)
+    private val voteScope = CoroutineScope(Dispatchers.IO)
     private var uploadJob: Job? = null
+    private var voteJob: Job? = null
 
     private val _progressFlow = MutableSharedFlow<VirusTotalResult.Progress>(replay = 1)
     private val _failedFlow = MutableSharedFlow<VirusTotalResult.Error>(replay = 1)
@@ -73,7 +77,7 @@ class VirusTotalClientService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ServiceConstants.ACTION_VIRUS_TOTAL_CANCEL) {
-            scope.launch {
+            scannerScope.launch {
                 _exitFlow.emit(Unit)
             }
             uploadJob?.cancel()
@@ -129,7 +133,7 @@ class VirusTotalClientService : Service() {
         lastPackageName = packageInfo.packageName
         uploadJob?.cancel()
 
-        uploadJob = scope.launch {
+        uploadJob = scannerScope.launch {
             withContext(Dispatchers.Main) {
                 createNotification()
             }
@@ -203,7 +207,7 @@ class VirusTotalClientService : Service() {
         lastPackageName = packageInfo.packageName
         uploadJob?.cancel()
 
-        uploadJob = scope.launch {
+        uploadJob = scannerScope.launch {
             withContext(Dispatchers.Main) {
                 createNotification()
             }
@@ -349,7 +353,49 @@ class VirusTotalClientService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         uploadJob?.cancel()
-        scope.cancel()
+        scannerScope.cancel()
+    }
+
+    fun vote(harmless: Boolean, response: VirusTotalResponse, onVoted: (VirusTotalResponse) -> Unit, onError: (String) -> Unit) {
+        voteJob?.cancel()
+        voteJob = voteScope.launch {
+            try {
+                VirusTotalVoter(VirusTotalPreferences.getVirusTotalApiKey()).voteOnFile(
+                        response.sha256, if (harmless) {
+                    VirusTotalVoter.VoteType.HARMLESS
+                } else {
+                    VirusTotalVoter.VoteType.MALICIOUS
+                }).collect { result ->
+                    when (result) {
+                        is VirusTotalResult.Error -> {
+                            Log.e(TAG, "Voting failed: ${result.message}")
+                            onError(result.message)
+                        }
+                        is VirusTotalResult.Success -> {
+                            Log.i(TAG, "Vote successful: ${result.result}")
+                            handleResponse(result.result).let {
+                                if (it != null) {
+                                    response.totalVotes.harmless = it.totalVotes.harmless
+                                    response.totalVotes.malicious = it.totalVotes.malicious
+                                    onVoted(response)
+                                } else {
+                                    Log.w(TAG, "Failed to extract total votes from response")
+                                    onError("Failed to extract total votes from response")
+                                }
+                            }
+                        }
+                        is VirusTotalResult.Progress -> {
+                            Log.d(TAG, "Voting progress: ${result.status}")
+                        }
+                        is VirusTotalResult.Uploaded -> {
+                            /* no-op */
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Voting failed: ${e.message}")
+            }
+        }
     }
 
     companion object {

@@ -262,7 +262,28 @@ class VirusTotal : ScopedFragment() {
                         append(response.sha256)
                     }.asUri().openInBrowser(requireContext())
                 }
+
+                override fun onWarning(message: String) {
+                    showWarning(message, false)
+                }
+
+                override fun onVote(isHarmless: Boolean, response: VirusTotalResponse) {
+                    showLoader(true)
+
+                    virusTotalClientService?.vote(
+                            isHarmless,
+                            response,
+                            onVoted = {
+                                adapter.updateTotalVotes()
+                                hideLoader()
+                            },
+                            onError = {
+                                hideLoader()
+                                showWarning(it, false)
+                            })
+                }
             })
+
             recyclerView.adapter = adapter
         }
     }

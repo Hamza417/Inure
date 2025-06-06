@@ -74,7 +74,7 @@ public class DynamicRippleTextView extends TypeFaceTextView {
                             .setDuration(getResources().getInteger(R.integer.animation_duration))
                             .start();
                 }
-    
+                
                 try {
                     if (event.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE) {
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -99,7 +99,9 @@ public class DynamicRippleTextView extends TypeFaceTextView {
                     return super.onTouchEvent(event);
                 }
             }
-            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+            case MotionEvent.ACTION_MOVE,
+                 MotionEvent.ACTION_CANCEL,
+                 MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode() && isClickable()) {
                     animate()
                             .scaleY(1F)
@@ -159,14 +161,23 @@ public class DynamicRippleTextView extends TypeFaceTextView {
         }
     }
     
+    public void setRippleColor(@NonNull ColorStateList colorStateList) {
+        if (getBackground() instanceof android.graphics.drawable.RippleDrawable) {
+            ((android.graphics.drawable.RippleDrawable) getBackground()).setColor(colorStateList);
+        } else {
+            setBackground(Utils.getRippleDrawable(getBackground(), Misc.roundedCornerFactor));
+            ((android.graphics.drawable.RippleDrawable) getBackground()).setColor(colorStateList);
+        }
+    }
+    
     @Override
     public void onSharedPreferenceChanged(@Nullable SharedPreferences sharedPreferences, @Nullable String key) {
         super.onSharedPreferenceChanged(sharedPreferences, key);
         try {
             switch (key) {
                 case AppearancePreferences.ACCENT_COLOR,
-                        AccessibilityPreferences.IS_HIGHLIGHT_STROKE,
-                        AccessibilityPreferences.IS_HIGHLIGHT_MODE -> {
+                     AccessibilityPreferences.IS_HIGHLIGHT_STROKE,
+                     AccessibilityPreferences.IS_HIGHLIGHT_MODE -> {
                     setHighlightBackgroundColor();
                 }
             }

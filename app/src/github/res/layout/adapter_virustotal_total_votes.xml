@@ -18,6 +18,14 @@
             android:layout_height="wrap_content"
             android:text="@string/total_votes"
             android:textSize="@dimen/info_text_medium"
+            app:appFontStyle="bold"
+            app:textColorStyle="primary" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_vote_desc"
+            android:textSize="@dimen/desc_text_size"
             android:layout_marginBottom="@dimen/popup_padding"
             app:appFontStyle="bold"
             app:textColorStyle="primary" />
@@ -27,12 +35,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/satisfied_votes"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingVertical="@dimen/popup_padding"
                 android:drawablePadding="@dimen/popup_padding"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="regular"
@@ -41,12 +50,13 @@
                 app:drawableTopCompat="@drawable/ic_satisfied_48dp"
                 app:textColorStyle="secondary" />
 
-            <app.simple.inure.decorations.typeface.TypeFaceTextView
+            <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/not_satisfied_votes"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingVertical="@dimen/popup_padding"
                 android:drawablePadding="@dimen/popup_padding"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="regular"
