@@ -28,7 +28,7 @@
             android:textSize="@dimen/desc_text_size"
             android:layout_marginBottom="@dimen/popup_padding"
             app:appFontStyle="regular"
-            app:textColorStyle="primary" />
+            app:textColorStyle="tertiary" />
 
         <LinearLayout
             android:layout_width="match_parent"
