@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -77,6 +79,11 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     private void init() {
         setClipToOutline(false);
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
+        setClickable(true);
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        setContentDescription("Checkbox");
         
         background.setAntiAlias(true);
         background.setStyle(Paint.Style.FILL);
@@ -236,6 +243,26 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         animator.start();
         colorAnimator.start();
         elevationAnimator.start();
+    }
+    
+    @Override
+    public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName("android.widget.CheckBox");
+        info.setCheckable(true);
+        info.setChecked(isChecked());
+        CharSequence desc = getContentDescription();
+        if (desc == null || desc.length() == 0) {
+            desc = isChecked() ? "On" : "Off";
+        }
+        info.setContentDescription(desc);
+    }
+    
+    @Override
+    public boolean performClick() {
+        boolean result = super.performClick();
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+        return result;
     }
     
     private void updateChecked() {

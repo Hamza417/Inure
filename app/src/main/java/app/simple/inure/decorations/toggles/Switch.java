@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
@@ -115,6 +117,11 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
     private void init() {
         setClipToOutline(false);
         setDragEnabled(false); // Disable the drag permanently ??TODO: Remove this
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
+        setClickable(true);
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        setContentDescription("Switch");
         
         if (!isInEditMode()) {
             if (AppearancePreferences.INSTANCE.getColoredIconShadows()) {
@@ -276,6 +283,26 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         }
         
         return super.onTouchEvent(event);
+    }
+    
+    @Override
+    public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName("android.widget.Switch");
+        info.setCheckable(true);
+        info.setChecked(isChecked());
+        CharSequence desc = getContentDescription();
+        if (desc == null || desc.length() == 0) {
+            desc = isChecked() ? "On" : "Off";
+        }
+        info.setContentDescription(desc);
+    }
+    
+    @Override
+    public boolean performClick() {
+        boolean result = super.performClick();
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+        return result;
     }
     
     public void updateSwitchState() {
