@@ -214,9 +214,9 @@ class AudioServicePager : Service(),
 
     override fun onPrepared(mp: MediaPlayer?) {
         if (requestAudioFocus()) {
+            setupMetadata()
             play()
             IntentHelper.sendLocalBroadcastIntent(ServiceConstants.actionPreparedPager, applicationContext)
-            setupMetadata()
         }
     }
 
@@ -659,15 +659,13 @@ class AudioServicePager : Service(),
     }
 
     private fun createNotificationChannel() {
-        if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val name: CharSequence = getString(R.string.music)
-                val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
-                channel.enableVibration(false)
-                channel.enableLights(false)
-                val notificationManager = getSystemService(NotificationManager::class.java)
-                notificationManager.createNotificationChannel(channel)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = getString(R.string.music)
+            val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_LOW)
+            channel.enableVibration(false)
+            channel.enableLights(false)
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
         }
     }
 
