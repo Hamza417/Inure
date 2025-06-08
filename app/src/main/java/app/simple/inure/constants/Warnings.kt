@@ -112,4 +112,9 @@ object Warnings {
      * Internet connection is not available
      */
     const val NO_INTERNET_CONNECTION = "0x015: Internet connection is not available. Please check your network settings and try again."
+
+    /**
+     * Development mode enabled
+     */
+    const val DEVELOPMENT_MODE_ENABLED = "0x016: Development mode enabled. This mode is intended for developers and may cause unexpected behaviors in the app. Use at your own risk."
 }

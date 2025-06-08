@@ -8,23 +8,28 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.core.text.toSpannable
 import app.simple.inure.R
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.app.Socials.Companion.showSocialsDialog
 import app.simple.inure.dialogs.app.Telegram.Companion.showTelegramDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.AboutPreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.ui.preferences.subscreens.Share
 import app.simple.inure.util.AppUtils
+import app.simple.inure.util.ConditionUtils.invert
 
 class AboutScreen : ScopedFragment() {
 
     private lateinit var versionTag: TypeFaceTextView
     private lateinit var version: TypeFaceTextView
+    private lateinit var appVersionContainer: DynamicRippleRelativeLayout
     private lateinit var changelogs: DynamicRippleRelativeLayout
     private lateinit var github: DynamicRippleRelativeLayout
     private lateinit var userAgreement: DynamicRippleRelativeLayout
@@ -36,10 +41,13 @@ class AboutScreen : ScopedFragment() {
     private lateinit var follow: DynamicRippleLinearLayout
     private lateinit var share: DynamicRippleRelativeLayout
 
+    private var timesClicked = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.preferences_about, container, false)
 
         versionTag = view.findViewById(R.id.app_version_tag)
+        appVersionContainer = view.findViewById(R.id.app_version)
         version = view.findViewById(R.id.app_version_value)
         changelogs = view.findViewById(R.id.changelogs)
         github = view.findViewById(R.id.about_github)
@@ -70,12 +78,24 @@ class AboutScreen : ScopedFragment() {
             version.append("-trial (${TrialPreferences.getDaysLeft()} days left)")
         }
 
+        appVersionContainer.setOnClickListener {
+            timesClicked++
+
+            if (timesClicked == MAX_TAP_COUNT) {
+                AboutPreferences.setDevelopmentMode(AboutPreferences.isDevelopmentMode().invert())
+                if (AboutPreferences.isDevelopmentMode()) {
+                    showWarning(Warnings.DEVELOPMENT_MODE_ENABLED)
+                }
+
+            }
+        }
+
         credits.setOnClickListener {
             openWebPage(getString(R.string.credits))
         }
 
         github.setOnClickListener {
-            val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
+            val uri: Uri = "https://github.com/Hamza417/Inure".toUri()
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
 
@@ -159,5 +179,6 @@ class AboutScreen : ScopedFragment() {
         }
 
         const val TAG = "AboutScreen"
+        private const val MAX_TAP_COUNT = 25
     }
 }

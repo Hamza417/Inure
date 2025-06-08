@@ -65,6 +65,7 @@
                     app:textColorStyle="accent" />
 
                 <app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
+                    android:id="@+id/app_version"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
