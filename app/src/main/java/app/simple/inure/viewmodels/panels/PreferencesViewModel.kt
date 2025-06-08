@@ -55,10 +55,12 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             // list.add(Pair(R.drawable.ic_layouts, R.string.layouts))
             // list.add(Pair(R.drawable.ic_radiation_nuclear, R.string.trackers))
             // list.add(Pair(0, 0)) // Divider
+            list.add(Pair(R.drawable.ic_sd_storage, R.string.manage_space))
+            list.add(Pair(0, 0))
             if (AboutPreferences.isDevelopmentMode()) {
                 list.add(Pair(R.drawable.ic_data_object, R.string.development))
             }
-            list.add(Pair(R.drawable.ic_audio_placeholder, R.string.about))
+            list.add(Pair(R.drawable.ic_info, R.string.about))
 
             preferences.postValue(list)
         }

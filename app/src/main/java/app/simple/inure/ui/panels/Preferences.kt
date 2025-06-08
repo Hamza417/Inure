@@ -137,6 +137,10 @@ class Preferences : SearchBarScopedFragment() {
                             openFragmentArc(DevelopmentScreen.newInstance(), imageView, DevelopmentScreen.TAG, duration)
                         }
 
+                        R.string.manage_space -> {
+                            startActivity(Intent(requireActivity(), ManageSpace::class.java))
+                        }
+
                         R.string.about -> {
                             openFragmentArc(AboutScreen.newInstance(), imageView, AboutScreen.TAG, duration)
                         }
@@ -389,12 +393,12 @@ class Preferences : SearchBarScopedFragment() {
         }
 
         memory.setOnClickListener {
-            startActivity(Intent(requireActivity(), ManageSpace::class.java))
+            AppMemory.newInstance()
+                .show(childFragmentManager, AppMemory.TAG)
         }
 
         memory.setOnLongClickListener {
-            AppMemory.newInstance()
-                .show(childFragmentManager, AppMemory.TAG)
+            startActivity(Intent(requireActivity(), ManageSpace::class.java))
             return@setOnLongClickListener true
         }
 
