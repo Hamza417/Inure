@@ -106,11 +106,11 @@
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+    <app.simple.inure.decorations.views.GridRecyclerView
         android:id="@+id/preferences_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutAnimation="@anim/list_animation_controller"
+        android:layoutAnimation="@anim/grid_list_animation_controller"
         app:isFastScrollRequired="false"
         app:statusBarPaddingRequired="false" />
 

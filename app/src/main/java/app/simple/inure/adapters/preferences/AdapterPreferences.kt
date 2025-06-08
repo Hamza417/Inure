@@ -58,13 +58,15 @@ class AdapterPreferences(private val list: ArrayList<Pair<Int, Int>>) : Recycler
     override fun getItemViewType(position: Int): Int {
         return if (list[position].first.isZero()) {
             RecyclerViewUtils.TYPE_DIVIDER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val text: TypeFaceTextView = itemView.findViewById(R.id.preferences_text)
-        val icon: ThemeIcon = itemView.findViewById(R.id.preferences_icon)
-        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.pref_container)
+        val text: TypeFaceTextView = itemView.findViewById(R.id.text)
+        val icon: ThemeIcon = itemView.findViewById(R.id.icon)
+        val container: DynamicRippleLinearLayoutWithFactor = itemView.findViewById(R.id.container)
 
         init {
             text.isSelected = true
