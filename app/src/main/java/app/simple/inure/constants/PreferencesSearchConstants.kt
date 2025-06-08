@@ -1,5 +1,6 @@
 package app.simple.inure.constants
 
+import androidx.core.content.edit
 import app.simple.inure.R
 import app.simple.inure.models.PreferenceModel
 import app.simple.inure.preferences.SharedPreferences
@@ -99,6 +100,7 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_border_outer, R.string.stroke, R.string.desc_highlight_stroke, toggleable, icons, accessibility),
             PreferenceModel(R.drawable.ic_divider_lines, R.string.dividers, R.string.desc_dividers, toggleable, lists, accessibility),
             PreferenceModel(R.drawable.ic_animation, R.string.reduce_animations, R.string.desc_reduce_animations, toggleable, animations, accessibility),
+            PreferenceModel(R.drawable.ic_animation, R.string.disable_animations, R.string.desc_disable_animations, toggleable, animations, accessibility),
             PreferenceModel(R.drawable.ic_format_paint, R.string.colorful_icons, R.string.colorful_icons_desc, toggleable, icons, accessibility),
     )
 
@@ -166,7 +168,7 @@ object PreferencesSearchConstants {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setSearchVisibility(boolean: Boolean) {
-        SharedPreferences.getSharedPreferences().edit().putBoolean(PREFERENCES_SEARCH, boolean).apply()
+        SharedPreferences.getSharedPreferences().edit { putBoolean(PREFERENCES_SEARCH, boolean) }
     }
 
     fun isSearchVisible(): Boolean {
