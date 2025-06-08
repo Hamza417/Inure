@@ -144,6 +144,10 @@ class Preferences : SearchBarScopedFragment() {
                         R.string.about -> {
                             openFragmentArc(AboutScreen.newInstance(), imageView, AboutScreen.TAG, duration)
                         }
+
+                        R.string.purchase -> {
+                            openFragmentArc(Trial.newInstance(), imageView, Trial.TAG, duration)
+                        }
                     }
                 }
             })
