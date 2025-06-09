@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.net.toUri
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -95,7 +96,7 @@ class Preferences : SearchBarScopedFragment() {
 
             adapterPreferences.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
-                    val duration = (position + 1).toDouble().pow(2.0).toLong().coerceIn(500L, 800L)
+                    val duration = (position.times(3)).toDouble().pow(2.0).toLong().coerceIn(500L, 800L)
 
                     when (category) {
                         R.string.appearance -> {
@@ -143,7 +144,7 @@ class Preferences : SearchBarScopedFragment() {
                         }
 
                         R.string.purchase -> {
-                            openFragmentArc(Trial.newInstance(), imageView, Trial.TAG, duration)
+                            openFragmentSlide(Trial.newInstance(), Trial.TAG)
                         }
                     }
                 }
@@ -352,17 +353,17 @@ class Preferences : SearchBarScopedFragment() {
                                 }
 
                                 R.string.github -> {
-                                    val uri: Uri = Uri.parse("https://github.com/Hamza417/Inure")
+                                    val uri: Uri = "https://github.com/Hamza417/Inure".toUri()
                                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                                 }
 
                                 R.string.translate -> {
-                                    val uri: Uri = Uri.parse("https://crowdin.com/project/inure")
+                                    val uri: Uri = "https://crowdin.com/project/inure".toUri()
                                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                                 }
 
                                 R.string.telegram -> {
-                                    val uri: Uri = Uri.parse("https://t.me/inure_app_manager")
+                                    val uri: Uri = "https://t.me/inure_app_manager".toUri()
                                     startActivity(Intent(Intent.ACTION_VIEW, uri))
                                 }
 
