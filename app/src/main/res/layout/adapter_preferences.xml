@@ -1,35 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
 <app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/pref_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/popup_padding"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:padding="@dimen/header_padding">
+    android:orientation="horizontal"
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.theme.ThemeIcon
-        android:id="@+id/icon"
-        android:layout_width="@dimen/header_icon_size"
-        android:layout_height="@dimen/header_icon_size"
-        android:layout_gravity="center"
+        android:id="@+id/preferences_icon"
+        android:layout_width="@dimen/preference_icon_size"
+        android:layout_height="@dimen/preference_icon_size"
+        android:layout_gravity="center_vertical"
+        android:transitionName="appearance_icon"
         app:tintType="accent"
         tools:ignore="ContentDescription" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
+        android:id="@+id/preferences_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:ellipsize="marquee"
-        android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:singleLine="true"
-        app:appFontStyle="medium"
-        app:textColorStyle="primary" />
+        android:layout_gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:textSize="@dimen/list_text_size"
+        app:appFontStyle="bold"
+        app:textColorStyle="secondary" />
 
 </app.simple.inure.decorations.ripple.DynamicRippleLinearLayoutWithFactor>

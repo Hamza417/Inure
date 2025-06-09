@@ -11,15 +11,13 @@ import android.widget.ImageView
 import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import app.simple.inure.R
 import app.simple.inure.activities.app.ManageSpace
 import app.simple.inure.adapters.preferences.AdapterPreferenceSearch
 import app.simple.inure.adapters.preferences.AdapterPreferences
 import app.simple.inure.constants.PreferencesSearchConstants
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
-import app.simple.inure.decorations.views.GridRecyclerView
 import app.simple.inure.dialogs.app.AppMemory
 import app.simple.inure.dialogs.appearance.IconSize
 import app.simple.inure.dialogs.appearance.RoundedCorner
@@ -61,13 +59,12 @@ import app.simple.inure.ui.preferences.subscreens.TerminalColor
 import app.simple.inure.ui.preferences.subscreens.TerminalControlKey
 import app.simple.inure.ui.preferences.subscreens.TerminalFnKey
 import app.simple.inure.ui.preferences.subscreens.TerminalFontSize
-import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
 import kotlin.math.pow
 
 class Preferences : SearchBarScopedFragment() {
 
-    private lateinit var recyclerView: GridRecyclerView
+    private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var adapterPreferences: AdapterPreferences
     private lateinit var memory: DynamicRippleImageButton
 
@@ -102,39 +99,39 @@ class Preferences : SearchBarScopedFragment() {
 
                     when (category) {
                         R.string.appearance -> {
-                            openFragmentArc(AppearanceScreen.newInstance(), imageView, AppearanceScreen.TAG, duration)
+                            openFragmentLinear(AppearanceScreen.newInstance(), imageView, AppearanceScreen.TAG, duration)
                         }
 
                         R.string.behavior -> {
-                            openFragmentArc(BehaviourScreen.newInstance(), imageView, BehaviourScreen.TAG, duration)
+                            openFragmentLinear(BehaviourScreen.newInstance(), imageView, BehaviourScreen.TAG, duration)
                         }
 
                         R.string.configuration -> {
-                            openFragmentArc(ConfigurationScreen.newInstance(), imageView, ConfigurationScreen.TAG, duration)
+                            openFragmentLinear(ConfigurationScreen.newInstance(), imageView, ConfigurationScreen.TAG, duration)
                         }
 
                         R.string.formatting -> {
-                            openFragmentArc(FormattingScreen.newInstance(), imageView, FormattingScreen.TAG, duration)
+                            openFragmentLinear(FormattingScreen.newInstance(), imageView, FormattingScreen.TAG, duration)
                         }
 
                         R.string.terminal -> {
-                            openFragmentArc(TerminalScreen.newInstance(), imageView, TerminalScreen.TAG, duration)
+                            openFragmentLinear(TerminalScreen.newInstance(), imageView, TerminalScreen.TAG, duration)
                         }
 
                         R.string.shell -> {
-                            openFragmentArc(ShellScreen.newInstance(), imageView, ShellScreen.TAG, duration)
+                            openFragmentLinear(ShellScreen.newInstance(), imageView, ShellScreen.TAG, duration)
                         }
 
                         R.string.layouts -> {
-                            openFragmentArc(LayoutsScreen.newInstance(), imageView, LayoutsScreen.TAG, duration)
+                            openFragmentLinear(LayoutsScreen.newInstance(), imageView, LayoutsScreen.TAG, duration)
                         }
 
                         R.string.accessibility -> {
-                            openFragmentArc(AccessibilityScreen.newInstance(), imageView, AccessibilityScreen.TAG, duration)
+                            openFragmentLinear(AccessibilityScreen.newInstance(), imageView, AccessibilityScreen.TAG, duration)
                         }
 
                         R.string.development -> {
-                            openFragmentArc(DevelopmentScreen.newInstance(), imageView, DevelopmentScreen.TAG, duration)
+                            openFragmentLinear(DevelopmentScreen.newInstance(), imageView, DevelopmentScreen.TAG, duration)
                         }
 
                         R.string.manage_space -> {
@@ -142,7 +139,7 @@ class Preferences : SearchBarScopedFragment() {
                         }
 
                         R.string.about -> {
-                            openFragmentArc(AboutScreen.newInstance(), imageView, AboutScreen.TAG, duration)
+                            openFragmentLinear(AboutScreen.newInstance(), imageView, AboutScreen.TAG, duration)
                         }
 
                         R.string.purchase -> {
@@ -152,19 +149,7 @@ class Preferences : SearchBarScopedFragment() {
                 }
             })
 
-            val gridLayoutManager = GridLayoutManager(requireContext(), resources.getInteger(R.integer.span_count))
-            recyclerView.layoutManager = gridLayoutManager
             recyclerView.adapter = adapterPreferences
-
-            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if (adapterPreferences.getItemViewType(position) == RecyclerViewUtils.TYPE_ITEM) {
-                        1
-                    } else {
-                        gridLayoutManager.spanCount
-                    }
-                }
-            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
@@ -391,7 +376,6 @@ class Preferences : SearchBarScopedFragment() {
             })
 
             if (recyclerView.adapter != adapterPreferenceSearch) {
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
                 recyclerView.adapter = adapterPreferenceSearch
             }
         }
