@@ -32,6 +32,7 @@ public class ThemeDivider extends View implements ThemeChangedListener {
     }
     
     private void init() {
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
         setBackgroundColor(Color.WHITE);
         setTint(false);
         setTranslationZ(1F);
