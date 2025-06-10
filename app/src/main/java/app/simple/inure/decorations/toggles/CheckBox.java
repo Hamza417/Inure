@@ -142,10 +142,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             }
         });
         
-        setOnClickListener(v -> {
-            toggle(true);
-            sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
-        });
+        setOnClickListener(v -> toggle(true));
         
         updateChecked();
     }
@@ -258,6 +255,13 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             desc = isChecked() ? "On" : "Off";
         }
         info.setContentDescription(desc);
+    }
+    
+    @Override
+    public boolean performClick() {
+        boolean result = super.performClick();
+        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+        return result;
     }
     
     private void updateChecked() {
