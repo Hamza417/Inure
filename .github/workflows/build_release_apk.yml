@@ -98,7 +98,7 @@ jobs:
                     fi
 
             -   name: Create GitHub Release
-                uses: softprops/action-gh-release@v2
+                uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
                 with:
                     files: |
                         ${{ runner.temp }}/app-github-release.apk
