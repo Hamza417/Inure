@@ -120,7 +120,6 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
         setClickable(true);
         setFocusable(true);
-        setFocusableInTouchMode(true);
         setContentDescription("Switch");
         
         if (!isInEditMode()) {
