@@ -61,7 +61,6 @@ import app.simple.inure.ui.preferences.subscreens.TerminalControlKey
 import app.simple.inure.ui.preferences.subscreens.TerminalFnKey
 import app.simple.inure.ui.preferences.subscreens.TerminalFontSize
 import app.simple.inure.viewmodels.panels.PreferencesViewModel
-import kotlin.math.pow
 
 class Preferences : SearchBarScopedFragment() {
 
@@ -96,43 +95,41 @@ class Preferences : SearchBarScopedFragment() {
 
             adapterPreferences.setOnPreferencesCallbackListener(object : PreferencesCallbacks {
                 override fun onPrefsClicked(imageView: ImageView, category: Int, position: Int) {
-                    val duration = (position.times(3)).toDouble().pow(2.0).toLong().coerceIn(500L, 800L)
-
                     when (category) {
                         R.string.appearance -> {
-                            openFragmentLinear(AppearanceScreen.newInstance(), imageView, AppearanceScreen.TAG, duration)
+                            openFragmentLinear(AppearanceScreen.newInstance(), imageView, AppearanceScreen.TAG)
                         }
 
                         R.string.behavior -> {
-                            openFragmentLinear(BehaviourScreen.newInstance(), imageView, BehaviourScreen.TAG, duration)
+                            openFragmentLinear(BehaviourScreen.newInstance(), imageView, BehaviourScreen.TAG)
                         }
 
                         R.string.configuration -> {
-                            openFragmentLinear(ConfigurationScreen.newInstance(), imageView, ConfigurationScreen.TAG, duration)
+                            openFragmentLinear(ConfigurationScreen.newInstance(), imageView, ConfigurationScreen.TAG)
                         }
 
                         R.string.formatting -> {
-                            openFragmentLinear(FormattingScreen.newInstance(), imageView, FormattingScreen.TAG, duration)
+                            openFragmentLinear(FormattingScreen.newInstance(), imageView, FormattingScreen.TAG)
                         }
 
                         R.string.terminal -> {
-                            openFragmentLinear(TerminalScreen.newInstance(), imageView, TerminalScreen.TAG, duration)
+                            openFragmentLinear(TerminalScreen.newInstance(), imageView, TerminalScreen.TAG)
                         }
 
                         R.string.shell -> {
-                            openFragmentLinear(ShellScreen.newInstance(), imageView, ShellScreen.TAG, duration)
+                            openFragmentLinear(ShellScreen.newInstance(), imageView, ShellScreen.TAG)
                         }
 
                         R.string.layouts -> {
-                            openFragmentLinear(LayoutsScreen.newInstance(), imageView, LayoutsScreen.TAG, duration)
+                            openFragmentLinear(LayoutsScreen.newInstance(), imageView, LayoutsScreen.TAG)
                         }
 
                         R.string.accessibility -> {
-                            openFragmentLinear(AccessibilityScreen.newInstance(), imageView, AccessibilityScreen.TAG, duration)
+                            openFragmentLinear(AccessibilityScreen.newInstance(), imageView, AccessibilityScreen.TAG)
                         }
 
                         R.string.development -> {
-                            openFragmentLinear(DevelopmentScreen.newInstance(), imageView, DevelopmentScreen.TAG, duration)
+                            openFragmentLinear(DevelopmentScreen.newInstance(), imageView, DevelopmentScreen.TAG)
                         }
 
                         R.string.manage_space -> {
@@ -140,7 +137,7 @@ class Preferences : SearchBarScopedFragment() {
                         }
 
                         R.string.about -> {
-                            openFragmentLinear(AboutScreen.newInstance(), imageView, AboutScreen.TAG, duration)
+                            openFragmentLinear(AboutScreen.newInstance(), imageView, AboutScreen.TAG)
                         }
 
                         R.string.purchase -> {
