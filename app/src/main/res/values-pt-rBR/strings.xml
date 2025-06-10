@@ -781,4 +781,5 @@
     <string name="scanning_desc">Verificando e analisando o arquivo, isso pode levar algum tempo…</string>
     <string name="disable_animations">Desativar Animações</string>
     <string name="desc_disable_animations">Desativar as animações do aplicativo completamente.</string>
+    <string name="add_vote_desc">Toque o botão para adicionar o seu voto.</string>
 </resources>
