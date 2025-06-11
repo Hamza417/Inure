@@ -9,7 +9,10 @@ body:
             value: |
                 Thanks for suggesting a feature! Please provide as much detail as possible.
                 
-                Do not merge multiple feature requests into one issue. Each feature request should be in a separate issue.
+                - Do not merge multiple feature requests into one issue. Each feature request should be in a separate issue.
+                - Do not offer financial or material compensation in exchange for a feature request.
+                - Do not make a personal request for a feature that is not relevant to the project or to the wide range of users.
+                  If your feature request starts with _I want this_ or _I need this_, it is likely a personal request and should not be submitted.
 
     -   type: checkboxes
         id: confirmation
