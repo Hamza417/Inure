@@ -1,7 +1,6 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import app.simple.inure.R
 import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PreferenceModel
-import app.simple.inure.preferences.AboutPreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +43,12 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
         viewModelScope.launch(Dispatchers.Default) {
             val list = arrayListOf<Pair<Int, Int>>()
 
+            if (TrialPreferences.isFullVersion().invert()) {
+                list.add(Pair(R.drawable.ic_sell, R.string.purchase))
+            }
+
+            list.add(Pair(0, 0)) // Divider
+
             list.add(Pair(R.drawable.ic_appearance, R.string.appearance))
             list.add(Pair(R.drawable.ic_behaviour, R.string.behavior))
             list.add(Pair(R.drawable.ic_app_settings, R.string.configuration))
@@ -54,19 +58,10 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             list.add(Pair(R.drawable.ic_terminal_black, R.string.terminal))
             list.add(Pair(R.drawable.ic_shell, R.string.shell))
             list.add(Pair(0, 0)) // Divider
-            // list.add(Pair(R.drawable.ic_layouts, R.string.layouts))
-            // list.add(Pair(R.drawable.ic_radiation_nuclear, R.string.trackers))
-            // list.add(Pair(0, 0)) // Divider
             list.add(Pair(R.drawable.ic_sd_storage, R.string.manage_space))
             list.add(Pair(0, 0))
-            if (AboutPreferences.isDevelopmentMode()) {
-                list.add(Pair(R.drawable.ic_data_object, R.string.development))
-            }
+            list.add(Pair(R.drawable.ic_data_object, R.string.development))
             list.add(Pair(R.drawable.ic_info, R.string.about))
-
-            if (TrialPreferences.isFullVersion().invert()) {
-                list.add(Pair(R.drawable.ic_sell, R.string.purchase))
-            }
 
             preferences.postValue(list)
         }
@@ -94,15 +89,6 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             }
 
             preferencesSearchData.postValue(list)
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, s: String?) {
-        super.onSharedPreferenceChanged(sharedPreferences, s)
-        when (s) {
-            AboutPreferences.IS_DEVELOPMENT_MODE -> {
-                loadPreferencesData()
-            }
         }
     }
 }
