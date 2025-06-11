@@ -537,7 +537,6 @@
                         android:text="@string/disable_animations"
                         android:textSize="@dimen/preferences_title_text_size"
                         app:appFontStyle="bold"
-                        app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
                         app:drawableTintStyle="accent"
                         app:layout_constraintBottom_toTopOf="@+id/disable_animation_desc"
                         app:layout_constraintEnd_toStartOf="@+id/disable_animation_switch"
