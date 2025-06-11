@@ -25,6 +25,7 @@ Examples of unacceptable behavior include:
 - Publishing others' private information, such as a physical or electronic address, without explicit
   permission
 - Use of condescending or offensive language
+- Attempting to influence development priorities through financial or material incentives
 - Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## My Responsibilities
