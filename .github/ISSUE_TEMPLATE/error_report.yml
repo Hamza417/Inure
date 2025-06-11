@@ -88,3 +88,5 @@ body:
             options:
                 -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue
                     required: true
+                -   label: I agree that errors are high priority issues and should be addressed as soon as possible and I am willing to respond to any follow-up questions from the developer
+                    required: true

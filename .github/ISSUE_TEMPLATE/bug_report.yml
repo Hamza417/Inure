@@ -72,6 +72,20 @@ body:
         validations:
             required: true
 
+    -   type: checkboxes
+        id: privilege_method
+        attributes:
+            label: Privilege Method
+            description: |
+                Please confirm the method you are using to do actions in the app:
+            options:
+                -   label: Root
+                    required: false
+                -   label: Shizuku
+                    required: false
+                -   label: Normal
+                    required: false
+
     -   type: textarea
         id: additional_context
         attributes:

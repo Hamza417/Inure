@@ -62,7 +62,12 @@ body:
             description: |
                 Please confirm the following:
             options:
-                -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue
+                -   label: I have provided all the information requested above and deemed sufficient for the developer to address the issue.
                     required: true
-                -   label: I did not merge multiple feature requests into one issue
+                -   label: I did not merge multiple feature requests into one issue.
+                    required: true
+                -   label: I am not offering financial or material compensation in exchange for this feature request.
+                    required: true
+                -   label: I did not make a personal request for a feature that is not relevant to the project or to the wide range of users.
+                        If your FR starts with _I want this_ or _I need this_, it is likely a personal request and should not be submitted.
                     required: true
