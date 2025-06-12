@@ -35,7 +35,7 @@
             android:textSize="@dimen/app_name_text_size"
             app:appFontStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/package_id"
-            app:layout_constraintEnd_toStartOf="@+id/settings"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toTopOf="@+id/icon"
             app:textColorStyle="primary" />
@@ -52,7 +52,7 @@
             android:textSize="@dimen/app_package_text_size"
             app:appFontStyle="regular"
             app:layout_constraintBottom_toTopOf="@+id/version"
-            app:layout_constraintEnd_toStartOf="@+id/settings"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toBottomOf="@+id/name"
             app:textColorStyle="secondary" />
@@ -73,7 +73,7 @@
             app:appFontStyle="regular"
             app:drawableTintStyle="accent"
             app:layout_constraintBottom_toBottomOf="@+id/icon"
-            app:layout_constraintEnd_toStartOf="@+id/settings"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toBottomOf="@+id/package_id"
             app:textColorStyle="secondary" />
