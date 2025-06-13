@@ -30,10 +30,16 @@ class ServiceInfoViewModel(application: Application, private val serviceInfoMode
     private fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             serviceInfo.postValue(arrayListOf(
+                    getServiceName(),
                     getForegroundService(),
                     getFlags()
             ))
         }
+    }
+
+    private fun getServiceName(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    serviceInfoModel.serviceInfo.name.applyAccentColor())
     }
 
     private fun getForegroundService(): Pair<Int, Spannable> {

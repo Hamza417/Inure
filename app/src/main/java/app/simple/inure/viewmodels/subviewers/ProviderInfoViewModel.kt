@@ -29,11 +29,17 @@ class ProviderInfoViewModel(application: Application, private val providerInfoMo
     private fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             providerInfo.postValue(arrayListOf(
+                    getProviderName(),
                     getFlags(),
                     getAuthority(),
                     getInitOrder()
             ))
         }
+    }
+
+    private fun getProviderName(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    providerInfoModel.providerInfo.name.applySecondaryTextColor())
     }
 
     private fun getFlags(): Pair<Int, Spannable> {

@@ -31,6 +31,7 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
     private fun loadData() {
         viewModelScope.launch(Dispatchers.IO) {
             activityInfo.postValue(arrayListOf(
+                    getActivityName(),
                     getLaunchMode(),
                     getOrientation(),
                     getSoftInputMode(),
@@ -43,6 +44,11 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
                     getParentActivity()
             ))
         }
+    }
+
+    private fun getActivityName(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    activityInfoModel.activityInfo.name.applySecondaryTextColor())
     }
 
     private fun getLaunchMode(): Pair<Int, Spannable> {
