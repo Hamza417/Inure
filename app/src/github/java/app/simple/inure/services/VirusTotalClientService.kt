@@ -145,7 +145,7 @@ class VirusTotalClientService : Service() {
                             _failedFlow.emit(response)
                             withContext(Dispatchers.Main) {
                                 notificationManager.cancel(NOTIFICATION_ID)
-                                notificationBuilder.setContentText(getString(R.string.error))
+                                notificationBuilder.setContentText(response.message)
                                     .setProgress(0, 0, false)
                                     .setOngoing(false)
                                 notification = notificationBuilder.build()
