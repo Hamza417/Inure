@@ -46,7 +46,7 @@
         <app.simple.inure.decorations.corners.DynamicCornerEditText
             android:id="@+id/command_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
             android:paddingHorizontal="@dimen/dialog_padding"
@@ -67,7 +67,7 @@
         <app.simple.inure.decorations.corners.DynamicCornerEditText
             android:id="@+id/args_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:hint="@string/addshortcut_example_hint"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
@@ -89,7 +89,7 @@
         <app.simple.inure.decorations.corners.DynamicCornerEditText
             android:id="@+id/label_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:importantForAutofill="no"
             android:inputType="textNoSuggestions"
             android:paddingHorizontal="@dimen/dialog_padding"
