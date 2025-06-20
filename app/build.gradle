@@ -171,7 +171,7 @@ android {
         jvmTarget = JavaVersion.VERSION_17
     }
 
-    ndkVersion '25.2.9519653'
+    ndkVersion '29.0.13599879 rc2'
     namespace 'app.simple.inure'
 
     tasks.register('generateVersionTxt') {
