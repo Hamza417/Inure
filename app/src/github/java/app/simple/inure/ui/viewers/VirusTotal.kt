@@ -161,24 +161,32 @@ class VirusTotal : ScopedFragment() {
     private fun createServiceConnection(): ServiceConnection {
         return object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                Log.d(TAG, "Service connected")
-                if (NetworkUtils.isNetworkAvailable(requireContext()).invert()) {
-                    showWarning(Warnings.NO_INTERNET_CONNECTION)
-                    return
-                }
-
-                virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
-                virusTotalClientService?.clearEverything(packageInfo)
-                virusTotalClientService?.scanFile(packageInfo)
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        launch { collectProgress() }
-                        launch { collectSuccess() }
-                        launch { collectFailure() }
-                        launch { collectWarning() }
-                        launch { collectExit() }
+                try {
+                    Log.d(TAG, "Service connected")
+                    if (NetworkUtils.isNetworkAvailable(requireContext()).invert()) {
+                        showWarning(Warnings.NO_INTERNET_CONNECTION)
+                        return
                     }
+
+                    virusTotalClientService = (service as VirusTotalClientService.LocalBinder).getService()
+                    virusTotalClientService?.clearEverything(packageInfo)
+                    virusTotalClientService?.scanFile(packageInfo)
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                            launch { collectProgress() }
+                            launch { collectSuccess() }
+                            launch { collectFailure() }
+                            launch { collectWarning() }
+                            launch { collectExit() }
+                        }
+                    }
+                } catch (e: IllegalStateException) {
+                    /**
+                     * Should only occur if fragment is not attached to an activity
+                     * or in invalid state.
+                     */
+                    Log.e(TAG, "Error connecting to service", e)
                 }
             }
 
