@@ -41,6 +41,13 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Usage in your fragment
+        box.hint = if (VirusTotalPreferences.getVirusTotalApiKey().isNotEmpty()) {
+            "*".repeat(64)
+        } else {
+            "Enter your VirusTotal API key"
+        }
+
         box.doOnTextChanged { text, _, _, _ ->
             if (!text.isNullOrEmpty()) {
                 if (text.toString().validateAPI()) {
