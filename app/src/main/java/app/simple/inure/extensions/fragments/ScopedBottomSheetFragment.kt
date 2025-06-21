@@ -58,7 +58,9 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
+        if (BehaviourPreferences.isTransitionOn()) {
+            dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
+        }
 
         if (BehaviourPreferences.isDimmingOn()) {
             dialog?.window?.setDimAmount(ViewUtils.getDimValue(requireContext()))

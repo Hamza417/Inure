@@ -57,7 +57,10 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
         val window = dialog!!.window ?: return
         val displayMetrics = DisplayMetrics()
 
-        window.attributes.windowAnimations = R.style.DialogAnimation
+        if (BehaviourPreferences.isTransitionOn()) {
+            window.attributes.windowAnimations = R.style.DialogAnimation
+        }
+
         window.attributes.height = FrameLayout.LayoutParams.WRAP_CONTENT
         @Suppress("deprecation")
         window.windowManager.defaultDisplay.getMetrics(displayMetrics)

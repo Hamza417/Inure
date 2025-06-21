@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import app.simple.inure.R
+import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.util.ViewUtils
 import app.simple.inure.util.ViewUtils.dimBehind
 
@@ -59,7 +60,9 @@ open class BasePopupWindow : PopupWindow() {
         contentView.clipToOutline = false
         width = contentView.measuredWidth
         height = contentView.measuredHeight
-        animationStyle = R.style.PopupAnimation
+        if (BehaviourPreferences.isTransitionOn()) {
+            animationStyle = R.style.PopupAnimation
+        }
         isClippingEnabled = false
         isFocusable = true
         elevation = 20F
