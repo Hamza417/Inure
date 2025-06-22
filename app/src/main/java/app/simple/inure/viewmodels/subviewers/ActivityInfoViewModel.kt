@@ -32,6 +32,7 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
         viewModelScope.launch(Dispatchers.IO) {
             activityInfo.postValue(arrayListOf(
                     getActivityName(),
+                    getActivityPath(),
                     getLaunchMode(),
                     getOrientation(),
                     getSoftInputMode(),
@@ -47,8 +48,17 @@ class ActivityInfoViewModel(application: Application, private val activityInfoMo
     }
 
     private fun getActivityName(): Pair<Int, Spannable> {
-        return Pair(R.string.path,
+        return Pair(R.string.name,
                     activityInfoModel.activityInfo.name.applySecondaryTextColor())
+    }
+
+    private fun getActivityPath(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    buildString {
+                        append(activityInfoModel.activityInfo.applicationInfo.packageName)
+                        append("/")
+                        append(activityInfoModel.activityInfo.name)
+                    }.applySecondaryTextColor())
     }
 
     private fun getLaunchMode(): Pair<Int, Spannable> {

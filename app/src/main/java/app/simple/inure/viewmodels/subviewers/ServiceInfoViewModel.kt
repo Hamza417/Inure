@@ -31,6 +31,7 @@ class ServiceInfoViewModel(application: Application, private val serviceInfoMode
         viewModelScope.launch(Dispatchers.IO) {
             serviceInfo.postValue(arrayListOf(
                     getServiceName(),
+                    getServicePath(),
                     getForegroundService(),
                     getFlags()
             ))
@@ -38,8 +39,17 @@ class ServiceInfoViewModel(application: Application, private val serviceInfoMode
     }
 
     private fun getServiceName(): Pair<Int, Spannable> {
-        return Pair(R.string.path,
+        return Pair(R.string.name,
                     serviceInfoModel.serviceInfo.name.applyAccentColor())
+    }
+
+    private fun getServicePath(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    buildString {
+                        append(serviceInfoModel.serviceInfo.applicationInfo.packageName)
+                        append("/")
+                        append(serviceInfoModel.serviceInfo.name)
+                    }.applyAccentColor())
     }
 
     private fun getForegroundService(): Pair<Int, Spannable> {

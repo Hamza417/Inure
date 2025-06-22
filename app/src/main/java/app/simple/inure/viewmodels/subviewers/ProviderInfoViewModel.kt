@@ -30,6 +30,7 @@ class ProviderInfoViewModel(application: Application, private val providerInfoMo
         viewModelScope.launch(Dispatchers.IO) {
             providerInfo.postValue(arrayListOf(
                     getProviderName(),
+                    getProviderPath(),
                     getFlags(),
                     getAuthority(),
                     getInitOrder()
@@ -38,8 +39,17 @@ class ProviderInfoViewModel(application: Application, private val providerInfoMo
     }
 
     private fun getProviderName(): Pair<Int, Spannable> {
-        return Pair(R.string.path,
+        return Pair(R.string.name,
                     providerInfoModel.providerInfo.name.applySecondaryTextColor())
+    }
+
+    private fun getProviderPath(): Pair<Int, Spannable> {
+        return Pair(R.string.path,
+                    buildString {
+                        append(providerInfoModel.providerInfo.applicationInfo.packageName)
+                        append("/")
+                        append(providerInfoModel.providerInfo.name)
+                    }.applySecondaryTextColor())
     }
 
     private fun getFlags(): Pair<Int, Spannable> {
