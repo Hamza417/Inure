@@ -18,6 +18,7 @@ Inure is a powerful open source applications manager and analyzer with a good-lo
 - Manage per-app battery optimization and boot processes
 - Block trackers in any app
 - AppOps manager for any app
+- Scan apps using VirusTotal
 
 <b>Extra Capabilities</b>
 

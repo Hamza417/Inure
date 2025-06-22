@@ -40,8 +40,7 @@ class VirusTotalAPI : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Usage in your fragment
+        
         box.hint = if (VirusTotalPreferences.getVirusTotalApiKey().isNotEmpty()) {
             "*".repeat(64)
         } else {
