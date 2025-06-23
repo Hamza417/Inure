@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -22,6 +23,8 @@ class InstallerMenu : ScopedBottomSheetFragment() {
     private lateinit var visibility: DynamicRippleTextView
     private lateinit var openAppSettings: DynamicRippleTextView
     private lateinit var diffStyleSwitch: Switch
+    private lateinit var showUserSwitch: Switch
+    private lateinit var showUserContainer: LinearLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_installer, container, false)
@@ -30,6 +33,8 @@ class InstallerMenu : ScopedBottomSheetFragment() {
         visibility = view.findViewById(R.id.visibility)
         diffStyleSwitch = view.findViewById(R.id.diff_styled_changes)
         openAppSettings = view.findViewById(R.id.dialog_open_apps_settings)
+        showUserSwitch = view.findViewById(R.id.show_users_switch)
+        showUserContainer = view.findViewById(R.id.show_users_list_container)
 
         return view
     }
@@ -38,11 +43,14 @@ class InstallerMenu : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         diffStyleSwitch.isChecked = InstallerPreferences.isDiffStyleChanges()
+        showUserSwitch.isChecked = InstallerPreferences.isShowUsersList()
 
         if (ConfigurationPreferences.isRootOrShizuku()) {
             installerOptions.visible(false)
+            showUserContainer.visible(false)
         } else {
             installerOptions.gone(false)
+            showUserContainer.gone(false)
         }
 
         installerOptions.setOnClickListener {
@@ -57,6 +65,10 @@ class InstallerMenu : ScopedBottomSheetFragment() {
 
         diffStyleSwitch.setOnSwitchCheckedChangeListener {
             InstallerPreferences.setDiffStyleChanges(it)
+        }
+
+        showUserSwitch.setOnSwitchCheckedChangeListener {
+            InstallerPreferences.setShowUsersList(it)
         }
 
         openAppSettings.setOnClickListener {

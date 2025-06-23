@@ -234,7 +234,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 }
 
                 install.setOnClickListener {
-                    if (ConfigurationPreferences.isShowUsersList()) {
+                    if (InstallerPreferences.isShowUsersList()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
                                 override fun onUserSelected(user: User) {

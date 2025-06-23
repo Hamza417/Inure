@@ -20,6 +20,7 @@ object InstallerPreferences {
     private const val INSTALLER_BYPASS_LOW_TARGET_SDK = "installer_bypass_low_target_sdk"
     private const val INSTALLER_REPLACE_EXISTING = "installer_replace_existing"
     private const val INSTALLER_DONT_KILL = "installer_dont_kill"
+    private const val SHOW_USERS_LIST = "show_users_list"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -110,5 +111,15 @@ object InstallerPreferences {
 
     fun setDontKill(value: Boolean) {
         SharedPreferences.getSharedPreferences().edit { putBoolean(INSTALLER_DONT_KILL, value) }
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- //
+
+    fun setShowUsersList(value: Boolean) {
+        SharedPreferences.getSharedPreferences().edit { putBoolean(SHOW_USERS_LIST, value) }
+    }
+
+    fun isShowUsersList(): Boolean {
+        return SharedPreferences.getSharedPreferences().getBoolean(SHOW_USERS_LIST, false)
     }
 }

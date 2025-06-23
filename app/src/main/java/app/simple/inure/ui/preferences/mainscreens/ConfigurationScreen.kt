@@ -30,7 +30,6 @@ class ConfigurationScreen : ShizukuStateFragment() {
     private lateinit var language: DynamicRippleRelativeLayout
     private lateinit var path: DynamicRippleConstraintLayout
     private lateinit var virustotalAPI: DynamicRippleConstraintLayout
-    private lateinit var showUsersSwitch: Switch
     private lateinit var rootSwitchView: Switch
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,7 +41,6 @@ class ConfigurationScreen : ShizukuStateFragment() {
         language = view.findViewById(R.id.configuration_language)
         path = view.findViewById(R.id.configuration_path)
         virustotalAPI = view.findViewById(R.id.vt_api)
-        showUsersSwitch = view.findViewById(R.id.configuration_show_user_list_switch)
         rootSwitchView = view.findViewById(R.id.configuration_root_switch_view)
 
         return view
@@ -53,7 +51,6 @@ class ConfigurationScreen : ShizukuStateFragment() {
         startPostponedEnterTransition()
 
         keepScreenOnSwitchView.isChecked = ConfigurationPreferences.isKeepScreenOn()
-        showUsersSwitch.isChecked = ConfigurationPreferences.isShowUsersList()
         rootSwitchView.isChecked = ConfigurationPreferences.isUsingRoot()
 
         if (AppUtils.isPlayFlavor()) {
@@ -98,10 +95,6 @@ class ConfigurationScreen : ShizukuStateFragment() {
                     }
                 })
             }
-        }
-
-        showUsersSwitch.setOnSwitchCheckedChangeListener {
-            ConfigurationPreferences.setShowUsersList(it)
         }
     }
 
