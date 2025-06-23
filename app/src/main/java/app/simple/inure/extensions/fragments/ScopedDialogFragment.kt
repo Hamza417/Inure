@@ -59,6 +59,8 @@ open class ScopedDialogFragment : DialogFragment(), SharedPreferences.OnSharedPr
 
         if (BehaviourPreferences.isTransitionOn()) {
             window.attributes.windowAnimations = R.style.DialogAnimation
+        } else {
+            window.attributes.windowAnimations = 0
         }
 
         window.attributes.height = FrameLayout.LayoutParams.WRAP_CONTENT

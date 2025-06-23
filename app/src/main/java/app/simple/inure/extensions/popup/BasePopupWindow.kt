@@ -62,6 +62,8 @@ open class BasePopupWindow : PopupWindow() {
         height = contentView.measuredHeight
         if (BehaviourPreferences.isTransitionOn()) {
             animationStyle = R.style.PopupAnimation
+        } else {
+            animationStyle = 0
         }
         isClippingEnabled = false
         isFocusable = true

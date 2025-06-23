@@ -60,6 +60,8 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
 
         if (BehaviourPreferences.isTransitionOn()) {
             dialog?.window?.attributes?.windowAnimations = R.style.BottomDialogAnimation
+        } else {
+            dialog?.window?.attributes?.windowAnimations = 0
         }
 
         if (BehaviourPreferences.isDimmingOn()) {
