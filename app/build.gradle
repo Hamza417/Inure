@@ -201,7 +201,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     // Kotlin
-    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
+    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.16.0'
@@ -276,10 +276,10 @@ dependencies {
     implementation "dev.rikka.hidden:compat:4.3.3"
 
     // Room
-    implementation 'androidx.room:room-ktx:2.7.1'
+    implementation 'androidx.room:room-ktx:2.7.2'
     //noinspection KaptUsageInsteadOfKsp
-    kapt 'androidx.room:room-compiler:2.7.1'
-    androidTestImplementation 'androidx.room:room-testing:2.7.1'
+    kapt 'androidx.room:room-compiler:2.7.2'
+    androidTestImplementation 'androidx.room:room-testing:2.7.2'
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
