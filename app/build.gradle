@@ -184,7 +184,7 @@ dependencies {
 
     // Android Tools
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.android.tools.build:apksig:4.0.2'
+    implementation 'com.android.tools.build:apksig:8.11.0'
 
     // Jar Libs, all included in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -195,7 +195,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
     // Kotlin
-    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1'
+    runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
 
     // AndroidX
     implementation 'androidx.core:core-ktx:1.16.0'
@@ -216,7 +216,7 @@ dependencies {
 
     // Google
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.google.code.gson:gson:2.13.1'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     playImplementation 'com.google.android.play:review:2.0.2'
     playImplementation 'com.google.android.play:review-ktx:2.0.2'
@@ -233,18 +233,18 @@ dependencies {
     // Third Party
     implementation 'net.dongliu:apk-parser:2.6.10'
     implementation 'com.caverock:androidsvg-aar:1.4'
-    implementation 'com.anggrayudi:storage:1.5.5'
+    implementation 'com.anggrayudi:storage:2.1.0'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation "com.github.AppDevNext:AndroidChart:3.1.0.25"
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
-    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:6.1'
     implementation 'com.github.REAndroid:ARSCLib:95af206081' // https://github.com/REAndroid/ARSCLib
     implementation 'io.noties.markwon:core:4.6.2'
 
     githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
 
-    implementation 'dev.spght:encryptedprefs-ktx:1.0.1'
+    implementation 'dev.spght:encryptedprefs-ktx:1.0.3'
 
     // root
     def libsuVersion = '6.0.0'
@@ -262,10 +262,10 @@ dependencies {
     // Refine
     kapt "dev.rikka.tools.refine:annotation-processor:4.4.0"
     //noinspection GradleDependency
-    compileOnly "dev.rikka.tools.refine:annotation:4.3.0"
+    compileOnly "dev.rikka.tools.refine:annotation:4.4.0"
 
     // Hidden API
-    implementation "dev.rikka.hidden:compat:4.3.3"
+    implementation "dev.rikka.hidden:compat:4.4.0"
 
     // Room
     implementation 'androidx.room:room-ktx:2.7.2'
