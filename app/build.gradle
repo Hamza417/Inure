@@ -228,7 +228,7 @@ dependencies {
     ksp 'com.github.bumptech.glide:ksp:4.16.0'
 
     // Toolkit
-    implementation 'com.github.android:renderscript-intrinsics-replacement-toolkit:b6363490c3'
+    implementation 'com.github.Hamza417:renderscript-intrinsics-replacement-toolkit:4ae2409809'
 
     // Third Party
     implementation 'net.dongliu:apk-parser:2.6.10'
@@ -239,9 +239,7 @@ dependencies {
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
-    // TODO : Update to latest version when available
-    // https://github.com/REAndroid/ARSCLib
-    implementation 'com.github.REAndroid:ARSCLib:95af206081'
+    implementation 'com.github.REAndroid:ARSCLib:95af206081' // https://github.com/REAndroid/ARSCLib
     implementation 'io.noties.markwon:core:4.6.2'
 
     githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
