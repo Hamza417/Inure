@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion 35
-    namespace 'app.inure.stub'
+    namespace = 'app.inure.stub'
 
     defaultConfig {
         minSdkVersion 23
@@ -13,7 +13,7 @@ android {
     }
 
     buildFeatures {
-        buildConfig false
+        buildConfig = false
     }
 
     buildTypes {

@@ -38,13 +38,13 @@ static def getEnvOrProperty(envKey, properties) {
 
 android {
 
-    compileSdk 35
+    compileSdk = 35
 
     buildFeatures {
-        viewBinding false
-        aidl true
-        buildConfig true
-        compose false
+        viewBinding = false
+        aidl = true
+        buildConfig = true
+        compose = false
     }
 
     defaultConfig {
@@ -84,7 +84,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            path "src/main/jni/CMakeLists.txt"
+            path = "src/main/jni/CMakeLists.txt"
         }
     }
 
@@ -111,52 +111,52 @@ android {
         github { // GitHub build
             dimension "version"
             if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
-                signingConfig signingConfigs.release
+                signingConfig = signingConfigs.release
             }
         }
         play { // Play Store build
             dimension "version"
             applicationIdSuffix ".play"
             if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
-                signingConfig signingConfigs.release
+                signingConfig = signingConfigs.release
             }
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled = false
+            shrinkResources = false
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             dependenciesInfo {
-                includeInApk false
-                includeInBundle false
+                includeInApk = false
+                includeInBundle = false
             }
         }
         debug {
             versionNameSuffix "_debug"
             debuggable true
 
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled = false
+            shrinkResources = false
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             dependenciesInfo {
-                includeInApk false
-                includeInBundle false
+                includeInApk = false
+                includeInBundle = false
             }
 
             if (signingConfigs.release != null && signingConfigs.release.storeFile != null) {
-                signingConfig signingConfigs.release
+                signingConfig = signingConfigs.release
             }
         }
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled true
+        coreLibraryDesugaringEnabled = true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -165,8 +165,8 @@ android {
         jvmTarget = JavaVersion.VERSION_17
     }
 
-    ndkVersion '29.0.13599879 rc2'
-    namespace 'app.simple.inure'
+    ndkVersion = '29.0.13599879 rc2'
+    namespace = 'app.simple.inure'
 
     tasks.register('generateVersionTxt') {
         doLast {
