@@ -105,6 +105,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/show_user_list_desc"
                     android:textSize="@dimen/desc_text_size"
+                    app:appFontStyle="regular"
                     app:textColorStyle="secondary" />
 
             </LinearLayout>
