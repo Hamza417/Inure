@@ -184,7 +184,7 @@ dependencies {
 
     // Android Tools
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.android.tools.build:apksig:8.11.0'
+    implementation 'com.android.tools.build:apksig:8.11.1'
 
     // Jar Libs, all included in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -242,7 +242,7 @@ dependencies {
     implementation 'com.github.REAndroid:ARSCLib:95af206081' // https://github.com/REAndroid/ARSCLib
     implementation 'io.noties.markwon:core:4.6.2'
 
-    githubImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    githubImplementation 'com.squareup.okhttp3:okhttp:5.1.0'
 
     implementation 'dev.spght:encryptedprefs-ktx:1.0.3'
 
