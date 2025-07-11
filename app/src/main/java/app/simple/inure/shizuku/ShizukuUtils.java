@@ -210,7 +210,13 @@ public class ShizukuUtils {
                 in = assetManager.open(filename);
                 File outFile = new File(ShellPreferences.INSTANCE.getHomePath(),
                         filename.substring(filename.lastIndexOf('/') + 1));
-                out = new FileOutputStream(outFile, false); // Overwrite mode
+                if (outFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
+                    outFile.setWritable(true); // Ensure it's writable
+                    //noinspection ResultOfMethodCallIgnored
+                    outFile.delete();          // Delete old file
+                }
+                out = new FileOutputStream(outFile, false); // Create new file
                 copyFile(in, out);
                 
                 //noinspection ResultOfMethodCallIgnored
