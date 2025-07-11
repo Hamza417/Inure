@@ -56,6 +56,7 @@ import app.simple.inure.preferences.SharedPreferences.unregisterListener
 import app.simple.inure.preferences.ShellPreferences
 import app.simple.inure.preferences.ShellPreferences.getHomePath
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.shizuku.ShizukuUtils
 import app.simple.inure.themes.data.MaterialYou
 import app.simple.inure.themes.data.MaterialYou.presetMaterialYouDynamicColors
 import app.simple.inure.themes.interfaces.ThemeChangedListener
@@ -209,6 +210,8 @@ open class BaseActivity : AppCompatActivity(),
                 }
             }
         }
+
+        updateRishFiles()
     }
 
     override fun onResume() {
@@ -477,6 +480,14 @@ open class BaseActivity : AppCompatActivity(),
                 onSure()
             }
         })
+    }
+
+    private fun updateRishFiles() {
+        if (ShellPreferences.isUsingRISH()) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                ShizukuUtils.copyRishFiles(applicationContext)
+            }
+        }
     }
 
     private fun applyInsets() {

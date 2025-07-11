@@ -208,21 +208,13 @@ public class ShizukuUtils {
             OutputStream out = null;
             try {
                 in = assetManager.open(filename);
-                
                 File outFile = new File(ShellPreferences.INSTANCE.getHomePath(),
                         filename.substring(filename.lastIndexOf('/') + 1));
+                out = new FileOutputStream(outFile, false); // Overwrite mode
+                copyFile(in, out);
                 
-                if (outFile.exists()) {
-                    Log.e("Shizuku", "File already exists: " + outFile.getAbsolutePath());
-                } else {
-                    out = new FileOutputStream(outFile);
-                    copyFile(in, out);
-                }
-                
-                // Set read only
                 //noinspection ResultOfMethodCallIgnored
                 outFile.setExecutable(true);
-                
                 if (outFile.setReadOnly()) {
                     Log.i("Shizuku", "Set read only: " + outFile.getAbsolutePath());
                 } else {
@@ -234,15 +226,13 @@ public class ShizukuUtils {
                 if (in != null) {
                     try {
                         in.close();
-                    } catch (IOException e) {
-                        // NOOP
+                    } catch (IOException ignored) {
                     }
                 }
                 if (out != null) {
                     try {
                         out.close();
-                    } catch (IOException e) {
-                        // NOOP
+                    } catch (IOException ignored) {
                     }
                 }
             }
