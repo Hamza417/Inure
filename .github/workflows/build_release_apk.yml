@@ -13,7 +13,7 @@ jobs:
                 uses: actions/checkout@v4
 
             -   name: Set up Java and Android SDK
-                uses: actions/setup-java@v3
+                uses: actions/setup-java@v4
                 with:
                     java-version: '21' # Adjust the Java version as needed
                     distribution: 'temurin'
@@ -24,6 +24,9 @@ jobs:
                 with:
                     fileName: 'keystore/key.jks'
                     encodedString: ${{ secrets.SIGN_KEY }}
+
+            -   name: Accept Android SDK licenses
+                run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
 
             -   name: Build GitHub Release APK
                 run: |
