@@ -25,6 +25,9 @@ jobs:
                     fileName: 'keystore/key.jks'
                     encodedString: ${{ secrets.SIGN_KEY }}
 
+            -   name: Accept Android SDK licenses
+                run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+
             -   name: Build Github Release APK
                 run: |
                     chmod +x ./gradlew
