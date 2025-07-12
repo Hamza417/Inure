@@ -37,6 +37,7 @@ object DevelopmentPreferences {
     const val CLEAR_SEARCH_STATE = "clear_search_state"
     const val TEST_PREDICTIVE_BACK_GESTURE = "test_predictive_back_gesture"
     const val REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE = "refresh_apps_list_using_launcher_service"
+    const val HIDE_CHIPS_CHECKED_ICON = "hide_chips_checked_icon"
 
     val developmentPreferences: List<DevelopmentPreferencesModel> by lazy {
         listOf(
@@ -202,6 +203,11 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Refresh Apps List Using Launcher Service",
                                             "Automatically refresh apps' list using launcher service whenever any state of any app changes in the device.",
                                             REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE,
+                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
+
+                DevelopmentPreferencesModel("Hide Chips Checked Icon",
+                                            "Hide the checked icon in the chips in the app. This should make the chips look cleaner.",
+                                            HIDE_CHIPS_CHECKED_ICON,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
 
                 //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",

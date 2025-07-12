@@ -10,6 +10,7 @@ import com.google.android.material.shape.ShapeAppearanceModel;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AccessibilityPreferences;
 import app.simple.inure.preferences.AppearancePreferences;
+import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.manager.ThemeManager;
 import app.simple.inure.util.TypeFace;
 import app.simple.inure.util.ViewUtils;
@@ -39,6 +40,7 @@ public class Chip extends com.google.android.material.chip.Chip {
         }
         
         setCheckedIconResource(R.drawable.ic_dot_12dp);
+        setCheckedIconVisible(!DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.HIDE_CHIPS_CHECKED_ICON));
         setCheckedIconTint(ColorStateList.valueOf(AppearancePreferences.INSTANCE.getAccentColor()));
         setTypeface(TypeFace.INSTANCE.getMediumTypeFace(getContext()));
         setTextColor(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getTextViewTheme().getPrimaryTextColor()));
