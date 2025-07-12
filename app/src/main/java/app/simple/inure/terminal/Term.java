@@ -879,8 +879,10 @@ public class Term extends BaseActivity implements UpdateCallback,
                         doPaste();
                 case TerminalContextMenu.SEND_CONTROL_KEY_ID ->
                         doSendControlKey();
-                case TerminalContextMenu.SEND_FN_KEY_ID ->
-                        doSendFnKey();
+                case TerminalContextMenu.SEND_FN_KEY_ID -> {
+                    Log.i(TAG, "Send Fn key");
+                    doSendFnKey();
+                }
             }
         });
         

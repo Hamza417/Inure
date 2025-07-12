@@ -28,6 +28,7 @@ public abstract class KeyCharacterMapCompat {
                 return new KeyCharacterMapApi11OrLater(map);
             }
         }
+        
         return null;
     }
     

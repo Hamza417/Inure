@@ -23,6 +23,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -953,9 +954,7 @@ class TerminalEmulator {
     private void startEscapeSequence(int escapeState) {
         this.escapeState = escapeState;
         argIndex = 0;
-        for (int j = 0; j < MAX_ESCAPE_PARAMETERS; j++) {
-            args[j] = -1;
-        }
+        Arrays.fill(args, -1);
     }
     
     private void doLinefeed() {

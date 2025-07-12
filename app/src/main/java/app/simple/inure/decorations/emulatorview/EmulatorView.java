@@ -258,7 +258,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         if (line == null) {
             return lineCount;
         }
-    
+        
         /* If this is not a basic line, the array returned from getScriptLine()
          * could have arbitrary garbage at the end -- find the point at which
          * the line ends and only include that in the text to linkify.
@@ -333,7 +333,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             for (URLSpan url : urls) {
                 int spanStart = textToLinkify.getSpanStart(url);
                 int spanEnd = textToLinkify.getSpanEnd(url);
-        
+                
                 // Build accurate indices for links
                 int startRow;
                 int startCol;
@@ -366,7 +366,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                             startCol %= columns;
                         }
                     }
-            
+                    
                     endRow = startRow;
                     endCol = startCol;
                     for (int i = spanStart; i < spanEnd; ++i) {
@@ -383,22 +383,22 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                         }
                     }
                 }
-        
+                
                 //Fill linkRows with the URL where appropriate
                 for (int i = startRow; i <= endRow; ++i) {
                     int runStart = (i == startRow) ? startCol : 0;
                     int runEnd = (i == endRow) ? endCol : this.columns - 1;
-    
+                    
                     Arrays.fill(linkRows[i], runStart, runEnd + 1, url);
                 }
             }
-    
+            
             //Add links into the link layer for later retrieval
             for (int i = 0; i < lineCount; ++i) {
                 linkLayer.put(screenRow + i, linkRows[i]);
             }
         }
-    
+        
         return lineCount;
     }
     
@@ -424,12 +424,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         setVerticalScrollBarEnabled(true);
         setFocusable(true);
         setFocusableInTouchMode(true);
-    
+        
         termSession = session;
-    
+        
         keyListener = new TermKeyListener(session);
         session.setKeyListener(keyListener);
-    
+        
         // Do init now if it was deferred until a TermSession was attached
         if (deferInit) {
             deferInit = false;
@@ -532,7 +532,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         } else {
             colorScheme = scheme;
         }
-    
+        
         updateText();
     }
     
@@ -545,12 +545,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             /**
              * Used to handle composing text requests
              */
-            private int mCursor;
+            private int cursor;
             private int composingTextStart;
             private int composingTextEnd;
-            private int mSelectedTextStart;
-            private int mSelectedTextEnd;
-    
+            private int selectedTextStart;
+            private int selectedTextEnd;
+            
             private void sendText(CharSequence text) {
                 int n = text.length();
                 char c;
@@ -590,7 +590,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                     Log.w(TAG, "beginBatchEdit");
                 }
                 setImeBuffer("");
-                mCursor = 0;
+                cursor = 0;
                 composingTextStart = 0;
                 composingTextEnd = 0;
                 return true;
@@ -625,7 +625,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 setImeBuffer("");
                 composingTextStart = 0;
                 composingTextEnd = 0;
-                mCursor = 0;
+                cursor = 0;
                 return true;
             }
             
@@ -652,22 +652,22 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 if (LOG_IME) {
                     Log.w(TAG, "getTextAfterCursor(" + n + "," + flags + ")");
                 }
-                int len = Math.min(n, imeBuffer.length() - mCursor);
-                if (len <= 0 || mCursor < 0 || mCursor >= imeBuffer.length()) {
+                int len = Math.min(n, imeBuffer.length() - cursor);
+                if (len <= 0 || cursor < 0 || cursor >= imeBuffer.length()) {
                     return "";
                 }
-                return imeBuffer.substring(mCursor, mCursor + len);
+                return imeBuffer.substring(cursor, cursor + len);
             }
             
             public CharSequence getTextBeforeCursor(int n, int flags) {
                 if (LOG_IME) {
                     Log.w(TAG, "getTextBeforeCursor(" + n + "," + flags + ")");
                 }
-                int len = Math.min(n, mCursor);
-                if (len <= 0 || mCursor < 0 || mCursor >= imeBuffer.length()) {
+                int len = Math.min(n, cursor);
+                if (len <= 0 || cursor < 0 || cursor >= imeBuffer.length()) {
                     return "";
                 }
-                return imeBuffer.substring(mCursor - len, mCursor);
+                return imeBuffer.substring(cursor - len, cursor);
             }
             
             public boolean performContextMenuAction(int arg0) {
@@ -705,7 +705,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 clearComposingText();
                 sendText(text);
                 setImeBuffer("");
-                mCursor = 0;
+                cursor = 0;
                 return true;
             }
             
@@ -717,13 +717,13 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 }
                 setImeBuffer(imeBuffer.substring(0, composingTextStart) +
                         imeBuffer.substring(composingTextEnd));
-                if (mCursor < composingTextStart) {
+                if (cursor < composingTextStart) {
                     // do nothing
                     Log.d(TAG, "mCursor < mComposingTextStart");
-                } else if (mCursor < composingTextEnd) {
-                    mCursor = composingTextStart;
+                } else if (cursor < composingTextEnd) {
+                    cursor = composingTextStart;
                 } else {
-                    mCursor -= composingTextEnd - composingTextStart;
+                    cursor -= composingTextEnd - composingTextStart;
                 }
                 composingTextEnd = composingTextStart = 0;
             }
@@ -781,7 +781,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 setImeBuffer(imeBuffer.substring(0, composingTextStart) +
                         text + imeBuffer.substring(composingTextEnd));
                 composingTextEnd = composingTextStart + text.length();
-                mCursor = newCursorPosition > 0 ? composingTextEnd + newCursorPosition - 1
+                cursor = newCursorPosition > 0 ? composingTextEnd + newCursorPosition - 1
                         : composingTextStart - newCursorPosition;
                 return true;
             }
@@ -792,12 +792,12 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 }
                 int length = imeBuffer.length();
                 if (start == end && start > 0 && start < length) {
-                    mSelectedTextStart = mSelectedTextEnd = 0;
-                    mCursor = start;
+                    selectedTextStart = selectedTextEnd = 0;
+                    cursor = start;
                 } else if (start < end && start > 0 && end < length) {
-                    mSelectedTextStart = start;
-                    mSelectedTextEnd = end;
-                    mCursor = start;
+                    selectedTextStart = start;
+                    selectedTextEnd = end;
+                    cursor = start;
                 }
                 return true;
             }
@@ -819,10 +819,10 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                     Log.w(TAG, "getSelectedText " + flags);
                 }
                 int len = imeBuffer.length();
-                if (mSelectedTextEnd >= len || mSelectedTextStart > mSelectedTextEnd) {
+                if (selectedTextEnd >= len || selectedTextStart > selectedTextEnd) {
                     return "";
                 }
-                return imeBuffer.substring(mSelectedTextStart, mSelectedTextEnd + 1);
+                return imeBuffer.substring(selectedTextStart, selectedTextEnd + 1);
             }
             
         };
@@ -895,7 +895,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      */
     private void initialize() {
         TermSession session = termSession;
-    
+        
         updateText();
         
         emulator = session.getTerminalEmulator();
@@ -1156,7 +1156,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 selX2 = selX1;
                 selY2 = selY1;
             }
-            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_UP -> {
+            case MotionEvent.ACTION_MOVE,
+                 MotionEvent.ACTION_UP -> {
                 int minX = Math.min(selXAnchor, cx);
                 int maxX = Math.max(selXAnchor, cx);
                 int minY = Math.min(selYAnchor, cy);
@@ -1165,14 +1166,14 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 selY1 = minY;
                 selX2 = maxX;
                 selY2 = maxY;
-            
+                
                 if (action == MotionEvent.ACTION_UP) {
                     ClipboardManagerCompat clip = ClipboardManagerCompatFactory
                             .getManager(getContext().getApplicationContext());
                     clip.setText(getSelectedText().trim());
                     toggleSelectingText();
                 }
-            
+                
                 invalidate();
             }
             default -> {
@@ -1187,11 +1188,13 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     
     private void clearSpecialKeyStatus() {
         if (isControlKeySent) {
+            Log.i(TAG, "Clearing control key status");
             isControlKeySent = false;
             keyListener.handleControlKey(false);
             invalidate();
         }
         if (isFnKeySent) {
+            Log.i(TAG, "Clearing function key status");
             isFnKeySent = false;
             keyListener.handleFnKey(false);
             invalidate();
@@ -1227,24 +1230,27 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             Log.w(TAG, "onKeyDown " + keyCode);
         }
         if (handleControlKey(keyCode, true)) {
+            Log.w(TAG, "Control key handled");
             return true;
         } else if (handleFnKey(keyCode, true)) {
+            Log.w(TAG, "Fn key handled");
             return true;
         } else if (isSystemKey(keyCode, event)) {
+            Log.w(TAG, "System key handled");
             if (isInterceptedSystemKey(keyCode)) {
                 // Don't intercept the system keys
                 return super.onKeyDown(keyCode, event);
             }
         }
         
+        Log.d(TAG, "Not a control or function key, keyCode: " + keyCode);
+        
         // Translate the keyCode into an ASCII character.
         try {
             int oldCombiningAccent = keyListener.getCombiningAccent();
             int oldCursorMode = keyListener.getCursorMode();
-            keyListener.keyDown(keyCode, event, getKeypadApplicationMode(),
-                    TermKeyListener.isEventFromToggleDevice(event));
-            if (keyListener.getCombiningAccent() != oldCombiningAccent
-                    || keyListener.getCursorMode() != oldCursorMode) {
+            keyListener.keyDown(keyCode, event, getKeypadApplicationMode(), TermKeyListener.isEventFromToggleDevice(event));
+            if (keyListener.getCombiningAccent() != oldCombiningAccent || keyListener.getCursorMode() != oldCursorMode) {
                 invalidate();
             }
         } catch (IOException e) {
@@ -1357,6 +1363,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             invalidate();
             return true;
         }
+        
+        Log.w(TAG, "handleFnKey: keyCode " + keyCode + " not handled");
         return false;
     }
     
@@ -1536,6 +1544,9 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
      * generate various special characters and escape codes.
      */
     public void sendFnKey() {
+        if (LOG_KEY_EVENTS) {
+            Log.w(TAG, "sendFnKey");
+        }
         isFnKeySent = true;
         keyListener.handleFnKey(true);
         invalidate();
@@ -1603,13 +1614,13 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (prefixLen > fragmentLen) {
                 return false;
             }
-    
+            
             for (int i = 0; i < prefixLen; i++) {
                 if (s.charAt(start + i) != prefix.charAt(i)) {
                     return false;
                 }
             }
-    
+            
             return true;
         }
     }
@@ -1683,7 +1694,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             if (!isMouseTrackingActive()) {
                 return;
             }
-    
+            
             boolean more = scroller.computeScrollOffset();
             int newY = scroller.getCurrY();
             for (; lastY < newY; lastY++) {
@@ -1693,7 +1704,7 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             for (; lastY > newY; lastY--) {
                 sendMouseEventCode(motionEvent, 64);
             }
-    
+            
             if (more) {
                 post(this);
             }

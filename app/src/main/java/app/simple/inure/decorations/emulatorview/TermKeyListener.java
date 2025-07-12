@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.simple.inure.decorations.emulatorview.compat.AndroidCompat;
-import app.simple.inure.decorations.emulatorview.compat.KeyCharacterMapCompat;
-
 import static app.simple.inure.decorations.emulatorview.compat.KeycodeConstants.KEYCODE_BREAK;
 import static app.simple.inure.decorations.emulatorview.compat.KeycodeConstants.KEYCODE_CAPS_LOCK;
 import static app.simple.inure.decorations.emulatorview.compat.KeycodeConstants.KEYCODE_CTRL_LEFT;
@@ -75,9 +72,9 @@ import static app.simple.inure.decorations.emulatorview.compat.KeycodeConstants.
  */
 class TermKeyListener {
     private final static String TAG = "TermKeyListener";
-    private static final boolean LOG_MISC = false;
-    private static final boolean LOG_KEYS = false;
-    private static final boolean LOG_COMBINING_ACCENT = false;
+    private static final boolean LOG_MISC = true;
+    private static final boolean LOG_KEYS = true;
+    private static final boolean LOG_COMBINING_ACCENT = true;
     
     /**
      * Disabled for now because it interferes with ALT processing on phones with physical keyboards.
@@ -414,8 +411,10 @@ class TermKeyListener {
     public void handleFnKey(boolean down) {
         if (down) {
             fnKey.onPress();
+            Log.i(TAG, "FnKey pressed, mode: " + fnKey.getUIMode());
         } else {
             fnKey.onRelease();
+            Log.i(TAG, "FnKey released, mode: " + fnKey.getUIMode());
         }
         updateCursorMode();
     }
@@ -485,6 +484,8 @@ class TermKeyListener {
     
     public int mapControlChar(boolean control, boolean fn, int ch) {
         int result = ch;
+        Log.i(TAG, "mapControlChar(" + control + "," + fn + "," + ch + ")");
+        
         if (control) {
             // Search is the control key.
             if (result >= 'a' && result <= 'z') {
@@ -565,14 +566,17 @@ class TermKeyListener {
      *
      * @param keyCode the keycode of the keyDown event
      */
-    public void keyDown(int keyCode, KeyEvent event, boolean appMode,
-            boolean allowToggle) throws IOException {
+    public void keyDown(int keyCode, KeyEvent event, boolean appMode, boolean allowToggle) throws IOException {
         if (LOG_KEYS) {
             Log.i(TAG, "keyDown(" + keyCode + "," + event + "," + appMode + "," + allowToggle + ")");
         }
         if (handleKeyCode(keyCode, event, appMode)) {
+            if (LOG_KEYS) {
+                Log.i(TAG, "keyDown handled by keyCode: " + keyCode);
+            }
             return;
         }
+        
         int result = -1;
         boolean chordedCtrl = false;
         boolean setHighBit = false;
@@ -674,6 +678,10 @@ class TermKeyListener {
         }
         
         boolean effectiveControl = chordedCtrl || hardwareControlKey || (allowToggle && controlKey.isActive());
+        Log.i(TAG, "effectiveControl=" + effectiveControl + ", chordedCtrl=" + chordedCtrl + ", " +
+                "hardwareControlKey=" + hardwareControlKey + ", controlKey.isActive()=" + controlKey.isActive() +
+                " fnKey.isActive()=" + fnKey.isActive() + ", allowToggle=" + allowToggle);
+        
         boolean effectiveFn = allowToggle && fnKey.isActive();
         
         result = mapControlChar(effectiveControl, effectiveFn, result);
@@ -707,18 +715,22 @@ class TermKeyListener {
         return key.getUIMode() << shift;
     }
     
+    // Checks if the input event comes from a device that supports toggle/chorded modifier keys.
+    // In practice, this function almost always returns true because:
+    // - Most modern Android devices and IMEs do not provide accurate modifier behavior info.
+    // - If device info is missing or an error occurs, the fallback is to allow toggle (return true).
+    // - Even when device info is present, most virtual keyboards do not report toggle/chorded support,
+    //   but the fallback still enables toggle mode for compatibility.
     static boolean isEventFromToggleDevice(KeyEvent event) {
-        if (AndroidCompat.SDK < 11) {
-            return true;
-        }
-        
-        KeyCharacterMapCompat kcm = KeyCharacterMapCompat.wrap(
-                KeyCharacterMap.load(event.getDeviceId()));
-        return kcm.getModifierBehaviour() ==
-                KeyCharacterMapCompat.MODIFIER_BEHAVIOR_CHORDED_OR_TOGGLED;
+        Log.i(TAG, "isEventFromToggleDevice: event=" + event);
+        Log.v(TAG, "isEventFromToggleDevice: Should toggle modifier keys be allowed? " +
+                "This is a fallback check, as most devices do not provide accurate info.");
+        return true;
     }
     
-    /** @noinspection RedundantThrows*/
+    /**
+     * @noinspection RedundantThrows
+     */
     public boolean handleKeyCode(int keyCode, KeyEvent event, boolean appMode) throws IOException {
         String code = null;
         if (event != null) {
