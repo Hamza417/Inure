@@ -52,6 +52,10 @@ public class WrappedViewModel extends AndroidViewModel implements SharedPreferen
         return super.getApplication();
     }
     
+    protected Application getApp() {
+        return getApplication();
+    }
+    
     public LiveData <Throwable> getError() {
         return error;
     }
