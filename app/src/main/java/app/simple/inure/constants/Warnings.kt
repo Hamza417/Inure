@@ -117,4 +117,9 @@ object Warnings {
      * Development mode enabled
      */
     const val DEVELOPMENT_MODE_ENABLED = "0x016: Development mode enabled. This mode is intended for developers and may cause unexpected behaviors in the app. Use at your own risk."
+
+    /**
+     * Wait till loading is complete
+     */
+    const val WAIT_FOR_LOADING = "0x017: Please wait until the loading is complete before performing any actions. This may take a few seconds depending on your device and the amount of data being loaded."
 }

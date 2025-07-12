@@ -56,7 +56,6 @@ import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.isNotZero
-import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ParcelUtils.serializable
 import app.simple.inure.util.TextViewUtils.setDrawableLeft
@@ -378,7 +377,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
 
         virusTotal.setOnClickListener {
-            if (packageInfo.isNotNull()) {
+            try {
                 if (VirusTotalPreferences.hasValidAPI()) {
                     openFragmentArc(VirusTotal.newInstance(packageInfo), virusTotal, VirusTotal.TAG)
                 } else {
@@ -389,6 +388,11 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                             }
                         })
                 }
+            } catch (e: UninitializedPropertyAccessException) {
+                e.printStackTrace()
+                showWarning(Warnings.WAIT_FOR_LOADING, false)
+            } catch (e: IllegalStateException) {
+                Log.e(TAG, "onViewCreated: " + e.message)
             }
         }
     }
