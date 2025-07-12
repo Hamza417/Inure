@@ -1,6 +1,8 @@
 package app.simple.inure.ui.preferences.subscreens
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import app.simple.inure.R
 import app.simple.inure.adapters.terminal.AdapterFunctionKey
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.extensions.fragments.ScopedFragment
+import app.simple.inure.preferences.TerminalPreferences
 
 class TerminalFnKey : ScopedFragment() {
 
@@ -28,10 +31,20 @@ class TerminalFnKey : ScopedFragment() {
         val adapterFunctionKey = AdapterFunctionKey()
 
         adapterFunctionKey.onError = {
-            showError(it)
+            showWarning(it, false)
         }
 
         recyclerView.adapter = adapterFunctionKey
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            TerminalPreferences.FN_KEY -> {
+                // childFragmentManager.showTerminalSpecialKeys()
+                Log.i(TAG, "Fn Key changed: $key")
+            }
+        }
     }
 
     companion object {

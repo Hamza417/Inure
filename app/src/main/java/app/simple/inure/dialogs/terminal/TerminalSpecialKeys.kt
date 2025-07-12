@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.typeface.CustomTypefaceSpan
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -105,6 +106,12 @@ class TerminalSpecialKeys : ScopedBottomSheetFragment() {
             return fragment
         }
 
+        fun FragmentManager.showTerminalSpecialKeys(): TerminalSpecialKeys {
+            val dialog = newInstance()
+            dialog.show(this, TAG)
+            return dialog
+        }
+
         private data class KeyMapping(val key: String, val description: String)
 
         private val controlKeyMappings = listOf(
@@ -158,5 +165,7 @@ class TerminalSpecialKeys : ScopedBottomSheetFragment() {
                 "Camera",
                 "None"
         )
+
+        private const val TAG = "TerminalSpecialKeys"
     }
 }

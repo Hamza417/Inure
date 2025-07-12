@@ -10,12 +10,12 @@ object TerminalPreferences {
     private const val CURSOR_BLINK = "terminal_cursor_blink"
     private const val UTF8 = "terminal_default_utf_8"
     private const val BACK_BUTTON_ACTION = "terminal_back_button_action"
-    private const val CONTROL_KEY = "terminal_control_key"
-    private const val FN_KEY = "terminal_fn_key"
     private const val ALT_KEY_ESCAPE = "terminal_alt_key_escape"
     private const val USE_KEYBOARD_SHORTCUTS = "terminal_use_keyboard_shortcuts"
 
     const val INPUT_METHOD = "input_method"
+    const val CONTROL_KEY = "terminal_control_key"
+    const val FN_KEY = "terminal_fn_key"
 
     /* ---------------------------------------------------------------------------------------------- */
 

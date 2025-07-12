@@ -1,12 +1,12 @@
 package app.simple.inure.adapters.terminal
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
@@ -25,8 +25,8 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
             "@ (Address Sign)",
             "Left Alt",
             "Right Alt",
-            "Vol Up",
-            "Vol Down",
+            "Volume Up",
+            "Volume Down",
             "Camera",
             "None",
     )
@@ -66,21 +66,17 @@ class AdapterControlKey : RecyclerView.Adapter<VerticalListViewHolder>() {
                 }
 
                 if (TerminalPreferences.getFnKey() == position && position != list.size.minus(1)) {
-                    holder.title.setTextColor(Color.parseColor("#e74c3c"))
+                    holder.title.setTextColor("#e74c3c".toColorInt())
                 }
 
                 holder.container.setOnClickListener {
-                    kotlin.runCatching {
-                        if (TerminalPreferences.getFnKey() == position && position != list.size.minus(1)) {
-                            throw IllegalArgumentException("Key ${list[position]} is assigned to Fn key")
-                        } else {
-                            if (TerminalPreferences.setControlKey(position)) {
-                                notifyItemChanged(lastPosition)
-                                notifyItemChanged(holder.absoluteAdapterPosition)
-                            }
+                    if (TerminalPreferences.getFnKey() == position && position != list.size.minus(1)) {
+                        onError.invoke("${list[position]} is already assigned to Fn key")
+                    } else {
+                        if (TerminalPreferences.setControlKey(position)) {
+                            notifyItemChanged(lastPosition)
+                            notifyItemChanged(holder.absoluteAdapterPosition)
                         }
-                    }.onFailure {
-                        onError.invoke(it.stackTraceToString())
                     }
                 }
             }
