@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.theme.ThemeIcon
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.preferences.TerminalPreferences
@@ -20,16 +20,7 @@ import app.simple.inure.util.ViewUtils.visible
 
 class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
-    private val list = arrayListOf(
-            "Jog Ball",
-            "@ (Address Sign)",
-            "Left Alt",
-            "Right Alt",
-            "Volume Up",
-            "Volume Down",
-            "Camera",
-            "None",
-    )
+    private val list = Constants.getKeyList()
 
     var onError: (error: String) -> Unit = {}
 
@@ -38,7 +29,7 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_ITEM -> {
-                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_type_face, parent, false))
+                Holder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_special_keys, parent, false))
             }
             RecyclerViewUtils.TYPE_HEADER -> {
                 Header(LayoutInflater.from(parent.context).inflate(R.layout.adapter_header_typeface, parent, false))
@@ -56,7 +47,11 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
 
         when (holder) {
             is Holder -> {
-                holder.textView.text = list[position]
+                holder.title.text = list[position]
+                holder.code.text = buildString {
+                    append("Keycode: ")
+                    append(Constants.getKeyCode(list[position]).toString())
+                }
 
                 if (TerminalPreferences.getFnKey() == position) {
                     holder.icon.visible(false)
@@ -66,7 +61,7 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
                 }
 
                 if (TerminalPreferences.getControlKey() == position && position != list.size.minus(1)) {
-                    holder.textView.setTextColor("#e74c3c".toColorInt())
+                    holder.title.setTextColor("#e74c3c".toColorInt())
                 }
 
                 holder.container.setOnClickListener {
@@ -94,13 +89,16 @@ class AdapterFunctionKey : RecyclerView.Adapter<VerticalListViewHolder>() {
     override fun getItemViewType(position: Int): Int {
         return if (position.isZero()) {
             RecyclerViewUtils.TYPE_HEADER
-        } else RecyclerViewUtils.TYPE_ITEM
+        } else {
+            RecyclerViewUtils.TYPE_ITEM
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val textView: TypeFaceTextView = itemView.findViewById(R.id.adapter_typeface_textview)
-        val icon: ThemeIcon = itemView.findViewById(R.id.adapter_typeface_check_icon)
-        val container: LinearLayout = itemView.findViewById(R.id.adapter_typeface_container)
+        val container: DynamicRippleLinearLayout = itemView.findViewById(R.id.container)
+        val title: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val code: TypeFaceTextView = itemView.findViewById(R.id.code)
+        val icon: ThemeIcon = itemView.findViewById(R.id.check_icon)
     }
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
