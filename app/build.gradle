@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -161,8 +163,10 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 
     ndkVersion = '29.0.13599879 rc2'
@@ -254,9 +258,7 @@ dependencies {
 
     // Shizuku
     def shizukuVersion = '13.1.5'
-    //noinspection GradleDependency
     implementation "dev.rikka.shizuku:api:${shizukuVersion}"
-    //noinspection GradleDependency
     implementation "dev.rikka.shizuku:provider:${shizukuVersion}"
 
     // Refine
