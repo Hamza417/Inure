@@ -48,13 +48,20 @@ open class ErrorLiveData : MutableLiveData<Throwable>() {
             } catch (e: SQLiteDatabaseLockedException) {
                 Log.e("ErrorLiveData", "Database was found locked when " +
                         "trying to save stacktrace, skipping...")
+            } catch (e: IllegalStateException) {
+                Log.e(TAG, "Database instance is not initialized, skipping...", e)
             }
         }
     }
 
     private fun isSameThrowable(throwable: Throwable): Boolean {
+        @Suppress("KotlinUnreachableCode") // false negative
         value?.let {
             return it.javaClass == throwable.javaClass
         } ?: return false
+    }
+
+    companion object {
+        private const val TAG = "ErrorLiveData"
     }
 }
