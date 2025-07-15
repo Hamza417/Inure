@@ -110,5 +110,5 @@ that are not possible to have in play builds. Here are the list of feature exclu
 - Debloat
 - Bloat indicator for bloat apps throughout the app
 - Activate using license key without unlocker
-- VirusTotal integration (this is a non-paid feature and available to all users)
+- VirusTotal integration
 - More store options
