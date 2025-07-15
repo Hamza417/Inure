@@ -42,8 +42,6 @@ class UsageStatsViewModel(application: Application) : MainUsageStatsViewModel(ap
     fun loadAppStats() {
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                val startTime = System.currentTimeMillis()
-
                 var list = when (StatisticsPreferences.getEngine()) {
                     PopupUsageStatsEngine.INURE -> {
                         getUsageStats()
@@ -84,9 +82,6 @@ class UsageStatsViewModel(application: Application) : MainUsageStatsViewModel(ap
 
                 list.sortStats()
                 usageData.postValue(list)
-
-                val endTime = System.currentTimeMillis()
-                android.util.Log.i("TAG", "Usage stats loaded in ${endTime - startTime} ms")
             } catch (e: SecurityException) {
                 postWarning(Warnings.USAGE_STATS_ACCESS_BLOCKED)
                 usageData.postValue(arrayListOf())
