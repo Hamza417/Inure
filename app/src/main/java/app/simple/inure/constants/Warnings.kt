@@ -122,4 +122,9 @@ object Warnings {
      * Wait till loading is complete
      */
     const val WAIT_FOR_LOADING = "0x017: Please wait until the loading is complete before performing any actions. This may take a few seconds depending on your device and the amount of data being loaded."
+
+    /**
+     * Invalid file and application data state. Please check if the file is valid and the application data is correct.
+     */
+    const val INVALID_FILE_AND_APP_DATA = "0x018: Invalid file and application data state. Please check if the file is valid and the application data is correct."
 }

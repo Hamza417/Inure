@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.actions.ExtractViewModelFactory
@@ -36,7 +37,12 @@ class Send : ScopedBottomSheetFragment() {
         progress = view.findViewById(R.id.preparing_progress)
 
         val paths = mutableSetOf<String>()
-        paths.add(packageInfo.safeApplicationInfo.publicSourceDir)
+
+        try {
+            paths.add(packageInfo.safeApplicationInfo.publicSourceDir ?: packageInfo.applicationInfo?.sourceDir!!)
+        } catch (_: NullPointerException) {
+            showWarning(Warnings.INVALID_FILE_AND_APP_DATA)
+        }
 
         kotlin.runCatching {
             paths.addAll(packageInfo.safeApplicationInfo.splitSourceDirs!!)
@@ -64,7 +70,6 @@ class Send : ScopedBottomSheetFragment() {
             if (it.isNotNull()) {
                 ShareCompat.IntentBuilder(requireActivity())
                     .setStream(FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", it!!))
-                    //.setType(URLConnection.guessContentTypeFromName(it.name))
                     .setType("*/*")
                     .startChooser()
 
