@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -273,8 +274,12 @@ public class FloatingMenuRecyclerView extends CustomHorizontalRecyclerView {
     }
     
     public void updateBottomMenu(ArrayList <Pair <Integer, Integer>> bottomMenuItems) {
-        getMenuAdapter().updateMenu(bottomMenuItems);
-        // requestLayout();
+        try {
+            getMenuAdapter().updateMenu(bottomMenuItems);
+            // requestLayout();
+        } catch (NullPointerException e) {
+            Log.e(TAG, "updateBottomMenu: ", e);
+        }
     }
     
     @Override
