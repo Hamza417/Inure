@@ -26,9 +26,9 @@ import app.simple.inure.decorations.toggles.CheckBox
 import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.extensions.fragments.ShizukuStateFragment
+import app.simple.inure.helpers.RootStateHelper.setRootState
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.SetupPreferences
-import app.simple.inure.root.RootStateHelper.setRootState
 import app.simple.inure.ui.preferences.subscreens.AccentColor
 import app.simple.inure.ui.preferences.subscreens.AppearanceTypeFace
 import app.simple.inure.util.PermissionUtils.checkForUsageAccessPermission

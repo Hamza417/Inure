@@ -1,4 +1,4 @@
-package app.simple.inure.root
+package app.simple.inure.helpers
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
@@ -23,7 +23,7 @@ object RootStateHelper {
 
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
                     Log.d(TAG, "onSwitchChecked: Requesting root access")
-                    kotlin.runCatching {
+                    runCatching {
                         Shell.enableVerboseLogging = BuildConfig.DEBUG
                         Shell.setDefaultBuilder(
                                 Shell.Builder

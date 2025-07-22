@@ -14,8 +14,8 @@ import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusT
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.extensions.fragments.ShizukuStateFragment
+import app.simple.inure.helpers.RootStateHelper.setRootState
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.root.RootStateHelper.setRootState
 import app.simple.inure.ui.preferences.subscreens.ComponentManager
 import app.simple.inure.ui.preferences.subscreens.Language
 import app.simple.inure.ui.preferences.subscreens.Shortcuts
