@@ -56,7 +56,11 @@ class Changes : InstallerLoaderScopedFragment() {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {
             InstallerPreferences.IS_DIFF_STYLE_CHANGES -> {
-                (recyclerView.adapter as AdapterInstallerChanges).isDiffStyle = InstallerPreferences.isDiffStyleChanges()
+                try {
+                    (recyclerView.adapter as AdapterInstallerChanges).isDiffStyle = InstallerPreferences.isDiffStyleChanges()
+                } catch (_: NullPointerException) {
+                    // The adapter might not be set yet, so we ignore this exception.
+                }
             }
         }
     }
