@@ -13,7 +13,7 @@ import app.simple.inure.themes.manager.ThemeManager;
 
 public class LineNumberEditText extends TypeFaceEditText implements SharedPreferences.OnSharedPreferenceChangeListener {
     
-    private final String newline = System.getProperty("line.separator");
+    private final String newline = System.lineSeparator();
     private Rect rect;
     private Paint paint;
     
