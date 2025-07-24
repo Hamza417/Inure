@@ -116,7 +116,16 @@ class Extract : ScopedBottomSheetFragment() {
         }
 
         fun FragmentManager.launchExtract(packageInfo: PackageInfo, paths: Set<String>) {
-            newInstance(packageInfo, paths).show(this, TAG)
+            val fragment = newInstance(packageInfo, paths)
+
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
         }
 
         const val TAG = "Extract"
