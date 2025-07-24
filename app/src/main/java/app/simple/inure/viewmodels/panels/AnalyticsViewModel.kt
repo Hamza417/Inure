@@ -202,15 +202,19 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
 
             for (app in apps) {
                 val signatures = APKCertificateUtils(
-                        app.safeApplicationInfo.sourceDir.toFile(), app.packageName, applicationContext()).x509Certificates
+                        app.safeApplicationInfo.sourceDir.toFile(), app.packageName, applicationContext()).x509Certificates!!
 
-                for (signature in signatures) {
-                    val algorithm = signature.sigAlgName
-                    if (algorithms.containsKey(algorithm)) {
-                        algorithms[algorithm] = algorithms[algorithm]!!.inc()
-                    } else {
-                        algorithms[algorithm] = 1
+                try {
+                    for (signature in signatures) {
+                        val algorithm = signature.sigAlgName
+                        if (algorithms.containsKey(algorithm)) {
+                            algorithms[algorithm] = algorithms[algorithm]!!.inc()
+                        } else {
+                            algorithms[algorithm] = 1
+                        }
                     }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace() // App is not signed or has no valid signatures
                 }
             }
 
@@ -255,7 +259,4 @@ class AnalyticsViewModel(application: Application) : PackageUtilsViewModel(appli
         }
     }
 
-    override fun onAppUninstalled(packageName: String?) {
-        super.onAppUninstalled(packageName)
-    }
 }
