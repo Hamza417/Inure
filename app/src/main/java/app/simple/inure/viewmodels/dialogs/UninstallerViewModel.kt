@@ -17,8 +17,6 @@ import kotlinx.coroutines.launch
 
 class UninstallerViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
 
-    val error = MutableLiveData<String>()
-
     private val success: MutableLiveData<String> by lazy {
         MutableLiveData<String>().also {
             initializeCoreFramework()
