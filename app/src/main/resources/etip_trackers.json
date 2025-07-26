@@ -16298,6 +16298,38 @@
         "website": "http://www.phunware.com/advertising"
     },
     {
+        "advertising": [],
+        "analytic": [],
+        "api_key_ids": "",
+        "artifact_id": "analytics",
+        "capability": [],
+        "category": [
+            {
+                "name": "Analytics"
+            }
+        ],
+        "code_signature": "io.piano.android:analytics",
+        "comments": "Use at least in https://play.google.com/store/apps/details?id=fr.enedis.lignealert.mobile&hl=en",
+        "created": "2025-07-24T06:52:15.525434Z",
+        "creation_date": "2025-07-24",
+        "description": "",
+        "documentation": [
+            "https://developers.atinternet-solutions.com/piano-analytics/"
+        ],
+        "exodus_matches": null,
+        "gradle": "",
+        "group_id": "io.piano.android",
+        "id": "2331812e-a0c3-4868-bae1-2f0b40d1c694",
+        "is_in_exodus": false,
+        "maven_repository": "",
+        "name": "Piano Analytics",
+        "needs_rework": false,
+        "network": [],
+        "network_signature": "",
+        "updated": "2025-07-24T06:52:15.525477Z",
+        "website": "https://www.piano.io/product/analytics"
+    },
+    {
         "advertising": [
             {
                 "created": "2018-04-01T17:44:40.711776Z",
