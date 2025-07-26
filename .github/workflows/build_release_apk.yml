@@ -25,6 +25,37 @@ jobs:
                     fileName: 'keystore/key.jks'
                     encodedString: ${{ secrets.SIGN_KEY }}
 
+            -   name: Extract Version Name and Version Code
+                run: |
+                    # Extract versionName and versionCode from build.gradle
+                    VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
+                    VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
+
+                    # Make the version name sentence case
+                    # VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
+
+                    echo "Version Name: $VERSION_NAME"
+                    echo "Version Code: $VERSION_CODE"
+
+                    # Set these values as environment variables for later steps
+                    echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+                    echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+
+            -   name: Set Tag
+                run: |
+                    TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
+                    echo "TAG=${TAG}" >> $GITHUB_ENV
+                    echo "Tag: ${TAG}" # Print tag to console
+
+            -   name: Check Fastlane Changelogs
+                run: |
+                    if [ -f "fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt" ]; then
+                      echo "Changelog exists for version code ${{ env.VERSION_CODE }}."
+                    else
+                      echo "Changelog does not exist for version code ${{ env.VERSION_CODE }}."
+                      exit 1
+                    fi
+
             -   name: Accept Android SDK licenses
                 run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
 
@@ -68,37 +99,6 @@ jobs:
             #                    SIGNING_KEY_ALIAS: ${{ secrets.ALIAS }}
             #                    SIGNING_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
             #                    SIGNING_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-
-            -   name: Extract Version Name and Version Code
-                run: |
-                    # Extract versionName and versionCode from build.gradle
-                    VERSION_NAME=$(cat app/build.gradle | grep -oP 'versionName "\K[^"]*')
-                    VERSION_CODE=$(cat app/build.gradle | grep -oP 'versionCode \K\d+')
-                    
-                    # Make the version name sentence case
-                    # VERSION_NAME=$(echo "$VERSION_NAME" | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2));}1')
-                    
-                    echo "Version Name: $VERSION_NAME"
-                    echo "Version Code: $VERSION_CODE"
-                    
-                    # Set these values as environment variables for later steps
-                    echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-                    echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
-
-            -   name: Set Tag
-                run: |
-                    TAG=$(echo ${{ env.VERSION_NAME }} | tr '[:upper:]' '[:lower:]')
-                    echo "TAG=${TAG}" >> $GITHUB_ENV
-                    echo "Tag: ${TAG}" # Print tag to console
-
-            -   name: Check Fastlane Changelogs
-                run: |
-                    if [ -f "fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}.txt" ]; then
-                      echo "Changelog exists for version code ${{ env.VERSION_CODE }}."
-                    else
-                      echo "Changelog does not exist for version code ${{ env.VERSION_CODE }}."
-                      exit 1
-                    fi
 
             -   name: Create GitHub Release
                 uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631
