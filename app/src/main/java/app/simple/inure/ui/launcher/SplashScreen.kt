@@ -3,17 +3,11 @@ package app.simple.inure.ui.launcher
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AppOpsManager
-import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.os.IBinder
 import android.os.Process
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +19,6 @@ import androidx.core.app.AppOpsManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -45,7 +38,6 @@ import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.preferences.TrialPreferences
-import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
@@ -87,12 +79,6 @@ class SplashScreen : ScopedFragment() {
     private var isTagsLoaded = false
     private var isDebloatLoaded = false
 
-    private var serviceConnection: ServiceConnection? = null
-    private var dataLoaderService: DataLoaderService? = null
-    private var broadcastReceiver: BroadcastReceiver? = null
-
-    private var intentFilter: IntentFilter = IntentFilter()
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
     }
@@ -101,33 +87,6 @@ class SplashScreen : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
         clearSearchStates()
-
-        intentFilter.addAction(DataLoaderService.APPS_LOADED)
-        intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
-        intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
-
-        broadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                if (intent?.action == DataLoaderService.APPS_LOADED) {
-                    proceed()
-                }
-            }
-        }
-
-        serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
-                if (dataLoaderService?.hasDataLoaded() == true) {
-                    proceed()
-                } else {
-                    dataLoaderService?.startLoading()
-                }
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-                dataLoaderService = null
-            }
-        }
 
         icon = view.findViewById(R.id.imageView)
         loaderImageView = view.findViewById(R.id.loader)
@@ -167,31 +126,26 @@ class SplashScreen : ScopedFragment() {
                 }
 
                 requireArguments().getBoolean(BundleConstants.skip) -> { // Second check if setup is skipped
-                    startLoaderService()
+                    startLoader()
                 }
 
                 !checkForPermission() -> {
                     if (SetupPreferences.isDontShowAgain()) { // If setup not skipped open setup
-                        startLoaderService()
+                        startLoader()
                     } else {
                         openFragmentSlide(Setup.newInstance())
                     }
                 }
 
                 else -> { // Load all data
-                    startLoaderService()
+                    startLoader()
                 }
             }
         }
     }
 
-    private fun startLoaderService() {
-        val intent = Intent(requireContext(), DataLoaderService::class.java)
-        requireContext().bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
-
-        if (BehaviourPreferences.isSkipLoading()) {
-            proceed()
-        }
+    private fun startLoader() {
+        proceed()
 
         postDelayed(MAX_LOADING_TIME) { // Give the service 7 seconds to load
             /**
@@ -438,25 +392,8 @@ class SplashScreen : ScopedFragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver!!, intentFilter)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        try {
-            if (serviceConnection != null) {
-                requireContext().unbindService(serviceConnection!!)
-            }
-        } catch (e: java.lang.IllegalArgumentException) {
-            e.printStackTrace() // Should crash if moving to another [Setup] fragment
-        }
-
-        if (broadcastReceiver != null) {
-            LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)
-        }
-
         handler.removeCallbacksAndMessages(null)
     }
 
