@@ -18396,6 +18396,34 @@
         "api_key_ids": "",
         "artifact_id": "",
         "capability": [],
+        "category": [],
+        "code_signature": "",
+        "comments": "",
+        "created": "2025-08-02T11:23:52.109831Z",
+        "creation_date": "2025-08-02",
+        "description": "",
+        "documentation": [
+            "https://docs.sardine.ai/"
+        ],
+        "exodus_matches": null,
+        "gradle": "",
+        "group_id": "",
+        "id": "1443afb0-81b9-479f-b28d-cb810b34b4f2",
+        "is_in_exodus": false,
+        "maven_repository": "",
+        "name": "Sardine",
+        "needs_rework": false,
+        "network": [],
+        "network_signature": "",
+        "updated": "2025-08-02T11:23:52.109873Z",
+        "website": "https://www.sardine.ai/"
+    },
+    {
+        "advertising": [],
+        "analytic": [],
+        "api_key_ids": "",
+        "artifact_id": "",
+        "capability": [],
         "category": [
             {
                 "name": "Advertisement"
