@@ -41,6 +41,7 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.transitions.DetailsTransitionArc
+import app.simple.inure.decorations.transitions.SeekableSharedAxisZTransition
 import app.simple.inure.decorations.views.FloatingMenuRecyclerView
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
@@ -293,10 +294,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                     returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
                 }
                 PopupTransitionType.SHARED_AXIS_Z -> {
-                    enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-                    returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+                    enterTransition = SeekableSharedAxisZTransition(true)
+                    exitTransition = SeekableSharedAxisZTransition(true)
+                    reenterTransition = SeekableSharedAxisZTransition(false)
+                    returnTransition = SeekableSharedAxisZTransition(false)
                 }
                 PopupTransitionType.THROUGH -> {
                     exitTransition = MaterialFadeThrough()
@@ -622,7 +623,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
                 view.scaleX = 1F - (0.1F * interpolatedProgress)
                 view.scaleY = 1F - (0.1F * interpolatedProgress)
-                // view.alpha = 1F - (0.5F * interpolatedProgress)
+                view.alpha = 1F - (0.5F * interpolatedProgress)
             }
 
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -748,7 +749,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
                 setReorderingAllowed(true)
                 addSharedElement(icon, icon.transitionName)
-                replace(R.id.app_container, fragment, tag)
+                add (R.id.app_container, fragment, tag)
                 if (tag.isNotNull()) {
                     addToBackStack(tag)
                 }
@@ -759,7 +760,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
             val transaction = requireActivity().supportFragmentManager.beginTransaction().apply {
                 setReorderingAllowed(true)
                 addSharedElement(icon, icon.transitionName)
-                replace(R.id.app_container, fragment, tag)
+                add(R.id.app_container, fragment, tag)
                 if (tag.isNotNull()) {
                     addToBackStack(tag)
                 }
