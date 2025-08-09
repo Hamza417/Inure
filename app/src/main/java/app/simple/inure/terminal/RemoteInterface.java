@@ -51,20 +51,25 @@ public class RemoteInterface extends BaseActivity {
     /**
      * Quote a string so it can be used as a parameter in bash and similar shells.
      */
-    public static String quoteForBash(String s) {
+    public static String quoteForBash(String cmd) {
+        if (cmd.contains("\n") || cmd.contains("\r") || cmd.contains("\0")) {
+            throw new IllegalArgumentException("Input contains forbidden characters");
+        } else {
+            Log.d(TermDebug.LOG_TAG, "Input is valid: " + cmd);
+        }
         StringBuilder builder = new StringBuilder();
-        String specialChars = "\"\\$`!\n\r";
+        String specialChars = "\"\\$`!";
         builder.append('"');
-        int length = s.length();
+        int length = cmd.length();
         for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
+            char c = cmd.charAt(i);
             if (specialChars.indexOf(c) >= 0) {
                 builder.append('\\');
             }
             builder.append(c);
         }
         builder.append('"');
-        return builder.toString();
+        return builder.toString().trim();
     }
     
     protected void handleIntent() {
@@ -80,11 +85,21 @@ public class RemoteInterface extends BaseActivity {
         
         if (action.equals(Intent.ACTION_VIEW) || action.equals("org.openintents.action.VIEW_DIRECTORY")) {
             Uri data = intent.getData();
+            Log.d(TermDebug.LOG_TAG, "Received intent with action: " + action);
             
             if (data != null) {
                 String path = data.getPath();
                 
                 if (path != null) {
+                    // Additional input validation
+                    Log.d(TermDebug.LOG_TAG, "Received path: " + path);
+                    if (path.contains("\n") || path.contains("\r") || path.contains("\0")) {
+                        Log.e(TermDebug.LOG_TAG, "Rejected path with forbidden characters");
+                        showWarning("Invalid directory path", true);
+                        // finish();
+                        return;
+                    }
+                    
                     File file = new File(path);
                     String dirPath;
                     
@@ -122,6 +137,7 @@ public class RemoteInterface extends BaseActivity {
         Intent TSIntent = new Intent(this, TermService.class);
         termServiceIntent = TSIntent;
         startService(TSIntent);
+        Log.d(TermDebug.LOG_TAG, "Starting TermService");
         if (!bindService(TSIntent, terminalServiceConnection, BIND_AUTO_CREATE)) {
             Log.e(TermDebug.LOG_TAG, "bind to service failed!");
             finish();
@@ -167,6 +183,7 @@ public class RemoteInterface extends BaseActivity {
     }
     
     protected String openNewWindow(String iInitialCommand) {
+        Log.d(TermDebug.LOG_TAG, "Opening new window with initial command: " + iInitialCommand);
         TermService service = getTermService();
         
         String initialCommand = ShellPreferences.INSTANCE.getInitialCommand();

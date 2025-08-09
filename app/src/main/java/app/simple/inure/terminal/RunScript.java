@@ -28,6 +28,7 @@ import android.util.Log;
  * The old procedure of using Intent.Extra is still available but is discouraged.
  */
 public final class RunScript extends RemoteInterface {
+    
     public static final String ACTION_RUN_SCRIPT = "inure.terminal.RUN_SCRIPT";
     public static final String EXTRA_WINDOW_HANDLE = "inure.terminal.window_handle";
     private static final String EXTRA_INITIAL_COMMAND = "inure.terminal.iInitialCommand";
@@ -43,6 +44,8 @@ public final class RunScript extends RemoteInterface {
         
         Intent myIntent = getIntent();
         String action = myIntent.getAction();
+        Log.d(TermDebug.LOG_TAG, "RunScript intent with action " + action);
+        
         if (action.equals(ACTION_RUN_SCRIPT)) {
             /* Someone with the appropriate permissions has asked us to
                run a script */
