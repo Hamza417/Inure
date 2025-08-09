@@ -53,7 +53,7 @@ public class RemoteInterface extends BaseActivity {
      */
     public static String quoteForBash(String s) {
         StringBuilder builder = new StringBuilder();
-        String specialChars = "\"\\$`!";
+        String specialChars = "\"\\$`!\n\r";
         builder.append('"');
         int length = s.length();
         for (int i = 0; i < length; i++) {
