@@ -188,15 +188,15 @@ dependencies {
 
     // Android Tools
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.android.tools.build:apksig:8.11.1'
+    implementation 'com.android.tools.build:apksig:8.12.0'
 
     // Jar Libs, all included in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
 
     // Kotlin
     runtimeOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
@@ -208,8 +208,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.fragment:fragment-ktx:1.8.8'
     implementation 'androidx.activity:activity-ktx:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.2'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.webkit:webkit:1.14.0'
     implementation 'androidx.documentfile:documentfile:1.1.0'
@@ -237,7 +237,7 @@ dependencies {
     // Third Party
     implementation 'net.dongliu:apk-parser:2.6.10'
     implementation 'com.caverock:androidsvg-aar:1.4'
-    implementation 'com.anggrayudi:storage:2.1.0'
+    implementation 'com.anggrayudi:storage:2.2.0'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
     implementation "com.github.AppDevNext:AndroidChart:3.1.0.25"
     implementation 'net.lingala.zip4j:zip4j:2.11.5'
@@ -248,7 +248,7 @@ dependencies {
 
     githubImplementation 'com.squareup.okhttp3:okhttp:5.1.0'
 
-    implementation 'dev.spght:encryptedprefs-ktx:1.0.3'
+    implementation 'dev.spght:encryptedprefs-ktx:1.1.0'
 
     // root
     def libsuVersion = '6.0.0'
