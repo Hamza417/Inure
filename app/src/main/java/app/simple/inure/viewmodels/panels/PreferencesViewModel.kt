@@ -45,9 +45,8 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
 
             if (TrialPreferences.isFullVersion().invert()) {
                 list.add(Pair(R.drawable.ic_sell, R.string.purchase))
+                list.add(Pair(0, 0)) // Divider
             }
-
-            list.add(Pair(0, 0)) // Divider
 
             list.add(Pair(R.drawable.ic_appearance, R.string.appearance))
             list.add(Pair(R.drawable.ic_behaviour, R.string.behavior))
