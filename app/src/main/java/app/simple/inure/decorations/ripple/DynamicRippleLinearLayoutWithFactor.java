@@ -30,6 +30,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     
     private int highlightColor = -1;
     private int rippleColor = -1;
+    private boolean isHighlightDisabled = false;
     
     public DynamicRippleLinearLayoutWithFactor(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -82,7 +83,9 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
                     return super.onTouchEvent(event);
                 }
             }
-            case MotionEvent.ACTION_MOVE, MotionEvent.ACTION_CANCEL, MotionEvent.ACTION_UP -> {
+            case MotionEvent.ACTION_MOVE,
+                 MotionEvent.ACTION_CANCEL,
+                 MotionEvent.ACTION_UP -> {
                 if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
                     animate()
                             .scaleY(1F)
@@ -100,7 +103,9 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        ViewUtils.INSTANCE.triggerHover(this, event);
+        if (!isHighlightDisabled) {
+            ViewUtils.INSTANCE.triggerHover(this, event);
+        }
         return super.onGenericMotionEvent(event);
     }
     
@@ -112,7 +117,7 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
     }
     
     private void setHighlightBackgroundColor() {
-        if (AccessibilityPreferences.INSTANCE.isHighlightMode()) {
+        if (AccessibilityPreferences.INSTANCE.isHighlightMode() && !isHighlightDisabled) {
             if (highlightColor == -1) {
                 LayoutBackground.setBackground(getContext(), this, null, Misc.roundedCornerFactor, highlightColor);
                 setBackgroundTintList(ColorStateList.valueOf(ThemeManager.INSTANCE.getTheme().getViewGroupTheme().getHighlightBackground()));
@@ -155,6 +160,11 @@ public class DynamicRippleLinearLayoutWithFactor extends LinearLayout implements
         if (Objects.equals(key, AppearancePreferences.ACCENT_COLOR)) {
             setHighlightBackgroundColor();
         }
+    }
+    
+    public void disableHighlightMode() {
+        isHighlightDisabled = true;
+        setHighlightBackgroundColor();
     }
     
     public void setHighlightColor(int highlightColor) {

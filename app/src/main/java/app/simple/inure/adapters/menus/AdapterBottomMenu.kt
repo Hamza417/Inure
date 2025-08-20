@@ -83,12 +83,14 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
             // // We don't need else condition here since it's going to be same for all elements
             if (AppearancePreferences.isAccentColorOnBottomMenu()) {
                 holder.container.setRippleColor(RIPPLE_COLOR)
+                holder.container.disableHighlightMode()
             }
 
             when {
                 AppearancePreferences.isAccentColorOnBottomMenu() -> {
                     holder.button.imageTintList = ColorStateList.valueOf(Color.WHITE)
                     holder.text.setTextColor(Color.WHITE)
+                    holder.container.disableHighlightMode()
                 }
                 AccessibilityPreferences.isColorfulIcons() -> {
                     holder.button.imageTintList = ColorStateList(arrayOf(intArrayOf(
@@ -97,6 +99,7 @@ class AdapterBottomMenu(private val bottomMenuItems: ArrayList<Pair<Int, Int>>) 
                             Colors.getColors()[position],
                             Colors.getColors()[position]
                     ))
+                    holder.container.disableHighlightMode()
                 }
             }
         }
