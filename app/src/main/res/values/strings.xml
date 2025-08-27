@@ -781,4 +781,5 @@
     <string name="disable_animations">Disable Animations</string>
     <string name="desc_disable_animations">Disable app animations completely.</string>
     <string name="add_vote_desc">Tap the button to add your vote.</string>
+    <string name="relevance">Relevance</string>
 </resources>

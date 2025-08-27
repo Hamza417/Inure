@@ -23,7 +23,9 @@ import app.simple.inure.util.ArrayUtils.getMatchedCount
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FlagUtils
+import app.simple.inure.util.Sort
 import app.simple.inure.util.Sort.getSortedList
+import app.simple.inure.viewmodels.panels.SearchViewModel.Companion.MAX_PARALLEL_STREAMS
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,6 +36,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import java.util.Locale
 import java.util.stream.Collectors
 
 class SearchViewModel(application: Application) : PackageUtilsViewModel(application) {
@@ -112,11 +115,15 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         val filteredApps = arrayListOf<PackageInfo>()
 
         allApps.filterCategories(keywords).applyFilters(filteredApps)
-        filteredApps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+        if (SearchPreferences.getSortStyle() == Sort.RELEVANCE) {
+            // We'll sort by Levenshtein relevance after building Search results below
+        } else {
+            filteredApps.getSortedList(SearchPreferences.getSortStyle(), SearchPreferences.isReverseSorting())
+        }
 
         ensureActive()
 
-        val searchResults = if (sanitizedKeyword.isNotEmpty()) {
+        val searchResultsBase = if (sanitizedKeyword.isNotEmpty()) {
             if (SearchPreferences.isDeepSearchEnabled()) {
                 if (deepPackageInfos.isEmpty()) {
                     loadDataForDeepSearch(filteredApps)
@@ -132,8 +139,30 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             filteredApps.map { Search(it) }
         }
 
+        // Apply Levenshtein relevance sorting if selected and we have a non-empty keyword
+        val finalResults = if (SearchPreferences.getSortStyle() == Sort.RELEVANCE && sanitizedKeyword.isNotEmpty()) {
+            val ignoreCase = SearchPreferences.isCasingIgnored()
+            // Precompute scores to avoid recomputation and enable deterministic tie-breaking
+            val scored = searchResultsBase.map { it to relevanceScore(it, sanitizedKeyword, ignoreCase) }
+            val comparator = compareByDescending<Pair<Search, Double>> { it.second }
+                .thenBy {
+                    val name = it.first.packageInfo.safeApplicationInfo.name
+                    if (ignoreCase) name.lowercase(Locale.getDefault()) else name
+                }
+                .thenBy { it.first.packageInfo.packageName }
+
+            val sorted = if (SearchPreferences.isReverseSorting()) {
+                scored.sortedWith(comparator.reversed())
+            } else {
+                scored.sortedWith(comparator)
+            }
+            sorted.map { it.first }
+        } else {
+            searchResultsBase
+        }
+
         ensureActive()
-        searchData.postValue(ArrayList(searchResults))
+        searchData.postValue(ArrayList(finalResults))
     }
 
     private fun hasValidCounts(search: Search): Boolean {
@@ -144,6 +173,63 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun hasMatchingNames(search: Search, keywords: String): Boolean {
         return search.packageInfo.safeApplicationInfo.name.contains(keywords, SearchPreferences.isCasingIgnored()) ||
                 search.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
+    }
+
+    // Compute a relevance score [0.0, 1.0+] for a Search item based on Levenshtein similarity to app label and package name
+    private fun relevanceScore(search: Search, query: String, ignoreCase: Boolean): Double {
+        val label = search.packageInfo.safeApplicationInfo.name
+        val pkg = search.packageInfo.packageName
+
+        val labelSim = similarity(query, label, ignoreCase)
+        val pkgSim = similarity(query, pkg, ignoreCase)
+
+        var score = maxOf(labelSim, pkgSim)
+        val primaryText = if (labelSim >= pkgSim) label else pkg
+
+        // Simple bonuses to push intuitive matches up
+        if (primaryText.equals(query, ignoreCase)) score += 0.30
+        else if (primaryText.startsWith(query, ignoreCase)) score += 0.15
+        else if (primaryText.contains(query, ignoreCase)) score += 0.05
+
+        return score
+    }
+
+    // Normalized Levenshtein similarity in [0.0, 1.0], 1.0 is identical
+    private fun similarity(a: String, b: String, ignoreCase: Boolean): Double {
+        val aa = if (ignoreCase) a.lowercase(Locale.getDefault()) else a
+        val bb = if (ignoreCase) b.lowercase(Locale.getDefault()) else b
+        if (aa.isEmpty() && bb.isEmpty()) return 1.0
+        if (aa.isEmpty() || bb.isEmpty()) return 0.0
+        val d = levenshtein(aa, bb).toDouble()
+        val denom = maxOf(aa.length, bb.length).toDouble()
+        return 1.0 - (d / denom)
+    }
+
+    // Standard DP Levenshtein distance
+    private fun levenshtein(a: String, b: String): Int {
+        val n = a.length
+        val m = b.length
+        if (n == 0) return m
+        if (m == 0) return n
+
+        val prev = IntArray(m + 1) { it }
+        val curr = IntArray(m + 1)
+
+        for (i in 1..n) {
+            curr[0] = i
+            val ca = a[i - 1]
+            for (j in 1..m) {
+                val cost = if (ca == b[j - 1]) 0 else 1
+                curr[j] = minOf(
+                        curr[j - 1] + 1,      // insertion
+                        prev[j] + 1,          // deletion
+                        prev[j - 1] + cost    // substitution
+                )
+            }
+            // swap arrays
+            for (j in 0..m) prev[j] = curr[j]
+        }
+        return prev[m]
     }
 
     private fun loadTags() {

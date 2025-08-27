@@ -44,6 +44,9 @@ class SearchSort : ScopedBottomSheetFragment() {
         sortChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
             for (id in checkedIds) {
                 when (id) {
+                    R.id.relevance -> {
+                        SearchPreferences.setSortStyle(Sort.RELEVANCE)
+                    }
                     R.id.name -> {
                         SearchPreferences.setSortStyle(Sort.NAME)
                     }
@@ -70,6 +73,9 @@ class SearchSort : ScopedBottomSheetFragment() {
         }
 
         when (SearchPreferences.getSortStyle()) {
+            Sort.RELEVANCE -> {
+                sortChipGroup.check(R.id.relevance)
+            }
             Sort.NAME -> {
                 sortChipGroup.check(R.id.name)
             }
