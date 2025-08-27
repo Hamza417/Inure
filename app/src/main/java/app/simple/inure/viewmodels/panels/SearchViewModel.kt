@@ -346,7 +346,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     private fun loadDataForDeepSearch(list: ArrayList<PackageInfo>) {
-        list.forEach {
+        list.forEach { it ->
             kotlin.runCatching {
                 val packageInfo = packageManager.getPackageInfo(it.packageName, FLAGS)
                 packageInfo.safeApplicationInfo.name = it.safeApplicationInfo.name
