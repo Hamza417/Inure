@@ -1,13 +1,12 @@
 package app.simple.inure.util
 
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.util.FileSizeHelper.getDirectoryLength
 import app.simple.inure.util.FileSizeHelper.toLength
-import java.util.*
+import java.util.Locale
 
 object Sort {
 
@@ -52,6 +51,14 @@ object Sort {
      * apps min sdk
      */
     const val MIN_SDK = "min_sdk"
+
+    /**
+     * Sorts the [PackageInfo] [ArrayList] by
+     * relevance (as in search results), impl your own
+     * if you want to use this. The class itself does not
+     * implement this sorting method.
+     */
+    const val RELEVANCE = "relevance"
 
     /**
      * Sort the given [ArrayList] in various ways

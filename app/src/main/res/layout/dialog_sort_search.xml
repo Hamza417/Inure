@@ -35,6 +35,12 @@
             app:singleSelection="true">
 
             <app.simple.inure.decorations.views.Chip
+                android:id="@+id/relevance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/relevance" />
+
+            <app.simple.inure.decorations.views.Chip
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
