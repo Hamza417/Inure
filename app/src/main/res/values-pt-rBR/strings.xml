@@ -782,4 +782,5 @@
     <string name="disable_animations">Desativar Animações</string>
     <string name="desc_disable_animations">Desativar as animações do aplicativo completamente.</string>
     <string name="add_vote_desc">Toque o botão para adicionar o seu voto.</string>
+    <string name="relevance">Relevância</string>
 </resources>
