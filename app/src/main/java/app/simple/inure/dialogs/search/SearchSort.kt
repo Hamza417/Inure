@@ -46,6 +46,7 @@ class SearchSort : ScopedBottomSheetFragment() {
                 when (id) {
                     R.id.relevance -> {
                         SearchPreferences.setSortStyle(Sort.RELEVANCE)
+                        sortStyleChipGroup.check(R.id.descending)
                     }
                     R.id.name -> {
                         SearchPreferences.setSortStyle(Sort.NAME)
