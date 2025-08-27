@@ -144,7 +144,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val ignoreCase = SearchPreferences.isCasingIgnored()
             // Precompute scores to avoid recomputation and enable deterministic tie-breaking
             val scored = searchResultsBase.map { it to relevanceScore(it, sanitizedKeyword, ignoreCase) }
-            val comparator = compareByDescending<Pair<Search, Double>> { it.second }
+            val comparator = compareBy<Pair<Search, Double>> { it.second }
                 .thenBy {
                     val name = it.first.packageInfo.safeApplicationInfo.name
                     if (ignoreCase) name.lowercase(Locale.getDefault()) else name
