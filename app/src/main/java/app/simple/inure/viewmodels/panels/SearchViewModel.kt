@@ -151,7 +151,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         val finalResults = if (useRelevance && sanitizedKeyword.isNotEmpty()) {
             val ignoreCase = SearchPreferences.isCasingIgnored()
             val scored = baseResults.map { it to relevanceScore(it, sanitizedKeyword, ignoreCase) }
-            val threshold = RELEVANCE_THRESHOLD
+            val threshold = dynamicThreshold(sanitizedKeyword)
             val filtered = scored.filter { it.second >= threshold }
             val comparator = compareBy<Pair<Search, Double>> { it.second }
                 .thenBy {
@@ -249,6 +249,15 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         return base.split("[^a-zA-Z0-9_]+".toRegex()).filter { it.isNotBlank() }
     }
 
+    private fun dynamicThreshold(query: String): Double {
+        val len = query.trim().length
+        return when {
+            len <= 2 -> 0.55
+            len == 3 -> 0.6
+            else -> RELEVANCE_THRESHOLD
+        }
+    }
+
     /**
      * For deep search, compute the best Levenshtein similarity among matched component names
      * (only those containing the query), across permissions, activities, services, receivers, providers.
@@ -256,50 +265,46 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private fun componentBestSimilarity(search: Search, query: String, ignoreCase: Boolean): Double {
         val pi = search.packageInfo
         var best = 0.0
+        val qTokens = tokenize(query, ignoreCase)
+
+        fun consider(name: String) {
+            // Short-circuit: if any token matches exactly, treat as perfect match and skip LD
+            val tTokens = tokenize(name, ignoreCase)
+            if (qTokens.any { qt -> tTokens.any { it == qt } }) {
+                best = maxOf(best, 1.0)
+                return
+            }
+            best = maxOf(best, similarity(query, name, ignoreCase))
+            best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
+        }
 
         // Permissions
         pi.requestedPermissions?.forEach { perm ->
-            if (perm != null && perm.contains(query, ignoreCase)) {
-                best = maxOf(best, similarity(query, perm, ignoreCase))
-                // also try token coverage for better robustness
-                best = maxOf(best, tokenCoverageScore(query, perm, ignoreCase))
-            }
+            if (perm != null && perm.contains(query, ignoreCase)) consider(perm)
         }
 
         // Activities
         pi.activities?.forEach { ai ->
             val name = ai?.name
-            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
-                best = maxOf(best, similarity(query, name, ignoreCase))
-                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
-            }
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) consider(name)
         }
 
         // Services
         pi.services?.forEach { si ->
             val name = si?.name
-            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
-                best = maxOf(best, similarity(query, name, ignoreCase))
-                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
-            }
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) consider(name)
         }
 
         // Receivers
         pi.receivers?.forEach { ri ->
             val name = ri?.name
-            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
-                best = maxOf(best, similarity(query, name, ignoreCase))
-                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
-            }
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) consider(name)
         }
 
         // Providers
         pi.providers?.forEach { pr ->
             val name = pr?.name
-            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
-                best = maxOf(best, similarity(query, name, ignoreCase))
-                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
-            }
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) consider(name)
         }
 
         return best
