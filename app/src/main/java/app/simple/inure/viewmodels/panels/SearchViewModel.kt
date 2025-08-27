@@ -184,14 +184,78 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         val pkgSim = similarity(query, pkg, ignoreCase)
 
         var score = maxOf(labelSim, pkgSim)
-        val primaryText = if (labelSim >= pkgSim) label else pkg
 
-        // Simple bonuses to push intuitive matches up
+        // If deep search is enabled, include best similarity from matched components
+        if (SearchPreferences.isDeepSearchEnabled()) {
+            val compSim = componentBestSimilarity(search, query, ignoreCase)
+            score = maxOf(score, compSim)
+
+            // Tiny nudge if any deep resources matched
+            if (search.resources > 0) score += 0.02
+        }
+
+        // Apply intuitive bonuses based on the primary highest-similarity text
+        val primaryText = when (score) {
+            labelSim -> label
+            pkgSim -> pkg
+            else -> null
+        } ?: label
+
         if (primaryText.equals(query, ignoreCase)) score += 0.30
         else if (primaryText.startsWith(query, ignoreCase)) score += 0.15
         else if (primaryText.contains(query, ignoreCase)) score += 0.05
 
         return score
+    }
+
+    /**
+     * For deep search, compute the best Levenshtein similarity among matched component names
+     * (only those containing the query), across permissions, activities, services, receivers, providers.
+     */
+    private fun componentBestSimilarity(search: Search, query: String, ignoreCase: Boolean): Double {
+        val pi = search.packageInfo
+        var best = 0.0
+
+        // Permissions
+        pi.requestedPermissions?.forEach { perm ->
+            if (perm != null && perm.contains(query, ignoreCase)) {
+                best = maxOf(best, similarity(query, perm, ignoreCase))
+            }
+        }
+
+        // Activities
+        pi.activities?.forEach { ai ->
+            val name = ai?.name
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
+                best = maxOf(best, similarity(query, name, ignoreCase))
+            }
+        }
+
+        // Services
+        pi.services?.forEach { si ->
+            val name = si?.name
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
+                best = maxOf(best, similarity(query, name, ignoreCase))
+            }
+        }
+
+        // Receivers
+        pi.receivers?.forEach { ri ->
+            val name = ri?.name
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
+                best = maxOf(best, similarity(query, name, ignoreCase))
+            }
+        }
+
+        // Providers
+        pi.providers?.forEach { pr ->
+            val name = pr?.name
+            if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
+                best = maxOf(best, similarity(query, name, ignoreCase))
+            }
+        }
+
+        return best
     }
 
     // Normalized Levenshtein similarity in [0.0, 1.0], 1.0 is identical
