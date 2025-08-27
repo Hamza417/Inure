@@ -105,6 +105,9 @@ jobs:
                 run: |
                     echo "COMMIT_MESSAGE=$(git log --format=%B -n 1 | head -n 1)" >> $GITHUB_ENV
 
+            -   name: Accept Android SDK licenses
+                run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses
+
             -   name: Build APK (Pre-Release)
                 run: |
                     if [[ -n "${{ env.GRADLE_PATH }}" ]]; then
