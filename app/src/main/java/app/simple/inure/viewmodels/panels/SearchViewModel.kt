@@ -123,7 +123,9 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         ensureActive()
 
-        val searchResultsBase = if (sanitizedKeyword.isNotEmpty()) {
+        val useRelevance = SearchPreferences.getSortStyle() == Sort.RELEVANCE
+
+        val baseResults: List<Search> = if (sanitizedKeyword.isNotEmpty()) {
             if (SearchPreferences.isDeepSearchEnabled()) {
                 if (deepPackageInfos.isEmpty()) {
                     loadDataForDeepSearch(filteredApps)
@@ -131,20 +133,27 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 val deepSearchResults = arrayListOf<Search>().apply {
                     addDeepSearchData(sanitizedKeyword, deepPackageInfos)
                 }
-                deepSearchResults.filter { hasValidCounts(it) || hasMatchingNames(it, sanitizedKeyword) }
+                if (useRelevance) {
+                    // In relevance mode, do NOT filter by contains/counts; keep all for scoring
+                    deepSearchResults
+                } else {
+                    deepSearchResults.filter { hasValidCounts(it) || hasMatchingNames(it, sanitizedKeyword) }
+                }
             } else {
-                filteredApps.map { Search(it) }.filter { hasMatchingNames(it, sanitizedKeyword) }
+                val simple = filteredApps.map { Search(it) }
+                if (useRelevance) simple else simple.filter { hasMatchingNames(it, sanitizedKeyword) }
             }
         } else {
             filteredApps.map { Search(it) }
         }
 
         // Apply Levenshtein relevance sorting if selected and we have a non-empty keyword
-        val finalResults = if (SearchPreferences.getSortStyle() == Sort.RELEVANCE && sanitizedKeyword.isNotEmpty()) {
+        val finalResults = if (useRelevance && sanitizedKeyword.isNotEmpty()) {
             val ignoreCase = SearchPreferences.isCasingIgnored()
-            // Precompute scores to avoid recomputation and enable deterministic tie-breaking
-            val scored = searchResultsBase.map { it to relevanceScore(it, sanitizedKeyword, ignoreCase) }
-            val comparator = compareByDescending<Pair<Search, Double>> { it.second }
+            val scored = baseResults.map { it to relevanceScore(it, sanitizedKeyword, ignoreCase) }
+            val threshold = RELEVANCE_THRESHOLD
+            val filtered = scored.filter { it.second >= threshold }
+            val comparator = compareBy<Pair<Search, Double>> { it.second }
                 .thenBy {
                     val name = it.first.packageInfo.safeApplicationInfo.name
                     if (ignoreCase) name.lowercase(Locale.getDefault()) else name
@@ -152,13 +161,13 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 .thenBy { it.first.packageInfo.packageName }
 
             val sorted = if (SearchPreferences.isReverseSorting()) {
-                scored.sortedWith(comparator.reversed())
+                filtered.sortedWith(comparator.reversed())
             } else {
-                scored.sortedWith(comparator)
+                filtered.sortedWith(comparator)
             }
             sorted.map { it.first }
         } else {
-            searchResultsBase
+            baseResults
         }
 
         ensureActive()
@@ -175,15 +184,17 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
                 search.packageInfo.packageName.contains(keywords, SearchPreferences.isCasingIgnored())
     }
 
-    // Compute a relevance score [0.0, 1.0+] for a Search item based on Levenshtein similarity to app label and package name
+    // Compute a relevance score [0.0, 1.5] for a Search item based on Levenshtein similarity and token coverage
     private fun relevanceScore(search: Search, query: String, ignoreCase: Boolean): Double {
         val label = search.packageInfo.safeApplicationInfo.name
         val pkg = search.packageInfo.packageName
 
         val labelSim = similarity(query, label, ignoreCase)
         val pkgSim = similarity(query, pkg, ignoreCase)
+        val tokenSimLabel = tokenCoverageScore(query, label, ignoreCase)
+        val tokenSimPkg = tokenCoverageScore(query, pkg, ignoreCase)
 
-        var score = maxOf(labelSim, pkgSim)
+        var score = maxOf(labelSim, pkgSim, tokenSimLabel, tokenSimPkg)
 
         // If deep search is enabled, include best similarity from matched components
         if (SearchPreferences.isDeepSearchEnabled()) {
@@ -198,14 +209,44 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         val primaryText = when (score) {
             labelSim -> label
             pkgSim -> pkg
-            else -> null
-        } ?: label
+            tokenSimLabel -> label
+            tokenSimPkg -> pkg
+            else -> label
+        }
 
         if (primaryText.equals(query, ignoreCase)) score += 0.30
         else if (primaryText.startsWith(query, ignoreCase)) score += 0.15
         else if (primaryText.contains(query, ignoreCase)) score += 0.05
 
         return score
+    }
+
+    /**
+     * Token coverage score: split query and text into tokens and compute the average of
+     * best per-token similarity across tokens; captures re-ordered words like "files material".
+     */
+    private fun tokenCoverageScore(query: String, text: String, ignoreCase: Boolean): Double {
+        if (query.isEmpty() || text.isEmpty()) return 0.0
+        val qTokens = tokenize(query, ignoreCase)
+        val tTokens = tokenize(text, ignoreCase)
+        if (qTokens.isEmpty() || tTokens.isEmpty()) return 0.0
+
+        var sum = 0.0
+        for (qt in qTokens) {
+            var best = 0.0
+            for (tt in tTokens) {
+                val sim = similarity(qt, tt, false) // already cased as requested
+                if (sim > best) best = sim
+                if (best >= 1.0) break
+            }
+            sum += best
+        }
+        return sum / qTokens.size
+    }
+
+    private fun tokenize(s: String, ignoreCase: Boolean): List<String> {
+        val base = if (ignoreCase) s.lowercase(Locale.getDefault()) else s
+        return base.split("[^a-zA-Z0-9_]+".toRegex()).filter { it.isNotBlank() }
     }
 
     /**
@@ -220,6 +261,8 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         pi.requestedPermissions?.forEach { perm ->
             if (perm != null && perm.contains(query, ignoreCase)) {
                 best = maxOf(best, similarity(query, perm, ignoreCase))
+                // also try token coverage for better robustness
+                best = maxOf(best, tokenCoverageScore(query, perm, ignoreCase))
             }
         }
 
@@ -228,6 +271,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val name = ai?.name
             if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
                 best = maxOf(best, similarity(query, name, ignoreCase))
+                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
             }
         }
 
@@ -236,6 +280,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val name = si?.name
             if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
                 best = maxOf(best, similarity(query, name, ignoreCase))
+                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
             }
         }
 
@@ -244,6 +289,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val name = ri?.name
             if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
                 best = maxOf(best, similarity(query, name, ignoreCase))
+                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
             }
         }
 
@@ -252,6 +298,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
             val name = pr?.name
             if (!name.isNullOrEmpty() && name.contains(query, ignoreCase)) {
                 best = maxOf(best, similarity(query, name, ignoreCase))
+                best = maxOf(best, tokenCoverageScore(query, name, ignoreCase))
             }
         }
 
@@ -488,5 +535,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         private const val TAG = "SearchViewModel"
         private const val MAX_PARALLEL_STREAMS = 10
+        private const val RELEVANCE_THRESHOLD = 0.7 // Minimum score to keep an item when sorting by relevance
     }
 }
