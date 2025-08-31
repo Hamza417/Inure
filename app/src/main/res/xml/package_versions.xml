@@ -2494,6 +2494,7 @@
     <string name="fr.mobdev.peertubelive" translatable="false">AGPL-3.0-only</string>
     <string name="org.pgnapps.pk2" translatable="false">MIT</string>
     <string name="team.swing.pendulums" translatable="false">GPL-3.0-only</string>
+    <string name="com.pennywiseai.tracker" translatable="false">MIT</string>
     <string name="org.jf.Penroser" translatable="false">BSD-3-Clause</string>
     <string name="com.traffar.pentago" translatable="false">GPL-3.0-only</string>
     <string name="nightlock.peppercarrot" translatable="false">GPL-3.0-or-later</string>
@@ -4235,6 +4236,7 @@
     <string name="tool.xfy9326.floatpicture" translatable="false">GPL-3.0-only</string>
     <string name="org.handmadeideas.floccus" translatable="false">MPL-2.0</string>
     <string name="com.absolute.floral" translatable="false">GPL-3.0-only</string>
+    <string name="dev.patrickgold.florisboard" translatable="false">Apache-2.0</string>
     <string name="dev.patrickgold.florisboard.beta" translatable="false">Apache-2.0</string>
     <string name="app.fluffy" translatable="false">GPL-3.0-only</string>
     <string name="net.sunjiao.renamer" translatable="false">GPL-3.0-only</string>
@@ -5107,6 +5109,7 @@
     <string name="me.msfjarvis.viscerion" translatable="false">Apache-2.0</string>
     <string name="de.visorapp.visor" translatable="false">Apache-2.0</string>
     <string name="com.vivi.vivimusic" translatable="false">GPL-3.0-only</string>
+    <string name="io.github.pedrolcl.vmpk" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.umfahrer.vocabulary" translatable="false">MIT</string>
     <string name="de.ph1b.audiobook" translatable="false">GPL-3.0-only</string>
     <string name="moe.chensi.volume" translatable="false">GPL-2.0-only</string>
