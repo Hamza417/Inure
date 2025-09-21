@@ -24,7 +24,6 @@ object DevelopmentPreferences {
     const val SHOW_GREETING_IN_TERMINAL = "is_greeting_shown_in_terminal"
     const val OLD_STYLE_SCROLLING_BEHAVIOR_DIALOG = "is_old_style_scrolling_behavior_dialog_enabled"
     const val USE_ALTERNATE_AUDIO_PLAYER_INTERFACE = "is_alternate_audio_player_interface_enabled"
-    const val SHOW_COMPLETE_APP_SIZE = "is_complete_app_size_shown"
     const val PADDING_LESS_POPUP_MENUS = "is_padding_less_popup_menus_enabled"
     const val DIVIDER_ON_NAVIGATION_BAR = "is_divider_on_navigation_bar_enabled"
     const val PAUSE_IMAGE_LOADER = "is_image_loader_paused"
@@ -142,11 +141,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Alternate Audio Player Interface",
                                             "Use alternate audio player interface with full screen album art and lyrics view\n\nOnly portrait mode is supported.",
                                             USE_ALTERNATE_AUDIO_PLAYER_INTERFACE,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Show Complete App Size",
-                                            "Show complete app size including cache, data, obb, etc. in the various panels of the app.\n\nCan cause some performance issues.",
-                                            SHOW_COMPLETE_APP_SIZE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Padding Less Popup Menus",
