@@ -188,7 +188,7 @@ dependencies {
 
     // Android Tools
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.android.tools.build:apksig:8.12.1'
+    implementation 'com.android.tools.build:apksig:8.13.0'
 
     // Jar Libs, all included in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -208,8 +208,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.fragment:fragment-ktx:1.8.9'
     implementation 'androidx.activity:activity-ktx:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.4'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.webkit:webkit:1.14.0'
     implementation 'androidx.documentfile:documentfile:1.1.0'
@@ -219,17 +219,17 @@ dependencies {
     implementation 'androidx.transition:transition-ktx:1.6.0'
 
     // Google
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'com.google.code.gson:gson:2.13.2'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
     playImplementation 'com.google.android.play:review:2.0.2'
     playImplementation 'com.google.android.play:review-ktx:2.0.2'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:5.0.5'
     //noinspection KaptUsageInsteadOfKsp
-    ksp 'com.github.bumptech.glide:ksp:4.16.0'
+    ksp 'com.github.bumptech.glide:ksp:5.0.5'
 
     // Toolkit
     implementation 'com.github.Hamza417:renderscript-intrinsics-replacement-toolkit:4ae2409809'
@@ -270,10 +270,10 @@ dependencies {
     implementation "dev.rikka.hidden:compat:4.4.0"
 
     // Room
-    implementation 'androidx.room:room-ktx:2.7.2'
+    implementation 'androidx.room:room-ktx:2.8.1'
     //noinspection KaptUsageInsteadOfKsp
-    kapt 'androidx.room:room-compiler:2.7.2'
-    androidTestImplementation 'androidx.room:room-testing:2.7.2'
+    kapt 'androidx.room:room-compiler:2.8.1'
+    androidTestImplementation 'androidx.room:room-testing:2.8.1'
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
