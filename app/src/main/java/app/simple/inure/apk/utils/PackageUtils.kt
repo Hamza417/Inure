@@ -5,19 +5,24 @@ import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.*
+import android.content.pm.ApplicationInfo
+import android.content.pm.IPackageStatsObserver
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
+import android.content.pm.PackageStats
 import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
 import androidx.activity.result.ActivityResultLauncher
 import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.UNINSTALL_REQUEST_CODE
 import app.simple.inure.models.PackageSizes
 import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.DateUtils
 import java.io.File
 import java.lang.reflect.Method
-import java.util.*
+import java.util.Locale
 
 @Suppress("KotlinRedundantDiagnosticSuppress")
 object PackageUtils {
@@ -557,11 +562,16 @@ object PackageUtils {
     }
 
     fun getInstallerPackageName(context: Context, packageName: String): String? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            context.packageManager.getInstallSourceInfo(packageName).installingPackageName
-        } else {
-            @Suppress("DEPRECATION")
-            context.packageManager.getInstallerPackageName(packageName)
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                context.packageManager.getInstallSourceInfo(packageName).installingPackageName
+            } else {
+                @Suppress("DEPRECATION")
+                context.packageManager.getInstallerPackageName(packageName)
+            }
+        } catch (e: NameNotFoundException) {
+            e.printStackTrace()
+            return null
         }
     }
 
