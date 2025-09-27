@@ -149,9 +149,18 @@ class AddTag : ScopedDialogFragment() {
         }
 
         fun FragmentManager.showAddTagDialog(): AddTag {
-            val dialog = newInstance()
-            dialog.show(this, TAG)
-            return dialog
+            val fragment = newInstance()
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
+
+            return fragment
         }
     }
 }
