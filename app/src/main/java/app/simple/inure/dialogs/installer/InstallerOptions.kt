@@ -96,7 +96,16 @@ class InstallerOptions : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showInstallerOptions(): InstallerOptions {
             val fragment = newInstance()
-            fragment.show(this, TAG)
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
+
             return fragment
         }
 
