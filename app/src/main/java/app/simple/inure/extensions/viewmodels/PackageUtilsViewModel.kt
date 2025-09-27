@@ -62,29 +62,33 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         @Suppress("UNCHECKED_CAST")
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                when (intent?.action) {
-                    DataLoaderService.APPS_LOADED -> {
-                        apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-                        uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                try {
+                    when (intent?.action) {
+                        DataLoaderService.APPS_LOADED -> {
+                            apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
+                            uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
 
-                        onAppsLoaded(apps)
-                        onUninstalledAppsLoaded(uninstalledApps)
-                    }
+                            onAppsLoaded(apps)
+                            onUninstalledAppsLoaded(uninstalledApps)
+                        }
 
-                    DataLoaderService.UNINSTALLED_APPS_LOADED -> {
-                        uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
-                        onUninstalledAppsLoaded(uninstalledApps)
-                    }
+                        DataLoaderService.UNINSTALLED_APPS_LOADED -> {
+                            uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                            onUninstalledAppsLoaded(uninstalledApps)
+                        }
 
-                    DataLoaderService.INSTALLED_APPS_LOADED -> {
-                        apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-                        onAppsLoaded(apps)
-                    }
+                        DataLoaderService.INSTALLED_APPS_LOADED -> {
+                            apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
+                            onAppsLoaded(apps)
+                        }
 
-                    DataLoaderService.RELOAD_APPS -> {
-                        Log.d("DataLoaderService", "Reloading apps")
-                        dataLoaderService!!.refresh()
+                        DataLoaderService.RELOAD_APPS -> {
+                            Log.d("DataLoaderService", "Reloading apps")
+                            dataLoaderService!!.refresh()
+                        }
                     }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
                 }
             }
         }
