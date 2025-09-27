@@ -59,8 +59,12 @@ class RecentlyInstalled : ScopedFragment() {
                 }
 
                 override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                    AppMenu.newInstance(packageInfo)
-                        .show(childFragmentManager, AppMenu.TAG)
+                    try {
+                        AppMenu.newInstance(packageInfo)
+                            .show(childFragmentManager, AppMenu.TAG)
+                    } catch (e: IllegalStateException) {
+                        e.printStackTrace()
+                    }
                 }
             })
 
