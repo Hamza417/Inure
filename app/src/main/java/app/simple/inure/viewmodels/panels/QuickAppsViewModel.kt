@@ -67,19 +67,21 @@ class QuickAppsViewModel(application: Application) : WrappedViewModel(applicatio
         viewModelScope.launch(Dispatchers.IO) {
             db = QuickAppsDatabase.getInstance(context)
 
-            val quickApps = db?.quickAppsDao()?.getAllQuickApps()!!
-            val apps = arrayListOf<PackageInfo>()
+            if (db?.isOpen == true) {
+                val quickApps = db?.quickAppsDao()?.getAllQuickApps()!!
+                val apps = arrayListOf<PackageInfo>()
 
-            for (quickApp in quickApps) {
-                packageManager.getPackageInfo(quickApp.packageName)?.let { apps.add(it) }
+                for (quickApp in quickApps) {
+                    packageManager.getPackageInfo(quickApp.packageName)?.let { apps.add(it) }
+                }
+
+                for (i in apps.indices) {
+                    apps[i].safeApplicationInfo.name = PackageUtils
+                        .getApplicationName(applicationContext(), apps[i].safeApplicationInfo)
+                }
+
+                this@QuickAppsViewModel.quickApps.postValue(apps)
             }
-
-            for (i in apps.indices) {
-                apps[i].safeApplicationInfo.name = PackageUtils
-                    .getApplicationName(applicationContext(), apps[i].safeApplicationInfo)
-            }
-
-            this@QuickAppsViewModel.quickApps.postValue(apps)
         }
     }
 
