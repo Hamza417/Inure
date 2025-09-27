@@ -57,7 +57,7 @@ class AnalyticsPackageType : ScopedFragment() {
             startPostponedEnterTransition()
         }
 
-        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
+        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.entry)?.label ?: getString(R.string.unknown)
 
         back.setOnClickListener {
             popBackStack()
