@@ -30,7 +30,7 @@ import app.simple.inure.util.AppUtils
 import app.simple.inure.util.AppUtils.isUnlocker
 import app.simple.inure.util.ArrayUtils.toArrayList
 import app.simple.inure.util.ConditionUtils.invert
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.TrackerUtils
 import com.topjohnwu.superuser.Shell
@@ -116,7 +116,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                     list.normalMenu()
                 }
             } else {
-                if (packageInfo.safeApplicationInfo.sourceDir.toFile().exists()) {
+                if (packageInfo.safeApplicationInfo.sourceDir.toFileOrNull()?.exists() == true) {
                     list.add(Pair(R.drawable.ic_send, R.string.send))
 
                     if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_INSTALLED != 0) {
