@@ -73,7 +73,7 @@ class AdapterRecentlyUpdated : RecyclerView.Adapter<VerticalListViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return apps.size
+        return apps.size.plus(1)
     }
 
     override fun getItemViewType(position: Int): Int {
