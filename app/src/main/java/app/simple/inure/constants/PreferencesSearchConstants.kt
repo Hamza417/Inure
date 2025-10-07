@@ -131,13 +131,6 @@ object PreferencesSearchConstants {
             PreferenceModel(R.drawable.ic_home, R.string.title_home_path_preference, R.string.summary_home_path_preference, popup, editor, shell),
     )
 
-    private val layoutData = arrayListOf(
-            PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.installer_visibility_customization_desc, options, installer, layouts),
-            PreferenceModel(R.drawable.ic_linear_scale, R.string.visibility_customization, R.string.home_visibility_customization_desc, options, home, layouts),
-            PreferenceModel(R.drawable.ic_grid_4, R.string.menu_layout, R.string.menu_layout_desc, options, home, layouts),
-            PreferenceModel(R.drawable.ic_linear_scale, R.string.app_information, R.string.info_visibility_customization_desc, options, home, layouts),
-    )
-
     private val aboutData = arrayListOf(
             PreferenceModel(R.drawable.ic_label, R.string.version, R.string.versionName, none, application, about),
             PreferenceModel(R.drawable.ic_change_history, R.string.change_logs, R.string.desc_changelogs, web_page, application, about),
