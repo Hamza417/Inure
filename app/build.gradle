@@ -246,7 +246,7 @@ dependencies {
     implementation 'com.github.REAndroid:ARSCLib:95af206081' // https://github.com/REAndroid/ARSCLib
     implementation 'io.noties.markwon:core:4.6.2'
 
-    githubImplementation 'com.squareup.okhttp3:okhttp:5.1.0'
+    githubImplementation 'com.squareup.okhttp3:okhttp:5.2.1'
 
     implementation 'dev.spght:encryptedprefs-ktx:1.1.0'
 
@@ -270,10 +270,10 @@ dependencies {
     implementation "dev.rikka.hidden:compat:4.4.0"
 
     // Room
-    implementation 'androidx.room:room-ktx:2.8.1'
+    implementation 'androidx.room:room-ktx:2.8.2'
     //noinspection KaptUsageInsteadOfKsp
-    kapt 'androidx.room:room-compiler:2.8.1'
-    androidTestImplementation 'androidx.room:room-testing:2.8.1'
+    kapt 'androidx.room:room-compiler:2.8.2'
+    androidTestImplementation 'androidx.room:room-testing:2.8.2'
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
