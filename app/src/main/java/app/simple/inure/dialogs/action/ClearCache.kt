@@ -3,6 +3,7 @@ package app.simple.inure.dialogs.action
 import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -19,9 +20,8 @@ class ClearCache : ScopedActionDialogBottomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val size = with(packageInfo.getPackageSize(requireContext())) {
-            cacheSize + dataSize + codeSize
-        }
+        val size = getCacheSize()
+        Log.i(TAG, "Cache Size: ${size.toSize()} for ${packageInfo.packageName}")
 
         with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]) {
             getResults().observe(viewLifecycleOwner) {
@@ -32,9 +32,7 @@ class ClearCache : ScopedActionDialogBottomFragment() {
                 when (it) {
                     "Done" -> {
                         loader.loaded()
-                        val sizeNow = with(packageInfo.getPackageSize(requireContext())) {
-                            cacheSize + dataSize + codeSize
-                        }
+                        val sizeNow = getCacheSize()
                         val postSize = size - sizeNow
                         if (postSize > 0) {
                             status.text = postSize.toSize() + " " + getString(R.string.cleared)
@@ -52,6 +50,12 @@ class ClearCache : ScopedActionDialogBottomFragment() {
             getWarning().observe(viewLifecycleOwner) {
                 showWarning(it)
             }
+        }
+    }
+
+    private fun getCacheSize(): Long {
+        return with(packageInfo.getPackageSize(requireContext())) {
+            cacheSize
         }
     }
 

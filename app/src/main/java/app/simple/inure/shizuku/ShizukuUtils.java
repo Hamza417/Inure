@@ -47,7 +47,7 @@ public class ShizukuUtils {
          *             - https://www.xda-developers.com/implementing-shizuku/
          *             - https://github.dev/aistra0528/Hail
          */
-        Log.d("ShizukuHider", "setAppDisabled: " + disabled);
+        Log.d(TAG, "setAppDisabled: " + disabled);
         Method setApplicationEnabledSetting;
         Object iPmInstance;
         
@@ -62,7 +62,7 @@ public class ShizukuUtils {
             setApplicationEnabledSetting.invoke(iPmInstance, packageName,
                     disabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER : PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, 0, Os.getuid() / 100000,
                     BuildConfig.APPLICATION_ID);
-            Log.i("ShizukuHider", "Hid app: " + packageName);
+            Log.i(TAG, "Hid app: " + packageName);
         }
     }
     
@@ -76,7 +76,7 @@ public class ShizukuUtils {
          *             - https://www.xda-developers.com/implementing-shizuku/
          *             - https://github.dev/aistra0528/Hail
          */
-        Log.d("ShizukuHider", "setAppHidden: " + hidden);
+        Log.d(TAG, "setAppHidden: " + hidden);
         Method setApplicationHiddenSetting;
         Object iPmInstance;
         
@@ -89,7 +89,7 @@ public class ShizukuUtils {
         
         for (String packageName : pkgNames) {
             setApplicationHiddenSetting.invoke(iPmInstance, packageName, hidden, 0, Os.getuid() / 100000);
-            Log.i("ShizukuHider", "Hid app: " + packageName);
+            Log.i(TAG, "Hid app: " + packageName);
         }
     }
     
@@ -102,7 +102,7 @@ public class ShizukuUtils {
          *             - https://www.xda-developers.com/implementing-shizuku/
          *             - https://github.dev/aistra0528/Hail
          */
-        Log.d("ShizukuHider", "clearAppCache");
+        Log.d(TAG, "clearAppCache");
         Method deleteApplicationCacheFiles;
         Object iPmInstance;
         
@@ -118,13 +118,13 @@ public class ShizukuUtils {
                 deleteApplicationCacheFiles.invoke(iPmInstance, packageName, new IPackageDataObserver.Stub() {
                     @Override
                     public void onRemoveCompleted(String s, boolean b) {
-                        Log.i("ShizukuHider", "Cleared app cache: " + s);
+                        Log.i(TAG, "Cleared app cache: " + s);
                     }
                 });
-                Log.i("ShizukuHider", "Cleared app cache: " + packageName);
+                Log.i(TAG, "Cleared app cache: " + packageName);
             }
         } catch (Exception e) {
-            Log.e("ShizukuHider", "clearAppCache: ", e);
+            Log.e(TAG, "clearAppCache: ", e);
         }
     }
     
@@ -138,7 +138,7 @@ public class ShizukuUtils {
          *             - https://www.xda-developers.com/implementing-shizuku/
          *             - https://github.dev/aistra0528/Hail
          */
-        Log.d("ShizukuHider", "updateComponentState: " + enabled);
+        Log.d(TAG, "updateComponentState: " + enabled);
         Method setComponentEnabledSetting;
         Object iPmInstance;
         
@@ -153,7 +153,7 @@ public class ShizukuUtils {
                 new ComponentName(packageName, componentName),
                 enabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
-        Log.i("ShizukuHider", "Updated component state: " + packageName);
+        Log.i(TAG, "Updated component state: " + packageName);
     }
     
     @Deprecated
