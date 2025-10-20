@@ -59,7 +59,7 @@ import app.simple.inure.text.EditTextHelper.toSuperscript
 import app.simple.inure.text.EditTextHelper.toUnderline
 import app.simple.inure.text.TextViewUndoRedo
 import app.simple.inure.util.DateUtils
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.NullSafety.isNull
 import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.ViewUtils.gone
@@ -146,7 +146,7 @@ class NotesEditor : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         fullVersionCheck()
 
-        icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFile())
+        icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
         name.text = packageInfo.safeApplicationInfo.name
         packageId.text = packageInfo.packageName
         noteEditText.setWindowInsetsAnimationCallback()
