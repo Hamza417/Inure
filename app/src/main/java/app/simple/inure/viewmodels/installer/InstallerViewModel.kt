@@ -212,16 +212,20 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
     private fun packageManagerInstall() {
         viewModelScope.launch(Dispatchers.Default) {
-            val sessionParams = InstallerUtils.makeInstallParams(files!!.getLength())
-            val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
+            try {
+                val sessionParams = InstallerUtils.makeInstallParams(files!!.getLength())
+                val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
 
-            for (file in files!!) {
-                if (file.exists() && file.name.endsWith(".apk")) {
-                    InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
+                for (file in files!!) {
+                    if (file.exists() && file.name.endsWith(".apk")) {
+                        InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
+                    }
                 }
-            }
 
-            InstallerUtils.commitSession(sessionCode, applicationContext())
+                InstallerUtils.commitSession(sessionCode, applicationContext())
+            } catch (e: IllegalStateException) {
+                postError(e)
+            }
         }
     }
 
