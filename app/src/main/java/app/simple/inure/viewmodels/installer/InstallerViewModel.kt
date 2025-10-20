@@ -225,6 +225,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 InstallerUtils.commitSession(sessionCode, applicationContext())
             } catch (e: IllegalStateException) {
                 postError(e)
+            } catch (e: SecurityException) {
+                postError(e)
             }
         }
     }
