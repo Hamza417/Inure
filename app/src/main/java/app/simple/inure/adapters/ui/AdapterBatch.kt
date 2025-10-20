@@ -23,7 +23,7 @@ import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ArrayUtils.move
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.DateUtils
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.Sort
@@ -69,7 +69,7 @@ class AdapterBatch(var apps: ArrayList<BatchPackageInfo>, var headerEnabled: Boo
             holder.icon.transitionName = "app_$position"
             holder.icon.loadAppIcon(apps[position].packageInfo.packageName,
                                     apps[position].packageInfo.safeApplicationInfo.enabled,
-                                    apps[position].packageInfo.safeApplicationInfo.sourceDir.toFile())
+                                    apps[position].packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
             holder.name.text = apps[position].packageInfo.safeApplicationInfo.name
             holder.packageId.text = apps[position].packageInfo.packageName
 
