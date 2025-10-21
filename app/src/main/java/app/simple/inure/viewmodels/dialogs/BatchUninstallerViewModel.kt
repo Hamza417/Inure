@@ -3,8 +3,6 @@ package app.simple.inure.viewmodels.dialogs
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Warnings
@@ -14,39 +12,38 @@ import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.BatchPackageInfo
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class BatchUninstallerViewModel(application: Application, val list: ArrayList<BatchPackageInfo>) : RootShizukuViewModel(application) {
 
-    private val data: MutableLiveData<ArrayList<BatchUninstallerResult>> by lazy {
-        MutableLiveData<ArrayList<BatchUninstallerResult>>().also {
-            initializeCoreFramework()
-        }
-    }
+    private val _uninstallResults = MutableStateFlow<ArrayList<BatchUninstallerResult>>(arrayListOf())
+    val uninstallResults: StateFlow<ArrayList<BatchUninstallerResult>> = _uninstallResults.asStateFlow()
 
-    fun getData(): LiveData<ArrayList<BatchUninstallerResult>> {
-        return data
+    init {
+        // Initialize with pending state for all apps
+        val initialResults = ArrayList(list.map { BatchUninstallerResult(it.packageInfo, null) })
+        _uninstallResults.value = initialResults
+        initializeCoreFramework()
     }
 
     override fun onShellCreated(shell: Shell?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val uninstalledApps = arrayListOf<BatchUninstallerResult>()
+            val results = ArrayList(_uninstallResults.value)
 
-            for (app in list) {
+            for ((index, app) in list.withIndex()) {
                 runCatching {
                     Shell.cmd(app.packageInfo.getUninstallCommand()).exec().let {
-                        if (it.isSuccess) {
-                            uninstalledApps.add(BatchUninstallerResult(app.packageInfo, true))
-                        } else {
-                            uninstalledApps.add(BatchUninstallerResult(app.packageInfo, false))
-                        }
+                        results[index] = BatchUninstallerResult(app.packageInfo, it.isSuccess)
+                        _uninstallResults.value = ArrayList(results)
                     }
                 }.onFailure {
-                    uninstalledApps.add(BatchUninstallerResult(app.packageInfo, false))
+                    results[index] = BatchUninstallerResult(app.packageInfo, false)
+                    _uninstallResults.value = ArrayList(results)
                 }
             }
-
-            data.postValue(uninstalledApps)
         }
     }
 
@@ -64,23 +61,19 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
-            val uninstalledApps = arrayListOf<BatchUninstallerResult>()
+            val results = ArrayList(_uninstallResults.value)
 
-            for (app in list) {
+            for ((index, app) in list.withIndex()) {
                 runCatching {
                     shizukuServiceHelper.service!!.simpleExecute(app.packageInfo.getUninstallCommand()).let {
-                        if (it.isSuccess) {
-                            uninstalledApps.add(BatchUninstallerResult(app.packageInfo, true))
-                        } else {
-                            uninstalledApps.add(BatchUninstallerResult(app.packageInfo, false))
-                        }
+                        results[index] = BatchUninstallerResult(app.packageInfo, it.isSuccess)
+                        _uninstallResults.value = ArrayList(results)
                     }
                 }.onFailure {
-                    uninstalledApps.add(BatchUninstallerResult(app.packageInfo, false))
+                    results[index] = BatchUninstallerResult(app.packageInfo, false)
+                    _uninstallResults.value = ArrayList(results)
                 }
             }
-
-            data.postValue(uninstalledApps)
         }
     }
 }

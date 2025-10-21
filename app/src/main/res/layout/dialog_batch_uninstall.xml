@@ -25,11 +25,6 @@
             app:isTopFadingEdgeOnly="false"
             app:statusBarPaddingRequired="false" />
 
-        <app.simple.inure.decorations.views.LoaderImageView
-            android:id="@+id/loader"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/loader_size"
-            android:layout_height="@dimen/loader_size" />
 
     </app.simple.inure.decorations.corners.DynamicCornerFrameLayout>
 

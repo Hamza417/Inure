@@ -30,15 +30,25 @@ class AdapterBatchUninstaller(private val results: ArrayList<BatchUninstaller.Co
             holder.name.text = result.packageInfo.packageName
         }
 
-        holder.result.text = if (result.isSuccessful) {
-            holder.itemView.context.getString(R.string.uninstalled)
-        } else {
-            holder.itemView.context.getString(R.string.failed)
+        holder.result.text = when (result.isSuccessful) {
+            null -> holder.itemView.context.getString(R.string.pending)
+            true -> holder.itemView.context.getString(R.string.uninstalled)
+            false -> holder.itemView.context.getString(R.string.failed)
         }
     }
 
     override fun getItemCount(): Int {
         return results.size
+    }
+
+    fun updateResults(newResults: ArrayList<BatchUninstaller.Companion.BatchUninstallerResult>) {
+        // Find which items changed and notify only those
+        for (i in results.indices) {
+            if (i < newResults.size && results[i].isSuccessful != newResults[i].isSuccessful) {
+                results[i] = newResults[i]
+                notifyItemChanged(i)
+            }
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {

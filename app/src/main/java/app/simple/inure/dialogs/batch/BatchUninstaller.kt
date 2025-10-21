@@ -6,22 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
 import app.simple.inure.adapters.batch.AdapterBatchUninstaller
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
-import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.factories.panels.BatchViewModelFactory
 import app.simple.inure.models.BatchPackageInfo
 import app.simple.inure.util.ParcelUtils.parcelableArrayList
-import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.dialogs.BatchUninstallerViewModel
 import app.simple.inure.viewmodels.panels.BatchViewModel
+import kotlinx.coroutines.launch
 
 class BatchUninstaller : ScopedBottomSheetFragment() {
 
-    private lateinit var loader: LoaderImageView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var adapterBatchUninstaller: AdapterBatchUninstaller? = null
 
@@ -32,7 +31,6 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_batch_uninstall, container, false)
 
-        loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
 
         appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!
@@ -47,12 +45,17 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loader.start()
-
-        batchUninstallerViewModel?.getData()?.observe(viewLifecycleOwner) {
-            loader.gone()
-            adapterBatchUninstaller = AdapterBatchUninstaller(it)
-            recyclerView.adapter = adapterBatchUninstaller
+        viewLifecycleOwner.lifecycleScope.launch {
+            batchUninstallerViewModel?.uninstallResults?.collect { results ->
+                if (adapterBatchUninstaller == null) {
+                    // Initialize adapter with the first emission (all pending)
+                    adapterBatchUninstaller = AdapterBatchUninstaller(results)
+                    recyclerView.adapter = adapterBatchUninstaller
+                } else {
+                    // Update existing adapter with new results
+                    adapterBatchUninstaller?.updateResults(results)
+                }
+            }
         }
     }
 
@@ -69,7 +72,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
         data class BatchUninstallerResult(
                 val packageInfo: PackageInfo,
-                val isSuccessful: Boolean
+                val isSuccessful: Boolean? // null = pending, true = success, false = failed
         )
     }
 }
