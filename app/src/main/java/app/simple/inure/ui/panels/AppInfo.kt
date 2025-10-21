@@ -59,7 +59,6 @@ import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAPKIcon
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
-import app.simple.inure.interfaces.appinfo.SearchBoxCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.tags.PopupTagMenu
 import app.simple.inure.preferences.AccessibilityPreferences
@@ -537,7 +536,7 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.search -> {
-                            childFragmentManager.showSearchBox(SearchBoxCallbacks { query ->
+                            childFragmentManager.showSearchBox { query ->
                                 runCatching {
                                     requirePackageManager().queryIntentActivities(Intent(Intent.ACTION_SEARCH), 0)
                                         .forEach {
@@ -551,7 +550,7 @@ class AppInfo : ScopedFragment() {
                                 }.onFailure {
                                     showWarning(it.message ?: getString(R.string.error), goBack = false)
                                 }
-                            })
+                            }
                         }
 
                         R.string.manage_space -> {
@@ -665,10 +664,10 @@ class AppInfo : ScopedFragment() {
             icon.loadAppIcon(packageInfo.packageName,
                              packageInfo.safeApplicationInfo.enabled,
                              packageInfo.safeApplicationInfo.sourceDir.toFile())
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             try {
                 icon.loadAPKIcon(packageInfo.safeApplicationInfo.sourceDir)
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 icon.setImageResource(R.drawable.ic_app_icon)
             }
         }
