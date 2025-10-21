@@ -27,7 +27,7 @@
             android:layout_height="@dimen/header_icon_size"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_rocket_launch"
-            android:transitionName="@string/operations"
+            android:transitionName="@string/appops"
             app:tintType="accent"
             tools:ignore="ContentDescription" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:ellipsize="marquee"
-                android:text="@string/operations"
+                android:text="@string/appops"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textSize="@dimen/info_text_large"

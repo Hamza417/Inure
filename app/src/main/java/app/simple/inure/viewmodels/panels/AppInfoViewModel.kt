@@ -225,7 +225,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
 
             if (ConfigurationPreferences.isRootOrShizuku() && isInstalled) {
                 if (isNotThisApp()) {
-                    list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.operations))
+                    list.add(1, Pair(R.drawable.ic_rocket_launch, R.string.appops))
                 }
             }
 

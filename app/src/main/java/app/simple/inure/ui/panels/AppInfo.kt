@@ -343,7 +343,7 @@ class AppInfo : ScopedFragment() {
                             openFragmentArc(Trackers.newInstance(packageInfo), icon, Trackers.TAG)
                         }
 
-                        R.string.operations -> {
+                        R.string.appops -> {
                             openFragmentArc(Operations.newInstance(packageInfo), icon, Operations.TAG)
                         }
 

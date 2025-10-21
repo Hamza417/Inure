@@ -73,5 +73,6 @@
     <string name="sha256" translatable="false">SHA256</string>
     <string name="sha1" translatable="false">SHA1</string>
     <string name="md5" translatable="false">MD5</string>
+    <string name="appops">AppOps</string>
 
 </resources>
