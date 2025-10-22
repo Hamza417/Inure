@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.batch
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.dialogs.batch.BatchUninstaller
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
+import app.simple.inure.preferences.AppearancePreferences
+import app.simple.inure.themes.manager.ThemeManager
 
 class AdapterBatchUninstaller(private val results: ArrayList<BatchUninstaller.Companion.BatchUninstallerResult>) : RecyclerView.Adapter<AdapterBatchUninstaller.Holder>() {
 
@@ -30,11 +33,14 @@ class AdapterBatchUninstaller(private val results: ArrayList<BatchUninstaller.Co
             holder.name.text = result.packageInfo.packageName
         }
 
-        holder.result.text = when (result.isSuccessful) {
-            null -> holder.itemView.context.getString(R.string.pending)
-            true -> holder.itemView.context.getString(R.string.uninstalled)
-            false -> holder.itemView.context.getString(R.string.failed)
+        val (textRes, colorRes) = when (result.isSuccessful) {
+            null -> Pair(R.string.pending, ThemeManager.theme.textViewTheme.secondaryTextColor)
+            true -> Pair(R.string.uninstalled, AppearancePreferences.getAccentColor())
+            false -> Pair(R.string.failed, Color.RED)
         }
+
+        holder.result.text = holder.itemView.context.getString(textRes)
+        holder.result.setTextColor(colorRes)
     }
 
     override fun getItemCount(): Int {
