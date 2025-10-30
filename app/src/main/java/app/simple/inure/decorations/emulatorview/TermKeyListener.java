@@ -492,10 +492,8 @@ class TermKeyListener {
                 result = (char) (result - 'a' + '\001');
             } else if (result >= 'A' && result <= 'Z') {
                 result = (char) (result - 'A' + '\001');
-            } else if (result == '@') {
-                result = 0;  // Ctrl+@ = NULL (standard terminal control character)
-            } else if (result == ' ' || result == '2') {
-                result = 0;
+            } else if (result == ' ') {
+                result = 0;  // Ctrl+Space = NULL (NUL character)
             } else if (result == '[' || result == '3') {
                 result = 27; // ^[ (Esc)
             } else if (result == '\\' || result == '4') {
@@ -697,11 +695,8 @@ class TermKeyListener {
             }
             termSession.write(result);
         } else if (result == 0 && effectiveControl) {
-            // Allow intentional NULL characters sent via Ctrl key combinations:
-            // - Ctrl+@ (standard terminal NULL)
-            // - Ctrl+Space (alternate NULL binding)
-            // - Ctrl+2 (alternate NULL binding)
-            // These are intentional user inputs and should be sent to the terminal.
+            // Allow intentional NULL character sent via Ctrl+Space.
+            // This is an intentional user input and should be sent to the terminal.
             termSession.write(result);
         }
         // Ignore spurious NULL characters (result == 0 without control key).
