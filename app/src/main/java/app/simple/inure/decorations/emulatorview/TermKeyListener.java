@@ -492,6 +492,8 @@ class TermKeyListener {
                 result = (char) (result - 'a' + '\001');
             } else if (result >= 'A' && result <= 'Z') {
                 result = (char) (result - 'A' + '\001');
+            } else if (result == '@') {
+                result = 0;  // Ctrl+@ = NULL (standard terminal control character)
             } else if (result == ' ' || result == '2') {
                 result = 0;
             } else if (result == '[' || result == '3') {
@@ -688,12 +690,24 @@ class TermKeyListener {
         
         if (result >= KEYCODE_OFFSET) {
             handleKeyCode(result - KEYCODE_OFFSET, null, appMode);
-        } else if (result >= 0) {
+        } else if (result > 0) {
+            // Normal characters (excluding NULL)
             if (setHighBit) {
                 result |= 0x80;
             }
             termSession.write(result);
+        } else if (result == 0 && effectiveControl) {
+            // Allow intentional NULL characters sent via Ctrl key combinations:
+            // - Ctrl+@ (standard terminal NULL)
+            // - Ctrl+Space (alternate NULL binding)
+            // - Ctrl+2 (alternate NULL binding)
+            // These are intentional user inputs and should be sent to the terminal.
+            termSession.write(result);
         }
+        // Ignore spurious NULL characters (result == 0 without control key).
+        // These can come from IME events (e.g., Samsung Keyboard clipboard button
+        // sends keyCode 1102 which maps to NULL) and cause the terminal to skip
+        // or consume the next character during paste operations.
     }
     
     public int getCombiningAccent() {
