@@ -782,4 +782,6 @@
     <string name="desc_disable_animations">Disable app animations completely.</string>
     <string name="add_vote_desc">Tap the button to add your vote.</string>
     <string name="relevance">Relevance</string>
+    <string name="font_size_offset">Font Size Offset</string>
+    <string name="desc_font_size_offset">Offset app\'s font size relative to the system\'s current font size.</string>
 </resources>
