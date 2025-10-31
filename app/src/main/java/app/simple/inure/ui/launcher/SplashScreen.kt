@@ -1,28 +1,20 @@
 package app.simple.inure.ui.launcher
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AppOpsManager
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.IBinder
-import android.os.Process
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import androidx.core.app.AppOpsManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -49,6 +41,7 @@ import app.simple.inure.services.DataLoaderService
 import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.PermissionUtils.checkRequiredPermissions
 import app.simple.inure.util.StringUtils.emptyString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
@@ -170,7 +163,7 @@ class SplashScreen : ScopedFragment() {
                     startLoaderService()
                 }
 
-                !checkForPermission() -> {
+                !requireContext().checkRequiredPermissions() -> {
                     if (SetupPreferences.isDontShowAgain()) { // If setup not skipped open setup
                         startLoaderService()
                     } else {
@@ -377,24 +370,6 @@ class SplashScreen : ScopedFragment() {
                 isBootManagerLoaded &&
                 isNotesLoaded &&
                 isTagsLoaded
-    }
-
-    private fun checkForPermission(): Boolean {
-        val appOps = requireContext().getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
-        } else {
-            @Suppress("Deprecation")
-            appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), requireContext().packageName)
-        }
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            mode == AppOpsManagerCompat.MODE_ALLOWED && Environment.isExternalStorageManager()
-        } else {
-            mode == AppOpsManagerCompat.MODE_ALLOWED &&
-                    (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-        }
     }
 
     private fun unlockStateChecker() {

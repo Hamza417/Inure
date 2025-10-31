@@ -23,9 +23,9 @@ object PermissionUtils {
     fun Context.checkForUsageAccessPermission(): Boolean {
         val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            @Suppress("DEPRECATION")
             appOps.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
         } else {
-            @Suppress("Deprecation")
             appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, Process.myUid(), packageName)
         }
 
@@ -33,12 +33,11 @@ object PermissionUtils {
     }
 
     fun Context.checkStoragePermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Environment.isExternalStorageManager()
-        } else {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        }
+        return areStoragePermissionsGranted()
+    }
+
+    fun Context.checkRequiredPermissions(): Boolean {
+        return checkForUsageAccessPermission() && checkStoragePermission()
     }
 
     fun hasPermission(context: Context?, permissionName: String?): Boolean {

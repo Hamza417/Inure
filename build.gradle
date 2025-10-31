@@ -35,3 +35,7 @@ allprojects {
 tasks.register('clean', Delete) {
     delete layout.buildDirectory
 }
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
+}
