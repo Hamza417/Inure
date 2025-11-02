@@ -1,1 +1,1 @@
-An elegant multi-purpose app manager for all rooted and non-rooted devices.
+Fast, refined app manager for power users, with root and Shizuku support.
