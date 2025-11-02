@@ -335,7 +335,6 @@
     <string name="com.wirelessalien.android.bhagavadgita" translatable="false">GPL-3.0-only</string>
     <string name="eu.quelltext.gita" translatable="false">GPL-3.0-or-later</string>
     <string name="de.bernd.bikalo" translatable="false">AGPL-3.0-only</string>
-    <string name="com.me2christ.bible_feed" translatable="false">GPL-3.0-only</string>
     <string name="com.correctsyntax.biblenotify" translatable="false">GPL-3.0-only</string>
     <string name="ch.joshuah.bibleverseapp" translatable="false">GPL-3.0-only</string>
     <string name="org.bibledit.android" translatable="false">GPL-3.0-or-later</string>
@@ -4296,6 +4295,7 @@
     <string name="com.isaiahvonrundstedt.fokus" translatable="false">GPL-3.0-only</string>
     <string name="com.arijit.pomodoro" translatable="false">MIT</string>
     <string name="com.adeeteya.font_gallery" translatable="false">MIT</string>
+    <string name="com.je.fontsmanager.samsung" translatable="false">GPL-3.0-only</string>
     <string name="com.lorenzovainigli.foodexpirationdates.foss" translatable="false">MIT</string>
     <string name="moe.henry_zhr.force_dark" translatable="false">WTFPL</string>
     <string name="org.fossify.math" translatable="false">GPL-3.0-only</string>
@@ -4699,6 +4699,7 @@
     <string name="xyz.commanderred.opendtuapp" translatable="false">GPL-3.0-only</string>
     <string name="com.kennyc.open.imgur" translatable="false">Apache-2.0</string>
     <string name="com.codepup.workout_timer" translatable="false">MIT</string>
+    <string name="de.mepi0011.openinghoursmanager" translatable="false">GPL-3.0-only</string>
     <string name="com.app.openlib" translatable="false">GPL-3.0-or-later</string>
     <string name="it.piemonte.arpa.openoise" translatable="false">GPL-3.0-only</string>
     <string name="org.openorienteering.mapper" translatable="false">GPL-3.0-only</string>
@@ -4815,7 +4816,6 @@
     <string name="com.aaronjwood.portauthority.free" translatable="false">GPL-3.0-only</string>
     <string name="com.portscanner.superredstone" translatable="false">GPL-3.0-only</string>
     <string name="si.zbe.portarius" translatable="false">GPL-3.0-only</string>
-    <string name="eu.power_switch" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.krlvm.powertunnel.android" translatable="false">GPL-3.0-only</string>
     <string name="sk.henrichg.pppputsettings" translatable="false">Apache-2.0</string>
     <string name="com.jlucasgaldino.Praxis" translatable="false">GPL-3.0-only</string>
@@ -5060,6 +5060,7 @@
     <string name="com.dev.tunedetectivex" translatable="false">GPL-3.0-only</string>
     <string name="com.gohj99.telewatch" translatable="false">GPL-3.0-only</string>
     <string name="com.cappielloantonio.tempo" translatable="false">GPL-3.0-only</string>
+    <string name="com.eddyizm.degoogled.tempus" translatable="false">GPL-3.0-only</string>
     <string name="com.gardockt.termuxterminalwidget" translatable="false">GPL-3.0-only</string>
     <string name="com.afwsamples.testdpc" translatable="false">Apache-2.0</string>
     <string name="com.pyamsoft.tetherfi" translatable="false">Apache-2.0</string>
