@@ -129,8 +129,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
         }
 
-        postponeEnterTransition()
-
         return view
     }
 
@@ -141,8 +139,6 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
 
         postponeEnterTransition()
-
-        fullVersionCheck()
         loader.visible(animate = true)
 
         broadcastReceiver = object : BroadcastReceiver() {

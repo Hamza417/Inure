@@ -9,7 +9,7 @@ import app.simple.inure.decorations.overscroll.HorizontalListViewHolder
 import app.simple.inure.decorations.views.TagChip
 import app.simple.inure.themes.manager.ThemeManager
 
-class AdapterInstallerTabBar(private val titles: ArrayList<String>) : RecyclerView.Adapter<AdapterInstallerTabBar.Holder>() {
+class AdapterTabBar(private val titles: ArrayList<String>) : RecyclerView.Adapter<AdapterTabBar.Holder>() {
 
     private var callback: TabBarCallback? = null
 
@@ -44,7 +44,7 @@ class AdapterInstallerTabBar(private val titles: ArrayList<String>) : RecyclerVi
         }
     }
 
-    inner class Holder(itemView: View) : HorizontalListViewHolder(itemView) {
+    class Holder(itemView: View) : HorizontalListViewHolder(itemView) {
         val tag: TagChip = itemView.findViewById(R.id.tag_chip)
     }
 
