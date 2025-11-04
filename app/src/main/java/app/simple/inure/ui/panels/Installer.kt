@@ -52,6 +52,7 @@ import app.simple.inure.models.User
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.InstallerPreferences
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.preferences.VirusTotalPreferences
 import app.simple.inure.ui.viewers.VirusTotal
 import app.simple.inure.util.AppUtils
@@ -160,7 +161,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                             confirmationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             try {
                                 context.startActivity(confirmationIntent)
-                            } catch (ignored: Exception) {
+                            } catch (_: Exception) {
                             }
                         }
                     }
@@ -199,10 +200,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
             }
         }
 
-        installerViewModel.getPackageInfo().observe(viewLifecycleOwner) {
+        installerViewModel.getPackageInfo().observe(viewLifecycleOwner) { pInfo ->
             loader.gone()
             kotlin.runCatching {
-                packageInfo = it
+                packageInfo = pInfo
 
                 name.text = packageInfo.safeApplicationInfo.name
                 packageName.text = packageInfo.packageName
@@ -306,7 +307,15 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                 }
 
                 viewPager.adapter = AdapterInstallerInfoPanels(this, file, titles.toTypedArray(), packageInfo)
-                tabBar.initWithViewPager(viewPager, titles)
+                tabBar.initWithViewPager(viewPager, titles) { position ->
+                    if (TrialPreferences.isAppFullVersionEnabled()) {
+                        Log.i(TAG, "onViewCreated: Tab changed to position $position")
+                    } else {
+                        fullVersionCheck {
+                            tabBar.shiftToFirstTab(viewPager)
+                        }
+                    }
+                }
             }.onFailure {
                 showError(it)
             }

@@ -68,7 +68,11 @@ import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
-import com.google.android.material.transition.*
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -419,6 +423,18 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
                     requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
+            false
+        }
+    }
+
+    open fun fullVersionCheck(onClose: () -> Unit): Boolean {
+        return if (TrialPreferences.isAppFullVersionEnabled()) {
+            true
+        } else {
+            childFragmentManager.showFullVersion().setFullVersionCallbacks {
+                onClose()
+            }
+
             false
         }
     }
