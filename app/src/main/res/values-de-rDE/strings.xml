@@ -563,7 +563,6 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="failed_to_activate_full_version">Vollversion konnte nicht aktiviert werden!</string>
     <string name="full_version_already_activated">Vollversion bereits aktiviert</string>
     <string name="this_feature_is_only_available_in_full_version">Diese Funktion steht nur in der Vollversion zur Verfügung.</string>
-    <string name="show_me">Zeig\'s mir</string>
     <string name="days_trial_period_remaining">%1$d Tage im Testzeitraum.</string>
     <string name="purchase">Kaufen</string>
     <string name="recently_added">Kürzlich hinzugefügt</string>

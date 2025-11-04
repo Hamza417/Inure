@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">Tam sürüm etkinleştirilemedi!</string>
     <string name="full_version_already_activated">Tam sürüm zaten etkinleştirilmiş</string>
     <string name="this_feature_is_only_available_in_full_version">Bu özellik yalnızca tam sürümde mevcuttur.</string>
-    <string name="show_me">Görüntüle</string>
     <string name="days_trial_period_remaining">Deneme süresinin bitmesine %1$d gün kaldı.</string>
     <string name="purchase">Satın al</string>
     <string name="recently_added">Son Eklenenler</string>

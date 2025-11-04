@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">Gagal mengaktifkan versi lengkap!</string>
     <string name="full_version_already_activated">Versi lengkap sudah aktif</string>
     <string name="this_feature_is_only_available_in_full_version">Fitur ini hanya tersedia di versi lengkap.</string>
-    <string name="show_me">Tunjukkan Padaku</string>
     <string name="days_trial_period_remaining">%1$d hari tersisa di masa percobaan.</string>
     <string name="purchase">Beli</string>
     <string name="recently_added">Baru Ditambahkan</string>

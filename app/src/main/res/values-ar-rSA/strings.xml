@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">فشل في تفعيل النسخة الكاملة!</string>
     <string name="full_version_already_activated">النسخة الكاملة مفعلة بالفعل</string>
     <string name="this_feature_is_only_available_in_full_version">هذه الميزة متاحة فقط في النسخة الكاملة.</string>
-    <string name="show_me">عرض لي</string>
     <string name="days_trial_period_remaining">%1$d الأيام المتبقية في الفترة التجريبية.</string>
     <string name="purchase">عملية الشراء</string>
     <string name="recently_added">أضيف مؤخرا</string>

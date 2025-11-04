@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">无法激活完整版!</string>
     <string name="full_version_already_activated">已经激活过完整版</string>
     <string name="this_feature_is_only_available_in_full_version">此功能仅在完整版中可用.</string>
-    <string name="show_me">Show Me</string>
     <string name="days_trial_period_remaining">试用期还剩 %1$d 天.</string>
     <string name="purchase">购买</string>
     <string name="recently_added">最近添加</string>

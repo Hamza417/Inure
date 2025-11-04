@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">Không thể kích hoạt phiên bản đầy đủ!</string>
     <string name="full_version_already_activated">Phiên bản đầy đủ đã được kích hoạt</string>
     <string name="this_feature_is_only_available_in_full_version">Tính năng này chỉ có sẵn trong phiên bản đầy đủ.</string>
-    <string name="show_me">Cho tôi xem</string>
     <string name="days_trial_period_remaining">%1$d Ngày còn lại trong thời gian thử nghiệm.</string>
     <string name="purchase">Mua</string>
     <string name="recently_added">Gần đây được thêm vào</string>

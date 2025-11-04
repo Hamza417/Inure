@@ -557,7 +557,6 @@
     <string name="failed_to_activate_full_version">Failed to activate full version!</string>
     <string name="full_version_already_activated">Full version already activated</string>
     <string name="this_feature_is_only_available_in_full_version">Your 14-day trial has ended.\nUpgrade now to continue using all app features.</string>
-    <string name="show_me">Show Me</string>
     <string name="days_trial_period_remaining">%1$d days left in trial period.</string>
     <string name="purchase">Purchase</string>
     <string name="recently_added">Recently Added</string>

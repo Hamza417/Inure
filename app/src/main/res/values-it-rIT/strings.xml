@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">Impossibile attivare la versione completa!</string>
     <string name="full_version_already_activated">Versione completa già attivata</string>
     <string name="this_feature_is_only_available_in_full_version">Questa funzionalità è disponibile solo nella versione completa.</string>
-    <string name="show_me">Mostrami</string>
     <string name="days_trial_period_remaining">%1$d giorni rimasti nel periodo di prova.</string>
     <string name="purchase">Acquista</string>
     <string name="recently_added">Aggiunte di recente</string>

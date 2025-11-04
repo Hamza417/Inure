@@ -558,7 +558,6 @@
     <string name="failed_to_activate_full_version">पूर्ण संस्करण सक्रिय करने में विफल!</string>
     <string name="full_version_already_activated">पूर्ण संस्करण पहले से ही सक्रिय है</string>
     <string name="this_feature_is_only_available_in_full_version">यह सुविधा केवल पूर्ण संस्करण में उपलब्ध है।</string>
-    <string name="show_me">मुझे दिखाएं!</string>
     <string name="days_trial_period_remaining">परीक्षण अवधि में %1$d दिन शेष हैं।</string>
     <string name="purchase">खरीदें</string>
     <string name="recently_added">हाल ही में जोडा हुआ</string>
