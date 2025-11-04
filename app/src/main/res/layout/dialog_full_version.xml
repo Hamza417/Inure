@@ -27,18 +27,34 @@
             android:layout_marginTop="5dp"
             android:text="@string/one_time_purchase"
             android:textSize="@dimen/info_text_tiny"
+            app:appFontStyle="regular"
+            app:textColorStyle="tertiary" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/trial_info"
+            android:drawablePadding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dialog_padding"
+            android:padding="@dimen/button_padding"
+            android:text="@string/trial_info"
+            android:textSize="@dimen/info_text_small"
             app:appFontStyle="bold"
-            app:textColorStyle="primary" />
+            app:drawableEndCompat="@drawable/ic_arrow_right_16dp"
+            app:drawableTintStyle="accent"
+            app:textColorStyle="secondary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="@dimen/dialog_padding"
+            android:layout_marginTop="@dimen/popup_padding"
             android:animateLayoutChanges="true"
             android:orientation="horizontal">
 
-            <View
+            <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
@@ -60,11 +76,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/popup_item_gap_length"
                 android:drawablePadding="@dimen/popup_padding"
                 android:gravity="center"
                 android:padding="@dimen/dialog_padding"
-                android:text="@string/upgrade"
+                android:text="@string/purchase"
                 android:textSize="@dimen/info_text_small"
                 app:appFontStyle="bold"
                 app:drawableEndCompat="@drawable/ic_open_in_new_tiny"

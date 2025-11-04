@@ -781,6 +781,5 @@
     <string name="desc_disable_animations">Disable app animations completely.</string>
     <string name="add_vote_desc">Tap the button to add your vote.</string>
     <string name="relevance">Relevance</string>
-    <string name="upgrade">Upgrade</string>
     <string name="one_time_purchase">One-time purchase. Lifetime access.</string>
 </resources>

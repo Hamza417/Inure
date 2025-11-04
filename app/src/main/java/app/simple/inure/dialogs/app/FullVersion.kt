@@ -1,6 +1,7 @@
 package app.simple.inure.dialogs.app
 
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,20 +9,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.dialogs.app.Purchase.Companion.showPurchaseDialog
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.fragments.WarningCallbacks
+import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.ui.panels.Trial
 
 class FullVersion : ScopedBottomSheetFragment() {
 
-    private lateinit var showMe: DynamicRippleTextView
+    private lateinit var trialInfo: DynamicRippleTextView
+    private lateinit var purchase: DynamicRippleTextView
     private lateinit var close: DynamicRippleTextView
     private var warningCallbacks: WarningCallbacks? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_full_version, container, false)
 
-        showMe = view.findViewById(R.id.purchase)
+        trialInfo = view.findViewById(R.id.trial_info)
+        purchase = view.findViewById(R.id.purchase)
         close = view.findViewById(R.id.close)
 
         return view
@@ -31,9 +36,13 @@ class FullVersion : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        showMe.setOnClickListener {
+        trialInfo.setOnClickListener {
             dismiss()
-            openFragmentSlide(Trial.newInstance(), "trial")
+            openFragmentSlide(Trial.newInstance(), Trial.TAG)
+        }
+
+        purchase.setOnClickListener {
+            parentFragmentManager.showPurchaseDialog()
         }
 
         close.setOnClickListener {
@@ -52,6 +61,19 @@ class FullVersion : ScopedBottomSheetFragment() {
         super.onCancel(dialog)
         if (!requireActivity().isDestroyed) {
             warningCallbacks?.onWarningDismissed()
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        super.onSharedPreferenceChanged(sharedPreferences, key)
+        when (key) {
+            TrialPreferences.HAS_LICENSE_KEY -> {
+                if (TrialPreferences.isAppFullVersionEnabled()) {
+                    requireActivity().runOnUiThread {
+                        dismiss()
+                    }
+                }
+            }
         }
     }
 
