@@ -782,4 +782,5 @@
     <string name="desc_disable_animations">Nonaktifkan animasi aplikasi sepenuhnya.</string>
     <string name="add_vote_desc">Ketuk tombol untuk menambahkan suara Anda.</string>
     <string name="relevance">Relevansi</string>
+    <string name="one_time_purchase">Pembelian satu kali. Akses seumur hidup.</string>
 </resources>
