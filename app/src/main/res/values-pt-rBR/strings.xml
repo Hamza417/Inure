@@ -557,7 +557,7 @@
     <string name="full_version_activated">Versão Completa Ativada!</string>
     <string name="failed_to_activate_full_version">Falha ao ativar a versão completa!</string>
     <string name="full_version_already_activated">A versão completa já está ativada</string>
-    <string name="this_feature_is_only_available_in_full_version">Este recurso está disponível apenas na versão completa.</string>
+    <string name="this_feature_is_only_available_in_full_version">Seus 14 dias de testes terminaram.\nAtualize agora para continuar usando todas as funcionalidades.</string>
     <string name="days_trial_period_remaining">%1$d dias restantes no período de avaliação.</string>
     <string name="purchase">Comprar</string>
     <string name="recently_added">Adicionado Recentemente</string>
@@ -782,4 +782,5 @@
     <string name="desc_disable_animations">Desativar as animações do aplicativo completamente.</string>
     <string name="add_vote_desc">Toque o botão para adicionar o seu voto.</string>
     <string name="relevance">Relevância</string>
+    <string name="one_time_purchase">Compra única. Acesso vitalício.</string>
 </resources>
