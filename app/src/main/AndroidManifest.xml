@@ -792,6 +792,16 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
+        <service
+            android:name=".services.PermissionMonitorService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Real-time permission usage monitoring" />
+        </service>
+
         <receiver
             android:name="app.simple.inure.receivers.MediaButtonIntentReceiver"
             android:exported="true">

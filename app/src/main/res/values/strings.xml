@@ -724,6 +724,11 @@
     <string name="auto_tag_desc">Automatically create tags for apps based on the available information.</string>
     <string name="no_cache_found">No Cache Found</string>
     <string name="no_operations_found">No Operations Found</string>
+    <string name="permission_monitor">Permission Monitor</string>
+    <string name="active_now">Active Now</string>
+    <string name="never_used">Never Used</string>
+    <string name="no_permission_usage_found">No Permission Usage Found</string>
+    <string name="duration">Duration</string>
     <string name="keyword_database">Keyword Database</string>
     <string name="backup">Backup</string>
     <string name="allowed">Allowed</string>

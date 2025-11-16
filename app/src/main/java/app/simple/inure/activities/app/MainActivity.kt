@@ -51,6 +51,7 @@ import app.simple.inure.ui.panels.Search
 import app.simple.inure.ui.panels.Statistics
 import app.simple.inure.ui.panels.Tags
 import app.simple.inure.ui.panels.Uninstalled
+import app.simple.inure.ui.panels.UsageMonitor
 import app.simple.inure.ui.subpanels.TaggedApps
 import app.simple.inure.ui.viewers.AudioPlayer
 import app.simple.inure.util.ActivityUtils.getTopFragment
@@ -232,6 +233,11 @@ class MainActivity : BaseActivity() {
             ShortcutConstants.BATCH_EXTRACT_ACTION -> {
                 openHome(isNewIntent)
                 supportFragmentManager.showBatchExtract()
+            }
+
+            ShortcutConstants.USAGE_MONITOR_ACTION -> {
+                openHome(isNewIntent)
+                openFragment(UsageMonitor.newInstance(), UsageMonitor.TAG)
             }
 
             else -> {

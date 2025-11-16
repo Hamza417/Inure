@@ -20,6 +20,7 @@ object ShortcutConstants {
     const val DEBLOAT_ACTION = "open_debloat"
     const val TAGGED_APPS_ACTION = "open_tagged_apps"
     const val BATCH_EXTRACT_ACTION = "batch_extraction"
+    const val USAGE_MONITOR_ACTION = "open_usage_monitor"
 
     const val ANALYTICS_ID = "sc_analytics"
     const val APPS_ID = "sc_apps"
@@ -39,6 +40,7 @@ object ShortcutConstants {
     const val FOSS_ID = "sc_foss"
     const val TAGGED_APPS_ID = "sc_tagged_apps"
     const val DEBLOAT_ID = "sc_debloat"
+    const val USAGE_MONITOR_ID = "sc_usage_monitor"
 
     const val TAGGED_APPS_EXTRA = "tag"
 }

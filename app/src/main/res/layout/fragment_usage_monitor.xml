@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/panel_padding_horizontal">
+
+    <app.simple.inure.decorations.padding.PaddingAwareLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:background="@android:color/white"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/header_padding"
+        android:translationZ="1dp">
+
+        <app.simple.inure.decorations.theme.ThemeIcon
+            android:id="@+id/imageView_monitor"
+            android:layout_width="@dimen/header_icon_size"
+            android:layout_height="@dimen/header_icon_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_visibility"
+            android:transitionName="@string/permission_monitor"
+            app:tintType="accent"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:id="@+id/usage_monitor_title"
+            android:layout_width="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical">
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:text="@string/permission_monitor"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textSize="@dimen/info_text_large"
+                app:appFontStyle="bold"
+                app:textColorStyle="accent" />
+
+            <app.simple.inure.decorations.typeface.TypeFaceTextView
+                android:id="@+id/usage_monitor_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:textSize="@dimen/info_text_tiny"
+                app:appFontStyle="regular"
+                app:textColorStyle="secondary" />
+
+        </LinearLayout>
+
+        <app.simple.inure.decorations.views.CustomProgressBar
+            android:id="@+id/usage_monitor_progress_bar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/panel_icon_size"
+            android:layout_height="@dimen/panel_icon_size"
+            android:layout_gravity="center_vertical"
+            android:indeterminateTint="?attr/colorAppAccent"
+            android:padding="10dp" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/usage_monitor_option_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="5dp"
+            android:src="@drawable/ic_more_vert"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+            android:id="@+id/usage_monitor_search_btn"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_search"
+            app:buttonTintType="accent" />
+
+        <app.simple.inure.decorations.corners.DynamicCornerEditText
+            android:id="@+id/usage_monitor_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:elevation="@dimen/dialog_elevation"
+            android:maxLines="1"
+            android:hint="@string/search"
+            android:paddingHorizontal="@dimen/header_padding"
+            android:textCursorDrawable="@drawable/text_cursor"
+            android:visibility="gone"
+            app:appFontStyle="regular"
+            app:textColorStyle="secondary" />
+
+    </app.simple.inure.decorations.padding.PaddingAwareLinearLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:translationZ="1dp"
+        android:layout_height="1px" />
+
+    <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+        android:id="@+id/usage_monitor_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layoutAnimation="@anim/list_animation_controller"
+        app:isFastScrollRequired="true"
+        app:statusBarPaddingRequired="false" />
+
+</app.simple.inure.decorations.theme.ThemeLinearLayout>

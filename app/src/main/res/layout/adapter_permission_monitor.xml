@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_permission_monitor_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/popup_padding"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="@dimen/dialog_padding">
+
+    <app.simple.inure.decorations.views.AppIconImageView
+        android:id="@+id/adapter_permission_monitor_icon"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_launcher" />
+
+    <View
+        android:id="@+id/adapter_permission_monitor_active_indicator"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/ic_circle"
+        android:backgroundTint="?attr/colorAppAccent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toTopOf="@+id/adapter_permission_monitor_icon" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_permission_monitor_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/info_text_medium"
+        app:appFontStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorStyle="primary"
+        tools:text="Application Name" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_permission_monitor_package"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_permission_monitor_name"
+        app:textColorStyle="tertiary"
+        tools:text="com.example.app" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_permission_monitor_permission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/info_text_small"
+        app:appFontStyle="medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_permission_monitor_package"
+        app:textColorStyle="accent"
+        tools:text="Camera" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_permission_monitor_permission_desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_permission_monitor_permission"
+        app:textColorStyle="secondary"
+        tools:text="Allows app to take pictures and record videos" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/adapter_permission_monitor_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adapter_permission_monitor_icon"
+        app:layout_constraintTop_toBottomOf="@+id/adapter_permission_monitor_permission_desc"
+        app:textColorStyle="tertiary"
+        tools:text="Last used: 5 minutes ago" />
+
+</app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout>
