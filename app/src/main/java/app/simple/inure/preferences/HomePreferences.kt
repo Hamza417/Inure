@@ -9,6 +9,7 @@ object HomePreferences {
 
     const val IS_TERMINAL_VISIBLE = "is_terminal_visible"
     const val IS_USAGE_STATISTICS_VISIBLE = "is_usage_statistics_visible"
+    const val IS_USAGE_MONITOR_VISIBLE = "is_usage_monitor_visible"
     const val IS_ANALYTICS_VISIBLE = "is_analytics_visible"
     const val IS_MOST_USED_VISIBLE = "is_most_used_visible"
     const val IS_UNINSTALLED_VISIBLE = "is_uninstalled_visible"

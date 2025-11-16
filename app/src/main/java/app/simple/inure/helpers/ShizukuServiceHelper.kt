@@ -55,24 +55,30 @@ class ShizukuServiceHelper private constructor() {
             return
         }
 
-        if (isSupported()) {
-            val runnable = onBound?.let { Runnable { it.invoke() } }
-            runCatching {
-                runnable?.let {
-                    onServiceConnectedListeners.add(it)
-                }
-
-                Shizuku.bindUserService(userServiceArgs, userServiceConnection)
-            }.onFailure { throwable ->
-                runnable?.let {
-                    onServiceConnectedListeners.remove(it)
-                }
-
-                throwable.printStackTrace()
-                throw throwable
-            }
-        } else {
+        if (!isSupported()) {
             throw RuntimeException("Current Shizuku version is not supported: ${Shizuku.getVersion()}")
+        }
+
+        // Check if we have Shizuku permission
+        if (Shizuku.checkSelfPermission() != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, "Shizuku permission not granted. Permission status: ${Shizuku.checkSelfPermission()}")
+            throw SecurityException("Shizuku permission not granted. Please grant permission in Shizuku app.")
+        }
+
+        val runnable = onBound?.let { Runnable { it.invoke() } }
+        runCatching {
+            runnable?.let {
+                onServiceConnectedListeners.add(it)
+            }
+
+            Shizuku.bindUserService(userServiceArgs, userServiceConnection)
+        }.onFailure { throwable ->
+            runnable?.let {
+                onServiceConnectedListeners.remove(it)
+            }
+
+            throwable.printStackTrace()
+            throw throwable
         }
     }
 

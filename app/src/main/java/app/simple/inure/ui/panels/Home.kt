@@ -115,6 +115,11 @@ class Home : ScopedFragment() {
                         R.string.usage_statistics -> {
                             openFragmentArc(Statistics.newInstance(), icon, Statistics.TAG)
                         }
+
+                        R.string.live_permission_usage -> {
+                            openFragmentArc(UsageMonitor.newInstance(), icon, UsageMonitor.TAG)
+                        }
+
                         R.string.batch -> {
                             openFragmentArc(Batch.newInstance(), icon, Batch.TAG)
                         }

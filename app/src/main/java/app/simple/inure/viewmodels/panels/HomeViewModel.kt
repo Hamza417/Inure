@@ -259,6 +259,10 @@ class HomeViewModel(application: Application) :
                 list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                list.add(Pair(R.drawable.ic_visibility, R.string.live_permission_usage))
+            }
+
             list.add(Pair(0, 0)) // Divider
 
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
