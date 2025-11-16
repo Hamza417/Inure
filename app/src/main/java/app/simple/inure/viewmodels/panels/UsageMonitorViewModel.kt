@@ -1,44 +1,37 @@
 package app.simple.inure.viewmodels.panels
 
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
+import app.simple.inure.models.PermissionMonitorRepository
 import app.simple.inure.models.PermissionUsage
 import app.simple.inure.services.PermissionMonitorService
 
 /**
  * ViewModel for real-time permission monitoring
- * Receives live updates from PermissionMonitorService via broadcasts
+ * Observes live updates from PermissionMonitorService via LiveData repository
  */
 class UsageMonitorViewModel(application: Application) : WrappedViewModel(application) {
 
-    private val permissionUsageData: MutableLiveData<ArrayList<PermissionUsage>> = MutableLiveData(arrayListOf())
-    private val isServiceRunning: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val permissionUsageData: MediatorLiveData<ArrayList<PermissionUsage>> = MediatorLiveData()
+    private val isServiceRunning: LiveData<Boolean> = PermissionMonitorRepository.isMonitoring
 
     private var currentKeyword: String = ""
 
-    private val broadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                PermissionMonitorService.BROADCAST_ACTIVE_OPS -> {
-                    handleActiveOpsUpdate(intent)
-                }
-                PermissionMonitorService.BROADCAST_OP_CHANGED -> {
-                    handleOpChanged(intent)
-                }
-            }
-        }
-    }
-
     init {
-        registerBroadcastReceiver()
+        Log.d(TAG, "=== LOGGING VERSION 2025-11-17-B INITIALIZED ===")
+        // Observe repository LiveData and apply filtering
+        permissionUsageData.addSource(PermissionMonitorRepository.activePermissions) { activeOps ->
+            Log.d(TAG, "Received ${activeOps.size} active operations from repository")
+            val filtered = filterPermissionUsage(activeOps, currentKeyword)
+            permissionUsageData.value = filtered
+            Log.d(TAG, "Filtered to ${filtered.size} operations")
+        }
     }
 
     fun getPermissionUsageData(): LiveData<ArrayList<PermissionUsage>> {
@@ -51,8 +44,11 @@ class UsageMonitorViewModel(application: Application) : WrappedViewModel(applica
 
     fun loadPermissionUsageData(keyword: String = "") {
         currentKeyword = keyword
-        // Request update from service
-        requestServiceUpdate()
+        // Reapply filter with new keyword
+        PermissionMonitorRepository.activePermissions.value?.let { activeOps ->
+            val filtered = filterPermissionUsage(activeOps, currentKeyword)
+            permissionUsageData.value = filtered
+        }
     }
 
     fun startMonitoring() {
@@ -67,11 +63,10 @@ class UsageMonitorViewModel(application: Application) : WrappedViewModel(applica
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                getApplication<Application>().startForegroundService(intent)
+                getApplication().startForegroundService(intent)
             } else {
-                getApplication<Application>().startService(intent)
+                getApplication().startService(intent)
             }
-            isServiceRunning.postValue(true)
             Log.d(TAG, "Monitoring service started")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start monitoring service", e)
@@ -85,50 +80,11 @@ class UsageMonitorViewModel(application: Application) : WrappedViewModel(applica
         }
 
         try {
-            getApplication<Application>().startService(intent)
-            isServiceRunning.postValue(false)
-            permissionUsageData.postValue(arrayListOf())
+            getApplication().startService(intent)
             Log.d(TAG, "Monitoring service stopped")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to stop monitoring service", e)
         }
-    }
-
-    private fun requestServiceUpdate() {
-        // Service will broadcast current state automatically
-        // If service is not running, start it
-        if (isServiceRunning.value != true) {
-            startMonitoring()
-        }
-    }
-
-    private fun handleActiveOpsUpdate(intent: Intent) {
-        val activeOps = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableArrayListExtra(
-                PermissionMonitorService.EXTRA_ACTIVE_OPS,
-                PermissionUsage::class.java
-            )
-        } else {
-            @Suppress("DEPRECATION")
-            intent.getParcelableArrayListExtra(PermissionMonitorService.EXTRA_ACTIVE_OPS)
-        }
-
-        activeOps?.let {
-            val filtered = filterPermissionUsage(it, currentKeyword)
-            permissionUsageData.postValue(filtered)
-            Log.d(TAG, "Received ${it.size} active operations, filtered to ${filtered.size}")
-        }
-    }
-
-    private fun handleOpChanged(intent: Intent) {
-        val opCode = intent.getIntExtra(PermissionMonitorService.EXTRA_OP_CODE, -1)
-        val packageName = intent.getStringExtra(PermissionMonitorService.EXTRA_PACKAGE_NAME)
-        val active = intent.getBooleanExtra(PermissionMonitorService.EXTRA_ACTIVE, false)
-
-        Log.d(TAG, "Op changed: $opCode - Package: $packageName - Active: $active")
-
-        // Request full update
-        requestServiceUpdate()
     }
 
     private fun filterPermissionUsage(
@@ -141,9 +97,9 @@ class UsageMonitorViewModel(application: Application) : WrappedViewModel(applica
         val lowercaseKeyword = keyword.lowercase()
 
         for (usage in usageList) {
-            val appName = usage.packageInfo.applicationInfo.loadLabel(
-                getApplication<Application>().packageManager
-            ).toString()
+            val appName = usage.packageInfo.applicationInfo?.loadLabel(
+                getApplication().packageManager
+            )?.toString() ?: usage.packageInfo.packageName
             val packageName = usage.packageInfo.packageName
             val permission = usage.permission.lowercase()
 
@@ -156,40 +112,6 @@ class UsageMonitorViewModel(application: Application) : WrappedViewModel(applica
         }
 
         return filtered
-    }
-
-    private fun registerBroadcastReceiver() {
-        val filter = IntentFilter().apply {
-            addAction(PermissionMonitorService.BROADCAST_ACTIVE_OPS)
-            addAction(PermissionMonitorService.BROADCAST_OP_CHANGED)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getApplication<Application>().registerReceiver(
-                broadcastReceiver,
-                filter,
-                Context.RECEIVER_NOT_EXPORTED
-            )
-        } else {
-            getApplication<Application>().registerReceiver(broadcastReceiver, filter)
-        }
-
-        Log.d(TAG, "Broadcast receiver registered")
-    }
-
-    private fun unregisterBroadcastReceiver() {
-        try {
-            getApplication<Application>().unregisterReceiver(broadcastReceiver)
-            Log.d(TAG, "Broadcast receiver unregistered")
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to unregister broadcast receiver", e)
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        unregisterBroadcastReceiver()
-        // Don't stop the service here - let the fragment handle that
     }
 
     companion object {

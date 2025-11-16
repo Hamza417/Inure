@@ -1,6 +1,5 @@
 package app.simple.inure.services
 
-import android.app.AppOpsManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,30 +9,37 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
+import android.os.RemoteException
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import app.simple.inure.IAppOpsActiveCallback
+import app.simple.inure.IUserService
 import app.simple.inure.R
 import app.simple.inure.activities.app.MainActivity
+import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOpsMonitor
 import app.simple.inure.models.PermissionUsage
+import app.simple.inure.models.PermissionMonitorRepository
 import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Background service for real-time AppOps monitoring
- * Uses AppOpsManager.OnOpActiveChangedListener for live callbacks
+ * Uses Shizuku UserService with system privileges to monitor AppOps
  */
 class PermissionMonitorService : Service() {
 
-    private var appOpsManager: AppOpsManager? = null
+    private var shizukuServiceHelper: ShizukuServiceHelper? = null
+    private var userService: IUserService? = null
     private val activeOpsMap = ConcurrentHashMap<String, MutableSet<Int>>() // packageName -> Set<opCode>
-    private val listeners = mutableListOf<AppOpsManager.OnOpActiveChangedListener>()
+    private var appOpsCallback: IAppOpsActiveCallback? = null
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "Service created")
+        Log.d(TAG, "=== SERVICE LOGGING VERSION 2025-11-17-B CREATED ===")
 
-        appOpsManager = getSystemService(AppOpsManager::class.java)
+        // Update repository monitoring status
+        PermissionMonitorRepository.setMonitoring(true)
 
         // Create notification channel
         createNotificationChannel()
@@ -42,9 +48,27 @@ class PermissionMonitorService : Service() {
         val notification = createNotification()
         startForeground(NOTIFICATION_ID, notification)
 
-        // Register listeners for all monitored operations
+        // Bind to Shizuku service and register listeners
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            registerOpListeners()
+            bindShizukuService()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun bindShizukuService() {
+        try {
+            shizukuServiceHelper = ShizukuServiceHelper.getInstance()
+            shizukuServiceHelper?.bindUserService {
+                userService = shizukuServiceHelper?.service
+                if (userService != null) {
+                    Log.d(TAG, "Shizuku service bound successfully")
+                    registerOpListeners()
+                } else {
+                    Log.e(TAG, "Failed to get Shizuku user service")
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to bind Shizuku service", e)
         }
     }
 
@@ -54,8 +78,8 @@ class PermissionMonitorService : Service() {
         intent?.let {
             when (it.action) {
                 ACTION_START_MONITORING -> {
-                    // Already started in onCreate
-                    broadcastActiveOps()
+                    // Update repository with current state
+                    updateRepository()
                 }
                 ACTION_STOP_MONITORING -> {
                     stopSelf()
@@ -74,9 +98,20 @@ class PermissionMonitorService : Service() {
         super.onDestroy()
         Log.d(TAG, "Service destroyed")
 
+        // Update repository monitoring status
+        PermissionMonitorRepository.setMonitoring(false)
+        PermissionMonitorRepository.clear()
+
         // Unregister all listeners
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             unregisterOpListeners()
+        }
+
+        // Unbind Shizuku service
+        try {
+            shizukuServiceHelper?.unbindUserService()
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to unbind Shizuku service", e)
         }
 
         // Clear data
@@ -86,74 +121,78 @@ class PermissionMonitorService : Service() {
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun registerOpListeners() {
         val opsToWatch = AppOpsMonitor.getAllMonitoredOps()
-        Log.d(TAG, "Registering listeners for ${opsToWatch.size} operations")
+        Log.d(TAG, "Registering listeners for ${opsToWatch.size} operations via Shizuku")
 
-        for (op in opsToWatch) {
-            try {
-                val listener = createListenerForOp(op)
-                appOpsManager?.startWatchingActive(intArrayOf(op), { /* executor */ }, listener)
-                listeners.add(listener)
-                Log.d(TAG, "Registered listener for op: ${AppOpsMonitor.opToName(op)} ($op)")
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to register listener for op $op", e)
+        try {
+            // Create the AIDL callback stub
+            appOpsCallback = object : IAppOpsActiveCallback.Stub() {
+                override fun onOpActiveChanged(op: Int, uid: Int, packageName: String?, attributionTag: String?, active: Boolean) {
+                    packageName?.let {
+                        handleOpActiveChanged(op, uid, it, active)
+                    }
+                }
             }
+
+            // Call the Shizuku service to start watching (opsToWatch is already IntArray)
+            userService?.startWatchingActive(opsToWatch, appOpsCallback)
+            Log.d(TAG, "Successfully registered ${opsToWatch.size} listeners via Shizuku")
+        } catch (e: RemoteException) {
+            Log.e(TAG, "Failed to register AppOps listeners via Shizuku", e)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unexpected error registering listeners", e)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun unregisterOpListeners() {
-        Log.d(TAG, "Unregistering ${listeners.size} listeners")
+        Log.d(TAG, "Unregistering listeners via Shizuku")
 
-        for (listener in listeners) {
-            try {
-                appOpsManager?.stopWatchingActive(listener)
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to unregister listener", e)
+        try {
+            appOpsCallback?.let { callback ->
+                userService?.stopWatchingActive(callback)
+                appOpsCallback = null
+                Log.d(TAG, "Successfully unregistered listeners")
             }
-        }
-
-        listeners.clear()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    private fun createListenerForOp(opCode: Int): AppOpsManager.OnOpActiveChangedListener {
-        return AppOpsManager.OnOpActiveChangedListener { op, uid, packageName, active ->
-            handleOpActiveChanged(op, uid, packageName, active)
+        } catch (e: RemoteException) {
+            Log.e(TAG, "Failed to unregister listeners via Shizuku", e)
+        } catch (e: Exception) {
+            Log.e(TAG, "Unexpected error unregistering listeners", e)
         }
     }
 
     private fun handleOpActiveChanged(op: Int, uid: Int, packageName: String, active: Boolean) {
-        val opName = AppOpsMonitor.opToName(op)
-        Log.d(TAG, "Op changed: $opName ($op) - Package: $packageName - Active: $active")
+        try {
+            val opName = AppOpsMonitor.opToName(op)
+            val permissionId = AppOpsMonitor.opToPermission(op)
+            Log.d(TAG, "Op changed: $opName ($op) - Package: $packageName - Active: $active")
 
-        synchronized(activeOpsMap) {
-            if (active) {
-                activeOpsMap.getOrPut(packageName) { mutableSetOf() }.add(op)
-            } else {
-                activeOpsMap[packageName]?.remove(op)
-                if (activeOpsMap[packageName]?.isEmpty() == true) {
-                    activeOpsMap.remove(packageName)
-                }
+            // Add or update the permission in the log
+            try {
+                val packageInfo = packageManager.getPackageInfo(packageName, 0)
+                val usage = PermissionUsage(
+                    packageInfo = packageInfo,
+                    permission = opName,
+                    permissionId = permissionId,
+                    isEnabled = true,
+                    lastAccessTime = System.currentTimeMillis(),
+                    duration = null,
+                    rejectTime = null,
+                    isActive = active
+                )
+
+                // Add to repository log (bubbles to top when active)
+                PermissionMonitorRepository.addOrUpdatePermission(usage)
+                Log.d(TAG, "Added/Updated permission log for $packageName:$permissionId, active=$active")
+
+            } catch (e: PackageManager.NameNotFoundException) {
+                Log.w(TAG, "Package not found: $packageName")
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error in handleOpActiveChanged", e)
         }
-
-        // Broadcast the change
-        broadcastOpChange(op, uid, packageName, active)
-        broadcastActiveOps()
     }
 
-    private fun broadcastOpChange(op: Int, uid: Int, packageName: String, active: Boolean) {
-        val intent = Intent(BROADCAST_OP_CHANGED).apply {
-            putExtra(EXTRA_OP_CODE, op)
-            putExtra(EXTRA_UID, uid)
-            putExtra(EXTRA_PACKAGE_NAME, packageName)
-            putExtra(EXTRA_ACTIVE, active)
-            putExtra(EXTRA_TIMESTAMP, System.currentTimeMillis())
-        }
-        sendBroadcast(intent)
-    }
-
-    private fun broadcastActiveOps() {
+    private fun updateRepository() {
         val activeList = ArrayList<PermissionUsage>()
 
         synchronized(activeOpsMap) {
@@ -180,10 +219,8 @@ class PermissionMonitorService : Service() {
             }
         }
 
-        val intent = Intent(BROADCAST_ACTIVE_OPS).apply {
-            putParcelableArrayListExtra(EXTRA_ACTIVE_OPS, activeList)
-        }
-        sendBroadcast(intent)
+        Log.d(TAG, "Updating repository with ${activeList.size} items")
+        PermissionMonitorRepository.updateActivePermissions(activeList)
     }
 
     private fun createNotificationChannel() {

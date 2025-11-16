@@ -53,7 +53,7 @@
                 app:textColorStyle="accent" />
 
             <app.simple.inure.decorations.typeface.TypeFaceTextView
-                android:id="@+id/usage_monitor_count"
+                android:id="@+id/count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -61,6 +61,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:textSize="@dimen/info_text_tiny"
+                android:visibility="gone"
                 app:appFontStyle="regular"
                 app:textColorStyle="secondary" />
 

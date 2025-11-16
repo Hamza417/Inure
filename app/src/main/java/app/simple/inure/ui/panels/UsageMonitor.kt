@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.view.doOnPreDraw
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
@@ -44,7 +45,7 @@ class UsageMonitor : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        startPostponedEnterTransition()
+        postponeEnterTransition()
         fullVersionCheck()
         searchBoxState(false, UsageMonitorPreferences.isSearchVisible())
 
@@ -64,6 +65,10 @@ class UsageMonitor : SearchBarScopedFragment() {
             })
 
             recyclerView.adapter = adapterPermissionMonitor
+
+            (view.parent as? ViewGroup)?.doOnPreDraw {
+                startPostponedEnterTransition()
+            }
 
             if (permissionUsages.isEmpty()) {
                 showWarning(R.string.no_permission_usage_found)
@@ -99,8 +104,10 @@ class UsageMonitor : SearchBarScopedFragment() {
 
     override fun onResume() {
         super.onResume()
-        // Start live monitoring when panel is visible
-        usageMonitorViewModel.startMonitoring()
+        // Start live monitoring when panel is visible (if not already running)
+        if (usageMonitorViewModel.getIsServiceRunning().value != true) {
+            usageMonitorViewModel.startMonitoring()
+        }
     }
 
     override fun onPause() {
@@ -111,8 +118,8 @@ class UsageMonitor : SearchBarScopedFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Stop monitoring service when fragment is destroyed
-        usageMonitorViewModel.stopMonitoring()
+        // Don't stop the service here - let it run as a foreground service
+        // User can stop it manually via the options menu or it will stop when app is fully closed
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

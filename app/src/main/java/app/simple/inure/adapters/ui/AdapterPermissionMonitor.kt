@@ -40,7 +40,9 @@ class AdapterPermissionMonitor(
         holder.name.text = usage.packageInfo.safeApplicationInfo.name
         holder.packageName.text = usage.packageInfo.packageName
         holder.permission.text = usage.permission.sanitize()
-        holder.permissionDescription.text = holder.itemView.context.getPermissionDescription(usage.permissionId)
+        holder.permissionDescription.text = usage.permissionId?.let {
+            holder.itemView.context.getPermissionDescription(it)
+        } ?: ""
 
         // Show time information
         holder.timeInfo.text = buildString {
