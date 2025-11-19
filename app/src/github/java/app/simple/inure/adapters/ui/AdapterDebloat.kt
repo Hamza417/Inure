@@ -28,8 +28,8 @@ import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.IntentHelper.asUri
 import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
-import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.TextViewUtils.makeLinksClickable
+import app.simple.inure.utils.DebloatUtils.setBloatFlags
 
 class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: Boolean = true, private val keyword: String = "") : RecyclerView.Adapter<VerticalListViewHolder>() {
 
@@ -173,7 +173,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
         }
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.app_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageName: TypeFaceTextView = itemView.findViewById(R.id.package_id)
@@ -183,7 +183,7 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
         val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.container)
     }
 
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+    class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_apps)
         val totalSelected: TypeFaceTextView = itemView.findViewById(R.id.adapter_total_selected)
         val uadSubtitle: TypeFaceTextView = itemView.findViewById(R.id.uad_subtitle)
@@ -209,65 +209,6 @@ class AdapterDebloat(private val bloats: ArrayList<Bloat>, private val header: B
     fun setLoading(isLoading: Boolean) {
         this.isLoading = isLoading
         notifyItemChanged(0)
-    }
-
-    private fun TypeFaceTextView.setBloatFlags(bloat: Bloat) {
-        text = buildString {
-            // State
-            if (bloat.packageInfo.isInstalled()) {
-                if (bloat.packageInfo.safeApplicationInfo.enabled) {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
-                } else {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.disabled))
-                }
-            } else {
-                appendFlag(this@setBloatFlags.context.getString(R.string.uninstalled))
-            }
-
-            // List
-            when (bloat.list.lowercase()) {
-                "aosp" -> {
-                    appendFlag(context.getString(R.string.aosp))
-                }
-                "carrier" -> {
-                    appendFlag(context.getString(R.string.carrier))
-                }
-                "google" -> {
-                    appendFlag(context.getString(R.string.google))
-                }
-                "misc" -> {
-                    appendFlag(context.getString(R.string.miscellaneous))
-                }
-                "oem" -> {
-                    appendFlag(context.getString(R.string.oem))
-                }
-                "pending" -> {
-                    appendFlag(context.getString(R.string.pending))
-                }
-                "unlisted" -> {
-                    appendFlag(context.getString(R.string.unlisted))
-                }
-            }
-
-            // Removal
-            when (bloat.removal.method) {
-                Removal.ADVANCED.method -> {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.advanced))
-                }
-                Removal.EXPERT.method -> {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.expert))
-                }
-                Removal.RECOMMENDED.method -> {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.recommended))
-                }
-                Removal.UNLISTED.method -> {
-                    appendFlag(context.getString(R.string.unlisted))
-                }
-                Removal.UNSAFE.method -> {
-                    appendFlag(this@setBloatFlags.context.getString(R.string.unsafe))
-                }
-            }
-        }
     }
 
     private fun Bloat.shouldHighlightBloat(): Boolean {

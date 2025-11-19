@@ -33,6 +33,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.TrackerUtils
+import app.simple.inure.utils.DebloatUtils.isPackageBloat
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -296,6 +297,13 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
         }
 
         add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+
+        if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor() || AppUtils.isDebug()) {
+            if (packageInfo.isPackageBloat()) {
+                add(Pair(R.drawable.ic_recycling, R.string.debloat))
+            }
+        }
+
         add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
     }
 
@@ -332,6 +340,13 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
         }
 
         add(Pair(R.drawable.ic_broom, R.string.clear_cache))
+
+        if (AppUtils.isGithubFlavor() || AppUtils.isBetaFlavor() || AppUtils.isDebug()) {
+            if (packageInfo.isPackageBloat()) {
+                add(Pair(R.drawable.ic_recycling, R.string.debloat))
+            }
+        }
+
         add(Pair(R.drawable.ic_double_arrow, R.string.open_in_settings))
     }
 
@@ -372,7 +387,7 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
             kotlin.runCatching {
                 val packageInfo: PackageInfo = try {
                     packageManager.getPackageInfo(packageInfo.packageName, PACKAGE_DATA_FLAGS)
-                } catch (e: NameNotFoundException) {
+                } catch (_: NameNotFoundException) {
                     packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir, PACKAGE_DATA_FLAGS)!!
                 }
 

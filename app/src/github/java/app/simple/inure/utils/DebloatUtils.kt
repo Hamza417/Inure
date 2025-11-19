@@ -1,8 +1,13 @@
 package app.simple.inure.utils
 
 import android.content.pm.PackageInfo
+import app.simple.inure.R
+import app.simple.inure.apk.utils.PackageUtils.isInstalled
+import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
+import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.enums.Removal
 import app.simple.inure.models.Bloat
+import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -69,7 +74,71 @@ object DebloatUtils {
         initBloatAppsSet(getDebloatList())
     }
 
+    fun PackageInfo.getBloatInfo(): Bloat? {
+        val bloats = getDebloatList()
+        return bloats.find { it.id == packageName }
+    }
+
     fun PackageInfo.isPackageBloat(): Boolean {
         return bloatApps.contains(packageName)
+    }
+
+    fun TypeFaceTextView.setBloatFlags(bloat: Bloat) {
+        text = buildString {
+            // State
+            if (bloat.packageInfo.isInstalled()) {
+                if (bloat.packageInfo.safeApplicationInfo.enabled) {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.enabled))
+                } else {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.disabled))
+                }
+            } else {
+                appendFlag(this@setBloatFlags.context.getString(R.string.uninstalled))
+            }
+
+            // List
+            when (bloat.list.lowercase()) {
+                "aosp" -> {
+                    appendFlag(context.getString(R.string.aosp))
+                }
+                "carrier" -> {
+                    appendFlag(context.getString(R.string.carrier))
+                }
+                "google" -> {
+                    appendFlag(context.getString(R.string.google))
+                }
+                "misc" -> {
+                    appendFlag(context.getString(R.string.miscellaneous))
+                }
+                "oem" -> {
+                    appendFlag(context.getString(R.string.oem))
+                }
+                "pending" -> {
+                    appendFlag(context.getString(R.string.pending))
+                }
+                "unlisted" -> {
+                    appendFlag(context.getString(R.string.unlisted))
+                }
+            }
+
+            // Removal
+            when (bloat.removal.method) {
+                Removal.ADVANCED.method -> {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.advanced))
+                }
+                Removal.EXPERT.method -> {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.expert))
+                }
+                Removal.RECOMMENDED.method -> {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.recommended))
+                }
+                Removal.UNLISTED.method -> {
+                    appendFlag(context.getString(R.string.unlisted))
+                }
+                Removal.UNSAFE.method -> {
+                    appendFlag(this@setBloatFlags.context.getString(R.string.unsafe))
+                }
+            }
+        }
     }
 }

@@ -52,6 +52,8 @@ import app.simple.inure.dialogs.appinfo.FdroidStores.Companion.showFdroidStores
 import app.simple.inure.dialogs.appinfo.SearchBox.Companion.showSearchBox
 import app.simple.inure.dialogs.configuration.VirusTotalAPI
 import app.simple.inure.dialogs.configuration.VirusTotalAPI.Companion.showVirusTotalAPI
+import app.simple.inure.dialogs.debloat.DebloatInformation
+import app.simple.inure.dialogs.debloat.DebloatInformation.Companion.showDebloatInfoDialog
 import app.simple.inure.dialogs.miscellaneous.StoragePermission
 import app.simple.inure.dialogs.miscellaneous.StoragePermission.Companion.showStoragePermissionDialog
 import app.simple.inure.dialogs.tags.AddTag.Companion.showAddTagDialog
@@ -488,6 +490,30 @@ class AppInfo : ScopedFragment() {
                                     childFragmentManager.showState(packageInfo).onSuccess = {
                                         appInfoViewModel.loadActionOptions()
                                     }
+                                }
+                            })
+                        }
+
+                        R.string.debloat -> {
+                            childFragmentManager.showDebloatInfoDialog(packageInfo).setDebloatInfoListener(object : DebloatInformation.Companion.DebloatInfoListener {
+                                override fun onUninstallRequested() {
+                                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                        override fun onSure() {
+                                            childFragmentManager.uninstallPackage(packageInfo) {
+                                                popBackStack()
+                                            }
+                                        }
+                                    })
+                                }
+
+                                override fun onDisableRequested() {
+                                    childFragmentManager.newSureInstance().setOnSureCallbackListener(object : SureCallbacks {
+                                        override fun onSure() {
+                                            childFragmentManager.showState(packageInfo).onSuccess = {
+                                                appInfoViewModel.loadActionOptions()
+                                            }
+                                        }
+                                    })
                                 }
                             })
                         }
