@@ -16,6 +16,7 @@ Here are some guidelines to help you get started with contributing to Inure.:
 
 ## Guidelines
 
+- First and foremost, open an issue to discuss your proposed changes before starting work on them.
 - Ensure your code is well-documented and follows the existing style.
 - Make sure you understand Inure's architecture and design principles before making significant
   changes.
