@@ -522,7 +522,7 @@
     <string name="com.capyreader.app" translatable="false">MIT</string>
     <string name="com.theksmith.android.car_bus_interface" translatable="false">MIT</string>
     <string name="com.dfzlv.gjjlt.caramelos" translatable="false">MIT</string>
-    <string name="net.canvoki.carburoid" translatable="false">AGPL-3.0-only</string>
+    <string name="net.canvoki.carburoid" translatable="false">AGPL-3.0-or-later</string>
     <string name="org.systemcall.scores" translatable="false">GPL-3.0-or-later</string>
     <string name="de.ccc.events.badge.card10" translatable="false">MIT</string>
     <string name="com.georgeyt9769.cardabase" translatable="false">MIT</string>
@@ -596,6 +596,7 @@
     <string name="net.retiolus.cigalo" translatable="false">AGPL-3.0-only</string>
     <string name="cat.jordihernandez.cinecat" translatable="false">GPL-3.0-only</string>
     <string name="com.ulicae.cinelog" translatable="false">GPL-3.0-only</string>
+    <string name="com.ciphernotes.twa" translatable="false">AGPL-3.0-only</string>
     <string name="com.mookie.circo" translatable="false">Apache-2.0</string>
     <string name="org.secuso.privacyfriendlycircuittraining" translatable="false">GPL-3.0-or-later</string>
     <string name="org.woheller69.omweather" translatable="false">GPL-3.0-only</string>
