@@ -114,10 +114,12 @@ class SharedPrefsCode : FinderScopedFragment() {
                 childFragmentManager.showLargeStringDialog(it.length) {
                     postDelayed {
                         text.setText(it)
+                        search.visible(animate = true)
                     }
                 }
             } else {
                 text.setText(it)
+                search.visible(animate = true)
             }
 
             progress.gone()
