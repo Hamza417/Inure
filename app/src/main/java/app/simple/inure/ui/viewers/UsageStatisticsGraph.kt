@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
-import app.simple.inure.adapters.analytics.AdapterPieLegend
 import app.simple.inure.adapters.analytics.AdapterLegendBar
+import app.simple.inure.adapters.analytics.AdapterPieLegend
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeBarChart
@@ -148,7 +148,7 @@ class UsageStatisticsGraph : ScopedFragment() {
 
             launchCount.setTextWithSlideAnimation(getString(R.string.times, it.launchCount), 250L, ViewUtils.LEFT, 50L)
 
-            with(System.currentTimeMillis() - it.appUsage!![0].date) {
+            with(System.currentTimeMillis() - it.lastUsageTime) {
                 lastUsed.apply {
                     this.setTextWithSlideAnimation(
                             when {

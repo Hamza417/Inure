@@ -62,7 +62,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
                 }
             }
         } else if (holder is Header) {
-            with(System.currentTimeMillis() - packageStats.appUsage!![0].date) {
+            with(System.currentTimeMillis() - packageStats.lastUsageTime) {
                 holder.lastUsed.apply {
                     this.text = when {
                         TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
@@ -134,7 +134,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
         } else RecyclerViewUtils.TYPE_ITEM
     }
 
-    inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
+    class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val screenTime: TypeFaceTextView = itemView.findViewById(R.id.screen_time)
         val launchCount: TypeFaceTextView = itemView.findViewById(R.id.launch_count)
         val lastUsed: TypeFaceTextView = itemView.findViewById(R.id.last_used)
@@ -142,7 +142,7 @@ class AdapterAppUsageStats(private val packageStats: PackageStats) : RecyclerVie
         val wifiData: TypeFaceTextView = itemView.findViewById(R.id.wifi_data)
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val date: TypeFaceTextView = itemView.findViewById(R.id.date)
         val time: TypeFaceTextView = itemView.findViewById(R.id.time)
     }
