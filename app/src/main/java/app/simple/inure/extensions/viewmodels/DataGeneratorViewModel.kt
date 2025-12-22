@@ -16,7 +16,7 @@ import app.simple.inure.util.ColorUtils.toHexColor
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileSizeHelper.getDirectorySize
 import app.simple.inure.util.FileSizeHelper.toSize
-import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.FlagUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -549,7 +549,7 @@ open class DataGeneratorViewModel(application: Application) : PackageUtilsViewMo
     }
 
     private fun PackageInfo.getSize(): String {
-        val appSize = safeApplicationInfo.sourceDir.toFile().length()
+        val appSize = safeApplicationInfo.sourceDir.toFileOrNull()?.length() ?: 0L
         val splitSourceDirs = safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L
 
         return (appSize + splitSourceDirs).toSize()
