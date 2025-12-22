@@ -43,14 +43,16 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
-                if (dataLoaderService!!.hasDataLoaded()) {
-                    apps = dataLoaderService!!.getInstalledApps()
-                    uninstalledApps = dataLoaderService!!.getUninstalledApps()
+                val loader = dataLoaderService ?: return
+
+                if (loader.hasDataLoaded()) {
+                    apps = loader.getInstalledApps()
+                    uninstalledApps = loader.getUninstalledApps()
 
                     onAppsLoaded(apps)
                     onUninstalledAppsLoaded(uninstalledApps)
                 } else {
-                    dataLoaderService!!.startLoading()
+                    loader.startLoading()
                 }
             }
 
@@ -62,33 +64,35 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         @Suppress("UNCHECKED_CAST")
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                try {
-                    when (intent?.action) {
-                        DataLoaderService.APPS_LOADED -> {
-                            apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-                            uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                val loader = dataLoaderService
+                if (loader == null) {
+                    Log.w("PackageUtilsViewModel", "DataLoaderService is null; ignoring broadcast ${intent?.action}")
+                    return
+                }
 
-                            onAppsLoaded(apps)
-                            onUninstalledAppsLoaded(uninstalledApps)
-                        }
+                when (intent?.action) {
+                    DataLoaderService.APPS_LOADED -> {
+                        apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
+                        uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
 
-                        DataLoaderService.UNINSTALLED_APPS_LOADED -> {
-                            uninstalledApps = dataLoaderService!!.getUninstalledApps().clone() as ArrayList<PackageInfo>
-                            onUninstalledAppsLoaded(uninstalledApps)
-                        }
-
-                        DataLoaderService.INSTALLED_APPS_LOADED -> {
-                            apps = dataLoaderService!!.getInstalledApps().clone() as ArrayList<PackageInfo>
-                            onAppsLoaded(apps)
-                        }
-
-                        DataLoaderService.RELOAD_APPS -> {
-                            Log.d("DataLoaderService", "Reloading apps")
-                            dataLoaderService!!.refresh()
-                        }
+                        onAppsLoaded(apps)
+                        onUninstalledAppsLoaded(uninstalledApps)
                     }
-                } catch (e: NullPointerException) {
-                    e.printStackTrace()
+
+                    DataLoaderService.UNINSTALLED_APPS_LOADED -> {
+                        uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                        onUninstalledAppsLoaded(uninstalledApps)
+                    }
+
+                    DataLoaderService.INSTALLED_APPS_LOADED -> {
+                        apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
+                        onAppsLoaded(apps)
+                    }
+
+                    DataLoaderService.RELOAD_APPS -> {
+                        Log.d("DataLoaderService", "Reloading apps")
+                        loader.refresh()
+                    }
                 }
             }
         }
@@ -99,11 +103,11 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
-        return dataLoaderService!!.getInstalledApps()
+        return dataLoaderService?.getInstalledApps() ?: arrayListOf()
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
-        return dataLoaderService!!.getUninstalledApps()
+        return dataLoaderService?.getUninstalledApps() ?: arrayListOf()
     }
 
     fun getCompleteApps(): List<PackageInfo> {
@@ -111,15 +115,15 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun refreshPackageData() {
-        dataLoaderService!!.refresh()
+        dataLoaderService?.refresh()
     }
 
     fun refreshUninstalledPackageData() {
-        dataLoaderService!!.refreshUninstalled()
+        dataLoaderService?.refreshUninstalled()
     }
 
     fun refreshInstalledPackageData() {
-        dataLoaderService!!.refreshInstalled()
+        dataLoaderService?.refreshInstalled()
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {

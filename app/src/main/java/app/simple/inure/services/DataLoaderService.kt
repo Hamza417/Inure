@@ -54,7 +54,7 @@ class DataLoaderService : Service() {
     private var broadcastReceiver: BroadcastReceiver? = null
     private var intentFilter: IntentFilter = IntentFilter()
     private val launcherAppsService: LauncherApps by lazy {
-        getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
+        getSystemService(LAUNCHER_APPS_SERVICE) as LauncherApps
     }
 
     private var launcherAppsCallback: LauncherApps.Callback? = null
@@ -238,10 +238,18 @@ class DataLoaderService : Service() {
                 .toArrayList()
         } catch (e: DeadObjectException) {
             uninstalledApps = arrayListOf()
-            e.printStackTrace()
+            Log.w(TAG, "loadUninstalledApps: PackageManager binder died (DeadObjectException)", e)
+        } catch (e: DeadSystemException) {
+            // System server is restarting / device is shutting down.
+            uninstalledApps = arrayListOf()
+            Log.w(TAG, "loadUninstalledApps: System died (DeadSystemException)", e)
         } catch (e: BadParcelableException) {
             uninstalledApps = arrayListOf()
-            e.printStackTrace()
+            Log.w(TAG, "loadUninstalledApps: BadParcelableException", e)
+        } catch (e: RuntimeException) {
+            // Defensive: some OEMs wrap binder/system-death failures in RuntimeException.
+            uninstalledApps = arrayListOf()
+            Log.w(TAG, "loadUninstalledApps: RuntimeException while querying PackageManager", e)
         }
     }
 
