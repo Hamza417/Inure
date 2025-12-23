@@ -450,7 +450,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         } catch (e: UninitializedPropertyAccessException) {
             e.printStackTrace()
             launch.gone(animate = false)
-            showWarning(e.message ?: "Err: 0x000788")
+            showWarning(e.message ?: "Unidentified error occurred")
         } catch (e: IllegalStateException) {
             Log.e(TAG, "checkLaunchStatus: " + e.message)
         }
