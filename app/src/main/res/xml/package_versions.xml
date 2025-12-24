@@ -627,6 +627,7 @@
     <string name="douzifly.list" translatable="false">GPL-3.0-only</string>
     <string name="com.amnesica.clearclipboard" translatable="false">GPL-3.0-only</string>
     <string name="de.qspool.clementineremote" translatable="false">GPL-3.0-only</string>
+    <string name="tribixbite.cleverkeys" translatable="false">GPL-3.0-only</string>
     <string name="com.clicc" translatable="false">MIT</string>
     <string name="co.prestosole.clima" translatable="false">MPL-2.0</string>
     <string name="de.ub0r.android.clipboardbeam" translatable="false">GPL-3.0-only</string>
@@ -865,6 +866,7 @@
     <string name="com.kidozh.discuzhub.fdroid" translatable="false">MIT</string>
     <string name="com.google.android.diskusage" translatable="false">GPL-2.0-or-later</string>
     <string name="de.felixnuesse.disky" translatable="false">GPL-3.0-only</string>
+    <string name="eu.frigo.dispensa" translatable="false">MIT</string>
     <string name="io.github.ulysseszh.displaytoggle" translatable="false">MIT</string>
     <string name="org.disroot.disrootapp" translatable="false">LGPL-3.0-only</string>
     <string name="com.nunosempere.distributioncalculator" translatable="false">MIT</string>
@@ -2329,6 +2331,7 @@
     <string name="org.jmoyer.NotificationPlus" translatable="false">GPL-3.0-only</string>
     <string name="de.jl.notificationlog" translatable="false">GPL-3.0-or-later</string>
     <string name="org.surrel.facebooknotifications" translatable="false">MIT</string>
+    <string name="co.adityarajput.notifilter" translatable="false">GPL-3.0-only</string>
     <string name="apps.droidnotify" translatable="false">GPL-3.0-only</string>
     <string name="com.noto" translatable="false">Apache-2.0</string>
     <string name="ca.rmen.nounours" translatable="false">GPL-3.0-only</string>
@@ -2461,6 +2464,7 @@
     <string name="com.libopenmw.openmw" translatable="false">GPL-3.0-only</string>
     <string name="net.phbwt.paperwork" translatable="false">GPL-3.0-or-later</string>
     <string name="com.example.openpass" translatable="false">BSD-2-Clause</string>
+    <string name="io.github.micw.openphotoframe" translatable="false">GPL-3.0-only</string>
     <string name="com.dosse.airpods" translatable="false">GPL-3.0-only</string>
     <string name="software.mdev.bookstracker" translatable="false">GPL-2.0-only</string>
     <string name="jp.redmine.redmineclient" translatable="false">GPL-2.0-or-later</string>
@@ -2539,7 +2543,6 @@
     <string name="com.chaser.paintballnotificator" translatable="false">GPL-3.0-only</string>
     <string name="rak.pixellwp" translatable="false">GPL-3.0-only</string>
     <string name="app.panoramax" translatable="false">AGPL-3.0-only</string>
-    <string name="eu.frigo.dispensa" translatable="false">MIT</string>
     <string name="com.kn.paper_foss_theme" translatable="false">CC-BY-SA-4.0</string>
     <string name="com.anthonyla.paperize" translatable="false">GPL-3.0-only</string>
     <string name="de.devmil.paperlaunch" translatable="false">Apache-2.0</string>
@@ -4942,6 +4945,7 @@
     <string name="com.zell_mbc.publicartexplorer.foss" translatable="false">AGPL-3.0-only</string>
     <string name="partisan.weforge.xyz.pulse" translatable="false">GPL-3.0-only</string>
     <string name="com.catpuppyapp.puppygit.play.pro" translatable="false">GPL-3.0-only</string>
+    <string name="com.ahmedsamy.purelink" translatable="false">MIT</string>
     <string name="com.viktorholk.apipushnotifications" translatable="false">MIT</string>
     <string name="com.zem.pwswatcher" translatable="false">MIT</string>
     <string name="com.hassaneltantawy.qadaa" translatable="false">GPL-3.0-only</string>
