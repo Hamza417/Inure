@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">Cửa sổ mới</string>
     <string name="close_window">Đóng cửa sổ</string>
@@ -35,7 +20,6 @@
     <string name="window_title">Cửa sổ %1$d</string>
     <string name="service_notify_text">Phiên cuối đang chạy</string>
     <string name="process_exit_message">Phiên cuối cùng kết thúc</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">Màn hình</string>
     <string name="title_cursorblink_preference">Con trỏ chớp mắt</string>
     <string name="summary_cursorblink_preference">Blink con trỏ định kỳ trong các cửa sổ đầu cuối.</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Duyệt qua các cửa sổ\nCtrl-Shift-N: Cửa sổ mới\nCtrl-Shift-V: Dán.</string>
     <string name="help">Giúp đỡ</string>
     <string name="activity_term_here_title">Thuật ngữ ở đây</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Thời hạn phím tắt</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Yêu cầu</string>
     <string name="addshortcut_button_find_command">Tìm lệnh</string>
     <string name="addshortcut_navigator_title">Chọn mục tiêu phím tắt</string>
     <string name="addshortcut_command_window_instructions">Cửa sổ lệnh yêu cầu đường dẫn đầy đủ, không có đối số. Đối với các lệnh khác, hãy sử dụng cửa sổ Đối số (ví dụ: CD /SDCARD).</string>
     <string name="addshortcut_arguments_label">Lập luận</string>
     <string name="addshortcut_shortcut_label">Nhãn phím tắt</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">KHÓA</string>
     <string name="colorvalue_icon_text_entry_hint">Nhập văn bản biểu tượng</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
