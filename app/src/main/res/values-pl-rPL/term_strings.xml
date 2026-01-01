@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
 <resources>
     <string name="new_window">Nowe okno</string>
     <string name="close_window">Zamknij okno</string>
@@ -7,121 +22,96 @@
     <string name="next_window">Następne okno</string>
     <string name="special_keys">Klawisze specjalne</string>
     <string name="toggle_soft_keyboard">Przełącz klawiaturę ekranową</string>
-
     <string name="reset_toast_notification">Stan terminala w tym oknie został zresetowany.</string>
-
     <string name="enable_wakelock">Włącz WakeLock</string>
     <string name="disable_wakelock">Wyłącz WakeLock</string>
     <string name="enable_wifilock">Włącz WifiLock</string>
     <string name="disable_wifilock">Wyłącz WifiLock</string>
-
     <string name="select_text">Wybierz tekst</string>
     <string name="copy_all">Kopiuj wszystko</string>
     <string name="paste">Wklej</string>
     <string name="send_control_key">Wyślij klawisz Control</string>
     <string name="send_fn_key">Wyślij klawisz Fn</string>
-
     <string name="window_title">Okno %1$d</string>
-
     <string name="service_notify_text">Sesja terminala jest aktywna</string>
-
     <string name="process_exit_message">Sesja terminala zakończona</string>
-
+    <!-- Preference dialog -->
     <string name="screen_preferences">Ekran</string>
-
     <string name="title_cursorblink_preference">Miganie kursora</string>
     <string name="summary_cursorblink_preference">Okresowe miganie kursora w oknach terminala.</string>
-
     <string name="text_preferences">Tekst</string>
-
     <string name="title_utf8_by_default_preference">Domyślnie UTF-8</string>
     <string name="summary_utf8_by_default_preference">Czy tryb UTF-8 ma być domyślnie włączony.</string>
-
     <string name="title_fontsize_preference">Rozmiar czcionki</string>
     <string name="summary_fontsize_preference">Wybierz wysokość znaków w punktach.</string>
     <string name="dialog_title_fontsize_preference">Rozmiar czcionki</string>
-
     <string name="title_color_preference">Kolory</string>
     <string name="summary_color_preference">Wybierz kolor tekstu.</string>
     <string name="dialog_title_color_preference">Kolor tekstu</string>
-
     <string name="keyboard_preferences">Klawiatura</string>
-
     <string name="title_backaction_preference">Zachowanie przycisku Wstecz</string>
     <string name="summary_backaction_preference">Wybierz działanie przycisku Wstecz.</string>
-
     <string name="title_controlkey_preference">Klawisz Control</string>
     <string name="summary_controlkey_preference">Wybierz klawisz Control.</string>
-
     <string name="title_fnkey_preference">Klawisz Fn</string>
     <string name="summary_fnkey_preference">Wybierz klawisz Fn.</string>
-
     <string name="title_ime_preference">Metoda wprowadzania</string>
     <string name="summary_ime_preference">Wybierz metodę wprowadzania dla klawiatury ekranowej.</string>
-
     <string name="title_shell_preference">Wiersz poleceń</string>
     <string name="summary_shell_preference">Określ wiersz poleceń powłoki.</string>
-
     <string name="title_initialcommand_preference">Polecenie początkowe</string>
     <string name="summary_initialcommand_preference">Wysyłane do powłoki przy jej uruchomieniu.</string>
-
     <string name="title_termtype_preference">Typ terminala</string>
     <string name="summary_termtype_preference">Typ terminala zgłaszany powłoce.</string>
-
     <string name="title_close_window_on_process_exit_preference">Zamykanie okna przy wyjściu</string>
     <string name="summary_close_window_on_process_exit_preference">Czy okno ma być zamykane po zakończeniu powłoki.</string>
-
     <string name="title_verify_path_preference">Weryfikuj wpisy PATH</string>
     <string name="summary_verify_path_preference">Czy niedostępne katalogi powinny być usuwane z PATH.</string>
-
     <string name="title_do_path_extensions_preference">Zezwalaj na rozszerzenia PATH</string>
     <string name="summary_do_path_extensions_preference">Czy inne aplikacje mogą dostarczać dodatkowe polecenia (dodawać do PATH).</string>
-
     <string name="title_allow_prepend_path_preference">Zezwalaj na nadpisywanie PATH</string>
     <string name="summary_allow_prepend_path_preference">Czy inne aplikacje mogą nadpisywać istniejące polecenia (dodawać na początku PATH).</string>
-
     <string name="title_home_path_preference">Katalog HOME</string>
     <string name="summary_home_path_preference">Ścieżka do zapisywalnego katalogu używanego jako HOME.</string>
-
     <string name="control_key_dialog_title">Klawisze Control i Funkcyjne</string>
     <string name="control_key_dialog_control_disabled_text">Nie ustawiono klawisza Control.</string>
-
     <string name="control_key_dialog_fn_disabled_text">Nie ustawiono klawisza Funkcyjnego.</string>
-
     <string name="confirm_window_close_message">Zamknąć to okno?</string>
-
     <string name="perm_run_script">Uruchamianie dowolnych poleceń w emulatorze terminala</string>
     <string name="permdesc_run_script">Pozwala aplikacji na otwieranie nowych okien w emulatorze terminala i uruchamianie w nich poleceń z pełnymi uprawnieniami emulatora, w tym z dostępem do Internetu i karty SD.</string>
     <string name="perm_append_to_path">Dodawanie poleceń do emulatora terminala</string>
     <string name="permdesc_append_to_path">Pozwala aplikacji na dostarczanie dodatkowych poleceń (dodawanie katalogów do PATH) dla emulatora terminala.</string>
     <string name="perm_prepend_to_path">Nadpisywanie poleceń w emulatorze terminala</string>
     <string name="permdesc_prepend_to_path">Pozwala aplikacji na nadpisywanie istniejących poleceń własnymi wersjami (dodawanie katalogów na początku PATH) w emulatorze terminala.</string>
-
     <string name="email_transcript_chooser_title">Wyślij zapis sesji przy użyciu:</string>
     <string name="email_transcript_no_email_activity_found">Nie można wybrać aplikacji pocztowej do wysłania zapisu.</string>
-
     <string name="alt_sends_esc">Klawisz Alt wysyła ESC</string>
-
     <string name="title_mouse_tracking_preference">Wysyłaj zdarzenia myszy</string>
     <string name="summary_mouse_tracking_preference">Czy zdarzenia dotknięcia i przewijania mają być wysyłane do terminala jako sekwencje ucieczki (escape).</string>
-
     <string name="title_use_rish">Użyj RISH</string>
     <string name="summary_use_rish">Czy używać Shizuku RISH (Remote Interactive Shell Host).\n\nWymagany dostęp Shizuku.</string>
-
     <string name="title_use_keyboard_shortcuts">Użyj skrótów klawiaturowych</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Przełączanie okien\nCtrl-Shift-N: Nowe okno\nCtrl-Shift-V: Wklej.</string>
-
     <string name="help">Pomoc</string>
     <string name="activity_term_here_title">Terminal tutaj</string>
+    <!-- BEGIN SHORTCUT RELATED STRINGS -->
+    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Skrót terminala</string>
-
+    <!-- FSNavigator.java
+    <string name="fsnavigator_title">FILE SELECTOR</string>
+    <string name="fsnavigator_no_external_storage">External storage not available</string>
+    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
+    <string name="fsnavigator_change_theme">Change theme</string>
+    -->
+    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Polecenie</string>
     <string name="addshortcut_button_find_command">Znajdź polecenie</string>
     <string name="addshortcut_navigator_title">WYBIERZ CEL SKRÓTU</string>
     <string name="addshortcut_command_window_instructions">Okno polecenia wymaga pełnej ścieżki bez argumentów. Dla innych poleceń użyj okna Argumenty (np. cd /sdcard).</string>
     <string name="addshortcut_arguments_label">Argumenty</string>
     <string name="addshortcut_shortcut_label">Etykieta skrótu</string>
-
+    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">BLOKADA</string>
     <string name="colorvalue_icon_text_entry_hint">Wpisz tekst ikony</string>
+    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
