@@ -81,6 +81,10 @@ object LocaleUtils {
             Locales("Tiếng Việt (Vietnamese)", "vi-VN"),
             // Indonesian
             Locales("Bahasa Indonesia (Indonesian)", "id-ID"),
+            // Japanese
+            Locales("日本語 (Japanese)", "ja-JP"),
+            // Polish
+            Locales("Polski (Polish)", "pl-PL"),
     )
 
     fun getAppLocale(): Locale {
