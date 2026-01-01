@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">新窗口</string>
     <string name="close_window">关闭窗口</string>
@@ -35,7 +20,6 @@
     <string name="window_title">窗口 %1$d</string>
     <string name="service_notify_text">终端会话运行中....</string>
     <string name="process_exit_message">终端会话结束</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">屏幕</string>
     <string name="title_cursorblink_preference">光标闪烁</string>
     <string name="summary_cursorblink_preference">在终端窗口中定期闪烁光标.</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: 循环浏览窗口\nCtrl-Shift-N: 新窗口\nCtrl-Shift-V: 粘贴.</string>
     <string name="help">帮助</string>
     <string name="activity_term_here_title">在此打开终端</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">终端快捷方式</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">命令</string>
     <string name="addshortcut_button_find_command">查找命令</string>
     <string name="addshortcut_navigator_title">选择快捷方式目标</string>
     <string name="addshortcut_command_window_instructions">命令行窗口需要完整路径，不能仅仅为参数。对于其他命令，请使用参数窗口（例如：cd /sdcard）.</string>
     <string name="addshortcut_arguments_label">参数</string>
     <string name="addshortcut_shortcut_label">Shortcut标签</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">锁定</string>
     <string name="colorvalue_icon_text_entry_hint">输入图标文本</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
