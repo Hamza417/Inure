@@ -7,121 +7,84 @@
     <string name="next_window">次のウィンドウ</string>
     <string name="special_keys">特殊キー</string>
     <string name="toggle_soft_keyboard">キーボードの切り替え</string>
-
     <string name="reset_toast_notification">このウィンドウの端末状態がリセットされました。</string>
-
     <string name="enable_wakelock">WakeLockを取得</string>
     <string name="disable_wakelock">WakeLockを解除</string>
     <string name="enable_wifilock">WifiLockを取得</string>
     <string name="disable_wifilock">WifiLockを解除</string>
-
     <string name="select_text">テキストを選択</string>
     <string name="copy_all">すべてコピー</string>
     <string name="paste">貼り付け</string>
     <string name="send_control_key">Controlキーを送信</string>
     <string name="send_fn_key">Fnキーを送信</string>
-
     <string name="window_title">ウィンドウ %1$d</string>
-
     <string name="service_notify_text">ターミナルセッションを実行中</string>
-
     <string name="process_exit_message">ターミナルセッションが終了しました</string>
-
     <string name="screen_preferences">画面</string>
-
     <string name="title_cursorblink_preference">カーソルの点滅</string>
     <string name="summary_cursorblink_preference">ターミナルウィンドウ内でカーソルを定期的に点滅させます。</string>
-
     <string name="text_preferences">テキスト</string>
-
     <string name="title_utf8_by_default_preference">デフォルトでUTF-8を使用</string>
     <string name="summary_utf8_by_default_preference">UTF-8モードをデフォルトで有効にするかどうか。</string>
-
     <string name="title_fontsize_preference">フォントサイズ</string>
     <string name="summary_fontsize_preference">文字の高さをポイント単位で選択します。</string>
     <string name="dialog_title_fontsize_preference">フォントサイズ</string>
-
     <string name="title_color_preference">色</string>
     <string name="summary_color_preference">テキストの色を選択します。</string>
     <string name="dialog_title_color_preference">テキストの色</string>
-
     <string name="keyboard_preferences">キーボード</string>
-
     <string name="title_backaction_preference">戻るボタンの動作</string>
     <string name="summary_backaction_preference">戻るボタンを押したときの動作を選択します。</string>
-
     <string name="title_controlkey_preference">Controlキー</string>
     <string name="summary_controlkey_preference">Controlキーを選択します。</string>
-
     <string name="title_fnkey_preference">Fnキー</string>
     <string name="summary_fnkey_preference">Fnキーを選択します。</string>
-
     <string name="title_ime_preference">入力方法</string>
     <string name="summary_ime_preference">ソフトウェアキーボードの入力方法を選択します。</string>
-
     <string name="title_shell_preference">コマンドライン</string>
     <string name="summary_shell_preference">シェルのコマンドラインを指定します。</string>
-
     <string name="title_initialcommand_preference">初期コマンド</string>
     <string name="summary_initialcommand_preference">シェル起動時に送信されるコマンドです。</string>
-
     <string name="title_termtype_preference">ターミナルタイプ</string>
     <string name="summary_termtype_preference">シェルに報告するターミナルタイプです。</string>
-
     <string name="title_close_window_on_process_exit_preference">終了時にウィンドウを閉じる</string>
     <string name="summary_close_window_on_process_exit_preference">シェル終了時にウィンドウを閉じるかどうか。</string>
-
     <string name="title_verify_path_preference">PATHエントリを検証</string>
     <string name="summary_verify_path_preference">アクセスできないディレクトリをPATHから削除するかどうか。</string>
-
     <string name="title_do_path_extensions_preference">PATH拡張を許可</string>
     <string name="summary_do_path_extensions_preference">他のアプリが追加のコマンドを提供（PATHに追加）することを許可するかどうか。</string>
-
     <string name="title_allow_prepend_path_preference">PATH先頭への追加を許可</string>
     <string name="summary_allow_prepend_path_preference">他のアプリが既存のコマンドを上書き（PATHの先頭に追加）することを許可するかどうか。</string>
-
     <string name="title_home_path_preference">HOMEフォルダ</string>
     <string name="summary_home_path_preference">HOMEとして使用する書き込み可能なフォルダへのパス。</string>
-
     <string name="control_key_dialog_title">ControlキーとFunctionキー</string>
     <string name="control_key_dialog_control_disabled_text">Controlキーが設定されていません。</string>
-
     <string name="control_key_dialog_fn_disabled_text">Functionキーが設定されていません。</string>
-
     <string name="confirm_window_close_message">このウィンドウを閉じますか？</string>
-
     <string name="perm_run_script">端末エミュレータで任意のコマンドを実行</string>
     <string name="permdesc_run_script">アプリが端末エミュレータで新しいウィンドウを開き、インターネットやSDカードへのアクセスを含む端末エミュレータの全権限を使用して、そのウィンドウ内でコマンドを実行することを許可します。</string>
     <string name="perm_append_to_path">端末エミュレータへのコマンド追加</string>
     <string name="permdesc_append_to_path">アプリが端末エミュレータに対して追加のコマンドを提供する（PATHにディレクトリを追加する）ことを許可します。</string>
     <string name="perm_prepend_to_path">端末エミュレータのコマンド上書き</string>
     <string name="permdesc_prepend_to_path">アプリが端末エミュレータ内の既存のコマンドを独自のバージョンで上書きする（PATHの先頭にディレクトリを追加する）ことを許可します。</string>
-
     <string name="email_transcript_chooser_title">トランスクリプトの送信方法:</string>
     <string name="email_transcript_no_email_activity_found">トランスクリプトを送信できるメールアプリが見つかりませんでした。</string>
-
     <string name="alt_sends_esc">AltキーでESCを送信</string>
-
     <string name="title_mouse_tracking_preference">マウスイベントを送信</string>
     <string name="summary_mouse_tracking_preference">タップやスクロールのイベントをエスケープシーケンスとしてターミナルに送信するかどうか。</string>
-
     <string name="title_use_rish">RISHを使用する</string>
     <string name="summary_use_rish">Shizuku RISH (Remote Interactive Shell Host) を使用するかどうか。\n\nShizukuのアクセス権限が必要です。</string>
-
     <string name="title_use_keyboard_shortcuts">キーボードショートカットを使用</string>
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: ウィンドウの切り替え\nCtrl-Shift-N: 新しいウィンドウ\nCtrl-Shift-V: 貼り付け</string>
-
     <string name="help">ヘルプ</string>
     <string name="activity_term_here_title">ここで端末を開く</string>
     <string name="activity_shortcut_create">端末ショートカット</string>
-
     <string name="addshortcut_command_hint">コマンド</string>
     <string name="addshortcut_button_find_command">コマンドを検索</string>
     <string name="addshortcut_navigator_title">ショートカットのターゲットを選択</string>
     <string name="addshortcut_command_window_instructions">コマンドウィンドウには引数なしのフルパスが必要です。その他のコマンドについては引数ウィンドウを使用してください（例: cd /sdcard）。</string>
     <string name="addshortcut_arguments_label">引数</string>
     <string name="addshortcut_shortcut_label">ショートカットのラベル</string>
-
     <string name="colorvalue_label_lock_button_column">ロック</string>
     <string name="colorvalue_icon_text_entry_hint">アイコンのテキストを入力</string>
 </resources>
