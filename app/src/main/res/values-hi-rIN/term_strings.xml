@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">नई विंडो</string>
     <string name="close_window">विंडो बंद करें</string>
@@ -35,7 +20,6 @@
     <string name="window_title">विंडो %1$d</string>
     <string name="service_notify_text">टर्मिनल सत्र चल रहा है</string>
     <string name="process_exit_message">टर्मिनल सत्र समाप्त हुआ</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">स्क्रीन</string>
     <string name="title_cursorblink_preference">कर्सर ब्लिंक</string>
     <string name="summary_cursorblink_preference">टर्मिनल विंडो में कर्सर को समय-समय पर झपकाते रहें।</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-टैब: विंडोज़ के माध्यम से चक्र\nCtrl-Shift-N: नई विंडो\nCtrl-Shift-V: चिपकाएँ</string>
     <string name="help">सहायता</string>
     <string name="activity_term_here_title">यहाँ टर्म</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">टर्म शॉर्टकट</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">आदेश</string>
     <string name="addshortcut_button_find_command">आदेश खोजें</string>
     <string name="addshortcut_navigator_title">शॉर्टकट प्रकार चुनें</string>
     <string name="addshortcut_command_window_instructions">कमांड विंडो को पूर्ण पथ की आवश्यकता है, कोई तर्क नहीं। अन्य कमांड के लिए आर्गुमेंट विंडो (उदा: cd/sdcard) का उपयोग करें।</string>
     <string name="addshortcut_arguments_label">आर्ग्युमेन्ट्स</string>
     <string name="addshortcut_shortcut_label">शॉर्टकट लेबल</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">लॉक</string>
     <string name="colorvalue_icon_text_entry_hint">आइकन टेक्स्ट दर्ज करें</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
