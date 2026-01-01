@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">نافذة جديده</string>
     <string name="close_window">إغلاق النافذة</string>
@@ -35,7 +20,6 @@
     <string name="window_title">نافذة %1$d</string>
     <string name="service_notify_text">Terminal الجلسة قيد التشغيل</string>
     <string name="process_exit_message">Terminal انتهت الجلسة</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">شاشة</string>
     <string name="title_cursorblink_preference">وميض المؤشر</string>
     <string name="summary_cursorblink_preference">وميض المؤشر بشكل دوري في النوافذ الطرفية.</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: التنقل عبر النوافذ\nCtrl-Shift-N: نافذة جديدة\nCtrl-Shift-V: لصق.</string>
     <string name="help">(مساعدة)</string>
     <string name="activity_term_here_title">أداة/البرنامج المستخدم هنا</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">اختصار الأداة</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">أمر</string>
     <string name="addshortcut_button_find_command">أمر البحث</string>
     <string name="addshortcut_navigator_title">حدد هدف الاختصار</string>
     <string name="addshortcut_command_window_instructions">تتطلب نافذة الأوامر مسارا كاملا ، بدون وسيطات. بالنسبة للأوامر الأخرى ، استخدم نافذة الوسيطات (على سبيل المثال: cd / sdcard).</string>
     <string name="addshortcut_arguments_label">الوسائط/المعاملات هنا</string>
     <string name="addshortcut_shortcut_label">تسمية الاختصار</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">قفل</string>
     <string name="colorvalue_icon_text_entry_hint">أدخل نص الرمز</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
