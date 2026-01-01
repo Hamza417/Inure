@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">Nova janela</string>
     <string name="close_window">Fechar janela</string>
@@ -35,7 +20,6 @@
     <string name="window_title">Janela %1$d</string>
     <string name="service_notify_text">Sessão terminal em execução</string>
     <string name="process_exit_message">Sessão de terminal concluída</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">Tela</string>
     <string name="title_cursorblink_preference">Piscar o cursor</string>
     <string name="summary_cursorblink_preference">Piscar cursor periodicamente em janelas terminais.</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Ctrl-Tab: Ciclo através de janelas\nCtrl-Shift-N: Nova janela\nCtrl-Shift-V: Colar.</string>
     <string name="help">Ajuda</string>
     <string name="activity_term_here_title">Termo Aqui</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Atalho de termo</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Comando</string>
     <string name="addshortcut_button_find_command">Encontrar comando</string>
     <string name="addshortcut_navigator_title">SELECIONAR TIPO DE ATALHO</string>
     <string name="addshortcut_command_window_instructions">A janela de comando requer caminho completo, sem argumentos. Para outros comandos, use a janela de argumentos (ex: cd /sdcard).</string>
     <string name="addshortcut_arguments_label">Argumentos</string>
     <string name="addshortcut_shortcut_label">Rótulo do atalho</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">BLOQUEAR</string>
     <string name="colorvalue_icon_text_entry_hint">Inserir texto do ícone</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>

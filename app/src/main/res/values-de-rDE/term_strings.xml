@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
--->
 <resources>
     <string name="new_window">Neues Fenster</string>
     <string name="close_window">Fenster schließen</string>
@@ -35,7 +20,6 @@
     <string name="window_title">Fenster %1$d</string>
     <string name="service_notify_text">Terminalsitzung läuft</string>
     <string name="process_exit_message">Terminalsitzung beendet</string>
-    <!-- Preference dialog -->
     <string name="screen_preferences">Bildschirm</string>
     <string name="title_cursorblink_preference">Cursor-Blinke</string>
     <string name="summary_cursorblink_preference">Cursor in Terminalfenstern regelmäßig blinken.</string>
@@ -94,24 +78,13 @@
     <string name="use_keyboard_shortcuts_summary_on">Strg-Tab: Wechseln Sie durch die Fenster\nStrg-Shift-N: Neues Fenster\nStrg-Shift-V: Einfügen.</string>
     <string name="help">Hilfe</string>
     <string name="activity_term_here_title">Begriff hier</string>
-    <!-- BEGIN SHORTCUT RELATED STRINGS -->
-    <!-- AndroidManifest.xml -->
     <string name="activity_shortcut_create">Begriffsverknüpfung</string>
-    <!-- FSNavigator.java
-    <string name="fsnavigator_title">FILE SELECTOR</string>
-    <string name="fsnavigator_no_external_storage">External storage not available</string>
-    <string name="fsnavigator_optional_enter_path">Or enter path here.</string>
-    <string name="fsnavigator_change_theme">Change theme</string>
-    -->
-    <!-- AddShortcut.java -->
     <string name="addshortcut_command_hint">Aktion</string>
     <string name="addshortcut_button_find_command">Suche Befehl</string>
     <string name="addshortcut_navigator_title">WÄHLEN SHORTCUT ZIEL</string>
     <string name="addshortcut_command_window_instructions">Befehlsfenster erfordert vollen Pfad, keine Argumente. Für andere Befehle verwenden Sie das Arguments-Fenster (z. B. cd /sdcard).</string>
     <string name="addshortcut_arguments_label">Argumente</string>
     <string name="addshortcut_shortcut_label">Verknüpfung benennen</string>
-    <!-- ColorValue.java -->
     <string name="colorvalue_label_lock_button_column">ERFASSUNG</string>
     <string name="colorvalue_icon_text_entry_hint">Symboltext eingeben</string>
-    <!-- END SHORTCUT RELATED STRINGS -->
 </resources>
