@@ -38,9 +38,7 @@ object AudioCoverUtil {
             .load(DescriptorCoverModel(this.context, uri))
             .addListener(object : RequestListener<Bitmap> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
-                    this@loadFromFileDescriptor.setImageResource(R.drawable.ani_ic_app_icon).also {
-                        (this@loadFromFileDescriptor.drawable as AnimatedVectorDrawable).start()
-                    }
+                    this@loadFromFileDescriptor.setImageResource(R.drawable.ic_app_icon)
                     return true
                 }
 
@@ -120,9 +118,7 @@ object AudioCoverUtil {
             .load(UriCoverModel(this.context, uri))
             .addListener(object : RequestListener<Bitmap> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>, isFirstResource: Boolean): Boolean {
-                    this@loadFromUri.setImageResource(R.drawable.ani_ic_app_icon).also {
-                        (this@loadFromUri.drawable as AnimatedVectorDrawable).start()
-                    }
+                    this@loadFromUri.setImageResource(R.drawable.ic_app_icon)
                     return true
                 }
 
