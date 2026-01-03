@@ -1,13 +1,11 @@
 package app.simple.inure.viewmodels.dialogs
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.Warnings
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
@@ -54,11 +52,8 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun formUninstallCommand(): String {
-        return if (packageInfo.safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
-            "pm uninstall --user current ${packageInfo.packageName}"
-        } else {
-            "pm uninstall ${packageInfo.packageName}"
-        }
+        val user = getCurrentUser()
+        return "pm uninstall --user $user ${packageInfo.packageName}"
     }
 
     override fun onShellCreated(shell: Shell?) {
