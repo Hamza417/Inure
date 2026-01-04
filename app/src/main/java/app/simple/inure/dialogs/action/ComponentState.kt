@@ -52,6 +52,10 @@ class ComponentState : ScopedActionDialogBottomFragment() {
         componentStateViewModel.getWarning().observe(viewLifecycleOwner) {
             showWarning(it)
         }
+
+        componentStateViewModel.error.observe(viewLifecycleOwner) {
+            showError(it)
+        }
     }
 
     fun setOnComponentStateChangeListener(componentStatusCallbacks: ComponentStatusCallbacks) {

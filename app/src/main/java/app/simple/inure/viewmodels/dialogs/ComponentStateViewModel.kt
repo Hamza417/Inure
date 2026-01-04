@@ -57,15 +57,18 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
                             success.postValue("Done")
                         } else {
                             success.postValue("Failed")
+                            postError(it)
                         }
                     }
                 }
             }.onFailure {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                postError(it)
             }.getOrElse {
                 result.postValue("\n" + it.message!!)
                 success.postValue("Failed")
+                postError(it)
             }
         }
     }
