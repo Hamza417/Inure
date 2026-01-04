@@ -57,6 +57,47 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     private float cornerRadius = 10;
     private float shadowRadius = 10F;
     
+    /**
+     * Updates the checked icon bounds based on the current view size.
+     *
+     * @param scale 0..1
+     */
+    private void updateCheckedIconBounds(float scale) {
+        if (checkedIcon == null) {
+            return;
+        }
+        
+        int w = getWidth();
+        int h = getHeight();
+        if (w <= 0 || h <= 0) {
+            // Not laid out yet.
+            checkedIcon.setBounds(0, 0, 0, 0);
+            return;
+        }
+        
+        float clampedScale = Math.max(0f, Math.min(1f, scale));
+        float clampedRatio = Math.max(0f, Math.min(1f, checkIconRatio));
+        
+        float cx = w / 2f;
+        float cy = h / 2f;
+        float halfSize = (Math.min(w, h) / 2f) * clampedRatio * clampedScale;
+        
+        // Ensure we never end up with an "invisible" drawable due to rounding.
+        int left = Math.round(cx - halfSize);
+        int top = Math.round(cy - halfSize);
+        int right = Math.round(cx + halfSize);
+        int bottom = Math.round(cy + halfSize);
+        
+        if (right <= left) {
+            right = left + 1;
+        }
+        if (bottom <= top) {
+            bottom = top + 1;
+        }
+        
+        checkedIcon.setBounds(left, top, right, bottom);
+    }
+    
     public CheckBox(Context context) {
         super(context);
         init();
@@ -92,7 +133,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         
         checkedIcon = ContextCompat.getDrawable(getContext(), R.drawable.ic_check);
         checkedIcon.setTint(Color.WHITE);
-        
+
         if (!isInEditMode()) {
             cornerRadius = AppearancePreferences.INSTANCE.getCornerRadius() / 4F;
         } else {
@@ -133,7 +174,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             x = getWidth() / 2f;
             y = getHeight() / 2f;
             updateChecked(); // Update everything post layout to avoid missing graphics issues
-            
+
             try { // I like cheating :)
                 ((ViewGroup) getParent()).setClipToOutline(false);
                 ((ViewGroup) getParent()).setClipChildren(false);
@@ -141,9 +182,19 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
                 e.printStackTrace();
             }
         });
-        
+
         setOnClickListener(v -> toggle(true));
         
+        updateChecked();
+    }
+    
+    @Override
+    protected void onSizeChanged(int w, int h, int oldWidth, int oldHeight) {
+        super.onSizeChanged(w, h, oldWidth, oldHeight);
+        x = w / 2f;
+        y = h / 2f;
+        
+        // Keep drawable bounds in sync across relayouts (RecyclerView reuse, rotation, etc.).
         updateChecked();
     }
     
@@ -167,6 +218,13 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     private void animateFinalState() {
         clearAnimation();
         
+        // If we aren't laid out yet, bounds based on x/y can be 0 and the icon can "disappear".
+        // In that case, just apply the final state and let a later layout pass redraw correctly.
+        if (getWidth() <= 0 || getHeight() <= 0) {
+            updateChecked();
+            return;
+        }
+        
         if (isChecked) {
             animator = ValueAnimator.ofFloat(0, 1);
             animator.setDuration(duration);
@@ -174,10 +232,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             animator.addUpdateListener(animation -> {
                 float value = (float) animation.getAnimatedValue();
                 checkedIcon.setAlpha((int) (255 * value));
-                checkedIcon.setBounds((int) (x - (x * checkIconRatio * value)),
-                        (int) (y - (y * checkIconRatio * value)),
-                        (int) (x + (x * checkIconRatio * value)),
-                        (int) (y + (y * checkIconRatio * value)));
+                updateCheckedIconBounds(value);
                 invalidate();
             });
             
@@ -211,12 +266,8 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
             animator.setInterpolator(new AccelerateInterpolator());
             animator.addUpdateListener(animation -> {
                 float value = (float) animation.getAnimatedValue();
-                // checkRect.set(x - (x * value), y - (y * value), x + (x * value), y + (y * value));
                 checkedIcon.setAlpha((int) (255 * value));
-                checkedIcon.setBounds((int) (x - (x * checkIconRatio * value)),
-                        (int) (y - (y * checkIconRatio * value)),
-                        (int) (x + (x * checkIconRatio * value)),
-                        (int) (y + (y * checkIconRatio * value)));
+                updateCheckedIconBounds(value);
                 
                 invalidate();
             });
@@ -243,7 +294,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         colorAnimator.start();
         elevationAnimator.start();
     }
-    
+
     @Override
     public void onInitializeAccessibilityNodeInfo(@NonNull AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
@@ -270,25 +321,15 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
         if (isChecked) {
             backgroundColor = AppearancePreferences.INSTANCE.getAccentColor();
             elevationColor = AppearancePreferences.INSTANCE.getAccentColor();
-            // shadowRadius = 10F;
             checkedIcon.setAlpha(255);
-            checkedIcon.setBounds(
-                    (int) (x - (x * checkIconRatio)),
-                    (int) (y - (y * checkIconRatio * 1)),
-                    (int) (x + (x * checkIconRatio * 1)),
-                    (int) (y + (y * checkIconRatio * 1)));
+            updateCheckedIconBounds(1f);
         } else {
             backgroundColor = ThemeManager.INSTANCE.getTheme().getSwitchViewTheme().getSwitchOffColor();
             elevationColor = Color.TRANSPARENT;
-            // shadowRadius = 0F;
             checkedIcon.setAlpha(0);
-            checkedIcon.setBounds(
-                    (int) (x - (x * checkIconRatio)),
-                    (int) (y - (y * checkIconRatio * 0F)),
-                    (int) (x + (x * checkIconRatio * 0F)),
-                    (int) (y + (y * checkIconRatio * 0F)));
             
-            // ^ You could just set it to 0 or 1, where's fun in that?
+            // Keep bounds non-degenerate so the next animation frame can reliably expand it.
+            updateCheckedIconBounds(0f);
         }
         
         invalidate();
@@ -425,6 +466,12 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     
     public void setCheckedIcon(Drawable drawable) {
         checkedIcon = drawable;
+        if (checkedIcon != null) {
+            // Preserve the existing behavior of white check if caller didn't set a tint.
+            checkedIcon.setTint(Color.WHITE);
+            checkedIcon.setAlpha(isChecked ? 255 : 0);
+            updateCheckedIconBounds(isChecked ? 1f : 0f);
+        }
         invalidate();
     }
     
@@ -487,6 +534,7 @@ public class CheckBox extends View implements ThemeChangedListener, SharedPrefer
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         app.simple.inure.preferences.SharedPreferences.INSTANCE.unregisterSharedPreferenceChangeListener(this);
+        clearAnimation();
     }
     
     @Override
