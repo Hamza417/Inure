@@ -54,10 +54,9 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
     private fun runRootCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             val stateCommand = if (state) "enable" else "disable"
-            val user = getCurrentUser()
 
             for (app in list) {
-                Shell.cmd("pm $stateCommand --user $user ${app.packageInfo.packageName}").exec().let {
+                Shell.cmd("pm $stateCommand ${app.packageInfo.packageName}").exec().let {
                     if (it.isSuccess) {
                         app.packageInfo.safeApplicationInfo.enabled = state
                     } else {

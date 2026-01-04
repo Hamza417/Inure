@@ -35,7 +35,9 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd(createCommand()).submit { shellResult ->
+                val mode = if (this@PermissionStatusViewModel.permissionInfo.isGranted == 1) "revoke" else "grant"
+
+                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -79,8 +81,10 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
+            val mode = if (this@PermissionStatusViewModel.permissionInfo.isGranted == 1) "revoke" else "grant"
+
             kotlin.runCatching {
-                shizukuServiceHelper.service!!.simpleExecute(createCommand()).let {
+                shizukuServiceHelper.service!!.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
                     result.postValue(it.toString())
                 }
             }.onSuccess {
@@ -98,11 +102,5 @@ class PermissionStatusViewModel(application: Application, val packageInfo: Packa
     fun setPermissionState(mode: PermissionInfo) {
         this.permissionInfo.isGranted = mode.isGranted
         initializeCoreFramework()
-    }
-
-    private fun createCommand(): String {
-        val mode = if (this.permissionInfo.isGranted == 1) "revoke" else "grant"
-        val user = getCurrentUser()
-        return "pm $mode --user $user ${packageInfo.packageName} ${permissionInfo.name}"
     }
 }

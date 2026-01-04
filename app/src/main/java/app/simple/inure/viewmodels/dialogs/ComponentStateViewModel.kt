@@ -99,14 +99,9 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
     }
 
     private fun createCommand(): String {
-        val user = getCurrentUser()
-
         return buildString {
             append("pm ")
             append(if (mode) "disable" else "enable")
-            append(" ")
-            append("--user ")
-            append(user)
             append(" ")
             append(packageInfo.packageName)
             append("/")
