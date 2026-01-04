@@ -20,9 +20,14 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.internals.FinderMatchSpan
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 open class FinderScopedFragment : KeyboardScopedFragment() {
 
@@ -40,6 +45,10 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
     private lateinit var clear: DynamicRippleImageButton
     private lateinit var count: TypeFaceTextView
 
+    // Helps avoid redundant heavy rescans when nothing meaningful changed.
+    private var lastScannedQuery: String = ""
+    private var lastScannedTextHash: Int = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewIDs(view)
@@ -47,9 +56,14 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
         searchInput.doOnTextChanged { text, _, _, _ ->
             searchJob?.cancel()
             searchJob = viewLifecycleOwner.lifecycleScope.launch {
-                delay(300) // Debounce time
-                query = text?.toString().orEmpty()
-                rescanMatches(keepCurrentIfPossible = true)
+                delay(250) // Debounce time
+                val newQuery = text?.toString().orEmpty()
+                val queryChanged = query != newQuery
+                query = newQuery
+                rescanMatches(
+                        // When query changes, jumping to first/closest match is expected.
+                        jump = queryChanged
+                )
             }
         }
 
@@ -67,8 +81,9 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
 
             rescanJob?.cancel()
             rescanJob = viewLifecycleOwner.lifecycleScope.launch {
-                delay(200)
-                rescanMatches(keepCurrentIfPossible = true)
+                delay(150)
+                // While editing the big text, avoid auto-jumping each keystroke (causes jank).
+                rescanMatches(jump = false)
             }
         }
 
@@ -100,7 +115,47 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
         }
     }
 
-    private fun rescanMatches(keepCurrentIfPossible: Boolean) {
+    private fun editTextSnapshotHash(text: CharSequence): Int {
+        // Fast-ish heuristic; avoids full heavy hashing but still changes for most edits.
+        // Uses length + a few sampled chars.
+        if (text.isEmpty()) return 0
+        var h = text.length
+        val step = maxOf(1, text.length / 8)
+        var i = 0
+        while (i < text.length) {
+            h = 31 * h + text[i].code
+            i += step
+        }
+        return h
+    }
+
+    private suspend fun computeMatches(snapshot: String, query: String): List<IntRange> = withContext(Dispatchers.Default) {
+        if (query.isBlank()) return@withContext emptyList()
+
+        val lowerQuery = query.lowercase()
+        val keywordLength = lowerQuery.length
+        if (keywordLength == 0) return@withContext emptyList()
+
+        val textLength = snapshot.length
+        if (textLength < keywordLength) return@withContext emptyList()
+
+        val ranges = ArrayList<IntRange>(64)
+        var index = 0
+        while (index <= textLength - keywordLength) {
+            ensureActive()
+            // regionMatches avoids allocations vs subSequence().toString()
+            if (snapshot.regionMatches(index, lowerQuery, 0, keywordLength, ignoreCase = true)) {
+                ranges.add(index until (index + keywordLength))
+            }
+            index++
+        }
+        return@withContext ranges
+    }
+
+    private fun rescanMatches(
+            keepCurrentIfPossible: Boolean = true,
+            jump: Boolean = true
+    ) {
         val editText = getEditText() ?: return
         val editable = editText.text ?: return
 
@@ -112,7 +167,15 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             return
         }
 
-        val previousFocusedStart = if (keepCurrentIfPossible) {
+        // If nothing relevant changed since last scan, just re-apply backgrounds (focused/unfocused).
+        val currentHash = editTextSnapshotHash(editable)
+        if (lastScannedQuery == activeQuery && lastScannedTextHash == currentHash) {
+            updateTextHighlight(getMatchSpansSorted())
+            updateCounter(getMatchSpansSorted(), position)
+            return
+        }
+
+        val previousAnchorStart = if (keepCurrentIfPossible) {
             getMatchSpansSorted().getOrNull(position)?.let { span ->
                 editable.getSpanStart(span).takeIf { it >= 0 }
             }
@@ -120,33 +183,74 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             null
         }
 
-        clearFinderSpans(editable)
+        // Snapshot for background scanning.
+        val snapshot = editable.toString()
 
-        val lower = activeQuery.lowercase()
-        val textLength = editable.length
-        val keywordLength = lower.length
+        // Cancel any in-flight rescan and start a fresh one.
+        rescanJob?.cancel()
+        rescanJob = viewLifecycleOwner.lifecycleScope.launch {
+            val ranges = computeMatches(snapshot, activeQuery)
+            if (!isActive) return@launch
 
-        var index = 0
-        while (index <= textLength - keywordLength) {
-            val substring = editable.subSequence(index, index + keywordLength).toString()
-            if (substring.equals(lower, ignoreCase = true)) {
-                // Marker span that will shift automatically as user edits.
-                editable.setSpan(FinderMatchSpan(), index, index + keywordLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            // Apply spans on main thread.
+            val currentEditable = getEditText()?.text ?: return@launch
+            // If text changed drastically while computing, allow the next scheduled rescan to fix it.
+            // Still apply to current content since marker spans will shift for small edits.
+
+            clearFinderSpans(currentEditable)
+
+            // Add marker spans in order.
+            for (range in ranges) {
+                val start = range.first
+                val endExclusive = range.last + 1
+                if (start >= 0 && endExclusive <= currentEditable.length && start < endExclusive) {
+                    currentEditable.setSpan(
+                            FinderMatchSpan(),
+                            start,
+                            endExclusive,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
             }
-            index++
+
+            val spans = getMatchSpansSorted()
+
+            position = when {
+                spans.isEmpty() -> -1
+                previousAnchorStart == null -> 0
+                else -> {
+                    // Prefer exact match; otherwise choose nearest (handles insert/delete before match).
+                    val exact = spans.indexOfFirst { currentEditable.getSpanStart(it) == previousAnchorStart }
+                    if (exact >= 0) {
+                        exact
+                    } else {
+                        var bestIndex = 0
+                        var bestDist = Int.MAX_VALUE
+                        spans.forEachIndexed { idx, span ->
+                            val s = currentEditable.getSpanStart(span)
+                            if (s >= 0) {
+                                val d = abs(s - previousAnchorStart)
+                                if (d < bestDist) {
+                                    bestDist = d
+                                    bestIndex = idx
+                                }
+                            }
+                        }
+                        bestIndex
+                    }
+                }
+            }
+
+            lastScannedQuery = activeQuery
+            lastScannedTextHash = editTextSnapshotHash(currentEditable)
+
+            updateTextHighlight(spans)
+            updateCounter(spans, position)
+
+            if (jump) {
+                jumpToMatch(position)
+            }
         }
-
-        val spans = getMatchSpansSorted()
-
-        position = when {
-            spans.isEmpty() -> -1
-            previousFocusedStart == null -> 0
-            else -> spans.indexOfFirst { editable.getSpanStart(it) == previousFocusedStart }.takeIf { it >= 0 } ?: 0
-        }
-
-        updateTextHighlight(spans)
-        updateCounter(spans, position)
-        jumpToMatch(position)
     }
 
     private fun getMatchSpansSorted(): List<FinderMatchSpan> {
@@ -167,7 +271,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             val start = editable.getSpanStart(it)
             val end = editable.getSpanEnd(it)
             // Our highlights are always exactly on a match range.
-            if (start >= 0 && end > start) {
+            if (start in 0..<end) {
                 // Remove only if there isn't any non-finder reason to keep it.
                 // Heuristic: remove spans that use our configured highlight colors.
                 if (it.backgroundColor == Misc.textHighlightFocused || it.backgroundColor == Misc.textHighlightUnfocused) {
@@ -234,7 +338,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             spans.forEachIndexed { index, matchSpan ->
                 val start = editable.getSpanStart(matchSpan)
                 val end = editable.getSpanEnd(matchSpan)
-                if (start >= 0 && end > start) {
+                if (start in 0..<end) {
                     val color = if (index == position) Misc.textHighlightFocused else Misc.textHighlightUnfocused
                     editable.setSpan(BackgroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
