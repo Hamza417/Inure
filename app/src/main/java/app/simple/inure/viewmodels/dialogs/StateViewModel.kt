@@ -73,9 +73,9 @@ class StateViewModel(application: Application, private val packageInfo: PackageI
 
     private fun formStateCommand(): String {
         return if (packageInfo.safeApplicationInfo.enabled) {
-            "pm disable ${packageInfo.packageName}"
+            "pm disable --user current ${packageInfo.packageName}"
         } else {
-            "pm enable ${packageInfo.packageName}"
+            "pm enable --user current ${packageInfo.packageName}"
         }
     }
 
