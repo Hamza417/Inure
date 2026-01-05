@@ -45,11 +45,11 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun getReinstallCommand(): String {
-        return "pm install -r ${packageInfo.safeApplicationInfo.sourceDir}"
+        return "pm install -r --user current ${packageInfo.safeApplicationInfo.sourceDir}"
     }
 
     private fun getInstallExistingCommand(): String {
-        return "pm install-existing ${packageInfo.packageName}"
+        return "pm install-existing --user current ${packageInfo.packageName}"
     }
 
     override fun onShellCreated(shell: Shell?) {

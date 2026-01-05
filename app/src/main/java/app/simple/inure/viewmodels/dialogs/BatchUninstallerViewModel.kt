@@ -51,7 +51,7 @@ class BatchUninstallerViewModel(application: Application, val list: ArrayList<Ba
         return if (safeApplicationInfo.flags and ApplicationInfo.FLAG_SYSTEM != 0) {
             "pm uninstall -k --user current $packageName"
         } else {
-            "pm uninstall $packageName"
+            "pm uninstall --user current $packageName"
         }
     }
 
