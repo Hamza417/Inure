@@ -37,7 +37,7 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Shell.cmd("pm clear ${packageInfo.packageName}").submit { shellResult ->
+                Shell.cmd(formCommand()).submit { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult.out) {
                             result.postValue("\n" + i)
@@ -84,7 +84,7 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                shizukuServiceHelper.service!!.simpleExecute("pm clear ${packageInfo.packageName}").let {
+                shizukuServiceHelper.service!!.simpleExecute(formCommand()).let {
                     result.postValue("\n" + it)
                     Log.d("ClearData", it.toString())
                 }
@@ -98,5 +98,9 @@ class ClearDataViewModel(application: Application, val packageInfo: PackageInfo)
                 postError(it)
             }
         }
+    }
+
+    private fun formCommand(): String {
+        return "pm clear --user ${getCurrentUser()} ${packageInfo.packageName}"
     }
 }

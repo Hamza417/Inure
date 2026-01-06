@@ -80,7 +80,7 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
     private fun ArrayList<BatchPackageInfo>.getEnableCommand(): String {
         buildString {
             for (app in this@getEnableCommand) {
-                append("pm enable --user current ${app.packageInfo.packageName} && ")
+                append("pm enable --user ${getCurrentUser()} ${app.packageInfo.packageName} && ")
             }
 
             removeSuffix(" && ")
@@ -92,7 +92,7 @@ class BatchStateViewModel(application: Application, val list: ArrayList<BatchPac
     private fun ArrayList<BatchPackageInfo>.getDisableCommand(): String {
         buildString {
             for (app in this@getDisableCommand) {
-                append("pm disable --user current ${app.packageInfo.packageName} && ")
+                append("pm disable --user ${getCurrentUser()} ${app.packageInfo.packageName} && ")
             }
 
             removeSuffix(" && ")

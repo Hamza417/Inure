@@ -129,7 +129,18 @@ class ActivityLauncherViewModel(application: Application, val packageInfo: Packa
     }
 
     private fun formLaunchCommand(action: String?): String {
-        return "am start -n ${packageInfo.packageName}/$packageId -a \"${action ?: "android.intent.action.MAIN"}\""
+        val act = action ?: "android.intent.action.MAIN"
+        return buildString {
+            append("am start --user ")
+            append(getCurrentUser())
+            append(" -n ")
+            append(packageInfo.packageName)
+            append('/')
+            append(packageId)
+            append(" -a \"")
+            append(act)
+            append('"')
+        }
     }
 
     fun runWithAction(action: String?) {

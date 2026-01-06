@@ -52,7 +52,7 @@ class UninstallerViewModel(application: Application, val packageInfo: PackageInf
     }
 
     private fun formUninstallCommand(): String {
-        return "pm uninstall --user current ${packageInfo.packageName}"
+        return "pm uninstall --user ${getCurrentUser()} ${packageInfo.packageName}"
     }
 
     override fun onShellCreated(shell: Shell?) {
