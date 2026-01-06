@@ -106,7 +106,6 @@ class ComponentStateViewModel(application: Application, val packageInfo: Package
             append("pm ")
             append(if (mode) "disable" else "enable")
             append(" ")
-            append("--user current ")
             append(packageInfo.packageName)
             append("/")
             append(packageId)
