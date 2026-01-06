@@ -30,6 +30,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.stream.Collectors
@@ -140,8 +143,12 @@ class DataLoaderService : Service() {
         if (launcherAppsCallback != null) {
             launcherAppsService.unregisterCallback(launcherAppsCallback)
         }
+        _appsLoadedFlow.value = false
         serviceScope.cancel()
     }
+
+    private val _appsLoadedFlow = MutableStateFlow(false)
+    val appsLoadedFlow: StateFlow<Boolean> = _appsLoadedFlow.asStateFlow()
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
         if (apps.isNotNull() && apps.isNotEmpty()) {
@@ -168,6 +175,7 @@ class DataLoaderService : Service() {
     fun startLoading() {
         if (isLoading.invert()) {
             isLoading = true
+            _appsLoadedFlow.value = false
 
             serviceScope.launch {
                 try {
@@ -183,7 +191,11 @@ class DataLoaderService : Service() {
                     // Because I couldn't think of any other place
                     DebloatUtils.initBloatAppsSet()
 
+                    // Update flow first
+                    _appsLoadedFlow.value = hasDataLoaded()
+
                     withContext(Dispatchers.Main) {
+                        // Backward compatible broadcast
                         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
                     }
                 } finally {
@@ -196,6 +208,7 @@ class DataLoaderService : Service() {
     fun refresh() {
         // If a load is already running, don't spawn another one.
         if (isLoading) return
+        _appsLoadedFlow.value = false
         apps.clear()
         uninstalledApps.clear()
         startLoading()

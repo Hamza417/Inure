@@ -15,12 +15,15 @@ import android.os.Build
 import android.os.DeadObjectException
 import android.os.IBinder
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.services.DataLoaderService
 import app.simple.inure.util.ArrayUtils
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
 
@@ -35,7 +38,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     private var intentFilter: IntentFilter = IntentFilter()
 
     init {
-        intentFilter.addAction(DataLoaderService.APPS_LOADED)
+        // Keep legacy broadcasts for now (RELOAD_APPS / optional split broadcasts),
+        // but we will stop depending on APPS_LOADED.
+        // intentFilter.addAction(DataLoaderService.APPS_LOADED)
         intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
         intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
         intentFilter.addAction(DataLoaderService.RELOAD_APPS)
@@ -45,17 +50,32 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
                 val loader = dataLoaderService ?: return
 
-                // Initial cache population
-                apps = loader.getInstalledApps()
-                uninstalledApps = loader.getUninstalledApps()
+                // Observe completion reliably.
+                viewModelScope.launch {
+                    loader.appsLoadedFlow
+                        .filter { it }
+                        .collect {
+                            @Suppress("UNCHECKED_CAST")
+                            apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
+                            @Suppress("UNCHECKED_CAST")
+                            uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
 
-                // Notify observers
-                onAppsLoaded(apps)
-                onUninstalledAppsLoaded(uninstalledApps)
+                            onAppsLoaded(apps)
+                            onUninstalledAppsLoaded(uninstalledApps)
+                        }
+                }
 
-                // Start loading data if not already done
+                // Trigger loading.
                 if (!loader.hasDataLoaded()) {
                     loader.startLoading()
+                } else {
+                    // In case data was already present, publish once.
+                    @Suppress("UNCHECKED_CAST")
+                    apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
+                    @Suppress("UNCHECKED_CAST")
+                    uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
+                    onAppsLoaded(apps)
+                    onUninstalledAppsLoaded(uninstalledApps)
                 }
             }
 
@@ -69,19 +89,12 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             override fun onReceive(context: Context?, intent: Intent?) {
                 val loader = dataLoaderService
                 if (loader == null) {
-                    // Service not connected yet; ignore broadcasts to avoid NPE / half-initialized states.
                     Log.w("PackageUtilsViewModel", "DataLoaderService is null; ignoring broadcast ${intent?.action}")
                     return
                 }
 
                 when (intent?.action) {
-                    DataLoaderService.APPS_LOADED -> {
-                        apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
-                        uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
-
-                        onAppsLoaded(apps)
-                        onUninstalledAppsLoaded(uninstalledApps)
-                    }
+                    // APPS_LOADED intentionally ignored; Flow is the source of truth.
 
                     DataLoaderService.UNINSTALLED_APPS_LOADED -> {
                         uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
