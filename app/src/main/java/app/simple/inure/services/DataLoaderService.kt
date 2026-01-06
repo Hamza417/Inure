@@ -34,7 +34,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.stream.Collectors
 
 class DataLoaderService : Service() {
@@ -42,7 +41,6 @@ class DataLoaderService : Service() {
     companion object {
         const val UNINSTALLED_APPS_LOADED = "uninstalled_apps_loaded"
         const val INSTALLED_APPS_LOADED = "installed_apps_loaded"
-        const val APPS_LOADED = "apps_loaded"
         const val RELOAD_APPS = "reload_apps"
         const val RELOAD_QUICK_APPS = "reload_quick_apps"
         const val REFRESH = "refresh"
@@ -194,10 +192,7 @@ class DataLoaderService : Service() {
                     // Update flow first
                     _appsLoadedFlow.value = hasDataLoaded()
 
-                    withContext(Dispatchers.Main) {
-                        // Backward compatible broadcast
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
-                    }
+                    // No LocalBroadcastManager APPS_LOADED broadcast anymore.
                 } finally {
                     isLoading = false
                 }
