@@ -45,16 +45,13 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
                 val loader = dataLoaderService ?: return
 
-                // Initial cache population
-                apps = loader.getInstalledApps()
-                uninstalledApps = loader.getUninstalledApps()
+                if (loader.hasDataLoaded()) {
+                    apps = loader.getInstalledApps()
+                    uninstalledApps = loader.getUninstalledApps()
 
-                // Notify observers
-                onAppsLoaded(apps)
-                onUninstalledAppsLoaded(uninstalledApps)
-
-                // Start loading data if not already done
-                if (!loader.hasDataLoaded()) {
+                    onAppsLoaded(apps)
+                    onUninstalledAppsLoaded(uninstalledApps)
+                } else {
                     loader.startLoading()
                 }
             }
@@ -69,7 +66,6 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
             override fun onReceive(context: Context?, intent: Intent?) {
                 val loader = dataLoaderService
                 if (loader == null) {
-                    // Service not connected yet; ignore broadcasts to avoid NPE / half-initialized states.
                     Log.w("PackageUtilsViewModel", "DataLoaderService is null; ignoring broadcast ${intent?.action}")
                     return
                 }
@@ -245,25 +241,26 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     override fun onCleared() {
         super.onCleared()
+        try {
+            serviceConnection?.let {
+                applicationContext().unbindService(it)
+            }
+        } catch (e: java.lang.IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
 
         try {
             broadcastReceiver?.let {
                 LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(it)
             }
-        } catch (_: Throwable) {
-            // ignore
-        }
-
-        try {
-            serviceConnection?.let {
-                applicationContext().unbindService(it)
-            }
-        } catch (_: Throwable) {
-            // ignore
-        } finally {
-            dataLoaderService = null
-            serviceConnection = null
-            broadcastReceiver = null
+        } catch (e: java.lang.IllegalStateException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
         }
     }
 }

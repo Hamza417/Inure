@@ -28,8 +28,6 @@ import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.utils.DebloatUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.stream.Collectors
@@ -140,7 +138,6 @@ class DataLoaderService : Service() {
         if (launcherAppsCallback != null) {
             launcherAppsService.unregisterCallback(launcherAppsCallback)
         }
-        serviceScope.cancel()
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
@@ -163,30 +160,28 @@ class DataLoaderService : Service() {
         }
     }
 
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
     fun startLoading() {
         if (isLoading.invert()) {
             isLoading = true
 
-            serviceScope.launch {
-                try {
-                    if (apps.isEmpty()) {
-                        apps = loadInstalledApps().clone()
-                    }
+            CoroutineScope(Dispatchers.IO).launch {
+                if (apps.isEmpty()) {
+                    apps = loadInstalledApps().clone()
+                }
 
-                    if (uninstalledApps.isEmpty()) {
-                        loadUninstalledApps()
-                    }
+                if (uninstalledApps.isEmpty()) {
+                    loadUninstalledApps()
+                }
 
-                    // We will init bloat list here
-                    // Because I couldn't think of any other place
-                    DebloatUtils.initBloatAppsSet()
+                // onAppsLoaded(apps.toArrayList())
+                // onUninstalledAppsLoaded(uninstalledApps.toArrayList())
 
-                    withContext(Dispatchers.Main) {
-                        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
-                    }
-                } finally {
+                // We will init bloat list here
+                // Because I couldn't think of any other place
+                DebloatUtils.initBloatAppsSet()
+
+                withContext(Dispatchers.Main) {
+                    LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(APPS_LOADED))
                     isLoading = false
                 }
             }
@@ -194,8 +189,7 @@ class DataLoaderService : Service() {
     }
 
     fun refresh() {
-        // If a load is already running, don't spawn another one.
-        if (isLoading) return
+        isLoading = false
         apps.clear()
         uninstalledApps.clear()
         startLoading()
@@ -206,29 +200,22 @@ class DataLoaderService : Service() {
     }
 
     private fun loadInstalledApps(): MutableList<PackageInfo> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try {
-                packageManager.getInstalledPackages(flags).loadPackageNames()
+                return packageManager.getInstalledPackages(flags).loadPackageNames()
             } catch (e: DeadObjectException) {
                 e.printStackTrace()
-                mutableListOf()
+                return mutableListOf()
             } catch (e: DeadSystemException) {
                 e.printStackTrace()
-                mutableListOf()
-            } catch (e: RuntimeException) {
-                // some OEMs wrap binder/system-death failures in RuntimeException.
-                e.printStackTrace()
-                mutableListOf()
+                return mutableListOf()
             }
         } else {
             try {
-                packageManager.getInstalledPackages(flags).loadPackageNames()
+                return packageManager.getInstalledPackages(flags).loadPackageNames()
             } catch (e: DeadObjectException) {
                 e.printStackTrace()
-                mutableListOf()
-            } catch (e: RuntimeException) {
-                e.printStackTrace()
-                mutableListOf()
+                return mutableListOf()
             }
         }
     }
@@ -252,11 +239,15 @@ class DataLoaderService : Service() {
         } catch (e: DeadObjectException) {
             uninstalledApps = arrayListOf()
             Log.w(TAG, "loadUninstalledApps: PackageManager binder died (DeadObjectException)", e)
+        } catch (e: DeadSystemException) {
+            // System server is restarting / device is shutting down.
+            uninstalledApps = arrayListOf()
+            Log.w(TAG, "loadUninstalledApps: System died (DeadSystemException)", e)
         } catch (e: BadParcelableException) {
             uninstalledApps = arrayListOf()
             Log.w(TAG, "loadUninstalledApps: BadParcelableException", e)
         } catch (e: RuntimeException) {
-            // Includes system-death cases on older APIs / OEMs.
+            // Defensive: some OEMs wrap binder/system-death failures in RuntimeException.
             uninstalledApps = arrayListOf()
             Log.w(TAG, "loadUninstalledApps: RuntimeException while querying PackageManager", e)
         }
