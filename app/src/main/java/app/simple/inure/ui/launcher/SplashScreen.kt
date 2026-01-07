@@ -1,9 +1,11 @@
 package app.simple.inure.ui.launcher
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
@@ -15,6 +17,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.BuildConfig
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -53,8 +56,6 @@ import app.simple.inure.viewmodels.panels.SearchViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
@@ -81,6 +82,9 @@ class SplashScreen : ScopedFragment() {
 
     private var serviceConnection: ServiceConnection? = null
     private var dataLoaderService: DataLoaderService? = null
+    private var broadcastReceiver: BroadcastReceiver? = null
+
+    private var intentFilter: IntentFilter = IntentFilter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_splash_screen, container, false)
@@ -91,23 +95,25 @@ class SplashScreen : ScopedFragment() {
         startPostponedEnterTransition()
         clearSearchStates()
 
+        intentFilter.addAction(DataLoaderService.APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
+        intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == DataLoaderService.APPS_LOADED) {
+                    proceed()
+                }
+            }
+        }
+
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
-                val loader = dataLoaderService ?: return
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    // Wait for apps list readiness in a reliable way.
-                    loader.appsLoadedFlow
-                        .filter { it }
-                        .first()
+                if (dataLoaderService?.hasDataLoaded() == true) {
                     proceed()
-                }
-
-                if (!loader.hasDataLoaded()) {
-                    loader.startLoading()
                 } else {
-                    proceed()
+                    dataLoaderService?.startLoading()
                 }
             }
 
@@ -409,7 +415,7 @@ class SplashScreen : ScopedFragment() {
 
     override fun onResume() {
         super.onResume()
-        // No-op: no LocalBroadcastManager receiver.
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(broadcastReceiver!!, intentFilter)
     }
 
     override fun onDestroy() {
@@ -419,7 +425,11 @@ class SplashScreen : ScopedFragment() {
                 requireContext().unbindService(serviceConnection!!)
             }
         } catch (e: java.lang.IllegalArgumentException) {
-            e.printStackTrace()
+            e.printStackTrace() // Should crash if moving to another [Setup] fragment
+        }
+
+        if (broadcastReceiver != null) {
+            LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(broadcastReceiver!!)
         }
 
         handler.removeCallbacksAndMessages(null)
