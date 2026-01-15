@@ -109,8 +109,8 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         return stringBuilder.toString()
     }
 
-    private fun getOps(packageName: String): java.util.ArrayList<AppOp> {
-        val ops = java.util.ArrayList<AppOp>()
+    private fun getOps(packageName: String): ArrayList<AppOp> {
+        val ops = ArrayList<AppOp>()
         val permissions = getPermissionMap()
 
         for (line in runAndGetOutput("appops get $packageName").split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {

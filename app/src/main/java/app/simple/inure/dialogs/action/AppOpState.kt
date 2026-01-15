@@ -80,6 +80,18 @@ class AppOpState : ScopedBottomSheetFragment() {
             }
         }
 
+        when (appOp?.scope) {
+            AppOpScope.UID -> {
+                scopeGroup.check(R.id.uid)
+            }
+            AppOpScope.PACKAGE -> {
+                scopeGroup.check(R.id.application)
+            }
+            else -> {
+                // Do nothing
+            }
+        }
+
         stateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
