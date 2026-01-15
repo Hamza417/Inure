@@ -1,6 +1,7 @@
 package app.simple.inure.constants
 
 object BundleConstants {
+    val appOp: String = "app_op"
     const val mode = "mode"
     const val LRC_PATH = "lrc_path"
     const val trackerInfo = "tracker_info"

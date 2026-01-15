@@ -31,7 +31,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
         AdapterUtils.searchHighlighter(holder.desc, keyword)
 
         holder.container.setOnClickListener {
-            holder.switch.toggle()
+            adapterOpsCallbacks?.onAppOpClicked(ops[position], position)
         }
 
         holder.switch.setOnSwitchCheckedChangeListener {
@@ -62,7 +62,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
         }
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
         val switch: Switch = itemView.findViewById(R.id.adapter_ops_switch)
@@ -72,6 +72,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     companion object {
         interface AdapterOpsCallbacks {
             fun onCheckedChanged(appOp: AppOp, position: Int)
+            fun onAppOpClicked(appOp: AppOp, position: Int)
         }
     }
 }

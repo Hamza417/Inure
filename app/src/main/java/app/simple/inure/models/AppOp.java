@@ -6,15 +6,15 @@ import android.os.Parcelable;
 public class AppOp implements Parcelable {
     private String permission;
     private String id;
-    private boolean enabled;
+    private AppOpMode mode;
     private String time;
     private String duration;
     private String rejectTime;
     
-    public AppOp(String permission, String id, boolean enabled, String time, String duration, String rejectTime) {
+    public AppOp(String permission, String id, AppOpMode mode, String time, String duration, String rejectTime) {
         this.permission = permission;
         this.id = id;
-        this.enabled = enabled;
+        this.mode = mode;
         this.time = time;
         this.duration = duration;
         this.rejectTime = rejectTime;
@@ -26,7 +26,7 @@ public class AppOp implements Parcelable {
     protected AppOp(Parcel in) {
         permission = in.readString();
         id = in.readString();
-        enabled = in.readByte() != 0;
+        mode = AppOpMode.valueOf(in.readString());
         time = in.readString();
         duration = in.readString();
         rejectTime = in.readString();
@@ -36,7 +36,7 @@ public class AppOp implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(permission);
         dest.writeString(id);
-        dest.writeByte((byte) (enabled ? 1 : 0));
+        dest.writeString(mode.name());
         dest.writeString(time);
         dest.writeString(duration);
         dest.writeString(rejectTime);
@@ -75,12 +75,12 @@ public class AppOp implements Parcelable {
         this.id = id;
     }
     
-    public boolean isEnabled() {
-        return enabled;
+    public AppOpMode getMode() {
+        return mode;
     }
     
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setMode(AppOpMode mode) {
+        this.mode = mode;
     }
     
     public String getTime() {

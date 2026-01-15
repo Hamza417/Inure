@@ -782,4 +782,10 @@
     <string name="add_vote_desc">Tap the button to add your vote.</string>
     <string name="relevance">Relevance</string>
     <string name="one_time_purchase">One-time purchase. Lifetime access.</string>
+    <string name="allow">Allow</string>
+    <string name="deny">Deny</string>
+    <string name="ignore">Ignore</string>
+    <string name="apply">Apply</string>
+    <string name="scope">Scope</string>
+    <string name="uid_mode_desc">UID mode affects all packages sharing the same UID.</string>
 </resources>
