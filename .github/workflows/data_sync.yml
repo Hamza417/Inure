@@ -1,0 +1,222 @@
+name: Data Sync
+
+on:
+    workflow_dispatch:
+    schedule:
+        # Every 3 days at midnight UTC
+        -   cron: "0 0 */3 * *"
+
+permissions:
+    contents: write
+
+concurrency:
+    group: data-sync-${{ github.ref }}
+    cancel-in-progress: false
+
+jobs:
+    sync_uad_lists:
+        name: Sync UAD lists
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+                    ref: master
+
+            -   name: Checkout UAD source repository
+                uses: actions/checkout@v4
+                with:
+                    repository: Universal-Debloater-Alliance/universal-android-debloater-next-generation
+                    path: source_repo
+
+            -   name: Copy file
+                run: |
+                    if [ ! -f source_repo/resources/assets/uad_lists.json ]; then
+                      echo "Source file does not exist"
+                      exit 1
+                    fi
+                    
+                    mkdir -p app/src/github/resources
+                    cp source_repo/resources/assets/uad_lists.json app/src/github/resources/uad_lists.json
+
+            -   name: Commit and push (UAD lists)
+                run: |
+                    set -e
+                    git add app/src/github/resources/uad_lists.json
+                    if [ -z "$(git status --porcelain app/src/github/resources/uad_lists.json)" ]; then
+                      echo "No changes to commit."
+                      exit 0
+                    fi
+                    
+                    git config user.email "actions@github.com"
+                    git config user.name "GitHub Actions"
+                    git commit -m "Update UAD Lists file from source repository"
+                    
+                    git fetch origin master
+                    git push --force-with-lease origin HEAD:master
+
+    update_exodus_trackers:
+        name: Update Exodus Trackers
+        runs-on: ubuntu-latest
+        needs: [ sync_uad_lists ]
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+                    ref: master
+
+            -   name: Download JSON file
+                run: |
+                    wget -O trackers.json https://reports.exodus-privacy.eu.org/api/trackers
+
+            -   name: Format JSON
+                run: |
+                    python - <<'EOF'
+                    import json
+                    
+                    json_file = 'trackers.json'
+                    
+                    with open(json_file, 'r', encoding='utf8') as file:
+                        payload = json.load(file)
+                    
+                    with open(json_file, 'w', encoding='utf8') as file:
+                        file.write(json.dumps(payload, indent=4, sort_keys=True))
+                    EOF
+
+            -   name: Move Tracker JSON to Resources
+                run: |
+                    mkdir -p ./app/src/main/resources/
+                    mv trackers.json ./app/src/main/resources/
+
+            -   name: Commit and push (Exodus trackers)
+                run: |
+                    set -e
+                    git add app/src/main/resources/trackers.json
+                    if [ -z "$(git status --porcelain app/src/main/resources/trackers.json)" ]; then
+                      echo "No changes to commit."
+                      exit 0
+                    fi
+                    
+                    git config user.email "actions@github.com"
+                    git config user.name "GitHub Actions"
+                    git commit -m "Automated Exodus JSON data update"
+                    
+                    git fetch origin master
+                    git push --force-with-lease origin HEAD:master
+
+    update_exodus_etip_trackers:
+        name: Update Exodus ETIP Trackers
+        runs-on: ubuntu-latest
+        needs: [ update_exodus_trackers ]
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+                    ref: master
+
+            -   name: Download JSON file
+                run: |
+                    wget -O etip_trackers.json https://etip.exodus-privacy.eu.org/api/trackers/
+
+            -   name: Format JSON
+                run: |
+                    python - <<'EOF'
+                    import json
+                    
+                    json_file = 'etip_trackers.json'
+                    
+                    with open(json_file, 'r', encoding='utf8') as file:
+                        payload = json.load(file)
+                    
+                    with open(json_file, 'w', encoding='utf8') as file:
+                        file.write(json.dumps(payload, indent=4, sort_keys=True))
+                    EOF
+
+            -   name: Move Tracker JSON to Resources
+                run: |
+                    mkdir -p ./app/src/main/resources/
+                    mv etip_trackers.json ./app/src/main/resources/
+
+            -   name: Commit and push (Exodus ETIP trackers)
+                run: |
+                    set -e
+                    git add app/src/main/resources/etip_trackers.json
+                    if [ -z "$(git status --porcelain app/src/main/resources/etip_trackers.json)" ]; then
+                      echo "No changes to commit."
+                      exit 0
+                    fi
+                    
+                    git config user.email "actions@github.com"
+                    git config user.name "GitHub Actions"
+                    git commit -m "Automated Exodus ETIP JSON data update"
+                    
+                    git fetch origin master
+                    git push --force-with-lease origin HEAD:master
+
+    update_fdroid_repo_data:
+        name: Update F-Droid Repo Package Versions
+        runs-on: ubuntu-latest
+        needs: [ update_exodus_etip_trackers ]
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0
+                    ref: master
+
+            -   name: Download XML files
+                run: |
+                    mkdir -p xml_files
+                    wget -O xml_files/fdroid_index.xml https://f-droid.org/repo/index.xml
+                    wget -O xml_files/izzyondroid_index.xml https://apt.izzysoft.de/fdroid/repo/index.xml
+
+            -   name: Parse XML and create Android resource file
+                run: |
+                    cd xml_files
+                    echo '<?xml version="1.0" encoding="utf-8"?>' > package_versions.xml
+                    echo '<resources>' >> package_versions.xml
+                    python - <<'EOF' >> package_versions.xml
+                    import xml.etree.ElementTree as ET
+                    
+                    def parse_and_write_xml(file_path):
+                        tree = ET.parse(file_path)
+                        root = tree.getroot()
+                        for application in root.findall('.//application'):
+                            app_id = application.get('id')
+                            license_ = application.find('.//license').text if application.find('.//license') is not None else ''
+                            if app_id is None:
+                                continue
+                            print(f'    <string name="{app_id}" translatable="false">{license_}</string>')
+                    
+                    parse_and_write_xml('fdroid_index.xml')
+                    parse_and_write_xml('izzyondroid_index.xml')
+                    EOF
+                    echo '</resources>' >> package_versions.xml
+
+            -   name: Move Android resource file
+                run: |
+                    mkdir -p ./app/src/main/res/xml/
+                    mv xml_files/package_versions.xml ./app/src/main/res/xml/
+
+            -   name: Cleanup
+                run: |
+                    rm -rf xml_files
+
+            -   name: Commit and push (F-Droid repo data)
+                run: |
+                    set -e
+                    git add app/src/main/res/xml/package_versions.xml
+                    if [ -z "$(git status --porcelain app/src/main/res/xml/package_versions.xml)" ]; then
+                      echo "No changes to commit."
+                      exit 0
+                    fi
+                    
+                    git config user.email "actions@github.com"
+                    git config user.name "GitHub Actions"
+                    git commit -m "Automated F-Droid repo update"
+                    
+                    git fetch origin master
+                    git push --force-with-lease origin HEAD:master
