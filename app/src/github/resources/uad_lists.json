@@ -5662,7 +5662,7 @@
   },
   "com.samsung.ipservice": {
     "list": "Oem",
-    "description": "Set of hidden network settings (inlcuding frequency bands choice)\nHow to see these settings : https://forum.xda-developers.com/galaxy-note-8/help/q-hidden-network-settings-pie-t3914421/page4\n\nSame shared user id as com.samsung.faceservice, com.samsung.mlp, com.samsung.cmh\nUsed by Galaxy Finder & Galaxy Vision to access web data\nDo removing this package break face/content recognition?  \n#\nName and permissions of this package suggest that it is used by Galaxy Finder to seek stuff on the web.\nSame shared user id as com.samsung.faceservice, com.samsung.mlp, com.samsung.cmh\n",
+    "description": "Set of hidden network settings (including frequency bands choice)\nHow to see these settings : https://forum.xda-developers.com/galaxy-note-8/help/q-hidden-network-settings-pie-t3914421/page4\n\nSame shared user id as com.samsung.faceservice, com.samsung.mlp, com.samsung.cmh\nUsed by Galaxy Finder & Galaxy Vision to access web data\nDo removing this package break face/content recognition?  \n#\nName and permissions of this package suggest that it is used by Galaxy Finder to seek stuff on the web.\nSame shared user id as com.samsung.faceservice, com.samsung.mlp, com.samsung.cmh\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -6046,7 +6046,7 @@
   },
   "com.sec.android.app.samsungapps": {
     "list": "Oem",
-    "description": "Samsung Galaxy Store\nSamsung app store.\nRequired for Samsung Pay feature to work.\n\nhttps://en.wikipedia.org/wiki/Samsung_Galaxy_Store\n",
+    "description": "Samsung Galaxy Store\nSamsung's app store, required for the Samsung Pay feature to work.\nYou probably don't want this app, it's just a worse version of the Play Store with a few proprietary exclusives from Samsung. Uninstalling it will not cause a bootloop, so its priority shouldn't be any higher than Advanced.\nhttps://en.wikipedia.org/wiki/Samsung_Galaxy_Store",
     "dependencies": [],
     "neededBy": [
       "com.samsung.android.spay"
@@ -8496,11 +8496,11 @@
   },
   "com.android.location.fused": {
     "list": "Aosp",
-    "description": "Manages underlying location technologies, such as GPS and Wi-Fi.\nIt might cause a bootloop",
+    "description": "Manages underlying location technologies, such as GPS and Wi-Fi.\nUninstalling it may unlikely cause a bootloop, although, you probably shouldn't uninstall it unless you deleted Google Play Services, and don't have a GPS sensor.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Unsafe"
+    "removal": "Expert"
   },
   "com.android.mms.service": {
     "list": "Aosp",
@@ -8624,7 +8624,7 @@
   },
   "com.android.shell": {
     "list": "Aosp",
-    "description": "Shell\nUnix shell that receives ADB commands sent from a PC.\nThis is what UAD-ng uses to execute commands on Android devices. Proobably a bad idea to disable ;)",
+    "description": "Shell\nUnix shell that receives ADB commands sent from a PC.\nThis is what UAD-ng uses to execute commands on Android devices. Probably a bad idea to disable ;)",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -17120,7 +17120,7 @@
   },
   "com.miui.misound": {
     "list": "Oem",
-    "description": "Earphones (it's the name of the app)\nProvides the sounds section in Settings and is needed for the equalizing\nSome people removed this package but I personaly don't think it's worth it. This package isn't really an issue\n(no dangerous permissions and does not run in the background all the time)\nYou can still remove it. You'll be just fine if you really don't need it.\n",
+    "description": "Earphones (it's the name of the app)\nProvides the sounds section in Settings and is needed for the equalizing and the per app mixer feature\nSome people removed this package but I personaly don't think it's worth it. This package isn't really an issue\n(no dangerous permissions and does not run in the background all the time)\nYou can still remove it. You'll be just fine if you really don't need it.\n",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -26649,7 +26649,7 @@
     "labels": []
   },
   "com.samsung.android.accessibility.talkback": {
-    "description": "TalkBack\nSamsung talkback in accessibility.",
+    "description": "Samsung TalkBack in accessibility.\nhttps://galaxystore.samsung.com/prepost/000005296612?appId=com.samsung.android.accessibility.talkback",
     "removal": "Advanced",
     "list": "Oem",
     "dependencies": [],
@@ -30011,7 +30011,7 @@
   },
   "com.samsung.hiddennetworksetting": {
     "list": "Oem",
-    "description": "Set of hidden network settings (inlcuding frequency band choice).\nHow to see these settings: https://forum.xda-developers.com/galaxy-note-8/help/q-hidden-network-settings-pie-t3914421/page4",
+    "description": "Set of hidden network settings (including frequency band choice).\nHow to see these settings: https://forum.xda-developers.com/galaxy-note-8/help/q-hidden-network-settings-pie-t3914421/page4",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -40119,7 +40119,7 @@
   },
   "com.spreadtrum.csvt": {
     "list": "Oem",
-    "description": "Cell broadcast is designed to deliver messages to multiple users in an area.\nThis is notably used by ISPs to send Emergency/Government alerts.\nRuns at boot time and is also triggered after exiting airplane mode.\nhttps://en.wikipedia.org/wiki/Cell_Broadcast\nhttps://www.virustotal.com/gui/file/3a9afc2a1b611b51d29eb07bb79494bde7c7926feed5c573c55afde360428765",
+    "description": "potentially riskware, (sends information to another infamously hacked apk com.redstone.ota.ui).\n However it seems to work for handling 3G mobile data(and all broadcasts over 3G)\n It should not be removed if your provider/government works over 3G, any emergency message might fail.\n it is also a SOC, so removing ought to be careful.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
