@@ -117,32 +117,64 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
             val splitOp = line.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val name = splitOp[0].trim { it <= ' ' }
 
-            if (line != "No operations." && name != "Uid mode") {
-                val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
-                var time: String? = null
-                var duration: String? = null
-                var rejectTime: String? = null
-                val id = permissions[name]
-
-                if (splitOp[1].contains("time=")) {
-                    time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()[0].trim { it <= ' ' }
-                }
-
-                if (splitOp[1].contains("duration=")) {
-                    duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()[0].trim { it <= ' ' }
-                }
-
-                if (splitOp[1].contains("rejectTime=")) {
-                    rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
-                        .toTypedArray()[1].trim { it <= ' ' }
-                }
-
-                ops.add(AppOp(name, id, AppOpMode.fromString(mode), time, duration, rejectTime))
+            if (line == "No operations.") {
+                continue
             }
+
+            // Handle UID scoped app ops lines like: "Uid mode: COARSE_LOCATION: ignore"
+            if (name == "Uid mode") {
+                if (splitOp.size >= 3) {
+                    val uidPermission = splitOp[1].trim { it <= ' ' }
+                    val uidModeStr = splitOp[2].trim { it <= ' ' }
+                    val uidId = permissions[uidPermission]
+                    val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
+                    uidAppOp.scope = AppOpScope.UID
+                    ops.add(uidAppOp)
+                } else if (splitOp.size >= 2) {
+                    // Fallback in case format is "Uid mode: COARSE_LOCATION" without mode (unlikely)
+                    val uidPermissionAndMode = splitOp[1].trim { it <= ' ' }
+                    val inner = uidPermissionAndMode.split(":".toRegex()).toTypedArray()
+                    if (inner.size >= 2) {
+                        val uidPermission = inner[0].trim { it <= ' ' }
+                        val uidModeStr = inner[1].trim { it <= ' ' }
+                        val uidId = permissions[uidPermission]
+                        val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
+                        uidAppOp.scope = AppOpScope.UID
+                        ops.add(uidAppOp)
+                    }
+                }
+
+                // Skip to next line after handling UID scoped op
+                continue
+            }
+
+            // Parse regular package-scoped ops
+            val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
+            var time: String? = null
+            var duration: String? = null
+            var rejectTime: String? = null
+            val id = permissions[name]
+
+            if (splitOp[1].contains("time=")) {
+                time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()[0].trim { it <= ' ' }
+            }
+
+            if (splitOp[1].contains("duration=")) {
+                duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()[0].trim { it <= ' ' }
+            }
+
+            if (splitOp[1].contains("rejectTime=")) {
+                rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
+                    .toTypedArray()[1].trim { it <= ' ' }
+            }
+
+            val appOp = AppOp(name, id, AppOpMode.fromString(mode), time, duration, rejectTime)
+            appOp.scope = AppOpScope.PACKAGE
+            ops.add(appOp)
         }
 
         return ops
