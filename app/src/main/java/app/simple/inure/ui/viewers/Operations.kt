@@ -58,7 +58,12 @@ class Operations : SearchBarScopedFragment() {
 
         operationsViewModel.getAppOpsData().observe(viewLifecycleOwner) {
             progressBar.gone(animate = true)
-            adapterOperations = AdapterOperations(it, searchBox.text.toString().trim())
+            if (adapterOperations == null) {
+                adapterOperations = AdapterOperations(it, searchBox.text.toString().trim())
+            } else {
+                adapterOperations?.updateDataSet(it, searchBox.text.toString().trim())
+            }
+
             setCount(it.size)
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
@@ -71,9 +76,11 @@ class Operations : SearchBarScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = adapterOperations
+            if (recyclerView.adapter == null) {
+                recyclerView.adapter = adapterOperations
+            }
 
-            if (it.isEmpty()) {
+            if (it.isEmpty() && searchBox.text.isNullOrEmpty()) {
                 showWarning(R.string.no_operations_found)
             }
         }

@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.viewers
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.appendFlag
 import java.util.Locale
 
-class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
+class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
 
     private var adapterOpsCallbacks: AdapterOpsCallbacks? = null
 
@@ -98,6 +99,14 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
                 it.toString()
             }
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateDataSet(it: ArrayList<AppOp>, str: String) {
+        keyword = str
+        ops.clear()
+        ops.addAll(it)
+        notifyDataSetChanged()
     }
 
     class Holder(itemView: View) : VerticalListViewHolder(itemView) {
