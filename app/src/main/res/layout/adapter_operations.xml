@@ -7,46 +7,45 @@
     android:layout_margin="@dimen/popup_padding"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:padding="@dimen/dialog_padding">
+    android:padding="@dimen/popup_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_ops_name"
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="@dimen/info_text_medium"
-        android:layout_marginEnd="16dp"
         app:appFontStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/adapter_ops_desc"
-        app:layout_constraintEnd_toStartOf="@+id/adapter_ops_switch"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:textColorStyle="primary" />
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/adapter_ops_desc"
+        android:id="@+id/strip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="@dimen/desc_text_size"
-        android:layout_marginEnd="16dp"
         app:appFontStyle="regular"
         app:layout_constraintBottom_toTopOf="@+id/adapter_batch_date"
-        app:layout_constraintEnd_toStartOf="@+id/adapter_ops_switch"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/adapter_ops_name"
-        app:textColorStyle="tertiary" />
-
-    <app.simple.inure.decorations.toggles.Switch
-        android:id="@+id/adapter_ops_switch"
-        android:layout_width="@dimen/switch_width"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:textColorStyle="accent" />
+
+    <app.simple.inure.decorations.typeface.TypeFaceTextView
+        android:id="@+id/desc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/desc_text_size"
+        app:appFontStyle="regular"
+        app:layout_constraintBottom_toTopOf="@+id/adapter_batch_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/strip"
+        app:textColorStyle="tertiary" />
 
 </app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout>

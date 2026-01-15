@@ -8,10 +8,11 @@ import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionDescription
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
-import app.simple.inure.decorations.toggles.Switch
 import app.simple.inure.decorations.typeface.TypeFaceTextView
+import app.simple.inure.enums.AppOpMode
 import app.simple.inure.models.AppOp
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.StringUtils.appendFlag
 import java.util.Locale
 
 class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
@@ -25,17 +26,54 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = ops[position].permission.sanitize()
         holder.desc.text = holder.context.getPermissionDescription(ops[position].id)
-        holder.switch.isChecked = ops[position].isEnabled
 
         AdapterUtils.searchHighlighter(holder.name, keyword)
         AdapterUtils.searchHighlighter(holder.desc, keyword)
 
-        holder.container.setOnClickListener {
-            adapterOpsCallbacks?.onAppOpClicked(ops[position], position)
+        holder.strip.text = buildString {
+            when (ops[position].mode) {
+                AppOpMode.ALLOW -> {
+                    appendFlag(holder.getString(R.string.allowed))
+                }
+                AppOpMode.IGNORE -> {
+                    appendFlag(holder.getString(R.string.ignored))
+                }
+                AppOpMode.DENY -> {
+                    appendFlag(holder.getString(R.string.denied))
+                }
+                AppOpMode.FOREGROUND -> {
+                    appendFlag(holder.getString(R.string.foreground))
+                }
+                AppOpMode.ASK -> {
+                    appendFlag(holder.getString(R.string.ask))
+                }
+                AppOpMode.DEFAULT -> {
+                    appendFlag(holder.getString(R.string.default_))
+                }
+
+                else -> {
+                    appendFlag(holder.getString(R.string.unknown))
+                }
+            }
+
+            when {
+                !ops[position].rejectTime.isNullOrEmpty() -> {
+                    appendFlag(ops[position].rejectTime!!)
+                }
+
+                !ops[position].time.isNullOrEmpty() -> {
+                    appendFlag(ops[position].time!!)
+                }
+            }
+
+            if (ops[position].mode == AppOpMode.ALLOW && !ops[position].duration.isNullOrEmpty()) {
+                appendFlag(ops[position].duration)
+            }
         }
 
-        holder.switch.setOnSwitchCheckedChangeListener {
-            adapterOpsCallbacks?.onCheckedChanged(ops[position], position)
+
+        holder.container.setOnClickListener {
+            adapterOpsCallbacks?.onAppOpClicked(ops[position], position)
         }
     }
 
@@ -63,15 +101,14 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
     }
 
     class Holder(itemView: View) : VerticalListViewHolder(itemView) {
-        val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_name)
-        val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_ops_desc)
-        val switch: Switch = itemView.findViewById(R.id.adapter_ops_switch)
+        val name: TypeFaceTextView = itemView.findViewById(R.id.name)
+        val desc: TypeFaceTextView = itemView.findViewById(R.id.desc)
+        val strip: TypeFaceTextView = itemView.findViewById(R.id.strip)
         val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
     }
 
     companion object {
         interface AdapterOpsCallbacks {
-            fun onCheckedChanged(appOp: AppOp, position: Int)
             fun onAppOpClicked(appOp: AppOp, position: Int)
         }
     }

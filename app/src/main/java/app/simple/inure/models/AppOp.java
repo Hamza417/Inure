@@ -3,6 +3,9 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import app.simple.inure.enums.AppOpMode;
+import app.simple.inure.enums.AppOpScope;
+
 public class AppOp implements Parcelable {
     private String permission;
     private String id;
@@ -10,6 +13,7 @@ public class AppOp implements Parcelable {
     private String time;
     private String duration;
     private String rejectTime;
+    private AppOpScope scope;
     
     public AppOp(String permission, String id, AppOpMode mode, String time, String duration, String rejectTime) {
         this.permission = permission;
@@ -27,6 +31,7 @@ public class AppOp implements Parcelable {
         permission = in.readString();
         id = in.readString();
         mode = AppOpMode.valueOf(in.readString());
+        scope = AppOpScope.valueOf(in.readString());
         time = in.readString();
         duration = in.readString();
         rejectTime = in.readString();
@@ -40,6 +45,7 @@ public class AppOp implements Parcelable {
         dest.writeString(time);
         dest.writeString(duration);
         dest.writeString(rejectTime);
+        dest.writeString(scope.name());
     }
     
     @Override
@@ -105,5 +111,49 @@ public class AppOp implements Parcelable {
     
     public void setRejectTime(String rejectTime) {
         this.rejectTime = rejectTime;
+    }
+    
+    public AppOpScope getScope() {
+        return scope;
+    }
+    
+    public void setScope(AppOpScope scope) {
+        this.scope = scope;
+    }
+    
+    public static String getModeString(AppOpMode mode) {
+        return switch (mode) {
+            case ALLOW ->
+                    "allow";
+            case DENY ->
+                    "deny";
+            case IGNORE ->
+                    "ignore";
+            case ASK ->
+                    "ask";
+            case DEFAULT ->
+                    "default";
+            case FOREGROUND ->
+                    "foreground";
+            default ->
+                    "unknown";
+        };
+    }
+    
+    public static AppOpMode getModeFromString(String mode) {
+        return switch (mode) {
+            case "allow" ->
+                    AppOpMode.ALLOW;
+            case "deny" ->
+                    AppOpMode.DENY;
+            case "ignore" ->
+                    AppOpMode.IGNORE;
+            case "ask" ->
+                    AppOpMode.ASK;
+            case "foreground" ->
+                    AppOpMode.FOREGROUND;
+            default ->
+                    AppOpMode.DEFAULT;
+        };
     }
 }

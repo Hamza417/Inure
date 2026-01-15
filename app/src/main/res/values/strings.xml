@@ -788,4 +788,8 @@
     <string name="apply">Apply</string>
     <string name="scope">Scope</string>
     <string name="uid_mode_desc">UID mode affects all packages sharing the same UID.</string>
+    <string name="ignored">Ignored</string>
+    <string name="denied">Denied</string>
+    <string name="ask">Ask</string>
+    <string name="foreground">Foreground</string>
 </resources>

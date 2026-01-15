@@ -61,10 +61,6 @@ class Operations : SearchBarScopedFragment() {
             setCount(it.size)
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
-                override fun onCheckedChanged(appOp: AppOp, position: Int) {
-                    operationsViewModel.updateAppOpsState(appOp, position)
-                }
-
                 override fun onAppOpClicked(appOp: AppOp, position: Int) {
                     childFragmentManager.showAppOpStateDialog(appOp, packageInfo)
                 }

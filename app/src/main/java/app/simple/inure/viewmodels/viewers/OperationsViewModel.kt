@@ -12,7 +12,6 @@ import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.util.ConditionUtils.invert
 import com.topjohnwu.superuser.Shell
 import com.topjohnwu.superuser.ShellUtils
 import kotlinx.coroutines.Dispatchers
@@ -57,31 +56,31 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
-    fun updateAppOpsState(appsOpsModel: AppOp, position: Int) {
+    fun updateAppOpsState(updatedAppOp: AppOp, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 when {
                     ConfigurationPreferences.isUsingRoot() -> {
-                        Shell.cmd(getStateChangeCommand(appsOpsModel)).exec().let {
+                        Shell.cmd(getStateChangeCommand(updatedAppOp)).exec().let {
                             if (it.isSuccess) {
-                                appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
-                                appOpsState.postValue(Pair(appsOpsModel, position))
+
+                                appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
-                                appOpsState.postValue(Pair(appsOpsModel, position))
-                                postWarning("Failed to change state of ${appsOpsModel.permission}" +
-                                                    " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                                appOpsState.postValue(Pair(updatedAppOp, position))
+                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
+                                                    " : ${""} for ${packageInfo.packageName})")
                             }
                         }
                     }
                     ConfigurationPreferences.isUsingShizuku() -> {
-                        getShizukuService().simpleExecute(getStateChangeCommand(appsOpsModel)).let {
+                        getShizukuService().simpleExecute(getStateChangeCommand(updatedAppOp)).let {
                             if (it.isSuccess) {
-                                appsOpsModel.isEnabled = appsOpsModel.isEnabled.invert()
-                                appOpsState.postValue(Pair(appsOpsModel, position))
+
+                                appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
-                                appOpsState.postValue(Pair(appsOpsModel, position))
-                                postWarning("Failed to change state of ${appsOpsModel.permission}" +
-                                                    " : ${!appsOpsModel.isEnabled} for ${packageInfo.packageName})")
+                                appOpsState.postValue(Pair(updatedAppOp, position))
+                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
+                                                    " : ${""} for ${packageInfo.packageName})")
                             }
                         }
                     }
@@ -96,12 +95,14 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
-    private fun getStateChangeCommand(appsOpsModel: AppOp): String {
+    private fun getStateChangeCommand(op: AppOp): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append("appops set ")
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
-        stringBuilder.append(appsOpsModel.permission + if (appsOpsModel.isEnabled) " deny" else " allow")
+        stringBuilder.append(op.permission)
+        stringBuilder.append(" ")
+        stringBuilder.append(AppOp.getModeString(op.mode))
         return stringBuilder.toString()
     }
 
@@ -136,7 +137,8 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                     rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
                         .toTypedArray()[1].trim { it <= ' ' }
                 }
-                ops.add(AppOp(name, id, mode == "allow", time, duration, rejectTime))
+
+                ops.add(AppOp(name, id, AppOp.getModeFromString(mode), time, duration, rejectTime))
             }
         }
         return ops
@@ -171,7 +173,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
             }
 
             sb.trim().toString()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             ""
         }
     }
