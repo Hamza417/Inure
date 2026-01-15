@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionMap
 import app.simple.inure.enums.AppOpMode
+import app.simple.inure.enums.AppOpScope
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
@@ -64,7 +65,6 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                     ConfigurationPreferences.isUsingRoot() -> {
                         Shell.cmd(getStateChangeCommand(updatedAppOp)).exec().let {
                             if (it.isSuccess) {
-
                                 appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
                                 appOpsState.postValue(Pair(updatedAppOp, position))
@@ -76,7 +76,6 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                     ConfigurationPreferences.isUsingShizuku() -> {
                         getShizukuService().simpleExecute(getStateChangeCommand(updatedAppOp)).let {
                             if (it.isSuccess) {
-
                                 appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
                                 appOpsState.postValue(Pair(updatedAppOp, position))
@@ -99,11 +98,14 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     private fun getStateChangeCommand(op: AppOp): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append("appops set ")
+        stringBuilder.append(AppOpScope.getCommandFlag(op.scope))
+        stringBuilder.append(" ")
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
         stringBuilder.append(op.permission)
         stringBuilder.append(" ")
         stringBuilder.append(op.mode.value)
+        Log.i(TAG, "$stringBuilder will be executed")
         return stringBuilder.toString()
     }
 

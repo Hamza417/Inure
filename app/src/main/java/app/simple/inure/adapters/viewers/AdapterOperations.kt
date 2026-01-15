@@ -48,7 +48,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
                     appendFlag(holder.getString(R.string.ask))
                 }
                 AppOpMode.DEFAULT -> {
-                    appendFlag(holder.getString(R.string.default_))
+                    appendFlag(holder.getString(R.string.default_identifier))
                 }
 
                 else -> {

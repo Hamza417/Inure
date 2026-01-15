@@ -16,6 +16,14 @@ public enum AppOpScope {
         return value;
     }
     
+    public static String getCommandFlag(AppOpScope scope) {
+        if (scope == PACKAGE) {
+            return ""; // No flag needed for package scope
+        } else {
+            return "--uid";
+        }
+    }
+    
     @NonNull
     @Override
     public String toString() {
