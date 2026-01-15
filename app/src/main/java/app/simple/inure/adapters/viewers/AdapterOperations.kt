@@ -56,19 +56,19 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, val keyword: String) 
                 }
             }
 
-            when {
-                !ops[position].rejectTime.isNullOrEmpty() -> {
-                    appendFlag(ops[position].rejectTime!!)
-                }
-
-                !ops[position].time.isNullOrEmpty() -> {
-                    appendFlag(ops[position].time!!)
-                }
-            }
-
-            if (ops[position].mode == AppOpMode.ALLOW && !ops[position].duration.isNullOrEmpty()) {
-                appendFlag(ops[position].duration)
-            }
+            //            when {
+            //                !ops[position].rejectTime.isNullOrEmpty() -> {
+            //                    appendFlag(ops[position].rejectTime!!)
+            //                }
+            //
+            //                !ops[position].time.isNullOrEmpty() -> {
+            //                    appendFlag(ops[position].time!!)
+            //                }
+            //            }
+            //
+            //            if (ops[position].mode == AppOpMode.ALLOW && !ops[position].duration.isNullOrEmpty()) {
+            //                appendFlag(ops[position].duration)
+            //            }
         }
 
 

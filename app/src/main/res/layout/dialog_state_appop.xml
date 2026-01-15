@@ -147,7 +147,11 @@
             android:layout_marginTop="5dp"
             android:paddingHorizontal="@dimen/dialog_padding"
             android:textSize="@dimen/desc_text_size"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             app:appFontStyle="regular"
+            app:drawableStartCompat="@drawable/ic_warning_12dp"
+            app:drawableTintStyle="accent"
             app:textColorStyle="tertiary" />
 
         <LinearLayout
