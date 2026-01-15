@@ -120,4 +120,14 @@ public class AppOp implements Parcelable {
     public void setScope(AppOpScope scope) {
         this.scope = scope;
     }
+    
+    public void copyTo(AppOp appOp) {
+        appOp.setPermission(this.permission);
+        appOp.setId(this.id);
+        appOp.setMode(this.mode);
+        appOp.setTime(this.time);
+        appOp.setDuration(this.duration);
+        appOp.setRejectTime(this.rejectTime);
+        appOp.setScope(this.scope);
+    }
 }

@@ -110,7 +110,7 @@
                 app:textColorStyle="primary" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/highlighter"
+                android:id="@+id/scope_group"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                     android:text="@string/uid" />
 
                 <app.simple.inure.decorations.views.Button
-                    android:id="@+id/unlisted"
+                    android:id="@+id/application"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -157,14 +157,6 @@
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/popup_padding"
             android:orientation="horizontal">
-
-            <app.simple.inure.decorations.views.CustomProgressBar
-                android:id="@+id/loader"
-                android:layout_width="@dimen/loader_size"
-                android:layout_height="@dimen/loader_size"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
-                android:visibility="invisible" />
 
             <app.simple.inure.decorations.ripple.DynamicRippleTextView
                 android:id="@+id/close"

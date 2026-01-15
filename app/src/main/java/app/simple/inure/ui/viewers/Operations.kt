@@ -14,6 +14,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.action.AppOpState
 import app.simple.inure.dialogs.action.AppOpState.Companion.showAppOpStateDialog
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -62,7 +63,11 @@ class Operations : SearchBarScopedFragment() {
 
             adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
                 override fun onAppOpClicked(appOp: AppOp, position: Int) {
-                    childFragmentManager.showAppOpStateDialog(appOp, packageInfo)
+                    childFragmentManager.showAppOpStateDialog(appOp, packageInfo).setAppOpStateCallbacks(object : AppOpState.Companion.AppOpStateCallbacks {
+                        override fun onApplyAppOpState(appOp: AppOp) {
+                            operationsViewModel.updateAppOpsState(appOp, position)
+                        }
+                    })
                 }
             })
 
