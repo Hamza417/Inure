@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionMap
+import app.simple.inure.enums.AppOpMode
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
@@ -102,7 +103,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         stringBuilder.append(" ")
         stringBuilder.append(op.permission)
         stringBuilder.append(" ")
-        stringBuilder.append(AppOp.getModeString(op.mode))
+        stringBuilder.append(op.mode.value)
         return stringBuilder.toString()
     }
 
@@ -138,9 +139,10 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                         .toTypedArray()[1].trim { it <= ' ' }
                 }
 
-                ops.add(AppOp(name, id, AppOp.getModeFromString(mode), time, duration, rejectTime))
+                ops.add(AppOp(name, id, AppOpMode.fromString(mode), time, duration, rejectTime))
             }
         }
+
         return ops
     }
 

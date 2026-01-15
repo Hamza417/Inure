@@ -1,6 +1,24 @@
 package app.simple.inure.enums;
 
+import androidx.annotation.NonNull;
+
 public enum AppOpScope {
-    UID,
-    PACKAGE
+    UID("uid"),
+    PACKAGE("package");
+    
+    private final String value;
+    
+    AppOpScope(String value) {
+        this.value = value;
+    }
+    
+    public String getValue() {
+        return value;
+    }
+    
+    @NonNull
+    @Override
+    public String toString() {
+        return value;
+    }
 }

@@ -120,40 +120,4 @@ public class AppOp implements Parcelable {
     public void setScope(AppOpScope scope) {
         this.scope = scope;
     }
-    
-    public static String getModeString(AppOpMode mode) {
-        return switch (mode) {
-            case ALLOW ->
-                    "allow";
-            case DENY ->
-                    "deny";
-            case IGNORE ->
-                    "ignore";
-            case ASK ->
-                    "ask";
-            case DEFAULT ->
-                    "default";
-            case FOREGROUND ->
-                    "foreground";
-            default ->
-                    "unknown";
-        };
-    }
-    
-    public static AppOpMode getModeFromString(String mode) {
-        return switch (mode) {
-            case "allow" ->
-                    AppOpMode.ALLOW;
-            case "deny" ->
-                    AppOpMode.DENY;
-            case "ignore" ->
-                    AppOpMode.IGNORE;
-            case "ask" ->
-                    AppOpMode.ASK;
-            case "foreground" ->
-                    AppOpMode.FOREGROUND;
-            default ->
-                    AppOpMode.DEFAULT;
-        };
-    }
 }
