@@ -112,7 +112,7 @@
     <string name="method_count">Metode Penghitungan</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">Dex Tunggal, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
+    <string name="activity_status"></string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Statistik Penggunaan</string>
     <string name="close">Tutup</string>
