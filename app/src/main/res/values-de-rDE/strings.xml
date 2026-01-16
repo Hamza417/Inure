@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="unknown">Nicht bekannt</string>
-    <string name="not_available">N/A</string>
+    <string name="not_available">n. v.</string>
     <string name="app_information">App-Informationen</string>
     <string name="launch">Öffnen</string>
     <string name="uninstall">Deinstallieren</string>
