@@ -95,7 +95,7 @@
     <string name="failed">Fehlgeschlagen</string>
     <string name="app_info">App Info</string>
     <string name="uses_feature">Uses Features</string>
-    <string name="gles_version"></string>
+    <string name="gles_version">GLES Version</string>
     <string name="error">Fehler</string>
     <string name="required">Erfordert</string>
     <string name="not_required">Optional</string>
