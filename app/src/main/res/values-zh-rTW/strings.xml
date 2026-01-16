@@ -783,7 +783,7 @@
     <string name="add_vote_desc">輕觸按鈕以新增您的投票。</string>
     <string name="relevance">關聯性</string>
     <string name="one_time_purchase">一次性購買，終身存取。</string>
-    <string name="allow">同意</string>
+    <string name="allow">允許</string>
     <string name="deny">拒絕</string>
     <string name="ignore">忽略</string>
     <string name="apply">套用</string>
