@@ -783,4 +783,14 @@
     <string name="add_vote_desc">Dotknij przycisku, aby dodać swój głos.</string>
     <string name="relevance">Trafność</string>
     <string name="one_time_purchase">Jednorazowy zakup. Dożywotni dostęp.</string>
+    <string name="allow">Zezwól</string>
+    <string name="deny">Odmów</string>
+    <string name="ignore">Ignoruj</string>
+    <string name="apply">Zastosuj</string>
+    <string name="scope">Zakres</string>
+    <string name="uid_mode_desc">Tryb UID wpływa na wszystkie pakiety o tym samym UID.</string>
+    <string name="ignored">Ignorowane</string>
+    <string name="denied">Odrzucone</string>
+    <string name="ask">Pytaj</string>
+    <string name="foreground">Pierwszy plan</string>
 </resources>
