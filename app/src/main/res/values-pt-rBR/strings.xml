@@ -783,4 +783,14 @@
     <string name="add_vote_desc">Toque o botão para adicionar o seu voto.</string>
     <string name="relevance">Relevância</string>
     <string name="one_time_purchase">Compra única. Acesso vitalício.</string>
+    <string name="allow">Permitir</string>
+    <string name="deny">Negar</string>
+    <string name="ignore">Ignorar</string>
+    <string name="apply">Aplicar</string>
+    <string name="scope">Escopo</string>
+    <string name="uid_mode_desc">O modo UID afeta todos os pacotes que compartilham o mesmo UID.</string>
+    <string name="ignored">Ignorado</string>
+    <string name="denied">Negado</string>
+    <string name="ask">Perguntar</string>
+    <string name="foreground">Primeiro plano</string>
 </resources>
