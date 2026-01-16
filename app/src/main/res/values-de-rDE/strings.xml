@@ -95,7 +95,7 @@
     <string name="failed">Fehlgeschlagen</string>
     <string name="app_info">App Info</string>
     <string name="uses_feature">Uses Features</string>
-    <string name="gles_version">GLES Version</string>
+    <string name="gles_version"></string>
     <string name="error">Fehler</string>
     <string name="required">Erfordert</string>
     <string name="not_required">Optional</string>
@@ -116,7 +116,7 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="files">Dateien</string>
     <string name="method_count">Methodenanzahl</string>
     <string name="multi_dex">%1$s</string>
-    <string name="single_dex">Single Dex, %1$s</string>
+    <string name="single_dex"></string>
     <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Nutzungsstatistiken</string>
