@@ -783,4 +783,14 @@
     <string name="add_vote_desc">Ketuk tombol untuk menambahkan suara Anda.</string>
     <string name="relevance">Relevansi</string>
     <string name="one_time_purchase">Pembelian satu kali. Akses seumur hidup.</string>
+    <string name="allow">Izinkan</string>
+    <string name="deny">Tolak</string>
+    <string name="ignore">Abaikan</string>
+    <string name="apply">Terapkan</string>
+    <string name="scope">Cakupan</string>
+    <string name="uid_mode_desc">Mode UID memengaruhi semua paket yang berbagi UID yang sama.</string>
+    <string name="ignored">Diabaikan</string>
+    <string name="denied">Ditolak</string>
+    <string name="ask">Tanya</string>
+    <string name="foreground">Latar Depan</string>
 </resources>
