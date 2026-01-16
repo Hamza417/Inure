@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="unknown">Unbekannt</string>
-    <string name="not_available">Nicht Verfügbar</string>
+    <string name="unknown">Nicht bekannt</string>
+    <string name="not_available">N/A</string>
     <string name="app_information">App-Informationen</string>
     <string name="launch">Öffnen</string>
     <string name="uninstall">Deinstallieren</string>
@@ -40,7 +40,7 @@
     <string name="dim_windows">Fenster dimmen</string>
     <string name="blur_windows">Unscharfe Fenster</string>
     <string name="blur_windows_desc">Unschärfe der darunterliegenden Fenster, wenn ein Pop-up auf dem Bildschirm erscheint.
-\n\nKann die Leistung der App beeinflussen</string>
+\n\nKann die Leistung der App beeinflussen.</string>
     <string name="shadows_desc">Fügt die schön aussehenden Akzente mit farbigen Umgebungsschatten verschiedenen erhöhten Ansichten der App hinzu.\n\n Nur verfügbar in API 28 oder höher.</string>
     <string name="show_colored_shadows">Farbige Schatten anzeigen</string>
     <string name="configuration">Konfiguration</string>
