@@ -9,7 +9,7 @@
     <string name="name">Ad</string>
     <string name="package_name">Paket Adı</string>
     <string name="app_size">Uygulama Boyutu</string>
-    <string name="reversed"></string>
+    <string name="reversed">Tersine</string>
     <string name="apps_category">Uygulama Kategorisi</string>
     <string name="system">Sistem</string>
     <string name="user">Kullanıcı</string>

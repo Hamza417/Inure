@@ -35,7 +35,7 @@
     <string name="color">Couleur </string>
     <string name="accent_colors">Couleur d\'accentuation</string>
     <string name="accent_color_desc">Couleur secondaire qui apparaît avec divers éléments de l\'application, tels que les icônes ou les effets tactiles.</string>
-    <string name="behavior"></string>
+    <string name="behavior">Comportement</string>
     <string name="dim_windows_desc">Diminuer les fenêtres sous-jacentes lorsqu\'une fenêtre pop-up apparaît à l\'écran.\n\nLe désactiver peut aider les ombres d\'altitude à se démarquer plus mais réduit le contraste et vice-versa.</string>
     <string name="dim_windows">Réduire les fenêtres</string>
     <string name="blur_windows">Flouter les fenêtres</string>
@@ -107,7 +107,7 @@
     <string name="root">Racine</string>
     <string name="use_root_methods">Root Mode</string>
     <string name="root_desc">Utilisez les méthodes root au lieu d\'utiliser des API et des Libs Android natifs pour exécuter certaines fonctions.\n\nCette option est recommandée car elle peut rendre l\'expérience utilisateur plus rationalisée.\n\nLe périphérique rooté est requis.</string>
-    <string name="back_button"></string>
+    <string name="back_button">Retour</string>
     <string name="files">Fichiers</string>
     <string name="method_count">Méthode de comptage</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
@@ -284,7 +284,7 @@
     <string name="hidden">Caché</string>
     <string name="visible">Visible</string>
     <string name="unchanged">Non modifié</string>
-    <string name="forward_navigation"></string>
+    <string name="forward_navigation">Navigation avant</string>
     <string name="mask_adjust">Masquer l\'ajustement</string>
     <string name="mask_state">Masquer le statut</string>
     <string name="mode_changed">Mode modifié</string>
@@ -311,7 +311,7 @@
     <string name="finish_on_close_system_dialogs">Terminer lors de la fermeture des boîtes de dialogue système</string>
     <string name="hardware_accl">Accélération matérielle</string>
     <string name="show_for_all_users">Afficher pour tous les utilisateurs</string>
-    <string name="relinquish_task_identity"></string>
+    <string name="relinquish_task_identity">Abandonner l\'identité de la tâche</string>
     <string name="auto_remove_from_recents">Retirer automatiquement des récents</string>
     <string name="resume_while_pausing">Reprendre après la pause</string>
     <string name="vr_mode">Mode RV</string>
@@ -338,7 +338,7 @@
     <string name="font_scale">Taille de police</string>
     <string name="configuration_changes">Modifications de configuration</string>
     <string name="task_affinity">Affinité de la tâche</string>
-    <string name="parent_activity"></string>
+    <string name="parent_activity">Activité parente</string>
     <string name="foreground_service_type">Type de service au premier plan</string>
     <string name="authority">Autorité</string>
     <string name="init_order">Ordre d\'initialisation</string>
@@ -349,7 +349,7 @@
     <string name="launching">Lancement</string>
     <string name="date_format">Format de date</string>
     <string name="desc_date_format">Format des dates affichées dans l\'application.</string>
-    <string name="cheatsheet"></string>
+    <string name="cheatsheet">Aide-mémoire</string>
     <string name="format">Format</string>
     <string name="reset">Réinitialiser</string>
     <string name="restart">Redémarrer</string>

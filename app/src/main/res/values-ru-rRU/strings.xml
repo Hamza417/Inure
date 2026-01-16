@@ -686,8 +686,8 @@
     <string name="load_selection_profile">Загрузить выбранный профиль</string>
     <string name="save_selection_profile">Сохранить выбранный профиль</string>
     <string name="xposed_module">Модуль Xposed</string>
-    <string name="remote_messaging"></string>
-    <string name="system_exempted"></string>
+    <string name="remote_messaging">Удаленные сообщения</string>
+    <string name="system_exempted">Системное исключение</string>
     <string name="short_service">Короткий сервис</string>
     <string name="file_management">Управление файлами</string>
     <string name="special_use">Специальное использование</string>

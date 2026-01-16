@@ -24,7 +24,7 @@
     <string name="total_tags"> %1$d علامات</string>
     <string name="apps">التطبيقات</string>
     <string name="sorting_style">نمط الترتيب</string>
-    <string name="open_application_settings">افتح إعدادات التطبيق...</string>
+    <string name="open_application_settings">افتح إعدادات التطبيق…</string>
     <string name="preferences">التفضيلات</string>
     <string name="about">عن</string>
     <string name="corner_radius_desc">نصف قطر زاوية مستديرة لمختلف عناصر التطبيق.</string>
@@ -105,7 +105,7 @@
     <string name="none">لا شيء</string>
     <string name="bouncy_desc">قيمة لمقدار ارتداد القائمة جيئة وذهابا قبل الاستقرار بعد انتهاء القائمة.</string>
     <string name="root">Root</string>
-    <string name="use_root_methods"></string>
+    <string name="use_root_methods">وضع الروت</string>
     <string name="root_desc">استخدم طرق الجذر بدلا من استخدام واجهات برمجة تطبيقات Android الأصلية و Libs لأداء بعض الوظائف.\n\nيوصى بهذا الخيار لأنه يمكن أن يجعل تجربة المستخدم أكثر بساطة.\n\nمطلوب جهاز روت.</string>
     <string name="back_button">رجوع</string>
     <string name="files">الملفات</string>
@@ -682,8 +682,8 @@
     <string name="receiver">المستقبل</string>
     <string name="load_selection_profile">تحميل ملف تعريف التحديد</string>
     <string name="save_selection_profile">حفظ ملف تعريف التحديد</string>
-    <string name="xposed_module"></string>
-    <string name="remote_messaging"></string>
+    <string name="xposed_module">وحدة Xposed</string>
+    <string name="remote_messaging">الرسائل عن بُعد</string>
     <string name="system_exempted">النظام مستثنى</string>
     <string name="short_service">الخدمة القصيرة</string>
     <string name="file_management">إدارة الملفات</string>
@@ -704,13 +704,13 @@
     <string name="selected_apps">%1$d محدد</string>
     <string name="restore">إسترجاع</string>
     <string name="license_key">مفتاح الترخيص</string>
-    <string name="verify"></string>
+    <string name="verify">تحقق</string>
     <string name="licence_verification">التحقق من الترخيص</string>
     <string name="enter_license_key">إدخال مفتاح الترخيص</string>
     <string name="show_user_list">إظهار قائمة المستخدمين</string>
     <string name="show_user_list_desc">إظهار النافذة المنبثقة لتحديد المستخدم قبل تثبيت التطبيق.</string>
     <string name="uninstall_downgrade_desc">هل ترغب في إلغاء تثبيت الإصدار الحالي قبل متابعة التثبيت ، ستفقد جميع البيانات؟</string>
-    <string name="created_on"></string>
+    <string name="created_on">تم الإنشاء في %1$s</string>
     <string name="code_signature">كود التوقيع</string>
     <string name="network_signature">توقيع الشبكة</string>
     <string name="website">الموقع الالكتروني</string>

@@ -714,7 +714,7 @@
     <string name="code_signature">代码签名</string>
     <string name="network_signature">网络签名</string>
     <string name="website">网站</string>
-    <string name="create_selection_from_tags"></string>
+    <string name="create_selection_from_tags">从标签创建选择</string>
     <string name="blocked">已拦截</string>
     <string name="actions">行为</string>
     <string name="lock_task_warning">。</string>
