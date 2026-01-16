@@ -783,4 +783,14 @@
     <string name="add_vote_desc">ボタンをタップして投票を追加します。</string>
     <string name="relevance">関連性</string>
     <string name="one_time_purchase">1回限りの購入。無期限アクセス。</string>
+    <string name="allow">許可</string>
+    <string name="deny">拒否</string>
+    <string name="ignore">無視</string>
+    <string name="apply">適用</string>
+    <string name="scope">スコープ</string>
+    <string name="uid_mode_desc">UIDモードは、同じUIDを共有するすべてのパッケージに影響します。</string>
+    <string name="ignored">無視</string>
+    <string name="denied">拒否</string>
+    <string name="ask">尋ねる</string>
+    <string name="foreground">フォアグラウンド</string>
 </resources>
