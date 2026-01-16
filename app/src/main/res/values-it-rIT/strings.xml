@@ -744,6 +744,7 @@
     <string name="suspected_tracker">Tracker Sospettato</string>
     <string name="etip_desc">Il componente è nella lista di ETIP. Se è un tracker o non è ancora in fase di indagine.</string>
     <string name="show_diff_styled_changes">Mostra le modifiche allo stile di differenza</string>
+    <string name="virustotal_api_desc">Inserisci la tua chiave VirusTotal API per utilizzare la funzionalità di scansione.</string>
     <string name="installer_options">Opzioni Di Installatore</string>
     <string name="grant_all_runtime_permissions">Concedi Tutti I Permessi Di Runtime</string>
     <string name="allow_downgrade">Consenti Downgrade Codice Versione</string>
@@ -772,7 +773,7 @@
     <string name="confirmed_timeout">Timeout confermato</string>
     <string name="failure">Fallimento</string>
     <string name="type_unsupported">Tipo non supportato</string>
-    <string name="skin">Skin</string>
+    <string name="skin">Tema</string>
     <string name="open_vt_page">Apri pagina rapporto scansione</string>
     <string name="upload_file_to_vt">Vuoi caricare il file?</string>
     <string name="get_api_key">Ottieni la mia chiave API</string>
