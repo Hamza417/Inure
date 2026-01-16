@@ -63,7 +63,7 @@
     <string name="target_sdk">SDK mục tiêu</string>
     <string name="uid">Uid</string>
     <string name="install_date">Cài đặt ngày</string>
-    <string name="update_date">Download</string>
+    <string name="update_date">Ngày cập nhật</string>
     <string name="permissions">Quyền</string>
     <string name="activities">Các hoạt động</string>
     <string name="services">Dịch vụ</string>
