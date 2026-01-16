@@ -731,7 +731,7 @@
     <string name="not_allowed">不允許</string>
     <string name="color_picker">色彩選擇器</string>
     <string name="supported">支援</string>
-    <string name="tracker_root_warning">使用 Root 存取權以在此處封鎖追蹤器。</string>
+    <string name="tracker_root_warning">使用 Root 存取權在此處封鎖追蹤器。</string>
     <string name="list_style_title">清單樣式</string>
     <string name="list_style_desc">選擇應用程式中主要清單的版面配置檢視。</string>
     <string name="condensed">精簡</string>
@@ -783,7 +783,7 @@
     <string name="add_vote_desc">輕觸按鈕以新增您的投票。</string>
     <string name="relevance">關聯性</string>
     <string name="one_time_purchase">一次性購買，終身存取。</string>
-    <string name="allow">允許</string>
+    <string name="allow">同意</string>
     <string name="deny">拒絕</string>
     <string name="ignore">忽略</string>
     <string name="apply">套用</string>
