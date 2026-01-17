@@ -112,7 +112,6 @@
     <string name="method_count">Méthode de comptage</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">Simple Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Statistiques d\'utilisation</string>
     <string name="close">Fermer</string>
