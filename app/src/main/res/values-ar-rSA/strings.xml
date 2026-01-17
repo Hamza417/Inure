@@ -112,7 +112,6 @@
     <string name="method_count">عدد الطرق</string>
     <string name="multi_dex">متعدد Dex, %1$s</string>
     <string name="single_dex">واحد Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">الطرفية</string>
     <string name="usage_statistics">إحصائية الاستخدام</string>
     <string name="close">اغلاق</string>

@@ -59,7 +59,6 @@ class ServicesViewModel(application: Application, private val packageInfo: Packa
                     }
 
                     with(StringBuilder()) {
-                        append(" | ")
                         append(MetaUtils.getForegroundServiceType(serviceInfoModel.foregroundType, applicationContext()))
                         append(" | ")
                         append(MetaUtils.getServiceFlags(info.flags, applicationContext()))

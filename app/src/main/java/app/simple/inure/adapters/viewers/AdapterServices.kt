@@ -14,6 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromServiceInfo
 import app.simple.inure.models.ServiceInfoModel
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.StringUtils.appendFlag
 import com.bumptech.glide.Glide
 
 class AdapterServices(private val services: MutableList<ServiceInfoModel>, private val packageInfo: PackageInfo, private val keyword: String) : RecyclerView.Adapter<AdapterServices.Holder>() {
@@ -30,30 +31,32 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         holder.packageId.text = services[position].name
         holder.name.setTrackingIcon(services[position].trackerId.isNullOrEmpty().not())
 
-        holder.status.text = kotlin.runCatching {
-            holder.itemView.context.getString(
-                    R.string.activity_status,
+        val context = holder.itemView.context
+        val service = services[position]
 
-                    if (services[position].isExported) {
-                        holder.itemView.context.getString(R.string.exported)
+        holder.status.text = buildString {
+            appendFlag(
+                    if (service.isExported) {
+                        context.getString(R.string.exported)
                     } else {
-                        holder.itemView.context.getString(R.string.not_exported)
-                    },
+                        context.getString(R.string.not_exported)
+                    }
+            )
 
-                    kotlin.runCatching {
-                        if (ServicesUtils.isEnabled(holder.itemView.context, packageInfo.packageName, services[position].name)) {
-                            holder.itemView.context.getString(R.string.enabled)
+            appendFlag(
+                    runCatching {
+                        if (ServicesUtils.isEnabled(context, packageInfo.packageName, service.name)) {
+                            context.getString(R.string.enabled)
                         } else {
-                            holder.itemView.context.getString(R.string.disabled)
+                            context.getString(R.string.disabled)
                         }
                     }.getOrElse {
-                        holder.itemView.context.getString(R.string.no_state)
-                    })
-        }.getOrElse {
-            it.message ?: holder.itemView.context.getString(R.string.error)
-        }
+                        context.getString(R.string.no_state)
+                    }
+            )
 
-        holder.status.append(services[position].status)
+            appendFlag(service.status)
+        }
 
         holder.container.setOnLongClickListener {
             servicesCallbacks
@@ -86,7 +89,7 @@ class AdapterServices(private val services: MutableList<ServiceInfoModel>, priva
         Glide.with(holder.icon.context).clear(holder.icon)
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.adapter_services_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_services_package)

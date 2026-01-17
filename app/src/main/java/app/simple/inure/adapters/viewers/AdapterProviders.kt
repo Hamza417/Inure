@@ -14,6 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromProviderInfo
 import app.simple.inure.models.ProviderInfoModel
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.StringUtils.appendFlag
 
 class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterProviders.Holder>() {
@@ -29,26 +30,34 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         holder.name.text = providers[position].name.substring(providers[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = providers[position].name
 
-        holder.status.text = holder.itemView.context.getString(
-                R.string.activity_status,
+        val context = holder.itemView.context
+        val provider = providers[position]
 
-                if (providers[position].isExported) {
-                    holder.itemView.context.getString(R.string.exported)
+        holder.status.text = buildString {
+            appendFlag(
+                    if (provider.isExported) {
+                        context.getString(R.string.exported)
                 } else {
-                    holder.itemView.context.getString(R.string.not_exported)
-                },
+                        context.getString(R.string.not_exported)
+                    }
+            )
 
-                kotlin.runCatching {
-                    if (ProvidersUtils.isEnabled(holder.itemView.context, packageInfo.packageName, providers[position].name)) {
-                        holder.itemView.context.getString(R.string.enabled)
+            appendFlag(
+                    runCatching {
+                        if (ProvidersUtils.isEnabled(context, packageInfo.packageName, provider.name)) {
+                            context.getString(R.string.enabled)
                     } else {
-                        holder.itemView.context.getString(R.string.disabled)
+                            context.getString(R.string.disabled)
                     }
                 }.getOrElse {
-                    holder.itemView.context.getString(R.string.no_state)
-                })
-        holder.status.append(providers[position].status)
-        holder.name.setTrackingIcon(providers[position].trackingId.isNullOrEmpty().not())
+                        context.getString(R.string.no_state)
+                    }
+            )
+
+            appendFlag(provider.status)
+        }
+
+        holder.name.setTrackingIcon(provider.trackingId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
             providersCallbacks
@@ -76,7 +85,7 @@ class AdapterProviders(private val providers: MutableList<ProviderInfoModel>, pr
         return providers.size
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.adapter_providers_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.adapter_providers_package)

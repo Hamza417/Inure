@@ -117,7 +117,6 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="method_count">Methodenanzahl</string>
     <string name="multi_dex">%1$s</string>
     <string name="single_dex">Single Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Nutzungsstatistiken</string>
     <string name="close">Schließen</string>

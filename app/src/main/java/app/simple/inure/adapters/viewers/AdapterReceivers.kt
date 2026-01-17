@@ -14,6 +14,7 @@ import app.simple.inure.decorations.views.AppIconImageView
 import app.simple.inure.glide.util.ImageLoader.loadIconFromActivityInfo
 import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.StringUtils.appendFlag
 
 class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, private val packageInfo: PackageInfo, val keyword: String)
     : RecyclerView.Adapter<AdapterReceivers.Holder>() {
@@ -28,26 +29,35 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         holder.icon.loadIconFromActivityInfo(receivers[position].activityInfo)
         holder.name.text = receivers[position].name.substring(receivers[position].name.lastIndexOf(".") + 1)
         holder.packageId.text = receivers[position].name
-        holder.status.text = holder.itemView.context.getString(
-                R.string.activity_status,
 
-                if (receivers[position].exported) {
-                    holder.itemView.context.getString(R.string.exported)
+        val context = holder.itemView.context
+        val receiver = receivers[position]
+
+        holder.status.text = buildString {
+            appendFlag(
+                    if (receiver.exported) {
+                        context.getString(R.string.exported)
                 } else {
-                    holder.itemView.context.getString(R.string.not_exported)
-                },
+                        context.getString(R.string.not_exported)
+                    }
+            )
 
-                kotlin.runCatching {
-                    if (ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[position].name)) {
-                        holder.itemView.context.getString(R.string.enabled)
+            appendFlag(
+                    runCatching {
+                        if (ReceiversUtils.isEnabled(context, packageInfo.packageName, receiver.name)) {
+                            context.getString(R.string.enabled)
                     } else {
-                        holder.itemView.context.getString(R.string.disabled)
+                            context.getString(R.string.disabled)
                     }
                 }.getOrElse {
-                    holder.itemView.context.getString(R.string.no_state)
-                })
-        holder.status.append(receivers[position].status)
-        holder.name.setTrackingIcon(receivers[position].trackerId.isNullOrEmpty().not())
+                        context.getString(R.string.no_state)
+                    }
+            )
+
+            appendFlag(receiver.status)
+        }
+
+        holder.name.setTrackingIcon(receiver.trackerId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
             receiversCallbacks
@@ -75,7 +85,7 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         return receivers.size
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.name)
         val packageId: TypeFaceTextView = itemView.findViewById(R.id.process)

@@ -15,6 +15,7 @@ import app.simple.inure.models.ActivityInfoModel
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.AdapterUtils
+import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
@@ -32,35 +33,43 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         holder.name.text = activities[holder.absoluteAdapterPosition].name.substring(activities[holder.absoluteAdapterPosition].name.lastIndexOf(".") + 1)
         holder.activityPackageID.text = activities[position].name
         holder.icon.loadIconFromActivityInfo(activities[position].activityInfo)
-        holder.status.text = holder.itemView.context.getString(
-                R.string.activity_status,
 
-                if (activities[position].exported) {
-                    holder.itemView.context.getString(R.string.exported)
-                } else {
-                    holder.itemView.context.getString(R.string.not_exported)
-                },
+        val context = holder.itemView.context
+        val activity = activities[holder.absoluteAdapterPosition]
 
-                kotlin.runCatching {
-                    if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[position].name)) {
-                        holder.itemView.context.getString(R.string.enabled)
+        holder.status.text = buildString {
+            appendFlag(
+                    if (activity.exported) {
+                        context.getString(R.string.exported)
                     } else {
-                        holder.itemView.context.getString(R.string.disabled)
+                        context.getString(R.string.not_exported)
                     }
-                }.getOrElse {
-                    holder.itemView.context.getString(R.string.no_state)
-                }
-        )
-        holder.status.append(activities[position].status)
-        holder.name.setTrackingIcon(activities[position].trackerId.isNullOrEmpty().not())
+            )
 
-        holder.launch.setOnClickListener {
-            activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)
+            appendFlag(
+                    runCatching {
+                        if (ActivityUtils.isEnabled(context, packageInfo.packageName, activity.name)) {
+                            context.getString(R.string.enabled)
+                        } else {
+                            context.getString(R.string.disabled)
+                        }
+                    }.getOrElse {
+                        context.getString(R.string.no_state)
+                    }
+            )
+
+            appendFlag(activities[position].status)
         }
 
-        if (activities[position].exported) {
+        holder.name.setTrackingIcon(activity.trackerId.isNullOrEmpty().not())
+
+        holder.launch.setOnClickListener {
+            activitiesCallbacks.onLaunchClicked(packageInfo.packageName, activity.name)
+        }
+
+        if (activity.exported) {
             kotlin.runCatching {
-                if (ActivityUtils.isEnabled(holder.itemView.context, packageInfo.packageName, activities[holder.absoluteAdapterPosition].name)) {
+                if (ActivityUtils.isEnabled(context, packageInfo.packageName, activity.name)) {
                     holder.launch.visible(false)
                     holder.divider.visible(false)
                 } else {
@@ -77,16 +86,17 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         }
 
         holder.container.setOnClickListener {
-            activitiesCallbacks.onActivityClicked(activities[holder.absoluteAdapterPosition], activities[holder.absoluteAdapterPosition].name)
+            activitiesCallbacks.onActivityClicked(activity, activity.name)
         }
 
         holder.container.setOnLongClickListener {
             activitiesCallbacks
                 .onActivityLongPressed(
-                        activities[holder.absoluteAdapterPosition],
+                        activity,
                         packageInfo,
                         it,
-                        holder.absoluteAdapterPosition)
+                        holder.absoluteAdapterPosition
+                )
             true
         }
 
@@ -103,7 +113,7 @@ class AdapterActivities(private val packageInfo: PackageInfo, private val activi
         return activities[position].name.hashCode().toLong()
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val icon: AppIconImageView = itemView.findViewById(R.id.adapter_activity_icon)
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_activity_status)
