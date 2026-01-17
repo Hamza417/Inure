@@ -112,7 +112,6 @@
     <string name="method_count">Conteggio Metodo</string>
     <string name="multi_dex">Dex multiplo, %1$s</string>
     <string name="single_dex">Dex singolo, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Terminale</string>
     <string name="usage_statistics">Statistiche di utilizzo</string>
     <string name="close">Chiudi</string>
