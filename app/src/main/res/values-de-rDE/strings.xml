@@ -115,7 +115,7 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="back_button">Zurück</string>
     <string name="files">Dateien</string>
     <string name="method_count">Methodenanzahl</string>
-    <string name="multi_dex">%1$s</string>
+    <string name="multi_dex">Mehrfach-Dex: %1$s</string>
     <string name="single_dex">Einzelne Dex, %1$s</string>
     <string name="terminal">Terminal</string>
     <string name="usage_statistics">Nutzungsstatistiken</string>
