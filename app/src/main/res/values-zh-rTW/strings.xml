@@ -112,7 +112,6 @@
     <string name="method_count">方法計數</string>
     <string name="multi_dex">多重 Dex，%1$s</string>
     <string name="single_dex">單一 Dex，%1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">終端機</string>
     <string name="usage_statistics">使用統計資料</string>
     <string name="close">關閉</string>
@@ -783,7 +782,7 @@
     <string name="add_vote_desc">輕觸按鈕以新增您的投票。</string>
     <string name="relevance">關聯性</string>
     <string name="one_time_purchase">一次性購買，終身存取。</string>
-    <string name="allow">允許</string>
+    <string name="allow">同意</string>
     <string name="deny">拒絕</string>
     <string name="ignore">忽略</string>
     <string name="apply">套用</string>
