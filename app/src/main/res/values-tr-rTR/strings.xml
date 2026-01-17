@@ -112,7 +112,6 @@
     <string name="method_count">Yöntem Sayısı</string>
     <string name="multi_dex">Çoklu Dex, %1$s</string>
     <string name="single_dex">Tekli Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Uçbirim</string>
     <string name="usage_statistics">Kullanım İstatistikleri</string>
     <string name="close">Kapat</string>

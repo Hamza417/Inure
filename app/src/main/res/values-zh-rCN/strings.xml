@@ -112,7 +112,6 @@
     <string name="method_count">计数方式</string>
     <string name="multi_dex">多Dex, %1$s</string>
     <string name="single_dex">单Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">终端</string>
     <string name="usage_statistics">使用情况统计</string>
     <string name="close">关闭</string>

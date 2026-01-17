@@ -112,7 +112,6 @@
     <string name="method_count">Đếm phương pháp</string>
     <string name="multi_dex">Multi Dex, %1$s</string>
     <string name="single_dex">DEX đơn, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Phần cuối</string>
     <string name="usage_statistics">Thống kê sử dụng</string>
     <string name="close">Đóng</string>

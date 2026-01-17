@@ -112,7 +112,6 @@
     <string name="method_count">विधि गणना</string>
     <string name="multi_dex">मल्टी डेक्स, %1$s</string>
     <string name="single_dex">सिंगल डेक्स, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">टर्मिनल</string>
     <string name="usage_statistics">इस्तेमाल आंकड़े</string>
     <string name="close">बंद करें</string>
