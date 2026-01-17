@@ -112,7 +112,6 @@
     <string name="method_count">Кол-во методов</string>
     <string name="multi_dex">Мульти Dex, %1$s</string>
     <string name="single_dex">Одиночный Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">Терминал</string>
     <string name="usage_statistics">Статистика использования</string>
     <string name="close">Закрыть</string>
