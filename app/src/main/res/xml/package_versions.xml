@@ -4332,6 +4332,7 @@
     <string name="de.klimek.compass" translatable="false">Apache-2.0</string>
     <string name="com.flasskamp.compete" translatable="false">AGPL-3.0-only</string>
     <string name="com.justdeax.composeStopwatch" translatable="false">Apache-2.0</string>
+    <string name="compress.joshattic.us" translatable="false">MIT</string>
     <string name="com.akylas.conty" translatable="false">MIT</string>
     <string name="com.coderstory.toolkit" translatable="false">GPL-2.0-only</string>
     <string name="cyou.sk5s.app.countdate" translatable="false">MIT</string>
@@ -4384,7 +4385,7 @@
     <string name="nimble.dotterel" translatable="false">GPL-2.0-only</string>
     <string name="com.orik.airdotsdoubletap" translatable="false">MIT</string>
     <string name="com.dosse.dozeoff" translatable="false">GPL-3.0-only</string>
-    <string name="org.elnix.dragonlauncher" translatable="false">MIT</string>
+    <string name="org.elnix.dragonlauncher" translatable="false">GPL-3.0-only</string>
     <string name="com.shezik.drawanywhere" translatable="false">AGPL-3.0-only</string>
     <string name="in.hridayan.driftly" translatable="false">GPL-3.0-only</string>
     <string name="com.github.umer0586.droidpad" translatable="false">GPL-3.0-only</string>
@@ -4849,6 +4850,7 @@
     <string name="com.octo4a" translatable="false">AGPL-3.0-only</string>
     <string name="sadLogic.OctoTouchController.foss" translatable="false">AGPL-3.0-only</string>
     <string name="sadLogic.OctoTouchController" translatable="false">AGPL-3.0-only</string>
+    <string name="com.oksigenia.oksigenia_sos" translatable="false">GPL-3.0-only</string>
     <string name="app.olauncher" translatable="false">GPL-3.0-only</string>
     <string name="app.olauncher.light" translatable="false">GPL-3.0-only</string>
     <string name="com.freakurl.apps.ollama" translatable="false">Apache-2.0</string>
@@ -5029,6 +5031,7 @@
     <string name="dev.uint.qrserv" translatable="false">MIT</string>
     <string name="com.wchung.qrshare" translatable="false">Apache-2.0</string>
     <string name="com.shpak.quicktimer" translatable="false">MIT</string>
+    <string name="com.biohazard786.quickupi" translatable="false">MIT</string>
     <string name="com.abizer_r.quickedit" translatable="false">Apache-2.0</string>
     <string name="com.example.quickmdcapture" translatable="false">MIT</string>
     <string name="info.plateaukao.quickrotate" translatable="false">GPL-3.0-or-later</string>
@@ -5071,6 +5074,7 @@
     <string name="com.vishnu.remindme" translatable="false">GPL-3.0-only</string>
     <string name="com.niklas8.remotefiles" translatable="false">GPL-3.0-only</string>
     <string name="systems.sieber.remotespotlight" translatable="false">GPL-3.0-only</string>
+    <string name="com.samyak.repostore" translatable="false">MIT</string>
     <string name="de.binarynoise.resetAllNotificationChannels" translatable="false">EUPL-1.2</string>
     <string name="de.lolhens.resticui" translatable="false">GPL-2.0-only</string>
     <string name="net.xcreen.restsms" translatable="false">MIT</string>
