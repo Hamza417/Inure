@@ -112,7 +112,6 @@
     <string name="method_count">メソッド数</string>
     <string name="multi_dex">マルチ Dex, %1$s</string>
     <string name="single_dex">シングル Dex, %1$s</string>
-    <string name="activity_status">%1$s | %2$s</string>
     <string name="terminal">ターミナル</string>
     <string name="usage_statistics">使用統計</string>
     <string name="close">閉じる</string>
