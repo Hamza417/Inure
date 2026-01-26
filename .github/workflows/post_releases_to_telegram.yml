@@ -2,8 +2,8 @@ name: Post Releases to Telegram
 
 on:
     release:
-        types: [ published ]
-    workflow_dispatch: # Allow manual triggering
+        types: [published, released]
+    workflow_dispatch:
 
 jobs:
     post:
@@ -107,8 +107,7 @@ jobs:
                     to: ${{ secrets.APP_CHANNEL_ID_FOR_TG_BOT }}
                     token: ${{ secrets.TG_BOT_KEY }}
                     message: |
-                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store. 
-                        Read the changelogs here: https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG }}
+                        ${{ env.VERSION_NAME }} is live on the GitHub and Play Store.
 
 #            -   name: Send First APK to Telegram
 #                uses: appleboy/telegram-action@master
