@@ -5144,6 +5144,7 @@
     <string name="pl.edu.pjwstk.s999844.shoppinglist" translatable="false">GPL-2.0-only</string>
     <string name="com.michaldrabik.showly2" translatable="false">GPL-3.0-only</string>
     <string name="com.aicodix.shredpix" translatable="false">0BSD</string>
+    <string name="com.blankdev.sidestep" translatable="false">AGPL-3.0-only</string>
     <string name="dev.animeshvarma.sigil" translatable="false">GPL-3.0-only</string>
     <string name="com.tortillum.signalid" translatable="false">GPL-3.0-only</string>
     <string name="ch.martinstoeckli.silentnotes" translatable="false">MPL-2.0</string>
