@@ -15,6 +15,7 @@ import app.simple.inure.enums.AppOpScope
 import app.simple.inure.models.AppOp
 import app.simple.inure.util.AdapterUtils
 import app.simple.inure.util.StringUtils.appendFlag
+import app.simple.inure.util.StringUtils.ifEmptyOrNull
 import java.util.Locale
 
 class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) : RecyclerView.Adapter<AdapterOperations.Holder>() {
@@ -27,7 +28,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.name.text = ops[position].permission.sanitize()
-        holder.desc.text = holder.context.getPermissionDescription(ops[position].id)
+        holder.desc.text = holder.context.getPermissionDescription(ops[position].id.ifEmptyOrNull(ops[position].permission))
 
         AdapterUtils.searchHighlighter(holder.name, keyword)
         AdapterUtils.searchHighlighter(holder.desc, keyword)

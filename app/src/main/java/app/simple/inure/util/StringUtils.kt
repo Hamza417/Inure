@@ -8,6 +8,7 @@ import androidx.core.text.toSpannable
 import app.simple.inure.constants.Extensions
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.manager.ThemeManager
+import app.simple.inure.util.StringUtils.endsWithAny
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.Locale
@@ -210,7 +211,7 @@ object StringUtils {
         }
     }
 
-    fun String?.whenEmptyOrNull(default: String): String {
+    fun String?.ifEmptyOrNull(default: String): String {
         return this?.ifEmpty { default } ?: default
     }
 }

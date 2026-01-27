@@ -19,7 +19,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.util.DateUtils.toDate
 import app.simple.inure.util.FileUtils.toFileOrNull
-import app.simple.inure.util.StringUtils.whenEmptyOrNull
+import app.simple.inure.util.StringUtils.ifEmptyOrNull
 import app.simple.inure.virustotal.VirusTotalResponse
 
 class AdapterVirusTotal(
@@ -77,7 +77,7 @@ class AdapterVirusTotal(
             is GeneralInfoHolder -> {
                 holder.firstSubmissionDate.text = virusTotalResponse.firstSubmissionDate.times(1000L).toDate()
                 holder.lastSubmissionDate.text = virusTotalResponse.lastSubmissionDate.times(1000L).toDate()
-                holder.meaningfulName.text = virusTotalResponse.meaningfulName.whenEmptyOrNull(holder.getString(R.string.not_available))
+                holder.meaningfulName.text = virusTotalResponse.meaningfulName.ifEmptyOrNull(holder.getString(R.string.not_available))
                 holder.sha256.text = virusTotalResponse.sha256
                 holder.sha1.text = virusTotalResponse.sha1
                 holder.md5.text = virusTotalResponse.md5
@@ -176,12 +176,12 @@ class AdapterVirusTotal(
         }
     }
 
-    inner class TotalVotesHolder(itemView: View) : VerticalListViewHolder(itemView) {
+    class TotalVotesHolder(itemView: View) : VerticalListViewHolder(itemView) {
         val harmless: DynamicRippleTextView = itemView.findViewById(R.id.satisfied_votes)
         val malicious: DynamicRippleTextView = itemView.findViewById(R.id.not_satisfied_votes)
     }
 
-    inner class AnalysisResultHolder(itemView: View) : VerticalListViewHolder(itemView) {
+    class AnalysisResultHolder(itemView: View) : VerticalListViewHolder(itemView) {
         val result: TypeFaceTextView = itemView.findViewById(R.id.result)
         val verdict: TypeFaceTextView = itemView.findViewById(R.id.verdict)
         val container: DynamicRippleMaterialCardView = itemView.findViewById(R.id.container)
@@ -240,7 +240,7 @@ class AdapterVirusTotal(
         }
     }
 
-    inner class DisclaimerHolder(itemView: View) : VerticalListViewHolder(itemView)
+    class DisclaimerHolder(itemView: View) : VerticalListViewHolder(itemView)
 
     fun setAdapterVirusTotalListener(adapterVirusTotalListener: AdapterVirusTotalListener) {
         this.adapterVirusTotalListener = adapterVirusTotalListener

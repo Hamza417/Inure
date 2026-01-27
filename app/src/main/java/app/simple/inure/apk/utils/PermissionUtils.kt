@@ -11,6 +11,33 @@ import java.io.InputStreamReader
 
 object PermissionUtils {
 
+    // MIUI custom app ops with their numeric IDs and descriptions
+    private val MIUI_APP_OPS = mapOf(
+            10001 to "Allows the app to change WiFi state.",
+            10002 to "Allows the app to change Bluetooth state.",
+            10003 to "Allows the app to change mobile data connection state.",
+            10004 to "Allows the app to send MMS messages.",
+            10005 to "Allows the app to read MMS messages.",
+            10006 to "Allows the app to write/modify MMS messages.",
+            10007 to "Allows the app to start automatically when device boots.",
+            10008 to "Allows the app to start automatically in the background.",
+            10009 to "Allows the app to change NFC state.",
+            10010 to "Allows the app to delete SMS messages.",
+            10011 to "Allows the app to delete MMS messages.",
+            10012 to "Allows the app to delete contacts.",
+            10013 to "Allows the app to delete call logs.",
+            10014 to "Allows the app to schedule exact alarms.",
+            10015 to "Allows the app to access Xiaomi account information.",
+            10016 to "Allows the app to use NFC functionality.",
+            10017 to "Allows the app to install shortcuts on the home screen.",
+            10018 to "Allows the app to read notification SMS messages.",
+            10019 to "Allows the app to get the list of running tasks.",
+            10020 to "Allows the app to show content when the device is locked.",
+            10021 to "Allows the app to start activities from the background.",
+            10022 to "Allows the app to get the list of installed apps.",
+            10023 to "Allows the app to run foreground services"
+    )
+
     private const val PROTECTION_FLAG_OEM = 0x4000
     private const val PROTECTION_FLAG_VENDOR_PRIVILEGED = 0x8000
     private const val PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER = 0x10000
@@ -154,7 +181,44 @@ object PermissionUtils {
         return protection
     }
 
+    /**
+     * Gets the description for MIUI custom app ops based on the numeric ID
+     * @param opId The numeric ID (e.g., 10008 from MIUIOP(10008))
+     * @return Description of the operation or null if not found
+     */
+    fun getMiuiAppOpDescription(opId: Int): String? {
+        return MIUI_APP_OPS[opId]
+    }
+
+    /**
+     * Gets the description for MIUI custom app ops from the full op name
+     * @param opName The full operation name (e.g., "MIUIOP(10008)")
+     * @return Description of the operation or null if not found or not a MIUI op
+     */
+    fun getMiuiAppOpDescription(opName: String?): String? {
+        opName?.let {
+            if (it.contains("(") && it.endsWith(")")) {
+                val numericId = it.substringAfter("(").substringBefore(")").toIntOrNull()
+                return numericId?.let { id -> MIUI_APP_OPS[id] }
+            }
+        }
+        return null
+    }
+
     fun Context.getPermissionDescription(name: String?): String {
+        // First check if it's a MIUI custom op (e.g., MIUIOP(10008))
+        name?.let {
+            if (it.contains("(") && it.endsWith(")")) {
+                val numericId = it.substringAfter("(").substringBefore(")").toIntOrNull()
+                numericId?.let { id ->
+                    MIUI_APP_OPS[id]?.let { description ->
+                        return description
+                    }
+                }
+            }
+        }
+
+        // Fall back to standard Android permission description
         kotlin.runCatching {
             val desc = name!!.getPermissionInfo(this)!!.loadDescription(packageManager)
 
