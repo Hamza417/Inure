@@ -102,7 +102,18 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
-        stringBuilder.append(op.permission)
+
+        // Extract numeric ID from OEM custom ops like MIUIOP(10008), OPPOop(20001), etc.
+        // Universal pattern: if format is NAME(number), extract just the number
+        val permission = if (op.permission.contains("(") && op.permission.endsWith(")")) {
+            val extracted = op.permission.substringAfter("(").substringBefore(")")
+            // Verify it's numeric before using it, otherwise fall back to original
+            if (extracted.toIntOrNull() != null) extracted else op.permission
+        } else {
+            op.permission
+        }
+
+        stringBuilder.append(permission)
         stringBuilder.append(" ")
         stringBuilder.append(op.mode.value)
         Log.i(TAG, "$stringBuilder will be executed")
