@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="unknown">Unknown</string>
+    <string name="unknown">Bilinmeyen</string>
     <string name="not_available">N/A</string>
     <string name="app_information">Uygulama Bilgileri</string>
     <string name="launch">Aç</string>
@@ -21,20 +21,20 @@
     <string name="total_apps">%1$d Uygulama</string>
     <string name="total_sensors">%1$d Sensör</string>
     <string name="total_notes">%1$d Not</string>
-    <string name="total_tags">%1$d Etiketler</string>
+    <string name="total_tags">%1$d Etiket</string>
     <string name="apps">Uygulamalar</string>
     <string name="sorting_style">Sıralama Şekli</string>
     <string name="open_application_settings">Uygulama Ayarlarını Aç…</string>
     <string name="preferences">Tercihler</string>
     <string name="about">Hakkında</string>
-    <string name="corner_radius_desc">Uygulamanın çeşitli öğelerinin yuvarlatılmış köşe yarıçapı.</string>
+    <string name="corner_radius_desc">Uygulamanın çeşitli ögelerinin yuvarlatılmış köşe yarıçapı.</string>
     <string name="corner_radius">Köşe Yarçapı</string>
     <string name="layouts">Düzenlemeler</string>
     <string name="set">Ayarla</string>
     <string name="cancel">İptal</string>
     <string name="color">Renk</string>
     <string name="accent_colors">Ara Renk</string>
-    <string name="accent_color_desc">Simgeler veya dokunma efektleri gibi uygulamanın çeşitli öğeleriyle birlikte görünen ikincil renk.</string>
+    <string name="accent_color_desc">Simgeler veya dokunma efektleri gibi uygulamanın çeşitli ögeleriyle birlikte görünen ikincil renk.</string>
     <string name="behavior">Davranış</string>
     <string name="dim_windows_desc">Ekranda bir açılır pencere göründüğünde alttaki pencereleri karartın.\n\nKapatmak, gölgelerin daha fazla öne çıkmasına yardımcı olabilir ancak kontrastı azaltır (veya tam tersi).</string>
     <string name="dim_windows">Pencereleri Karart</string>
@@ -387,7 +387,7 @@
     <string name="descriptive">Tanımlayıcı</string>
     <string name="lists">Listeler</string>
     <string name="dividers">Bölücüler</string>
-    <string name="desc_dividers">Uygulama boyunca her kaydırılabilir listenin öğeleri arasında bölücüler kullanın.</string>
+    <string name="desc_dividers">Uygulama boyunca her kaydırılabilir listenin ögeleri arasında bölücüler kullanın.</string>
     <string name="shared_libs">Paylaşılan Kütüphaneler</string>
     <string name="copy_package_name">Paket Adını Kopyala</string>
     <string name="batch">Grup</string>
@@ -459,7 +459,7 @@
     <string name="auto_save">Otomatik Kaydet</string>
     <string name="edited_on">%1$s düzenlenmiş</string>
     <string name="stroke">Kenar</string>
-    <string name="desc_highlight_stroke">Arka plan olarak ayarlanmış statik arka planlara sahip tüm tıklanabilir öğelere kontur ekleyin.</string>
+    <string name="desc_highlight_stroke">Arka plan olarak ayarlanmış statik arka planlara sahip tüm tıklanabilir ögelere kontur ekleyin.</string>
     <string name="shortcuts">Kısayollar</string>
     <string name="shortcuts_desc">Uygulamanın hızlı kısayollarını düzenleyin.</string>
     <string name="architecture">Mimari</string>
@@ -613,7 +613,7 @@
     <string name="package_manager">Paket Yöneticisi</string>
     <string name="vertical">Dikey</string>
     <string name="home">Anasayfa</string>
-    <string name="menu_layout_desc">Ana paneldeki öğelerin düzenini değiştirin.</string>
+    <string name="menu_layout_desc">Ana paneldeki ögelerin düzenini değiştirin.</string>
     <string name="visibility_customization">Görünürlük Özelleştirmesi</string>
     <string name="home_visibility_customization_desc">Ana panelden bazı seçeneklerin görünürlüğünü değiştirin.</string>
     <string name="installer_visibility_customization_desc">Bazı panellerin görünürlüğünü Yükleyici panelinden değiştirin.</string>
