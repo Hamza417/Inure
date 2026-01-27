@@ -67,7 +67,6 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                             if (it.isSuccess) {
                                 appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
                                 postWarning("Failed to change state of ${updatedAppOp.permission}" +
                                                     " : ${""} for ${packageInfo.packageName})")
                             }
@@ -78,9 +77,8 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
                             if (it.isSuccess) {
                                 appOpsState.postValue(Pair(updatedAppOp, position))
                             } else {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
                                 postWarning("Failed to change state of ${updatedAppOp.permission}" +
-                                                    " : ${""} for ${packageInfo.packageName})")
+                                                    " : ${""} for ${packageInfo.packageName}")
                             }
                         }
                     }
@@ -99,7 +97,9 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         val stringBuilder = StringBuilder()
         stringBuilder.append("appops set ")
         stringBuilder.append(AppOpScope.getCommandFlag(op.scope))
-        stringBuilder.append(" ")
+        if (op.scope == AppOpScope.UID) {
+            stringBuilder.append(" ")
+        }
         stringBuilder.append(packageInfo.packageName)
         stringBuilder.append(" ")
         stringBuilder.append(op.permission)
