@@ -4509,6 +4509,7 @@
     <string name="org.unifiedpush.distributor.fcm" translatable="false">Apache-2.0</string>
     <string name="com.onyx.darie.calin.gentleglowonyxboox" translatable="false">MIT</string>
     <string name="page.ooooo.geoshare" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.eliasbuenosdias.geogas" translatable="false">GPL-3.0-only</string>
     <string name="de.hauke_stieler.geonotes" translatable="false">GPL-3.0-or-later</string>
     <string name="org.app.geotagvideocamera" translatable="false">GPL-3.0-only</string>
     <string name="v4lpt.vpt.f003.gdp" translatable="false">GPL-3.0-only</string>
