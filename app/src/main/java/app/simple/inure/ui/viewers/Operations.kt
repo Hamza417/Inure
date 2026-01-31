@@ -10,11 +10,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterOperations
+import app.simple.inure.adapters.viewers.AdapterOperations.Companion.AdapterOpsCallbacks
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.views.CustomProgressBar
-import app.simple.inure.dialogs.action.AppOpState
+import app.simple.inure.dialogs.action.AppOpState.Companion.AppOpStateCallbacks
 import app.simple.inure.dialogs.action.AppOpState.Companion.showAppOpStateDialog
 import app.simple.inure.extensions.fragments.SearchBarScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
@@ -66,9 +67,9 @@ class Operations : SearchBarScopedFragment() {
 
             setCount(it.size)
 
-            adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOperations.Companion.AdapterOpsCallbacks {
+            adapterOperations?.setOnOpsCheckedChangeListener(object : AdapterOpsCallbacks {
                 override fun onAppOpClicked(appOp: AppOp, position: Int) {
-                    childFragmentManager.showAppOpStateDialog(appOp, packageInfo).setAppOpStateCallbacks(object : AppOpState.Companion.AppOpStateCallbacks {
+                    childFragmentManager.showAppOpStateDialog(appOp, packageInfo).setAppOpStateCallbacks(object : AppOpStateCallbacks {
                         override fun onApplyAppOpState(appOp: AppOp) {
                             operationsViewModel.updateAppOpsState(appOp, position)
                         }
