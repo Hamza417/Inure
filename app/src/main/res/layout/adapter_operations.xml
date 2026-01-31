@@ -42,10 +42,51 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/desc_text_size"
         app:appFontStyle="regular"
-        app:layout_constraintBottom_toTopOf="@+id/adapter_batch_date"
+        app:layout_constraintBottom_toTopOf="@+id/state_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/strip"
         app:textColorStyle="tertiary" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/state_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/desc"
+        app:layout_constraintHorizontal_bias="1"
+        app:selectionRequired="false"
+        app:singleSelection="true">
+
+        <app.simple.inure.decorations.views.Button
+            android:id="@+id/allow"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="@string/allow" />
+
+        <app.simple.inure.decorations.views.Button
+            android:id="@+id/ignore"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="@string/ignore" />
+
+        <app.simple.inure.decorations.views.Button
+            android:id="@+id/deny"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="@string/deny" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 </app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout>

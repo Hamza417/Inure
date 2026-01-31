@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionDescription
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Colors
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.Button
@@ -59,8 +60,8 @@ class AppOpState : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        allow.setButtonCheckedColor(allowColor)
-        deny.setButtonCheckedColor(denyColor)
+        allow.setButtonCheckedColor(Colors.ALLOW_COLOR.toColorInt())
+        deny.setButtonCheckedColor(Colors.DENY_COLOR.toColorInt())
 
         name.text = appOp?.permission ?: getString(R.string.unknown)
         description.text = requireContext().getPermissionDescription(appOp?.id ?: "")
@@ -155,9 +156,6 @@ class AppOpState : ScopedBottomSheetFragment() {
             dialog.show(this, TAG)
             return dialog
         }
-
-        private val allowColor = "#1F7A55".toColorInt()
-        private val denyColor = "#C11007".toColorInt()
 
         interface AppOpStateCallbacks {
             fun onApplyAppOpState(appOp: AppOp)

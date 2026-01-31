@@ -75,6 +75,10 @@ class Operations : SearchBarScopedFragment() {
                         }
                     })
                 }
+
+                override fun onAppOpStateChanged(newAppOp: AppOp, position: Int) {
+                    operationsViewModel.updateAppOpsState(newAppOp, position)
+                }
             })
 
             if (recyclerView.adapter == null) {

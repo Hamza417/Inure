@@ -13,6 +13,10 @@ object Colors {
     const val COFFEE = 2
     const val COLD = 3
 
+    /** Colors for App Ops **/
+    const val ALLOW_COLOR = "#1F7A55"
+    const val DENY_COLOR = "#C11007"
+
     private val pastel: ArrayList<Int> by lazy {
         arrayListOf(
                 Color.parseColor("#A7727D"),
