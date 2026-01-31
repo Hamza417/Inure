@@ -40,13 +40,13 @@ class TerminalMainMenu : ScopedDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (requireArguments().getBoolean(BundleConstants.wakelock)) {
+        if (requireArguments().getBoolean(BundleConstants.WAKE_LOCK)) {
             wakeLock.text = requireContext().getString(R.string.disable_wakelock)
         } else {
             wakeLock.text = requireContext().getString(R.string.enable_wakelock)
         }
 
-        if (requireArguments().getBoolean(BundleConstants.wifilock)) {
+        if (requireArguments().getBoolean(BundleConstants.WIFI_LOCK)) {
             wifiLock.text = requireContext().getString(R.string.disable_wifilock)
         } else {
             wifiLock.text = requireContext().getString(R.string.enable_wifilock)
@@ -76,8 +76,8 @@ class TerminalMainMenu : ScopedDialogFragment() {
     companion object {
         fun newInstance(wakeLockHeld: Boolean, wifiLockHeld: Boolean): TerminalMainMenu {
             val args = Bundle()
-            args.putBoolean(BundleConstants.wakelock, wakeLockHeld)
-            args.putBoolean(BundleConstants.wifilock, wifiLockHeld)
+            args.putBoolean(BundleConstants.WAKE_LOCK, wakeLockHeld)
+            args.putBoolean(BundleConstants.WIFI_LOCK, wifiLockHeld)
             val fragment = TerminalMainMenu()
             fragment.arguments = args
             return fragment

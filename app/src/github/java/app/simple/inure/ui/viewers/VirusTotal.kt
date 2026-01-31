@@ -61,7 +61,7 @@ class VirusTotal : ScopedFragment() {
         status = view.findViewById(R.id.status)
         options = view.findViewById(R.id.options)
         recyclerView = view.findViewById(R.id.recycler_view)
-        packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
         return view
     }
 
@@ -324,7 +324,7 @@ class VirusTotal : ScopedFragment() {
         fun newInstance(packageInfo: PackageInfo): VirusTotal {
             val fragment = VirusTotal()
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             fragment.arguments = args
             return fragment
         }

@@ -110,16 +110,16 @@ class AudioPlayer : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
 
         kotlin.runCatching {
-            uri = requireArguments().parcelable(BundleConstants.uri)
+            uri = requireArguments().parcelable(BundleConstants.URI)
             if (uri.isNull()) throw NullPointerException("Uri is null")
             art.transitionName = uri.toString()
         }.onFailure {
             // Probably the [AudioModel] mode
-            audioModel = requireArguments().parcelable(BundleConstants.audioModel)
+            audioModel = requireArguments().parcelable(BundleConstants.AUDIO)
             art.transitionName = audioModel?.fileUri.toString()
         }
 
-        fromActivity = requireArguments().getBoolean(BundleConstants.fromActivity, false)
+        fromActivity = requireArguments().getBoolean(BundleConstants.FROM_ACTIVITY, false)
 
         audioIntentFilter.addAction(ServiceConstants.actionPrepared)
         audioIntentFilter.addAction(ServiceConstants.actionQuitMusicService)
@@ -471,8 +471,8 @@ class AudioPlayer : ScopedFragment() {
     companion object {
         fun newInstance(uri: Uri, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
-            args.putParcelable(BundleConstants.uri, uri)
-            args.putBoolean(BundleConstants.fromActivity, fromActivity)
+            args.putParcelable(BundleConstants.URI, uri)
+            args.putBoolean(BundleConstants.FROM_ACTIVITY, fromActivity)
             val fragment = AudioPlayer()
             fragment.arguments = args
             return fragment
@@ -480,8 +480,8 @@ class AudioPlayer : ScopedFragment() {
 
         fun newInstance(audioModel: AudioModel, fromActivity: Boolean = false): AudioPlayer {
             val args = Bundle()
-            args.putParcelable(BundleConstants.audioModel, audioModel)
-            args.putBoolean(BundleConstants.fromActivity, fromActivity)
+            args.putParcelable(BundleConstants.AUDIO, audioModel)
+            args.putBoolean(BundleConstants.FROM_ACTIVITY, fromActivity)
             val fragment = AudioPlayer()
             fragment.arguments = args
             return fragment

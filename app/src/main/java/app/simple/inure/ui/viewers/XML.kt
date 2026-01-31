@@ -84,11 +84,11 @@ class XML : FinderScopedFragment() {
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
         search = view.findViewById(R.id.search)
 
-        name.text = requireArguments().getString(BundleConstants.pathToXml)!!
+        name.text = requireArguments().getString(BundleConstants.PATH_TO_XML)!!
 
         applicationInfoFactory = XMLViewerViewModelFactory(packageInfo,
-                                                           requireArguments().getString(BundleConstants.pathToXml)!!,
-                                                           requireArguments().getBoolean(BundleConstants.isRaw, false))
+                                                           requireArguments().getString(BundleConstants.PATH_TO_XML)!!,
+                                                           requireArguments().getBoolean(BundleConstants.IS_RAW, false))
 
         componentsViewModel = ViewModelProvider(this, applicationInfoFactory)[XMLViewerViewModel::class.java]
 
@@ -108,7 +108,7 @@ class XML : FinderScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (requireArguments().getBoolean(BundleConstants.isManifest)) {
+        if (requireArguments().getBoolean(BundleConstants.IS_MANIFEST)) {
             icon.setImageResource(R.drawable.ic_android)
         } else {
             icon.setImageResource(R.drawable.ic_file_xml)
@@ -205,10 +205,10 @@ class XML : FinderScopedFragment() {
          */
         fun newInstance(packageInfo: PackageInfo?, isManifest: Boolean, pathToXml: String?, isRaw: Boolean = false): XML {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putBoolean(BundleConstants.isManifest, isManifest)
-            args.putBoolean(BundleConstants.isRaw, isRaw)
-            args.putString(BundleConstants.pathToXml, pathToXml)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putBoolean(BundleConstants.IS_MANIFEST, isManifest)
+            args.putBoolean(BundleConstants.IS_RAW, isRaw)
+            args.putString(BundleConstants.PATH_TO_XML, pathToXml)
             val fragment = XML()
             fragment.arguments = args
             return fragment

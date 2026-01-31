@@ -82,7 +82,7 @@ class ShouldUpload : ScopedBottomSheetFragment() {
 
         fun newInstance(packageInfo: PackageInfo): ShouldUpload {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = ShouldUpload()
             fragment.arguments = args
             return fragment

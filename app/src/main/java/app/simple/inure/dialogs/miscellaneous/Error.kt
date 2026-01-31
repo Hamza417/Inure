@@ -30,7 +30,7 @@ class Error : ScopedBottomSheetFragment() {
 
         error = view.findViewById(R.id.print_error)
 
-        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString(BundleConstants.error)!!)
+        val errorViewModelFactory = ErrorViewModelFactory(requireArguments().getString(BundleConstants.ERROR)!!)
         errorViewModel = ViewModelProvider(this, errorViewModelFactory)[ErrorViewModel::class.java]
 
         return view
@@ -63,7 +63,7 @@ class Error : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(error: String): Error {
             val args = Bundle()
-            args.putString(BundleConstants.error, error)
+            args.putString(BundleConstants.ERROR, error)
             val fragment = Error()
             fragment.arguments = args
             return fragment

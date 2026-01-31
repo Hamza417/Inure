@@ -172,7 +172,7 @@ class Trackers : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Trackers {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Trackers()
             fragment.arguments = args
             return fragment

@@ -87,7 +87,7 @@ class Send : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Send {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Send()
             fragment.arguments = args
             return fragment

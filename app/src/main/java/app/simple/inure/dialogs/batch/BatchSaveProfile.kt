@@ -33,7 +33,7 @@ class BatchSaveProfile : ScopedDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_save_batch_profile, container, false)
 
-        packages = requireArguments().getStringArrayList(BundleConstants.packages)!!
+        packages = requireArguments().getStringArrayList(BundleConstants.PACKAGES)!!
         editText = view.findViewById(R.id.edit_text)
         save = view.findViewById(R.id.save)
         close = view.findViewById(R.id.close)
@@ -109,7 +109,7 @@ class BatchSaveProfile : ScopedDialogFragment() {
     companion object {
         fun newInstance(packages: ArrayList<String>): BatchSaveProfile {
             val args = Bundle()
-            args.putStringArrayList(BundleConstants.packages, packages)
+            args.putStringArrayList(BundleConstants.PACKAGES, packages)
             val fragment = BatchSaveProfile()
             fragment.arguments = args
             return fragment

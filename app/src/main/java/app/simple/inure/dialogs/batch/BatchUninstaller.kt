@@ -33,10 +33,10 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        appList = requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!
+        appList = requireArguments().parcelableArrayList(BundleConstants.SELECTED_BATCH_APPS)!!
         batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
 
-        val batchViewModelFactory = BatchViewModelFactory(appList, requireArguments().getBoolean(BundleConstants.state))
+        val batchViewModelFactory = BatchViewModelFactory(appList, requireArguments().getBoolean(BundleConstants.STATE))
         batchUninstallerViewModel = ViewModelProvider(this, batchViewModelFactory)[BatchUninstallerViewModel::class.java]
 
         return view
@@ -62,7 +62,7 @@ class BatchUninstaller : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(list: ArrayList<BatchPackageInfo>): BatchUninstaller {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.selectedBatchApps, list)
+            args.putParcelableArrayList(BundleConstants.SELECTED_BATCH_APPS, list)
             val fragment = BatchUninstaller()
             fragment.arguments = args
             return fragment

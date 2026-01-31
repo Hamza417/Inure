@@ -19,9 +19,9 @@ class ApkInstallerActivity : BaseActivity() {
 
         if (savedInstanceState.isNull()) {
             kotlin.runCatching {
-                if (intent.extras?.serializable<File>(BundleConstants.file).isNotNull()) {
+                if (intent.extras?.serializable<File>(BundleConstants.FILE).isNotNull()) {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.app_container, Installer.newInstance(intent.extras?.serializable<File>(BundleConstants.file)!!), Installer.TAG)
+                        .replace(R.id.app_container, Installer.newInstance(intent.extras?.serializable<File>(BundleConstants.FILE)!!), Installer.TAG)
                         .commit()
                 } else {
                     if (intent?.action == Intent.ACTION_SEND) {

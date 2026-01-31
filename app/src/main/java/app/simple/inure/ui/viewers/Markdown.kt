@@ -68,8 +68,8 @@ class Markdown : ScopedFragment() {
 
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
-                requireArguments().getString(BundleConstants.path)!!,
-                requireArguments().getBoolean(BundleConstants.isRaw))
+                requireArguments().getString(BundleConstants.PATH)!!,
+                requireArguments().getBoolean(BundleConstants.IS_RAW))
 
         backPress = requireActivity().onBackPressedDispatcher
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
@@ -135,9 +135,9 @@ class Markdown : ScopedFragment() {
          */
         fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): Markdown {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.path, path)
-            args.putBoolean(BundleConstants.isRaw, isRaw)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PATH, path)
+            args.putBoolean(BundleConstants.IS_RAW, isRaw)
             val fragment = Markdown()
             fragment.arguments = args
             return fragment

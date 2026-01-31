@@ -43,10 +43,10 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        paths = requireArguments().parcelableArrayList(BundleConstants.trackers)!!
+        paths = requireArguments().parcelableArrayList(BundleConstants.TRACKERS)!!
 
         if (savedInstanceState.isNotNull()) {
-            selectedPaths = savedInstanceState?.serializable(BundleConstants.selectedTrackers)!!
+            selectedPaths = savedInstanceState?.serializable(BundleConstants.SELECTED_TRACKERS)!!
         } else {
             selectedPaths.addAll(paths)
         }
@@ -98,14 +98,14 @@ class TrackerSelector : ScopedBottomSheetFragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putSerializable(BundleConstants.selectedTrackers, selectedPaths)
+        outState.putSerializable(BundleConstants.SELECTED_TRACKERS, selectedPaths)
         super.onSaveInstanceState(outState)
     }
 
     companion object {
         fun newInstance(trackers: ArrayList<Tracker>): TrackerSelector {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.trackers, trackers)
+            args.putParcelableArrayList(BundleConstants.TRACKERS, trackers)
             val fragment = TrackerSelector()
             fragment.arguments = args
             return fragment

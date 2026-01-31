@@ -39,7 +39,7 @@ class VirusTotalAnalysisResult : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val results = (requireArguments().serializable<HashMap<String, AnalysisResult>>(BundleConstants.result) ?: HashMap()).entries
+        val results = (requireArguments().serializable<HashMap<String, AnalysisResult>>(BundleConstants.RESULT) ?: HashMap()).entries
             .sortedBy { entry ->
                 severityOrder.indexOf(entry.value.category).let {
                     if (it == -1) Int.MAX_VALUE else it
@@ -58,7 +58,7 @@ class VirusTotalAnalysisResult : ScopedBottomSheetFragment() {
 
         fun newInstance(results: HashMap<String, AnalysisResult>): VirusTotalAnalysisResult {
             val args = Bundle()
-            args.putSerializable(BundleConstants.result, results)
+            args.putSerializable(BundleConstants.RESULT, results)
             val fragment = VirusTotalAnalysisResult()
             fragment.arguments = args
             return fragment

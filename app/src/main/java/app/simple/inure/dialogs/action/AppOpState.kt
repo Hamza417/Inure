@@ -50,7 +50,7 @@ class AppOpState : ScopedBottomSheetFragment() {
         stateGroup = view.findViewById(R.id.state_group)
         scopeGroup = view.findViewById(R.id.scope_group)
 
-        appOp = BundleCompat.getParcelable(requireArguments(), BundleConstants.appOp, AppOp::class.java) ?: AppOp()
+        appOp = BundleCompat.getParcelable(requireArguments(), BundleConstants.APP_OP, AppOp::class.java) ?: AppOp()
         appOp?.copyTo(updatedAppOp)
 
         return view
@@ -143,8 +143,8 @@ class AppOpState : ScopedBottomSheetFragment() {
 
         fun newInstance(appOp: AppOp, packageInfo: PackageInfo): AppOpState {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putParcelable(BundleConstants.appOp, appOp)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putParcelable(BundleConstants.APP_OP, appOp)
             val fragment = AppOpState()
             fragment.arguments = args
             return fragment

@@ -85,9 +85,9 @@ class MusicSearch : KeyboardScopedFragment() {
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
-        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+        if (requireArguments().getBoolean(BundleConstants.IS_KEYBOARD_OPENED, false).invert()) {
             searchBox.showInput()
-            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
+            requireArguments().putBoolean(BundleConstants.IS_KEYBOARD_OPENED, true)
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->
@@ -104,7 +104,7 @@ class MusicSearch : KeyboardScopedFragment() {
             adapterMusic?.setOnMusicCallbackListener(object : AdapterMusic.Companion.MusicCallbacks {
                 override fun onMusicClicked(audioModel: AudioModel, art: ImageView, position: Int) {
                     openFragmentArc(AudioPlayer.newInstance(position, fromSearch = true), art, AudioPlayer.TAG)
-                    requireArguments().putInt(BundleConstants.position, position)
+                    requireArguments().putInt(BundleConstants.POSITION, position)
                 }
 
                 override fun onMusicLongClicked(audioModel: AudioModel, view: ImageView, position: Int, container: View) {
@@ -174,7 +174,7 @@ class MusicSearch : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+            if (requireArguments().getInt(BundleConstants.POSITION, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
                 }

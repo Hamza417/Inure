@@ -25,7 +25,7 @@ class BatchForceStop : ScopedBottomSheetFragment() {
         val view = inflater.inflate(R.layout.dialog_result, container, false)
 
         results = view.findViewById(R.id.result)
-        val factory = BatchAppsFactory(requireArguments().parcelableArrayList(BundleConstants.selectedBatchApps)!!)
+        val factory = BatchAppsFactory(requireArguments().parcelableArrayList(BundleConstants.SELECTED_BATCH_APPS)!!)
         viewModel = ViewModelProvider(this, factory).get(BatchForceStopViewModel::class.java)
 
         return view
@@ -46,7 +46,7 @@ class BatchForceStop : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: ArrayList<BatchPackageInfo>): BatchForceStop {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.selectedBatchApps, packageInfo)
+            args.putParcelableArrayList(BundleConstants.SELECTED_BATCH_APPS, packageInfo)
             val fragment = BatchForceStop()
             fragment.arguments = args
             return fragment

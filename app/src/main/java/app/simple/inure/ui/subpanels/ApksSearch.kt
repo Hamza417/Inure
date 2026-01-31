@@ -89,9 +89,9 @@ class ApksSearch : KeyboardScopedFragment() {
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
-        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+        if (requireArguments().getBoolean(BundleConstants.IS_KEYBOARD_OPENED, false).invert()) {
             searchBox.showInput()
-            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
+            requireArguments().putBoolean(BundleConstants.IS_KEYBOARD_OPENED, true)
         }
 
         apkBrowserViewModel.getSearchResults().observe(viewLifecycleOwner) {
@@ -99,8 +99,8 @@ class ApksSearch : KeyboardScopedFragment() {
 
             adapterApksSearch = AdapterApksSearch(
                     it, searchBox.text.toString(),
-                    requireArguments().getString(BundleConstants.transitionName, ""),
-                    requireArguments().getInt(BundleConstants.position, 0))
+                    requireArguments().getString(BundleConstants.TRANSITION_NAME, ""),
+                    requireArguments().getInt(BundleConstants.POSITION, 0))
 
             adapterApksSearch.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -205,8 +205,8 @@ class ApksSearch : KeyboardScopedFragment() {
                                 if (packageInfo.isInstalled()) {
                                     packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
                                     icon.transitionName = packageInfo.packageName
-                                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                                    requireArguments().putInt(BundleConstants.position, position)
+                                    requireArguments().putString(BundleConstants.TRANSITION_NAME, icon.transitionName)
+                                    requireArguments().putInt(BundleConstants.POSITION, position)
                                     packageInfo.safeApplicationInfo.name = it[position].file.absolutePath.substringAfterLast("/")
                                     openFragmentArc(AppInfo.newInstance(packageInfo), icon, AppInfo.TAG)
                                 } else {

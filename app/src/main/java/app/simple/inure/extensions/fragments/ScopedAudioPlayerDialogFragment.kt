@@ -45,7 +45,7 @@ open class ScopedAudioPlayerDialogFragment : DialogFragment(), SharedPreferences
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
         kotlin.runCatching {
-            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+            packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
         }
     }
 

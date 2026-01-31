@@ -43,10 +43,10 @@ class AddedTag : ScopedBottomSheetFragment() {
 
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) { tags ->
             val tag = tags.find {
-                requireArguments().getString(BundleConstants.tag) == it.tag
+                requireArguments().getString(BundleConstants.TAG) == it.tag
             }
 
-            this.tag.text = requireArguments().getString(BundleConstants.tag)
+            this.tag.text = requireArguments().getString(BundleConstants.TAG)
             total.text = requireContext().getString(R.string.total_apps, (tag?.packages?.split(",")?.size ?: 0))
 
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -62,7 +62,7 @@ class AddedTag : ScopedBottomSheetFragment() {
         fun newInstance(tag: String): AddedTag {
             val args = Bundle()
             val fragment = AddedTag()
-            args.putString(BundleConstants.tag, tag)
+            args.putString(BundleConstants.TAG, tag)
             fragment.arguments = args
             return fragment
         }

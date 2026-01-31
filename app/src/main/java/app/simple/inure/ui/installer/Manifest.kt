@@ -27,10 +27,10 @@ class Manifest : ScopedFragment() {
         text = view.findViewById(R.id.line_edit_text)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
+            file = requireArguments().getSerializable(BundleConstants.FILE, File::class.java)
         } else {
             @Suppress("DEPRECATION")
-            file = requireArguments().getSerializable(BundleConstants.file) as File
+            file = requireArguments().getSerializable(BundleConstants.FILE) as File
         }
 
         val p0 = InstallerViewModelFactory(null, file)
@@ -61,7 +61,7 @@ class Manifest : ScopedFragment() {
     companion object {
         fun newInstance(file: File): Manifest {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Manifest()
             fragment.arguments = args
             return fragment

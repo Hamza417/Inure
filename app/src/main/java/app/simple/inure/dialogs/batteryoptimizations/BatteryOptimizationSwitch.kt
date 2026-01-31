@@ -37,7 +37,7 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
         done = view.findViewById(R.id.done)
         cancel = view.findViewById(R.id.cancel)
 
-        batteryOptimizationModel = requireArguments().parcelable(BundleConstants.batteryOptimizationModel)
+        batteryOptimizationModel = requireArguments().parcelable(BundleConstants.BATTERY_OPTIMIZATION)
 
         return view
     }
@@ -86,7 +86,7 @@ class BatteryOptimizationSwitch : ScopedDialogFragment() {
     companion object {
         fun newInstance(batteryOptimizationModel: BatteryOptimizationModel): BatteryOptimizationSwitch {
             val args = Bundle()
-            args.putParcelable(BundleConstants.batteryOptimizationModel, batteryOptimizationModel)
+            args.putParcelable(BundleConstants.BATTERY_OPTIMIZATION, batteryOptimizationModel)
             val fragment = BatteryOptimizationSwitch()
             fragment.arguments = args
             return fragment

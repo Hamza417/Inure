@@ -66,7 +66,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 when (intent?.action) {
                     ServiceConstants.actionPackageInfo -> {
-                        packageInfo = intent.extras?.parcelable(BundleConstants.packageInfo)!!
+                        packageInfo = intent.extras?.parcelable(BundleConstants.PACKAGE_INFO)!!
                         icon.setImageDrawable(packageInfo.safeApplicationInfo.loadIcon(requireContext().packageManager))
                         name.text = packageInfo.safeApplicationInfo.loadLabel(requireContext().packageManager)
                         packageName.text = buildString {
@@ -81,7 +81,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 installerService = (service as InstallerService.InstallerServiceBinder).getService()
-                installerService?.uri = requireArguments().parcelable(BundleConstants.uri)
+                installerService?.uri = requireArguments().parcelable(BundleConstants.URI)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -135,7 +135,7 @@ class InstallerServiceMode : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(uri: Uri): InstallerServiceMode {
             val args = Bundle()
-            args.putParcelable(BundleConstants.uri, uri)
+            args.putParcelable(BundleConstants.URI, uri)
             val fragment = InstallerServiceMode()
             fragment.arguments = args
             return fragment

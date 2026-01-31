@@ -61,7 +61,7 @@ class Components : ScopedFragment() {
         fun newInstance(packageInfo: PackageInfo): Components {
             val args = Bundle()
             val fragment = Components()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             fragment.arguments = args
             return fragment
         }

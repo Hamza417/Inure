@@ -61,8 +61,8 @@ class Image : ScopedFragment() {
 
     private val imageViewerViewModel: ImageViewerViewModel by lazy {
         val imageViewerViewModelFactory = ImageViewerViewModelFactory(
-                requireArguments().getString(BundleConstants.pathToImage)!!,
-                requireArguments().getString(BundleConstants.pathToApk)!!)
+                requireArguments().getString(BundleConstants.PATH_TO_IMAGE)!!,
+                requireArguments().getString(BundleConstants.PATH_TO_APK)!!)
 
         ViewModelProvider(this, imageViewerViewModelFactory)[ImageViewerViewModel::class.java]
     }
@@ -157,7 +157,7 @@ class Image : ScopedFragment() {
             showWarning(it)
         }
 
-        name.text = requireArguments().getString(BundleConstants.pathToImage)
+        name.text = requireArguments().getString(BundleConstants.PATH_TO_IMAGE)
 
         back.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -311,8 +311,8 @@ class Image : ScopedFragment() {
     companion object {
         fun newInstance(pathToApk: String, imagePath: String): Image {
             val args = Bundle()
-            args.putString(BundleConstants.pathToApk, pathToApk)
-            args.putString(BundleConstants.pathToImage, imagePath)
+            args.putString(BundleConstants.PATH_TO_APK, pathToApk)
+            args.putString(BundleConstants.PATH_TO_IMAGE, imagePath)
             val fragment = Image()
             fragment.arguments = args
             return fragment

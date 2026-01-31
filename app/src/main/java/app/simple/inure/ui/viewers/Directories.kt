@@ -54,7 +54,7 @@ class Directories : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Directories {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Directories()
             fragment.arguments = args
             return fragment

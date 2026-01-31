@@ -56,7 +56,7 @@ class State : ScopedActionDialogBottomFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): State {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = State()
             fragment.arguments = args
             return fragment

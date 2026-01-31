@@ -121,8 +121,8 @@ class XMLWebView : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, pathToXml: String?): XMLWebView {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.pathToXml, pathToXml)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PATH_TO_XML, pathToXml)
             val fragment = XMLWebView()
             fragment.arguments = args
             return fragment

@@ -29,8 +29,8 @@ class BatchState : ScopedBottomSheetFragment() {
 
         state = view.findViewById(R.id.state)
 
-        appList = requireArguments().serializable(BundleConstants.selectedBatchApps)!!
-        val batchViewModelFactory = BatchViewModelFactory(appList, requireArguments().getBoolean(BundleConstants.state))
+        appList = requireArguments().serializable(BundleConstants.SELECTED_BATCH_APPS)!!
+        val batchViewModelFactory = BatchViewModelFactory(appList, requireArguments().getBoolean(BundleConstants.STATE))
         batchStateViewModel = ViewModelProvider(this, batchViewModelFactory)[BatchStateViewModel::class.java]
 
         return view
@@ -49,7 +49,7 @@ class BatchState : ScopedBottomSheetFragment() {
 
         batchStateViewModel?.getSuccess()?.observe(viewLifecycleOwner) {
             state.text = buildString {
-                if (requireArguments().getBoolean(BundleConstants.state)) {
+                if (requireArguments().getBoolean(BundleConstants.STATE)) {
                     append(getString(R.string.n_enabled, it))
                 } else {
                     append(getString(R.string.n_disabled, it))
@@ -65,8 +65,8 @@ class BatchState : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(list: ArrayList<BatchPackageInfo>, state: Boolean): BatchState {
             val args = Bundle()
-            args.putSerializable(BundleConstants.selectedBatchApps, list)
-            args.putBoolean(BundleConstants.state, state)
+            args.putSerializable(BundleConstants.SELECTED_BATCH_APPS, list)
+            args.putBoolean(BundleConstants.STATE, state)
             val fragment = BatchState()
             fragment.arguments = args
             return fragment

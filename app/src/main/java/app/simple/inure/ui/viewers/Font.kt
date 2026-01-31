@@ -32,7 +32,7 @@ class Font : KeyboardScopedFragment() {
         fontEditText = view.findViewById(R.id.ttf_viewer)
         fontName = view.findViewById(R.id.ttf_name)
 
-        fontViewModelFactory = FontViewModelFactory(requireArguments().getString(BundleConstants.path)!!, packageInfo)
+        fontViewModelFactory = FontViewModelFactory(requireArguments().getString(BundleConstants.PATH)!!, packageInfo)
         fontViewModel = ViewModelProvider(this, fontViewModelFactory).get(FontViewModel::class.java)
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
@@ -45,7 +45,7 @@ class Font : KeyboardScopedFragment() {
 
         startPostponedEnterTransition()
 
-        fontName.text = requireArguments().getString(BundleConstants.path)
+        fontName.text = requireArguments().getString(BundleConstants.PATH)
 
         fontViewModel.getQuote().observe(viewLifecycleOwner) {
             fontEditText.setText(it)
@@ -65,8 +65,8 @@ class Font : KeyboardScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo, path: String): Font {
             val args = Bundle()
-            args.putString(BundleConstants.path, path)
-            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
+            args.putString(BundleConstants.PATH, path)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, applicationInfo)
             val fragment = Font()
             fragment.arguments = args
             return fragment

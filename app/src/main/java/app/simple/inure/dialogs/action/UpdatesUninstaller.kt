@@ -74,7 +74,7 @@ class UpdatesUninstaller : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): UpdatesUninstaller {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = UpdatesUninstaller()
             fragment.arguments = args
             return fragment

@@ -96,7 +96,7 @@ class DexClasses : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): DexClasses {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = DexClasses()
             fragment.arguments = args
             return fragment

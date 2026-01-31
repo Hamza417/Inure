@@ -44,7 +44,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
         count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
-        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
+        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.ENTRY)!!)
         analyticsDataViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsDataViewModel::class.java]
 
         return view
@@ -60,9 +60,9 @@ class AnalyticsTargetSDK : ScopedFragment() {
         }
 
         title.text = if (AnalyticsPreferences.getSDKValue()) {
-            SDKUtils.getSdkTitle(SDKUtils.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label))
+            SDKUtils.getSdkTitle(SDKUtils.convertAndroidVersionToSDKCode(requireArguments().parcelable<PieEntry>(BundleConstants.ENTRY)!!.label))
         } else {
-            requireArguments().parcelable<PieEntry>(BundleConstants.entry)!!.label
+            requireArguments().parcelable<PieEntry>(BundleConstants.ENTRY)!!.label
         }
 
         back.setOnClickListener {
@@ -96,7 +96,7 @@ class AnalyticsTargetSDK : ScopedFragment() {
     companion object {
         fun newInstance(e: Entry?): AnalyticsTargetSDK {
             val args = Bundle()
-            args.putParcelable(BundleConstants.entry, e)
+            args.putParcelable(BundleConstants.ENTRY, e)
             val fragment = AnalyticsTargetSDK()
             fragment.arguments = args
             return fragment

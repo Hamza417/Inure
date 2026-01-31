@@ -41,7 +41,7 @@ class IntentAction : ScopedDialogFragment() {
         launch = view.findViewById(R.id.launch_intent_action)
         loader = view.findViewById(R.id.loader)
 
-        packageId = requireArguments().getString(BundleConstants.packageId)!!
+        packageId = requireArguments().getString(BundleConstants.PACKAGE_ID)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
         activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
@@ -93,8 +93,8 @@ class IntentAction : ScopedDialogFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, packageId: String): IntentAction {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.packageId, packageId)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PACKAGE_ID, packageId)
             val fragment = IntentAction()
             fragment.arguments = args
             return fragment

@@ -23,13 +23,13 @@ class Result : ScopedBottomSheetFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        result.text = arguments?.getString(BundleConstants.result)
+        result.text = arguments?.getString(BundleConstants.RESULT)
     }
 
     companion object {
         fun newInstance(result: String): Result {
             val args = Bundle()
-            args.putString(BundleConstants.result, result)
+            args.putString(BundleConstants.RESULT, result)
             val fragment = Result()
             fragment.arguments = args
             return fragment

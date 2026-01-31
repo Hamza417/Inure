@@ -36,7 +36,7 @@ class Unpack : ScopedFragment() {
         progress = view.findViewById(R.id.data_progress)
         recyclerView = view.findViewById(R.id.unpack_recycler_view)
 
-        packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
         val unpackViewModelFactory = UnpackViewModelFactory(packageInfo)
         unpackViewModel = ViewModelProvider(this, unpackViewModelFactory)[UnpackViewModel::class.java]
 
@@ -57,7 +57,7 @@ class Unpack : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Unpack {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Unpack()
             fragment.arguments = args
             return fragment

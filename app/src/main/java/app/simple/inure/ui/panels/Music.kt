@@ -116,7 +116,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
                 override fun onLayoutChange(view: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                    if (requireArguments().getBoolean(BundleConstants.firstLaunch, true).invert()) { // Make sure first launch doesn't jump to position
+                    if (requireArguments().getBoolean(BundleConstants.FIRST_LAUNCH, true).invert()) { // Make sure first launch doesn't jump to position
                         recyclerView.removeOnLayoutChangeListener(this)
                         val layoutManager = recyclerView.layoutManager
                         val viewAtPosition = layoutManager!!.findViewByPosition(MusicPreferences.getMusicPosition())
@@ -146,7 +146,7 @@ class Music : KeyboardScopedFragment() {
                         }
 
                         recyclerView.removeOnLayoutChangeListener(this)
-                        requireArguments().putBoolean(BundleConstants.firstLaunch, false)
+                        requireArguments().putBoolean(BundleConstants.FIRST_LAUNCH, false)
                     }
                 }
             })
@@ -174,7 +174,7 @@ class Music : KeyboardScopedFragment() {
 
             recyclerView.adapter = adapterMusic
 
-            if (requireArguments().getInt(BundleConstants.position, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
+            if (requireArguments().getInt(BundleConstants.POSITION, MusicPreferences.getMusicPosition()) == MusicPreferences.getMusicPosition()) {
                 (view.parent as? ViewGroup)?.doOnPreDraw {
                     startPostponedEnterTransition()
                 }
@@ -183,7 +183,7 @@ class Music : KeyboardScopedFragment() {
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(BottomMenuConstants.getMusicBottomMenuItems(), recyclerView) { id, view ->
                 when (id) {
                     R.drawable.ic_refresh -> {
-                        requireArguments().putBoolean(BundleConstants.firstLaunch, true) // This will prevent jumping to position
+                        requireArguments().putBoolean(BundleConstants.FIRST_LAUNCH, true) // This will prevent jumping to position
                         musicViewModel.refresh()
                     }
                     R.drawable.ic_sort -> {
@@ -263,7 +263,7 @@ class Music : KeyboardScopedFragment() {
     }
 
     private fun openAudioPlayer(position: Int, view: View) {
-        requireArguments().putInt(BundleConstants.position, position)
+        requireArguments().putInt(BundleConstants.POSITION, position)
         openFragmentArc(AudioPlayer.newInstance(position), view, AudioPlayer.TAG)
     }
 

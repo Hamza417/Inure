@@ -260,7 +260,7 @@ class Uninstaller : ScopedActionDialogBottomFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Uninstaller {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Uninstaller()
             fragment.arguments = args
             return fragment

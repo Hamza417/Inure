@@ -37,7 +37,7 @@ class TaggedApps : ScopedFragment() {
     private lateinit var tagsViewModel: TagsViewModel
 
     private fun getCurrentTag(): String {
-        return requireArguments().getString(BundleConstants.tag)!!
+        return requireArguments().getString(BundleConstants.TAG)!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,7 +49,7 @@ class TaggedApps : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        val taggedAppsViewModelFactory = TaggedAppsViewModelFactory(requireArguments().getString(BundleConstants.tag)!!)
+        val taggedAppsViewModelFactory = TaggedAppsViewModelFactory(requireArguments().getString(BundleConstants.TAG)!!)
         tagsListViewModel = ViewModelProvider(this, taggedAppsViewModelFactory)[TagsListViewModel::class.java]
         tagsViewModel = ViewModelProvider(requireActivity())[TagsViewModel::class.java]
 
@@ -59,7 +59,7 @@ class TaggedApps : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        title.text = requireArguments().getString(BundleConstants.tag)!!
+        title.text = requireArguments().getString(BundleConstants.TAG)!!
 
         if (tagsListViewModel.getTaggedApps().value != null) {
             postponeEnterTransition()
@@ -111,7 +111,7 @@ class TaggedApps : ScopedFragment() {
             val packageName = (recyclerView.adapter as AdapterTaggedApps).getPackageInfo(position).packageName
             (recyclerView.adapter as AdapterTaggedApps).removeItem(position)
 
-            tagsListViewModel.deleteTaggedApp(requireArguments().getString(BundleConstants.tag)!!, packageName) {
+            tagsListViewModel.deleteTaggedApp(requireArguments().getString(BundleConstants.TAG)!!, packageName) {
                 tagsViewModel.refresh()
             }
         }
@@ -120,7 +120,7 @@ class TaggedApps : ScopedFragment() {
     companion object {
         fun newInstance(tag: String): TaggedApps {
             val args = Bundle()
-            args.putString(BundleConstants.tag, tag)
+            args.putString(BundleConstants.TAG, tag)
             val fragment = TaggedApps()
             fragment.arguments = args
             return fragment

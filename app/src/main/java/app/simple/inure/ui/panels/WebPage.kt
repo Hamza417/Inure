@@ -38,7 +38,7 @@ class WebPage : ScopedFragment() {
         webView.setOnPageFinishedListener {
             postDelayed {
                 if (savedInstanceState.isNotNull()) {
-                    savedInstanceState?.getFloat(BundleConstants.scrollPosition)?.let {
+                    savedInstanceState?.getFloat(BundleConstants.SCROLL_POSITION)?.let {
                         scrollView.post {
                             scrollView.scrollTo(0, (it * scrollView.getChildAt(0).height).toInt())
                         }
@@ -48,7 +48,7 @@ class WebPage : ScopedFragment() {
         }
 
         if (savedInstanceState.isNull()) {
-            when (this.requireArguments().getString(BundleConstants.webPage)) {
+            when (this.requireArguments().getString(BundleConstants.WEB_PAGE)) {
                 getString(R.string.permissions) -> {
                     webView.loadUrl("file:///android_asset/html/required_permissions.html")
                 }
@@ -79,7 +79,7 @@ class WebPage : ScopedFragment() {
                     webView.loadUrl("file:///android_asset/html/translation.html")
                 }
                 else -> {
-                    webView.loadUrl(requireArguments().getString(BundleConstants.webPage)!!)
+                    webView.loadUrl(requireArguments().getString(BundleConstants.WEB_PAGE)!!)
                 }
             }
         } else {
@@ -90,7 +90,7 @@ class WebPage : ScopedFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         webView.saveState(outState)
         outState.putFloat(
-                BundleConstants.scrollPosition,
+                BundleConstants.SCROLL_POSITION,
                 scrollView.scrollY.percentOf(
                         scrollView.getChildAt(0).height).div(100))
         super.onSaveInstanceState(outState)
@@ -99,7 +99,7 @@ class WebPage : ScopedFragment() {
     companion object {
         fun newInstance(string: String): WebPage {
             val args = Bundle()
-            args.putString(BundleConstants.webPage, string)
+            args.putString(BundleConstants.WEB_PAGE, string)
             val fragment = WebPage()
             fragment.arguments = args
             return fragment

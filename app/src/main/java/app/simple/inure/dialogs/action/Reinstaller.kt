@@ -54,7 +54,7 @@ class Reinstaller : ScopedActionDialogBottomFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Reinstaller {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Reinstaller()
             fragment.arguments = args
             return fragment

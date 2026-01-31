@@ -78,7 +78,7 @@ class TrackerInfo : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
-        tracker = requireArguments().parcelable<Tracker>(BundleConstants.trackerInfo)
+        tracker = requireArguments().parcelable<Tracker>(BundleConstants.TRACKER_INFO)
 
         when {
             tracker?.isActivity == true -> {
@@ -239,7 +239,7 @@ class TrackerInfo : ScopedFragment() {
     companion object {
         fun newInstance(tracker: Tracker): TrackerInfo {
             val args = Bundle()
-            args.putParcelable(BundleConstants.trackerInfo, tracker)
+            args.putParcelable(BundleConstants.TRACKER_INFO, tracker)
             val fragment = TrackerInfo()
             fragment.arguments = args
             return fragment

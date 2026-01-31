@@ -27,14 +27,14 @@ class PackageStateResult : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val data = requireArguments().parcelableArrayList<PackageStateResult>(BundleConstants.result)
+        val data = requireArguments().parcelableArrayList<PackageStateResult>(BundleConstants.RESULT)
         recyclerView.adapter = app.simple.inure.adapters.dialogs.AdapterUninstallResult(data!!)
     }
 
     companion object {
         fun newInstance(data: ArrayList<PackageStateResult>): app.simple.inure.dialogs.miscellaneous.PackageStateResult {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.result, data)
+            args.putParcelableArrayList(BundleConstants.RESULT, data)
             val fragment = PackageStateResult()
             fragment.arguments = args
             return fragment

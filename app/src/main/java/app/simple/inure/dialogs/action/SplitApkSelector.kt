@@ -81,7 +81,7 @@ class SplitApkSelector : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): SplitApkSelector {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = SplitApkSelector()
             fragment.arguments = args
             return fragment

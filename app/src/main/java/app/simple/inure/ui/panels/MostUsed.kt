@@ -98,7 +98,7 @@ class MostUsed : ScopedFragment() {
         fun newInstance(loader: Boolean = false): MostUsed {
             val args = Bundle()
             val fragment = MostUsed()
-            args.putBoolean(BundleConstants.loading, loader)
+            args.putBoolean(BundleConstants.LOADING, loader)
             fragment.arguments = args
             return fragment
         }

@@ -159,7 +159,7 @@ class SplashScreen : ScopedFragment() {
                     openFragmentSlide(Disclaimer.newInstance())
                 }
 
-                requireArguments().getBoolean(BundleConstants.skip) -> { // Second check if setup is skipped
+                requireArguments().getBoolean(BundleConstants.SKIP) -> { // Second check if setup is skipped
                     startLoaderService()
                 }
 
@@ -438,7 +438,7 @@ class SplashScreen : ScopedFragment() {
     companion object {
         fun newInstance(skip: Boolean): SplashScreen {
             val args = Bundle()
-            args.putBoolean(BundleConstants.skip, skip)
+            args.putBoolean(BundleConstants.SKIP, skip)
             val fragment = SplashScreen()
             fragment.arguments = args
             return fragment

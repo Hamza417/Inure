@@ -71,12 +71,12 @@ class Java : KeyboardScopedFragment() {
         progressBar = view.findViewById(R.id.java_loader)
         options = view.findViewById(R.id.java_viewer_options)
 
-        path = requireArguments().getString(BundleConstants.pathToJava)!!
+        path = requireArguments().getString(BundleConstants.PATH_TO_JAVA)!!
 
         codeViewModelFactory = CodeViewModelFactory(packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!,
-                                                    requireArguments().getBoolean(BundleConstants.isRaw, false))
+                                                    requireArguments().getBoolean(BundleConstants.IS_RAW, false))
 
         javaViewModel = ViewModelProvider(this, codeViewModelFactory)[JavaViewModel::class.java]
 
@@ -136,8 +136,8 @@ class Java : KeyboardScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, path: String): Java {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.pathToJava, path)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PATH_TO_JAVA, path)
             val fragment = Java()
             fragment.arguments = args
             return fragment

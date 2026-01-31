@@ -41,10 +41,10 @@ class Permissions : InstallerLoaderScopedFragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            file = requireArguments().getSerializable(BundleConstants.file, File::class.java)
+            file = requireArguments().getSerializable(BundleConstants.FILE, File::class.java)
         } else {
             @Suppress("DEPRECATION")
-            file = requireArguments().getSerializable(BundleConstants.file) as File
+            file = requireArguments().getSerializable(BundleConstants.FILE) as File
         }
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
@@ -142,7 +142,7 @@ class Permissions : InstallerLoaderScopedFragment() {
     companion object {
         fun newInstance(file: File): Permissions {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Permissions()
             fragment.arguments = args
             return fragment

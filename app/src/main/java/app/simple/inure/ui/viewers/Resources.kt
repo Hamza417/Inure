@@ -99,8 +99,8 @@ class Resources : SearchBarScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo, keywords: String? = null): Resources {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
-            args.putString(BundleConstants.keywords, keywords)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, applicationInfo)
+            args.putString(BundleConstants.KEYWORDS, keywords)
             val fragment = Resources()
             fragment.arguments = args
             return fragment

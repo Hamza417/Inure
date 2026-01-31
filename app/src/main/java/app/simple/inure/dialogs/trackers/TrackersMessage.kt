@@ -34,7 +34,7 @@ class TrackersMessage : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trackersMessageModel = requireArguments().parcelable(BundleConstants.trackersMessage) as TrackersMessageModel?
+        trackersMessageModel = requireArguments().parcelable(BundleConstants.TRACKERS_MESSAGE) as TrackersMessageModel?
 
         title.text = trackersMessageModel!!.title
         message.text = trackersMessageModel!!.message
@@ -52,7 +52,7 @@ class TrackersMessage : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(message: TrackersMessageModel?): TrackersMessage {
             val args = Bundle()
-            args.putParcelable(BundleConstants.trackersMessage, message)
+            args.putParcelable(BundleConstants.TRACKERS_MESSAGE, message)
             val fragment = TrackersMessage()
             fragment.arguments = args
             return fragment

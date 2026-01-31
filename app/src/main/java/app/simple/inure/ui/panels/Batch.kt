@@ -486,7 +486,7 @@ class Batch : ScopedFragment() {
         fun newInstance(loading: Boolean = false): Batch {
             val args = Bundle()
             val fragment = Batch()
-            args.putBoolean(BundleConstants.loading, loading)
+            args.putBoolean(BundleConstants.LOADING, loading)
             fragment.arguments = args
             return fragment
         }

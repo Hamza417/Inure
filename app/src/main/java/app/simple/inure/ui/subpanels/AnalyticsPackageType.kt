@@ -42,7 +42,7 @@ class AnalyticsPackageType : ScopedFragment() {
         count = view.findViewById(R.id.count)
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
-        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.entry)!!)
+        val analyticsViewModelFactory = AnalyticsViewModelFactory(requireArguments().parcelable(BundleConstants.ENTRY)!!)
         analyticsDataViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsDataViewModel::class.java]
 
         return view
@@ -57,7 +57,7 @@ class AnalyticsPackageType : ScopedFragment() {
             startPostponedEnterTransition()
         }
 
-        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.entry)?.label ?: getString(R.string.unknown)
+        title.text = requireArguments().parcelable<PieEntry>(BundleConstants.ENTRY)?.label ?: getString(R.string.unknown)
 
         back.setOnClickListener {
             popBackStack()
@@ -90,7 +90,7 @@ class AnalyticsPackageType : ScopedFragment() {
     companion object {
         fun newInstance(e: Entry?): AnalyticsPackageType {
             val args = Bundle()
-            args.putParcelable(BundleConstants.entry, e)
+            args.putParcelable(BundleConstants.ENTRY, e)
             val fragment = AnalyticsPackageType()
             fragment.arguments = args
             return fragment

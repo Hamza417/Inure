@@ -23,8 +23,8 @@ class ComponentState : ScopedActionDialogBottomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        packageId = requireArguments().getString(BundleConstants.packageId)!!
-        mode = requireArguments().getBoolean(BundleConstants.componentMode)
+        packageId = requireArguments().getString(BundleConstants.PACKAGE_ID)!!
+        mode = requireArguments().getBoolean(BundleConstants.COMPONENT_MODE)
 
         componentStateFactory = ComponentStateFactory(packageInfo, packageId!!, mode!!)
         componentStateViewModel = ViewModelProvider(this, componentStateFactory)[ComponentStateViewModel::class.java]
@@ -65,9 +65,9 @@ class ComponentState : ScopedActionDialogBottomFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, packageId: String, isComponentEnabled: Boolean): ComponentState {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.packageId, packageId)
-            args.putBoolean(BundleConstants.componentMode, isComponentEnabled)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PACKAGE_ID, packageId)
+            args.putBoolean(BundleConstants.COMPONENT_MODE, isComponentEnabled)
             val fragment = ComponentState()
             fragment.arguments = args
             return fragment

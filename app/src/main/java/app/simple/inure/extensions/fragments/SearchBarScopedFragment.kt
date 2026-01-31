@@ -22,7 +22,7 @@ open class SearchBarScopedFragment : KeyboardScopedFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        keywords = requireArguments().getString(BundleConstants.keywords, "") ?: ""
+        keywords = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

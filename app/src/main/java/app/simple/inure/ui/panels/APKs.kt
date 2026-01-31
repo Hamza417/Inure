@@ -96,8 +96,8 @@ class APKs : ScopedFragment() {
 
             adapterApks = AdapterApks(
                     paths = apkFiles,
-                    transitionName = requireArguments().getString(BundleConstants.transitionName, ""),
-                    transitionPosition = requireArguments().getInt(BundleConstants.position, 0))
+                    transitionName = requireArguments().getString(BundleConstants.TRANSITION_NAME, ""),
+                    transitionPosition = requireArguments().getInt(BundleConstants.POSITION, 0))
 
             adapterApks.setOnItemClickListener(object : AdapterCallbacks {
                 override fun onApkClicked(view: View, position: Int, icon: ImageView) {
@@ -107,8 +107,8 @@ class APKs : ScopedFragment() {
                             /* file = */ adapterApks.paths[position].file)
 
                     icon.transitionName = uri.toString()
-                    requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                    requireArguments().putInt(BundleConstants.position, position)
+                    requireArguments().putString(BundleConstants.TRANSITION_NAME, icon.transitionName)
+                    requireArguments().putInt(BundleConstants.POSITION, position)
                     // icon.transitionName = adapterApks.paths[position].absolutePath
                     openFragmentArc(Installer.newInstance(uri), icon, Installer.TAG)
                 }
@@ -122,8 +122,8 @@ class APKs : ScopedFragment() {
                                     /* file = */ adapterApks.paths[position].file)
 
                             icon.transitionName = uri.toString()
-                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                            requireArguments().putInt(BundleConstants.position, position)
+                            requireArguments().putString(BundleConstants.TRANSITION_NAME, icon.transitionName)
+                            requireArguments().putInt(BundleConstants.POSITION, position)
                             // icon.transitionName = adapterApks.paths[position].absolutePath
                             openFragmentArc(Installer.newInstance(uri), icon, Installer.TAG)
                         }
@@ -213,15 +213,15 @@ class APKs : ScopedFragment() {
                                         if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
                                             packageInfo = requirePackageManager().getPackageInfo(packageInfo.packageName)!!
                                             icon.transitionName = packageInfo.packageName
-                                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                                            requireArguments().putInt(BundleConstants.position, position)
+                                            requireArguments().putString(BundleConstants.TRANSITION_NAME, icon.transitionName)
+                                            requireArguments().putInt(BundleConstants.POSITION, position)
                                             packageInfo.safeApplicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")
                                         } else {
                                             icon.transitionName = packageInfo.packageName
-                                            requireArguments().putString(BundleConstants.transitionName, icon.transitionName)
-                                            requireArguments().putInt(BundleConstants.position, position)
+                                            requireArguments().putString(BundleConstants.TRANSITION_NAME, icon.transitionName)
+                                            requireArguments().putInt(BundleConstants.POSITION, position)
                                             packageInfo.safeApplicationInfo.name = apkFiles[position].file.absolutePath.substringAfterLast("/")
                                             hideLoader()
                                             openFragmentArc(AppInfo.newInstance(packageInfo), icon, "apk_info")

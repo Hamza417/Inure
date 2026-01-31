@@ -89,7 +89,7 @@ class RecentlyInstalled : ScopedFragment() {
         fun newInstance(loading: Boolean = false): RecentlyInstalled {
             val args = Bundle()
             val fragment = RecentlyInstalled()
-            args.putBoolean(BundleConstants.loading, loading)
+            args.putBoolean(BundleConstants.LOADING, loading)
             fragment.arguments = args
             return fragment
         }

@@ -47,7 +47,7 @@ class FdroidStores : ScopedBottomSheetFragment() {
         fun newInstance(packageInfo: PackageInfo): FdroidStores {
             val args = Bundle()
             val fragment = FdroidStores()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             fragment.arguments = args
             return fragment
         }

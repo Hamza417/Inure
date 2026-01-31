@@ -27,7 +27,7 @@ class Changes : InstallerLoaderScopedFragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        val file = requireArguments().serializable<File>(BundleConstants.file)
+        val file = requireArguments().serializable<File>(BundleConstants.FILE)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
         installerChangesViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerChangesViewModel::class.java]
@@ -68,7 +68,7 @@ class Changes : InstallerLoaderScopedFragment() {
     companion object {
         fun newInstance(file: File): Changes {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Changes()
             fragment.arguments = args
             return fragment

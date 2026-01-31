@@ -23,7 +23,7 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
 
     private val selectedSet: MutableSet<String> = mutableSetOf()
     private val mutableList: MutableList<Pair<String, Boolean>> by lazy {
-        requireArguments().parcelable<BootManagerModel>(BundleConstants.bootManagerModel)!!.let {
+        requireArguments().parcelable<BootManagerModel>(BundleConstants.BOOT_MANAGER_MODEL)!!.let {
             val list = mutableListOf<Pair<String, Boolean>>()
 
             for (component in it.enabledComponents) {
@@ -92,7 +92,7 @@ class BootComponentSelector : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(bootManagerModel: BootManagerModel): BootComponentSelector {
             val args = Bundle()
-            args.putParcelable(BundleConstants.bootManagerModel, bootManagerModel)
+            args.putParcelable(BundleConstants.BOOT_MANAGER_MODEL, bootManagerModel)
             val fragment = BootComponentSelector()
             fragment.arguments = args
             return fragment

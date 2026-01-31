@@ -73,8 +73,8 @@ class PermissionStatus : ScopedBottomSheetFragment() {
             status.highlightColor = this
         }
 
-        permissionInfo = requireArguments().parcelable(BundleConstants.permissionInfo)!!
-        packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        permissionInfo = requireArguments().parcelable(BundleConstants.PERMISSION_INFO)!!
+        packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
 
         permissionStatusFactory = PermissionStatusFactory(packageInfo, permissionInfo)
         permissionStatusViewModel = ViewModelProvider(this, permissionStatusFactory)[PermissionStatusViewModel::class.java]
@@ -241,8 +241,8 @@ class PermissionStatus : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, permissionInfo: PermissionInfo): PermissionStatus {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putParcelable(BundleConstants.permissionInfo, permissionInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putParcelable(BundleConstants.PERMISSION_INFO, permissionInfo)
             val fragment = PermissionStatus()
             fragment.arguments = args
             return fragment

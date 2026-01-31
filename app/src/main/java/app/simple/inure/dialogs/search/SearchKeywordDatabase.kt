@@ -46,7 +46,7 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
             searchKeywordDatabaseViewModel.search(keyword)
         }
 
-        when (requireArguments().getInt(BundleConstants.mode)) {
+        when (requireArguments().getInt(BundleConstants.MODE)) {
             PERMISSIONS -> {
                 searchKeywordDatabaseViewModel.getPermissions().observe(viewLifecycleOwner) { strings ->
                     adapter = AdapterSearchKeywordDatabase(strings, keyword) {
@@ -77,7 +77,7 @@ class SearchKeywordDatabase : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(mode: Int): SearchKeywordDatabase {
             val args = Bundle()
-            args.putInt(BundleConstants.mode, mode)
+            args.putInt(BundleConstants.MODE, mode)
             val fragment = SearchKeywordDatabase()
             fragment.arguments = args
             return fragment

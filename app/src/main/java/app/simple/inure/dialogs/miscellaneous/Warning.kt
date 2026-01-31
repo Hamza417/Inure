@@ -30,9 +30,9 @@ class Warning : ScopedBottomSheetFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         kotlin.runCatching {
-            warning.setText(requireArguments().getInt(BundleConstants.warning))
+            warning.setText(requireArguments().getInt(BundleConstants.WARNING))
         }.getOrElse {
-            warning.text = requireArguments().getString(BundleConstants.warning)
+            warning.text = requireArguments().getString(BundleConstants.WARNING)
         }
     }
 
@@ -54,7 +54,7 @@ class Warning : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(warning: String): Warning {
             val args = Bundle()
-            args.putString(BundleConstants.warning, warning)
+            args.putString(BundleConstants.WARNING, warning)
             val fragment = Warning()
             fragment.arguments = args
             return fragment
@@ -62,7 +62,7 @@ class Warning : ScopedBottomSheetFragment() {
 
         fun newInstance(warning: Int): Warning {
             val args = Bundle()
-            args.putInt(BundleConstants.warning, warning)
+            args.putInt(BundleConstants.WARNING, warning)
             val fragment = Warning()
             fragment.arguments = args
             return fragment

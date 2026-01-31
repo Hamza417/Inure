@@ -50,7 +50,7 @@ class AnalyticsInstaller : ScopedFragment() {
         loader = view.findViewById(R.id.loader)
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        pieEntry = requireArguments().parcelable(BundleConstants.entry)!!
+        pieEntry = requireArguments().parcelable(BundleConstants.ENTRY)!!
 
         val analyticsViewModelFactory = AnalyticsViewModelFactory(pieEntry!!)
         analyticsInstallerViewModel = ViewModelProvider(this, analyticsViewModelFactory)[AnalyticsInstallerViewModel::class.java]
@@ -112,7 +112,7 @@ class AnalyticsInstaller : ScopedFragment() {
     companion object {
         fun newInstance(e: Entry?): AnalyticsInstaller {
             val args = Bundle()
-            args.putParcelable(BundleConstants.entry, e)
+            args.putParcelable(BundleConstants.ENTRY, e)
             val fragment = AnalyticsInstaller()
             fragment.arguments = args
             return fragment

@@ -51,7 +51,7 @@ abstract class ScopedBottomSheetFragment : BottomSheetDialogFragment(),
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.CustomBottomSheetDialogTheme)
         kotlin.runCatching {
-            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+            packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
         }
     }
 

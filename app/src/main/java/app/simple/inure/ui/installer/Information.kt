@@ -26,7 +26,7 @@ class Information : InstallerLoaderScopedFragment() {
 
         recyclerView = view.findViewById(R.id.recycler_view)
 
-        val file = requireArguments().serializable<File>(BundleConstants.file)
+        val file = requireArguments().serializable<File>(BundleConstants.FILE)
 
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
         installerInformationViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerInformationViewModel::class.java]
@@ -75,7 +75,7 @@ class Information : InstallerLoaderScopedFragment() {
     companion object {
         fun newInstance(file: File): Information {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Information()
             fragment.arguments = args
             return fragment

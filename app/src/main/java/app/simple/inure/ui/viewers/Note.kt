@@ -55,7 +55,7 @@ class Note : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Note {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Note()
             fragment.arguments = args
             return fragment

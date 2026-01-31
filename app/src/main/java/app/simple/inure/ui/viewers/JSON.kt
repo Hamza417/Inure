@@ -71,12 +71,12 @@ class JSON : KeyboardScopedFragment() {
         progressBar = view.findViewById(R.id.json_loader)
         options = view.findViewById(R.id.json_viewer_options)
 
-        path = requireArguments().getString(BundleConstants.pathToJSON)!!
+        path = requireArguments().getString(BundleConstants.PATH_TO_JSON)!!
 
         codeViewModelFactory = CodeViewModelFactory(packageInfo,
                                                     requireContext().resolveAttrColor(R.attr.colorAppAccent),
                                                     path!!,
-                                                    requireArguments().getBoolean(BundleConstants.isRaw, false))
+                                                    requireArguments().getBoolean(BundleConstants.IS_RAW, false))
 
         jsonViewerViewModel = ViewModelProvider(this, codeViewModelFactory)[JSONViewerViewModel::class.java]
 
@@ -146,9 +146,9 @@ class JSON : KeyboardScopedFragment() {
          */
         fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): JSON {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.pathToJSON, path)
-            args.putBoolean(BundleConstants.isRaw, isRaw)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PATH_TO_JSON, path)
+            args.putBoolean(BundleConstants.IS_RAW, isRaw)
             val fragment = JSON()
             fragment.arguments = args
             return fragment

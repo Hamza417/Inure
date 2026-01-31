@@ -114,7 +114,7 @@ class Setup : ShizukuStateFragment() {
         }
 
         startApp.setOnClickListener {
-            if (requireArguments().getBoolean(BundleConstants.goBack)) {
+            if (requireArguments().getBoolean(BundleConstants.GO_BACK)) {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             } else {
                 if (requireContext().checkForUsageAccessPermission()) {
@@ -224,7 +224,7 @@ class Setup : ShizukuStateFragment() {
     companion object {
         fun newInstance(goBack: Boolean = false): Setup {
             val args = Bundle()
-            args.putBoolean(BundleConstants.goBack, goBack)
+            args.putBoolean(BundleConstants.GO_BACK, goBack)
             val fragment = Setup()
             fragment.arguments = args
             return fragment

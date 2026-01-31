@@ -64,8 +64,8 @@ class Certificate : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo?, file: File?): Certificate {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putSerializable(BundleConstants.file, file)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Certificate()
             fragment.arguments = args
             return fragment

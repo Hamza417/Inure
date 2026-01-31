@@ -33,8 +33,8 @@ class ServiceInfo : ScopedFragment() {
         recyclerView = view.findViewById(R.id.activity_info_recycler_view)
         backButton = view.findViewById(R.id.activity_info_back_button)
 
-        with(requireArguments().parcelable<ServiceInfoModel>(BundleConstants.serviceInfo)!!) {
-            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+        with(requireArguments().parcelable<ServiceInfoModel>(BundleConstants.SERVICE_INFO)!!) {
+            packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
             this@ServiceInfo.name.text = name
             serviceInfoFactory = ServiceInfoFactory(this, packageInfo)
         }
@@ -61,8 +61,8 @@ class ServiceInfo : ScopedFragment() {
     companion object {
         fun newInstance(serviceInfoModel: ServiceInfoModel, packageInfo: PackageInfo): ServiceInfo {
             val args = Bundle()
-            args.putParcelable(BundleConstants.serviceInfo, serviceInfoModel)
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.SERVICE_INFO, serviceInfoModel)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = ServiceInfo()
             fragment.arguments = args
             return fragment

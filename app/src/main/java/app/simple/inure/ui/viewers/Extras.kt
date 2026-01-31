@@ -157,7 +157,7 @@ class Extras : SearchBarScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo): Extras {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, applicationInfo)
             val fragment = Extras()
             fragment.arguments = args
             return fragment

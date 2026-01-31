@@ -450,7 +450,7 @@ class NotesEditor : KeyboardScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): NotesEditor {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = NotesEditor()
             fragment.arguments = args
             return fragment

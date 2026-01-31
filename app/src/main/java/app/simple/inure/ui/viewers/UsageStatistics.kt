@@ -88,7 +88,7 @@ class UsageStatistics : ScopedFragment() {
     companion object {
         fun newInstance(applicationInfo: PackageInfo): UsageStatistics {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, applicationInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, applicationInfo)
             val fragment = UsageStatistics()
             fragment.arguments = args
             return fragment

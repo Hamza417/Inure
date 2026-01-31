@@ -125,7 +125,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         kotlin.runCatching {
-            packageInfo = requireArguments().parcelable(BundleConstants.packageInfo)!!
+            packageInfo = requireArguments().parcelable(BundleConstants.PACKAGE_INFO)!!
         }
 
         postponeEnterTransition()
@@ -395,7 +395,7 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
      */
     open fun showLoader(manualOverride: Boolean = false) {
         kotlin.runCatching {
-            if (requireArguments().getBoolean(BundleConstants.loading)) {
+            if (requireArguments().getBoolean(BundleConstants.LOADING)) {
                 loader = Loader.newInstance()
                 loader?.show(childFragmentManager, "loader")
             } else {
@@ -795,10 +795,10 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
 
     private fun getPackageInfoFromBundle(): PackageInfo {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requireArguments().getParcelable(BundleConstants.packageInfo, PackageInfo::class.java)!!
+            requireArguments().getParcelable(BundleConstants.PACKAGE_INFO, PackageInfo::class.java)!!
         } else {
             @Suppress("DEPRECATION")
-            requireArguments().getParcelable(BundleConstants.packageInfo)!!
+            requireArguments().getParcelable(BundleConstants.PACKAGE_INFO)!!
         }
     }
 

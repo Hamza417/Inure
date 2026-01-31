@@ -120,7 +120,7 @@ class Graphics : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Graphics {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Graphics()
             fragment.arguments = args
             return fragment

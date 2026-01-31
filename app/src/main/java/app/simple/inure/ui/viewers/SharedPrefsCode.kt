@@ -80,9 +80,9 @@ class SharedPrefsCode : FinderScopedFragment() {
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
         search = view.findViewById(R.id.search)
 
-        name.text = requireArguments().getString(BundleConstants.pathToXml)!!
+        name.text = requireArguments().getString(BundleConstants.PATH_TO_XML)!!
 
-        sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.pathToXml)!!, packageInfo)
+        sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.PATH_TO_XML)!!, packageInfo)
         sharedPreferencesViewerViewModel = ViewModelProvider(this, sharedPrefsViewerViewModelFactory)[SharedPreferencesViewerViewModel::class.java]
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
@@ -101,7 +101,7 @@ class SharedPrefsCode : FinderScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (requireArguments().getBoolean(BundleConstants.isManifest)) {
+        if (requireArguments().getBoolean(BundleConstants.IS_MANIFEST)) {
             icon.setImageResource(R.drawable.ic_android)
         } else {
             icon.setImageResource(R.drawable.ic_file_xml)
@@ -188,8 +188,8 @@ class SharedPrefsCode : FinderScopedFragment() {
     companion object {
         fun newInstance(path: String, packageInfo: PackageInfo): SharedPrefsCode {
             val args = Bundle()
-            args.putString(BundleConstants.pathToXml, path)
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.PATH_TO_XML, path)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = SharedPrefsCode()
             fragment.arguments = args
             return fragment

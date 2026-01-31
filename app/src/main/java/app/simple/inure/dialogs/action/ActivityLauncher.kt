@@ -20,7 +20,7 @@ class ActivityLauncher : ScopedActionDialogBottomFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        packageId = requireArguments().getString(BundleConstants.packageId)!!
+        packageId = requireArguments().getString(BundleConstants.PACKAGE_ID)!!
 
         activityLaunchFactory = ActivityLaunchFactory(packageInfo, packageId!!)
         activityLauncherViewModel = ViewModelProvider(this, activityLaunchFactory)[ActivityLauncherViewModel::class.java]
@@ -46,8 +46,8 @@ class ActivityLauncher : ScopedActionDialogBottomFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, packageId: String): ActivityLauncher {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.packageId, packageId)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PACKAGE_ID, packageId)
             val fragment = ActivityLauncher()
             fragment.arguments = args
             return fragment

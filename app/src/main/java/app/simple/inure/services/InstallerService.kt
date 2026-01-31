@@ -55,10 +55,6 @@ class InstallerService : Service() {
         return InstallerServiceBinder()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
-    }
-
     inner class InstallerServiceBinder : Binder() {
         fun getService(): InstallerService {
             return this@InstallerService
@@ -91,7 +87,7 @@ class InstallerService : Service() {
 
             Intent().let {
                 it.action = ServiceConstants.actionPackageInfo
-                it.putExtra(BundleConstants.packageInfo, packageInfo)
+                it.putExtra(BundleConstants.PACKAGE_INFO, packageInfo)
                 LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(it)
             }
         }

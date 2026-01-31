@@ -33,7 +33,7 @@ class AudioPlayerActivity : BaseActivity() {
 
         if (savedInstanceState.isNull()) {
             kotlin.runCatching {
-                if (intent.hasExtra(BundleConstants.audioModel)) {
+                if (intent.hasExtra(BundleConstants.AUDIO)) {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.app_container, AudioPlayer.newInstance(AudioModel(), fromActivity = true), AudioPlayer.TAG)
                         .commit()

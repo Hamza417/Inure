@@ -108,10 +108,10 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         kotlin.runCatching {
             icon.transitionName = requireArguments()
-                .getString(BundleConstants.transitionName,
-                           requireArguments().parcelable<Uri>(BundleConstants.uri)!!.toString())
+                .getString(BundleConstants.TRANSITION_NAME,
+                           requireArguments().parcelable<Uri>(BundleConstants.URI)!!.toString())
         }.onFailure {
-            icon.transitionName = requireArguments().serializable<File>(BundleConstants.file)!!.absolutePath
+            icon.transitionName = requireArguments().serializable<File>(BundleConstants.FILE)!!.absolutePath
         }
 
         if (AppUtils.isPlayFlavor()) {
@@ -120,7 +120,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         postponeEnterTransition()
 
-        val factory = InstallerViewModelFactory(requireArguments().parcelable(BundleConstants.uri), requireArguments().serializable(BundleConstants.file))
+        val factory = InstallerViewModelFactory(requireArguments().parcelable(BundleConstants.URI), requireArguments().serializable(BundleConstants.FILE))
         installerViewModel = ViewModelProvider(this, factory)[InstallerViewModel::class.java]
 
         intentFilter.addAction(ServiceConstants.actionSessionStatus)
@@ -467,8 +467,8 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     companion object {
         fun newInstance(uri: Uri, transitionName: String? = null): Installer {
             val args = Bundle()
-            args.putParcelable(BundleConstants.uri, uri)
-            args.putString(BundleConstants.transitionName, transitionName)
+            args.putParcelable(BundleConstants.URI, uri)
+            args.putString(BundleConstants.TRANSITION_NAME, transitionName)
             val fragment = Installer()
             fragment.arguments = args
             return fragment
@@ -476,7 +476,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
 
         fun newInstance(file: File): Installer {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Installer()
             fragment.arguments = args
             return fragment

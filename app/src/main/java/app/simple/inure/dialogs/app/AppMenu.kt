@@ -151,16 +151,16 @@ class AppMenu : ScopedDialogFragment() {
             window.attributes.height = (displayMetrics.heightPixels * 1F / 100F * 60F).toInt()
         }
 
-        with(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert()) {
-            SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
+        with(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert()) {
+            SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert())
             if (this) {
-                deepSearchKeyword.text = requireArguments().getString(BundleConstants.keywords)
+                deepSearchKeyword.text = requireArguments().getString(BundleConstants.KEYWORDS)
             } else {
                 deepSearchKeyword.gone()
             }
         }
 
-        SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.keywords).isNullOrEmpty().invert())
+        SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
         name.text = packageInfo.safeApplicationInfo.name
         name.setAppVisualStates(packageInfo)
@@ -213,27 +213,27 @@ class AppMenu : ScopedDialogFragment() {
 
         permissions.setOnClickListener {
             openFragmentSlide(Permissions.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Permissions.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Permissions.TAG)
         }
 
         activities.setOnClickListener {
             openFragmentSlide(Activities.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Activities.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Activities.TAG)
         }
 
         services.setOnClickListener {
             openFragmentSlide(Services.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Activities.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Activities.TAG)
         }
 
         receivers.setOnClickListener {
             openFragmentSlide(Receivers.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Receivers.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Receivers.TAG)
         }
 
         providers.setOnClickListener {
             openFragmentSlide(Providers.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Providers.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Providers.TAG)
         }
 
         trackers.setOnClickListener {
@@ -242,7 +242,7 @@ class AppMenu : ScopedDialogFragment() {
 
         resources.setOnClickListener {
             openFragmentSlide(Resources.newInstance(
-                    packageInfo, requireArguments().getString(BundleConstants.keywords)), Resources.TAG)
+                    packageInfo, requireArguments().getString(BundleConstants.KEYWORDS)), Resources.TAG)
         }
 
         manifest.setOnClickListener {
@@ -364,8 +364,8 @@ class AppMenu : ScopedDialogFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo, keywords: String? = null): AppMenu {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.keywords, keywords)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.KEYWORDS, keywords)
             val fragment = AppMenu()
             fragment.arguments = args
             return fragment

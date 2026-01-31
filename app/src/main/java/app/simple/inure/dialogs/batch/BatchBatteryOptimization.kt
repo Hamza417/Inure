@@ -40,7 +40,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
         set = view.findViewById(R.id.set)
         cancel = view.findViewById(R.id.cancel)
 
-        batchAppsFactory = BatchAppsFactory(requireArguments().parcelableArrayList(BundleConstants.batchBatteryOptimization)!!)
+        batchAppsFactory = BatchAppsFactory(requireArguments().parcelableArrayList(BundleConstants.BATCH_BATTERY_OPTIMIZATION)!!)
         batchBatteryOptimizationViewModel = ViewModelProvider(this, batchAppsFactory!!)[BatchBatteryOptimizationViewModel::class.java]
         batteryOptimizationViewModel = ViewModelProvider(requireActivity())[BatteryOptimizationViewModel::class.java]
 
@@ -53,7 +53,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
         totalApps.text = getString(
                 R.string.total_apps,
                 requireArguments().parcelableArrayList<BatchPackageInfo>
-                (BundleConstants.batchBatteryOptimization)!!.size)
+                (BundleConstants.BATCH_BATTERY_OPTIMIZATION)!!.size)
 
         optimize.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -93,7 +93,7 @@ class BatchBatteryOptimization : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(apps: ArrayList<BatchPackageInfo>): BatchBatteryOptimization {
             val args = Bundle()
-            args.putParcelableArrayList(BundleConstants.batchBatteryOptimization, apps)
+            args.putParcelableArrayList(BundleConstants.BATCH_BATTERY_OPTIMIZATION, apps)
             val fragment = BatchBatteryOptimization()
             fragment.arguments = args
             return fragment

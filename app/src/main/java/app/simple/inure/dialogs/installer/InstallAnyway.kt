@@ -33,7 +33,7 @@ class InstallAnyway : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        warning.text = requireArguments().getString(BundleConstants.warning)
+        warning.text = requireArguments().getString(BundleConstants.WARNING)
 
         installAnyway.setOnClickListener {
             installAnywayCallback?.onInstallAnyway()
@@ -54,7 +54,7 @@ class InstallAnyway : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(string: String): InstallAnyway {
             val args = Bundle()
-            args.putString(BundleConstants.warning, string)
+            args.putString(BundleConstants.WARNING, string)
             val fragment = InstallAnyway()
             fragment.arguments = args
             return fragment

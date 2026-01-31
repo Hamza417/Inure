@@ -845,7 +845,7 @@ class AppInfo : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): AppInfo {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = AppInfo()
             fragment.arguments = args
             return fragment

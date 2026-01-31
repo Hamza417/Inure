@@ -126,7 +126,7 @@ class AudioPlayer : ScopedFragment() {
         seekBar = view.findViewById(R.id.seekbar_mime)
         loader = view.findViewById(R.id.loader)
 
-        audioModel = requireArguments().parcelable(BundleConstants.audioModel)
+        audioModel = requireArguments().parcelable(BundleConstants.AUDIO)
 
         audioIntentFilter.addAction(ServiceConstants.actionPreparedPager)
         audioIntentFilter.addAction(ServiceConstants.actionQuitMusicServicePager)
@@ -157,7 +157,7 @@ class AudioPlayer : ScopedFragment() {
             override fun onMapSharedElements(names: List<String>, sharedElements: MutableMap<String, View>) {
                 // Locate the ViewHolder for the clicked position.
                 val selectedViewHolder = (artPager[0] as RecyclerView)
-                    .findViewHolderForAdapterPosition(requireArguments().getInt(BundleConstants.position, 0))
+                    .findViewHolderForAdapterPosition(requireArguments().getInt(BundleConstants.POSITION, 0))
                 if (selectedViewHolder is AlbumArtAdapter.Holder) {
                     // Map the first shared element name to the child ImageView.
                     sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.album_art)
@@ -167,11 +167,11 @@ class AudioPlayer : ScopedFragment() {
 
         postponeEnterTransition()
 
-        if (requireArguments().getBoolean(BundleConstants.fromSearch)) {
+        if (requireArguments().getBoolean(BundleConstants.FROM_SEARCH)) {
             musicViewModel.getSearched().observe(viewLifecycleOwner) {
                 audioModels = it
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
-                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
+                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.POSITION, 0), false)
 
                 (artPager.adapter as AlbumArtAdapter).onAlbumArtClicked = { _, _ ->
                     audioServicePager?.changePlayerState()
@@ -204,7 +204,7 @@ class AudioPlayer : ScopedFragment() {
             musicViewModel.getSongs().observe(viewLifecycleOwner) {
                 audioModels = it
                 artPager.adapter = AlbumArtAdapter(audioModels!!)
-                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.position, 0), false)
+                artPager.setCurrentItem(requireArguments().getInt(BundleConstants.POSITION, 0), false)
 
                 (artPager.adapter as AlbumArtAdapter).onAlbumArtClicked = { _, _ ->
                     audioServicePager?.changePlayerState()
@@ -388,7 +388,7 @@ class AudioPlayer : ScopedFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setMetaData(position: Int) {
-        if (requireArguments().getInt(BundleConstants.position) < position) {
+        if (requireArguments().getInt(BundleConstants.POSITION) < position) {
             title.setTextWithSlideAnimation(audioModels!![position].title, 250L, ViewUtils.LEFT, 0L)
             artist.setTextWithSlideAnimation(audioModels!![position].artists, 250L, ViewUtils.LEFT, 50L)
             album.setTextWithSlideAnimation(audioModels!![position].album, 250L, ViewUtils.LEFT, 100L)
@@ -410,7 +410,7 @@ class AudioPlayer : ScopedFragment() {
 
         setLrc()
         number.text = "${(position + 1)}/${audioModels!!.size}"
-        requireArguments().putInt(BundleConstants.position, position)
+        requireArguments().putInt(BundleConstants.POSITION, position)
     }
 
     private fun buttonStatus(isPlaying: Boolean, animate: Boolean = true) {
@@ -566,8 +566,8 @@ class AudioPlayer : ScopedFragment() {
         fun newInstance(position: Int, fromSearch: Boolean = false): AudioPlayer {
             val args = Bundle()
             MusicPreferences.setFromSearch(fromSearch)
-            args.putBoolean(BundleConstants.fromSearch, fromSearch)
-            args.putInt(BundleConstants.position, position)
+            args.putBoolean(BundleConstants.FROM_SEARCH, fromSearch)
+            args.putInt(BundleConstants.POSITION, position)
             val fragment = AudioPlayer()
             fragment.arguments = args
             return fragment

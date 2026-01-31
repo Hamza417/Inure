@@ -52,9 +52,9 @@ class DebloatSearch : KeyboardScopedFragment() {
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
-        if (requireArguments().getBoolean(BundleConstants.isKeyboardOpened, false).invert()) {
+        if (requireArguments().getBoolean(BundleConstants.IS_KEYBOARD_OPENED, false).invert()) {
             searchBox.showInput()
-            requireArguments().putBoolean(BundleConstants.isKeyboardOpened, true)
+            requireArguments().putBoolean(BundleConstants.IS_KEYBOARD_OPENED, true)
         }
 
         searchBox.doOnTextChanged { text, _, _, _ ->

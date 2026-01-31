@@ -134,7 +134,7 @@ class Statistics : ScopedFragment() {
         fun newInstance(loading: Boolean = false): Statistics {
             val args = Bundle()
             val fragment = Statistics()
-            args.putBoolean(BundleConstants.loading, loading)
+            args.putBoolean(BundleConstants.LOADING, loading)
             fragment.arguments = args
             return fragment
         }

@@ -60,9 +60,9 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         recyclerView = view.findViewById(R.id.search_recycler_view)
         tags = view.findViewById(R.id.tags_recycler_view)
 
-        if (requireArguments().getBoolean(BundleConstants.firstLaunch)) {
+        if (requireArguments().getBoolean(BundleConstants.FIRST_LAUNCH)) {
             startPostponedEnterTransition()
-            requireArguments().putBoolean(BundleConstants.firstLaunch, false)
+            requireArguments().putBoolean(BundleConstants.FIRST_LAUNCH, false)
         }
 
         searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
@@ -340,7 +340,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
     companion object {
         fun newInstance(firstLaunch: Boolean): Search {
             val args = Bundle()
-            args.putBoolean(BundleConstants.firstLaunch, firstLaunch)
+            args.putBoolean(BundleConstants.FIRST_LAUNCH, firstLaunch)
             val fragment = Search()
             fragment.arguments = args
             return fragment

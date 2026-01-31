@@ -91,7 +91,7 @@ class IFW : KeyboardScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (requireArguments().getBoolean(BundleConstants.isManifest)) {
+        if (requireArguments().getBoolean(BundleConstants.IS_MANIFEST)) {
             icon.setImageResource(R.drawable.ic_android)
         } else {
             icon.setImageResource(R.drawable.ic_file_xml)
@@ -154,7 +154,7 @@ class IFW : KeyboardScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): IFW {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = IFW()
             fragment.arguments = args
             return fragment

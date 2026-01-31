@@ -33,7 +33,7 @@ class Trackers : InstallerLoaderScopedFragment() {
         recyclerView = view.findViewById(R.id.recycler_view)
         rootWarning = view.findViewById(R.id.tracker_root_warning)
 
-        val file: File? = requireArguments().serializable(BundleConstants.file)
+        val file: File? = requireArguments().serializable(BundleConstants.FILE)
         val installerViewModelFactory = InstallerViewModelFactory(null, file)
         installerTrackersViewModel = ViewModelProvider(this, installerViewModelFactory)[InstallerTrackersViewModel::class.java]
 
@@ -94,7 +94,7 @@ class Trackers : InstallerLoaderScopedFragment() {
     companion object {
         fun newInstance(file: File): Trackers {
             val args = Bundle()
-            args.putSerializable(BundleConstants.file, file)
+            args.putSerializable(BundleConstants.FILE, file)
             val fragment = Trackers()
             fragment.arguments = args
             return fragment

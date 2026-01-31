@@ -41,7 +41,7 @@ class TerminalCreateShortcut : ScopedBottomSheetFragment() {
         save = view.findViewById(R.id.save)
         cancel = view.findViewById(R.id.cancel)
 
-        terminalCommand = requireArguments().parcelable(BundleConstants.terminalCommand)
+        terminalCommand = requireArguments().parcelable(BundleConstants.TERMINAL_COMMAND)
 
         return view
     }
@@ -125,7 +125,7 @@ class TerminalCreateShortcut : ScopedBottomSheetFragment() {
 
         fun FragmentManager.editTerminalShortcut(terminalCommand: TerminalCommand): TerminalCreateShortcut {
             val args = Bundle()
-            args.putParcelable(BundleConstants.terminalCommand, terminalCommand)
+            args.putParcelable(BundleConstants.TERMINAL_COMMAND, terminalCommand)
             val fragment = TerminalCreateShortcut()
             fragment.arguments = args
             fragment.show(this, "edit_terminal_shortcut")

@@ -32,7 +32,7 @@ class LargeString : ScopedBottomSheetFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        warning.text = getString(R.string.large_string_warning, requireArguments().getInt(BundleConstants.size, -1))
+        warning.text = getString(R.string.large_string_warning, requireArguments().getInt(BundleConstants.SIZE, -1))
 
         yes.setOnClickListener {
             onYes.invoke()
@@ -48,7 +48,7 @@ class LargeString : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(size: Int): LargeString {
             val args = Bundle()
-            args.putInt(BundleConstants.size, size)
+            args.putInt(BundleConstants.SIZE, size)
             val fragment = LargeString()
             fragment.arguments = args
             return fragment

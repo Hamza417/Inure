@@ -52,7 +52,7 @@ class SharedLibs : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): SharedLibs {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = SharedLibs()
             fragment.arguments = args
             return fragment

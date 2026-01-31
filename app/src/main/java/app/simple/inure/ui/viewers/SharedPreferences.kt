@@ -96,7 +96,7 @@ class SharedPreferences : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): SharedPreferences {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = SharedPreferences()
             fragment.arguments = args
             return fragment

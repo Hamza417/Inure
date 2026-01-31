@@ -71,13 +71,13 @@ class HTML : ScopedFragment() {
 
         textViewViewModelFactory = TextViewViewModelFactory(
                 packageInfo,
-                requireArguments().getString(BundleConstants.path)!!,
-                requireArguments().getBoolean(BundleConstants.isRaw),
+                requireArguments().getString(BundleConstants.PATH)!!,
+                requireArguments().getBoolean(BundleConstants.IS_RAW),
         )
 
         textViewerViewModel = ViewModelProvider(this, textViewViewModelFactory)[TextViewerViewModel::class.java]
 
-        path.text = requireArguments().getString(BundleConstants.path)!!
+        path.text = requireArguments().getString(BundleConstants.PATH)!!
 
         FastScrollerBuilder(scrollView).setupAesthetics().build()
 
@@ -136,9 +136,9 @@ class HTML : ScopedFragment() {
          */
         fun newInstance(packageInfo: PackageInfo, path: String, isRaw: Boolean = false): HTML {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
-            args.putString(BundleConstants.path, path)
-            args.putBoolean(BundleConstants.isRaw, isRaw)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
+            args.putString(BundleConstants.PATH, path)
+            args.putBoolean(BundleConstants.IS_RAW, isRaw)
             val fragment = HTML()
             fragment.arguments = args
             return fragment

@@ -45,7 +45,7 @@ class BatchTracker : ScopedFragment() {
         unblock = view.findViewById(R.id.unblock)
         close = view.findViewById(R.id.close)
 
-        val batchTrackersFactory = BatchTrackersFactory(requireArguments().getStringArrayList(BundleConstants.packageId)!!)
+        val batchTrackersFactory = BatchTrackersFactory(requireArguments().getStringArrayList(BundleConstants.PACKAGE_ID)!!)
         batchTrackersViewModel = ViewModelProvider(this, batchTrackersFactory)[BatchTrackersViewModel::class.java]
 
         return view
@@ -132,7 +132,7 @@ class BatchTracker : ScopedFragment() {
     companion object {
         fun newInstance(packages: ArrayList<String>): BatchTracker {
             val args = Bundle()
-            args.putStringArrayList(BundleConstants.packageId, packages)
+            args.putStringArrayList(BundleConstants.PACKAGE_ID, packages)
             val fragment = BatchTracker()
             fragment.arguments = args
             return fragment

@@ -58,7 +58,7 @@ class ClassSource : ScopedFragment() {
         options = view.findViewById(R.id.tracker_viewer_options)
         text = view.findViewById(R.id.tracker_viewer)
 
-        classSourceViewModelFactory = ClassSourceViewModelFactory(requireArguments().getString(BundleConstants.className)!!, packageInfo)
+        classSourceViewModelFactory = ClassSourceViewModelFactory(requireArguments().getString(BundleConstants.CLASS_NAME)!!, packageInfo)
         classSourceViewModel = ViewModelProvider(this, classSourceViewModelFactory)[ClassSourceViewModel::class.java]
 
         return view
@@ -68,7 +68,7 @@ class ClassSource : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        name.text = requireArguments().getString(BundleConstants.className) ?: getString(R.string.not_available)
+        name.text = requireArguments().getString(BundleConstants.CLASS_NAME) ?: getString(R.string.not_available)
 
         classSourceViewModel.getSourceData().observe(viewLifecycleOwner) {
             text.setText(it)
@@ -97,8 +97,8 @@ class ClassSource : ScopedFragment() {
     companion object {
         fun newInstance(className: String, packageInfo: PackageInfo): ClassSource {
             val args = Bundle()
-            args.putString(BundleConstants.className, className)
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putString(BundleConstants.CLASS_NAME, className)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = ClassSource()
             fragment.arguments = args
             return fragment

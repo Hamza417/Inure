@@ -52,7 +52,7 @@ class Features : SearchBarScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): Features {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = Features()
             fragment.arguments = args
             return fragment
