@@ -32,6 +32,9 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        // Set binding flag to prevent listener triggers during setup
+        holder.isBinding = true
+
         holder.name.text = ops[position].permission.sanitize()
         holder.desc.text = holder.context.getPermissionDescription(ops[position].id.ifEmptyOrNull(ops[position].permission))
 
@@ -86,46 +89,52 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
             //            if (ops[position].mode == AppOpMode.ALLOW && !ops[position].duration.isNullOrEmpty()) {
             //                appendFlag(ops[position].duration)
             //            }
+        }
 
-            when (ops[position].mode) {
-                AppOpMode.ALLOW -> {
-                    holder.allow.isChecked = true
-                }
-                AppOpMode.IGNORE -> {
-                    holder.ignore.isChecked = true
-                }
-                AppOpMode.DENY -> {
-                    holder.deny.isChecked = true
-                }
-                else -> {
-                    holder.stateGroup.clearChecked()
-                }
+        // Clear listeners first to prevent triggers during setup
+        holder.stateGroup.clearOnButtonCheckedListeners()
+
+        // Set the checked state without triggering the listener
+        when (ops[position].mode) {
+            AppOpMode.ALLOW -> {
+                holder.allow.isChecked = true
             }
-
-            holder.stateGroup.clearOnButtonCheckedListeners()
-            holder.stateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-                Log.d("AppOpMode", "onBindViewHolder: $checkedId | isChecked: $isChecked")
-                if (isChecked) {
-                    when (checkedId) {
-                        R.id.allow -> {
-                            ops[position].mode = AppOpMode.ALLOW
-                        }
-                        R.id.ignore -> {
-                            ops[position].mode = AppOpMode.IGNORE
-                        }
-                        R.id.deny -> {
-                            ops[position].mode = AppOpMode.DENY
-                        }
-                        else -> {
-                            ops[position].mode = AppOpMode.DEFAULT
-                        }
-                    }
-
-                    Log.d("AppOpMode", "onBindViewHolder: ${ops[position].mode}")
-                    adapterOpsCallbacks?.onAppOpStateChanged(ops[position], position)
-                }
+            AppOpMode.IGNORE -> {
+                holder.ignore.isChecked = true
+            }
+            AppOpMode.DENY -> {
+                holder.deny.isChecked = true
+            }
+            else -> {
+                holder.stateGroup.clearChecked()
             }
         }
+
+        // Now add the listener after setting initial state
+        holder.stateGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked && !holder.isBinding) {
+                when (checkedId) {
+                    R.id.allow -> {
+                        ops[position].mode = AppOpMode.ALLOW
+                    }
+                    R.id.ignore -> {
+                        ops[position].mode = AppOpMode.IGNORE
+                    }
+                    R.id.deny -> {
+                        ops[position].mode = AppOpMode.DENY
+                    }
+                    else -> {
+                        ops[position].mode = AppOpMode.DEFAULT
+                    }
+                }
+
+                Log.d("AppOpMode", "User changed state: ${ops[position].mode}")
+                adapterOpsCallbacks?.onAppOpStateChanged(ops[position], position)
+            }
+        }
+
+        // Clear binding flag after setup is complete
+        holder.isBinding = false
 
 
         holder.container.setOnClickListener {
@@ -173,6 +182,8 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
         val ignore: Button = itemView.findViewById(R.id.ignore)
         val deny: Button = itemView.findViewById(R.id.deny)
         val container: CondensedDynamicRippleConstraintLayout = itemView.findViewById(R.id.adapter_ops_container)
+
+        var isBinding = false
 
         init {
             allow.setButtonCheckedColor(Colors.ALLOW_COLOR.toColorInt())
