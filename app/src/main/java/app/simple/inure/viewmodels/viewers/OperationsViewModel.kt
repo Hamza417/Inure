@@ -15,7 +15,6 @@ import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.models.AppOp
 import app.simple.inure.preferences.ConfigurationPreferences
 import com.topjohnwu.superuser.Shell
-import com.topjohnwu.superuser.ShellUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -34,7 +33,6 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun getAppOpsData(): LiveData<ArrayList<AppOp>> {
         return appOpsData
     }
-
     fun getAppOpsState(): LiveData<Pair<AppOp, Int>> {
         return appOpsState
     }
@@ -43,16 +41,12 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val ops = getOps(packageInfo.packageName)
-                val filtered = arrayListOf<AppOp>()
-
-                for (op in ops) {
-                    if (op.permission.lowercase().contains(keyword)) {
-                        filtered.add(op)
-                    }
+                val filtered = if (keyword.isEmpty()) ops else {
+                    ops.filter { it.permission.lowercase().contains(keyword.lowercase()) } as ArrayList<AppOp>
                 }
-
                 appOpsData.postValue(filtered)
-            } catch (e: ArrayIndexOutOfBoundsException) {
+            } catch (e: Exception) {
+                Log.e(TAG, "Error loading ops", e)
                 postWarning(getString(R.string.not_available))
             }
         }
@@ -61,50 +55,24 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
     fun updateAppOpsState(updatedAppOp: AppOp, position: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                when {
-                    ConfigurationPreferences.isUsingRoot() -> {
-                        Shell.cmd(getStateChangeCommand(updatedAppOp)).exec().let {
-                            if (it.isSuccess) {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
-                            } else {
-                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
-                                                    " : ${""} for ${packageInfo.packageName})")
-                            }
-                        }
-                    }
-                    ConfigurationPreferences.isUsingShizuku() -> {
-                        getShizukuService().simpleExecute(getStateChangeCommand(updatedAppOp)).let {
-                            if (it.isSuccess) {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
-                            } else {
-                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
-                                                    " : ${""} for ${packageInfo.packageName}")
-                            }
-                        }
-                    }
-                    else -> {
-                        // This should be unreachable
-                        throw IllegalStateException("No root or shizuku, please enable one of them to use this feature.")
-                    }
+                val command = getStateChangeCommand(updatedAppOp)
+                val success = when {
+                    ConfigurationPreferences.isUsingRoot() -> Shell.cmd(command).exec().isSuccess
+                    ConfigurationPreferences.isUsingShizuku() -> getShizukuService().simpleExecute(command).isSuccess
+                    else -> throw IllegalStateException("No root or shizuku enabled.")
                 }
-            }.getOrElse {
-                postError(it)
-            }
+
+                if (success) {
+                    appOpsState.postValue(Pair(updatedAppOp, position))
+                } else {
+                    postWarning("Failed to change state: ${updatedAppOp.permission}")
+                }
+            }.getOrElse { postError(it) }
         }
     }
 
     private fun getStateChangeCommand(op: AppOp): String {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append("appops set ")
-        stringBuilder.append(AppOpScope.getCommandFlag(op.scope))
-        if (op.scope == AppOpScope.UID) {
-            stringBuilder.append(" ")
-        }
-        stringBuilder.append(packageInfo.packageName)
-        stringBuilder.append(" ")
-
-        // Extract numeric ID from OEM custom ops like MIUIOP(10008), OPPOop(20001), etc.
-        // Universal pattern: if format is NAME(number), extract just the number
+        // Extract numeric ID from OEM custom ops like MIUIOP(10008)
         val permission = if (op.permission.contains("(") && op.permission.endsWith(")")) {
             val extracted = op.permission.substringAfter("(").substringBefore(")")
             // Verify it's numeric before using it, otherwise fall back to original
@@ -113,114 +81,107 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
             op.permission
         }
 
-        stringBuilder.append(permission)
-        stringBuilder.append(" ")
-        stringBuilder.append(op.mode.value)
-        Log.i(TAG, "$stringBuilder will be executed")
-        return stringBuilder.toString()
+        return buildString {
+            append("appops set ")
+            append(AppOpScope.getCommandFlag(op.scope))
+            if (op.scope == AppOpScope.UID) append(" ")
+            append(packageInfo.packageName).append(" ")
+            append(permission).append(" ")
+            append(op.mode.value)
+        }.also { Log.i(TAG, "Executing: $it") }
     }
 
+    // TODO - the whole approach is hacky, needs a proper parser
     private fun getOps(packageName: String): ArrayList<AppOp> {
         val ops = ArrayList<AppOp>()
-        val permissions = getPermissionMap()
+        val permissions = getPermissionMap() // Ensure this returns Map<String, String?>
+        val rawOutput = runAndGetOutput("appops get $packageName")
 
-        for (line in runAndGetOutput("appops get $packageName").split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val splitOp = line.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val name = splitOp[0].trim { it <= ' ' }
+        if (rawOutput.isEmpty() || rawOutput.contains("No operations.")) return ops
 
-            if (line == "No operations.") {
-                continue
-            }
+        val lines = rawOutput.split("\n").map { it.trim() }.filter { it.isNotEmpty() }
+        val seenOpsInUid = mutableSetOf<String>()
+        var isCurrentlyParsingUid = false
 
-            // Handle UID scoped app ops lines like: "Uid mode: COARSE_LOCATION: ignore"
-            if (name == "Uid mode") {
-                if (splitOp.size >= 3) {
-                    val uidPermission = splitOp[1].trim { it <= ' ' }
-                    val uidModeStr = splitOp[2].trim { it <= ' ' }
-                    val uidId = permissions[uidPermission]
-                    val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
-                    uidAppOp.scope = AppOpScope.UID
-                    ops.add(uidAppOp)
-                } else if (splitOp.size >= 2) {
-                    // Fallback in case format is "Uid mode: COARSE_LOCATION" without mode (unlikely)
-                    val uidPermissionAndMode = splitOp[1].trim { it <= ' ' }
-                    val inner = uidPermissionAndMode.split(":".toRegex()).toTypedArray()
-                    if (inner.size >= 2) {
-                        val uidPermission = inner[0].trim { it <= ' ' }
-                        val uidModeStr = inner[1].trim { it <= ' ' }
-                        val uidId = permissions[uidPermission]
-                        val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
-                        uidAppOp.scope = AppOpScope.UID
-                        ops.add(uidAppOp)
-                    }
+        for (line in lines) {
+            val name: String
+            val data: String
+            val scope: AppOpScope
+
+            // Handle the specific "Uid mode:" header line (3 parts)
+            if (line.startsWith("Uid mode:")) {
+                isCurrentlyParsingUid = true
+                val parts = line.split(":", limit = 3)
+                // "Uid mode: COARSE_LOCATION: ignore" -> ["Uid mode", "COARSE_LOCATION", "ignore"]
+                if (parts.size >= 3) {
+                    name = parts[1].trim()
+                    data = parts[2].trim()
+                    scope = AppOpScope.UID
+                } else {
+                    // Malformed header, skip
+                    continue
                 }
+            }
+            // Handle standard lines (2 parts: "NAME: DATA")
+            else {
+                val parts = line.split(":", limit = 2)
+                if (parts.size < 2) continue // Skip junk lines
 
-                // Skip to next line after handling UID scoped op
-                continue
+                val potentialName = parts[0].trim()
+
+                // Logic to detect if we have crossed from UID section to Package section:
+                // - If we are already in Package mode, stay there.
+                // - If we see Metadata (;), it's definitely Package mode.
+                // - If we see a duplicate Name (already seen in UID list), it's Package mode.
+                if (!isCurrentlyParsingUid || line.contains(";") || seenOpsInUid.contains(potentialName)) {
+                    isCurrentlyParsingUid = false
+                    name = potentialName
+                    data = parts[1].trim()
+                    scope = AppOpScope.PACKAGE
+                } else {
+                    // Still in the initial UID block
+                    name = potentialName
+                    data = parts[1].trim()
+                    scope = AppOpScope.UID
+                }
             }
 
-            // Parse regular package-scoped ops
-            val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
-            var time: String? = null
-            var duration: String? = null
-            var rejectTime: String? = null
-            val id = permissions[name]
+            // Extract mode and metadata
+            // Data looks like: "allow; time=+10d..." or just "ignore"
+            val modeStr = data.split(";")[0].trim()
+            val time = if (data.contains("time=")) data.substringAfter("time=").substringBefore(";") else null
+            val duration = if (data.contains("duration=")) data.substringAfter("duration=").substringBefore(";") else null
+            val rejectTime = if (data.contains("rejectTime=")) data.substringAfter("rejectTime=").substringBefore(";") else null
 
-            if (splitOp[1].contains("time=")) {
-                time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[0].trim { it <= ' ' }
-            }
+            // Construct AppOp
+            // Note: permissions[name] might be null for OEM ops, handling that gracefully
+            val appOp = AppOp(name, permissions[name], AppOpMode.fromString(modeStr), time, duration, rejectTime)
+            appOp.scope = scope
 
-            if (splitOp[1].contains("duration=")) {
-                duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[0].trim { it <= ' ' }
-            }
-
-            if (splitOp[1].contains("rejectTime=")) {
-                rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].trim { it <= ' ' }
-            }
-
-            val appOp = AppOp(name, id, AppOpMode.fromString(mode), time, duration, rejectTime)
-            appOp.scope = AppOpScope.PACKAGE
             ops.add(appOp)
+
+            // Track UID ops to help detect duplicates later
+            if (scope == AppOpScope.UID) {
+                seenOpsInUid.add(name)
+            }
         }
 
         return ops
     }
 
     private fun runAndGetOutput(command: String?): String {
-        val sb = java.lang.StringBuilder()
         return try {
             when {
                 ConfigurationPreferences.isUsingRoot() -> {
-                    val outputs = Shell.cmd(command).exec().out
-                    if (ShellUtils.isValidOutput(outputs)) {
-                        for (output in outputs) {
-                            Log.d("AppOp -> ", output!!)
-                            sb.append(output).append("\n")
-                        }
-                    }
+                    Shell.cmd(command).exec().out.joinToString("\n")
                 }
                 ConfigurationPreferences.isUsingShizuku() -> {
-                    val outputs = getShizukuService().simpleExecute(command).output?.split("\n".toRegex())?.toTypedArray()
-                    if (outputs?.isNotEmpty() == true) {
-                        for (output in outputs) {
-                            Log.d("AppOp -> ", output)
-                            sb.append(output).append("\n")
-                        }
-                    }
+                    getShizukuService().simpleExecute(command).output ?: ""
                 }
-                else -> {
-                    // This should be unreachable
-                    throw IllegalStateException("No root or shizuku, please enable one of them to use this feature.")
-                }
+                else -> ""
             }
-
-            sb.trim().toString()
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.e(TAG, "Shell execution failed", e)
             ""
         }
     }
@@ -229,8 +190,7 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         loadAppOpsData("")
     }
 
-    override fun onShellDenied() {
-        /* no-op */
+    override fun onShellDenied() { /* no-op */
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
