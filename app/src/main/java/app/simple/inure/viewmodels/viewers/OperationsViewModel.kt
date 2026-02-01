@@ -124,71 +124,145 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         val ops = ArrayList<AppOp>()
         val permissions = getPermissionMap()
 
-        for (line in runAndGetOutput("appops get $packageName").split("\\r?\\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val splitOp = line.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val name = splitOp[0].trim { it <= ' ' }
+        // First, get all operations to extract unique operation names
+        val allOpsOutput = runAndGetOutput("appops get $packageName")
+        val uniqueOperations = extractUniqueOperations(allOpsOutput)
 
-            if (line == "No operations.") {
-                continue
+        Log.d(TAG, "Found ${uniqueOperations.size} unique operations for $packageName")
+
+        // Query each operation individually to get clear UID and package scope separation
+        for (operation in uniqueOperations) {
+            // For OEM custom ops like MIUIOP(10008), extract the numeric code
+            val queryOperation = if (operation.contains("(") && operation.endsWith(")")) {
+                val extracted = operation.substringAfter("(").substringBefore(")")
+                // Verify it's numeric, otherwise use original
+                if (extracted.toIntOrNull() != null) extracted else operation
+            } else {
+                operation
             }
 
-            // Handle UID scoped app ops lines like: "Uid mode: COARSE_LOCATION: ignore"
-            if (name == "Uid mode") {
-                if (splitOp.size >= 3) {
-                    val uidPermission = splitOp[1].trim { it <= ' ' }
-                    val uidModeStr = splitOp[2].trim { it <= ' ' }
-                    val uidId = permissions[uidPermission]
-                    val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
-                    uidAppOp.scope = AppOpScope.UID
-                    ops.add(uidAppOp)
-                } else if (splitOp.size >= 2) {
-                    // Fallback in case format is "Uid mode: COARSE_LOCATION" without mode (unlikely)
-                    val uidPermissionAndMode = splitOp[1].trim { it <= ' ' }
-                    val inner = uidPermissionAndMode.split(":".toRegex()).toTypedArray()
-                    if (inner.size >= 2) {
-                        val uidPermission = inner[0].trim { it <= ' ' }
-                        val uidModeStr = inner[1].trim { it <= ' ' }
-                        val uidId = permissions[uidPermission]
-                        val uidAppOp = AppOp(uidPermission, uidId, AppOpMode.fromString(uidModeStr), null, null, null)
-                        uidAppOp.scope = AppOpScope.UID
-                        ops.add(uidAppOp)
-                    }
+            val opOutput = runAndGetOutput("appops get $packageName $queryOperation")
+            if (opOutput.isNotEmpty()) {
+                parseIndividualOperation(operation, opOutput, permissions)?.let { parsedOps ->
+                    ops.addAll(parsedOps)
                 }
-
-                // Skip to next line after handling UID scoped op
-                continue
             }
-
-            // Parse regular package-scoped ops
-            val mode = splitOp[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0].trim { it <= ' ' }
-            var time: String? = null
-            var duration: String? = null
-            var rejectTime: String? = null
-            val id = permissions[name]
-
-            if (splitOp[1].contains("time=")) {
-                time = splitOp[1].split("time=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[0].trim { it <= ' ' }
-            }
-
-            if (splitOp[1].contains("duration=")) {
-                duration = splitOp[1].split("duration=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].split(";".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[0].trim { it <= ' ' }
-            }
-
-            if (splitOp[1].contains("rejectTime=")) {
-                rejectTime = splitOp[1].split("rejectTime=".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[1].trim { it <= ' ' }
-            }
-
-            val appOp = AppOp(name, id, AppOpMode.fromString(mode), time, duration, rejectTime)
-            appOp.scope = AppOpScope.PACKAGE
-            ops.add(appOp)
         }
 
         return ops
+    }
+
+    /**
+     * Extract unique operation names from the initial appops get output
+     */
+    private fun extractUniqueOperations(output: String): Set<String> {
+        val operations = mutableSetOf<String>()
+        val lines = output.split("\\r?\\n".toRegex())
+
+        for (line in lines) {
+            if (line.trim().isEmpty() || line == "No operations.") {
+                continue
+            }
+
+            // Skip the "Uid mode:" header line
+            if (line.trim().startsWith("Uid mode:")) {
+                val uidLine = line.substringAfter("Uid mode:").trim()
+                if (uidLine.isNotEmpty()) {
+                    val opName = uidLine.split(":").firstOrNull()?.trim()
+                    if (!opName.isNullOrEmpty()) {
+                        operations.add(opName)
+                    }
+                }
+                continue
+            }
+
+            // Extract operation name (everything before the first colon)
+            val opName = line.split(":").firstOrNull()?.trim()
+            if (!opName.isNullOrEmpty()) {
+                operations.add(opName)
+            }
+        }
+
+        return operations
+    }
+
+    /**
+     * Parse the output of "appops get <package> <operation>"
+     * This returns both UID and package scoped operations clearly separated
+     *
+     * Example output:
+     * Uid mode: COARSE_LOCATION: foreground
+     * COARSE_LOCATION: allow
+     */
+    private fun parseIndividualOperation(
+            operation: String,
+            output: String,
+            permissions: Map<String, String?>
+    ): List<AppOp>? {
+        val ops = mutableListOf<AppOp>()
+        val lines = output.split("\\r?\\n".toRegex())
+
+        var uidModeValue: String? = null
+        var packageModeValue: String? = null
+        var time: String? = null
+        var duration: String? = null
+        var rejectTime: String? = null
+
+        for (line in lines) {
+            if (line.trim().isEmpty()) continue
+
+            // Parse UID mode line: "Uid mode: COARSE_LOCATION: foreground"
+            if (line.trim().startsWith("Uid mode:")) {
+                val uidLine = line.substringAfter("Uid mode:").trim()
+                val parts = uidLine.split(":".toRegex(), limit = 2)
+                if (parts.size >= 2) {
+                    uidModeValue = parts[1].trim().split(";").firstOrNull()?.trim()
+                }
+            } else {
+                // Parse package mode line: "COARSE_LOCATION: allow; time=+2h3m39s662ms ago"
+                val parts = line.split(":".toRegex(), limit = 2)
+                if (parts.size >= 2 && parts[0].trim() == operation) {
+                    val valuesPart = parts[1].trim()
+                    packageModeValue = valuesPart.split(";").firstOrNull()?.trim()
+
+                    // Extract metadata
+                    if (valuesPart.contains("time=")) {
+                        time = valuesPart.split("time=").getOrNull(1)
+                            ?.split(";")?.firstOrNull()?.trim()
+                    }
+
+                    if (valuesPart.contains("duration=")) {
+                        duration = valuesPart.split("duration=").getOrNull(1)
+                            ?.split(";")?.firstOrNull()?.trim()
+                    }
+
+                    if (valuesPart.contains("rejectTime=")) {
+                        rejectTime = valuesPart.split("rejectTime=").getOrNull(1)
+                            ?.split(";")?.firstOrNull()?.trim()
+                    }
+                }
+            }
+        }
+
+        val id = permissions[operation]
+
+        // Add UID-scoped operation if present
+        if (uidModeValue != null) {
+            val uidOp = AppOp(operation, id, AppOpMode.fromString(uidModeValue), null, null, null)
+            uidOp.scope = AppOpScope.UID
+            ops.add(uidOp)
+            Log.d(TAG, "UID scope: $operation -> $uidModeValue")
+        }
+
+        // Add package-scoped operation if present
+        if (packageModeValue != null) {
+            val packageOp = AppOp(operation, id, AppOpMode.fromString(packageModeValue), time, duration, rejectTime)
+            packageOp.scope = AppOpScope.PACKAGE
+            ops.add(packageOp)
+            Log.d(TAG, "Package scope: $operation -> $packageModeValue")
+        }
+
+        return ops.ifEmpty { null }
     }
 
     private fun runAndGetOutput(command: String?): String {
