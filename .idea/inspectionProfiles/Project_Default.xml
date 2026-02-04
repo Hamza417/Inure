@@ -97,6 +97,7 @@
       </option>
     </inspection_tool>
     <inspection_tool class="OptionalOfNullableMisuseMerged" />
+    <inspection_tool class="RedundantInnerClassModifier" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="RedundantLabeledSwitchRuleCodeBlock" enabled="true" level="INFORMATION" enabled_by_default="true" editorAttributes="INFORMATION_ATTRIBUTES" />
     <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredTypes">

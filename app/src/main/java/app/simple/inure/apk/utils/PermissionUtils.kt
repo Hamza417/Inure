@@ -6,6 +6,7 @@ import android.content.pm.PermissionInfo
 import android.os.Build
 import app.simple.inure.R
 import app.simple.inure.util.ArrayUtils.toArrayList
+import app.simple.inure.util.StringUtils.appendFlag
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -48,6 +49,13 @@ object PermissionUtils {
     private const val PROTECTION_FLAG_APP_PREDICTOR = 0x200000
     private const val PROTECTION_FLAG_RETAIL_DEMO = 0x1000000
 
+    private const val FLAG_PERMISSION_USER_SET: Int = 1 shl 0 // 1
+    private const val FLAG_PERMISSION_USER_FIXED: Int = 1 shl 1 // 2
+    private const val FLAG_PERMISSION_POLICY_FIXED: Int = 1 shl 2 // 4
+    private const val FLAG_PERMISSION_REVOKE_ON_UPGRADE: Int = 1 shl 3 // 8
+    private const val FLAG_PERMISSION_SYSTEM_FIXED: Int = 1 shl 4 // 16
+    private const val FLAG_PERMISSION_GRANTED_BY_DEFAULT: Int = 1 shl 5 // 32
+
     private val exceptionPermissions = arrayOf(
             "android.permission.WRITE_SECURE_SETTINGS",
             "android.permission.DUMP",
@@ -68,7 +76,7 @@ object PermissionUtils {
 
     @Suppress("DEPRECATION")
     fun isDangerous(permissionInfo: PermissionInfo): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val isDangerous = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             when (permissionInfo.protection) {
                 PermissionInfo.PROTECTION_DANGEROUS -> true
                 PermissionInfo.PROTECTION_SIGNATURE -> false
@@ -83,6 +91,10 @@ object PermissionUtils {
                 else -> false
             }
         }
+
+        val isIrrevocable = (permissionInfo.flags and (FLAG_PERMISSION_POLICY_FIXED or FLAG_PERMISSION_SYSTEM_FIXED)) != 0
+
+        return isDangerous && !isIrrevocable
     }
 
     fun getPermissionMap(): HashMap<String, String> {
@@ -110,75 +122,136 @@ object PermissionUtils {
     }
 
     @Suppress("deprecation")
-    fun protectionToString(level: Int, flags: Int, context: Context): String {
+    fun createPermissionFlags(permissionInfo: PermissionInfo, isGranted: Int, isInstalled: Boolean, context: Context): String {
+        val sb = buildString {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                when (permissionInfo.protection and PermissionInfo.PROTECTION_MASK_BASE) {
+                    PermissionInfo.PROTECTION_DANGEROUS -> {
+                        appendFlag(context.getString(R.string.dangerous))
+                    }
+                    PermissionInfo.PROTECTION_NORMAL -> {
+                        appendFlag(context.getString(R.string.normal))
+                    }
+                    PermissionInfo.PROTECTION_SIGNATURE -> {
+                        appendFlag(context.getString(R.string.signature))
+                    }
+                    PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> {
+                        appendFlag(context.getString(R.string.signature_or_system))
+                    }
+                }
 
-        var protection = "????"
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
+                    appendFlag(context.getString(R.string.privileged))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
+                    appendFlag(context.getString(R.string.development))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_APPOP != 0) {
+                    appendFlag("AppOp")
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_PRE23 != 0) {
+                    appendFlag("Pre23")
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_INSTALLER != 0) {
+                    appendFlag(context.getString(R.string.installer))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_VERIFIER != 0) {
+                    appendFlag(context.getString(R.string.verifier))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_PREINSTALLED != 0) {
+                    appendFlag(context.getString(R.string.pre_installed))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_SETUP != 0) {
+                    appendFlag(context.getString(R.string.setup))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_INSTANT != 0) {
+                    appendFlag(context.getString(R.string.instant))
+                }
+                if (permissionInfo.protectionFlags and PermissionInfo.PROTECTION_FLAG_RUNTIME_ONLY != 0) {
+                    appendFlag(context.getString(R.string.runtime))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_OEM != 0) {
+                    appendFlag(context.getString(R.string.oem))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_VENDOR_PRIVILEGED != 0) {
+                    appendFlag(context.getString(R.string.vendor_privileged))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER != 0) {
+                    appendFlag(context.getString(R.string.text_classifier))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_WELLBEING != 0) {
+                    appendFlag(context.getString(R.string.wellbeing))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_DOCUMENTER != 0) {
+                    appendFlag(context.getString(R.string.documenter))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_CONFIGURATOR != 0) {
+                    appendFlag(context.getString(R.string.configurator))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_INCIDENT_REPORT_APPROVER != 0) {
+                    appendFlag(context.getString(R.string.incident_report_approver))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_APP_PREDICTOR != 0) {
+                    appendFlag(context.getString(R.string.app_predictor))
+                }
+                if (permissionInfo.protectionFlags and PROTECTION_FLAG_RETAIL_DEMO != 0) {
+                    appendFlag(context.getString(R.string.retail_demo))
+                }
+            } else {
+                when (permissionInfo.protectionLevel and PermissionInfo.PROTECTION_MASK_BASE) {
+                    PermissionInfo.PROTECTION_DANGEROUS -> {
+                        appendFlag(context.getString(R.string.dangerous))
+                    }
+                    PermissionInfo.PROTECTION_NORMAL -> {
+                        appendFlag(context.getString(R.string.normal))
+                    }
+                    PermissionInfo.PROTECTION_SIGNATURE -> {
+                        appendFlag(context.getString(R.string.signature))
+                    }
+                    PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> {
+                        appendFlag(context.getString(R.string.signature_or_system))
+                    }
+                }
+            }
 
-        when (level and PermissionInfo.PROTECTION_MASK_BASE) {
-            PermissionInfo.PROTECTION_DANGEROUS -> protection = context.getString(R.string.dangerous)
-            PermissionInfo.PROTECTION_NORMAL -> protection = context.getString(R.string.normal)
-            PermissionInfo.PROTECTION_SIGNATURE -> protection = context.getString(R.string.signature)
-            PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM -> protection = context.getString(R.string.signature_or_system)
+            if (permissionInfo.flags and FLAG_PERMISSION_POLICY_FIXED != 0) {
+                appendFlag(context.getString(R.string.policy_fixed))
+            }
+            if (permissionInfo.flags and FLAG_PERMISSION_USER_FIXED != 0) {
+                appendFlag(context.getString(R.string.user_fixed))
+            }
+            if (permissionInfo.flags and FLAG_PERMISSION_REVOKE_ON_UPGRADE != 0) {
+                appendFlag(context.getString(R.string.revoke_on_upgrade))
+            }
+            if (permissionInfo.flags and FLAG_PERMISSION_SYSTEM_FIXED != 0) {
+                appendFlag(context.getString(R.string.system_fixed))
+            }
+            if (permissionInfo.flags and FLAG_PERMISSION_GRANTED_BY_DEFAULT != 0) {
+                appendFlag(context.getString(R.string.granted_by_default))
+            }
+            if (permissionInfo.flags and FLAG_PERMISSION_USER_SET != 0) {
+                appendFlag(context.getString(R.string.user_set))
+            }
+
+            if (isInstalled) {
+                when (isGranted) {
+                    0 -> {
+                        appendFlag(context.getString(R.string.rejected))
+                    }
+                    1 -> {
+                        appendFlag(context.getString(R.string.granted))
+                    }
+                    2 -> {
+                        appendFlag(context.getString(R.string.unknown))
+                    }
+                    else -> {
+                        appendFlag(context.getString(R.string.unknown))
+                    }
+                }
+            }
         }
 
-        if (flags and PermissionInfo.PROTECTION_FLAG_PRIVILEGED != 0) {
-            protection += " | " + context.getString(R.string.privileged)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_DEVELOPMENT != 0) {
-            protection += " | " + context.getString(R.string.development)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_APPOP != 0) {
-            protection += " | AppOp"
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_PRE23 != 0) {
-            protection += " | Pre23"
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_INSTALLER != 0) {
-            protection += " | " + context.getString(R.string.installer)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_VERIFIER != 0) {
-            protection += " | " + context.getString(R.string.verifier)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_PREINSTALLED != 0) {
-            protection += " | " + context.getString(R.string.pre_installed)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_SETUP != 0) {
-            protection += " | " + context.getString(R.string.setup)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_INSTANT != 0) {
-            protection += " | " + context.getString(R.string.instant)
-        }
-        if (flags and PermissionInfo.PROTECTION_FLAG_RUNTIME_ONLY != 0) {
-            protection += " | " + context.getString(R.string.runtime)
-        }
-        if (flags and PROTECTION_FLAG_OEM != 0) {
-            protection += " | " + context.getString(R.string.oem)
-        }
-        if (flags and PROTECTION_FLAG_VENDOR_PRIVILEGED != 0) {
-            protection += " | " + context.getString(R.string.vendor_privileged)
-        }
-        if (flags and PROTECTION_FLAG_SYSTEM_TEXT_CLASSIFIER != 0) {
-            protection += " | " + context.getString(R.string.text_classifier)
-        }
-        if (flags and PROTECTION_FLAG_WELLBEING != 0) {
-            protection += " | " + context.getString(R.string.wellbeing)
-        }
-        if (flags and PROTECTION_FLAG_DOCUMENTER != 0) {
-            protection += " | " + context.getString(R.string.documenter)
-        }
-        if (flags and PROTECTION_FLAG_CONFIGURATOR != 0) {
-            protection += " | " + context.getString(R.string.configurator)
-        }
-        if (flags and PROTECTION_FLAG_INCIDENT_REPORT_APPROVER != 0) {
-            protection += " | " + context.getString(R.string.incident_report_approver)
-        }
-        if (flags and PROTECTION_FLAG_APP_PREDICTOR != 0) {
-            protection += " | " + context.getString(R.string.app_predictor)
-        }
-        if (flags and PROTECTION_FLAG_RETAIL_DEMO != 0) {
-            protection += " | " + context.getString(R.string.retail_demo)
-        }
-        return protection
+        return sb
     }
 
     /**

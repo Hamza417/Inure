@@ -2,13 +2,13 @@ package app.simple.inure.adapters.installer
 
 import android.content.Context
 import android.content.pm.PermissionInfo
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.createPermissionFlags
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -55,12 +55,11 @@ class AdapterInstallerPermissions(private val permissions: MutableList<String>) 
     }
 
     private fun TypeFaceTextView.setStatusText(permissionInfo: PermissionInfo) {
-        @Suppress("deprecation")
-        text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            PermissionUtils.protectionToString(permissionInfo.protection, permissionInfo.protectionFlags, context)
-        } else {
-            PermissionUtils.protectionToString(permissionInfo.protectionLevel, permissionInfo.protectionLevel, context)
-        }
+        text = createPermissionFlags(
+                permissionInfo,
+                0,
+                false,
+                context)
     }
 
     private fun TypeFaceTextView.setDescriptionText(context: Context, permissionInfo: PermissionInfo) {

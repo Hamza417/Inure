@@ -1,15 +1,14 @@
 package app.simple.inure.adapters.viewers
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.createPermissionFlags
 import app.simple.inure.apk.utils.PermissionUtils.isException
-import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.Switch
@@ -90,29 +89,11 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     }
 
     private fun TypeFaceTextView.setStatusText(position: Int, context: Context, permissionInfo: PermissionInfo) {
-        @Suppress("deprecation")
-        text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
-        } else {
-            protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
-        }
-
-        if (isPackageInstalled) {
-            text = when (permissions[position].isGranted) {
-                0 -> {
-                    text.toString() + " | " + context.getString(R.string.rejected)
-                }
-                1 -> {
-                    text.toString() + " | " + context.getString(R.string.granted)
-                }
-                2 -> {
-                    text.toString() + " | " + context.getString(R.string.unknown)
-                }
-                else -> {
-                    text.toString() + " | " + context.getString(R.string.unknown)
-                }
-            }
-        }
+        text = createPermissionFlags(
+                permissionInfo.permissionInfo!!,
+                permissions[position].isGranted,
+                isPackageInstalled,
+                context)
     }
 
     private fun TypeFaceTextView.setDescriptionText(context: Context, permissionInfo: PermissionInfo) {
