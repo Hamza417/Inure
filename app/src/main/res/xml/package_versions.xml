@@ -1157,7 +1157,6 @@
     <string name="com.unicornsonlsd.finamp" translatable="false">MPL-2.0</string>
     <string name="org.secuso.privacyfriendlyfinancemanager" translatable="false">GPL-3.0-or-later</string>
     <string name="cc.findfamily.app" translatable="false">GPL-3.0-or-later</string>
-    <string name="de.nulide.findmydevice" translatable="false">GPL-3.0-only</string>
     <string name="com.maksimowiczm.findmyip" translatable="false">GPL-3.0-or-later</string>
     <string name="com.internalpositioning.find3.find3app" translatable="false">MIT</string>
     <string name="ru.seva.finder" translatable="false">GPL-3.0-only</string>
@@ -1222,6 +1221,8 @@
     <string name="de.circle_dev.flux_news" translatable="false">BSD-3-Clause</string>
     <string name="dev.spiegl.flyingcarpet" translatable="false">GPL-3.0-only</string>
     <string name="org.decsync.flym" translatable="false">GPL-3.0-only</string>
+    <string name="de.nulide.findmydevice" translatable="false">GPL-3.0-only</string>
+    <string name="de.nulide.findmydevice.edge" translatable="false">GPL-3.0-only</string>
     <string name="ch.mydoli.focal" translatable="false">GPL-3.0-or-later</string>
     <string name="allen.town.focus.mastodon" translatable="false">GPL-3.0-only</string>
     <string name="allen.town.focus.podcast" translatable="false">GPL-3.0-only</string>
@@ -2041,7 +2042,6 @@
     <string name="de.ciluvien.mensen" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.mensinator.app" translatable="false">MIT</string>
     <string name="com.helddertierwelt.mentalmath" translatable="false">GPL-3.0-only</string>
-    <string name="io.menu_generator" translatable="false">AGPL-3.0-or-later</string>
     <string name="it.belloworld.mercurygram" translatable="false">GPL-2.0-or-later</string>
     <string name="info.spotcomms.wlanbackend" translatable="false">AGPL-3.0-or-later</string>
     <string name="net.asceai.meritous" translatable="false">GPL-3.0-or-later</string>
