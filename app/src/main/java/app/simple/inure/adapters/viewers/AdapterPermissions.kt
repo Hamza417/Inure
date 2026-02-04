@@ -151,6 +151,17 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         notifyItemChanged(position)
     }
 
+    /**
+     * Update the adapter's data with new permissions list
+     * This is used when the entire list needs to be refreshed (e.g., after search)
+     */
+    @Suppress("NotifyDataSetChanged")
+    fun updateData(newPermissions: MutableList<PermissionInfo>, @Suppress("UNUSED_PARAMETER") newKeyword: String) {
+        permissions.clear()
+        permissions.addAll(newPermissions)
+        notifyDataSetChanged()
+    }
+
     fun update() {
         permissionLabelMode = PermissionPreferences.getLabelType()
         for (i in permissions.indices) notifyItemChanged(i)
@@ -160,7 +171,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         this.permissionCallbacks = permissionCallbacks
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)
