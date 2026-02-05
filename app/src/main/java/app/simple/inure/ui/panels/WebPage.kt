@@ -78,6 +78,9 @@ class WebPage : ScopedFragment() {
                 getString(R.string.translate) -> {
                     webView.loadUrl("file:///android_asset/html/translation.html")
                 }
+                getString(R.string.flags) -> {
+                    webView.loadUrl("file:///android_asset/html/permission_flags.html")
+                }
                 else -> {
                     webView.loadUrl(requireArguments().getString(BundleConstants.WEB_PAGE)!!)
                 }
