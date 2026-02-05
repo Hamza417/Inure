@@ -24,7 +24,7 @@ import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String, private val isPackageInstalled: Boolean)
+class AdapterPermissions(private var permissions: MutableList<PermissionInfo>, private val keyword: String, private val isPackageInstalled: Boolean)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private var permissionCallbacks: PermissionCallbacks? = null
@@ -138,8 +138,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
      */
     @Suppress("NotifyDataSetChanged")
     fun updateData(newPermissions: MutableList<PermissionInfo>, @Suppress("UNUSED_PARAMETER") newKeyword: String) {
-        permissions.clear()
-        permissions.addAll(newPermissions)
+        permissions = newPermissions
         notifyDataSetChanged()
     }
 

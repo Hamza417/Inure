@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
@@ -25,20 +27,17 @@ import java.util.Locale
 
 class PermissionsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
 
-    private val _permissions = MutableStateFlow<MutableList<PermissionInfo>>(mutableListOf())
-    val permissions: StateFlow<MutableList<PermissionInfo>> = _permissions.asStateFlow()
+    // Use LiveData for main permissions list - always emits and maintains a copy
+    private val _permissions = MutableLiveData<MutableList<PermissionInfo>>()
+    val permissions: LiveData<MutableList<PermissionInfo>> = _permissions
 
     // Track the last requested permission change
     private val _lastPermissionChangeRequest = MutableStateFlow<PermissionChangeRequest?>(null)
     val lastPermissionChangeRequest: StateFlow<PermissionChangeRequest?> = _lastPermissionChangeRequest.asStateFlow()
 
     // Track permission change results
-    private val _permissionChangeResult = MutableStateFlow<PermissionChangeResult?>(null)
-    val permissionChangeResult: StateFlow<PermissionChangeResult?> = _permissionChangeResult.asStateFlow()
-
-    // Single permission update event
-    private val _singlePermissionUpdate = MutableSharedFlow<PermissionUpdate>()
-    val singlePermissionUpdate: SharedFlow<PermissionUpdate> = _singlePermissionUpdate.asSharedFlow()
+    private val _permissionChangeResult = MutableSharedFlow<PermissionChangeResult?>(replay = 0)
+    val permissionChangeResult: SharedFlow<PermissionChangeResult?> = _permissionChangeResult.asSharedFlow()
 
     init {
         if (SearchPreferences.isSearchKeywordModeEnabled()) {
@@ -61,11 +60,6 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
             val position: Int,
             val success: Boolean,
             val actualStatus: Int
-    )
-
-    data class PermissionUpdate(
-            val position: Int,
-            val newStatus: Int
     )
 
     fun loadPermissionData(keyword: String) {
@@ -147,12 +141,16 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                 }
                 */
 
-                _permissions.value = permissions.apply {
-                    sortBy {
-                        it.name.lowercase(Locale.getDefault())
-                    }
+                permissions.sortBy {
+                    it.name.lowercase(Locale.getDefault())
                 }
+                Log.d("PermissionsViewModel", "Posting ${permissions.size} permissions to LiveData")
+                _permissions.postValue(permissions)
             }.getOrElse {
+                // Ensure we always emit a value, even if empty, to prevent UI from getting stuck
+                Log.d("PermissionsViewModel", "Error loading permissions, posting empty list")
+                _permissions.postValue(mutableListOf())
+
                 if (it is java.lang.NullPointerException) {
                     postWarning(getString(R.string.this_app_doesnt_require_any_permissions))
                 } else {
@@ -191,24 +189,25 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
                             0 // Revoked
                         }
 
-                        // Update the permission in the internal list
+                        // Update the permission in the main list and emit new list
                         val currentPermissions = _permissions.value
-                        if (position >= 0 && position < currentPermissions.size) {
+                        if (currentPermissions != null && position >= 0 && position < currentPermissions.size) {
                             currentPermissions[position].isGranted = actualStatus
-                            // Emit single permission update event instead of recreating entire list
-                            _singlePermissionUpdate.emit(PermissionUpdate(position, actualStatus))
+                            // Post the updated list to trigger UI update
+                            _permissions.postValue(currentPermissions)
                         }
 
                         // Check if the change was successful
                         val lastRequest = _lastPermissionChangeRequest.value
                         if (lastRequest != null && lastRequest.permissionName == permissionName) {
                             val success = actualStatus == lastRequest.expectedStatus
-                            _permissionChangeResult.value = PermissionChangeResult(
+                            // Emit result via SharedFlow
+                            _permissionChangeResult.emit(PermissionChangeResult(
                                     permissionName = permissionName,
                                     position = position,
                                     success = success,
                                     actualStatus = actualStatus
-                            )
+                            ))
                         }
                     }
                 }
@@ -218,12 +217,6 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    /**
-     * Clear the last permission change result
-     */
-    fun clearPermissionChangeResult() {
-        _permissionChangeResult.value = null
-    }
 
     private fun isKeywordMatched(keyword: String, name: String, loadLabel: String): Boolean {
         return name.lowercase().contains(keyword.lowercase()) || loadLabel.lowercase().contains(keyword.lowercase())

@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,6 @@ import app.simple.inure.viewmodels.viewers.PermissionsViewModel
 import com.anggrayudi.storage.extension.postToUi
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import rikka.shizuku.Shizuku
@@ -65,34 +65,30 @@ class Permissions : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            permissionsViewModel.permissions.collectLatest { permissionInfos ->
-                if (permissionInfos.isEmpty() && !::adapterPermissions.isInitialized) {
-                    return@collectLatest
-                }
+        permissionsViewModel.permissions.observe(viewLifecycleOwner) { permissionInfos ->
+            if (recyclerView.adapter == null) {
+                Log.d("Permissions", "Setting up new adapter")
+                adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
 
-                if (!::adapterPermissions.isInitialized) {
-                    adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
+                adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
+                    override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
+                        childFragmentManager.showPermissionStatus(packageInfo, permissionInfo)
+                            .setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
+                                override fun onSuccess(grantedStatus: Boolean) {
+                                    // Record the expected change
+                                    val expectedStatus = if (grantedStatus) 1 else 0
+                                    permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
 
-                    adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
-                        override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
-                            childFragmentManager.showPermissionStatus(packageInfo, permissionInfo)
-                                .setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
-                                    override fun onSuccess(grantedStatus: Boolean) {
-                                        // Record the expected change
-                                        val expectedStatus = if (grantedStatus) 1 else 0
-                                        permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
+                                    // Optimistically update UI
+                                    adapterPermissions.permissionStatusChanged(position, expectedStatus)
 
-                                        // Optimistically update UI
-                                        adapterPermissions.permissionStatusChanged(position, expectedStatus)
-
-                                        // Schedule a delayed refresh to verify the change
-                                        viewLifecycleOwner.lifecycleScope.launch {
-                                            permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
-                                        }
+                                    // Schedule a delayed refresh to verify the change
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
                                     }
-                                })
-                        }
+                                }
+                            })
+                    }
 
                         override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
                             val expectedStatus = if (checked) 1 else 0
@@ -144,28 +140,19 @@ class Permissions : SearchBarScopedFragment() {
                         }
                     })
 
-                    recyclerView.setExclusiveAdapter(adapterPermissions)
-                } else {
-                    // Update existing adapter with new data
-                    adapterPermissions.updateData(permissionInfos, searchBox.text.toString().trim())
-                }
-
-                setCount(permissionInfos.size)
+                recyclerView.setExclusiveAdapter(adapterPermissions)
+            } else {
+                // Update existing adapter with new data
+                Log.d("Permissions", "Updating existing adapter data")
+                adapterPermissions.updateData(permissionInfos, searchBox.text.toString().trim())
             }
-        }
 
-        // Collect single permission updates
-        viewLifecycleOwner.lifecycleScope.launch {
-            permissionsViewModel.singlePermissionUpdate.collect { update ->
-                if (::adapterPermissions.isInitialized) {
-                    adapterPermissions.permissionStatusChanged(update.position, update.newStatus)
-                }
-            }
+            setCount(permissionInfos.size)
         }
 
         // Collect permission change results
         viewLifecycleOwner.lifecycleScope.launch {
-            permissionsViewModel.permissionChangeResult.collectLatest { result ->
+            permissionsViewModel.permissionChangeResult.collect { result ->
                 result?.let {
                     if (!it.success) {
                         val expectedStatusText = if (permissionsViewModel.lastPermissionChangeRequest.value?.expectedStatus == 1) "granted" else "revoked"
@@ -174,8 +161,6 @@ class Permissions : SearchBarScopedFragment() {
                         showWarning("Failed to change permission state. Expected: $expectedStatusText, Actual: " +
                                             "$actualStatusText. The system maybe disallowing permission change for this app.", goBack = false)
                     }
-                    // Clear the result after handling
-                    permissionsViewModel.clearPermissionChangeResult()
                 }
             }
         }
