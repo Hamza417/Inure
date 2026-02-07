@@ -550,6 +550,7 @@
     <string name="com.game.Cascada" translatable="false">GPL-3.0-only</string>
     <string name="org.avmedia.gshockGoogleSync" translatable="false">MIT</string>
     <string name="app.fedilab.castlab" translatable="false">GPL-3.0-only</string>
+    <string name="org.xolatgames.catashoot" translatable="false">Apache-2.0</string>
     <string name="com.agateau.catgenerator" translatable="false">Apache-2.0</string>
     <string name="com.anysoftkeyboard.languagepack.catalan" translatable="false">Apache-2.0</string>
     <string name="com.ridgelineapps.resdicegame" translatable="false">GPL-3.0-only</string>
@@ -4662,6 +4663,7 @@
     <string name="com.berdik.letmedowngrade" translatable="false">AGPL-3.0-only</string>
     <string name="com.absinthe.libchecker" translatable="false">Apache-2.0</string>
     <string name="de.benibela.videlibri" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.jksalcedo.librefind" translatable="false">MIT</string>
     <string name="dev.medzik.librepass.android" translatable="false">GPL-3.0-only</string>
     <string name="com.kaajjo.libresudoku" translatable="false">GPL-3.0-only</string>
     <string name="com.github.libretube" translatable="false">GPL-3.0-only</string>
@@ -4879,6 +4881,7 @@
     <string name="com.codepup.workout_timer" translatable="false">MIT</string>
     <string name="de.mepi0011.openinghoursmanager" translatable="false">GPL-3.0-only</string>
     <string name="com.app.openlib" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.zariep.opennavbar" translatable="false">GPL-3.0-only</string>
     <string name="it.piemonte.arpa.openoise" translatable="false">GPL-3.0-only</string>
     <string name="org.openorienteering.mapper" translatable="false">GPL-3.0-only</string>
     <string name="com.openrec" translatable="false">GPL-3.0-only</string>
@@ -5157,6 +5160,7 @@
     <string name="dev.dettmer.simplenotes" translatable="false">MIT</string>
     <string name="com.henrikherzig.playintegritychecker" translatable="false">MIT</string>
     <string name="com.tomfong.simpleqr" translatable="false">GPL-3.0-only</string>
+    <string name="com.crazyunicorn.simplequizfr" translatable="false">GPL-3.0-or-later</string>
     <string name="com.dan.simplerawcamera" translatable="false">MIT</string>
     <string name="com.open.simplesongfinder" translatable="false">GPL-3.0-or-later</string>
     <string name="com.razeeman.util.simpletimetracker" translatable="false">GPL-3.0-or-later</string>
@@ -5213,6 +5217,7 @@
     <string name="kenneth.app.starlightlauncher" translatable="false">GPL-3.0-only</string>
     <string name="nodomain.aditya1875more.stashly" translatable="false">MIT</string>
     <string name="stasis.client.android" translatable="false">Apache-2.0</string>
+    <string name="com.masterisk_f.accesssupporter" translatable="false">GPL-3.0-only</string>
     <string name="org.y20k.stayput" translatable="false">MIT</string>
     <string name="com.duck.stayawakeadb" translatable="false">GPL-3.0-only</string>
     <string name="com.nvllz.stepsy" translatable="false">GPL-3.0-only</string>
