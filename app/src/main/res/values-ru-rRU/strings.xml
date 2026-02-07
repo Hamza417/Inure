@@ -795,4 +795,6 @@
     <string name="denied">Отказано</string>
     <string name="ask">Спросить</string>
     <string name="foreground">Передний план</string>
+    <string name="granted_by_default">Предоставлено по умолчанию</string>
+    <string name="user_set">Пользовательский набор</string>
 </resources>
