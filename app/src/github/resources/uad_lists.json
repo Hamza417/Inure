@@ -1,4 +1,12 @@
 {
+  "org.lineageos.jelly": {
+    "list": "Oem",
+    "description": "LineageOS Browser App, based on chromium.\nSafe to remove if you don't need it or have replaced it with another app.\nOtherwise there will be no browser app on your device.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
   "org.lineageos.recorder": {
     "list": "Oem",
     "description": "LineageOS Voice Recorder App.\nSafe to remove if you don't need it or have replaced it with another app.",
@@ -31295,7 +31303,7 @@
   },
   "com.transsnet.store": {
     "list": "Oem",
-    "description": "Palm Store. App store with unsecure apps and probably malware. Has ads trackers and lot of intrusives permissions. Shows intrusive ads and popups.\nPithus analysis: https://beta.pithus.org/report/35d762b27c9e16703adf1731b74bef2c53a753b6a7475c425bced53b553758e5",
+    "description": "Palm Store. App store with unsecure apps and probably malware. Has ads trackers and lot of intrusives permissions. Shows intrusive ads and popups.\nRequired for one-time removal of \"Hot Apps\" folder in XOS Launcher (via long press and \"Properties\").\nPithus analysis: https://beta.pithus.org/report/35d762b27c9e16703adf1731b74bef2c53a753b6a7475c425bced53b553758e5",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -42051,6 +42059,14 @@
   "com.telenav.app.android.bell": {
     "list": "Carrier",
     "description": "Bell Navigator app. It works, but there are much better Maps apps available. https://play.google.com/store/apps/details?id=com.telenav.app.android.bell",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Recommended"
+  },
+  "com.apple.atve.androidtv.appletv": {
+    "list": "Oem",
+    "description": "Apple TV\nFactory-installed Apple TV app. Reverts to factory-version when uninstalled by normal means.\n(Shipped with Philips Android TVs, but may be present on other devices as well.)\nhttps://play.google.com/store/apps/details?id=com.apple.atve.androidtv.appletv",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
