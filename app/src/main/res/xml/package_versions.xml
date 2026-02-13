@@ -3638,7 +3638,6 @@
     <string name="org.maoist2009.tlsfragment" translatable="false">GPL-3.0-only</string>
     <string name="com.tinnamchoi.tmtlauncher" translatable="false">GPL-3.0-or-later</string>
     <string name="com.starapps.tools.tnefextractor" translatable="false">GPL-3.0-or-later</string>
-    <string name="cn.super12138.todo" translatable="false">GPL-3.0-only</string>
     <string name="com.xmission.trevin.android.todo" translatable="false">GPL-3.0-only</string>
     <string name="rocks.poopjournal.todont" translatable="false">Apache-2.0</string>
     <string name="town.robin.toadua" translatable="false">MIT</string>
@@ -3861,6 +3860,7 @@
     <string name="de.andicodes.vergissnix" translatable="false">GPL-3.0-only</string>
     <string name="org.fsociety.vernet" translatable="false">Apache-2.0</string>
     <string name="io.vertretungsplan.client.android" translatable="false">GPL-3.0-only</string>
+    <string name="cn.super12138.todo" translatable="false">GPL-3.0-only</string>
     <string name="com.vincentengelsoftware.vesandroidimagecompare" translatable="false">GPL-3.0-only</string>
     <string name="de.blau.android" translatable="false">Apache-2.0</string>
     <string name="me.lucky.vibe" translatable="false">GPL-3.0-only</string>
@@ -4644,6 +4644,7 @@
     <string name="com.apps.anker.flutter_ko" translatable="false">MIT</string>
     <string name="io.mesalabs.knoxpatch" translatable="false">GPL-3.0-or-later</string>
     <string name="com.example.koduko" translatable="false">MIT</string>
+    <string name="com.pyu.koremd" translatable="false">MIT</string>
     <string name="me.knighthat.kreate" translatable="false">GPL-3.0-only</string>
     <string name="com.baruckis.kriptofolio" translatable="false">Apache-2.0</string>
     <string name="com.amnesica.kryptey" translatable="false">GPL-3.0-only</string>
@@ -4925,9 +4926,9 @@
     <string name="com.arn.scrobble" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.xero.paper" translatable="false">Apache-2.0</string>
     <string name="com.anthonyla.paperize" translatable="false">GPL-3.0-only</string>
+    <string name="com.paperknife.app" translatable="false">AGPL-3.0-or-later</string>
     <string name="eu.bauerj.paperless_app" translatable="false">GPL-3.0-only</string>
     <string name="net.gmartin.paperlessngx_uploader" translatable="false">GPL-3.0-only</string>
-    <string name="com.quinncasey.paperless_share" translatable="false">GPL-3.0-only</string>
     <string name="org.paperwise.app" translatable="false">MIT</string>
     <string name="com.paranoid.privacylock" translatable="false">GPL-3.0-only</string>
     <string name="dev.itsvic.parceltracker" translatable="false">GPL-3.0-only</string>
