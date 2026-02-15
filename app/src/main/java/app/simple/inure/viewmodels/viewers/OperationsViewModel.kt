@@ -93,16 +93,16 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
     // TODO - the whole approach is hacky, needs a proper parser
     private fun getOps(packageName: String): ArrayList<AppOp> {
-        val ops = ArrayList<AppOp>()
         val permissions = getPermissionMap() // Ensure this returns Map<String, String?>
         val rawOutput = runAndGetOutput("appops get $packageName")
 
-        if (rawOutput.isEmpty() || rawOutput.contains("No operations.")) return ops
+        if (rawOutput.isEmpty() || rawOutput.contains("No operations.")) return ArrayList()
 
         val lines = rawOutput.split("\n").map { it.trim() }.filter { it.isNotEmpty() }
+        val allOps = ArrayList<AppOp>()
         val seenOpsInUid = mutableSetOf<String>()
-        var isCurrentlyParsingUid = false
 
+        // First pass: Parse all ops with their scopes
         for (line in lines) {
             val name: String
             val data: String
@@ -110,15 +110,14 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
             // Handle the specific "Uid mode:" header line (3 parts)
             if (line.startsWith("Uid mode:")) {
-                isCurrentlyParsingUid = true
                 val parts = line.split(":", limit = 3)
                 // "Uid mode: COARSE_LOCATION: ignore" -> ["Uid mode", "COARSE_LOCATION", "ignore"]
                 if (parts.size >= 3) {
                     name = parts[1].trim()
                     data = parts[2].trim()
                     scope = AppOpScope.UID
+                    seenOpsInUid.add(name)
                 } else {
-                    // Malformed header, skip
                     continue
                 }
             }
@@ -129,20 +128,19 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
                 val potentialName = parts[0].trim()
 
-                // Logic to detect if we have crossed from UID section to Package section:
-                // - If we are already in Package mode, stay there.
-                // - If we see Metadata (;), it's definitely Package mode.
-                // - If we see a duplicate Name (already seen in UID list), it's Package mode.
-                if (!isCurrentlyParsingUid || line.contains(";") || seenOpsInUid.contains(potentialName)) {
-                    isCurrentlyParsingUid = false
+                // If we've seen this name in UID section, or it has metadata (;), it's Package scope
+                // Otherwise, it's still in the UID section
+                if (seenOpsInUid.contains(potentialName) || line.contains(";")) {
+                    // This is a Package-level op (either duplicate or has metadata)
                     name = potentialName
                     data = parts[1].trim()
                     scope = AppOpScope.PACKAGE
                 } else {
-                    // Still in the initial UID block
+                    // Still in UID section
                     name = potentialName
                     data = parts[1].trim()
                     scope = AppOpScope.UID
+                    seenOpsInUid.add(name)
                 }
             }
 
@@ -154,19 +152,24 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
             val rejectTime = if (data.contains("rejectTime=")) data.substringAfter("rejectTime=").substringBefore(";") else null
 
             // Construct AppOp
-            // Note: permissions[name] might be null for OEM ops, handling that gracefully
             val appOp = AppOp(name, permissions[name], AppOpMode.fromString(modeStr), time, duration, rejectTime)
             appOp.scope = scope
 
-            ops.add(appOp)
-
-            // Track UID ops to help detect duplicates later
-            if (scope == AppOpScope.UID) {
-                seenOpsInUid.add(name)
-            }
+            allOps.add(appOp)
         }
 
-        return ops
+        // Second pass: Filter to keep unique ops, preferring PACKAGE scope over UID scope
+        val uniqueOps = ArrayList<AppOp>()
+        val opsByName = allOps.groupBy { it.permission }
+
+        for ((_, opsWithSameName) in opsByName) {
+            // If there's a PACKAGE scope version, use it; otherwise use the UID version
+            val preferredOp = opsWithSameName.firstOrNull { it.scope == AppOpScope.PACKAGE }
+                ?: opsWithSameName.first()
+            uniqueOps.add(preferredOp)
+        }
+
+        return uniqueOps
     }
 
     private fun runAndGetOutput(command: String?): String {
