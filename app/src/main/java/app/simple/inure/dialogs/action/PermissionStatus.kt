@@ -1,7 +1,6 @@
 package app.simple.inure.dialogs.action
 
 import android.content.pm.PackageInfo
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.createPermissionFlags
 import app.simple.inure.apk.utils.PermissionUtils.isException
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -146,26 +146,11 @@ class PermissionStatus : ScopedBottomSheetFragment() {
 
     private fun TypeFaceTextView.setStatusText(permissionInfo: PermissionInfo) {
         @Suppress("deprecation")
-        var text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
-        } else {
-            PermissionUtils.protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
-        }
-
-        text = when (permissionInfo.isGranted) {
-            0 -> {
-                text + " | " + context.getString(R.string.rejected)
-            }
-            1 -> {
-                text + " | " + context.getString(R.string.granted)
-            }
-            2 -> {
-                text + " | " + context.getString(R.string.unknown)
-            }
-            else -> {
-                text + " | " + context.getString(R.string.unknown)
-            }
-        }
+        var text = createPermissionFlags(
+                permissionInfo.permissionInfo!!,
+                permissionInfo.isGranted,
+                isInstalled = true,
+                context)
 
         setTextWithAnimation(text)
     }

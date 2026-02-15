@@ -10,16 +10,19 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.viewers.PopupLabelType
 import app.simple.inure.preferences.PermissionPreferences
+import app.simple.inure.ui.panels.WebPage
 
 class PermissionsMenu : ScopedBottomSheetFragment() {
 
     private lateinit var labelType: DynamicRippleTextView
+    private lateinit var flags: DynamicRippleTextView
     private lateinit var appSettings: DynamicRippleTextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_menu_permissions, container, false)
 
         labelType = view.findViewById(R.id.popup_label_type)
+        flags = view.findViewById(R.id.flags)
         appSettings = view.findViewById(R.id.dialog_open_apps_settings)
 
         return view
@@ -32,6 +35,10 @@ class PermissionsMenu : ScopedBottomSheetFragment() {
 
         labelType.setOnClickListener {
             PopupLabelType(it)
+        }
+
+        flags.setOnClickListener {
+            openFragmentSlide(WebPage.newInstance(getString(R.string.flags)), WebPage.TAG)
         }
 
         appSettings.setOnClickListener {

@@ -92,7 +92,12 @@ android {
 
     signingConfigs {
         release {
-            def properties = loadProperties("local.properties")
+            def properties = loadProperties(rootProject.file('local.properties').absolutePath)
+            if (properties.isEmpty()) {
+                logger.error("local.properties file not found or empty, signing disabled.")
+                storeFile = null
+                return
+            }
             def keystoreFile = findKeystoreFile(properties)
 
             if (keystoreFile.exists()) {

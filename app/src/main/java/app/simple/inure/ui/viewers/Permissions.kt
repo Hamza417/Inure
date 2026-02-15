@@ -3,6 +3,7 @@ package app.simple.inure.ui.viewers
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,77 +65,104 @@ class Permissions : SearchBarScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        permissionsViewModel.getPermissions().observe(viewLifecycleOwner) { permissionInfos ->
-            adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
-            setCount(permissionInfos.size)
+        permissionsViewModel.permissions.observe(viewLifecycleOwner) { permissionInfos ->
+            if (recyclerView.adapter == null) {
+                Log.d("Permissions", "Setting up new adapter")
+                adapterPermissions = AdapterPermissions(permissionInfos, searchBox.text.toString().trim(), isPackageInstalled)
 
-            adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
-                override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
-                    childFragmentManager.showPermissionStatus(packageInfo, permissionInfo)
-                        .setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
-                            override fun onSuccess(grantedStatus: Boolean) {
-                                adapterPermissions.permissionStatusChanged(position, if (grantedStatus) 1 else 0)
-                            }
-                        })
-                }
+                adapterPermissions.setOnPermissionCallbacksListener(object : AdapterPermissions.Companion.PermissionCallbacks {
+                    override fun onPermissionClicked(container: View, permissionInfo: PermissionInfo, position: Int) {
+                        childFragmentManager.showPermissionStatus(packageInfo, permissionInfo)
+                            .setOnPermissionStatusCallbackListener(object : PermissionStatus.Companion.PermissionStatusCallbacks {
+                                override fun onSuccess(grantedStatus: Boolean) {
+                                    // Record the expected change
+                                    val expectedStatus = if (grantedStatus) 1 else 0
+                                    permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
 
-                override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
-                    viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                        val mode = if (checked) "grant" else "revoke"
+                                    // Optimistically update UI
+                                    adapterPermissions.permissionStatusChanged(position, expectedStatus)
 
-                        if (ConfigurationPreferences.isUsingRoot()) {
-                            kotlin.runCatching {
-                                Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
-                                    if (it.isSuccess) {
-                                        withContext(Dispatchers.Main) {
-                                            adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
-                                        }
-                                    } else {
-                                        withContext(Dispatchers.Main) {
-                                            showWarning("ERR: failed to $mode permission", goBack = false)
-                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
-                                        }
+                                    // Schedule a delayed refresh to verify the change
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
                                     }
                                 }
-                            }.getOrElse {
-                                withContext(Dispatchers.Main) {
-                                    showWarning("ERR: failed to acquire root", goBack = false)
-                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
-                                }
-                            }
-                        } else if (ConfigurationPreferences.isUsingShizuku()) {
-                            kotlin.runCatching {
-                                if (Shizuku.pingBinder()) {
-                                    ShizukuServiceHelper.getInstance().getBoundService { shizukuService ->
-                                        shizukuService.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
-                                            postToUi {
-                                                if (it.isSuccess) {
-                                                    adapterPermissions.permissionStatusChanged(position, if (permissionInfo.isGranted == 1) 0 else 1)
-                                                } else {
-                                                    showWarning("ERR: failed to $mode permission", goBack = false)
-                                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
-                                                }
-                                            }
-                                        }
+                            })
+                    }
+
+                    override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
+                        val expectedStatus = if (checked) 1 else 0
+
+                        // Record the expected change
+                        permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
+
+                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                            val mode = if (checked) "grant" else "revoke"
+
+                            if (ConfigurationPreferences.isUsingRoot()) {
+                                kotlin.runCatching {
+                                    Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
+                                        // Refresh to get actual status
+                                        permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
                                     }
-                                } else {
-                                    postToUi {
-                                        showWarning("ERR: failed to acquire Shizuku", goBack = false)
+                                }.getOrElse {
+                                    withContext(Dispatchers.Main) {
+                                        showWarning("failed to acquire root", goBack = false)
                                         adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                     }
                                 }
-                            }.getOrElse {
-                                postToUi {
-                                    showWarning("ERR: failed to acquire Shizuku", goBack = false)
-                                    adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                            } else if (ConfigurationPreferences.isUsingShizuku()) {
+                                kotlin.runCatching {
+                                    if (Shizuku.pingBinder()) {
+                                        ShizukuServiceHelper.getInstance().getBoundService { shizukuService ->
+                                            shizukuService.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
+                                                // Wait a bit for the system to process
+                                                Thread.sleep(500)
+
+                                                // Refresh to get actual status
+                                                permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
+                                            }
+                                        }
+                                    } else {
+                                        postToUi {
+                                            showWarning("failed to acquire Shizuku", goBack = false)
+                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                        }
+                                    }
+                                }.getOrElse {
+                                    postToUi {
+                                        showWarning("failed to acquire Shizuku", goBack = false)
+                                        adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            })
+                })
 
-            recyclerView.setExclusiveAdapter(adapterPermissions)
+                recyclerView.setExclusiveAdapter(adapterPermissions)
+            } else {
+                // Update existing adapter with new data
+                Log.d("Permissions", "Updating existing adapter data")
+                adapterPermissions.updateData(permissionInfos, searchBox.text.toString().trim())
+            }
+
+            setCount(permissionInfos.size)
+        }
+
+        // Collect permission change results
+        viewLifecycleOwner.lifecycleScope.launch {
+            permissionsViewModel.permissionChangeResult.collect { result ->
+                result?.let {
+                    if (!it.success) {
+                        val expectedStatusText = if (permissionsViewModel.lastPermissionChangeRequest.value?.expectedStatus == 1) "granted" else "revoked"
+                        val actualStatusText = if (it.actualStatus == 1) "granted" else "revoked"
+                        // Permission change failed - show warning
+                        showWarning("Failed to change permission state. Expected: $expectedStatusText, Actual: " +
+                                            "$actualStatusText. The system maybe disallowing permission change for this app.", goBack = false)
+                    }
+                }
+            }
         }
 
         permissionsViewModel.getError().observe(viewLifecycleOwner) {

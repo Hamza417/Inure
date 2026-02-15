@@ -74,5 +74,9 @@
     <string name="sha1" translatable="false">SHA1</string>
     <string name="md5" translatable="false">MD5</string>
     <string name="appops">AppOps</string>
+    <string name="policy_fixed">Policy Fixed</string>
+    <string name="user_fixed">User Fixed</string>
+    <string name="revoke_on_upgrade">Revoke on Upgrade</string>
+    <string name="system_fixed">System Fixed</string>
 
 </resources>

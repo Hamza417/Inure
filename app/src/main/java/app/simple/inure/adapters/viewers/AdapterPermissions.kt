@@ -1,15 +1,14 @@
 package app.simple.inure.adapters.viewers
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PermissionUtils
+import app.simple.inure.apk.utils.PermissionUtils.createPermissionFlags
 import app.simple.inure.apk.utils.PermissionUtils.isException
-import app.simple.inure.apk.utils.PermissionUtils.protectionToString
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
 import app.simple.inure.decorations.toggles.Switch
@@ -25,7 +24,7 @@ import app.simple.inure.util.StringUtils.optimizeToColoredString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 
-class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, private val keyword: String, private val isPackageInstalled: Boolean)
+class AdapterPermissions(private var permissions: MutableList<PermissionInfo>, private val keyword: String, private val isPackageInstalled: Boolean)
     : RecyclerView.Adapter<AdapterPermissions.Holder>() {
 
     private var permissionCallbacks: PermissionCallbacks? = null
@@ -90,29 +89,11 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
     }
 
     private fun TypeFaceTextView.setStatusText(position: Int, context: Context, permissionInfo: PermissionInfo) {
-        @Suppress("deprecation")
-        text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            protectionToString(permissionInfo.permissionInfo!!.protection, permissionInfo.permissionInfo!!.protectionFlags, context)
-        } else {
-            protectionToString(permissionInfo.permissionInfo!!.protectionLevel, permissionInfo.permissionInfo!!.protectionLevel, context)
-        }
-
-        if (isPackageInstalled) {
-            text = when (permissions[position].isGranted) {
-                0 -> {
-                    text.toString() + " | " + context.getString(R.string.rejected)
-                }
-                1 -> {
-                    text.toString() + " | " + context.getString(R.string.granted)
-                }
-                2 -> {
-                    text.toString() + " | " + context.getString(R.string.unknown)
-                }
-                else -> {
-                    text.toString() + " | " + context.getString(R.string.unknown)
-                }
-            }
-        }
+        text = createPermissionFlags(
+                permissionInfo.permissionInfo!!,
+                permissions[position].isGranted,
+                isPackageInstalled,
+                context)
     }
 
     private fun TypeFaceTextView.setDescriptionText(context: Context, permissionInfo: PermissionInfo) {
@@ -151,6 +132,16 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         notifyItemChanged(position)
     }
 
+    /**
+     * Update the adapter's data with new permissions list
+     * This is used when the entire list needs to be refreshed (e.g., after search)
+     */
+    @Suppress("NotifyDataSetChanged")
+    fun updateData(newPermissions: MutableList<PermissionInfo>, @Suppress("UNUSED_PARAMETER") newKeyword: String) {
+        permissions = newPermissions
+        notifyDataSetChanged()
+    }
+
     fun update() {
         permissionLabelMode = PermissionPreferences.getLabelType()
         for (i in permissions.indices) notifyItemChanged(i)
@@ -160,7 +151,7 @@ class AdapterPermissions(private val permissions: MutableList<PermissionInfo>, p
         this.permissionCallbacks = permissionCallbacks
     }
 
-    inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
+    class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val name: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_name)
         val status: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_status)
         val desc: TypeFaceTextView = itemView.findViewById(R.id.adapter_permissions_desc)

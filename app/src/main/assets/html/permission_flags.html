@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Permission Flags</title>
+</head>
+
+<body>
+<script src="file:///android_asset/js/themeLoaderChangelogs.js"></script>
+
+<h2>Permission Protection Levels</h2>
+<hr>
+
+<h3>Dangerous</h3>
+<p>Permissions that grant access to sensitive user data or device features. These require explicit
+   user consent at runtime and can be revoked by the user at any time. Examples include accessing
+   location, camera, or contacts.</p>
+
+<h3>Normal</h3>
+<p>Low-risk permissions that grant access to isolated application-level features with minimal
+   privacy risk. These are automatically granted at install time without user approval.</p>
+
+<h3>Signature</h3>
+<p>Permissions granted only if the requesting app is signed with the same certificate as the app
+   that declared the permission. No user approval required.</p>
+
+<h3>Signature or System</h3>
+<p>Deprecated protection level. Granted only to apps signed with the same certificate as the
+   declaring app or system apps in the Android system image.</p>
+
+<br>
+
+<h2>Protection Flags</h2>
+<hr>
+
+<h3>Privileged</h3>
+<p>Permission is granted to apps installed in the privileged partition of the system image (e.g.,
+   /system/priv-app). These apps have elevated privileges beyond regular system apps.</p>
+
+<h3>Development</h3>
+<p>Permission can be granted to apps for development purposes. Typically used during app testing and
+   debugging phases.</p>
+
+<h3>AppOp</h3>
+<p>Permission is associated with an app operation that can be tracked and controlled through the App
+   Ops framework, allowing fine-grained runtime control.</p>
+
+<h3>Pre23</h3>
+<p>Permission was granted automatically to apps targeting API level 22 or lower (Android 5.1 and
+   below) without runtime prompts.</p>
+
+<h3>Installer</h3>
+<p>Permission is granted to the package installer application, which handles app installation and
+   updates on the device.</p>
+
+<h3>Verifier</h3>
+<p>Permission is granted to package verifier applications that validate app authenticity and
+   security before installation.</p>
+
+<h3>Pre-installed</h3>
+<p>Permission is granted only to apps that were pre-installed on the device at manufacturing
+   time.</p>
+
+<h3>Setup</h3>
+<p>Permission is granted to the device setup wizard or provisioning applications used during initial
+   device configuration.</p>
+
+<h3>Instant</h3>
+<p>Permission is available to instant apps (apps that run without full installation), subject to
+   instant app restrictions.</p>
+
+<h3>Runtime</h3>
+<p>Permission can only be granted at runtime and cannot be granted during app installation, even for
+   pre-granted permissions.</p>
+
+<h3>OEM</h3>
+<p>Permission is granted to apps signed by the device manufacturer (OEM), allowing vendor-specific
+   functionality.</p>
+
+<h3>Vendor Privileged</h3>
+<p>Permission is granted to privileged vendor apps located in the vendor partition of the system
+   image.</p>
+
+<h3>Text Classifier</h3>
+<p>Permission is granted to the designated system text classifier service that provides text
+   analysis features.</p>
+
+<h3>Wellbeing</h3>
+<p>Permission is granted to the digital wellbeing application that monitors and manages device usage
+   patterns.</p>
+
+<h3>Documenter</h3>
+<p>Permission is granted to the system app responsible for document management and handling.</p>
+
+<h3>Configurator</h3>
+<p>Permission is granted to device configuration applications used in enterprise or managed device
+   scenarios.</p>
+
+<h3>Incident Report Approver</h3>
+<p>Permission is granted to apps that can approve the collection and sharing of incident reports for
+   debugging purposes.</p>
+
+<h3>App Predictor</h3>
+<p>Permission is granted to the system app predictor service that suggests apps based on user
+   behavior and context.</p>
+
+<h3>Retail Demo</h3>
+<p>Permission is granted to retail demo mode applications used in store displays and
+   demonstrations.</p>
+
+<br>
+
+<h2>Grant States</h2>
+<hr>
+
+<h3>Granted</h3>
+<p>The permission has been granted to the application and is currently active.</p>
+
+<h3>Rejected</h3>
+<p>The permission has been explicitly denied or revoked by the user or system.</p>
+
+<h3>Unknown</h3>
+<p>The grant state of the permission cannot be determined or is in an indeterminate state.</p>
+
+<br>
+<h2>Special Flags</h2>
+<hr>
+
+<h3>User Set</h3>
+<p>The permission state was explicitly set by the user through settings or runtime prompts.</p>
+
+<h3>User Fixed</h3>
+<p>The permission state has been fixed by the user and cannot be changed by the app or system
+   automatically.</p>
+
+<h3>Policy Fixed</h3>
+<p>The permission state is fixed by device policy (e.g., enterprise MDM) and cannot be changed by
+   the user or app.</p>
+
+<h3>Revoke on Upgrade</h3>
+<p>The permission will be automatically revoked when the app is upgraded to a newer version.</p>
+
+<h3>System Fixed</h3>
+<p>The permission state is fixed by the system and cannot be altered by users, apps, or
+   policies.</p>
+
+<h3>Granted by Default</h3>
+<p>The permission was granted automatically by default during installation based on system
+   configuration or policy.</p>
+
+
+</body>

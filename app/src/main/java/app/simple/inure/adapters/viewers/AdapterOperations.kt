@@ -35,7 +35,7 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
         // Set binding flag to prevent listener triggers during setup
         holder.isBinding = true
 
-        holder.name.text = ops[position].permission.sanitize()
+        holder.name.text = ops[position].permission //.sanitize() // Don't sanitize permission names
         holder.desc.text = holder.context.getPermissionDescription(ops[position].id.ifEmptyOrNull(ops[position].permission))
 
         AdapterUtils.searchHighlighter(holder.name, keyword)

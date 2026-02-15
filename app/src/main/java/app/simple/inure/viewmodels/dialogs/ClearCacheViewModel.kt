@@ -52,7 +52,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
                         }
                     }.getOrElse {
                         it.printStackTrace()
-                        result.postValue("\n" + it.message!!)
+                        result.postValue("\n" + it.message)
                         if (shellResult.isSuccess) {
                             success.postValue("Done")
                         } else {
@@ -62,11 +62,11 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
                 }
             }.onFailure {
                 it.printStackTrace()
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }.getOrElse {
                 it.printStackTrace()
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }
         }
@@ -91,7 +91,7 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
                         }
                     }.getOrElse {
                         it.printStackTrace()
-                        result.postValue("\n" + it.message!!)
+                        result.postValue("\n" + it.message)
                         if (shellResult?.isSuccess == true) {
                             success.postValue("Done")
                         } else {
@@ -104,11 +104,11 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
                 success.postValue("Done")
             }.onFailure {
                 it.printStackTrace()
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }.getOrElse {
                 it.printStackTrace()
-                result.postValue("\n" + it.message!!)
+                result.postValue("\n" + it.message)
                 success.postValue("Failed")
             }
         }

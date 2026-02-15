@@ -791,4 +791,6 @@
     <string name="denied">Denied</string>
     <string name="ask">Ask</string>
     <string name="foreground">Foreground</string>
+    <string name="granted_by_default">Granted By Default</string>
+    <string name="user_set">User Set</string>
 </resources>
