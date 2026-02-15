@@ -90,55 +90,55 @@ class Permissions : SearchBarScopedFragment() {
                             })
                     }
 
-                        override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
-                            val expectedStatus = if (checked) 1 else 0
+                    override fun onPermissionSwitchClicked(checked: Boolean, permissionInfo: PermissionInfo, position: Int) {
+                        val expectedStatus = if (checked) 1 else 0
 
-                            // Record the expected change
-                            permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
+                        // Record the expected change
+                        permissionsViewModel.recordPermissionChangeRequest(permissionInfo.name, position, expectedStatus)
 
-                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-                                val mode = if (checked) "grant" else "revoke"
+                        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+                            val mode = if (checked) "grant" else "revoke"
 
-                                if (ConfigurationPreferences.isUsingRoot()) {
-                                    kotlin.runCatching {
-                                        Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
-                                            // Refresh to get actual status
-                                            permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
-                                        }
-                                    }.getOrElse {
-                                        withContext(Dispatchers.Main) {
-                                            showWarning("failed to acquire root", goBack = false)
-                                            adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
-                                        }
+                            if (ConfigurationPreferences.isUsingRoot()) {
+                                kotlin.runCatching {
+                                    Shell.cmd("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").exec().let {
+                                        // Refresh to get actual status
+                                        permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
                                     }
-                                } else if (ConfigurationPreferences.isUsingShizuku()) {
-                                    kotlin.runCatching {
-                                        if (Shizuku.pingBinder()) {
-                                            ShizukuServiceHelper.getInstance().getBoundService { shizukuService ->
-                                                shizukuService.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
-                                                    // Wait a bit for the system to process
-                                                    Thread.sleep(500)
+                                }.getOrElse {
+                                    withContext(Dispatchers.Main) {
+                                        showWarning("failed to acquire root", goBack = false)
+                                        adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                    }
+                                }
+                            } else if (ConfigurationPreferences.isUsingShizuku()) {
+                                kotlin.runCatching {
+                                    if (Shizuku.pingBinder()) {
+                                        ShizukuServiceHelper.getInstance().getBoundService { shizukuService ->
+                                            shizukuService.simpleExecute("pm $mode ${packageInfo.packageName} ${permissionInfo.name}").let {
+                                                // Wait a bit for the system to process
+                                                Thread.sleep(500)
 
-                                                    // Refresh to get actual status
-                                                    permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
-                                                }
-                                            }
-                                        } else {
-                                            postToUi {
-                                                showWarning("failed to acquire Shizuku", goBack = false)
-                                                adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                                // Refresh to get actual status
+                                                permissionsViewModel.refreshPermissionStatus(permissionInfo.name, position)
                                             }
                                         }
-                                    }.getOrElse {
+                                    } else {
                                         postToUi {
                                             showWarning("failed to acquire Shizuku", goBack = false)
                                             adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
                                         }
                                     }
+                                }.getOrElse {
+                                    postToUi {
+                                        showWarning("failed to acquire Shizuku", goBack = false)
+                                        adapterPermissions.permissionStatusChanged(position, permissionInfo.isGranted)
+                                    }
                                 }
                             }
                         }
-                    })
+                    }
+                })
 
                 recyclerView.setExclusiveAdapter(adapterPermissions)
             } else {

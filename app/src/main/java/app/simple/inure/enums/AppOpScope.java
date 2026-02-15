@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 
 public enum AppOpScope {
     UID("uid"),
-    PACKAGE("package");
+    PACKAGE("package"),
+    BOTH("both");
     
     private final String value;
     

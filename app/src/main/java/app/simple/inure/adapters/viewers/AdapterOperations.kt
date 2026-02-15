@@ -74,6 +74,13 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
                 AppOpScope.PACKAGE -> {
                     appendFlag(holder.getString(R.string.application))
                 }
+                AppOpScope.BOTH -> {
+                    appendFlag(holder.getString(R.string.uid))
+                    appendFlag(holder.getString(R.string.application))
+                }
+                else -> {
+                    // Do nothing
+                }
             }
 
             //            when {
