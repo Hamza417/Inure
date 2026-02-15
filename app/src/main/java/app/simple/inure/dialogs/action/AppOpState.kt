@@ -88,6 +88,10 @@ class AppOpState : ScopedBottomSheetFragment() {
             AppOpScope.PACKAGE -> {
                 scopeGroup.check(R.id.application)
             }
+            AppOpScope.BOTH -> {
+                // Default to application/package scope for BOTH
+                scopeGroup.check(R.id.application)
+            }
             else -> {
                 // Do nothing
             }

@@ -63,22 +63,60 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
             kotlin.runCatching {
                 when {
                     ConfigurationPreferences.isUsingRoot() -> {
-                        Shell.cmd(getStateChangeCommand(updatedAppOp)).exec().let {
-                            if (it.isSuccess) {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
-                            } else {
-                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
-                                                    " : ${""} for ${packageInfo.packageName})")
+                        // Handle BOTH scope by updating both UID and PACKAGE
+                        if (updatedAppOp.scope == AppOpScope.BOTH) {
+                            val commands = arrayOf(
+                                    getStateChangeCommand(updatedAppOp, AppOpScope.PACKAGE),
+                                    getStateChangeCommand(updatedAppOp, AppOpScope.UID)
+                            )
+                            Shell.cmd(*commands).exec().let {
+                                if (it.isSuccess) {
+                                    appOpsState.postValue(Pair(updatedAppOp, position))
+                                } else {
+                                    postWarning("Failed to change state of ${updatedAppOp.permission}" +
+                                                        " for ${packageInfo.packageName}")
+                                }
+                            }
+                        } else {
+                            Shell.cmd(getStateChangeCommand(updatedAppOp, updatedAppOp.scope)).exec().let {
+                                if (it.isSuccess) {
+                                    appOpsState.postValue(Pair(updatedAppOp, position))
+                                } else {
+                                    postWarning("Failed to change state of ${updatedAppOp.permission}" +
+                                                        " for ${packageInfo.packageName}")
+                                }
                             }
                         }
                     }
                     ConfigurationPreferences.isUsingShizuku() -> {
-                        getShizukuService().simpleExecute(getStateChangeCommand(updatedAppOp)).let {
-                            if (it.isSuccess) {
-                                appOpsState.postValue(Pair(updatedAppOp, position))
-                            } else {
-                                postWarning("Failed to change state of ${updatedAppOp.permission}" +
-                                                    " : ${""} for ${packageInfo.packageName}")
+                        // Handle BOTH scope by updating both UID and PACKAGE
+                        if (updatedAppOp.scope == AppOpScope.BOTH) {
+                            val packageCommand = getStateChangeCommand(updatedAppOp, AppOpScope.PACKAGE)
+                            val uidCommand = getStateChangeCommand(updatedAppOp, AppOpScope.UID)
+
+                            getShizukuService().simpleExecute(packageCommand).let { packageResult ->
+                                if (packageResult.isSuccess) {
+                                    getShizukuService().simpleExecute(uidCommand).let { uidResult ->
+                                        if (uidResult.isSuccess) {
+                                            appOpsState.postValue(Pair(updatedAppOp, position))
+                                        } else {
+                                            postWarning("Failed to change UID state of ${updatedAppOp.permission}" +
+                                                                " for ${packageInfo.packageName}")
+                                        }
+                                    }
+                                } else {
+                                    postWarning("Failed to change package state of ${updatedAppOp.permission}" +
+                                                        " for ${packageInfo.packageName}")
+                                }
+                            }
+                        } else {
+                            getShizukuService().simpleExecute(getStateChangeCommand(updatedAppOp, updatedAppOp.scope)).let {
+                                if (it.isSuccess) {
+                                    appOpsState.postValue(Pair(updatedAppOp, position))
+                                } else {
+                                    postWarning("Failed to change state of ${updatedAppOp.permission}" +
+                                                        " for ${packageInfo.packageName}")
+                                }
                             }
                         }
                     }
@@ -93,11 +131,11 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
         }
     }
 
-    private fun getStateChangeCommand(op: AppOp): String {
+    private fun getStateChangeCommand(op: AppOp, scope: AppOpScope = op.scope): String {
         val stringBuilder = StringBuilder()
         stringBuilder.append("appops set ")
-        stringBuilder.append(AppOpScope.getCommandFlag(op.scope))
-        if (op.scope == AppOpScope.UID) {
+        stringBuilder.append(AppOpScope.getCommandFlag(scope))
+        if (scope == AppOpScope.UID) {
             stringBuilder.append(" ")
         }
         stringBuilder.append(packageInfo.packageName)
@@ -130,25 +168,67 @@ class OperationsViewModel(application: Application, val packageInfo: PackageInfo
 
         Log.d(TAG, "Found ${uniqueOperations.size} unique operations for $packageName")
 
-        // Query each operation individually to get clear UID and package scope separation
-        for (operation in uniqueOperations) {
-            // For OEM custom ops like MIUIOP(10008), extract the numeric code
-            val queryOperation = if (operation.contains("(") && operation.endsWith(")")) {
-                val extracted = operation.substringAfter("(").substringBefore(")")
-                // Verify it's numeric, otherwise use original
-                if (extracted.toIntOrNull() != null) extracted else operation
-            } else {
-                operation
-            }
+        // To avoid hitting system limitations, batch operations in groups
+        val batchSize = 20 // Process 20 operations at a time to avoid system limits
+        val tempOpsMap = mutableMapOf<String, MutableList<AppOp>>()
 
-            val opOutput = runAndGetOutput("appops get $packageName $queryOperation")
-            if (opOutput.isNotEmpty()) {
-                parseIndividualOperation(operation, opOutput, permissions)?.let { parsedOps ->
-                    ops.addAll(parsedOps)
+        uniqueOperations.chunked(batchSize).forEach { batch ->
+            // Query each operation individually to get clear UID and package scope separation
+            for (operation in batch) {
+                // For OEM custom ops like MIUIOP(10008), extract the numeric code
+                val queryOperation = if (operation.contains("(") && operation.endsWith(")")) {
+                    val extracted = operation.substringAfter("(").substringBefore(")")
+                    // Verify it's numeric, otherwise use original
+                    if (extracted.toIntOrNull() != null) extracted else operation
+                } else {
+                    operation
+                }
+
+                val opOutput = runAndGetOutput("appops get $packageName $queryOperation")
+                if (opOutput.isNotEmpty()) {
+                    parseIndividualOperation(operation, opOutput, permissions)?.let { parsedOps ->
+                        // Group by permission name to detect UID + PACKAGE duplicates
+                        tempOpsMap.getOrPut(operation) { mutableListOf() }.addAll(parsedOps)
+                    }
                 }
             }
         }
 
+        // Merge operations that have both UID and PACKAGE scope into BOTH
+        for ((permission, opList) in tempOpsMap) {
+            if (opList.size == 2) {
+                val hasUid = opList.any { it.scope == AppOpScope.UID }
+                val hasPackage = opList.any { it.scope == AppOpScope.PACKAGE }
+
+                if (hasUid && hasPackage) {
+                    // Merge into a single AppOp with BOTH scope
+                    val packageOp = opList.first { it.scope == AppOpScope.PACKAGE }
+                    val uidOp = opList.first { it.scope == AppOpScope.UID }
+
+                    // Use package scope's metadata (time, duration, rejectTime) as primary
+                    val mergedOp = AppOp(
+                            permission,
+                            packageOp.id,
+                            packageOp.mode,
+                            packageOp.time,
+                            packageOp.duration,
+                            packageOp.rejectTime
+                    )
+                    mergedOp.scope = AppOpScope.BOTH
+                    ops.add(mergedOp)
+
+                    Log.d(TAG, "Merged $permission: UID(${uidOp.mode.value}) + PACKAGE(${packageOp.mode.value}) -> BOTH")
+                } else {
+                    // Both have same scope (shouldn't happen), add all
+                    ops.addAll(opList)
+                }
+            } else {
+                // Single scope operation, add as-is
+                ops.addAll(opList)
+            }
+        }
+
+        Log.d(TAG, "Processed ${ops.size} operations from ${tempOpsMap.size} unique operations")
         return ops
     }
 
