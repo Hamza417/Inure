@@ -66,8 +66,6 @@ class AdapterOperations(private val ops: ArrayList<AppOp>, var keyword: String) 
                 }
             }
 
-            // Scope flag removed - only showing application-level ops now
-
             //            when {
             //                !ops[position].rejectTime.isNullOrEmpty() -> {
             //                    appendFlag(ops[position].rejectTime!!)
