@@ -3,6 +3,7 @@ package app.simple.inure.activities.app
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.net.wifi.hotspot2.pps.HomeSp
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -242,11 +243,11 @@ class MainActivity : BaseActivity() {
                 if (isNewIntent.invert()) { // Maybe the app was opened from launcher, need more checks?
                     if (AppUtils.isDebug()) {
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), SplashScreen.TAG)
+                            .replace(R.id.app_container, Home.newInstance(), SplashScreen.TAG)
                             .commit()
                     } else {
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.app_container, SplashScreen.newInstance(false), SplashScreen.TAG)
+                            .replace(R.id.app_container, Home.newInstance(), SplashScreen.TAG)
                             .commit()
                     }
                 }
