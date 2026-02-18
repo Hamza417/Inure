@@ -45,20 +45,38 @@
                 app:appFontStyle="medium"
                 app:textColorStyle="secondary" />
 
-            <app.simple.inure.decorations.corners.DynamicCornerEditText
-                android:id="@+id/installer_package_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/package_name"
                 android:layout_marginTop="@dimen/popup_padding"
-                android:importantForAutofill="no"
-                android:maxLength="@integer/tag_character_limit"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:paddingHorizontal="@dimen/dialog_padding"
-                android:textCursorDrawable="@drawable/text_cursor"
-                app:appFontStyle="medium"
-                app:textColorStyle="primary" />
+                android:orientation="horizontal">
+
+                <app.simple.inure.decorations.corners.DynamicCornerEditText
+                    android:id="@+id/installer_package_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/package_name"
+                    android:importantForAutofill="no"
+                    android:maxLength="@integer/tag_character_limit"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/dialog_padding"
+                    android:textCursorDrawable="@drawable/text_cursor"
+                    app:appFontStyle="medium"
+                    app:textColorStyle="primary" />
+
+                <app.simple.inure.decorations.ripple.DynamicRippleImageButton
+                    android:id="@+id/apps"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/popup_padding"
+                    android:src="@drawable/ic_apps"
+                    android:contentDescription="@string/apps"
+                    app:buttonTintType="secondary" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
