@@ -75,6 +75,11 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
     private fun runShizuku(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                if (shizukuServiceHelper.isRootMode().not()) {
+                    postWarning("Shizuku is not running in root mode and root is required to clear app cache.")
+                    return@launch
+                }
+
                 shizukuServiceHelper.service?.simpleExecute(getCommand()).let { shellResult ->
                     kotlin.runCatching {
                         for (i in shellResult?.output!!.lines()) {

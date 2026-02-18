@@ -2,6 +2,7 @@ package app.simple.inure.helpers
 
 import android.content.ComponentName
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.IBinder
 import android.util.Log
 import app.simple.inure.BuildConfig
@@ -88,6 +89,24 @@ class ShizukuServiceHelper private constructor() {
             Shizuku.unbindUserService(userServiceArgs, userServiceConnection, true)
         } else {
             throw RuntimeException("Current Shizuku version is not supported: ${Shizuku.getVersion()}")
+        }
+    }
+
+    fun isRootMode(): Boolean {
+        if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+            val uid = Shizuku.getUid()
+            if (uid == 0) {
+                // Running as Root
+                return true
+            } else if (uid == 2000) {
+                // Running as ADB (Shell)
+                return false
+            } else {
+                // Running as an app with Shizuku permission
+                return false
+            }
+        } else {
+            return false
         }
     }
 
