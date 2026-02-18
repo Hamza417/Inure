@@ -96,8 +96,8 @@ android {
             if (properties.isEmpty()) {
                 logger.error("local.properties file not found or empty, signing disabled.")
                 storeFile = null
-                return
             }
+
             def keystoreFile = findKeystoreFile(properties)
 
             if (keystoreFile.exists()) {

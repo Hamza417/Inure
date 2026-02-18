@@ -53,6 +53,11 @@ jobs:
                     echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
                     echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
+            # Find and print apk path for debugging
+            -   name: Find APK
+                run: |
+                    find app/ -name "*.apk" -exec echo "Found APK: {}" \;
+
             -   name: Archive APKs
                 uses: actions/upload-artifact@v4
                 with:
