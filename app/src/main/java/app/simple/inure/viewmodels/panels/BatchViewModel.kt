@@ -279,7 +279,8 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
                         with(getCommand(batchPackageInfo.packageInfo)) {
                             if (this.isNotNull() || this.contains("null")) {
                                 Shell.cmd(this).exec().let {
-                                    val sizeNow = with(batchPackageInfo.packageInfo.getPackageSize(applicationContext())) {
+                                    val sizeNow = with(batchPackageInfo
+                                                           .packageInfo.getPackageSize(applicationContext())) {
                                         cacheSize + dataSize + codeSize
                                     }
 
@@ -302,6 +303,7 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
         }
     }
 
+    // TODO - migrate to --clear-cache
     private fun getCommand(packageInfo: PackageInfo): String {
         //        return "rm -r -v /data/data/${packageInfo.packageName}/cache " +
         //                "& rm -r -v /data/data/${packageInfo.packageName}/app_cache " +
