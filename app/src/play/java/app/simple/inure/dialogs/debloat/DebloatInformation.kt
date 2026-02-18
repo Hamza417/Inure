@@ -16,7 +16,7 @@ class DebloatInformation : ScopedBottomSheetFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): DebloatInformation {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = DebloatInformation()
             fragment.arguments = args
             return fragment

@@ -16,7 +16,7 @@ class VirusTotal : ScopedFragment() {
     companion object {
         fun newInstance(packageInfo: PackageInfo): VirusTotal {
             val args = Bundle()
-            args.putParcelable(BundleConstants.packageInfo, packageInfo)
+            args.putParcelable(BundleConstants.PACKAGE_INFO, packageInfo)
             val fragment = VirusTotal()
             fragment.arguments = args
             return fragment

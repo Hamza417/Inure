@@ -187,6 +187,12 @@ android {
     lint {
         disable 'Instantiatable'
     }
+
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.add("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+        }
+    }
 }
 
 dependencies {
