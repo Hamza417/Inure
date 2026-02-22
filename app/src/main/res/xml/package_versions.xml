@@ -4505,6 +4505,7 @@
     <string name="io.github.landwarderer.futon" translatable="false">GPL-3.0-only</string>
     <string name="be.cuypers_ghys.gaai" translatable="false">AGPL-3.0-only</string>
     <string name="nodomain.freeyourgadget.gadgetbridge" translatable="false">AGPL-3.0-only</string>
+    <string name="com.zs.android.apps.photos" translatable="false">Apache-2.0</string>
     <string name="com.sagiadinos.garlic.player" translatable="false">AGPL-3.0-only</string>
     <string name="de.lukaspieper.gcam.services" translatable="false">MIT</string>
     <string name="com.google.android.apps.photos" translatable="false">MIT</string>
@@ -4567,6 +4568,7 @@
     <string name="sk.amk.homeberry" translatable="false">GPL-3.0-only</string>
     <string name="sadLogic.HomeCentral" translatable="false">AGPL-3.0-only</string>
     <string name="com.studio4plus.homerplayer" translatable="false">MIT</string>
+    <string name="com.dxku.hongit" translatable="false">AGPL-3.0-only</string>
     <string name="com.hoptodesk.app" translatable="false">AGPL-3.0-only</string>
     <string name="xzr.hkf" translatable="false">GPL-3.0-only</string>
     <string name="com.hotstuff" translatable="false">Apache-2.0</string>
@@ -4906,6 +4908,8 @@
     <string name="org.note.app" translatable="false">GPL-3.0-only</string>
     <string name="com.orgzlyrevived" translatable="false">GPL-3.0-or-later</string>
     <string name="com.tuyafeng.orientationlock" translatable="false">GPL-3.0-or-later</string>
+    <string name="de.storchp.opentracks.osmplugin" translatable="false">Apache-2.0</string>
+    <string name="de.storchp.opentracks.osmplugin.offline" translatable="false">Apache-2.0</string>
     <string name="fr.dogeo.osmgo" translatable="false">MIT</string>
     <string name="io.github.janbar.osmin" translatable="false">GPL-3.0-only</string>
     <string name="com.akylas.cardwallet" translatable="false">MIT</string>
@@ -5428,4 +5432,5 @@
     <string name="com.wirelessalien.zipxtract" translatable="false">GPL-3.0-only</string>
     <string name="xyz.zood.george" translatable="false">AGPL-3.0-only</string>
     <string name="app.zxtune.fdroid" translatable="false">LGPL-3.0-only</string>
+    <string name="de.oeffisounds.app" translatable="false">GPL-3.0-only</string>
 </resources>
