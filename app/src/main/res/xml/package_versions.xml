@@ -782,7 +782,6 @@
     <string name="io.github.datastopwatch" translatable="false">GPL-3.0-or-later</string>
     <string name="info.metadude.android.datenspuren.schedule" translatable="false">Apache-2.0</string>
     <string name="at.bitfire.davdroid" translatable="false">GPL-3.0-only</string>
-    <string name="com.infomaniak.sync" translatable="false">GPL-3.0-only</string>
     <string name="godau.fynn.moodledirect" translatable="false">GPL-3.0-or-later</string>
     <string name="com.gorden.dayexam" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.tserumula.dbcleanerforwhatsapp" translatable="false">GPL-3.0-only</string>
@@ -1587,6 +1586,7 @@
     <string name="com.infomaniak.euria" translatable="false">GPL-3.0-only</string>
     <string name="com.infomaniak.drive" translatable="false">GPL-3.0-only</string>
     <string name="com.infomaniak.meet" translatable="false">Apache-2.0</string>
+    <string name="com.infomaniak.sync" translatable="false">GPL-3.0-only</string>
     <string name="com.infomaniak.mail" translatable="false">GPL-3.0-only</string>
     <string name="com.rohitsuratekar.NCBSinfo" translatable="false">MIT</string>
     <string name="x1125io.initdlight" translatable="false">MIT</string>
@@ -3639,7 +3639,7 @@
     <string name="com.robertmengual.toberquizz" translatable="false">GPL-3.0-only</string>
     <string name="com.k.todo" translatable="false">GPL-3.0-only</string>
     <string name="org.andstatus.todoagenda" translatable="false">Apache-2.0</string>
-    <string name="org.secuso.privacyfriendlytodolist" translatable="false">Apache-2.0</string>
+    <string name="org.secuso.privacyfriendlytodolist" translatable="false">GPL-3.0-or-later</string>
     <string name="org.chrisbailey.todo" translatable="false">GPL-3.0-only</string>
     <string name="nl.tsmeets.todotree" translatable="false">GPL-3.0-only</string>
     <string name="com.zoffcc.applications.tofshare" translatable="false">GPL-3.0-only</string>
@@ -4878,7 +4878,6 @@
     <string name="com.opennotes" translatable="false">GPL-3.0-or-later</string>
     <string name="kittoku.osc" translatable="false">MIT</string>
     <string name="io.github.devhyper.openvideoeditor" translatable="false">GPL-3.0-only</string>
-    <string name="com.openathena" translatable="false">AGPL-3.0-only</string>
     <string name="com.schwegelbin.openbible" translatable="false">Apache-2.0</string>
     <string name="com.Ounzy.OpenBl" translatable="false">GPL-3.0-or-later</string>
     <string name="com.nima.openbooksdownloader" translatable="false">MIT</string>
@@ -5058,6 +5057,7 @@
     <string name="com.github.gouravkhunger.quotesapp" translatable="false">MIT</string>
     <string name="id.thony.android.quranlite" translatable="false">MIT</string>
     <string name="com.quran.labs.androidquran" translatable="false">GPL-3.0-only</string>
+    <string name="com.haseeb.quranapp" translatable="false">MIT</string>
     <string name="com.quranapp.android" translatable="false">GPL-3.0-only</string>
     <string name="org.cagnulein.qzcompanionnordictracktreadmill" translatable="false">AGPL-3.0-only</string>
     <string name="com.livefast.eattrash.raccoonforfriendica" translatable="false">GPL-3.0-only</string>
@@ -5330,6 +5330,7 @@
     <string name="org.unifiedpush.example" translatable="false">Apache-2.0</string>
     <string name="com.updateme" translatable="false">Apache-2.0</string>
     <string name="com.samueljhuf.upnp_explorer" translatable="false">MIT</string>
+    <string name="acab.naiveha.upnpkino" translatable="false">Apache-2.0</string>
     <string name="com.cyb3rg0d.urlchecker" translatable="false">GPL-3.0-only</string>
     <string name="com.jamal2367.urlradio" translatable="false">MIT</string>
     <string name="com.trianguloy.urlchecker" translatable="false">CC-BY-4.0</string>
