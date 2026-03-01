@@ -1167,6 +1167,7 @@
     <string name="de.sirjofri.fingerlist" translatable="false">MIT</string>
     <string name="com.menny.anysoftkeyboard.finnish" translatable="false">Apache-2.0</string>
     <string name="nl.moeilijkedingen.jellyfinaudioplayer" translatable="false">MIT</string>
+    <string name="de.questmaster.wettkampf_funk_trainer" translatable="false">MIT</string>
     <string name="com.eightsines.firestrike.opensource" translatable="false">MIT</string>
     <string name="xyz.hisname.fireflyiii" translatable="false">GPL-3.0-or-later</string>
     <string name="com.mustafacanyucel.fireflyiiishortcuts" translatable="false">MIT</string>
@@ -1318,7 +1319,6 @@
     <string name="audio.funkwhale.ffa" translatable="false">MIT</string>
     <string name="de.drmaxnix.futharkboard" translatable="false">MIT</string>
     <string name="io.github.landwarderer.futon" translatable="false">GPL-3.0-only</string>
-    <string name="de.questmaster.wettkampf_funk_trainer" translatable="false">MIT</string>
     <string name="business.braid.f_wallet" translatable="false">EUPL-1.2</string>
     <string name="org.cipherdyne.fwknop2" translatable="false">GPL-2.0-or-later</string>
     <string name="foehnix.widget" translatable="false">GPL-3.0-only</string>
@@ -4816,6 +4816,7 @@
     <string name="com.machiav3lli.fdroid" translatable="false">GPL-3.0-or-later</string>
     <string name="day.vitayuzu.neodb" translatable="false">GPL-3.0-only</string>
     <string name="xyz.malkki.neostumbler.fdroid" translatable="false">MIT</string>
+    <string name="com.vishaltelangre.nerdcalci" translatable="false">GPL-3.0-only</string>
     <string name="eu.faircode.netguard" translatable="false">GPL-3.0-only</string>
     <string name="com.by_syk.netupdown" translatable="false">Apache-2.0</string>
     <string name="com.craxiom.networksurvey" translatable="false">Apache-2.0</string>
