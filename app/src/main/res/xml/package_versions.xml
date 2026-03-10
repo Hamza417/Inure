@@ -398,6 +398,7 @@
     <string name="org.asafonov.blockbuster" translatable="false">MIT</string>
     <string name="com.blockdrop.game" translatable="false">MIT</string>
     <string name="com.merxury.blocker" translatable="false">Apache-2.0</string>
+    <string name="com.greenaddress.greenbits_android_wallet" translatable="false">GPL-3.0-only</string>
     <string name="org.scoutant.blokish" translatable="false">GPL-3.0-only</string>
     <string name="com.derdilla.bloodPressureApp" translatable="false">MIT</string>
     <string name="xyz.blorpblorp.app" translatable="false">GPL-3.0-only</string>
@@ -1431,7 +1432,6 @@
     <string name="com.gravityplay" translatable="false">GPL-2.0-only</string>
     <string name="at.linuxtage.Eventfahrplan" translatable="false">Apache-2.0</string>
     <string name="com.anysoftkeyboard.languagepack.greek" translatable="false">Apache-2.0</string>
-    <string name="com.greenaddress.greenbits_android_wallet" translatable="false">GPL-3.0-only</string>
     <string name="com.starry.greenstash" translatable="false">MIT</string>
     <string name="org.billthefarmer.gridle" translatable="false">GPL-3.0-only</string>
     <string name="com.shub39.grit" translatable="false">GPL-3.0-only</string>
@@ -4976,6 +4976,7 @@
     <string name="com.jksalcedo.passvault" translatable="false">MIT</string>
     <string name="com.password.monitor" translatable="false">GPL-3.0-only</string>
     <string name="v4lpt.vpt.pwg" translatable="false">GPL-3.0-only</string>
+    <string name="com.sidhant.path" translatable="false">GPL-3.0-only</string>
     <string name="com.rajmani7584.payloaddumper" translatable="false">GPL-3.0-only</string>
     <string name="com.rhythmcache.payloaddumper" translatable="false">Apache-2.0</string>
     <string name="com.pcapdroid.mitm" translatable="false">GPL-3.0-only</string>
