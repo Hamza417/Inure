@@ -10,6 +10,7 @@ plugins {
     id 'dev.rikka.tools.refine' version '4.4.0'
 }
 
+@SuppressWarnings('unused')
 static def loadProperties(filePath) {
     def properties = new Properties()
     def file = new File(filePath)
@@ -52,7 +53,7 @@ android {
     defaultConfig {
         applicationId "app.simple.inure"
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 10651
         versionName "build106.5.1"
         vectorDrawables.useSupportLibrary = true
