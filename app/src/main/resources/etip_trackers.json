@@ -5559,6 +5559,36 @@
                 "name": "Advertisement"
             }
         ],
+        "code_signature": "sg.bigo.ads",
+        "comments": "From com.cl.memoption.cleanes",
+        "created": "2026-03-11T20:52:53.778753Z",
+        "creation_date": "2026-03-11",
+        "description": "",
+        "documentation": [],
+        "exodus_matches": null,
+        "gradle": "",
+        "group_id": "",
+        "id": "fe45e7b1-1117-43e7-a209-362d4a9e7b75",
+        "is_in_exodus": false,
+        "maven_repository": "",
+        "name": "Bigo",
+        "needs_rework": false,
+        "network": [],
+        "network_signature": "",
+        "updated": "2026-03-12T14:18:14.388116Z",
+        "website": "https://www.bigoads.com/"
+    },
+    {
+        "advertising": [],
+        "analytic": [],
+        "api_key_ids": "",
+        "artifact_id": "",
+        "capability": [],
+        "category": [
+            {
+                "name": "Advertisement"
+            }
+        ],
         "code_signature": "ai.bitlabs.sdk.",
         "comments": "",
         "created": "2021-03-23T20:57:04.842312Z",
