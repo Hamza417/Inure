@@ -1109,6 +1109,7 @@
     <string name="de.example.fahrraddiebstahl_berlin" translatable="false">GPL-3.0-only</string>
     <string name="eu.faircode.email" translatable="false">GPL-3.0-only</string>
     <string name="community.fairphone.checkup" translatable="false">Apache-2.0</string>
+    <string name="org.thayyil.spring.launcher" translatable="false">EUPL-1.2</string>
     <string name="org.fairscan.app" translatable="false">GPL-3.0-only</string>
     <string name="me.billdietrich.fake_contacts" translatable="false">MIT</string>
     <string name="org.balau.fakedawn" translatable="false">GPL-3.0-only</string>
@@ -1164,6 +1165,7 @@
     <string name="me.murks.filmchecker" translatable="false">MIT</string>
     <string name="com.movietrivia.filmfacts" translatable="false">Apache-2.0</string>
     <string name="com.ivarna.finalbenchmark2" translatable="false">Apache-2.0</string>
+    <string name="org.codeberg.rozworld.finalrozgamenew" translatable="false">MIT</string>
     <string name="com.unicornsonlsd.finamp" translatable="false">MPL-2.0</string>
     <string name="org.secuso.privacyfriendlyfinancemanager" translatable="false">GPL-3.0-or-later</string>
     <string name="cc.findfamily.app" translatable="false">GPL-3.0-or-later</string>
@@ -1877,7 +1879,7 @@
     <string name="com.jeroen1602.lighthouse_pm" translatable="false">GPL-3.0-or-later</string>
     <string name="acr.browser.lightning" translatable="false">MPL-2.0</string>
     <string name="ua.com.radiokot.lnaddr2invoice" translatable="false">Apache-2.0</string>
-    <string name="indi.dmzz_yyhyy.lightnovelreader" translatable="false">GPL-3.0-only</string>
+    <string name="indi.dmzz_yyhyy.lightnovelreader" translatable="false">Apache-2.0</string>
     <string name="com.lightplanx.xddk" translatable="false">GPL-3.0-only</string>
     <string name="com.limbo.emu.main" translatable="false">GPL-2.0-or-later</string>
     <string name="cxa.gridwallpaper" translatable="false">MIT</string>
@@ -2375,6 +2377,7 @@
     <string name="org.secuso.privacyfriendlynotes" translatable="false">GPL-3.0-or-later</string>
     <string name="de.lxtools.noteshop" translatable="false">GPL-3.0-only</string>
     <string name="com.streetwriters.notesnook" translatable="false">GPL-3.0-only</string>
+    <string name="app.notesr" translatable="false">MIT</string>
     <string name="ru.ttyh.neko259.notey" translatable="false">BSD-3-Clause</string>
     <string name="com.github.fi3te.notificationcron" translatable="false">GPL-3.0-only</string>
     <string name="com.xtreak.notificationdictionary" translatable="false">MIT</string>
@@ -3957,6 +3960,7 @@
     <string name="com.albertobonacina.wassword" translatable="false">MIT</string>
     <string name="me.lucky.wasted" translatable="false">GPL-3.0-only</string>
     <string name="ch.abertschi.waterme.water_me" translatable="false">GPL-3.0-only</string>
+    <string name="com.yinmik.waterquality" translatable="false">GPL-2.0-only</string>
     <string name="com.dreautall.waterflyiii" translatable="false">MIT</string>
     <string name="io.github.freewatermark.mobileapp" translatable="false">MIT</string>
     <string name="com.ktprograms.watertracker" translatable="false">GPL-3.0-or-later</string>
@@ -5121,6 +5125,7 @@
     <string name="ahmaabdo.readify.rss" translatable="false">GPL-3.0-only</string>
     <string name="github.daisukikaffuchino.rebootnya" translatable="false">Apache-2.0</string>
     <string name="org.receipt_manager" translatable="false">GPL-3.0-only</string>
+    <string name="com.tymwitko.recents" translatable="false">GPL-3.0-only</string>
     <string name="jdm.apps.reciper" translatable="false">MPL-2.0</string>
     <string name="finance.reckoner.app" translatable="false">AGPL-3.0-only</string>
     <string name="com.sb.recordequalizer" translatable="false">MIT</string>
