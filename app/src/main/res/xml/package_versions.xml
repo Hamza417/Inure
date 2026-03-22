@@ -289,6 +289,7 @@
     <string name="com.timenotclocks.bookcase" translatable="false">GPL-3.0-only</string>
     <string name="com.bagaturchess" translatable="false">GPL-2.0-only</string>
     <string name="de.bahnvorhersage.app" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.pep1lo.bakerspercentagecalculator" translatable="false">Apache-2.0</string>
     <string name="de.mangelow.balance" translatable="false">Apache-2.0</string>
     <string name="org.eukalyptus.balance" translatable="false">GPL-3.0-only</string>
     <string name="com.jeffliu.balancetheball" translatable="false">GPL-3.0-only</string>
@@ -1654,6 +1655,7 @@
     <string name="net.sylvek.itracing2" translatable="false">GPL-2.0-only</string>
     <string name="com.emmanuelmess.itsdicey" translatable="false">GPL-3.0-only</string>
     <string name="net.ivpn.client" translatable="false">GPL-3.0-only</string>
+    <string name="com.iyox.wormhole" translatable="false">GPL-3.0-only</string>
     <string name="com.iyps" translatable="false">GPL-3.0-only</string>
     <string name="in.sunilpaulmathew.izzyondroid" translatable="false">GPL-3.0-or-later</string>
     <string name="im.r_c.android.jigsaw" translatable="false">MIT</string>
@@ -4450,6 +4452,7 @@
     <string name="com.droidvim" translatable="false">Apache-2.0</string>
     <string name="github.paroj.dsub2000" translatable="false">GPL-3.0-only</string>
     <string name="com.fbiego.dt78" translatable="false">MIT</string>
+    <string name="io.github.govin9.duenot" translatable="false">MIT</string>
     <string name="it.kapfer.digitalesamt.liberator" translatable="false">GPL-3.0-only</string>
     <string name="v4lpt.vpt.f036.esw" translatable="false">GPL-3.0-only</string>
     <string name="com.dede.android_eggs" translatable="false">Apache-2.0</string>
@@ -4521,6 +4524,7 @@
     <string name="app.fluffy" translatable="false">GPL-3.0-only</string>
     <string name="net.sunjiao.renamer" translatable="false">GPL-3.0-only</string>
     <string name="com.example.flut_crack" translatable="false">GPL-3.0-only</string>
+    <string name="com.flux" translatable="false">GPL-3.0-or-later</string>
     <string name="com.fazilvk.fluxtube" translatable="false">GPL-3.0-only</string>
     <string name="dev.spiegl.flyingcarpet" translatable="false">GPL-3.0-only</string>
     <string name="dev.mslalith.focuslauncher" translatable="false">GPL-3.0-only</string>
