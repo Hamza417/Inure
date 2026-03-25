@@ -792,4 +792,6 @@
     <string name="denied">Odrzucone</string>
     <string name="ask">Pytaj</string>
     <string name="foreground">Pierwszy plan</string>
+    <string name="granted_by_default">Przyznane domyślnie</string>
+    <string name="user_set">Zestaw użytkownika</string>
 </resources>

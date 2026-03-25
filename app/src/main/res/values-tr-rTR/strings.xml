@@ -792,4 +792,6 @@
     <string name="denied">Reddedildi</string>
     <string name="ask">Sor</string>
     <string name="foreground">Ön plan</string>
+    <string name="granted_by_default">Varsayılan Olarak Verildi</string>
+    <string name="user_set">Kullanıcı Seti</string>
 </resources>

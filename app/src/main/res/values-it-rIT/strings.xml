@@ -792,4 +792,6 @@
     <string name="denied">Negato</string>
     <string name="ask">Chiedi</string>
     <string name="foreground">Primo piano</string>
+    <string name="granted_by_default">Concesso per impostazione predefinita</string>
+    <string name="user_set">Impostazione utente</string>
 </resources>

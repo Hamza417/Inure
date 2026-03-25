@@ -792,4 +792,6 @@
     <string name="denied">拒否</string>
     <string name="ask">尋ねる</string>
     <string name="foreground">フォアグラウンド</string>
+    <string name="granted_by_default">デフォルトで付与</string>
+    <string name="user_set">ユーザーセット</string>
 </resources>

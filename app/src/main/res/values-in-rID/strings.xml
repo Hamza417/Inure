@@ -792,4 +792,6 @@
     <string name="denied">Ditolak</string>
     <string name="ask">Tanya</string>
     <string name="foreground">Latar Depan</string>
+    <string name="granted_by_default">Diberikan Secara Default</string>
+    <string name="user_set">Kumpulan Pengguna</string>
 </resources>

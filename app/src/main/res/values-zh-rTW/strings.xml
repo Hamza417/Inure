@@ -792,4 +792,6 @@
     <string name="denied">已拒絕</string>
     <string name="ask">詢問</string>
     <string name="foreground">前景</string>
+    <string name="granted_by_default">預設授予</string>
+    <string name="user_set">使用者設定</string>
 </resources>

@@ -792,4 +792,6 @@
     <string name="denied">مرفوض</string>
     <string name="ask">اسأل</string>
     <string name="foreground">المقدمة</string>
+    <string name="granted_by_default">ممنوحة بشكل افتراضي</string>
+    <string name="user_set">مجموعة المستخدم</string>
 </resources>

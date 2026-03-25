@@ -792,4 +792,6 @@
     <string name="denied">Denegado</string>
     <string name="ask">Preguntar</string>
     <string name="foreground">Primer plano</string>
+    <string name="granted_by_default">Concedido por defecto</string>
+    <string name="user_set">Conjunto de usuario</string>
 </resources>

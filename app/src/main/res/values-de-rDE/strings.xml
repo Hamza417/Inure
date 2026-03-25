@@ -797,4 +797,6 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="denied">Verweigert</string>
     <string name="ask">Fragen</string>
     <string name="foreground">Vordergrund</string>
+    <string name="granted_by_default">Standardmäßig gewährt</string>
+    <string name="user_set">Benutzersatz</string>
 </resources>

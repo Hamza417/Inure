@@ -792,4 +792,6 @@
     <string name="denied">अस्वीकृत</string>
     <string name="ask">पूछें</string>
     <string name="foreground">अग्रभूमि</string>
+    <string name="granted_by_default">डिफ़ॉल्ट रूप से स्वीकृत</string>
+    <string name="user_set">उपयोगकर्ता सेट</string>
 </resources>

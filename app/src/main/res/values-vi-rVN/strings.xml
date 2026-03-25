@@ -792,4 +792,6 @@
     <string name="denied">Bị từ chối</string>
     <string name="ask">Hỏi</string>
     <string name="foreground">Nền trước</string>
+    <string name="granted_by_default">Được cấp theo mặc định</string>
+    <string name="user_set">Bộ người dùng</string>
 </resources>

@@ -793,4 +793,6 @@
     <string name="denied">Refusé</string>
     <string name="ask">Demander</string>
     <string name="foreground">Premier plan</string>
+    <string name="granted_by_default">Accordé par défaut</string>
+    <string name="user_set">Ensemble utilisateur</string>
 </resources>
