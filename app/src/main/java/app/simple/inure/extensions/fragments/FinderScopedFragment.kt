@@ -7,17 +7,18 @@ import android.text.Spannable
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.view.View
+import androidx.core.graphics.toColorInt
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.constants.Misc
 import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.internals.FinderMatchSpan
+import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +62,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
                 val queryChanged = query != newQuery
                 query = newQuery
                 rescanMatches(
-                        // When query changes, jumping to first/closest match is expected.
+                        // When query changes, jumping to the first or closest match is expected.
                         jump = queryChanged
                 )
             }
@@ -274,7 +275,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             if (start in 0..<end) {
                 // Remove only if there isn't any non-finder reason to keep it.
                 // Heuristic: remove spans that use our configured highlight colors.
-                if (it.backgroundColor == Misc.textHighlightFocused || it.backgroundColor == Misc.textHighlightUnfocused) {
+                if (it.backgroundColor == getFocusedTextHighlightColor() || it.backgroundColor == getTextHighlightColor()) {
                     editable.removeSpan(it)
                 }
             }
@@ -330,7 +331,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
             // Remove only our background spans (keep other formatting highlights intact).
             val existing: Array<BackgroundColorSpan> = editable.getSpans(0, editable.length, BackgroundColorSpan::class.java)
             for (span in existing) {
-                if (span.backgroundColor == Misc.textHighlightFocused || span.backgroundColor == Misc.textHighlightUnfocused) {
+                if (span.backgroundColor == getFocusedTextHighlightColor() || span.backgroundColor == getTextHighlightColor()) {
                     editable.removeSpan(span)
                 }
             }
@@ -339,11 +340,19 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
                 val start = editable.getSpanStart(matchSpan)
                 val end = editable.getSpanEnd(matchSpan)
                 if (start in 0..<end) {
-                    val color = if (index == position) Misc.textHighlightFocused else Misc.textHighlightUnfocused
+                    val color = if (index == position) getFocusedTextHighlightColor() else getTextHighlightColor()
                     editable.setSpan(BackgroundColorSpan(color), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 }
             }
         }
+    }
+
+    private fun getTextHighlightColor(): Int {
+        return ColorUtils.changeAlpha("#05DF72".toColorInt(), 0.4F)
+    }
+
+    private fun getFocusedTextHighlightColor(): Int {
+        return ColorUtils.changeAlpha("#FFD230".toColorInt(), 0.4F)
     }
 
     protected fun changeSearchState() {

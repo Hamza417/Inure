@@ -42,7 +42,5 @@ object Misc {
     const val splitApkFormat = ".apks"
     const val apkFormat = ".apk"
 
-    var textHighlightFocused = Color.parseColor("#a2d9ce")
-    var textHighlightUnfocused = Color.parseColor("#f9e79f")
     var linkColor = Color.parseColor("#2e86c1")
 }
