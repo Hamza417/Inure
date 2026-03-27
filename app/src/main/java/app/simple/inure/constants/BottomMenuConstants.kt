@@ -132,6 +132,7 @@ object BottomMenuConstants {
 
     private val apkBrowserMenuSelection_: ArrayList<Pair<Int, Int>> by lazy {
         arrayListOf(
+                Pair(R.drawable.ic_downloading, R.string.batch_install),
                 Pair(R.drawable.ic_delete, R.string.delete),
                 Pair(R.drawable.ic_send, R.string.send),
                 divider,

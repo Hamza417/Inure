@@ -42,6 +42,7 @@ import app.simple.inure.models.ApkFile
 import app.simple.inure.popups.apks.PopupApkBrowser
 import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.ui.subpanels.ApksSearch
+import app.simple.inure.ui.subpanels.BatchInstaller
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
@@ -276,6 +277,21 @@ class APKs : ScopedFragment() {
 
                     R.drawable.ic_filter -> {
                         childFragmentManager.showApksSort()
+                    }
+
+                    R.drawable.ic_downloading -> {
+                        onSure {
+                            if (adapterApks.paths.any { it.isSelected }) {
+                                @Suppress("UNCHECKED_CAST")
+                                val selectedPaths = (adapterApks.paths.clone() as ArrayList<ApkFile>)
+                                    .filter { it.isSelected }
+                                    .map { it.file.absolutePath }
+                                    .let { ArrayList(it) }
+                                openFragmentSlide(BatchInstaller.newInstance(selectedPaths), BatchInstaller.TAG)
+                            } else {
+                                showWarning("No APKs selected", false)
+                            }
+                        }
                     }
 
                     R.drawable.ic_send -> {

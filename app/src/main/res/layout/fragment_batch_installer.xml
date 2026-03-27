@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.simple.inure.decorations.theme.ThemeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/list_animation_controller"
+            app:isFadingEdgeRequired="true"
+            app:isFastScrollRequired="false" />
+
+        <app.simple.inure.decorations.typeface.TypeFaceTextView
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textSize="@dimen/info_text_medium"
+            app:appFontStyle="regular"
+            app:textColorStyle="primary" />
+
+    </FrameLayout>
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
+        android:padding="@dimen/dialog_padding">
+
+        <app.simple.inure.decorations.views.LoaderImageView
+            android:id="@+id/loader"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="@dimen/loader_size"
+            android:layout_height="@dimen/loader_size"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/popup_padding" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <app.simple.inure.decorations.ripple.DynamicRippleTextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center"
+            android:padding="@dimen/button_padding"
+            android:text="@string/close"
+            android:textSize="@dimen/info_text_small"
+            app:appFontStyle="bold"
+            app:textColorStyle="accent" />
+
+    </LinearLayout>
+
+</app.simple.inure.decorations.theme.ThemeLinearLayout>
+

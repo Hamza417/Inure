@@ -636,6 +636,8 @@
     <string name="component_manager_desc">Enable/disable app\'s various components.</string>
     <string name="state">State</string>
     <string name="installed">Installed</string>
+    <string name="installing">Installing</string>
+    <string name="batch_install">Batch Install</string>
     <string name="no_boot_components_found">No Boot Components Found</string>
     <string name="size">Size</string>
     <string name="colorful_icons_desc">Use colorful icons in the navigation menu layouts.</string>
