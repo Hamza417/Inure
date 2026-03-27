@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import android.view.animation.DecelerateInterpolator
@@ -19,7 +18,6 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.themes.interfaces.ThemeChangedListener
 import app.simple.inure.themes.manager.Theme
 import app.simple.inure.themes.manager.ThemeManager
-import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ColorUtils
 import app.simple.inure.util.ColorUtils.animateColorChange
 import app.simple.inure.util.ConditionUtils.invert
@@ -146,11 +144,7 @@ open class TypeFaceEditText : AppCompatEditText, ThemeChangedListener {
     }
 
     private fun setHighlightColor() {
-        highlightColor = if (ThemeUtils.isNightMode(resources)) {
-            ColorUtils.lightenColor(Color.DKGRAY, 0.2F)
-        } else {
-            ColorUtils.lightenColor(Color.GRAY)
-        }
+        highlightColor = ColorUtils.changeAlpha(AppearancePreferences.getAccentColor(), 0.3F)
     }
 
     open fun animateBackgroundColor(endColor: Int): ValueAnimator? {
