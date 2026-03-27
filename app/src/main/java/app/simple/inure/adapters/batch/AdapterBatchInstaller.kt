@@ -43,7 +43,7 @@ class AdapterBatchInstaller(
         // archive, not the bundle itself (which has no AndroidManifest.xml at its root).
         val iconFile = info.apkFiles.firstOrNull() ?: info.file
         holder.icon.loadAPKIcon(iconFile)
-        holder.name.text = info.appName
+        holder.name.text = info.file.name
         holder.packageId.text = info.packageName
 
         val (textRes, color) = when (info.installState) {
@@ -67,6 +67,22 @@ class AdapterBatchInstaller(
 
         holder.details.text = holder.itemView.context.getString(textRes)
         holder.details.setTextColor(color)
+
+        // TODO - add state indicators and visual flairs
+        when (info.installState) {
+            InstallState.PENDING -> {
+
+            }
+            InstallState.INSTALLING -> {
+
+            }
+            InstallState.INSTALLED -> {
+
+            }
+            InstallState.FAILED -> {
+
+            }
+        }
     }
 
     override fun getItemCount(): Int = results.size
