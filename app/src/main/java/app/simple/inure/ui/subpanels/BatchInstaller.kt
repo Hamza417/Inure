@@ -17,6 +17,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.batch.BatchInstallerFactory
+import app.simple.inure.models.BatchInstallerInfo
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
 import app.simple.inure.viewmodels.batch.BatchInstallerViewModel
@@ -26,13 +27,14 @@ import kotlinx.coroutines.launch
  * Full-screen subpanel that shows a live list of APK files being installed in batch.
  *
  * Receives a list of APK file paths via [BundleConstants.PATHS], spins up
- * [BatchInstallerViewModel], and reflects real-time [app.simple.inure.models.BatchInstallerInfo.InstallState]
+ * [BatchInstallerViewModel], and reflects real-time [BatchInstallerInfo.InstallState]
  * changes in [AdapterBatchInstaller].
  *
  * @author Hamza417
  */
 class BatchInstaller : ScopedFragment() {
 
+    private lateinit var state: TypeFaceTextView
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private lateinit var loader: LoaderImageView
     private lateinit var progress: TypeFaceTextView
@@ -44,6 +46,7 @@ class BatchInstaller : ScopedFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_batch_installer, container, false)
 
+        state = view.findViewById(R.id.state)
         recyclerView = view.findViewById(R.id.recycler_view)
         loader = view.findViewById(R.id.loader)
         progress = view.findViewById(R.id.progress)
@@ -66,6 +69,16 @@ class BatchInstaller : ScopedFragment() {
                 batchInstallerViewModel?.installList?.collect { list ->
                     if (list.isEmpty()) return@collect
 
+                    // set installed out of total count text
+                    val installedCount = list.count {
+                        it.installState == BatchInstallerInfo.InstallState.INSTALLED
+                    }
+
+                    state.text = buildString {
+                        append(getString(R.string.installed))
+                        append(" $installedCount / ${list.size}")
+                    }
+
                     if (adapterBatchInstaller == null) {
                         loader.gone(animate = true)
                         progress.gone(animate = true)
@@ -76,6 +89,7 @@ class BatchInstaller : ScopedFragment() {
                     } else {
                         adapterBatchInstaller?.updateResults(list)
                     }
+
                 }
             }
         }
