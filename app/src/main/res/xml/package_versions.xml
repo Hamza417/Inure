@@ -500,6 +500,7 @@
     <string name="com.marotoweb.cajuscan_app" translatable="false">MIT</string>
     <string name="com.rechnen.app" translatable="false">GPL-3.0-only</string>
     <string name="com.neumorphic.calculator" translatable="false">BSD-3-Clause</string>
+    <string name="com.vagujhelyigergely.calculatorm3" translatable="false">GPL-3.0-only</string>
     <string name="com.tananaev.calculator" translatable="false">Apache-2.0</string>
     <string name="com.marktka.calculatorYou" translatable="false">GPL-3.0-only</string>
     <string name="org.solovyev.android.calculator" translatable="false">Apache-2.0</string>
@@ -1390,6 +1391,7 @@
     <string name="com.readystatesoftware.ghostlog" translatable="false">Apache-2.0</string>
     <string name="omegacentauri.mobi.simplestopwatch" translatable="false">MIT</string>
     <string name="net.redwarp.gifwallpaper" translatable="false">Apache-2.0</string>
+    <string name="com.gifboard" translatable="false">GPL-3.0-only</string>
     <string name="protect.gift_card_guard" translatable="false">GPL-3.0-or-later</string>
     <string name="net.gaast.giggity" translatable="false">GPL-2.0-only</string>
     <string name="info.guardianproject.gilga" translatable="false">GPL-3.0-only</string>
@@ -1407,6 +1409,7 @@
     <string name="org.glpi.inventory.agent" translatable="false">GPL-3.0-only</string>
     <string name="org.glucosio.android" translatable="false">GPL-3.0-only</string>
     <string name="com.kaeruct.glxy" translatable="false">Apache-2.0</string>
+    <string name="com.sebiai.glyphport" translatable="false">GPL-3.0-only</string>
     <string name="us.spotco.maps" translatable="false">AGPL-3.0-or-later</string>
     <string name="org.gmote.client.android" translatable="false">GPL-3.0-only</string>
     <string name="com.kaeruct.gotosleep" translatable="false">GPL-3.0-only</string>
@@ -1712,6 +1715,7 @@
     <string name="com.brocktice.JustSit" translatable="false">GPL-3.0-only</string>
     <string name="com.alaskalinuxuser.justchess" translatable="false">Apache-2.0</string>
     <string name="io.github.martinschneider.juvavum" translatable="false">GPL-2.0-only</string>
+    <string name="org.jyutping.jyutping" translatable="false">CC0-1.0</string>
     <string name="ch.ulys.k19player" translatable="false">GPL-3.0-only</string>
     <string name="com.fsck.k9" translatable="false">Apache-2.0</string>
     <string name="ir.hsn6.k2" translatable="false">GPL-3.0-or-later</string>
@@ -1867,6 +1871,7 @@
     <string name="com.libreweatherrn" translatable="false">AGPL-3.0-or-later</string>
     <string name="xyz.yeikoff.librebible" translatable="false">GPL-3.0-or-later</string>
     <string name="com.jksalcedo.librefind" translatable="false">MIT</string>
+    <string name="org.librefit.app" translatable="false">GPL-3.0-or-later</string>
     <string name="org.libreflix.app" translatable="false">AGPL-3.0-only</string>
     <string name="io.librehealth.toolkit.cost_of_care" translatable="false">MPL-2.0</string>
     <string name="io.librehealth.mhbs.essential_care_for_every_baby" translatable="false">MPL-2.0</string>
@@ -1883,6 +1888,7 @@
     <string name="org.proninyaroslav.libretrack" translatable="false">GPL-3.0-or-later</string>
     <string name="de.beowulf.libretranslater" translatable="false">EUPL-1.2</string>
     <string name="com.github.libretube" translatable="false">GPL-3.0-or-later</string>
+    <string name="org.lichess.mobileV2" translatable="false">GPL-3.0-or-later</string>
     <string name="org.lichess.mobileapp.free" translatable="false">GPL-3.0-or-later</string>
     <string name="de.thefeiter.liedgutverzeichnis" translatable="false">GPL-3.0-only</string>
     <string name="fr.nogafam.lifecounter" translatable="false">GPL-3.0-only</string>
@@ -2853,6 +2859,7 @@
     <string name="com.bithack.principia" translatable="false">BSD-3-Clause</string>
     <string name="org.billthefarmer.print" translatable="false">GPL-3.0-only</string>
     <string name="com.saiga.find.messagefinder" translatable="false">GPL-3.0-only</string>
+    <string name="app.lonecloud.prism" translatable="false">AGPL-3.0-only</string>
     <string name="org.us.andriod" translatable="false">GPL-3.0-only</string>
     <string name="com.stoutner.privacybrowser.standard" translatable="false">GPL-3.0-or-later</string>
     <string name="com.stoutner.privacycell" translatable="false">GPL-3.0-or-later</string>
@@ -3056,6 +3063,7 @@
     <string name="org.roto" translatable="false">Apache-2.0</string>
     <string name="de.felixnuesse.extract" translatable="false">GPL-3.0-only</string>
     <string name="net.yolosec.routerkeygen2" translatable="false">GPL-3.0-only</string>
+    <string name="org.eagsoftware.rowmate" translatable="false">GPL-3.0-or-later</string>
     <string name="com.ath0.rpn" translatable="false">GPL-3.0-or-later</string>
     <string name="org.scoutant.rpn" translatable="false">GPL-3.0-only</string>
     <string name="dev.pesic.rpncalc" translatable="false">GPL-3.0-only</string>
@@ -3361,6 +3369,7 @@
     <string name="com.vsmartcard.acardemulator" translatable="false">GPL-3.0-only</string>
     <string name="com.vsmartcard.remotesmartcardreader.app" translatable="false">GPL-3.0-only</string>
     <string name="cu.axel.smartdock" translatable="false">GPL-3.0-only</string>
+    <string name="com.imi.smartedge.sidebar.panel" translatable="false">MIT</string>
     <string name="org.woheller69.eggtimer" translatable="false">GPL-3.0-only</string>
     <string name="com.sensirion.smartgadget" translatable="false">BSD-3-Clause</string>
     <string name="com.github.timnew.smartremotecontrol" translatable="false">MIT</string>
@@ -3426,6 +3435,7 @@
     <string name="fr.nuage.souvenirs" translatable="false">GPL-3.0-or-later</string>
     <string name="com.brucelet.spacetrader" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.arnaudguyon.spacevertex" translatable="false">MIT</string>
+    <string name="com.calmyjane.spacebeam" translatable="false">GPL-3.0-only</string>
     <string name="de.fgerbig.spacepeng" translatable="false">GPL-3.0-only</string>
     <string name="spam.blocker" translatable="false">MIT</string>
     <string name="com.anysoftkeyboard.languagepack.spain" translatable="false">Apache-2.0</string>
@@ -3872,6 +3882,7 @@
     <string name="com.bringyour.network" translatable="false">MPL-2.0</string>
     <string name="uscartools.USTravelConverter" translatable="false">GPL-3.0-only</string>
     <string name="godau.fynn.usagedirect" translatable="false">GPL-3.0-or-later</string>
+    <string name="org.kaijinlab.usbdevinfo" translatable="false">GPL-3.0-only</string>
     <string name="aws.apps.usbDeviceEnumerator" translatable="false">Apache-2.0</string>
     <string name="net.tjado.usbgadget" translatable="false">GPL-3.0-only</string>
     <string name="com.appspot.usbhidterminal" translatable="false">Apache-2.0</string>
@@ -4067,6 +4078,7 @@
     <string name="com.vayunmathur.games.wordmaker" translatable="false">GPL-3.0-only</string>
     <string name="com.saverio.wordoftheday_en" translatable="false">GPL-3.0-only</string>
     <string name="org.developfreedom.wordpowermadeeasy" translatable="false">GPL-3.0-only</string>
+    <string name="com.wordtracer.app" translatable="false">MIT</string>
     <string name="org.billthefarmer.solver" translatable="false">GPL-3.0-only</string>
     <string name="hk.words.wordshk" translatable="false">MIT</string>
     <string name="askanimus.arbeitszeiterfassung2" translatable="false">GPL-3.0-or-later</string>
@@ -5191,6 +5203,7 @@
     <string name="com.robosats" translatable="false">AGPL-3.0-only</string>
     <string name="org.rocstreaming.rocdroid" translatable="false">MPL-2.0</string>
     <string name="net.diffengine.romandigitalclock" translatable="false">Apache-2.0</string>
+    <string name="foss.chillastro.root.checker.offline" translatable="false">MIT</string>
     <string name="com.programminghoch10.RotationControl" translatable="false">EUPL-1.2</string>
     <string name="de.felixnuesse.extract" translatable="false">GPL-3.0-only</string>
     <string name="com.rendox.routinetracker" translatable="false">GPL-3.0-only</string>
