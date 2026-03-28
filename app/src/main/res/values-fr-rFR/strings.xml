@@ -465,7 +465,7 @@
     <string name="shortcuts_desc">Modifier les raccourcis rapides de l\'application.</string>
     <string name="architecture">Architecture</string>
     <string name="native_libraries">Bibliothèques natives</string>
-    <string name="toggleable">Basculer</string>
+    <string name="toggleable">Basculable</string>
     <string name="options">Options</string>
     <string name="link">Lien</string>
     <string name="popup">Fenêtre contextuelle</string>
@@ -580,7 +580,7 @@
     <string name="strikethrough">Barré</string>
     <string name="subscript">Indice</string>
     <string name="superscript">Exposant</string>
-    <string name="highlight">Mettez en surbrillance</string>
+    <string name="highlight">Mettre en surbrillance</string>
     <string name="info">Info</string>
     <string name="menus">Menus</string>
     <string name="contexts_in_bottom_menu">Contextes dans le menu du bas</string>
