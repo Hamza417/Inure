@@ -638,6 +638,8 @@
     <string name="component_manager_desc">Activer/désactiver les divers composants de l\'application.</string>
     <string name="state">État</string>
     <string name="installed">Installée</string>
+    <string name="installing">Installation en cours</string>
+    <string name="batch_install">Installation par lot</string>
     <string name="no_boot_components_found">Aucun composant de démarrage trouvé</string>
     <string name="size">Taille</string>
     <string name="colorful_icons_desc">Utilisez des icônes colorées dans la mise en page du menu de navigation.</string>
