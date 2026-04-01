@@ -5544,6 +5544,7 @@
     <string name="rikka.safetynetchecker" translatable="false">MIT</string>
     <string name="yetzio.yetcalc" translatable="false">BSD-3-Clause</string>
     <string name="app.suhasdissa.karaoke" translatable="false">GPL-3.0-only</string>
+    <string name="com.pg_axis.ytcnv" translatable="false">GPL-3.0-only</string>
     <string name="fr.odrevet.youtube_dl_kivy" translatable="false">GPL-3.0-only</string>
     <string name="com.deniscerri.ytdl" translatable="false">GPL-3.0-only</string>
     <string name="com.ziadoua.zcalc" translatable="false">GPL-3.0-only</string>
