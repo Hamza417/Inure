@@ -13,21 +13,16 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ActivityInfoModel
-import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ActivityUtils
 import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivitiesViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ActivitiesViewModel(application: Application, private val packageInfo: PackageInfo, private val keyword: String = "") : WrappedViewModel(application) {
 
     private val activities: MutableLiveData<MutableList<ActivityInfoModel>> by lazy {
         MutableLiveData<MutableList<ActivityInfoModel>>().also {
-            if (SearchPreferences.isSearchKeywordModeEnabled()) {
-                getActivitiesData(SearchPreferences.getLastSearchKeyword())
-            } else {
-                getActivitiesData("")
-            }
+            getActivitiesData(keyword)
         }
     }
 

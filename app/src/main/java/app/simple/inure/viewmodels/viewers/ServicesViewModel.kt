@@ -13,20 +13,15 @@ import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.ServiceInfoModel
-import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.TrackerUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ServicesViewModel(application: Application, private val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ServicesViewModel(application: Application, private val packageInfo: PackageInfo, private val keyword: String = "") : WrappedViewModel(application) {
 
     private val services: MutableLiveData<MutableList<ServiceInfoModel>> by lazy {
         MutableLiveData<MutableList<ServiceInfoModel>>().also {
-            if (SearchPreferences.isSearchKeywordModeEnabled()) {
-                getServicesData(SearchPreferences.getLastSearchKeyword())
-            } else {
-                getServicesData("")
-            }
+            getServicesData(keyword)
         }
     }
 

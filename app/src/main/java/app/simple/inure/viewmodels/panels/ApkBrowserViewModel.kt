@@ -21,6 +21,8 @@ import java.io.File
 
 class ApkBrowserViewModel(application: Application) : WrappedViewModel(application) {
 
+    var keywords = ""
+
     private var files = ArrayList<ApkFile>()
 
     private val pathData: MutableLiveData<ArrayList<ApkFile>> by lazy {
@@ -31,7 +33,7 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
 
     private val searchData: MutableLiveData<ArrayList<ApkFile>> by lazy {
         MutableLiveData<ArrayList<ApkFile>>().also {
-            search(ApkBrowserPreferences.getSearchKeyword())
+            search("")
         }
     }
 
@@ -218,6 +220,8 @@ class ApkBrowserViewModel(application: Application) : WrappedViewModel(applicati
     }
 
     fun search(keyword: String) {
+        keywords = keyword
+
         viewModelScope.launch(Dispatchers.IO) {
             val filteredPaths = ArrayList<ApkFile>()
 

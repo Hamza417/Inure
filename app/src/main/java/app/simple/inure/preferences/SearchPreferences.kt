@@ -6,7 +6,6 @@ import app.simple.inure.util.Sort
 
 object SearchPreferences {
 
-    private const val LAST_SEARCH_KEYWORD = "last_search_keyword"
     const val SORT_STYLE = "search_sort_style"
     const val IS_SORTING_REVERSED = "is_search_sorting_reversed"
     const val APPS_CATEGORY = "search_list_apps_category"
@@ -14,21 +13,6 @@ object SearchPreferences {
     const val IGNORE_CASING = "search_ignore_case"
     const val DEEP_SEARCH = "deep_search"
 
-    private const val DEEP_SEARCH_KEYWORD_MODE = "deep_search_keyword_mode"
-
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setLastSearchKeyword(keyword: String): Boolean {
-        return getSharedPreferences().edit().putString(LAST_SEARCH_KEYWORD, keyword).commit()
-    }
-
-    fun clearLastSearchKeyword(): Boolean {
-        return getSharedPreferences().edit().remove(LAST_SEARCH_KEYWORD).commit()
-    }
-
-    fun getLastSearchKeyword(): String {
-        return getSharedPreferences().getString(LAST_SEARCH_KEYWORD, "")!!
-    }
 
     // ---------------------------------------------------------------------------------------------------------- //
 
@@ -80,15 +64,6 @@ object SearchPreferences {
         return getSharedPreferences().getBoolean(DEEP_SEARCH, false)
     }
 
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setSearchKeywordMode(value: Boolean): Boolean {
-        return getSharedPreferences().edit().putBoolean(DEEP_SEARCH_KEYWORD_MODE, value).commit()
-    }
-
-    fun isSearchKeywordModeEnabled(): Boolean {
-        return getSharedPreferences().getBoolean(DEEP_SEARCH_KEYWORD_MODE, false)
-    }
 
     // ---------------------------------------------------------------------------------------------------------- //
 

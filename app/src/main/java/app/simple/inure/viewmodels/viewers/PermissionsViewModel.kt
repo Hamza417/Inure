@@ -13,7 +13,6 @@ import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.apk.utils.PermissionUtils.getPermissionInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PermissionInfo
-import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.StringUtils.capitalizeFirstLetter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,7 +24,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class PermissionsViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class PermissionsViewModel(application: Application, val packageInfo: PackageInfo, private val keyword: String = "") : WrappedViewModel(application) {
 
     // Use LiveData for main permissions list - always emits and maintains a copy
     private val _permissions = MutableLiveData<MutableList<PermissionInfo>>()
@@ -40,12 +39,7 @@ class PermissionsViewModel(application: Application, val packageInfo: PackageInf
     val permissionChangeResult: SharedFlow<PermissionChangeResult?> = _permissionChangeResult.asSharedFlow()
 
     init {
-        if (SearchPreferences.isSearchKeywordModeEnabled()) {
-            Log.d("PermissionsViewModel", "Loading permission data with keyword: ${SearchPreferences.getLastSearchKeyword()}")
-            loadPermissionData(SearchPreferences.getLastSearchKeyword())
-        } else {
-            loadPermissionData("")
-        }
+        loadPermissionData(keyword)
     }
 
     data class PermissionChangeRequest(

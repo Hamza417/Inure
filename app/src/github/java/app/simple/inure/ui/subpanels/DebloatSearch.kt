@@ -16,7 +16,6 @@ import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.dialogs.app.AppMenu.Companion.showAppMenu
 import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.models.Bloat
-import app.simple.inure.preferences.DebloatPreferences
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -48,7 +47,7 @@ class DebloatSearch : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
 
-        searchBox.setText(DebloatPreferences.getSearchKeyword())
+        searchBox.setText(debloatViewModel.keyword)
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
@@ -59,16 +58,14 @@ class DebloatSearch : KeyboardScopedFragment() {
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
-                if (DebloatPreferences.setSearchKeyword(text.toString())) {
-                    debloatViewModel.keyword = text.toString()
-                }
+                debloatViewModel.keyword = text.toString()
             }
 
             clearButtonState()
         }
 
         debloatViewModel.getSearchedBloatList().observe(viewLifecycleOwner) {
-            adapterDebloat = AdapterDebloat(it, false, DebloatPreferences.getSearchKeyword())
+            adapterDebloat = AdapterDebloat(it, false, debloatViewModel.keyword)
             adapterDebloat!!.setAdapterDebloatCallback(object : AdapterDebloat.Companion.AdapterDebloatCallback {
                 override fun onBloatSelected(bloat: Bloat) {
                     debloatViewModel.loadSelectedBloatList()
@@ -83,7 +80,7 @@ class DebloatSearch : KeyboardScopedFragment() {
 
         clear.setOnClickListener {
             searchBox.text?.clear()
-            DebloatPreferences.setSearchKeyword("")
+            debloatViewModel.keyword = ""
         }
     }
 

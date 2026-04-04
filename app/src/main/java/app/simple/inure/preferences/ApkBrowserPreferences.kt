@@ -12,7 +12,6 @@ object ApkBrowserPreferences {
     const val APK_FILTER = "apk_filter"
     const val EXTERNAL_STORAGE = "apk_external_storage"
 
-    private const val SEARCH_KEYWORD = "apk_search_keyword"
 
     // ------------------------------------------------------------------------------------------------------------------ //
 
@@ -44,15 +43,6 @@ object ApkBrowserPreferences {
         getSharedPreferences().edit().putBoolean(REVERSED, value).apply()
     }
 
-    // ------------------------------------------------------------------------------------------------------------------ //
-
-    fun getSearchKeyword(): String {
-        return getSharedPreferences().getString(SEARCH_KEYWORD, "")!!
-    }
-
-    fun setSearchKeyword(keyword: String) {
-        getSharedPreferences().edit().putString(SEARCH_KEYWORD, keyword).apply()
-    }
 
     // ------------------------------------------------------------------------------------------------------------------ //
 

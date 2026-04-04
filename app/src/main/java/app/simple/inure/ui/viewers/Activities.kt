@@ -42,7 +42,8 @@ class Activities : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.activities_search)
         title = view.findViewById(R.id.activities_title)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
+        val keyword = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
+        packageInfoFactory = PackageInfoFactory(packageInfo, keyword)
         activitiesViewModel = ViewModelProvider(this, packageInfoFactory)[ActivitiesViewModel::class.java]
 
         searchBoxState(false, ActivitiesPreferences.isSearchVisible())

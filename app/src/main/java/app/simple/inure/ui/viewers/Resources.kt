@@ -32,7 +32,8 @@ class Resources : SearchBarScopedFragment() {
         title = view.findViewById(R.id.resources_title)
         recyclerView = view.findViewById(R.id.resources_recycler_view)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
+        val keyword = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
+        packageInfoFactory = PackageInfoFactory(packageInfo, keyword)
         componentsViewModel = ViewModelProvider(this, packageInfoFactory)[ApkDataViewModel::class.java]
 
         searchBoxState(animate = false, ResourcesPreferences.isSearchVisible())

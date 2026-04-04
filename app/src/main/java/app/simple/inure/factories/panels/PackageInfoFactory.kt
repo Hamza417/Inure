@@ -24,7 +24,7 @@ import app.simple.inure.viewmodels.viewers.SharedLibrariesViewModel
 import app.simple.inure.viewmodels.viewers.SharedPreferencesViewModel
 import app.simple.inure.viewmodels.viewers.TrackersViewModel
 
-class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvider.Factory {
+class PackageInfoFactory(private val packageInfo: PackageInfo, private val keyword: String = "") : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
         val application = extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]!!
@@ -32,7 +32,7 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
         @Suppress("UNCHECKED_CAST") // Cast is checked
         when {
             modelClass.isAssignableFrom(ApkDataViewModel::class.java) -> {
-                return ApkDataViewModel(application, packageInfo) as T
+                return ApkDataViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(AppInfoViewModel::class.java) -> {
                 return AppInfoViewModel(application, packageInfo) as T
@@ -47,7 +47,7 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
                 return DexDataViewModel(application, packageInfo) as T
             }
             modelClass.isAssignableFrom(ActivitiesViewModel::class.java) -> {
-                return ActivitiesViewModel(application, packageInfo) as T
+                return ActivitiesViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(ExtrasViewModel::class.java) -> {
                 return ExtrasViewModel(application, packageInfo) as T
@@ -56,16 +56,16 @@ class PackageInfoFactory(private val packageInfo: PackageInfo) : ViewModelProvid
                 return GraphicsViewModel(application, packageInfo) as T
             }
             modelClass.isAssignableFrom(PermissionsViewModel::class.java) -> {
-                return PermissionsViewModel(application, packageInfo) as T
+                return PermissionsViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(ServicesViewModel::class.java) -> {
-                return ServicesViewModel(application, packageInfo) as T
+                return ServicesViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(ProvidersViewModel::class.java) -> {
-                return ProvidersViewModel(application, packageInfo) as T
+                return ProvidersViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(ReceiversViewModel::class.java) -> {
-                return ReceiversViewModel(application, packageInfo) as T
+                return ReceiversViewModel(application, packageInfo, keyword) as T
             }
             modelClass.isAssignableFrom(SharedLibrariesViewModel::class.java) -> {
                 return SharedLibrariesViewModel(application, packageInfo) as T

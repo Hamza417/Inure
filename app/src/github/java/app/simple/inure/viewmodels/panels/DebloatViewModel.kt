@@ -34,7 +34,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
     private var currentMethod: String = METHOD_DISABLE // should change during runtime
     private var uadList: ArrayList<Bloat> = ArrayList()
 
-    var keyword: String = DebloatPreferences.getSearchKeyword()
+    var keyword: String = ""
         set(value) {
             field = value
             loadSearchResults(value)

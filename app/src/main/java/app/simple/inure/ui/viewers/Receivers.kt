@@ -41,7 +41,8 @@ class Receivers : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.receivers_search)
         title = view.findViewById(R.id.receivers_title)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
+        val keyword = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
+        packageInfoFactory = PackageInfoFactory(packageInfo, keyword)
         receiversViewModel = ViewModelProvider(this, packageInfoFactory)[ReceiversViewModel::class.java]
 
         searchBoxState(false, ReceiversPreferences.isSearchVisible())

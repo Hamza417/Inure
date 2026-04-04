@@ -11,11 +11,10 @@ import app.simple.inure.apk.parsers.APKParser
 import app.simple.inure.apk.utils.PackageUtils.isPackageInstalled
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
-import app.simple.inure.preferences.SearchPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) : WrappedViewModel(application) {
+class ApkDataViewModel(application: Application, val packageInfo: PackageInfo, private val keyword: String = "") : WrappedViewModel(application) {
 
     private val features: MutableLiveData<MutableList<FeatureInfo>> by lazy {
         MutableLiveData<MutableList<FeatureInfo>>().also {
@@ -25,11 +24,7 @@ class ApkDataViewModel(application: Application, val packageInfo: PackageInfo) :
 
     private val resources: MutableLiveData<MutableList<String>> by lazy {
         MutableLiveData<MutableList<String>>().also {
-            if (SearchPreferences.isSearchKeywordModeEnabled()) {
-                getResourceData(SearchPreferences.getLastSearchKeyword())
-            } else {
-                getResourceData("")
-            }
+            getResourceData(keyword)
         }
     }
 

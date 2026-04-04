@@ -52,7 +52,8 @@ class Permissions : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.permissions_search)
         title = view.findViewById(R.id.permission_title)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
+        val keyword = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
+        packageInfoFactory = PackageInfoFactory(packageInfo, keyword)
         permissionsViewModel = ViewModelProvider(this, packageInfoFactory)[PermissionsViewModel::class.java]
         isPackageInstalled = requirePackageManager().isPackageInstalled(packageInfo.packageName)
 

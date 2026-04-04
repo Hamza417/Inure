@@ -46,11 +46,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     private var searchJobs: MutableSet<Job> = mutableSetOf()
     private val semaphore = Semaphore(MAX_PARALLEL_STREAMS)
 
-    private val searchKeywords: MutableLiveData<String> by lazy {
-        MutableLiveData<String>().also {
-            it.postValue(SearchPreferences.getLastSearchKeyword())
-        }
-    }
+    var searchKeywords: String = ""
 
     private val searchData: MutableLiveData<ArrayList<Search>> by lazy {
         MutableLiveData<ArrayList<Search>>()
@@ -60,10 +56,6 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
         MutableLiveData<ArrayList<String>>().also {
             loadTags()
         }
-    }
-
-    fun getSearchKeywords(): LiveData<String> {
-        return searchKeywords
     }
 
     fun getSearchData(): LiveData<ArrayList<Search>> {
@@ -83,7 +75,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             try {
-                searchKeywords.postValue(keywords)
+                searchKeywords = keywords
                 ensureActive()
                 loadSearchData(keywords)
             } catch (e: IllegalStateException) {
@@ -433,12 +425,12 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
-        initiateSearch(searchKeywords.value ?: SearchPreferences.getLastSearchKeyword())
+        initiateSearch(searchKeywords)
     }
 
     override fun onAppUninstalled(packageName: String?) {
         super.onAppUninstalled(packageName)
-        initiateSearch(SearchPreferences.getLastSearchKeyword())
+        initiateSearch(searchKeywords)
     }
 
     override fun onCleared() {
@@ -451,7 +443,7 @@ class SearchViewModel(application: Application) : PackageUtilsViewModel(applicat
     }
 
     fun clearSearch() {
-        searchKeywords.postValue("")
+        searchKeywords = ""
         searchData.postValue(arrayListOf())
 
         try {

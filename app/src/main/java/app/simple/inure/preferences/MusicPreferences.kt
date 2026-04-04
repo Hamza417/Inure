@@ -5,7 +5,6 @@ import app.simple.inure.util.SortMusic
 
 object MusicPreferences {
 
-    const val SEARCH_KEYWORD = "music_search_keyword"
     const val LAST_MUSIC_ID = "last_music_id"
     const val MUSIC_SORT = "music_sort"
     const val MUSIC_SORT_REVERSE = "music_sort_reverse"
@@ -14,15 +13,6 @@ object MusicPreferences {
     private const val MUSIC_POSITION = "music_position"
     private const val FROM_SEARCH = "from_search"
 
-    // ---------------------------------------------------------------------------------------------------------- //
-
-    fun setSearchKeyword(value: String) {
-        SharedPreferences.getSharedPreferences().edit().putString(SEARCH_KEYWORD, value).apply()
-    }
-
-    fun getSearchKeyword(): String {
-        return SharedPreferences.getSharedPreferences().getString(SEARCH_KEYWORD, "") ?: ""
-    }
 
     // ---------------------------------------------------------------------------------------------------------- //
 

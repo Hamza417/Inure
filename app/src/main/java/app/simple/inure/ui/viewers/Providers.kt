@@ -41,7 +41,8 @@ class Providers : SearchBarScopedFragment() {
         searchBox = view.findViewById(R.id.providers_search)
         title = view.findViewById(R.id.providers_title)
 
-        packageInfoFactory = PackageInfoFactory(packageInfo)
+        val keyword = requireArguments().getString(BundleConstants.KEYWORDS, "") ?: ""
+        packageInfoFactory = PackageInfoFactory(packageInfo, keyword)
         providersViewModel = ViewModelProvider(this, packageInfoFactory)[ProvidersViewModel::class.java]
 
         startPostponedEnterTransition()

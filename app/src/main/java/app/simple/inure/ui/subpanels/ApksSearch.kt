@@ -33,7 +33,6 @@ import app.simple.inure.extensions.fragments.KeyboardScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.interfaces.fragments.SureCallbacks
 import app.simple.inure.popups.apks.PopupApkBrowser
-import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.ui.panels.AppInfo
 import app.simple.inure.ui.viewers.Information
@@ -85,7 +84,7 @@ class ApksSearch : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        searchBox.setText(ApkBrowserPreferences.getSearchKeyword())
+        searchBox.setText(apkBrowserViewModel.keywords)
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
@@ -243,7 +242,6 @@ class ApksSearch : KeyboardScopedFragment() {
                 }
             }
 
-            ApkBrowserPreferences.setSearchKeyword(text.toString())
 
             clearButtonState()
         }

@@ -81,7 +81,7 @@ class MusicSearch : KeyboardScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        searchBox.setText(MusicPreferences.getSearchKeyword())
+        searchBox.setText(musicViewModel.keywords)
         searchBox.setWindowInsetsAnimationCallback()
         clearButtonState()
 
@@ -92,7 +92,7 @@ class MusicSearch : KeyboardScopedFragment() {
 
         searchBox.doOnTextChanged { text, _, _, _ ->
             if (searchBox.isFocused) {
-                MusicPreferences.setSearchKeyword(text.toString())
+                musicViewModel.loadSearched(text.toString())
             }
 
             clearButtonState()
@@ -199,7 +199,6 @@ class MusicSearch : KeyboardScopedFragment() {
 
         clear.setOnClickListener {
             searchBox.text?.clear()
-            MusicPreferences.setSearchKeyword("")
         }
 
         setExitSharedElementCallback(object : SharedElementCallback() {
@@ -216,9 +215,6 @@ class MusicSearch : KeyboardScopedFragment() {
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
-            MusicPreferences.SEARCH_KEYWORD -> {
-                musicViewModel.loadSearched(MusicPreferences.getSearchKeyword())
-            }
             MusicPreferences.LAST_MUSIC_ID -> {
                 adapterMusic?.updateHighlightedSongState()
             }

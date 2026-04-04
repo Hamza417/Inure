@@ -30,7 +30,6 @@ import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
-import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.ui.editor.NotesEditor
 import app.simple.inure.ui.panels.Components
 import app.simple.inure.ui.viewers.Activities
@@ -152,7 +151,6 @@ class AppMenu : ScopedDialogFragment() {
         }
 
         with(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert()) {
-            SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert())
             if (this) {
                 deepSearchKeyword.text = requireArguments().getString(BundleConstants.KEYWORDS)
             } else {
@@ -160,7 +158,6 @@ class AppMenu : ScopedDialogFragment() {
             }
         }
 
-        SearchPreferences.setSearchKeywordMode(requireArguments().getString(BundleConstants.KEYWORDS).isNullOrEmpty().invert())
         icon.loadAppIcon(packageInfo.packageName, packageInfo.safeApplicationInfo.enabled, packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
         name.text = packageInfo.safeApplicationInfo.name
         name.setAppVisualStates(packageInfo)
@@ -358,7 +355,6 @@ class AppMenu : ScopedDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         onDismissListener?.invoke()
-        SearchPreferences.setSearchKeywordMode(false)
     }
 
     companion object {

@@ -83,17 +83,7 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
         loader = view.findViewById(R.id.loader);
         
         if (!isInEditMode()) {
-            if (!SearchPreferences.INSTANCE.getLastSearchKeyword().isEmpty()) {
-                ViewUtils.INSTANCE.visible(clear, false);
-                editText.setText(SearchPreferences.INSTANCE.getLastSearchKeyword());
-                
-                if (SearchPreferences.INSTANCE.getLastSearchKeyword().startsWith("#")) {
-                    editText.getText().setSpan(
-                            new ForegroundColorSpan(AppearancePreferences.INSTANCE.getAccentColor()), 0, 1, 0);
-                }
-            } else {
-                ViewUtils.INSTANCE.gone(clear, true);
-            }
+            ViewUtils.INSTANCE.gone(clear, true);
         }
         
         updateDeepSearchData();
@@ -103,18 +93,16 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             boolean isValidCount = !s.toString().trim().replace("#", "").isEmpty();
             
             if (editText.isFocused()) {
-                if (!s.toString().trim().equals(SearchPreferences.INSTANCE.getLastSearchKeyword())) {
-                    if (isValidCount) {
-                        loader.setVisibility(View.VISIBLE);
-                    } else {
-                        loader.setVisibility(View.GONE);
-                    }
-                    
+                if (isValidCount) {
+                    loader.setVisibility(View.VISIBLE);
+                } else {
+                    loader.setVisibility(View.GONE);
+                }
+                
+                if (searchViewEventListener != null) {
                     searchViewEventListener.onSearchTextChanged(s.toString().trim(), count);
                 }
             }
-            
-            SearchPreferences.INSTANCE.setLastSearchKeyword(s.toString().trim());
             
             if (isValidCount) {
                 ViewUtils.INSTANCE.visible(clear, true);
@@ -169,7 +157,6 @@ public class SearchView extends LinearLayout implements SharedPreferences.OnShar
             
             setNewNumber(0);
             searchViewEventListener.onClear(button);
-            SearchPreferences.INSTANCE.setLastSearchKeyword(editText.getText().toString().trim());
         });
     }
     

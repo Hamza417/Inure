@@ -83,7 +83,8 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         recyclerView.addHeightKeyboardCallbacks()
         searchView.editText.setWindowInsetsAnimationCallback()
         searchView.showInput()
-        keywords = SearchPreferences.getLastSearchKeyword()
+        keywords = searchViewModel.searchKeywords
+        searchView.setKeyword(searchViewModel.searchKeywords)
 
         searchViewModel.getSearchData().observe(viewLifecycleOwner) {
             hideLoader()
@@ -97,16 +98,11 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                 appsAdapterSearchSmall.setOnItemClickListener(object : AdapterCallbacks {
                     override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                        SearchPreferences.setSearchKeywordMode(false)
                         openAppInfo(packageInfo, icon)
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword()).onDismissListener = {
-                            postDelayed(250) {
-                                // searchView.showInput()
-                            }
-                        }
+                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword())
                     }
                 })
 
@@ -129,66 +125,47 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
                 adapterDeepSearch.setOnItemClickListener(object : AdapterDeepSearch.Companion.AdapterDeepSearchCallbacks {
                     override fun onPermissionsClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Permissions.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Permissions.TAG)
-                        }
+                        openFragmentSlide(
+                                Permissions.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Permissions.TAG)
                     }
 
                     override fun onActivitiesClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Activities.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Activities.TAG)
-                        }
+                        openFragmentSlide(
+                                Activities.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Activities.TAG)
                     }
 
                     override fun onServicesClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Services.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Services.TAG)
-                        }
+                        openFragmentSlide(
+                                Services.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Services.TAG)
                     }
 
                     override fun onReceiversClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Receivers.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Receivers.TAG)
-                        }
+                        openFragmentSlide(
+                                Receivers.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Receivers.TAG)
                     }
 
                     override fun onProvidersClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Providers.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Providers.TAG)
-                        }
+                        openFragmentSlide(
+                                Providers.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Providers.TAG)
                     }
 
                     override fun onResourcesClicked(packageInfo: PackageInfo) {
-                        if (SearchPreferences.setSearchKeywordMode(true)) {
-                            openFragmentSlide(
-                                    Resources.newInstance(
-                                            packageInfo, keywords.sanitizeKeyword()), Resources.TAG)
-                        }
+                        openFragmentSlide(
+                                Resources.newInstance(
+                                        packageInfo, keywords.sanitizeKeyword()), Resources.TAG)
                     }
 
                     override fun onAppClicked(packageInfo: PackageInfo, icon: AppIconImageView) {
-                        if (SearchPreferences.setSearchKeywordMode(false)) {
-                            openAppInfo(packageInfo, icon)
-                        }
+                        openAppInfo(packageInfo, icon)
                     }
 
                     override fun onAppLongPressed(packageInfo: PackageInfo, icon: AppIconImageView) {
-                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword()).onDismissListener = {
-                            // Open keyboard after menu is dismissed
-                            //                            postDelayed(250) {
-                            //                                searchView.showInput()
-                            //                            }
-                        }
+                        childFragmentManager.showAppMenu(packageInfo, keywords.sanitizeKeyword())
                     }
                 })
 
@@ -222,7 +199,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
                 })
             }
 
-            setTagsStripState(SearchPreferences.getLastSearchKeyword())
+            setTagsStripState(keywords)
         }
 
         searchView.setSearchViewEventListener(object : SearchViewEventListener {
@@ -291,7 +268,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
         return if (startsWith("#")) {
             try {
                 split(" ")[1]
-            } catch (e: IndexOutOfBoundsException) {
+            } catch (_: IndexOutOfBoundsException) {
                 ""
             }
         } else {
@@ -301,8 +278,7 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
     private fun setKeyword(keyword: String) {
         searchView.setKeyword(keyword)
-        searchViewModel.initiateSearch(searchView.keyword)
-        SearchPreferences.setLastSearchKeyword(keyword)
+        searchViewModel.initiateSearch(keyword)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -334,7 +310,6 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
 
     override fun onDestroy() {
         super.onDestroy()
-        SearchPreferences.setSearchKeywordMode(false)
     }
 
     companion object {

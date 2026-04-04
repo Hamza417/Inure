@@ -27,14 +27,11 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.LoaderImageView
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.preferences.AccessibilityPreferences
-import app.simple.inure.preferences.ApkBrowserPreferences
 import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.ConfigurationPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MainPreferences
-import app.simple.inure.preferences.MusicPreferences
-import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.preferences.SetupPreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.services.DataLoaderService
@@ -42,7 +39,6 @@ import app.simple.inure.ui.panels.Home
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.PermissionUtils.checkRequiredPermissions
-import app.simple.inure.util.StringUtils.emptyString
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.viewmodels.panels.ApkBrowserViewModel
 import app.simple.inure.viewmodels.panels.AppsViewModel
@@ -52,7 +48,6 @@ import app.simple.inure.viewmodels.panels.BootManagerViewModel
 import app.simple.inure.viewmodels.panels.DebloatViewModel
 import app.simple.inure.viewmodels.panels.HomeViewModel
 import app.simple.inure.viewmodels.panels.NotesViewModel
-import app.simple.inure.viewmodels.panels.SearchViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
 import app.simple.inure.viewmodels.panels.UsageStatsViewModel
 import kotlinx.coroutines.delay
@@ -68,7 +63,6 @@ class SplashScreen : ScopedFragment() {
     private var isAppDataLoaded = false
     private var isBatchLoaded = false
     private var isUsageDataLoaded = false
-    private var isSearchLoaded = false
     private var isNotesLoaded = false
     private var isUninstalledPackagesLoaded = false
     private var isDisabledPackagesLoaded = false
@@ -93,7 +87,6 @@ class SplashScreen : ScopedFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         startPostponedEnterTransition()
-        clearSearchStates()
 
         intentFilter.addAction(DataLoaderService.APPS_LOADED)
         intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
@@ -202,7 +195,6 @@ class SplashScreen : ScopedFragment() {
 
         val appsViewModel = ViewModelProvider(requireActivity())[AppsViewModel::class.java]
         val usageStatsData = ViewModelProvider(requireActivity())[UsageStatsViewModel::class.java]
-        val searchViewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         val homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         val batchViewModel = ViewModelProvider(requireActivity())[BatchViewModel::class.java]
         val notesViewModel = ViewModelProvider(requireActivity())[NotesViewModel::class.java]
@@ -247,12 +239,6 @@ class SplashScreen : ScopedFragment() {
         usageStatsData.usageData.observe(viewLifecycleOwner) {
             Log.d(TAG, "Usage stats loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
             isUsageDataLoaded = true
-            openApp()
-        }
-
-        searchViewModel.getSearchData().observe(viewLifecycleOwner) {
-            Log.d(TAG, "Search data loaded in ${(System.currentTimeMillis() - startTime) / 1000} seconds")
-            isSearchLoaded = true
             openApp()
         }
 
@@ -359,7 +345,6 @@ class SplashScreen : ScopedFragment() {
     private fun isEverythingLoaded(): Boolean {
         return isAppDataLoaded &&
                 isUsageDataLoaded &&
-                isSearchLoaded &&
                 isUninstalledPackagesLoaded &&
                 isDisabledPackagesLoaded &&
                 isFrequentlyUsedLoaded &&
@@ -402,14 +387,6 @@ class SplashScreen : ScopedFragment() {
                 // Should always be 0
                 daysLeft.text = getString(R.string.days_trial_period_remaining, TrialPreferences.getDaysLeft())
             }
-        }
-    }
-
-    private fun clearSearchStates() {
-        if (DevelopmentPreferences.get(DevelopmentPreferences.CLEAR_SEARCH_STATE)) {
-            SearchPreferences.clearLastSearchKeyword()
-            ApkBrowserPreferences.setSearchKeyword(emptyString())
-            MusicPreferences.setSearchKeyword(emptyString())
         }
     }
 

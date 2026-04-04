@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.AudioModel
-import app.simple.inure.preferences.MusicPreferences
 import app.simple.inure.util.SortMusic.getSortedList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +19,8 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
 
     private var cursor: Cursor? = null
     private var globalList = arrayListOf<AudioModel>()
+
+    var keywords: String = ""
 
     init {
         loadData()
@@ -58,7 +59,7 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
             try {
                 globalList = getAllAudioFiles(externalContentUri).getSortedList()
                 songs.postValue(globalList)
-                loadSearched(MusicPreferences.getSearchKeyword())
+                loadSearched("")
             } catch (e: SQLiteException) {
                 postWarning(e.message ?: "Unknown error occurred")
             } catch (e: IllegalArgumentException) {
@@ -126,6 +127,8 @@ class MusicViewModel(application: Application) : WrappedViewModel(application) {
     }
 
     fun loadSearched(keywords: String) {
+        this.keywords = keywords
+
         viewModelScope.launch(Dispatchers.Default) {
             val list = arrayListOf<AudioModel>()
 
