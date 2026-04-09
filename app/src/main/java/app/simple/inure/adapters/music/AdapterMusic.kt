@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.decorations.condensed.CondensedDynamicRippleConstraintLayout
 import app.simple.inure.decorations.overscroll.VerticalListViewHolder
+import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptor
 import app.simple.inure.glide.util.AudioCoverUtil.loadFromFileDescriptorWithoutTransform
@@ -18,6 +19,7 @@ import app.simple.inure.glide.util.AudioCoverUtil.loadFromUriWithoutTransform
 import app.simple.inure.models.AudioModel
 import app.simple.inure.preferences.DevelopmentPreferences
 import app.simple.inure.preferences.MusicPreferences
+import app.simple.inure.util.IntentHelper.openInBrowser
 import app.simple.inure.util.RecyclerViewUtils
 import com.bumptech.glide.Glide
 
@@ -40,7 +42,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 RecyclerViewUtils.TYPE_ITEM -> {
                     if (useFelicityFlowInterface) {
                         PeristyleHolder(LayoutInflater.from(parent.context)
-                                   .inflate(R.layout.adapter_music_flow, parent, false))
+                                            .inflate(R.layout.adapter_music_flow, parent, false))
                     } else {
                         Holder(LayoutInflater.from(parent.context)
                                    .inflate(R.layout.adapter_music, parent, false))
@@ -55,7 +57,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
             return when {
                 useFelicityFlowInterface -> {
                     PeristyleHolder(LayoutInflater.from(parent.context)
-                               .inflate(R.layout.adapter_music_flow, parent, false))
+                                        .inflate(R.layout.adapter_music_flow, parent, false))
                 }
                 else -> {
                     Holder(LayoutInflater.from(parent.context)
@@ -135,6 +137,11 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
                 holder.total.text = buildString {
                     append(list.size)
                 }
+
+                holder.felicity.setOnClickListener {
+                    val link = "https://github.com/Hamza417/Felicity"
+                    link.toUri().openInBrowser(holder.itemView.context)
+                }
             }
         }
     }
@@ -212,6 +219,7 @@ class AdapterMusic(val list: ArrayList<AudioModel>, val headerMode: Boolean) : R
 
     inner class Header(itemView: View) : VerticalListViewHolder(itemView) {
         val total: TypeFaceTextView = itemView.findViewById(R.id.total)
+        val felicity: DynamicRippleTextView = itemView.findViewById(R.id.felicity)
     }
 
     companion object {
