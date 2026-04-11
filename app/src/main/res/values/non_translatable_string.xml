@@ -73,10 +73,15 @@
     <string name="sha256" translatable="false">SHA256</string>
     <string name="sha1" translatable="false">SHA1</string>
     <string name="md5" translatable="false">MD5</string>
-    <string name="appops">AppOps</string>
-    <string name="policy_fixed">Policy Fixed</string>
-    <string name="user_fixed">User Fixed</string>
-    <string name="revoke_on_upgrade">Revoke on Upgrade</string>
-    <string name="system_fixed">System Fixed</string>
+    <string name="appops" translatable="false">AppOps</string>
+    <string name="policy_fixed" translatable="false">Policy Fixed</string>
+    <string name="user_fixed" translatable="false">User Fixed</string>
+    <string name="revoke_on_upgrade" translatable="false">Revoke on Upgrade</string>
+    <string name="system_fixed" translatable="false">System Fixed</string>
+    <string name="felicity" translatable="false">Felicity Music Player</string>
+    <string name="felicity_music_player_summary" translatable="false">A premium music player with native DSP, visualizer, equalizer and Hi-Res output support. Currently, in active preview.</string>
+    <string name="peristyle" translatable="false">Peristyle</string>
+    <string name="peristyle_summary" translatable="false">Advance wallpaper manager app for Android with cool glassmorphic UI, tags, auto wallpaper, custom effects and multiple folder support and a native live wallpaper picker.</string>
+
 
 </resources>

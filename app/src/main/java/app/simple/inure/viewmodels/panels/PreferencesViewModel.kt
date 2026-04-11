@@ -9,6 +9,7 @@ import app.simple.inure.constants.PreferencesSearchConstants
 import app.simple.inure.extensions.viewmodels.WrappedViewModel
 import app.simple.inure.models.PreferenceModel
 import app.simple.inure.preferences.TrialPreferences
+import app.simple.inure.util.AppUtils
 import app.simple.inure.util.ConditionUtils.invert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,6 +62,10 @@ class PreferencesViewModel(application: Application) : WrappedViewModel(applicat
             list.add(Pair(0, 0))
             list.add(Pair(R.drawable.ic_data_object, R.string.development))
             list.add(Pair(R.drawable.ic_info, R.string.about))
+            if (AppUtils.isGithubFlavor()) {
+                list.add(Pair(0, 0)) // Divider
+                list.add(Pair(R.drawable.ic_apps, R.string.other_apps))
+            }
 
             preferences.postValue(list)
         }
