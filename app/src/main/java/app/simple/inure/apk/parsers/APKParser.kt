@@ -13,6 +13,7 @@ import app.simple.inure.models.Extra
 import app.simple.inure.models.Graphic
 import app.simple.inure.preferences.SearchPreferences
 import app.simple.inure.util.ConditionUtils.invert
+import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.util.FileUtils
 import com.android.apksig.apk.ApkFormatException
 import com.android.apksig.apk.ApkUtils
@@ -108,11 +109,19 @@ object APKParser {
         }
     }
 
+    /**
+     * Finds all native libraries in the APK and lists them with their sizes.
+     * Each library will be shown with its name and size, like: libExample.so | 2.4MB.
+     */
     fun File.getNativeLibraries(): String {
         return ZipFile(this).use { zipFile ->
             zipFile.entries().asSequence()
-                .mapNotNull { it?.name }
-                .filter { it.contains("lib") && it.endsWith(".so") }
+                .mapNotNull {
+                    it?.name?.takeIf { name -> name.contains("lib") && name.endsWith(".so") }?.let { name ->
+                        val size = zipFile.getEntry(name)?.size ?: 0L
+                        "$name | ${size.toSize()}"
+                    }
+                }
                 .joinToString("\n")
         }
     }
