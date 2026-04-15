@@ -4,10 +4,10 @@ import android.app.Application
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.BuildConfig
 import app.simple.inure.constants.Warnings
 import app.simple.inure.helpers.ShizukuServiceHelper
 import app.simple.inure.preferences.ConfigurationPreferences
-import app.simple.inure.preferences.DevelopmentPreferences
 import com.topjohnwu.superuser.NoShellException
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +62,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                     //                    }
 
                     withTimeout(10000) {
-                        Shell.enableVerboseLogging = DevelopmentPreferences.get(DevelopmentPreferences.DEBUG_MODE)
+                        Shell.enableVerboseLogging = BuildConfig.DEBUG
 
                         kotlin.runCatching {
                             @Suppress("DEPRECATION")

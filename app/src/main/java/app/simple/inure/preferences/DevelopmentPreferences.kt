@@ -10,7 +10,6 @@ object DevelopmentPreferences {
     const val CRASH_HANDLER = "is_using_native_crash_handler"
     const val MUSIC = "is_music_enabled"
     const val IMAGE_CACHING = "is_image_caching_enabled"
-    const val DEBUG_MODE = "is_debug_messages_enabled"
     const val HOVER_ANIMATION = "is_hover_animation_enabled"
     const val CENTER_BOTTOM_MENU = "is_center_bottom_menu_enabled"
     const val ALTERNATIVE_BATTERY_OPTIMIZATION_SWITCH = "is_alternative_battery_optimization_switch_enabled"
@@ -63,11 +62,6 @@ object DevelopmentPreferences {
                                             "Disable image caching to save memory but at the cost of higher CPU usage due to regeneration " +
                                                     "of all image data everytime they\'re loaded.",
                                             IMAGE_CACHING,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Enable Debug Mode",
-                                            "Enable debug messages in the app to help with debugging and finding bugs.",
-                                            DEBUG_MODE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Enable Hover Animation",
