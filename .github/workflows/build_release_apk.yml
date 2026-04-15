@@ -109,7 +109,7 @@ jobs:
                         ${{ runner.temp }}/app-play-release.aab
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: _to be updated_
+                    body: changelogs
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
