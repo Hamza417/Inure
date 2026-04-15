@@ -68,10 +68,6 @@ class Information : InstallerLoaderScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(file: File): Information {
             val args = Bundle()

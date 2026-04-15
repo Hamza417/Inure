@@ -135,10 +135,6 @@ class Permissions : InstallerLoaderScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(file: File): Permissions {
             val args = Bundle()

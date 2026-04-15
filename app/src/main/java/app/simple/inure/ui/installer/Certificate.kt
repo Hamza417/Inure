@@ -71,10 +71,6 @@ class Certificate : InstallerLoaderScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(file: File?): Certificate {
             val args = Bundle()

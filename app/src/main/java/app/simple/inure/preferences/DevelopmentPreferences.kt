@@ -31,7 +31,6 @@ object DevelopmentPreferences {
     const val USE_COLORFUL_HIGHLIGHT = "is_colorful_highlight_enabled"
     const val USE_PERISTYLE_INTERFACE = "is_felicity_flow_interface_enabled"
     const val USE_CORRESPONDING_COLOR_ON_HIGHLIGHT = "is_corresponding_color_on_highlight_enabled"
-    const val TEST_PREDICTIVE_BACK_GESTURE = "test_predictive_back_gesture"
     const val REFRESH_APPS_LIST_USING_LAUNCHER_SERVICE = "refresh_apps_list_using_launcher_service"
     const val HIDE_CHIPS_CHECKED_ICON = "hide_chips_checked_icon"
 
@@ -168,11 +167,6 @@ object DevelopmentPreferences {
                 DevelopmentPreferencesModel("Use Corresponding Color while Highlighting",
                                             "Use corresponding color on highlight buttons instead of the default accent color in Debloat panel.",
                                             USE_CORRESPONDING_COLOR_ON_HIGHLIGHT,
-                                            DevelopmentPreferencesModel.TYPE_BOOLEAN),
-
-                DevelopmentPreferencesModel("Test Predictive Back Gesture",
-                                            "Enable test mode for predictive back gestures in the app. Restart the app after enabling.",
-                                            TEST_PREDICTIVE_BACK_GESTURE,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN),
 
                 DevelopmentPreferencesModel("Refresh Apps List Using Launcher Service",

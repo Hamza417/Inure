@@ -48,10 +48,6 @@ class Changes : InstallerLoaderScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         super.onSharedPreferenceChanged(sharedPreferences, key)
         when (key) {

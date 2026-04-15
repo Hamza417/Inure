@@ -28,7 +28,6 @@ import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.PredictiveBackControl
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -130,8 +129,6 @@ open class BaseActivity : AppCompatActivity(),
 
         super.onCreate(savedInstanceState)
 
-        // Disable predictive back for fragments
-        FragmentManager.enablePredictiveBack(DevelopmentPreferences.get(DevelopmentPreferences.TEST_PREDICTIVE_BACK_GESTURE))
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         //        /**
@@ -280,7 +277,7 @@ open class BaseActivity : AppCompatActivity(),
                     rightMargin = insets.right
                 }
                 /**
-                 * Return CONSUMED if you don't want want the window insets to keep being
+                 * Return CONSUMED if you don't want the window insets to keep being
                  * passed down to descendant views.
                  */
                 WindowInsetsCompat.CONSUMED
@@ -510,7 +507,7 @@ open class BaseActivity : AppCompatActivity(),
                 if (maxDays > 0xF) {
                     finish()
                 }
-            } catch (e: NoSuchMethodException) {
+            } catch (_: NoSuchMethodException) {
                 finish()
             } catch (e: Exception) {
                 e.printStackTrace()

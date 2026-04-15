@@ -312,10 +312,6 @@ class Home : ScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(): Home {
             val args = Bundle()

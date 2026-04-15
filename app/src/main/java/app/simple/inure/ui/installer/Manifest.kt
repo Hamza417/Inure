@@ -54,10 +54,6 @@ class Manifest : ScopedFragment() {
         /* no-op */
     }
 
-    override fun setupBackPressedCallback(view: ViewGroup) {
-        /* no-op */
-    }
-
     companion object {
         fun newInstance(file: File): Manifest {
             val args = Bundle()
