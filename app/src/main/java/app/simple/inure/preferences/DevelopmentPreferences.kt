@@ -27,7 +27,6 @@ object DevelopmentPreferences {
     const val DIVIDER_ON_NAVIGATION_BAR = "is_divider_on_navigation_bar_enabled"
     const val PAUSE_IMAGE_LOADER = "is_image_loader_paused"
     const val EXPAND_HOME_HEADER = "is_home_header_expanded"
-    const val IS_SWITCH_FANCY_DRAGGABLE = "is_switch_fancy_draggable"
     const val USE_COLORFUL_HIGHLIGHT = "is_colorful_highlight_enabled"
     const val USE_PERISTYLE_INTERFACE = "is_felicity_flow_interface_enabled"
     const val USE_CORRESPONDING_COLOR_ON_HIGHLIGHT = "is_corresponding_color_on_highlight_enabled"
@@ -178,11 +177,6 @@ object DevelopmentPreferences {
                                             "Hide the checked icon in the chips in the app. This should make the chips look cleaner.",
                                             HIDE_CHIPS_CHECKED_ICON,
                                             DevelopmentPreferencesModel.TYPE_BOOLEAN)
-
-                //                DevelopmentPreferencesModel("Enable Fancy Drag in Switch",
-                //                                            "Drag switch to any position and not just left and right.",
-                //                                            isSwitchFancyDraggable,
-                //                                            DevelopmentPreferencesModel.TYPE_BOOLEAN)
         ).sortedBy {
             it.title
         }

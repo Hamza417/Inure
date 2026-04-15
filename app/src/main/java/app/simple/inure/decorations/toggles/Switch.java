@@ -27,7 +27,6 @@ import androidx.core.content.ContextCompat;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AppearancePreferences;
 import app.simple.inure.preferences.BehaviourPreferences;
-import app.simple.inure.preferences.DevelopmentPreferences;
 import app.simple.inure.themes.interfaces.ThemeChangedListener;
 import app.simple.inure.themes.manager.Accent;
 import app.simple.inure.themes.manager.Theme;
@@ -231,17 +230,12 @@ public class Switch extends View implements SharedPreferences.OnSharedPreference
                         thumbSizeAnimator.cancel();
                     }
                     
-                    if (DevelopmentPreferences.INSTANCE.get(DevelopmentPreferences.IS_SWITCH_FANCY_DRAGGABLE)) {
-                        thumbX = event.getX();
-                        thumbY = event.getY();
-                    } else {
-                        thumbX = event.getX();
-                        
-                        if (thumbX < thumbDiameter / 2 + thumbPadding / 2) {
-                            thumbX = thumbDiameter / 2 + thumbPadding / 2;
-                        } else if (thumbX > width - thumbDiameter / 2 - thumbPadding / 2) {
-                            thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
-                        }
+                    thumbX = event.getX();
+                    
+                    if (thumbX < thumbDiameter / 2 + thumbPadding / 2) {
+                        thumbX = thumbDiameter / 2 + thumbPadding / 2;
+                    } else if (thumbX > width - thumbDiameter / 2 - thumbPadding / 2) {
+                        thumbX = width - thumbDiameter / 2 - thumbPadding / 2;
                     }
                     
                     // The thumb is dragged, prevent the click event
