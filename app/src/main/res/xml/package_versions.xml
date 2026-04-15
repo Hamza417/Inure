@@ -1098,6 +1098,7 @@
     <string name="ch.famoser.mensa" translatable="false">MIT</string>
     <string name="net.sf.ethersynth" translatable="false">GPL-3.0-or-later</string>
     <string name="org.schabi.etherwake" translatable="false">GPL-3.0-or-later</string>
+    <string name="io.github.eucsoh.android" translatable="false">AGPL-3.0-only</string>
     <string name="io.evcc.android" translatable="false">MIT</string>
     <string name="com.GTP.eveminer" translatable="false">GPL-3.0-only</string>
     <string name="com.evenement.encapsulation" translatable="false">GPL-3.0-only</string>
@@ -1201,6 +1202,7 @@
     <string name="com.unicornsonlsd.finamp" translatable="false">MPL-2.0</string>
     <string name="org.secuso.privacyfriendlyfinancemanager" translatable="false">GPL-3.0-or-later</string>
     <string name="cc.findfamily.app" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.vayunmathur.findfamily" translatable="false">GPL-3.0-only</string>
     <string name="com.maksimowiczm.findmyip" translatable="false">GPL-3.0-or-later</string>
     <string name="com.internalpositioning.find3.find3app" translatable="false">MIT</string>
     <string name="ru.seva.finder" translatable="false">GPL-3.0-only</string>
@@ -2754,6 +2756,7 @@
     <string name="unisiegen.photographers.activity" translatable="false">Apache-2.0</string>
     <string name="dev.leonlatsch.photok" translatable="false">Apache-2.0</string>
     <string name="com.ruesga.android.wallpapers.photophase" translatable="false">Apache-2.0</string>
+    <string name="com.vayunmathur.photos" translatable="false">GPL-3.0-only</string>
     <string name="org.eagsoftware.photospheregallery" translatable="false">GPL-3.0-only</string>
     <string name="com.example.photoswooper" translatable="false">AGPL-3.0-only</string>
     <string name="de.rwth_aachen.phyphox" translatable="false">GPL-3.0-only</string>
@@ -4488,6 +4491,7 @@
     <string name="org.cryptomator" translatable="false">GPL-3.0-only</string>
     <string name="io.github.nfdz.cryptool" translatable="false">MPL-2.0</string>
     <string name="jdm.apps.cryptotracker" translatable="false">MPL-2.0</string>
+    <string name="com.git.itdolan31.crystalpad" translatable="false">GPL-3.0-only</string>
     <string name="idv.markkuo.cscblebridge" translatable="false">MIT</string>
     <string name="de.salomax.currencies" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.ratul.topactivity" translatable="false">GPL-3.0-or-later</string>
@@ -5299,7 +5303,6 @@
     <string name="com.npes87184.screenshottile" translatable="false">MIT</string>
     <string name="de.markusfisch.android.screentime" translatable="false">Unlicense</string>
     <string name="org.screenlite.webkiosk" translatable="false">MIT</string>
-    <string name="com.haseeb.recorder" translatable="false">MIT</string>
     <string name="io.github.swiftstagrime.termuxrunner" translatable="false">GPL-3.0-only</string>
     <string name="com.vishal2376.scrollblock" translatable="false">GPL-3.0-only</string>
     <string name="eu.darken.sdmse" translatable="false">GPL-3.0-only</string>
