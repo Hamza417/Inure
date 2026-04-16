@@ -1266,6 +1266,7 @@
     <string name="chat.fluffy.fluffychat" translatable="false">AGPL-3.0-only</string>
     <string name="de.justquitstudios.fluttermcsweepy" translatable="false">GPL-3.0-or-later</string>
     <string name="com.flux" translatable="false">GPL-3.0-only</string>
+    <string name="com.mskd.flux" translatable="false">GPL-3.0-or-later</string>
     <string name="de.circle_dev.flux_news" translatable="false">BSD-3-Clause</string>
     <string name="dev.spiegl.flyingcarpet" translatable="false">GPL-3.0-only</string>
     <string name="org.decsync.flym" translatable="false">GPL-3.0-only</string>
