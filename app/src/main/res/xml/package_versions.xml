@@ -3780,7 +3780,7 @@
     <string name="de.mw136.tonuino" translatable="false">BSD-3-Clause</string>
     <string name="com.wattwurm.toodoo" translatable="false">GPL-3.0-or-later</string>
     <string name="ch.hgdev.toposuite" translatable="false">GPL-2.0-only</string>
-    <string name="org.torproject.vpn" translatable="false">BSD-3-Clause-Clear</string>
+    <string name="org.torproject.vpn" translatable="false">BSD-3-Clause</string>
     <string name="in.blogspot.anselmbros.torchie" translatable="false">GPL-2.0-or-later</string>
     <string name="com.secuso.torchlight2" translatable="false">GPL-3.0-only</string>
     <string name="com.prajwalch.torrentsearch" translatable="false">MIT</string>
@@ -4172,7 +4172,7 @@
     <string name="com.iven.xdafeedreader" translatable="false">GPL-3.0-only</string>
     <string name="io.github.benderblog.traintime_pda" translatable="false">MPL-2.0</string>
     <string name="de.drhoffmannsoftware.xearth" translatable="false">MIT</string>
-    <string name="com.rk.xededitor" translatable="false">MIT</string>
+    <string name="com.rk.xededitor" translatable="false">GPL-3.0-only</string>
     <string name="space.rocketnine.xenia" translatable="false">MIT</string>
     <string name="xyz.deepdaikon.xeonjia" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.ac_versailles.dane.xiaexpress" translatable="false">GPL-3.0-only</string>
@@ -4508,6 +4508,7 @@
     <string name="com.sunilpaulmathew.debloater" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.dorumrr.de1984" translatable="false">MIT</string>
     <string name="com.codedead.deadhash" translatable="false">GPL-3.0-only</string>
+    <string name="io.github.giuig.decisioninja" translatable="false">GPL-3.0-only</string>
     <string name="com.je.dejpeg" translatable="false">GPL-3.0-only</string>
     <string name="dev.shadoe.delta" translatable="false">BSD-3-Clause</string>
     <string name="com.machiav3lli.derdiedas" translatable="false">MIT</string>
@@ -4993,6 +4994,7 @@
     <string name="com.nfcalarmclock" translatable="false">GPL-3.0-only</string>
     <string name="de.tu_darmstadt.seemoo.nfcgate" translatable="false">Apache-2.0</string>
     <string name="org.nuclearfog.nitterify" translatable="false">Apache-2.0</string>
+    <string name="com.kaleedtc.nitterium" translatable="false">MIT</string>
     <string name="com.droidheat.musicplayer" translatable="false">GPL-3.0-only</string>
     <string name="com.enm10k.nocodb" translatable="false">MIT</string>
     <string name="com.mirfatif.noorulhuda" translatable="false">AGPL-3.0-or-later</string>
@@ -5099,7 +5101,7 @@
     <string name="com.arn.scrobble" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.xero.paper" translatable="false">Apache-2.0</string>
     <string name="com.anthonyla.paperize" translatable="false">GPL-3.0-only</string>
-    <string name="com.paperknifeplus.app" translatable="false">AGPL-3.0-or-later</string>
+    <string name="com.paperknifeplus.app" translatable="false">GPL-3.0-or-later</string>
     <string name="com.paperknife.app" translatable="false">AGPL-3.0-or-later</string>
     <string name="eu.bauerj.paperless_app" translatable="false">GPL-3.0-only</string>
     <string name="net.gmartin.paperlessngx_uploader" translatable="false">GPL-3.0-only</string>
@@ -5344,7 +5346,7 @@
     <string name="com.kieronquinn.app.simnumbersetter" translatable="false">GPL-3.0-only</string>
     <string name="de.buttercookie.simbadroid" translatable="false">MPL-2.0</string>
     <string name="rkr.simplekeyboard.inputmethod" translatable="false">Apache-2.0</string>
-    <string name="dev.dettmer.simplenotes" translatable="false">MIT</string>
+    <string name="dev.dettmer.simplenotes" translatable="false">AGPL-3.0-only</string>
     <string name="com.henrikherzig.playintegritychecker" translatable="false">MIT</string>
     <string name="com.tomfong.simpleqr" translatable="false">GPL-3.0-only</string>
     <string name="com.crazyunicorn.simplequizfr" translatable="false">GPL-3.0-or-later</string>
