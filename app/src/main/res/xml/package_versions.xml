@@ -4263,6 +4263,7 @@
     <string name="com.github.warren_bank.adb_over_wifi" translatable="false">GPL-2.0-only</string>
     <string name="com.htetznaing.adbotg" translatable="false">BSD-3-Clause</string>
     <string name="ru.wohlsoft.adlmidiplayer" translatable="false">MIT</string>
+    <string name="com.eyalm.adns" translatable="false">MIT</string>
     <string name="com.codedead.advancedportchecker" translatable="false">GPL-3.0-only</string>
     <string name="com.beemdevelopment.aegis" translatable="false">GPL-3.0-only</string>
     <string name="eu.darken.apl" translatable="false">GPL-3.0-only</string>
