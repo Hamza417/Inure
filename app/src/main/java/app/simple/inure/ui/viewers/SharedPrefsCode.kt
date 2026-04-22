@@ -12,11 +12,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
 import app.simple.inure.decorations.fastscroll.FastScrollerBuilder
-import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.typeface.TypeFaceEditText
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -42,7 +43,7 @@ class SharedPrefsCode : FinderScopedFragment() {
     private lateinit var progress: CustomProgressBar
     private lateinit var options: DynamicRippleImageButton
     private lateinit var settings: DynamicRippleImageButton
-    private lateinit var scrollView: PaddingAwareNestedScrollView
+    private lateinit var scrollView: FastScrollNestedScrollView
     private lateinit var search: DynamicRippleImageButton
 
     private lateinit var sharedPreferencesViewerViewModel: SharedPreferencesViewerViewModel
@@ -80,7 +81,7 @@ class SharedPrefsCode : FinderScopedFragment() {
         scrollView = view.findViewById(R.id.xml_nested_scroll_view)
         search = view.findViewById(R.id.search)
 
-        name.text = requireArguments().getString(BundleConstants.PATH_TO_XML)!!
+        name.text = requireArguments().getString(BundleConstants.PATH_TO_XML)?.substringAfterLast("/")
 
         sharedPrefsViewerViewModelFactory = SharedPrefsViewerViewModelFactory(requireArguments().getString(BundleConstants.PATH_TO_XML)!!, packageInfo)
         sharedPreferencesViewerViewModel = ViewModelProvider(this, sharedPrefsViewerViewModelFactory)[SharedPreferencesViewerViewModel::class.java]
@@ -90,7 +91,7 @@ class SharedPrefsCode : FinderScopedFragment() {
         return view
     }
 
-    override fun getScrollView(): PaddingAwareNestedScrollView {
+    override fun getScrollView(): NestedScrollView {
         return scrollView
     }
 

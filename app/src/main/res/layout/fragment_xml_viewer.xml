@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<app.simple.inure.decorations.padding.PaddingAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +7,18 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true">
 
+    <include layout="@layout/header_xml_viewer" />
+
+    <app.simple.inure.decorations.theme.ThemeDivider
+        android:layout_width="match_parent"
+        android:layout_height="1px" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
+        <app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView
             android:id="@+id/xml_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,12 +34,6 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical">
-
-                <include layout="@layout/header_xml_viewer" />
-
-                <app.simple.inure.decorations.theme.ThemeDivider
-                    android:layout_width="match_parent"
-                    android:layout_height="1px" />
 
                 <app.simple.inure.decorations.views.LineNumberEditText
                     android:id="@+id/text_viewer"
@@ -52,7 +52,7 @@
 
             </LinearLayout>
 
-        </app.simple.inure.decorations.padding.PaddingAwareNestedScrollView>
+        </app.simple.inure.decorations.fastscroll.FastScrollNestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -144,4 +144,4 @@
 
     </app.simple.inure.decorations.theme.ThemeLinearLayout>
 
-</LinearLayout>
+</app.simple.inure.decorations.padding.PaddingAwareLinearLayout>

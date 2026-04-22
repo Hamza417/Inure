@@ -12,7 +12,6 @@
         android:layout_width="@dimen/small_button_size"
         android:layout_height="@dimen/small_button_size"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/header_padding"
         android:src="@drawable/ic_file_xml"
         android:transitionName="@string/manifest"
         app:tintType="accent"
@@ -24,6 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginHorizontal="@dimen/button_padding"
         android:textSize="18sp"
         app:appFontStyle="bold"
         app:textColorStyle="accent" />

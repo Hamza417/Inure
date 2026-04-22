@@ -9,10 +9,10 @@ import android.text.style.BackgroundColorSpan
 import android.view.View
 import androidx.core.graphics.toColorInt
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.decorations.padding.PaddingAwareNestedScrollView
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.theme.ThemeLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceEditText
@@ -365,7 +365,7 @@ open class FinderScopedFragment : KeyboardScopedFragment() {
         }
     }
 
-    protected open fun getScrollView(): PaddingAwareNestedScrollView? {
+    protected open fun getScrollView(): NestedScrollView? {
         return null
     }
 
