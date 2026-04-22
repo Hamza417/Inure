@@ -9,7 +9,9 @@ import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleRelativeLayout
 import app.simple.inure.extensions.fragments.ScopedFragment
-import app.simple.inure.popups.PopupOtherApps
+import app.simple.inure.popups.PopupFelicity
+import app.simple.inure.popups.PopupLinksCallbacks
+import app.simple.inure.popups.PopupPeristyle
 
 class OtherAppsScreen : ScopedFragment() {
 
@@ -30,7 +32,7 @@ class OtherAppsScreen : ScopedFragment() {
         startPostponedEnterTransition()
 
         felicity.setOnClickListener {
-            PopupOtherApps(requireView()).setPopupOtherAppsCallbacks(object : PopupOtherApps.Companion.PopupOtherAppsCallbacks {
+            PopupFelicity(requireView()).setPopupOtherAppsCallbacks(object : PopupLinksCallbacks {
                 override fun onGithubClicked() {
                     val url = "https://github.com/Hamza417/Felicity"
                     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
@@ -44,11 +46,17 @@ class OtherAppsScreen : ScopedFragment() {
                 override fun onIzzyondroidClicked() {
                     showWarning("Felicity is not available on IzzyOnDroid yet, please use the GitHub link to download the app.", false)
                 }
+
+                override fun onPlayStoreClicked() {
+                    val url = "https://play.google.com/store/apps/details?id=app.simple.felicity"
+                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                    startActivity(intent)
+                }
             })
         }
 
         peristyle.setOnClickListener {
-            PopupOtherApps(requireView()).setPopupOtherAppsCallbacks(object : PopupOtherApps.Companion.PopupOtherAppsCallbacks {
+            PopupPeristyle(requireView()).setPopupOtherAppsCallbacks(object : PopupLinksCallbacks {
                 override fun onGithubClicked() {
                     val url = "https://github.com/Hamza417/Peristyle"
                     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
@@ -65,6 +73,10 @@ class OtherAppsScreen : ScopedFragment() {
                     val url = "https://apt.izzysoft.de/fdroid/index/apk/app.simple.peri/"
                     val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                     startActivity(intent)
+                }
+
+                override fun onPlayStoreClicked() {
+
                 }
             })
         }

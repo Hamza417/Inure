@@ -7,15 +7,15 @@ import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.extensions.popup.BasePopupWindow
 import app.simple.inure.extensions.popup.PopupLinearLayout
 
-class PopupOtherApps(view: View) : BasePopupWindow() {
+class PopupPeristyle(view: View) : BasePopupWindow() {
 
     private val github: DynamicRippleTextView
     private val fdroid: DynamicRippleTextView
     private val izzyondroid: DynamicRippleTextView
-    private var popupOtherAppsCallbacks: PopupOtherAppsCallbacks? = null
+    private var popupLinksCallbacks: PopupLinksCallbacks? = null
 
     init {
-        val contentView = View.inflate(view.context, R.layout.popup_other_apps, PopupLinearLayout(view.context))
+        val contentView = View.inflate(view.context, R.layout.popup_links_peristyle, PopupLinearLayout(view.context))
 
         contentView.apply {
             github = findViewById(R.id.popup_github)
@@ -24,32 +24,24 @@ class PopupOtherApps(view: View) : BasePopupWindow() {
         }
 
         github.setOnClickListener {
-            popupOtherAppsCallbacks?.onGithubClicked()
+            popupLinksCallbacks?.onGithubClicked()
             dismiss()
         }
 
         fdroid.setOnClickListener {
-            popupOtherAppsCallbacks?.onFdroidClicked()
+            popupLinksCallbacks?.onFdroidClicked()
             dismiss()
         }
 
         izzyondroid.setOnClickListener {
-            popupOtherAppsCallbacks?.onIzzyondroidClicked()
+            popupLinksCallbacks?.onIzzyondroidClicked()
             dismiss()
         }
 
         init(contentView, view, Misc.xOffset, Misc.yOffset)
     }
 
-    fun setPopupOtherAppsCallbacks(callbacks: PopupOtherAppsCallbacks) {
-        this.popupOtherAppsCallbacks = callbacks
-    }
-
-    companion object {
-        interface PopupOtherAppsCallbacks {
-            fun onGithubClicked()
-            fun onFdroidClicked()
-            fun onIzzyondroidClicked()
-        }
+    fun setPopupOtherAppsCallbacks(callbacks: PopupLinksCallbacks) {
+        this.popupLinksCallbacks = callbacks
     }
 }
