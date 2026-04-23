@@ -246,6 +246,16 @@ open class CustomVerticalRecyclerView(context: Context, attrs: AttributeSet?) : 
         }
     }
 
+    fun setAdapterWithoutAnimation(adapter: Adapter<*>?) {
+        try {
+            adapter?.stateRestorationPolicy = Adapter.StateRestorationPolicy.ALLOW
+        } catch (e: UnsupportedOperationException) {
+            e.printStackTrace()
+        }
+
+        super.setAdapter(adapter)
+    }
+
     fun setExclusiveAdapter(adapter: Adapter<*>?) {
         if (this.adapter == null) {
             setAdapter(adapter)

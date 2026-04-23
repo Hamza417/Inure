@@ -101,7 +101,11 @@ class Trackers : SearchBarScopedFragment() {
                 }
             })
 
-            recyclerView.adapter = adapterTrackers
+            if (recyclerView.adapter == null) {
+                recyclerView.adapter = adapterTrackers
+            } else {
+                recyclerView.setAdapterWithoutAnimation(adapterTrackers)
+            }
 
             checklist.setOnClickListener {
                 childFragmentManager.showTrackerSelector(trackers, object : TrackerSelector.Companion.TrackerSelectorCallbacks {
@@ -131,7 +135,7 @@ class Trackers : SearchBarScopedFragment() {
                 ifwButton.gone(true)
             }
 
-            if (trackers.size > 0) {
+            if (trackers.isNotEmpty()) {
                 if (ConfigurationPreferences.isUsingRoot()) {
                     checklist.visible(animate = true)
                 }

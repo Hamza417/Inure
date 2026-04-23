@@ -23,14 +23,20 @@ import app.simple.inure.util.TrackerUtils.getReceiverTrackers
 import app.simple.inure.util.TrackerUtils.getServiceTrackers
 import com.topjohnwu.superuser.nio.FileSystemManager
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 class TrackersViewModel(application: Application, private val packageInfo: PackageInfo) : RootServiceViewModel(application) {
+
+    private var searchJob: Job? = null
+    private var trackersList: ArrayList<Tracker> = arrayListOf()
 
     var keyword: String = ""
         set(value) {
             field = value
-            scanTrackers()
+            filterTrackers(value)
         }
 
     private val path = "/data/system/ifw/" + "${packageInfo.packageName}.xml"
@@ -58,36 +64,59 @@ class TrackersViewModel(application: Application, private val packageInfo: Packa
     }
 
     private fun scanTrackers() {
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel(CancellationException("New search initiated"))
+
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 val packageInfo = getPackageInfo()
                 val trackersData = TrackerUtils.getTrackersData()
-                val trackersList = arrayListOf<Tracker>()
 
+                ensureActive()
                 trackersList.addAll(packageInfo.getActivityTrackers(applicationContext(), trackersData, keyword))
+                ensureActive()
                 trackersList.addAll(packageInfo.getServiceTrackers(applicationContext(), trackersData, keyword))
+                ensureActive()
                 trackersList.addAll(packageInfo.getReceiverTrackers(applicationContext(), trackersData, keyword))
+                ensureActive()
                 trackersList.addAll(packageInfo.getProviderTrackers(applicationContext(), trackersData, keyword))
 
                 trackersList.sortBy {
                     it.componentName
                 }
 
+                ensureActive()
                 if (trackersList.size.isZero()) {
-                    postWarning(getString(R.string.no_trackers_found))
+                    if (keyword.isEmpty()) {
+                        postWarning(getString(R.string.no_trackers_found))
+                    }
                 }
 
                 if (ConfigurationPreferences.isUsingRoot()) {
                     TrackerUtils.readIntentFirewallXml(getFileSystemManager()!!, trackersList, path)
                 }
 
-                Log.d("TrackersViewModel", "Trackers: ${trackersList.size}")
+                ensureActive()
                 trackers.postValue(trackersList)
             }.onFailure {
                 it.printStackTrace()
-                postWarning("Error: ${it.message ?: "Unknown error"}")
+                if (it !is CancellationException) {
+                    postWarning("Error: ${it.message ?: "Unknown error"}")
+                }
             }
         }
+    }
+
+    private fun filterTrackers(keyword: String) {
+        if (keyword.isEmpty()) return trackers.postValue(trackersList)
+
+        val filteredList = arrayListOf<Tracker>()
+        for (tracker in trackersList) {
+            if (tracker.componentName.contains(keyword, ignoreCase = true)) {
+                filteredList.add(tracker)
+            }
+        }
+
+        trackers.postValue(filteredList)
     }
 
     private fun getPackageInfo(): PackageInfo {
