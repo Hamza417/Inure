@@ -1,15 +1,17 @@
 package app.simple.inure.preferences
 
+import android.annotation.SuppressLint
 import app.simple.inure.util.AppUtils
 import app.simple.inure.util.CalendarUtils
 import java.util.Date
 
+@Suppress("NOTHING_TO_INLINE", "UseKtx")
 object TrialPreferences {
 
-    private const val MAX_TRIAL_DAYS = 0xF
+    const val MAX_TRIAL_DAYS = 0xF
 
     private const val FIRST_LAUNCH = "first_launch_"
-    private const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_"
+    const val IS_APP_FULL_VERSION_ENABLED = "is_full_version_"
     private const val IS_LEGACY_MIGRATED = "is_legacy_migrated_"
     private const val IS_UNLOCKER_VERIFICATION_REQUIRED = "is_unlocker_verification_required_"
     private const val LAST_VERIFICATION_DATE = "last_verification_date_"
@@ -18,6 +20,7 @@ object TrialPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
+    @SuppressLint("UseKtx")
     fun setFirstLaunchDate(date: Long) {
         SharedPreferences.getEncryptedSharedPreferences().edit().putLong(FIRST_LAUNCH, date).apply()
     }
@@ -43,11 +46,13 @@ object TrialPreferences {
 
     // ---------------------------------------------------------------------------------------------------------- //
 
+
     fun setFullVersion(value: Boolean): Boolean {
-        return SharedPreferences.getEncryptedSharedPreferences().edit().putBoolean(IS_APP_FULL_VERSION_ENABLED, value).commit()
+        return SharedPreferences.getEncryptedSharedPreferences().edit()
+            .putBoolean(IS_APP_FULL_VERSION_ENABLED, value).commit()
     }
 
-    fun isAppFullVersionEnabled(): Boolean {
+    inline fun isAppFullVersionEnabled(): Boolean {
         return SharedPreferences.getEncryptedSharedPreferences().getBoolean(IS_APP_FULL_VERSION_ENABLED, false) ||
                 CalendarUtils.getDaysBetweenTwoDates(Date(getFirstLaunchDate()), CalendarUtils.getToday()) <= MAX_TRIAL_DAYS
     }

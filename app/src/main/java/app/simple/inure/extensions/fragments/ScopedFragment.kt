@@ -25,9 +25,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.transition.ArcMotion
-import androidx.transition.ChangeBounds
 import androidx.transition.Fade
-import androidx.transition.TransitionSet
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.constants.BundleConstants
@@ -72,16 +70,6 @@ import kotlinx.coroutines.launch
  * its purpose and importance
  */
 abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
-
-    protected var maximumAngle = 90
-    protected var minimumHorizontalAngle = 80
-    protected var minimumVerticalAngle = 15
-
-    val transitionSet = TransitionSet().apply {
-        addTransition(Fade(Fade.MODE_OUT))
-        addTransition(ChangeBounds())
-        addTransition(Fade(Fade.MODE_IN))
-    }
 
     /**
      * [ScopedFragment]'s own [Handler] instance
@@ -365,7 +353,8 @@ abstract class ScopedFragment : Fragment(), SharedPreferences.OnSharedPreference
         }
     }
 
-    open fun fullVersionCheck(goBack: Boolean = true): Boolean {
+    @Suppress("NOTHING_TO_INLINE")
+    inline fun fullVersionCheck(goBack: Boolean = true): Boolean {
         return if (TrialPreferences.isAppFullVersionEnabled()) {
             true
         } else {
