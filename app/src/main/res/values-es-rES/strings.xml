@@ -637,6 +637,8 @@
     <string name="component_manager_desc">Activar/desactivar los diversos componentes de la aplicación.</string>
     <string name="state">Estado</string>
     <string name="installed">Instalado</string>
+    <string name="installing">Instalando</string>
+    <string name="batch_install">Instalación por lotes</string>
     <string name="no_boot_components_found">No se han encontrado componentes de arranque</string>
     <string name="size">Peso</string>
     <string name="colorful_icons_desc">Usar iconos coloridos en los diseños de menú de navegación.</string>
@@ -794,4 +796,5 @@
     <string name="foreground">Primer plano</string>
     <string name="granted_by_default">Concedido por defecto</string>
     <string name="user_set">Conjunto de usuario</string>
+    <string name="other_apps">Otras aplicaciones</string>
 </resources>
