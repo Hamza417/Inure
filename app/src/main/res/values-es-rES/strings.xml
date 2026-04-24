@@ -119,7 +119,7 @@
     <string name="device">Dispositivo</string>
     <string name="busybox">BusyBox</string>
     <string name="ram">RAM</string>
-    <string name="total_available">Total Disponible</string>
+    <string name="total_available">Total disponible</string>
     <string name="total_used">Total utilizado</string>
     <string name="apps_heading">Aplicaciones</string>
     <string name="total_user_apps">Total de Aplicaciones del usuario</string>
