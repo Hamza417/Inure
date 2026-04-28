@@ -14926,6 +14926,53 @@
         "artifact_id": "",
         "capability": [
             {
+                "created": "2018-04-01T17:44:40.096109Z",
+                "description": "",
+                "id": "b80509e4-6e71-4480-940e-2e9c84572d34",
+                "is_in_exodus": false,
+                "name": "Tracks users using GPS",
+                "updated": "2018-04-01T17:44:40.096244Z"
+            },
+            {
+                "created": "2018-04-01T17:44:40.147955Z",
+                "description": "",
+                "id": "7ffabdd2-6d50-4308-8fb3-24ed0cd2f7ac",
+                "is_in_exodus": false,
+                "name": "Tracks users using WiFi",
+                "updated": "2018-04-01T17:44:40.148086Z"
+            }
+        ],
+        "category": [
+            {
+                "name": "Analytics"
+            }
+        ],
+        "code_signature": "",
+        "comments": "Developped by Wavebrook Analytics\r\nhttps://pub.dev/packages/wavebrook_netsignal/versions/1.1.1",
+        "created": "2026-04-26T17:21:01.162761Z",
+        "creation_date": "2026-04-26",
+        "description": "Measure mobile network quality (strenght, latency and coverage) with location permissions",
+        "documentation": [],
+        "exodus_matches": null,
+        "gradle": "",
+        "group_id": "",
+        "id": "01f3e8a7-d619-429c-88d6-f6e046a93cd3",
+        "is_in_exodus": false,
+        "maven_repository": "",
+        "name": "NetSignal SDK",
+        "needs_rework": false,
+        "network": [],
+        "network_signature": "",
+        "updated": "2026-04-26T18:52:00.624421Z",
+        "website": "https://wavebrook.com"
+    },
+    {
+        "advertising": [],
+        "analytic": [],
+        "api_key_ids": "",
+        "artifact_id": "",
+        "capability": [
+            {
                 "created": "2018-04-01T17:44:40.246785Z",
                 "description": "",
                 "id": "6b25dd40-1fc0-43d6-8a74-2a5ad8b0efe3",
