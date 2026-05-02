@@ -32,7 +32,10 @@ import app.simple.inure.util.SDKUtils
 import app.simple.inure.util.StringUtils.endsWithAny
 import com.anggrayudi.storage.file.baseName
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import net.lingala.zip4j.ZipFile
 import java.io.File
@@ -45,6 +48,13 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     private var baseApk: File? = null
     private var user: User? = null
     private val splitApkExtensions = arrayOf(".zip", ".apks", ".apkm", ".xapk")
+
+    /**
+     * We keep a reference to the active installation job so we can cancel it
+     * if the user changes their mind before the package is committed. Once the
+     * commit runs, Android takes over and there's no stopping it from our side.
+     */
+    private var installationJob: Job? = null
 
     private val packageInfo: MutableLiveData<PackageInfo> by lazy {
         MutableLiveData<PackageInfo>().also {
@@ -211,18 +221,26 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     private fun packageManagerInstall() {
-        viewModelScope.launch(Dispatchers.Default) {
+        installationJob = viewModelScope.launch(Dispatchers.Default) {
             try {
                 val sessionParams = InstallerUtils.makeInstallParams(files!!.getLength())
                 val sessionCode = InstallerUtils.createSession(sessionParams, applicationContext())
 
                 for (file in files!!) {
+                    // Make sure the user hasn't hit cancel between each file write
+                    ensureActive()
                     if (file.exists() && file.name.endsWith(".apk")) {
                         InstallerUtils.installWriteSessions(sessionCode, file, applicationContext())
                     }
                 }
 
+                // Last chance to bail out — once we commit, Android owns it
+                ensureActive()
                 InstallerUtils.commitSession(sessionCode, applicationContext())
+            } catch (e: CancellationException) {
+                // The user canceled before we could commit, so just let it bubble up cleanly
+                Log.d(TAG, "Installation cancelled by user before commit")
+                throw e
             } catch (e: IllegalStateException) {
                 postError(e)
             } catch (e: SecurityException) {
@@ -232,10 +250,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     private fun rootInstall() {
-        viewModelScope.launch(Dispatchers.IO) {
+        installationJob = viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Shell.cmd("run-as ${applicationContext().packageName}").exec()
-
                 val totalSizeOfAllApks = files!!.getLength()
                 Log.d(TAG, "Total size of all apks: $totalSizeOfAllApks")
                 val sessionId = with(Shell.cmd("${installCommand()} $totalSizeOfAllApks").exec()) {
@@ -247,6 +263,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
 
                 Log.d(TAG, "Session id: $sessionId")
                 for (file in files!!) {
+                    // Check for cancellation before writing each split APK
+                    ensureActive()
                     if (file.exists() && file.name.endsWith(".apk")) {
                         val size = file.length()
                         Log.d(TAG, "Size of ${file.name}: $size")
@@ -265,6 +283,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                     }
                 }
 
+                // One final check before handing off to the package manager.
+                // Installation cannot be canceled after this point.
+                ensureActive()
                 Shell.cmd("pm install-commit $sessionId").exec().let { result ->
                     if (result.isSuccess) {
                         Log.d(TAG, "Output: ${result.out}")
@@ -286,6 +307,10 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                         postWarning(result.out.joinToString())
                     }
                 }
+            } catch (e: CancellationException) {
+                // User canceled before the commit shell command, so we're clean
+                Log.d(TAG, "Root installation cancelled by user before commit")
+                throw e
             } catch (e: java.lang.NullPointerException) {
                 if (e.message.isNullOrEmpty().invert()) {
                     postWarning(e.message!!)
@@ -318,7 +343,7 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
-        viewModelScope.launch(Dispatchers.IO) {
+        installationJob = viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "Shizuku install")
 
             try {
@@ -328,6 +353,8 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 }
 
                 Log.d(TAG, "Installing ${uris.size} apks")
+                // Check for cancellation before we hand the URIs off to Shizuku
+                ensureActive()
                 ApplicationUtils.setApplication(getApplication()) // Should be initialized at application level, not here
                 val packageInstaller = PackageInstaller()
                 val shizukuInstall = packageInstaller.install(uris, applicationContext())
@@ -337,6 +364,9 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 } else {
                     postWarning("ERR: ${shizukuInstall.status} : ${shizukuInstall.message}")
                 }
+            } catch (e: CancellationException) {
+                Log.d(TAG, "Shizuku installation cancelled by user before commit")
+                throw e
             } catch (e: Exception) {
                 e.printStackTrace()
                 postError(e)
@@ -407,6 +437,16 @@ class InstallerViewModel(application: Application, private val uri: Uri?, val fi
                 postWarning(it.message ?: it.stackTraceToString())
             }
         }
+    }
+
+    /**
+     * Cancels any in-progress installation. This only works before the package manager
+     * receives the commit signal.
+     */
+    fun cancelInstallation() {
+        installationJob?.cancel()
+        installationJob = null
+        Log.d(TAG, "Installation job cancelled")
     }
 
     companion object {

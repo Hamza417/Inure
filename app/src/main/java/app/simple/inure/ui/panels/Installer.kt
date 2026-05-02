@@ -88,6 +88,12 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     private val intentFilter = IntentFilter()
     private var user: User? = null
 
+    /**
+     * Tracks whether an installation is currently in progress so we know
+     * whether the cancel button should abort the installation or just close the screen.
+     */
+    private var isInstalling = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_installer, container, false)
 
@@ -235,28 +241,16 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                             childFragmentManager.showUsers().setUsersCallback(object : Users.Companion.UsersCallback {
                                 override fun onUserSelected(user: User) {
                                     this@Installer.user = user
-                                    loader.visible(true)
-                                    install.gone()
-                                    update.gone()
-                                    uninstall.gone()
-                                    launch.gone()
+                                    beginInstallUI()
                                     installerViewModel.install(user)
                                 }
                             })
                         } else {
-                            loader.visible(true)
-                            install.gone()
-                            update.gone()
-                            uninstall.gone()
-                            launch.gone()
+                            beginInstallUI()
                             installerViewModel.install()
                         }
                     } else {
-                        loader.visible(true)
-                        install.gone()
-                        update.gone()
-                        uninstall.gone()
-                        launch.gone()
+                        beginInstallUI()
                         installerViewModel.install()
                     }
                 }
@@ -351,11 +345,7 @@ class Installer : ScopedFragment(), InstallerCallbacks {
                     childFragmentManager.showDowngradeDialog(it).setUninstallCallbacks {
                         childFragmentManager.uninstallPackage(packageInfo) {
                             if (!requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
-                                loader.visible(true)
-                                install.gone()
-                                update.gone()
-                                uninstall.gone()
-                                launch.gone()
+                                beginInstallUI()
                                 installerViewModel.install(user)
                             }
                         }
@@ -374,7 +364,13 @@ class Installer : ScopedFragment(), InstallerCallbacks {
         }
 
         cancel.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            if (isInstalling) {
+                // The user changed their mind — cancel the pending install before it commits
+                installerViewModel.cancelInstallation()
+                resetInstallUI()
+            } else {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
         }
 
         settings.setOnClickListener {
@@ -417,12 +413,44 @@ class Installer : ScopedFragment(), InstallerCallbacks {
     }
 
     private fun success() {
+        isInstalling = false
         update.gone()
         install.gone()
         loader.gone()
         checkLaunchStatus()
         uninstall.visible(false)
         cancel.setText(R.string.close)
+    }
+
+    /**
+     * Call this right before kicking off an install. It hides the action buttons,
+     * shows the spinner, and flips the flag so the cancel button knows to abort
+     * rather than just close the screen.
+     */
+    private fun beginInstallUI() {
+        isInstalling = true
+        loader.visible(true)
+        install.gone()
+        update.gone()
+        uninstall.gone()
+        launch.gone()
+    }
+
+    /**
+     * Restores the UI to the pre-install state after a cancellation. We bring back
+     * whatever buttons were relevant before the user started the install.
+     */
+    private fun resetInstallUI() {
+        isInstalling = false
+        loader.gone()
+        kotlin.runCatching {
+            if (requirePackageManager().isPackageInstalled(packageInfo.packageName)) {
+                update.visible(true)
+                uninstall.visible(true)
+            } else {
+                install.visible(true)
+            }
+        }
     }
 
     private fun checkLaunchStatus() {
