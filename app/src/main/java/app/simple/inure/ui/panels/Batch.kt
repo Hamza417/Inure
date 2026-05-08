@@ -387,8 +387,9 @@ class Batch : ScopedFragment() {
         batchViewModel.getClearedCacheSize().observe(viewLifecycleOwner) {
             hideLoader()
 
-            if (it.isNotNull()) {
+            if (it.isNotNull() && it > 0) {
                 showWarning(getString(R.string.cleared).plus(" ${it.toSize()}"), goBack = false)
+                batchViewModel.clearCacheSizeValue()
             }
         }
 

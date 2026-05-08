@@ -406,4 +406,8 @@ class BatchViewModel(application: Application) : DataGeneratorViewModel(applicat
             refreshPackageData()
         }
     }
+
+    fun clearCacheSizeValue() {
+        clearedCacheSize.postValue(0L)
+    }
 }
