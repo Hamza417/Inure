@@ -1,61 +1,54 @@
 package app.simple.inure.dialogs.action
 
-import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import app.simple.inure.R
-import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.extensions.fragments.ScopedActionDialogBottomFragment
 import app.simple.inure.factories.actions.ClearCacheViewModelFactory
 import app.simple.inure.util.FileSizeHelper.toSize
 import app.simple.inure.viewmodels.dialogs.ClearCacheViewModel
+import app.simple.inure.viewmodels.dialogs.ClearCacheViewModel.Companion.ClearCacheState
+import kotlinx.coroutines.launch
 
 class ClearCache : ScopedActionDialogBottomFragment() {
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val size = getCacheSize()
-        Log.i(TAG, "Cache Size: ${size.toSize()} for ${packageInfo.packageName}")
+        val viewModel = ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]
 
-        with(ViewModelProvider(this, ClearCacheViewModelFactory(packageInfo))[ClearCacheViewModel::class.java]) {
-            getResults().observe(viewLifecycleOwner) {
-
-            }
-
-            getSuccessStatus().observe(viewLifecycleOwner) {
-                when (it) {
-                    "Done" -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.state.collect { state ->
+                when (state) {
+                    is ClearCacheState.Loading -> {
+                        loader.start()
+                    }
+                    is ClearCacheState.Done -> {
                         loader.loaded()
-                        val sizeNow = getCacheSize()
-                        val postSize = size - sizeNow
-                        if (postSize > 0) {
-                            status.text = postSize.toSize() + " " + getString(R.string.cleared)
+                        if (state.clearedBytes > 0) {
+                            status.text = buildString {
+                                append(state.clearedBytes.toSize())
+                                append(" ")
+                                append(getString(R.string.cleared))
+                            }
                         } else {
                             status.setText(R.string.no_cache_found)
                         }
                     }
-                    "Failed" -> {
+                    is ClearCacheState.Failed -> {
                         loader.error()
                         status.setText(R.string.failed)
                     }
                 }
             }
-
-            getWarning().observe(viewLifecycleOwner) {
-                showWarning(it)
-            }
         }
-    }
 
-    private fun getCacheSize(): Long {
-        return with(packageInfo.getPackageSize(requireContext())) {
-            cacheSize
+        viewModel.getWarning().observe(viewLifecycleOwner) {
+            showWarning(it)
         }
     }
 

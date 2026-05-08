@@ -19,6 +19,18 @@ object ProcessUtils {
         return block()
     }
 
+    fun checkMainThread() {
+        check(Thread.currentThread() == Looper.getMainLooper().thread) {
+            "This function should only be called on main thread"
+        }
+    }
+
+    fun checkNotOnMainThread() {
+        check(Thread.currentThread() != Looper.getMainLooper().thread) {
+            "This function cannot be called on main thread"
+        }
+    }
+
     suspend fun transitionDelay() {
         kotlinx.coroutines.delay(450L)
     }

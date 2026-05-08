@@ -15,11 +15,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.WorkerThread
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.UNINSTALL_REQUEST_CODE
 import app.simple.inure.models.PackageSizes
 import app.simple.inure.util.ArrayUtils
 import app.simple.inure.util.DateUtils
+import app.simple.inure.util.ProcessUtils
 import java.io.File
 import java.lang.reflect.Method
 import java.util.Locale
@@ -481,8 +483,11 @@ object PackageUtils {
      * Fetches the directory size of this installed application
      * @return [Long] and should be formatted manually
      */
+    @WorkerThread
     fun PackageInfo.getPackageSize(context: Context): PackageSizes {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ProcessUtils.checkNotOnMainThread()
+
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
             return try {
                 val storageStats = storageStatsManager.queryStatsForUid(this.safeApplicationInfo.storageUuid, this.safeApplicationInfo.uid)

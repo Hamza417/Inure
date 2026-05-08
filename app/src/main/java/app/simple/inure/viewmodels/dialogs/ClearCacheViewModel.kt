@@ -3,71 +3,87 @@ package app.simple.inure.viewmodels.dialogs
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import app.simple.inure.apk.utils.PackageUtils.getPackageSize
 import app.simple.inure.constants.Warnings
-import app.simple.inure.exceptions.InureShellException
 import app.simple.inure.extensions.viewmodels.RootShizukuViewModel
 import app.simple.inure.helpers.ShizukuServiceHelper
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo) : RootShizukuViewModel(application) {
-    private val result: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+
+    private val _state: MutableStateFlow<ClearCacheState> = MutableStateFlow(ClearCacheState.Loading)
+
+    val state: StateFlow<ClearCacheState> = _state.asStateFlow()
+
+    init {
+        initializeCoreFramework()
     }
 
-    private val success: MutableLiveData<String> by lazy {
-        MutableLiveData<String>().also {
-            initializeCoreFramework()
-        }
-    }
-
-    fun getResults(): LiveData<String> {
-        return result
-    }
-
-    fun getSuccessStatus(): LiveData<String> {
-        return success
+    private fun readCacheSize(): Long {
+        return packageInfo.getPackageSize(applicationContext()).cacheSize
     }
 
     private fun runCommand() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                val sizeBefore = readCacheSize()
+                Log.d(TAG, "Cache before clear: $sizeBefore for ${packageInfo.packageName}")
+
                 Shell.cmd(getCommand()).submit { shellResult ->
                     kotlin.runCatching {
-                        for (i in shellResult.out) {
-                            result.postValue("\n" + i)
-                            if (i.contains("Exception") || i.contains("not exist")) {
-                                throw InureShellException("Execution Failed...")
+                        for (line in shellResult.out) {
+                            if (line.contains("Exception") || line.contains("not exist")) {
+                                throw RuntimeException("Shell reported an error: $line")
                             }
                         }
                     }.onSuccess {
                         if (shellResult.isSuccess) {
-                            success.postValue("Done")
+                            viewModelScope.launch(Dispatchers.Default) {
+                                val sizeAfter = readCacheSize()
+                                val cleared = (sizeBefore - sizeAfter).coerceAtLeast(0L)
+                                Log.d(TAG, "Cache after clear: $sizeAfter, freed: $cleared")
+
+                                withContext(Dispatchers.Main) {
+                                    _state.value = ClearCacheState.Done(cleared)
+                                }
+                            }
                         } else {
-                            success.postValue("Failed")
+                            _state.value = ClearCacheState.Failed
                         }
                     }.getOrElse {
                         it.printStackTrace()
-                        result.postValue("\n" + it.message)
+                        /**
+                         * Even if the output contained an error keyword, the shell
+                         * command itself may have partially succeeded, so we still
+                         * check isSuccess before giving up.
+                         */
                         if (shellResult.isSuccess) {
-                            success.postValue("Done")
+                            viewModelScope.launch(Dispatchers.Default) {
+                                withContext(Dispatchers.Main) {
+                                    val sizeAfter = readCacheSize()
+                                    val cleared = (sizeBefore - sizeAfter).coerceAtLeast(0L)
+                                    Log.d(TAG, "Cache after clear (with error in output): $sizeAfter, freed: $cleared")
+
+                                    withContext(Dispatchers.Main) {
+                                        _state.value = ClearCacheState.Done(cleared)
+                                    }
+                                }
+                            }
                         } else {
-                            success.postValue("Failed")
+                            _state.value = ClearCacheState.Failed
                         }
                     }
                 }
             }.onFailure {
                 it.printStackTrace()
-                result.postValue("\n" + it.message)
-                success.postValue("Failed")
-            }.getOrElse {
-                it.printStackTrace()
-                result.postValue("\n" + it.message)
-                success.postValue("Failed")
+                _state.value = ClearCacheState.Failed
             }
         }
     }
@@ -77,44 +93,43 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
             kotlin.runCatching {
                 if (shizukuServiceHelper.isRootMode().not()) {
                     postWarning("Shizuku is not running in root mode and root is required to clear app cache.")
+                    _state.value = ClearCacheState.Failed
                     return@launch
                 }
 
-                shizukuServiceHelper.service?.simpleExecute(getCommand()).let { shellResult ->
-                    kotlin.runCatching {
-                        for (i in shellResult?.output!!.lines()) {
-                            result.postValue("\n" + i)
-                            if (i.contains("Exception") || i.contains("not exist")) {
-                                throw InureShellException("Execution Failed...")
-                            }
-                        }
-                    }.onSuccess {
-                        if (shellResult?.isSuccess == true) {
-                            success.postValue("Done")
-                        } else {
-                            success.postValue("Failed")
-                        }
-                    }.getOrElse {
-                        it.printStackTrace()
-                        result.postValue("\n" + it.message)
-                        if (shellResult?.isSuccess == true) {
-                            success.postValue("Done")
-                        } else {
-                            success.postValue("Failed")
+                val sizeBefore = readCacheSize()
+                Log.d(TAG, "Cache before clear (Shizuku): $sizeBefore for ${packageInfo.packageName}")
+
+                val shellResult = shizukuServiceHelper.service?.simpleExecute(getCommand())
+
+                kotlin.runCatching {
+                    for (line in shellResult?.output?.lines().orEmpty()) {
+                        if (line.contains("Exception") || line.contains("not exist")) {
+                            throw RuntimeException("Shizuku reported an error: $line")
                         }
                     }
+                }.onSuccess {
+                    if (shellResult?.isSuccess == true) {
+                        val sizeAfter = readCacheSize()
+                        val cleared = (sizeBefore - sizeAfter).coerceAtLeast(0L)
+                        Log.d(TAG, "Cache after clear (Shizuku): $sizeAfter, freed: $cleared")
+                        _state.value = ClearCacheState.Done(cleared)
+                    } else {
+                        _state.value = ClearCacheState.Failed
+                    }
+                }.getOrElse {
+                    it.printStackTrace()
+                    if (shellResult?.isSuccess == true) {
+                        val sizeAfter = readCacheSize()
+                        val cleared = (sizeBefore - sizeAfter).coerceAtLeast(0L)
+                        _state.value = ClearCacheState.Done(cleared)
+                    } else {
+                        _state.value = ClearCacheState.Failed
+                    }
                 }
-            }.onSuccess {
-                Log.d("ClearCacheViewModel", "Cache cleared: ${packageInfo.packageName}")
-                success.postValue("Done")
             }.onFailure {
                 it.printStackTrace()
-                result.postValue("\n" + it.message)
-                success.postValue("Failed")
-            }.getOrElse {
-                it.printStackTrace()
-                result.postValue("\n" + it.message)
-                success.postValue("Failed")
+                _state.value = ClearCacheState.Failed
             }
         }
     }
@@ -129,10 +144,22 @@ class ClearCacheViewModel(application: Application, val packageInfo: PackageInfo
 
     override fun onShellDenied() {
         warning.postValue(Warnings.getNoRootConnectionWarning())
-        success.postValue("Failed")
+        _state.value = ClearCacheState.Failed
     }
 
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         runShizuku(shizukuServiceHelper)
+    }
+
+    companion object {
+        private const val TAG = "ClearCacheViewModel"
+
+        sealed class ClearCacheState {
+            data object Loading : ClearCacheState()
+
+            data class Done(val clearedBytes: Long) : ClearCacheState()
+
+            data object Failed : ClearCacheState()
+        }
     }
 }
