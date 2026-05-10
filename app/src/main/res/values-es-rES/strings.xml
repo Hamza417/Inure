@@ -200,8 +200,8 @@
     <string name="ttf_viewer">Visor TTF</string>
     <string name="popups">Ventanas</string>
     <string name="animations">Animaciones</string>
-    <string name="recently_installed">Recientemente instalados</string>
-    <string name="recently_updated">Recientemente actualizados</string>
+    <string name="recently_installed">Recientemente instalado</string>
+    <string name="recently_updated">Recientemente actualizado</string>
     <string name="dex_error">Esta apk no contiene ningún dato de clases dex reconocibles.</string>
     <string name="image_viewer">Visor de Imágenes</string>
     <string name="audio_player">Reproductor de audio</string>
