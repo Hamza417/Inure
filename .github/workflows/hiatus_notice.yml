@@ -1,0 +1,34 @@
+name: Hiatus Notice on New Issues
+
+on:
+    issues:
+        types:
+            - opened
+
+jobs:
+    post-hiatus-comment:
+        runs-on: ubuntu-latest
+
+        permissions:
+            issues: write
+
+        steps:
+            -   name: Post hiatus notice
+                uses: actions/github-script@v7
+                with:
+                    script: |
+                        const message = [
+                          "👋 Hey there, thanks for opening this issue!",
+                          "",
+                          "I'm currently on a hiatus due to exams and won't be able to actively work on things for a little while. I've seen your issue and I'll make sure to pick it up once my exams are done or I have time to spare and the issue needs urgent attention.",
+                          "",
+                          "In the meantime, feel free to add any additional details or context that might help me understand the problem or request better. I appreciate your patience!",
+                          "",
+                          "_This is an automated response message._"
+                        ].join("\n");
+                        await github.rest.issues.createComment({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          issue_number: context.issue.number,
+                          body: message
+                        });
