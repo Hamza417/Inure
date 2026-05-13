@@ -27,7 +27,11 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
 
     init {
         settings.allowContentAccess = true
-        settings.allowFileAccess = true
+        // CustomWebView is consumed by HTML.kt, which calls loadData(...)
+        // with base64-encoded HTML. There is no file:// load path through
+        // this WebView, and loads of file:///android_asset/* would remain
+        // available regardless of this flag.
+        settings.allowFileAccess = false
         settings.setSupportZoom(true)
         settings.javaScriptEnabled = true
         webChromeClient = WebChromeClient()

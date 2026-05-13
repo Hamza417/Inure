@@ -26,7 +26,13 @@ class WebViewXMLViewer(context: Context, attributeSet: AttributeSet) : WebView(c
             setSupportZoom(true)
             domStorageEnabled = true
             allowContentAccess = true
-            allowFileAccess = true
+            // Consumers load this WebView via loadDataWithBaseURL with a
+            // file:///android_asset/ base, or via loadUrl on a
+            // file:///android_asset/ URL. Both paths work even when
+            // setAllowFileAccess is false, since android_asset is always
+            // permitted. shouldInterceptRequest above also serves
+            // android_asset URLs from the AssetManager directly.
+            allowFileAccess = false
             javaScriptEnabled = true
             defaultTextEncodingName = "UTF-8"
             builtInZoomControls = true
