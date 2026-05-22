@@ -1,9 +1,11 @@
 package app.simple.inure.decorations.views
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.util.AttributeSet
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
@@ -96,7 +98,11 @@ open class CustomWebView(context: Context, attributeSet: AttributeSet) : WebView
                     view.loadUrl(url)
                 } else {
                     val intent = Intent(Intent.ACTION_VIEW, request.url)
-                    context.startActivity(intent)
+                    try {
+                        context.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.w(TAG, "No app installed to handle ${request.url}", e)
+                    }
                 }
                 return true
             }
