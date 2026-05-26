@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +29,7 @@ import app.simple.inure.dialogs.action.Send.Companion.showSend
 import app.simple.inure.dialogs.foss.MarkFoss.Companion.showMarkFossDialog
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
+import app.simple.inure.glide.util.ImageLoader.getAppIconBitmap
 import app.simple.inure.glide.util.ImageLoader.loadAppIcon
 import app.simple.inure.preferences.BehaviourPreferences
 import app.simple.inure.preferences.DevelopmentPreferences
@@ -84,11 +87,24 @@ class AppMenu : ScopedDialogFragment() {
     private lateinit var notes: DynamicRippleTextView
     private lateinit var toQuickApp: DynamicRippleTextView
     private lateinit var markAsFOSS: DynamicRippleTextView
+    private lateinit var exportIcon: DynamicRippleTextView
 
     private lateinit var quickAppsViewModel: QuickAppsViewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var appInfoViewModel: AppInfoViewModel
     private var isAlreadyInQuickApp = false
+
+    val exportAppIconLauncher = registerForActivityResult(ActivityResultContracts.CreateDocument("image/x-png")) { uri ->
+        uri?.let {
+            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+                val iconBitmap = requireContext().getAppIconBitmap(packageInfo.packageName)
+
+                requireContext().contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    iconBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                }
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_apps_menu, container, false)
@@ -116,6 +132,7 @@ class AppMenu : ScopedDialogFragment() {
         notes = view.findViewById(R.id.notes)
         toQuickApp = view.findViewById(R.id.to_quick_app)
         markAsFOSS = view.findViewById(R.id.to_foss)
+        exportIcon = view.findViewById(R.id.export_icon)
 
         val packageInfoFactory = PackageInfoFactory(packageInfo)
         quickAppsViewModel = ViewModelProvider(requireActivity())[QuickAppsViewModel::class.java]
@@ -182,7 +199,7 @@ class AppMenu : ScopedDialogFragment() {
         }
 
         launch.setOnClickListener {
-            kotlin.runCatching {
+            runCatching {
                 packageInfo.launchThisPackage(requireContext())
             }.onFailure {
                 it.printStackTrace()
@@ -321,6 +338,11 @@ class AppMenu : ScopedDialogFragment() {
                     }
                 }
             }
+        }
+
+        exportIcon.setOnClickListener {
+            exportAppIconLauncher.launch(
+                    "${packageInfo.applicationInfo?.name ?: System.currentTimeMillis()}_icon.png")
         }
 
         appInfoViewModel.getTrackers().observe(viewLifecycleOwner) {

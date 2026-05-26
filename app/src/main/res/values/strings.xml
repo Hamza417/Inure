@@ -796,4 +796,5 @@
     <string name="granted_by_default">Granted By Default</string>
     <string name="user_set">User Set</string>
     <string name="other_apps">Other Apps</string>
+    <string name="export_icon">Export Icon</string>
 </resources>

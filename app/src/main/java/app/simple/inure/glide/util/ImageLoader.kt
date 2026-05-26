@@ -1,8 +1,10 @@
 package app.simple.inure.glide.util
 
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.ProviderInfo
 import android.content.pm.ServiceInfo
+import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -32,6 +34,21 @@ object ImageLoader {
             .asBitmap()
             .load(AppIcon(this.context, packageName, enabled, file))
             .into(this)
+    }
+
+    /**
+     * Loads app icon synchronously
+     * @param packageName is package id of the app whose icon needs to be loaded
+     * @return Bitmap of the app icon in 512x512 resolution
+     */
+    fun Context.getAppIconBitmap(packageName: String): Bitmap {
+        return Glide.with(this)
+            .asBitmap()
+            .dontAnimate()
+            .dontTransform()
+            .load(AppIcon(this, packageName, true))
+            .submit(512, 512)
+            .get()
     }
 
     /**
