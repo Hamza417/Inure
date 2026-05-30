@@ -486,7 +486,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                         }
                         METHOD_DISABLE -> {
                             kotlin.runCatching {
-                                ShizukuUtils.setAppDisabled(bloat.packageInfo.safeApplicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                                ShizukuUtils.disableApp(setOf(bloat.packageInfo.packageName))
                             }.onSuccess {
                                 debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                             }.getOrElse {
@@ -500,7 +500,7 @@ class DebloatViewModel(application: Application) : RootShizukuViewModel(applicat
                                         debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                                     } else {
                                         kotlin.runCatching {
-                                            ShizukuUtils.setAppDisabled(bloat.packageInfo.safeApplicationInfo.enabled, setOf(bloat.packageInfo.packageName))
+                                            ShizukuUtils.enableApp(setOf(bloat.packageInfo.packageName))
                                         }.onSuccess {
                                             debloatedPackages.add(PackageStateResult(bloat.packageInfo.safeApplicationInfo.name, bloat.id, true))
                                         }.getOrElse {

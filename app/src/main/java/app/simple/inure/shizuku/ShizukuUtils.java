@@ -67,6 +67,62 @@ public class ShizukuUtils {
     }
     
     @SuppressLint ("PrivateApi")
+    public static void disableApp(Set <String> pkgNames)
+            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        /*
+         * Call android.content.pm.IPackageManager.setApplicationEnabledSetting with reflection.
+         * Through Shizuku wrapper.
+         * References:
+         *             - https://www.xda-developers.com/implementing-shizuku/
+         *             - https://github.dev/aistra0528/Hail
+         */
+        Method setApplicationEnabledSetting;
+        Object iPmInstance;
+        
+        Class <?> iPmClass = Class.forName("android.content.pm.IPackageManager");
+        Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
+        Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
+        iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
+        
+        setApplicationEnabledSetting = iPmClass.getMethod("setApplicationEnabledSetting", String.class, int.class, int.class, int.class, String.class);
+        
+        for (String packageName : pkgNames) {
+            setApplicationEnabledSetting.invoke(iPmInstance, packageName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER, 0, Os.getuid() / 100000,
+                    BuildConfig.APPLICATION_ID);
+            Log.i(TAG, "Hid app: " + packageName);
+        }
+    }
+    
+    @SuppressLint ("PrivateApi")
+    public static void enableApp(Set <String> pkgNames)
+            throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        /*
+         * Call android.content.pm.IPackageManager.setApplicationEnabledSetting with reflection.
+         * Through Shizuku wrapper.
+         * References:
+         *             - https://www.xda-developers.com/implementing-shizuku/
+         *             - https://github.dev/aistra0528/Hail
+         */
+        Method setApplicationEnabledSetting;
+        Object iPmInstance;
+        
+        Class <?> iPmClass = Class.forName("android.content.pm.IPackageManager");
+        Class <?> iPmStub = Class.forName("android.content.pm.IPackageManager$Stub");
+        Method asInterfaceMethod = iPmStub.getMethod("asInterface", IBinder.class);
+        iPmInstance = asInterfaceMethod.invoke(null, new ShizukuBinderWrapper(SystemServiceHelper.getSystemService("package")));
+        
+        setApplicationEnabledSetting = iPmClass.getMethod("setApplicationEnabledSetting", String.class, int.class, int.class, int.class, String.class);
+        
+        for (String packageName : pkgNames) {
+            setApplicationEnabledSetting.invoke(iPmInstance, packageName,
+                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, 0, Os.getuid() / 100000,
+                    BuildConfig.APPLICATION_ID);
+            Log.i(TAG, "Hid app: " + packageName);
+        }
+    }
+    
+    @SuppressLint ("PrivateApi")
     public static void setAppHidden(boolean hidden, Set <String> pkgNames)
             throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         /*
