@@ -797,4 +797,5 @@
     <string name="granted_by_default">Concedido por padrão</string>
     <string name="user_set">Conjunto de Usuários</string>
     <string name="other_apps">Outros Apps</string>
+    <string name="export_icon">Exportar Ícone</string>
 </resources>
