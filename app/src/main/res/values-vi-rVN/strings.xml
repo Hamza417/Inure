@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="unknown">Không xác định</string>
-    <string name="not_available">N/a</string>
+    <string name="not_available">N/A</string>
     <string name="app_information">Thông tin ứng dụng</string>
-    <string name="launch">Phóng</string>
+    <string name="launch">Mở ứng dụng</string>
     <string name="uninstall">Gỡ cài đặt</string>
     <string name="search">Tìm kiếm</string>
     <string name="name">Tên</string>
@@ -15,25 +15,25 @@
     <string name="user">Người dùng</string>
     <string name="both">Cả hai</string>
     <string name="app_typeface">Kiểu chữ ứng dụng</string>
-    <string name="desc_app_typeface">Thay đổi Ứng dụng kiểu phông chữ (chỉ glyphs tiếng Anh).</string>
-    <string name="appearance">Vẻ bề ngoài</string>
+    <string name="desc_app_typeface">Thay đổi kiểu chữ của ứng dụng (chỉ ký tự tiếng Anh).</string>
+    <string name="appearance">Giao diện</string>
     <string name="appearance_icon">Biểu tượng xuất hiện</string>
-    <string name="total_apps">%1$d Ứng dụng</string>
+    <string name="total_apps">%1$d ứng dụng</string>
     <string name="total_sensors">%1$d cảm biến</string>
     <string name="total_notes">%1$d ghi chú</string>
     <string name="total_tags">%1$d thẻ</string>
     <string name="apps">Ứng dụng</string>
-    <string name="sorting_style">Phong cách sắp xếp</string>
+    <string name="sorting_style">Kiểu sắp xếp</string>
     <string name="open_application_settings">Mở cài đặt ứng dụng…</string>
-    <string name="preferences">Sở thích</string>
+    <string name="preferences">Tùy chọn</string>
     <string name="about">Về</string>
-    <string name="corner_radius_desc">Bán kính góc tròn của các yếu tố khác nhau của ứng dụng.</string>
-    <string name="corner_radius">Bán kính góc</string>
+    <string name="corner_radius_desc">Bo góc của các phần khác nhau trong ứng dụng.</string>
+    <string name="corner_radius">Bo góc</string>
     <string name="layouts">Bố cục</string>
     <string name="set">Bộ</string>
     <string name="cancel">Hủy bỏ</string>
     <string name="color">Màu sắc</string>
-    <string name="accent_colors">Màu sắc màu</string>
+    <string name="accent_colors">Màu nhấn</string>
     <string name="accent_color_desc">Màu thứ cấp xuất hiện cùng với các yếu tố khác nhau của ứng dụng như biểu tượng hoặc hiệu ứng cảm ứng.</string>
     <string name="behavior">Hành vi</string>
     <string name="dim_windows_desc">Các cửa sổ cơ bản mờ khi bật lên một cửa sổ bật lên trên màn hình.</string>
@@ -637,6 +637,8 @@
     <string name="component_manager_desc">Bật/tắt các thành phần khác nhau của ứng dụng.</string>
     <string name="state">Tình trạng</string>
     <string name="installed">Đã cài đặt</string>
+    <string name="installing">Đang cài đặt</string>
+    <string name="batch_install">Cài đặt hàng loạt</string>
     <string name="no_boot_components_found">Không tìm thấy thành phần khởi động</string>
     <string name="size">Kích cỡ</string>
     <string name="colorful_icons_desc">Sử dụng các biểu tượng đầy màu sắc trong bố cục menu điều hướng.</string>
@@ -794,4 +796,6 @@
     <string name="foreground">Nền trước</string>
     <string name="granted_by_default">Được cấp theo mặc định</string>
     <string name="user_set">Bộ người dùng</string>
+    <string name="other_apps">Các ứng dụng khác</string>
+    <string name="export_icon">Xuất biểu tượng</string>
 </resources>
