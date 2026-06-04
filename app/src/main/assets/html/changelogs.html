@@ -13,31 +13,35 @@
 </p>
 <br/>
 
-<h2>Build107.0.2</h2>
+<h2>Build107.0.3</h2>
 
 <h4>User Interface</h4>
 
 <ul>
-    <li>Headers are now persistent in <b>XML viewers</b> and <b>Shared Preferences editor</b>.</li>
+    <li>Added option to export app icons and PNG in <b>App Menu</b>.</li>
 </ul>
 
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed delays and flickering when searching in <b>Trackers</b> panel.
-    </li>
-    <li>Fixed triggering multiple stale processes in <b>Trackers</b>.</li>
-    <li>Fixed cache popup keep appearing in Batch after <b>Clear Cache</b> is used.</li>
-    <li>Fixed package size calculated on the main thread that could cause lag or ANR on apps with
-        large caches.
-    </li>
+    <li>Fixed inconsistent package state in the <b>Debloat</b> panel.</li>
+    <li>Fixed a potential crash in the internal webview. <i>(by <a
+            href="https://github.com/jim-daf">jim-daf</a>)</i></li>
 </ul>
 
 <h4>Improvements</h4>
 
 <ul>
-    <li>Added a proper installation cancellation logic in the app to make sure cancel button works
-        as intended in <b>Installer</b> panel.
+    <li>Verify debloat status after the app state has been changed to make sure the output remain
+        consistent with the system.
+    </li>
+</ul>
+
+<h4>Changes</h4>
+
+<ul>
+    <li>Disable file acces to internal webview cache to prevent potential security issues. <i>(by <a
+            href="https://github.com/jim-daf">jim-daf</a>)</i>
     </li>
 </ul>
 
@@ -45,6 +49,7 @@
 
 <ul>
     <li>Updated <b>Spanish</b> translations.</li>
+    <li>Updated <b>Portuguese, Brazilian</b> translations.</li>
 </ul>
 
 </body>
