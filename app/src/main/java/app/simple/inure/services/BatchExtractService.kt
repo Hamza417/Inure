@@ -1,7 +1,11 @@
 package app.simple.inure.services
 
 import android.Manifest
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -35,7 +39,12 @@ import app.simple.inure.util.PermissionUtils.areStoragePermissionsGranted
 import com.anggrayudi.storage.extension.launchOnUiThread
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.progress.ProgressMonitor
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 class BatchExtractService : Service() {
 
@@ -45,7 +54,7 @@ class BatchExtractService : Service() {
     private var inputStream: FileInputStream? = null
     private var outputStream: FileOutputStream? = null
 
-    private lateinit var notificationManager: NotificationManagerCompat
+    private var notificationManager: NotificationManagerCompat? = null
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private lateinit var notification: Notification
 
@@ -211,7 +220,7 @@ class BatchExtractService : Service() {
                 }
 
                 launchOnUiThread {
-                    notificationManager.cancel(notificationId)
+                    notificationManager?.cancel(notificationId)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         stopForeground(STOP_FOREGROUND_REMOVE)
                     } else {
@@ -231,7 +240,7 @@ class BatchExtractService : Service() {
             resetState()
 
             launchOnUiThread {
-                notificationManager.cancel(notificationId)
+                notificationManager?.cancel(notificationId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     stopForeground(STOP_FOREGROUND_REMOVE)
                 } else {
@@ -258,7 +267,7 @@ class BatchExtractService : Service() {
             outputStream!!.close()
         } else {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                notificationManager.notify(notificationId, notificationBuilder.build())
+                notificationManager?.notify(notificationId, notificationBuilder.build())
             }
 
             progress += File(packageInfo.safeApplicationInfo.sourceDir).length()
@@ -270,7 +279,7 @@ class BatchExtractService : Service() {
         notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.safeApplicationInfo.name}_${packageInfo.versionName}.apks")
         if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            notificationManager.notify(notificationId, notificationBuilder.build())
+            notificationManager?.notify(notificationId, notificationBuilder.build())
         }
 
         if (!File(applicationContext.getBundlePathAndFileName(packageInfo)).exists()) {
@@ -291,7 +300,7 @@ class BatchExtractService : Service() {
                     notificationBuilder.setProgress(100, progress.percentOf(maxSize).toInt(), false)
                     if (ActivityCompat.checkSelfPermission(
                                 applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                        notificationManager.notify(notificationId, notificationBuilder.build())
+                        notificationManager?.notify(notificationId, notificationBuilder.build())
                     }
                     sendProgressBroadcast(progress)
                 }
@@ -333,7 +342,7 @@ class BatchExtractService : Service() {
             notificationBuilder.setProgress(100, (progress.toDouble() / maxSize.toDouble() * 100).toInt(), false)
             if (ActivityCompat.checkSelfPermission(
                         applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                notificationManager.notify(notificationId, notificationBuilder.build())
+                notificationManager?.notify(notificationId, notificationBuilder.build())
             }
             sendProgressBroadcast(progress)
         }
@@ -403,7 +412,7 @@ class BatchExtractService : Service() {
             return
         }
 
-        notificationManager.notify(notificationId, notification)
+        notificationManager?.notify(notificationId, notification)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
@@ -418,7 +427,7 @@ class BatchExtractService : Service() {
             val channel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
             channel.enableVibration(false)
             channel.enableLights(false)
-            notificationManager.createNotificationChannel(channel)
+            notificationManager?.createNotificationChannel(channel)
         }
     }
 
@@ -436,13 +445,13 @@ class BatchExtractService : Service() {
             return
         }
 
-        notificationManager.notify(notificationId, notification)
+        notificationManager?.notify(notificationId, notification)
     }
 
     fun interruptCopying() {
         try {
             copyThread.interrupt()
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             Log.e("BatchExtractService", "Thread is not running")
         }
     }
