@@ -4889,7 +4889,6 @@
     <string name="eu.hxreborn.remembermysort" translatable="false">GPL-3.0-only</string>
     <string name="com.theissenmatthias.remind_me" translatable="false">MIT</string>
     <string name="com.vishnu.remindme" translatable="false">GPL-3.0-only</string>
-    <string name="com.niklas8.remotefiles" translatable="false">GPL-3.0-only</string>
     <string name="systems.sieber.remotespotlight" translatable="false">GPL-3.0-only</string>
     <string name="com.samyak.repostore" translatable="false">MIT</string>
     <string name="de.lolhens.resticui" translatable="false">GPL-2.0-only</string>
@@ -4997,6 +4996,7 @@
     <string name="com.github.warren_bank.sms_automatic_forwarding" translatable="false">GPL-2.0-only</string>
     <string name="com.github.tmo1.sms_ie" translatable="false">GPL-3.0-only</string>
     <string name="com.github.warren_bank.sms_automatic_reply_gps" translatable="false">GPL-2.0-only</string>
+    <string name="ski.wischnew.shield" translatable="false">GPL-3.0-only</string>
     <string name="dev.n4n5.sms2call" translatable="false">MIT</string>
     <string name="io.github.sms2email.sms2email" translatable="false">Apache-2.0</string>
     <string name="com.github.tianma8023.smscode" translatable="false">GPL-3.0-only</string>
@@ -5087,7 +5087,6 @@
     <string name="rkr.tinykeyboard.inputmethod" translatable="false">Apache-2.0</string>
     <string name="com.martinmimigames.tinymusicplayer" translatable="false">GPL-3.0-only</string>
     <string name="de.kaffeemitkoffein.tinyweatherforecastgermany" translatable="false">GPL-3.0-or-later</string>
-    <string name="com.kdrag0n.tipatch" translatable="false">MIT</string>
     <string name="com.starapps.tools.tnefextractor" translatable="false">GPL-3.0-only</string>
     <string name="com.github.webierta.todo_manager" translatable="false">GPL-3.0-only</string>
     <string name="com.example.flutter_riverpod_todo_app" translatable="false">MIT</string>
