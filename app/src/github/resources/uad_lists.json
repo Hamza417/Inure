@@ -1011,7 +1011,7 @@
   },
   "com.mi.appfinder": {
     "list": "Oem",
-    "description": "HyperOs 2.0.202.0, it didn't break the system or ui search function or poco launcher search app function. Havent heard of it breaking stuff for others so dont think it's of much concern\n has 15 trackers",
+    "description": "HyperOS 2.0.202.0, it didn't break the system or ui search function or poco launcher search app function. Havent heard of it breaking stuff for others so dont think it's of much concern\n has 15 trackers\nNeeded for poco launcher search function in HyperOS 3.0",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -4371,11 +4371,11 @@
   },
   "com.motorola.setup": {
     "list": "Oem",
-    "description": "Related to Motorola Account setup (only during first boot ?)\nWARNING: Removing this package breaks Google Play System Updates. Appears to be tied to Google's Play Store update mechanism on Motorola devices\n",
+    "description": "Related to Motorola Account setup (only during first boot?) DO NOT REMOVE unless you don't care about security patches. Freezing this package completely halts Google Play System Updates (Project Mainline), preventing the device from receiving security fixes.",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
-    "removal": "Advanced"
+    "removal": "Expert"
   },
   "com.motorola.slpc_sys": {
     "list": "Oem",
@@ -11660,7 +11660,7 @@
   },
   "com.sec.android.smartfpsadjuster": {
     "list": "Oem",
-    "description": "SmartFPSAdjuster\nAdjusts FPS automatically in Samsung phones? Safe to delete.\nhttps://docs.samsungknox.com/CCMode/G985F_Q.pdf",
+    "description": "SmartFPSAdjuster\nResponsible for thermal camera adjustment and dynamic FPS control based on device temperature and hardware conditions\nLogging this data to feed an optimization algorithm using Q‑learning.\nSafe to delete.\nhttps://docs.samsungknox.com/CCMode/G985F_Q.pdf",
     "dependencies": [],
     "neededBy": [],
     "labels": [],
@@ -43115,5 +43115,21 @@
     "neededBy": [],
     "labels": [],
     "removal": "Recommended"
+  },
+  "com.samsung.android.messageguardsync": {
+    "list": "Oem",
+    "description": "Handles synchronizing and updating Samsung Message Guard policies.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Advanced"
+  },
+  "com.samsung.android.mcf.autohotspot": {
+    "list": "Oem",
+    "description": "I believe this is not the Auto Hotspot feature itself, but a system module that manages the internal logic behind it.\nIts role is to coordinate automatic hotspot connections and handle the user‑facing network experience.",
+    "dependencies": [],
+    "neededBy": [],
+    "labels": [],
+    "removal": "Expert"
   }
 }
