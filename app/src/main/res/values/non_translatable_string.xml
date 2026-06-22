@@ -82,6 +82,6 @@
     <string name="felicity_music_player_summary" translatable="false">A premium music player with native DSP, visualizer, equalizer and Hi-Res output support. Currently, in active preview.</string>
     <string name="peristyle" translatable="false">Peristyle</string>
     <string name="peristyle_summary" translatable="false">Advance wallpaper manager app for Android with cool glassmorphic UI, tags, auto wallpaper, custom effects and multiple folder support and a native live wallpaper picker.</string>
-
-
+    <string name="positional" translatable="false">Positional</string>
+    <string name="positional_summary" translatable="false">An elegant and colorful location information app for Android with Compass, Clock, Level, Sun, Moon, Trail Marker and many other features.</string>
 </resources>
