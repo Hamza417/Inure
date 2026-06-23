@@ -297,10 +297,14 @@ class Search : KeyboardScopedFragment(), SharedPreferences.OnSharedPreferenceCha
             }
 
             SearchPreferences.IGNORE_CASING -> {
-                if (SearchPreferences.isDeepSearchEnabled()) {
-                    adapterDeepSearch.ignoreCasing = SearchPreferences.isCasingIgnored()
-                } else {
-                    appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
+                try {
+                    if (SearchPreferences.isDeepSearchEnabled()) {
+                        adapterDeepSearch.ignoreCasing = SearchPreferences.isCasingIgnored()
+                    } else {
+                        appsAdapterSearchSmall.ignoreCasing = SearchPreferences.isCasingIgnored()
+                    }
+                } catch (_: UninitializedPropertyAccessException) {
+                    /* no-op */
                 }
 
                 searchViewModel.reload()
