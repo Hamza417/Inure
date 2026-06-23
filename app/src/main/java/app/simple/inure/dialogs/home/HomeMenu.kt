@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.TAG
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.HomePreferences
@@ -72,7 +73,15 @@ class HomeMenu : ScopedBottomSheetFragment() {
 
         fun FragmentManager.showHomeMenu(): HomeMenu {
             val fragment = newInstance()
-            fragment.show(this, fragment.tag)
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
             return fragment
         }
     }
