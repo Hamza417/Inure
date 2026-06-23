@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.dialogs.app.Purchase.Companion.showPurchaseDialog
+import app.simple.inure.dialogs.miscellaneous.Warning.Companion.TAG
 import app.simple.inure.extensions.fragments.ScopedBottomSheetFragment
 import app.simple.inure.interfaces.fragments.WarningCallbacks
 import app.simple.inure.preferences.TrialPreferences
@@ -86,9 +87,17 @@ class FullVersion : ScopedBottomSheetFragment() {
         }
 
         fun FragmentManager.showFullVersion(): FullVersion {
-            val fullVersion = newInstance()
-            fullVersion.show(this, "full_version")
-            return fullVersion
+            val fragment = newInstance()
+            try {
+                fragment.show(this, TAG)
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+                val transaction = beginTransaction()
+                transaction.setReorderingAllowed(true)
+                transaction.add(fragment, TAG)
+                transaction.commitAllowingStateLoss()
+            }
+            return fragment
         }
     }
 }
