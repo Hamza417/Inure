@@ -1,25 +1,9 @@
-<h4>User Interface</h4>
-
-<ul>
-    <li>Added sizes of the native libraries in <b>App Information</b> panel.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a random crash in Certificates panel caused by empty file data.
-    </li>
-</ul>
-
-<h4>Removed</h4>
-
-<ul>
-    <li>Removed support for persistent search entries.
-        <br>
-        <small>Search terms and data will not be stored/reloaded anymore once the app is
-               closed.</small>
-    </li>
-    <li>Removed various <b>Development Preferences</b> entries that were not in use or had no effect
-        in the app.
-    </li>
+    <li>Fixed a crash in <b>Batch</b> panel.</li>
+    <li>Fix crashes while openning various dialogs in the app.</li>
+    <li>Fixed a crash happening when <b>Deep Search</b> is toggled in some devices.</li>
+    <li>Fixed crash when launching an app (possibly an uninstalled app).</li>
+    <li>Fixed crash in <b>Receivers</b> panel due to incinsistent component state.</li>
 </ul>
