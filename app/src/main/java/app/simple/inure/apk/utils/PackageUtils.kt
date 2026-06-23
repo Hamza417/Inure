@@ -3,6 +3,7 @@ package app.simple.inure.apk.utils
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.usage.StorageStatsManager
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -398,7 +399,7 @@ object PackageUtils {
             .getLaunchIntentForPackage(this.packageName) != null
     }
 
-    @Throws(NameNotFoundException::class, NullPointerException::class)
+    @Throws(NameNotFoundException::class, NullPointerException::class, ActivityNotFoundException::class)
     fun PackageInfo.launchThisPackage(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(this.packageName)
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -1,6 +1,7 @@
 package app.simple.inure.ui.panels
 
 import android.app.SearchManager
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageInfo
@@ -404,6 +405,8 @@ class AppInfo : ScopedFragment() {
                             } catch (e: NameNotFoundException) {
                                 showWarning(e.message ?: getString(R.string.error))
                             } catch (e: SecurityException) {
+                                showWarning(e.message ?: getString(R.string.error))
+                            } catch (e: ActivityNotFoundException) {
                                 showWarning(e.message ?: getString(R.string.error))
                             }
                         }
