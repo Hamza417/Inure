@@ -54,8 +54,8 @@ android {
         applicationId "app.simple.inure"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 10704
-        versionName "build107.0.4"
+        versionCode 10705
+        versionName "build107.0.5"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -291,4 +291,56 @@ dependencies {
 
     // debugImplementation because LeakCanary should only run in debug builds.
     // debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
+}
+
+
+/**
+ * Automatically clones the latest Fastlane changelog to the current versionCode's
+ * changelog file during Android Studio Sync.
+ *
+ * afterEvaluate ensures the android {} block has been fully parsed
+ * so we can read the correct versionCode.
+ */
+afterEvaluate {
+    // Detect if Android Studio is currently running a Sync
+    def isSyncing = System.getProperty("idea.sync.active") == "true"
+
+    if (isSyncing) {
+        def fastlaneChangelogDir = file("$rootDir/fastlane/metadata/android/en-US/changelogs")
+        def currentVersionCode = android.defaultConfig.versionCode
+
+        if (currentVersionCode == null) {
+            println("Error: versionCode is not defined.")
+            return
+        }
+
+        if (!fastlaneChangelogDir.exists()) {
+            println("Warning: Fastlane changelog directory not found at $fastlaneChangelogDir")
+            return
+        }
+
+        // Scan the directory and find the latest changelog
+        def changelogFiles = fastlaneChangelogDir.listFiles()?.findAll { file ->
+            file.isFile() && file.name.endsWith(".txt")
+        }
+
+        def latestChangelog = changelogFiles?.max { file ->
+            def nameWithoutExt = file.name.replace(".txt", "")
+            nameWithoutExt.isInteger() ? nameWithoutExt.toInteger() : -1
+        }
+
+        if (latestChangelog != null) {
+            def targetFile = new File(fastlaneChangelogDir, "${currentVersionCode}.txt")
+
+            // Clone it only if the target file doesn't already exist
+            if (!targetFile.exists()) {
+                targetFile.bytes = latestChangelog.bytes
+                println("Fastlane Changelog Sync Success: " +
+                        "Cloned changelog from ${latestChangelog.name} to ${targetFile.name}")
+            } else {
+                println("Fastlane Changelog Sync Skipped: " +
+                        "Target changelog ${targetFile.name} already exists.")
+            }
+        }
+    }
 }
