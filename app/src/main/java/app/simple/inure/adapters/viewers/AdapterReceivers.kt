@@ -37,7 +37,7 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
             appendFlag(
                     if (receiver.exported) {
                         context.getString(R.string.exported)
-                } else {
+                    } else {
                         context.getString(R.string.not_exported)
                     }
             )
@@ -46,10 +46,10 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
                     runCatching {
                         if (ReceiversUtils.isEnabled(context, packageInfo.packageName, receiver.name)) {
                             context.getString(R.string.enabled)
-                    } else {
+                        } else {
                             context.getString(R.string.disabled)
-                    }
-                }.getOrElse {
+                        }
+                    }.getOrElse {
                         context.getString(R.string.no_state)
                     }
             )
@@ -60,13 +60,24 @@ class AdapterReceivers(private val receivers: MutableList<ActivityInfoModel>, pr
         holder.name.setTrackingIcon(receiver.trackerId.isNullOrEmpty().not())
 
         holder.container.setOnLongClickListener {
-            receiversCallbacks
-                .onReceiverLongPressed(
-                        receivers[holder.absoluteAdapterPosition].name,
-                        packageInfo,
-                        it,
-                        ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
-                        holder.absoluteAdapterPosition)
+            try {
+                receiversCallbacks
+                    .onReceiverLongPressed(
+                            receivers[holder.absoluteAdapterPosition].name,
+                            packageInfo,
+                            it,
+                            ReceiversUtils.isEnabled(holder.itemView.context, packageInfo.packageName, receivers[holder.absoluteAdapterPosition].name),
+                            holder.absoluteAdapterPosition)
+            } catch (_: IllegalArgumentException) {
+                receiversCallbacks
+                    .onReceiverLongPressed(
+                            receivers[holder.absoluteAdapterPosition].name,
+                            packageInfo,
+                            it,
+                            false,
+                            holder.absoluteAdapterPosition)
+            }
+
             true
         }
 

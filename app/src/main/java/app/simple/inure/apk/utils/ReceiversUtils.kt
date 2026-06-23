@@ -53,6 +53,9 @@ object ReceiversUtils {
                 } catch (e: PackageManager.NameNotFoundException) {
                     // the package isn't installed on the device
                     false
+                } catch (e: IllegalArgumentException) {
+                    // the component is not declared in the AndroidManifest
+                    false
                 }
 
             else -> {
@@ -93,6 +96,9 @@ object ReceiversUtils {
                     false
                 } catch (e: PackageManager.NameNotFoundException) {
                     // the package isn't installed on the device
+                    false
+                } catch (e: IllegalArgumentException) {
+                    // the component is not declared in the AndroidManifest
                     false
                 }
             }
