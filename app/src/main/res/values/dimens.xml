@@ -94,4 +94,5 @@
     <dimen name="divider_height">1px</dimen>
     <dimen name="divider_width">1px</dimen>
     <dimen name="wavy_loader_option_dimension">48dp</dimen>
+    <dimen name="tags_recycler_view_max_height">250dp</dimen>
 </resources>

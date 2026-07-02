@@ -81,6 +81,14 @@ class AddTag : ScopedDialogFragment() {
 
         tagsViewModel!!.getTagNames().observe(viewLifecycleOwner) {
             existingTags.visible(animate = false)
+
+            if (it.size > 10) {
+                existingTags.maxHeight = resources.getDimensionPixelSize(R.dimen.tags_recycler_view_max_height)
+            } else {
+                // Passing -1 disables the max height and defaults back to standard wrap_content
+                existingTags.maxHeight = -1
+            }
+
             adapterTags = AdapterTags(it, false).apply {
                 setOnTagCallbackListener(object : AdapterTags.Companion.TagsCallback {
                     override fun onTagClicked(tag: String) {

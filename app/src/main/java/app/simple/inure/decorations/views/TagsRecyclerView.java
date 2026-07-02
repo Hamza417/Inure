@@ -10,11 +10,10 @@ import com.google.android.flexbox.JustifyContent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AccessibilityPreferences;
 
-public class TagsRecyclerView extends RecyclerView {
+public class TagsRecyclerView extends MaxHeightRecyclerView {
     public TagsRecyclerView(@NonNull Context context) {
         super(context);
         init();
