@@ -24,6 +24,7 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.dialogs.tags.AutoTag.Companion.showAutoTag
+import app.simple.inure.dialogs.tags.EditTag.Companion.showEditTagDialog
 import app.simple.inure.dialogs.tags.TagsMenu
 import app.simple.inure.dialogs.tags.TagsMenu.Companion.showTagsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -107,6 +108,12 @@ class Tags : ScopedFragment() {
                                 .build()
 
                             ShortcutManagerCompat.requestPinShortcut(requireContext(), shortcut, null)
+                        }
+
+                        override fun onEditClicked() {
+                            childFragmentManager.showEditTagDialog(tag).onTag = { tag ->
+                                tagsViewModel?.updateTag(tag)
+                            }
                         }
                     })
                 }
