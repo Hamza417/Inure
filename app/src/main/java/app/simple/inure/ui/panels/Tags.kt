@@ -38,6 +38,7 @@ class Tags : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var tagsViewModel: TagsViewModel? = null
+    private var adapterTags: AdapterTags? = null
 
     private var spanCount = 0
 
@@ -75,7 +76,7 @@ class Tags : ScopedFragment() {
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) {
             hideLoader()
 
-            val adapter = AdapterTags(it, object : AdapterTags.Companion.TagsCallback {
+            adapterTags = AdapterTags(it, object : AdapterTags.Companion.TagsCallback {
                 override fun onTagClicked(tag: Tag) {
                     openFragmentSlide(TaggedApps.newInstance(tag.tag), TaggedApps.TAG)
                 }
@@ -112,7 +113,9 @@ class Tags : ScopedFragment() {
 
                         override fun onEditClicked() {
                             childFragmentManager.showEditTagDialog(tag).onTag = { tag ->
-                                tagsViewModel?.updateTag(tag)
+                                tagsViewModel?.updateTag(tag) {
+                                    adapterTags?.updateTag(tag)
+                                }
                             }
                         }
                     })
@@ -125,7 +128,7 @@ class Tags : ScopedFragment() {
                 }
             }
 
-            recyclerView.adapter = adapter
+            recyclerView.adapter = adapterTags
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

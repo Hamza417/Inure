@@ -84,6 +84,14 @@ class AdapterTags(val tags: ArrayList<Tag>, private val tagsCallback: TagsCallba
         notifyItemChanged(0) // Update header
     }
 
+    fun updateTag(tag: Tag) {
+        val idx = tags.indexOfFirst { it.id == tag.id }
+        if (idx != -1) {
+            tags[idx] = tag
+            notifyItemChanged(idx + 1)
+        }
+    }
+
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
         val tag: TypeFaceTextView = itemView.findViewById(R.id.tag)
         val recyclerView: RecyclerView = itemView.findViewById(R.id.recycler_view)
