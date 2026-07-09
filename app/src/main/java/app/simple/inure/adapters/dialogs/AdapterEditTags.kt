@@ -24,6 +24,7 @@ class AdapterEditTags(private val packages: MutableList<Package>)
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.tag.text = packages[position].appName
         holder.tag.setChipIconResource(R.drawable.ic_close_12dp)
+        holder.tag.chipStartPadding = 25F
 
         if (AccessibilityPreferences.isColorfulIcons()) {
             try {
