@@ -10,20 +10,11 @@
     android:padding="@dimen/dialog_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edit"
-        android:textSize="@dimen/popup_text_size"
-        app:appFontStyle="bold"
-        app:textColorStyle="primary" />
-
-    <app.simple.inure.decorations.typeface.TypeFaceTextView
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
         android:layout_marginEnd="10dp"
-        android:layout_marginVertical="5dp"
         android:textSize="@dimen/info_text_small"
         app:appFontStyle="medium"
         app:textColorStyle="secondary" />
@@ -31,7 +22,8 @@
     <app.simple.inure.decorations.corners.DynamicCornerEditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:hint="@string/name"
         android:importantForAutofill="no"
         android:maxLength="@integer/tag_character_limit"
@@ -41,6 +33,15 @@
         android:textCursorDrawable="@drawable/text_cursor"
         app:appFontStyle="medium"
         app:textColorStyle="primary" />
+
+    <app.simple.inure.decorations.views.TagsRecyclerView
+        android:id="@+id/packages"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dialog_padding"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"

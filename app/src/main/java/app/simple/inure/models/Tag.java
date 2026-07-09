@@ -3,6 +3,10 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -98,6 +102,30 @@ public class Tag implements Parcelable {
     
     public void setPackages(String packages) {
         this.packages = packages;
+    }
+    
+    public void addPackage(String packageName) {
+        if (packages == null || packages.isEmpty()) {
+            packages = packageName;
+        } else {
+            packages += "," + packageName;
+        }
+    }
+    
+    public void removePackage(String packageName) {
+        if (packages == null || packages.isEmpty()) {
+            return;
+        }
+        List <String> packageList = new ArrayList <>(Arrays.asList(packages.split(",")));
+        packageList.remove(packageName);
+        packages = String.join(",", packageList);
+    }
+    
+    public List <String> getPackagesAsList() {
+        if (packages == null || packages.isEmpty()) {
+            return new ArrayList <>();
+        }
+        return Arrays.asList(packages.split(","));
     }
     
     public int getIcon() {
