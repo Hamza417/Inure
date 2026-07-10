@@ -2155,6 +2155,7 @@
     <string name="com.aa.mynotes" translatable="false">GPL-3.0-only</string>
     <string name="app.zornslemma.mypricelog" translatable="false">MIT</string>
     <string name="com.dmouayad.my_quran" translatable="false">GPL-3.0-only</string>
+    <string name="com.saionji.mysensor" translatable="false">MIT</string>
     <string name="info.aario.mywifipasswords" translatable="false">GPL-3.0-only</string>
     <string name="org.myfastingapp.app" translatable="false">GPL-3.0-only</string>
     <string name="com.myfinancemate" translatable="false">MIT</string>
@@ -4293,6 +4294,7 @@
     <string name="com.porg.blocker" translatable="false">GPL-3.0-or-later</string>
     <string name="be.robinj.distrohopper" translatable="false">GPL-3.0-only</string>
     <string name="net.mm2d.dmsexplorer" translatable="false">MIT</string>
+    <string name="com.ericlowry.dnstoggle" translatable="false">MIT</string>
     <string name="at.flobii.doable" translatable="false">MIT</string>
     <string name="com.bretahajek.docus" translatable="false">GPL-3.0-only</string>
     <string name="nimble.dotterel" translatable="false">GPL-2.0-only</string>
@@ -4464,6 +4466,7 @@
     <string name="com.dwett.habits" translatable="false">MIT</string>
     <string name="com.pavlenko.Habo" translatable="false">GPL-3.0-only</string>
     <string name="de.anderdonau.hackersdiet" translatable="false">GPL-2.0-only</string>
+    <string name="com.catpuppyapp.hahanote" translatable="false">GPL-3.0-only</string>
     <string name="com.darkrockstudios.apps.hammer.android" translatable="false">MIT</string>
     <string name="io.github.dorumrr.happytaxes" translatable="false">MIT</string>
     <string name="com.simon.harmonichackernews" translatable="false">Apache-2.0</string>
@@ -4633,7 +4636,6 @@
     <string name="com.j.m3play" translatable="false">GPL-3.0-only</string>
     <string name="com.suchbyte.macrodeck" translatable="false">Apache-2.0</string>
     <string name="com.topjohnwu.magisk" translatable="false">GPL-3.0-or-later</string>
-    <string name="com.adeeteya.markdown_editor" translatable="false">MIT</string>
     <string name="me.hexian000.masstransfer" translatable="false">GPL-3.0-only</string>
     <string name="org.joinmastodon.android" translatable="false">GPL-3.0-only</string>
     <string name="dev.zwander.mastodonredirect" translatable="false">MIT</string>
@@ -5181,7 +5183,6 @@
     <string name="com.catpuppyapp.sshkeyman" translatable="false">GPL-3.0-only</string>
     <string name="com.stario.launcher" translatable="false">GPL-3.0-only</string>
     <string name="kenneth.app.starlightlauncher" translatable="false">GPL-3.0-only</string>
-    <string name="nodomain.aditya1875more.stashly" translatable="false">MIT</string>
     <string name="stasis.client.android" translatable="false">Apache-2.0</string>
     <string name="com.masterisk_f.accesssupporter" translatable="false">GPL-3.0-only</string>
     <string name="org.y20k.stayput" translatable="false">MIT</string>
@@ -5336,6 +5337,7 @@
     <string name="com.parishod.watomatic" translatable="false">GPL-3.0-only</string>
     <string name="dubrowgn.wattz" translatable="false">MIT</string>
     <string name="com.jingcjie.wifi_direct_cable" translatable="false">MIT</string>
+    <string name="com.steel101.wearsyncforbreezy" translatable="false">GPL-3.0-only</string>
     <string name="in.sunilpaulmathew.weatherwidget" translatable="false">GPL-3.0-or-later</string>
     <string name="com.versobit.weatherdoge.foss" translatable="false">GPL-3.0-only</string>
     <string name="com.pranshulgg.weather_master_app" translatable="false">GPL-3.0-only</string>
