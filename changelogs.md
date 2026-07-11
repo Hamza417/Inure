@@ -1,9 +1,11 @@
+<h4>User Interface</h4>
+
+<ul>
+    <li>Added <b>Edit Tag</b> dialog to allow editing of any exiting tags that includes renaming a tag. #491</li>
+</ul>
+
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a crash in <b>Batch</b> panel.</li>
-    <li>Fix crashes while openning various dialogs in the app.</li>
-    <li>Fixed a crash happening when <b>Deep Search</b> is toggled in some devices.</li>
-    <li>Fixed crash when launching an app (possibly an uninstalled app).</li>
-    <li>Fixed crash in <b>Receivers</b> panel due to incinsistent component state.</li>
+    <li>Fixed removing apps from <b>Tagged Apps</b> list does not update the count.</li>
 </ul>
