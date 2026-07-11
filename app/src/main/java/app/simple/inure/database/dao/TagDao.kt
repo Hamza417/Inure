@@ -43,6 +43,20 @@ interface TagDao {
     @Query("SELECT tag FROM tags WHERE packages LIKE '%' || :packageName || '%'")
     suspend fun getTagsByPackage(packageName: String): MutableList<String>
 
+    suspend fun removePackageFromTag(tag: String, packageName: String) {
+        val tagItem = getTag(tag)
+        val packagesList = tagItem.packages.split(",").toMutableList()
+        packagesList.remove(packageName)
+        tagItem.packages = packagesList.joinToString(",")
+        updateTag(tagItem)
+    }
+
+    suspend fun renameTag(oldTag: String, newTag: String) {
+        val tagItem = getTag(oldTag)
+        tagItem.tag = newTag
+        updateTag(tagItem)
+    }
+
     /**
      * Delete a [Tag] item
      * from the table

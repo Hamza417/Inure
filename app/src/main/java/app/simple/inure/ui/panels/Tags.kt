@@ -24,6 +24,7 @@ import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.tags.AutoTag
 import app.simple.inure.dialogs.tags.AutoTag.Companion.showAutoTag
+import app.simple.inure.dialogs.tags.EditTag.Companion.showEditTagDialog
 import app.simple.inure.dialogs.tags.TagsMenu
 import app.simple.inure.dialogs.tags.TagsMenu.Companion.showTagsMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -37,6 +38,7 @@ class Tags : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
     private var tagsViewModel: TagsViewModel? = null
+    private var adapterTags: AdapterTags? = null
 
     private var spanCount = 0
 
@@ -74,7 +76,7 @@ class Tags : ScopedFragment() {
         tagsViewModel?.getTags()?.observe(viewLifecycleOwner) {
             hideLoader()
 
-            val adapter = AdapterTags(it, object : AdapterTags.Companion.TagsCallback {
+            adapterTags = AdapterTags(it, object : AdapterTags.Companion.TagsCallback {
                 override fun onTagClicked(tag: Tag) {
                     openFragmentSlide(TaggedApps.newInstance(tag.tag), TaggedApps.TAG)
                 }
@@ -108,6 +110,14 @@ class Tags : ScopedFragment() {
 
                             ShortcutManagerCompat.requestPinShortcut(requireContext(), shortcut, null)
                         }
+
+                        override fun onEditClicked() {
+                            childFragmentManager.showEditTagDialog(tag).onTag = { tag ->
+                                tagsViewModel?.updateTag(tag) {
+                                    adapterTags?.updateTag(tag)
+                                }
+                            }
+                        }
                     })
                 }
             })
@@ -118,7 +128,7 @@ class Tags : ScopedFragment() {
                 }
             }
 
-            recyclerView.adapter = adapter
+            recyclerView.adapter = adapterTags
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()

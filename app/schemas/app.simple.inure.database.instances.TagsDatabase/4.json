@@ -1,0 +1,65 @@
+{
+    "formatVersion": 1,
+    "database": {
+        "version": 4,
+        "identityHash": "a0a1d2a2b9cc17546eb82bbf516fea83",
+        "entities": [
+            {
+                "tableName": "tags",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tag` TEXT NOT NULL, `packages` TEXT, `icon` INTEGER NOT NULL, `date_added` INTEGER NOT NULL)",
+                "fields": [
+                    {
+                        "fieldPath": "id",
+                        "columnName": "id",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "tag",
+                        "columnName": "tag",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "packages",
+                        "columnName": "packages",
+                        "affinity": "TEXT"
+                    },
+                    {
+                        "fieldPath": "icon",
+                        "columnName": "icon",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "dateAdded",
+                        "columnName": "date_added",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "autoGenerate": true,
+                    "columnNames": [
+                        "id"
+                    ]
+                },
+                "indices": [
+                    {
+                        "name": "index_tags_tag",
+                        "unique": true,
+                        "columnNames": [
+                            "tag"
+                        ],
+                        "orders": [],
+                        "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tags_tag` ON `${TABLE_NAME}` (`tag`)"
+                    }
+                ]
+            }
+        ],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a0a1d2a2b9cc17546eb82bbf516fea83')"
+        ]
+    }
+}

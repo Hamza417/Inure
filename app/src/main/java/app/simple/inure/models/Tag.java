@@ -3,22 +3,40 @@ package app.simple.inure.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity (tableName = "tags")
+@Entity (
+        tableName = "tags",
+        indices = {
+                @Index (value = "tag", unique = true)
+        }
+)
 public class Tag implements Parcelable {
     
-    @PrimaryKey
+    @PrimaryKey (autoGenerate = true)
+    @ColumnInfo (name = "id")
+    private long id;
+    
     @ColumnInfo (name = "tag")
     @NonNull
     private String tag;
+    
     @ColumnInfo (name = "packages")
     private String packages;
+    
     @ColumnInfo (name = "icon")
     private int icon;
+    
+    @ColumnInfo (name = "date_added")
+    private long dateAdded;
     
     public static final Creator <Tag> CREATOR = new Creator <>() {
         @Override
@@ -32,9 +50,6 @@ public class Tag implements Parcelable {
         }
     };
     
-    @ColumnInfo (name = "date_added")
-    private long dateAdded;
-    
     public Tag(@NonNull String tag, String packages, int icon) {
         this.tag = tag;
         this.packages = packages;
@@ -43,6 +58,7 @@ public class Tag implements Parcelable {
     }
     
     protected Tag(Parcel in) {
+        id = in.readLong();
         tag = in.readString();
         packages = in.readString();
         icon = in.readInt();
@@ -56,11 +72,19 @@ public class Tag implements Parcelable {
     
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        
+        dest.writeLong(id);
         dest.writeString(tag);
         dest.writeString(packages);
         dest.writeInt(icon);
         dest.writeLong(dateAdded);
+    }
+    
+    public long getId() {
+        return id;
+    }
+    
+    public void setId(long id) {
+        this.id = id;
     }
     
     @NonNull
@@ -78,6 +102,30 @@ public class Tag implements Parcelable {
     
     public void setPackages(String packages) {
         this.packages = packages;
+    }
+    
+    public void addPackage(String packageName) {
+        if (packages == null || packages.isEmpty()) {
+            packages = packageName;
+        } else {
+            packages += "," + packageName;
+        }
+    }
+    
+    public void removePackage(String packageName) {
+        if (packages == null || packages.isEmpty()) {
+            return;
+        }
+        List <String> packageList = new ArrayList <>(Arrays.asList(packages.split(",")));
+        packageList.remove(packageName);
+        packages = String.join(",", packageList);
+    }
+    
+    public List <String> getPackagesAsList() {
+        if (packages == null || packages.isEmpty()) {
+            return new ArrayList <>();
+        }
+        return Arrays.asList(packages.split(","));
     }
     
     public int getIcon() {
@@ -100,7 +148,8 @@ public class Tag implements Parcelable {
     @Override
     public String toString() {
         return "Tag{" +
-                "tag='" + tag + '\'' +
+                "id=" + id +
+                ", tag='" + tag + '\'' +
                 ", packages='" + packages + '\'' +
                 ", icon=" + icon +
                 ", dateAdded=" + dateAdded +

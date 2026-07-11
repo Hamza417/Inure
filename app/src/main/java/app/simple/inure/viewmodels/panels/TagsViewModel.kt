@@ -342,4 +342,14 @@ class TagsViewModel(application: Application) : PackageUtilsViewModel(applicatio
         TagsDatabase.destroyInstance()
         super.onCleared()
     }
+
+    fun updateTag(tag: Tag, onUpdate: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val database = TagsDatabase.getInstance(applicationContext())
+            database?.getTagDao()?.updateTag(tag)
+            withContext(Dispatchers.Main) {
+                onUpdate()
+            }
+        }
+    }
 }

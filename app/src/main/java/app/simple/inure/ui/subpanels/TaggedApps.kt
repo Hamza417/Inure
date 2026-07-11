@@ -110,6 +110,7 @@ class TaggedApps : ScopedFragment() {
             val position = viewHolder.bindingAdapterPosition
             val packageName = (recyclerView.adapter as AdapterTaggedApps).getPackageInfo(position).packageName
             (recyclerView.adapter as AdapterTaggedApps).removeItem(position)
+            count.text = getString(R.string.total_apps, (recyclerView.adapter as AdapterTaggedApps).itemCount)
 
             tagsListViewModel.deleteTaggedApp(requireArguments().getString(BundleConstants.TAG)!!, packageName) {
                 tagsViewModel.refresh()
