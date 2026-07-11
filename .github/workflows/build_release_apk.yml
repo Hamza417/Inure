@@ -106,10 +106,9 @@ jobs:
                     files: |
                         ${{ runner.temp }}/app-github-release.apk
                         ${{ runner.temp }}/app-play-release.apk
-                        ${{ runner.temp }}/app-play-release.aab
                     name: ${{ env.VERSION_NAME }} # Use the original case for the release name
                     tag_name: ${{ env.TAG }} # Use lowercase for the tag
-                    body: changelogs
+                    body: changelogs.md
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
