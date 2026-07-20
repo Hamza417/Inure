@@ -28,6 +28,7 @@ import app.simple.inure.apk.utils.PackageUtils.isSplitApk
 import app.simple.inure.apk.utils.PackageUtils.launchThisPackage
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
 import app.simple.inure.constants.BundleConstants
+import app.simple.inure.constants.Warnings
 import app.simple.inure.decorations.ripple.DynamicRippleConstraintLayout
 import app.simple.inure.decorations.ripple.DynamicRippleImageButton
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
@@ -99,6 +100,7 @@ import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
+import app.simple.inure.util.PermissionUtils.checkDumpPermission
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.util.ViewUtils.gone
 import app.simple.inure.util.ViewUtils.visible
@@ -371,7 +373,11 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.recent_exits -> {
-                            openFragmentArc(RecentExits.newInstance(packageInfo), icon, RecentExits.TAG)
+                            if (requireContext().checkDumpPermission()) {
+                                showWarning(Warnings.DUMP_PERMISSION_NOT_GRANTED, goBack = false)
+                            } else {
+                                openFragmentArc(RecentExits.newInstance(packageInfo), icon, RecentExits.TAG)
+                            }
                         }
                     }
                 }
