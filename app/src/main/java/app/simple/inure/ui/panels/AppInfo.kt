@@ -374,9 +374,9 @@ class AppInfo : ScopedFragment() {
 
                         R.string.recent_exits -> {
                             if (requireContext().checkDumpPermission()) {
-                                showWarning(Warnings.DUMP_PERMISSION_NOT_GRANTED, goBack = false)
-                            } else {
                                 openFragmentArc(RecentExits.newInstance(packageInfo), icon, RecentExits.TAG)
+                            } else {
+                                showWarning(Warnings.DUMP_PERMISSION_NOT_GRANTED, goBack = false)
                             }
                         }
                     }
