@@ -240,6 +240,12 @@ class AppInfoViewModel(application: Application, private var packageInfo: Packag
                 list.add(Pair(R.drawable.ic_virustotal, R.string.virustotal))
             }
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (packageInfo.isInstalled()) {
+                    list.add(Pair(R.drawable.ic_exit, R.string.recent_exits))
+                }
+            }
+
             menuItems.postValue(list)
         }
     }

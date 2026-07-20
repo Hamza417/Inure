@@ -84,6 +84,7 @@ import app.simple.inure.ui.viewers.Operations
 import app.simple.inure.ui.viewers.Permissions
 import app.simple.inure.ui.viewers.Providers
 import app.simple.inure.ui.viewers.Receivers
+import app.simple.inure.ui.viewers.RecentExits
 import app.simple.inure.ui.viewers.Resources
 import app.simple.inure.ui.viewers.Services
 import app.simple.inure.ui.viewers.SharedLibs
@@ -367,6 +368,10 @@ class AppInfo : ScopedFragment() {
                                     }
                                 })
                             }
+                        }
+
+                        R.string.recent_exits -> {
+                            openFragmentArc(RecentExits.newInstance(packageInfo), icon, RecentExits.TAG)
                         }
                     }
                 }
