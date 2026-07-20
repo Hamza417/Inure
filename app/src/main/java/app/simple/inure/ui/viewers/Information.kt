@@ -24,7 +24,7 @@ class Information : ScopedFragment() {
     private lateinit var back: DynamicRippleImageButton
     private lateinit var progress: CustomProgressBar
 
-    private lateinit var viewModel: AppInformationViewModel
+    private lateinit var appInformationViewModel: AppInformationViewModel
     private lateinit var packageInfoFactory: PackageInfoFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,7 +35,7 @@ class Information : ScopedFragment() {
         progress = view.findViewById(R.id.information_data_progress)
 
         packageInfoFactory = PackageInfoFactory(packageInfo)
-        viewModel = ViewModelProvider(this, packageInfoFactory)[AppInformationViewModel::class.java]
+        appInformationViewModel = ViewModelProvider(this, packageInfoFactory)[AppInformationViewModel::class.java]
 
         return view
     }
@@ -45,7 +45,7 @@ class Information : ScopedFragment() {
 
         startPostponedEnterTransition()
 
-        viewModel.getInformation().observe(viewLifecycleOwner) {
+        appInformationViewModel.getInformation().observe(viewLifecycleOwner) {
             progress.gone(animate = true)
             val adapterInformation = AdapterInformation(it)
 
@@ -62,7 +62,7 @@ class Information : ScopedFragment() {
             recyclerView.adapter = adapterInformation
         }
 
-        viewModel.error.observe(viewLifecycleOwner) {
+        appInformationViewModel.error.observe(viewLifecycleOwner) {
             showError(it, goBack = true)
         }
 

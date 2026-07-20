@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import app.simple.inure.R
 import app.simple.inure.constants.Warnings
@@ -46,7 +47,7 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
 
             if (list[position].first == R.string.apk_base_package || list[position].first == R.string.data || list[position].first == R.string.native_libraries_dir) {
                 holder.data.makeLinks(Pair(list[position].second.toString().split("|").first(), View.OnClickListener {
-                    val selectedUri: Uri = Uri.parse(list[position].second.split("|").first().toString())
+                    val selectedUri: Uri = list[position].second.split("|").first().toUri()
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setDataAndType(selectedUri, "resource/folder")
 
