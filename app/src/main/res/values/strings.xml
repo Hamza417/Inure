@@ -797,4 +797,7 @@
     <string name="user_set">User Set</string>
     <string name="other_apps">Other Apps</string>
     <string name="export_icon">Export Icon</string>
+    <string name="public_source_dir">Public Source Directory</string>
+    <string name="device_protected_data_dir">Device-Protected Data Directory</string>
+    <string name="external_data_dir">External Data Directory</string>
 </resources>

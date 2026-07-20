@@ -22,6 +22,15 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
 
     private var adapterInformationCallbacks: AdapterInformationCallbacks? = null
 
+    private val pathLinks = arrayOf(
+            R.string.apk_base_package,
+            R.string.data,
+            R.string.native_libraries_dir,
+            R.string.public_source_dir,
+            R.string.external_data_dir,
+            R.string.device_protected_data_dir
+    )
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_DIVIDER -> {
@@ -45,7 +54,7 @@ class AdapterInformation(private val list: ArrayList<Pair<Int, Spannable>>) : Re
                 adapterInformationCallbacks?.onInformationClicked(it, list[position].second.toString())
             }
 
-            if (list[position].first == R.string.apk_base_package || list[position].first == R.string.data || list[position].first == R.string.native_libraries_dir) {
+            if (list[position].first in pathLinks) {
                 holder.data.makeLinks(Pair(list[position].second.toString().split("|").first(), View.OnClickListener {
                     val selectedUri: Uri = list[position].second.split("|").first().toUri()
                     val intent = Intent(Intent.ACTION_VIEW)

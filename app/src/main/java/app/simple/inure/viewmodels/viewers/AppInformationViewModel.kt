@@ -5,7 +5,9 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
+import android.os.Environment
 import android.text.Spannable
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -116,8 +118,13 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             informationList.add(getInstallLocation())
             informationList.add(getState())
             informationList.add(getDataDir())
-            informationList.add(getCacheSize())
             informationList.add(getApkPath())
+            informationList.add(getPublicSourceDir())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                informationList.add(getDeviceProtectedDataDir())
+            }
+            informationList.add(getExternalDataDir())
+            informationList.add(getCacheSize())
             informationList.add(getSplitNames())
             informationList.add(getBackup())
             informationList.add(getTrackers())
@@ -198,6 +205,35 @@ class AppInformationViewModel(application: Application, private var packageInfo:
             return Pair(R.string.data, packageInfo.safeApplicationInfo.dataDir.applySecondaryTextColor())
         }.getOrElse {
             return Pair(R.string.data, getString(R.string.not_available).applySecondaryTextColor())
+        }
+    }
+
+    private fun getPublicSourceDir(): Pair<Int, Spannable> {
+        kotlin.runCatching {
+            return Pair(R.string.public_source_dir, packageInfo.safeApplicationInfo.publicSourceDir.applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.public_source_dir, getString(R.string.not_available).applySecondaryTextColor())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun getDeviceProtectedDataDir(): Pair<Int, Spannable> {
+        kotlin.runCatching {
+            return Pair(R.string.device_protected_data_dir, packageInfo.safeApplicationInfo.deviceProtectedDataDir.applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.device_protected_data_dir, getString(R.string.not_available).applySecondaryTextColor())
+        }
+    }
+
+    private fun getExternalDataDir(): Pair<Int, Spannable> {
+        kotlin.runCatching {
+            // ApplicationInfo does not hold external paths for other apps.
+            // We construct it dynamically using the system's primary external storage path.
+            val externalStoragePath = Environment.getExternalStorageDirectory().absolutePath
+            val externalDataDirectory = "$externalStoragePath/Android/data/${packageInfo.packageName}"
+            return Pair(R.string.external_data_dir, externalDataDirectory.applySecondaryTextColor())
+        }.getOrElse {
+            return Pair(R.string.external_data_dir, getString(R.string.not_available).applySecondaryTextColor())
         }
     }
 
