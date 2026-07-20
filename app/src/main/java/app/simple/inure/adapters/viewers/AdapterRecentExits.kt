@@ -1,6 +1,7 @@
 package app.simple.inure.adapters.viewers
 
 import android.app.ApplicationExitInfo
+import android.content.pm.PackageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.models.ExitReason
 import app.simple.inure.util.DateUtils.toDate
 
-class AdapterRecentExits(private val list: List<ExitReason>) : RecyclerView.Adapter<AdapterRecentExits.Holder>() {
+class AdapterRecentExits(private val list: List<ExitReason>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterRecentExits.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -52,7 +53,11 @@ class AdapterRecentExits(private val list: List<ExitReason>) : RecyclerView.Adap
         holder.title.text = reason
         holder.data.text = exitReason.details.ifEmpty {
             holder.getString(R.string.desc_not_available)
-        }
+        }.replace(
+                oldValue = packageInfo.packageName,
+                newValue = packageInfo.applicationInfo?.name ?: packageInfo.packageName
+        )
+
         holder.timestamp.text = exitReason.timestamp.toDate()
     }
 

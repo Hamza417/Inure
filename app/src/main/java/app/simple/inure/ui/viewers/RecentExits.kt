@@ -48,7 +48,7 @@ class RecentExits : ScopedFragment() {
         recentExitsViewModel.getExitReasons().observe(viewLifecycleOwner) {
             progress.gone(animate = true)
             count.text = getString(R.string.total, it.size)
-            val adapterRecentExits = AdapterRecentExits(it)
+            val adapterRecentExits = AdapterRecentExits(it, packageInfo)
             recyclerView.adapter = adapterRecentExits
         }
 
