@@ -9,10 +9,12 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.graphics.drawable.Icon
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import app.simple.inure.models.ActivityInfoModel
+import app.simple.inure.models.ExitReason
 import app.simple.inure.util.NullSafety.isNotNull
 
 object ActivityUtils {
@@ -172,7 +174,7 @@ object ActivityUtils {
                     }
                 }
             }
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             return false
         }
     }
@@ -184,5 +186,24 @@ object ActivityUtils {
                 else -> findFragmentByTag(getBackStackEntryAt(backStackEntryCount - 1).name)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun getRecentExitsList(context: Context, packageName: String): List<ExitReason> {
+        val exitReasonItems = mutableListOf<ExitReason>()
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val exitReasons = activityManager.getHistoricalProcessExitReasons(packageName, 0, 0)
+
+        for (info in exitReasons) {
+            exitReasonItems.add(
+                    ExitReason(
+                            reason = info.reason,
+                            details = info.description ?: "N/A",
+                            timestamp = info.timestamp
+                    )
+            )
+        }
+
+        return exitReasonItems
     }
 }
