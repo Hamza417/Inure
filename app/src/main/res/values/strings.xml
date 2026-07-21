@@ -800,4 +800,5 @@
     <string name="public_source_dir">Public Source Directory</string>
     <string name="device_protected_data_dir">Device-Protected Data Directory</string>
     <string name="external_data_dir">External Data Directory</string>
+    <string name="recent_exits">Recent Exits</string>
 </resources>

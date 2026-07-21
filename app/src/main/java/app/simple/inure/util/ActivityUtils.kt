@@ -1,6 +1,7 @@
 package app.simple.inure.util
 
 import android.app.ActivityManager
+import android.app.ApplicationExitInfo
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.graphics.drawable.Icon
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
@@ -172,7 +174,7 @@ object ActivityUtils {
                     }
                 }
             }
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             return false
         }
     }
@@ -184,5 +186,11 @@ object ActivityUtils {
                 else -> findFragmentByTag(getBackStackEntryAt(backStackEntryCount - 1).name)
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun getRecentExitsList(context: Context, packageName: String): List<ApplicationExitInfo> {
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return activityManager.getHistoricalProcessExitReasons(packageName, 0, 0)
     }
 }
