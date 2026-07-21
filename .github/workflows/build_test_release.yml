@@ -1,4 +1,4 @@
-name: Build Release APK (Temporary)
+name: Build Release APK (Manual Test)
 
 on:
     workflow_dispatch:  # Allow manual triggering
