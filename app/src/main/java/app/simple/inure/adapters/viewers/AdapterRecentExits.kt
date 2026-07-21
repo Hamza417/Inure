@@ -50,7 +50,7 @@ class AdapterRecentExits(
          *         REASON_PACKAGE_UPDATED,
          */
         holder.reason.text = when (exitReason.reason) {
-            ApplicationExitInfo.REASON_USER_REQUESTED -> "User Requested/Force Stopped"
+            ApplicationExitInfo.REASON_USER_REQUESTED -> "User Requested"
             ApplicationExitInfo.REASON_SIGNALED -> "Killed by Signal (SIGKILL)"
             ApplicationExitInfo.REASON_CRASH -> "App Crashed"
             ApplicationExitInfo.REASON_ANR -> "App Not Responding (ANR)"
