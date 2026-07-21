@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.viewers.AdapterRecentExits
+import app.simple.inure.adapters.viewers.AdapterRecentExits.Companion.AdapterRecentExitsListener
 import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.decorations.views.CustomProgressBar
+import app.simple.inure.dialogs.miscellaneous.Info.Companion.showInfo
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.factories.panels.PackageInfoFactory
 import app.simple.inure.util.ViewUtils.gone
@@ -50,6 +52,12 @@ class RecentExits : ScopedFragment() {
             count.text = getString(R.string.total, it.size)
             val adapterRecentExits = AdapterRecentExits(it, packageInfo)
             recyclerView.adapter = adapterRecentExits
+
+            adapterRecentExits.setAdapterRecentExitsListener(object : AdapterRecentExitsListener {
+                override fun onExitInfoClicked(exitInfo: String) {
+                    childFragmentManager.showInfo(exitInfo)
+                }
+            })
         }
 
         recentExitsViewModel.error.observe(viewLifecycleOwner) {

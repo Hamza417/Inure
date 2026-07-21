@@ -14,7 +14,11 @@ import app.simple.inure.decorations.ripple.DynamicRippleLinearLayout
 import app.simple.inure.decorations.typeface.TypeFaceTextView
 import app.simple.inure.util.DateUtils.toDate
 
-class AdapterRecentExits(private val list: List<ApplicationExitInfo>, private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterRecentExits.Holder>() {
+class AdapterRecentExits(
+        private val list: List<ApplicationExitInfo>,
+        private val packageInfo: PackageInfo) : RecyclerView.Adapter<AdapterRecentExits.Holder>() {
+
+    private var adapterRecentExitsListener: AdapterRecentExitsListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(LayoutInflater.from(parent.context)
@@ -67,6 +71,10 @@ class AdapterRecentExits(private val list: List<ApplicationExitInfo>, private va
 
         holder.details.text = exitReason.getDescription(holder.itemView.context)
         holder.timestamp.text = exitReason.timestamp.toDate()
+
+        holder.container.setOnClickListener {
+            adapterRecentExitsListener?.onExitInfoClicked(exitReason.toString())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -92,5 +100,17 @@ class AdapterRecentExits(private val list: List<ApplicationExitInfo>, private va
                                           newValue = packageInfo.applicationInfo?.name ?: packageInfo.packageName)
 
         return description
+    }
+
+    fun setAdapterRecentExitsListener(listener: AdapterRecentExitsListener) {
+        this.adapterRecentExitsListener = listener
+    }
+
+    companion object {
+        const val TAG = "AdapterRecentExits"
+
+        interface AdapterRecentExitsListener {
+            fun onExitInfoClicked(exitInfo: String)
+        }
     }
 }
