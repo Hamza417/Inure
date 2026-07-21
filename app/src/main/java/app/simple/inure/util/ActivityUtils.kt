@@ -1,6 +1,7 @@
 package app.simple.inure.util
 
 import android.app.ActivityManager
+import android.app.ApplicationExitInfo
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -14,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import app.simple.inure.models.ActivityInfoModel
-import app.simple.inure.models.ExitReason
 import app.simple.inure.util.NullSafety.isNotNull
 
 object ActivityUtils {
@@ -189,21 +189,8 @@ object ActivityUtils {
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    fun getRecentExitsList(context: Context, packageName: String): List<ExitReason> {
-        val exitReasonItems = mutableListOf<ExitReason>()
+    fun getRecentExitsList(context: Context, packageName: String): List<ApplicationExitInfo> {
         val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val exitReasons = activityManager.getHistoricalProcessExitReasons(packageName, 0, 0)
-
-        for (info in exitReasons) {
-            exitReasonItems.add(
-                    ExitReason(
-                            reason = info.reason,
-                            details = info.description ?: "N/A",
-                            timestamp = info.timestamp
-                    )
-            )
-        }
-
-        return exitReasonItems
+        return activityManager.getHistoricalProcessExitReasons(packageName, 0, 0)
     }
 }

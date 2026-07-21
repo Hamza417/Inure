@@ -10,7 +10,7 @@
     android:padding="@dimen/header_padding">
 
     <app.simple.inure.decorations.typeface.TypeFaceTextView
-        android:id="@+id/title"
+        android:id="@+id/reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/info_text_medium"
