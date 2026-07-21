@@ -66,6 +66,7 @@ class AdapterRecentExits(
             ApplicationExitInfo.REASON_INITIALIZATION_FAILURE -> "Initialization Failure"
             ApplicationExitInfo.REASON_FREEZER -> "Freezer"
             ApplicationExitInfo.REASON_UNKNOWN -> "Unknown"
+            ApplicationExitInfo.REASON_OTHER -> "Other"
             else -> "Other (${exitReason.reason})"
         }
 
