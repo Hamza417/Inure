@@ -798,4 +798,8 @@
     <string name="user_set">Conjunto de usuario</string>
     <string name="other_apps">Otras aplicaciones</string>
     <string name="export_icon">Icono de exportación</string>
+    <string name="public_source_dir">Directorio de código fuente público</string>
+    <string name="device_protected_data_dir">Directorio de datos protegidos del dispositivo</string>
+    <string name="external_data_dir">Directorio de datos externos</string>
+    <string name="recent_exits">Salidas recientes</string>
 </resources>
