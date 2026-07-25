@@ -869,6 +869,7 @@
     <string name="net.backslasher.dndtoggle" translatable="false">GPL-3.0-only</string>
     <string name="amirz.dngprocessor" translatable="false">LGPL-3.0-only</string>
     <string name="com.gianlu.dnshero" translatable="false">GPL-3.0-only</string>
+    <string name="com.ericlowry.dnstoggle" translatable="false">MIT</string>
     <string name="dev.clombardo.dnsnet" translatable="false">GPL-3.0-or-later</string>
     <string name="at.co.schwaerzler.maximilian.doit" translatable="false">Apache-2.0</string>
     <string name="com.yassirh.digitalocean" translatable="false">MIT</string>
@@ -906,6 +907,7 @@
     <string name="net.reichholf.dreamdroid" translatable="false">GPL-3.0-only</string>
     <string name="com.drejo.androidvideoplayer.fdroid" translatable="false">MIT</string>
     <string name="io.github.probably_oxy.drift" translatable="false">MIT</string>
+    <string name="fr.mgth.drillpress" translatable="false">GPL-3.0-or-later</string>
     <string name="com.moimob.drinkable" translatable="false">MIT</string>
     <string name="com.drip" translatable="false">GPL-3.0-only</string>
     <string name="com.johanpy.drivesoberly" translatable="false">Apache-2.0</string>
@@ -3421,7 +3423,6 @@
     <string name="com.StudyDesk.app" translatable="false">MIT</string>
     <string name="org.tomasino.stutter" translatable="false">GPL-3.0-only</string>
     <string name="org.grating.styncynotes" translatable="false">GPL-3.0-or-later</string>
-    <string name="acab.naiveha.subrosa" translatable="false">Apache-2.0</string>
     <string name="rocks.langhaarschneider.subsonicster" translatable="false">MIT</string>
     <string name="com.subtitlescreen" translatable="false">GPL-3.0-only</string>
     <string name="com.subtracks" translatable="false">GPL-3.0-only</string>
@@ -3509,6 +3510,7 @@
     <string name="org.hzontal.tellaFOSS" translatable="false">Apache-2.0</string>
     <string name="com.gmail.jiwopene.temperature" translatable="false">GPL-3.0-or-later</string>
     <string name="com.cappielloantonio.notquitemy.tempo" translatable="false">GPL-3.0-only</string>
+    <string name="com.eddyizm.degoogled.tempus" translatable="false">GPL-3.0-only</string>
     <string name="com.dev.xavier.tempusromanum" translatable="false">Apache-2.0</string>
     <string name="se.voxelmanip.tensy" translatable="false">GPL-3.0-only</string>
     <string name="org.droidtr.termbin" translatable="false">GPL-3.0-only</string>
@@ -5433,6 +5435,7 @@
     <string name="org.nsh07.wikireader" translatable="false">GPL-3.0-only</string>
     <string name="uk.org.platitudes.wipefiles" translatable="false">PublicDomain</string>
     <string name="com.foxek.simpletimer" translatable="false">Apache-2.0</string>
+    <string name="org.wisso.newpipematerial" translatable="false">GPL-3.0-or-later</string>
     <string name="ca.cgagnier.wlednativeandroid" translatable="false">Apache-2.0</string>
     <string name="onedroid.worktracker" translatable="false">Apache-2.0</string>
     <string name="askanimus.arbeitszeiterfassung2" translatable="false">GPL-3.0-or-later</string>
@@ -5469,5 +5472,4 @@
     <string name="xyz.zood.george" translatable="false">AGPL-3.0-only</string>
     <string name="app.zxtune.fdroid" translatable="false">LGPL-3.0-only</string>
     <string name="de.oeffisounds.app" translatable="false">GPL-3.0-only</string>
-    <string name="org.wisso.newpipematerial" translatable="false">GPL-3.0-or-later</string>
 </resources>
