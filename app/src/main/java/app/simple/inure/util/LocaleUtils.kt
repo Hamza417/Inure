@@ -17,27 +17,32 @@ object LocaleUtils {
      */
     private val russianLocale = arrayOf("ru", "RU", "ru-RU")
 
-    fun getSystemLanguageCode(): String {
+    fun getSystemLocale(): Locale {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Resources.getSystem().configuration.locales[0].language
+            Resources.getSystem().configuration.locales[0]
         } else {
             @Suppress("deprecation")
-            Resources.getSystem().configuration.locale.language
+            Resources.getSystem().configuration.locale
         }
     }
 
+    fun getSystemLanguageCode(): String {
+        return getSystemLocale().language
+    }
+
     fun isOneOfTraditionalChinese(): Boolean {
-        return with(getSystemLanguageCode()) {
-            this == "zh" ||
-                    this == "zh-HK" ||
-                    this == "zh-MO" ||
-                    this == "zh-TW" ||
-                    this == "zh-Hant" ||
-                    this == "zh-Hant-HK" ||
-                    this == "zh-Hant-MO" ||
-                    this == "zh-Hant-TW" ||
-                    this == "zh-Hant-CN" ||
-                    this == "zh-Hant-SG"
+        val locale = getSystemLocale()
+        val script = locale.script.uppercase(Locale.ROOT)
+        val country = locale.country.uppercase(Locale.ROOT)
+
+        if (locale.language != "zh") {
+            return false
+        }
+
+        return when {
+            script == "HANT" -> true
+            script == "HANS" -> false
+            else -> country == "TW" || country == "HK" || country == "MO"
         }
     }
 

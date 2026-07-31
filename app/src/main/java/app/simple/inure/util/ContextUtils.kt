@@ -25,7 +25,7 @@ open class ContextUtils(context: Context) : ContextWrapper(context) {
                 if (LocaleUtils.isOneOfTraditionalChinese()) {
                     Locale.forLanguageTag("zh-TW")
                 } else {
-                    Locale.forLanguageTag(LocaleUtils.getSystemLanguageCode())
+                    LocaleUtils.getSystemLocale()
                 }
             } else {
                 Locale.forLanguageTag(languageCode)
