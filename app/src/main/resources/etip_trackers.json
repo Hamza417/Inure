@@ -10631,8 +10631,8 @@
         "name": "Google Firebase Analytics",
         "needs_rework": false,
         "network": [],
-        "network_signature": "firebase\\.com|firebaselogging-pa\\.googleapis\\.com",
-        "updated": "2024-07-13T08:38:04.806170Z",
+        "network_signature": "firebase\\.com|firebaselogging-pa\\.googleapis\\.com|firebaseinstallations\\.googleapis\\.com",
+        "updated": "2026-08-02T08:22:54.296509Z",
         "website": "https://firebase.google.com/"
     },
     {
