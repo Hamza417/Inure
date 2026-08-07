@@ -42,13 +42,21 @@
         app:appFontStyle="medium"
         app:textColorStyle="primary" />
 
-
-    <app.simple.inure.decorations.views.TagsRecyclerView
-        android:id="@+id/existing_tags"
-        android:visibility="gone"
+    <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dialog_padding"
-        android:layout_height="wrap_content" />
+        android:clipChildren="true"
+        android:clipToPadding="true">
+
+        <app.simple.inure.decorations.views.EditTagRecyclerView
+            android:id="@+id/existing_tags"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:statusBarPaddingRequired="false" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
