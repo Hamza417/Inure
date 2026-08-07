@@ -16,7 +16,7 @@ import app.simple.inure.constants.BundleConstants
 import app.simple.inure.decorations.corners.DynamicCornerEditText
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
-import app.simple.inure.decorations.views.TagsRecyclerView
+import app.simple.inure.decorations.views.EditTagRecyclerView
 import app.simple.inure.extensions.fragments.ScopedDialogFragment
 import app.simple.inure.factories.dialog.EditTagViewModelFactory
 import app.simple.inure.models.Tag
@@ -34,7 +34,7 @@ class EditTag : ScopedDialogFragment() {
     private lateinit var editText: DynamicCornerEditText
     private lateinit var cancel: DynamicRippleTextView
     private lateinit var update: DynamicRippleTextView
-    private lateinit var packages: TagsRecyclerView
+    private lateinit var packages: EditTagRecyclerView
 
     private var tag: Tag? = null
 

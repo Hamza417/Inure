@@ -10,23 +10,22 @@ import com.google.android.flexbox.JustifyContent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import app.simple.inure.R;
 import app.simple.inure.preferences.AccessibilityPreferences;
 
-public class TagsRecyclerView extends RecyclerView {
-    public TagsRecyclerView(@NonNull Context context) {
+public class EditTagRecyclerView extends MaxHeightRecyclerView {
+    public EditTagRecyclerView(@NonNull Context context) {
         super(context);
         init();
     }
     
-    public TagsRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public EditTagRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
     
-    public TagsRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public EditTagRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs);
         init();
     }
     

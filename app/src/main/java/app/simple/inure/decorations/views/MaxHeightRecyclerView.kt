@@ -2,13 +2,12 @@ package app.simple.inure.decorations.views
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.recyclerview.widget.RecyclerView
+import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 
 open class MaxHeightRecyclerView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-) : RecyclerView(context, attrs, defStyleAttr) {
+        attrs: AttributeSet? = null
+) : CustomVerticalRecyclerView(context, attrs) {
 
     // Custom property that requests a layout pass whenever updated
     var maxHeight: Int = -1
