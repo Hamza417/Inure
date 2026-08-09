@@ -86,12 +86,18 @@ class ShizukuServiceHelper private constructor() {
     fun unbindUserService() {
         if (!isServiceBound) return
         if (isSupported()) {
-            Shizuku.unbindUserService(userServiceArgs, userServiceConnection, true)
+            try {
+                Shizuku.unbindUserService(userServiceArgs, userServiceConnection, true)
+            } catch (e: IllegalArgumentException) {
+                // swallow IllegalArgumentException when the service is not bound
+                Log.e(TAG, "unbindUserService: ${e.message}")
+            }
         } else {
             throw RuntimeException("Current Shizuku version is not supported: ${Shizuku.getVersion()}")
         }
     }
 
+    @Suppress("LiftReturnOrAssignment", "CascadeIf")
     fun isRootMode(): Boolean {
         if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
             val uid = Shizuku.getUid()
