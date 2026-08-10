@@ -3704,6 +3704,7 @@
     <string name="nodomain.freeyourgadget.tpmsmonitor" translatable="false">AGPL-3.0-or-later</string>
     <string name="app.traced_it" translatable="false">GPL-3.0-or-later</string>
     <string name="com.samco.trackandgraph" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.safrone.trackexploder" translatable="false">MIT</string>
     <string name="org.zephyrsoft.trackworktime" translatable="false">GPL-3.0-only</string>
     <string name="org.y20k.trackbook" translatable="false">MIT</string>
     <string name="net.kollnig.missioncontrol.fdroid" translatable="false">GPL-3.0-only</string>
@@ -4786,6 +4787,7 @@
     <string name="com.fibelatti.photowidget" translatable="false">Apache-2.0</string>
     <string name="us.materialio.app" translatable="false">AGPL-3.0-only</string>
     <string name="math.matrixsolver" translatable="false">MIT</string>
+    <string name="com.goodify.matrixtinz.app" translatable="false">Apache-2.0</string>
     <string name="com.mubarak.mbcompass" translatable="false">GPL-3.0-only</string>
     <string name="com.sergenious.mediabrowser" translatable="false">GPL-3.0-only</string>
     <string name="net.forestany.mediacollection" translatable="false">GPL-3.0-only</string>
