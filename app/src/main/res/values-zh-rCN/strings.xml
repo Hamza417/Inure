@@ -36,11 +36,13 @@
     <string name="accent_colors">强调色</string>
     <string name="accent_color_desc">与应用程序的各种元素一起出现的辅助颜色。</string>
     <string name="behavior">行为</string>
-    <string name="dim_windows_desc">当屏幕上出现弹出窗口时，底层窗口变暗.\n\n关闭它可以帮助上层阴影更加突出，但会降低对比度，反之亦然.</string>
+    <string name="dim_windows_desc">当屏幕上弹出窗口时，将底层窗口调暗。\n\n
+关闭该选项可让层级阴影效果更加突出，但会降低对比度，反之亦然。</string>
     <string name="dim_windows">暗色窗口</string>
     <string name="blur_windows">窗口模糊</string>
     <string name="blur_windows_desc">当屏幕上出现弹出窗口时模糊底层窗口.\n\n可能会影响应用程序的性能.</string>
-    <string name="shadows_desc">将漂亮的强调色环境阴影添加到应用的各种上层视图中.\n\n仅在 API 28 或更高版本中可用。</string>
+    <string name="shadows_desc">为应用的各类上层视图添加美观的强调色环境阴影。\n\n
+仅在 API 28 或更高版本中可用。</string>
     <string name="show_colored_shadows">显示阴影着色</string>
     <string name="configuration">配置</string>
     <string name="desc_application_theme">更改应用程序对使用暗色或亮色模式的使用</string>
@@ -637,6 +639,8 @@
     <string name="component_manager_desc">启用/禁用应用的各种组件</string>
     <string name="state">状态</string>
     <string name="installed">已安装</string>
+    <string name="installing">安装</string>
+    <string name="batch_install">批量安装</string>
     <string name="no_boot_components_found">未找到引导组件</string>
     <string name="size">大小</string>
     <string name="colorful_icons_desc">在导航菜单布局中使用彩色图标</string>
@@ -794,4 +798,10 @@
     <string name="foreground">前台</string>
     <string name="granted_by_default">默认授予</string>
     <string name="user_set">用户设置</string>
+    <string name="other_apps">其他应用</string>
+    <string name="export_icon">导出图标</string>
+    <string name="public_source_dir">公共源目录</string>
+    <string name="device_protected_data_dir">设备受保护数据目录</string>
+    <string name="external_data_dir">外部数据目录</string>
+    <string name="recent_exits">最近退出记录</string>
 </resources>
