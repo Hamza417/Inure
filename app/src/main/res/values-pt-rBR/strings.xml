@@ -798,4 +798,8 @@
     <string name="user_set">Conjunto de Usuários</string>
     <string name="other_apps">Outros Apps</string>
     <string name="export_icon">Exportar Ícone</string>
+    <string name="public_source_dir">Public Source Directory</string>
+    <string name="device_protected_data_dir">Device-Protected Data Directory</string>
+    <string name="external_data_dir">External Data Directory</string>
+    <string name="recent_exits">Recent Exits</string>
 </resources>
