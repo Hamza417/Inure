@@ -44,29 +44,8 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    @Suppress("CanConvertToMultiDollarString")
     private fun getReinstallCommand(): String {
-        val appInfo = packageInfo.safeApplicationInfo
-        val baseApk = appInfo.sourceDir
-        val splits = appInfo.splitSourceDirs
-
-        return if (splits.isNullOrEmpty()) {
-            // Fallback for standard single-APK apps
-            "pm install -r --user ${getCurrentUser()} \"$baseApk\""
-        } else {
-            // Handle App Bundles (Split APKs) by creating an installation session
-            buildString {
-                append("SESSION=\$(pm install-create -r --user ${getCurrentUser()} | grep -oE '[0-9]+'); ")
-
-                append("pm install-write \$SESSION base \"$baseApk\"; ")
-
-                splits.forEachIndexed { index, splitPath ->
-                    append("pm install-write \$SESSION split_${index} \"$splitPath\"; ")
-                }
-
-                append("pm install-commit \$SESSION")
-            }
-        }
+        return "pm install -r --user ${getCurrentUser()} ${packageInfo.safeApplicationInfo.sourceDir}"
     }
 
     private fun getInstallExistingCommand(): String {
