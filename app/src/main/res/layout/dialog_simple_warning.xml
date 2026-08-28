@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/popup_padding"
-            android:textSize="@dimen/popup_text_size"
+            android:textSize="@dimen/error_text_size"
             app:appFontStyle="medium"
             app:textColorStyle="tertiary" />
 
