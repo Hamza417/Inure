@@ -84,31 +84,43 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
     override fun onShizukuCreated(shizukuServiceHelper: ShizukuServiceHelper) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                shizukuServiceHelper.service!!.simpleExecute(getReinstallCommand()).let {
-                    if (it.isSuccess) {
+                // Use the list-based 'execute' function to pass the command directly to the Android shell.
+                // This prevents Java's Runtime.exec(String) from aggressively splitting our command
+                // by spaces, which would break the session variables and split APK paths.
+                shizukuServiceHelper.service!!.execute(mutableListOf("sh", "-c", getReinstallCommand()), null, null).let { shellResult ->
+                    if (shellResult.isSuccess) {
                         success.postValue("Done")
                     } else {
-                        if (it.error?.contains(ERR_3001) == true || it.output?.contains(ERR_3001) == true) {
-                            shizukuServiceHelper.service!!.simpleExecute(getInstallExistingCommand()).let { result ->
-                                if (result.isSuccess) {
+                        // Installation failed. Check if the OS rejected it due to a build type mismatch
+                        // (e.g., trying to install a test-only APK over a production one).
+                        val isBuildTypeMismatch = shellResult.error?.contains(ERR_3001) == true ||
+                                shellResult.output?.contains(ERR_3001) == true
+                        if (isBuildTypeMismatch) {
+                            // Fallback: Attempt to install the package that already exists on the device
+                            // for the current user. Since this doesn't use complex bash variables,
+                            // simpleExecute is safe to use here.
+                            shizukuServiceHelper.service!!.simpleExecute(getInstallExistingCommand()).let { fallbackResult ->
+                                if (fallbackResult.isSuccess) {
                                     success.postValue("Done")
                                 } else {
+                                    // Both the reinstallation and fallback attempts failed
                                     success.postValue("Failed")
-                                    postWarning(result.error + "\n" + result.output)
+                                    postWarning(fallbackResult.error + "\n" + fallbackResult.output)
                                 }
                             }
                         } else {
+                            // The installation failed for a reason other than a build type mismatch
                             success.postValue("Failed")
-                            postWarning(it.error + "\n" + it.output)
+                            postWarning(shellResult.error + "\n" + shellResult.output)
                         }
                     }
                 }
-            }.onFailure {
+            }.onFailure { exception ->
                 success.postValue("Failed")
-                postError(it)
-            }.getOrElse {
+                postError(exception)
+            }.getOrElse { exception ->
                 success.postValue("Failed")
-                postError(it)
+                postError(exception)
             }
         }
     }
