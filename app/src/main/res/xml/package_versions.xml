@@ -487,6 +487,7 @@
     <string name="org.codeberg.scovillo.bubble" translatable="false">GPL-3.0-only</string>
     <string name="com.danilkinkin.buckwheat" translatable="false">GPL-3.0-only</string>
     <string name="org.bandev.buddhaquotes" translatable="false">GPL-3.0-or-later</string>
+    <string name="org.osservatorionessuno.bugbane.beta" translatable="false">GPL-3.0-only</string>
     <string name="com.anysoftkeyboard.languagepack.bulgarian" translatable="false">Apache-2.0</string>
     <string name="x653.bullseye" translatable="false">GPL-3.0-only</string>
     <string name="com.mobile.bummerzaehler" translatable="false">GPL-3.0-only</string>
@@ -4773,7 +4774,6 @@
     <string name="io.github.auag0.hidemocklocation" translatable="false">MIT</string>
     <string name="com.om1cael.hidroly" translatable="false">GPL-3.0-only</string>
     <string name="com.litlifesoftware.historyofme" translatable="false">BSD-3-Clause</string>
-    <string name="org.frknkrc44.hma_oss" translatable="false">AGPL-3.0-only</string>
     <string name="eu.chainfire.holeylight" translatable="false">GPL-3.0-only</string>
     <string name="ru.application.homemedkit" translatable="false">GPL-3.0-only</string>
     <string name="sk.amk.homeberry" translatable="false">GPL-3.0-only</string>
