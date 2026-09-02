@@ -44,7 +44,7 @@ class ReinstallerViewModel(application: Application, val packageInfo: PackageInf
         }
     }
 
-    @Suppress("CanConvertToMultiDollarString")
+    @Suppress("CanConvertToMultiDollarString", "CanUnescapeDollarLiteral")
     private fun getReinstallCommand(): String {
         val appInfo = packageInfo.safeApplicationInfo
         val baseApk = appInfo.sourceDir
