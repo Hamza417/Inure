@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.OrientationEventListener
 import android.view.Surface
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
@@ -27,6 +28,7 @@ import androidx.core.os.BuildCompat
 import androidx.core.os.ConfigurationCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.PredictiveBackControl
 import androidx.lifecycle.Lifecycle
@@ -35,6 +37,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import app.simple.inure.R
 import app.simple.inure.constants.Misc
 import app.simple.inure.database.instances.StackTraceDatabase
+import app.simple.inure.decorations.ime.HeightDeferringInsetsAnimationCallback
+import app.simple.inure.decorations.ime.RootViewDeferringInsetsCallback
+import app.simple.inure.decorations.ime.TranslateDeferringInsetsAnimationCallback
 import app.simple.inure.decorations.transitions.compat.DetailsTransitionArc
 import app.simple.inure.dialogs.app.FullVersion.Companion.showFullVersion
 import app.simple.inure.dialogs.app.Sure.Companion.newSureInstance
@@ -485,6 +490,57 @@ open class BaseActivity : AppCompatActivity(),
                 ShizukuUtils.copyRishFiles(applicationContext)
             }
         }
+    }
+
+    /**
+     * Call this function on the root view of your layout to enable the keyboard height being
+     * intercepted by touch (swipe up/down) and the keyboard height being animated when the
+     * keyboard is shown/hidden.
+     */
+    protected fun View.addHeightKeyboardCallbacks() {
+        /**
+         * Since our Activity has declared `window.setDecorFitsSystemWindows(false)`, we need to
+         * handle any [WindowInsetsCompat] as appropriate.
+         *
+         * Our [RootViewDeferringInsetsCallback] will update our attached view's padding to match
+         * the combination of the [WindowInsetsCompat.Type.systemBars], and selectively apply the
+         * [WindowInsetsCompat.Type.ime] insets, depending on any ongoing WindowInsetAnimations
+         * (see that class for more information).
+         */
+        @Suppress("UNUSED_VARIABLE") val deferringInsetsListener = RootViewDeferringInsetsCallback(
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime()
+        )
+
+        /**
+         * The second step is reacting to any animations which run. This can be system driven,
+         * such as the user focusing on an EditText and on-screen keyboard (IME) coming on screen,
+         * or app driven (more on that in step 3).
+         *
+         * To react to animations, we set an [android.view.WindowInsetsAnimation.Callback] on any
+         * views which we wish to react to inset animations. In this example, we want our
+         * EditText holder view, and the conversation RecyclerView to react.
+         *
+         * We use our [TranslateDeferringInsetsAnimationCallback] class, bundled in this sample,
+         * which will automatically move each view as the IME animates.
+         *
+         * Note about [TranslateDeferringInsetsAnimationCallback], it relies on the behavior of
+         * [RootViewDeferringInsetsCallback] on the layout's root view.
+         */
+        ViewCompat.setWindowInsetsAnimationCallback(this, HeightDeferringInsetsAnimationCallback(
+                view = this,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime(),
+                // We explicitly allow dispatch to continue down to binding.messageHolder's
+                // child views, so that step 2.5 below receives the call
+                dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+        ))
+
+        ViewCompat.setWindowInsetsAnimationCallback(this, HeightDeferringInsetsAnimationCallback(
+                view = this,
+                persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
+                deferredInsetTypes = WindowInsetsCompat.Type.ime()
+        ))
     }
 
     private fun applyInsets() {

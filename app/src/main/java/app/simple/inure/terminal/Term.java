@@ -390,6 +390,9 @@ public class Term extends BaseActivity implements UpdateCallback,
                 }
             }
         };
+        
+        // update terminal view container height when keyboard is shown/hidden
+        addHeightKeyboardCallbacks(viewFlipper);
     }
     
     /**
