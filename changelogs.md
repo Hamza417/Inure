@@ -1,19 +1,14 @@
-<h4>User Interface</h4>
-
-<ul>
-    <li>Optimized the tags dialogs to prevent tags clipping and glitchy animations.</li>
-</ul>
-
 <h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a crash happening on unbind on invalid Shizuku state.</li>
-    <li>Fixed <b>Terminal</b> panel overlapping with status bar due to E2E enforcement.</li>
+    <li>Fixed a crash in <b>Reinstaller</b> happening while reinstalling apps with split apks.</li>
+    <li>Fixed shell view not adjusting to keyboard height and causing layout overlap issues in <b>Terminal</b>.
+    </li>
 </ul>
 
 <h4>Translations</h4>
 
 <ul>
-    <li>Updated <b>Chinese (Simplified)</b> translations.</li>
-    <li>Updated <b>Arabic</b> translations.</li>
+    <li>Updated <b>Indonesian</b> translations.</li>
+    <li>Updated <b>Italian</b> translations.</li>
 </ul>
