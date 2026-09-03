@@ -637,6 +637,8 @@
     <string name="component_manager_desc">Mengaktifkan/menonaktifkan berbagai komponen aplikasi.</string>
     <string name="state">State</string>
     <string name="installed">Terpasang</string>
+    <string name="installing">Menginstal</string>
+    <string name="batch_install">Instal Massal</string>
     <string name="no_boot_components_found">Tidak Ada Komponen Boot yang Ditemukan</string>
     <string name="size">Ukuran</string>
     <string name="colorful_icons_desc">Gunakan ikon berwarna-warni dalam tata letak menu navigasi.</string>
@@ -794,4 +796,10 @@
     <string name="foreground">Latar Depan</string>
     <string name="granted_by_default">Diberikan Secara Default</string>
     <string name="user_set">Kumpulan Pengguna</string>
+    <string name="other_apps">Aplikasi Lainnya</string>
+    <string name="export_icon">Ikon Ekspor</string>
+    <string name="public_source_dir">Direktori Sumber Publik</string>
+    <string name="device_protected_data_dir">Direktori Data yang Dilindungi Perangkat</string>
+    <string name="external_data_dir">Direktori Data Eksternal</string>
+    <string name="recent_exits">Aksi Keluar (Exit) Terbaru</string>
 </resources>

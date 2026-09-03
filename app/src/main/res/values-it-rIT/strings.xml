@@ -637,6 +637,8 @@
     <string name="component_manager_desc">Attiva/disattiva i vari componenti dell\'applicazione.</string>
     <string name="state">Stato</string>
     <string name="installed">Installata</string>
+    <string name="installing">Installando</string>
+    <string name="batch_install">Installazione Batch</string>
     <string name="no_boot_components_found">Nessun componente di avvio trovato</string>
     <string name="size">Dimensione</string>
     <string name="colorful_icons_desc">Usa icone colorate nei layout del menu di navigazione.</string>
@@ -794,4 +796,10 @@
     <string name="foreground">Primo piano</string>
     <string name="granted_by_default">Concesso per impostazione predefinita</string>
     <string name="user_set">Impostazione utente</string>
+    <string name="other_apps">Altre app</string>
+    <string name="export_icon">Esporta Icona</string>
+    <string name="public_source_dir">Directory Sorgente Pubblica</string>
+    <string name="device_protected_data_dir">Directory Dati Protetti Da Dispositivo</string>
+    <string name="external_data_dir">Directory Dati Esterni</string>
+    <string name="recent_exits">Uscite Recenti</string>
 </resources>
