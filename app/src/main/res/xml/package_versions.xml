@@ -1233,6 +1233,7 @@
     <string name="org.flare.app" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.jnda.android.flashalert" translatable="false">GPL-3.0-only</string>
     <string name="m.co.rh.id.a_flash_deck" translatable="false">GPL-3.0-only</string>
+    <string name="com.flashbyte" translatable="false">MIT</string>
     <string name="com.quchen.flashcard" translatable="false">MIT</string>
     <string name="com.cyb3rko.flashdim" translatable="false">Apache-2.0</string>
     <string name="com.pdb82.flashlighttiramisu" translatable="false">Apache-2.0</string>
@@ -3809,6 +3810,7 @@
     <string name="quest.faraday.tip_calculator" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.bupkis.tirailleur" translatable="false">GPL-3.0-only</string>
     <string name="pt.joaomneto.titancompanion" translatable="false">LGPL-3.0-only</string>
+    <string name="nl.tjoeke.android" translatable="false">GPL-3.0-only</string>
     <string name="name.bresciani.marco.tkcompanionapp" translatable="false">GPL-3.0-or-later</string>
     <string name="com.tkton.wallet" translatable="false">GPL-3.0-only</string>
     <string name="com.thomaskuenneth.tkweek" translatable="false">MIT</string>
@@ -3902,6 +3904,7 @@
     <string name="ua.gardenapple.trylbry" translatable="false">GPL-3.0-only</string>
     <string name="app.tryst" translatable="false">GPL-3.0-only</string>
     <string name="de.hbch.traewelling" translatable="false">AGPL-3.0-only</string>
+    <string name="com.stonegate.tsacdop" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.lojcs.tsacdop" translatable="false">GPL-3.0-or-later</string>
     <string name="com.blazecode.tsviewer" translatable="false">MIT</string>
     <string name="de.toshsoft.tsvnc" translatable="false">GPL-2.0-or-later</string>
@@ -4303,6 +4306,7 @@
     <string name="net.basov.lws.qr.fdroid" translatable="false">MIT</string>
     <string name="com.corphish.nightlight.generic" translatable="false">Apache-2.0</string>
     <string name="com.epione.app" translatable="false">GPL-3.0-only</string>
+    <string name="fr.framagit.jeromeo.etagere" translatable="false">GPL-3.0-or-later</string>
     <string name="de.oeffisounds.app" translatable="false">GPL-3.0-only</string>
     <string name="io.github.juliusd.ueberboese.app" translatable="false">MIT</string>
     <string name="org.staacks.alpharemote" translatable="false">GPL-3.0-only</string>
