@@ -131,5 +131,7 @@ object Warnings {
     /**
      * DUMP permission not granted. Please grant the DUMP permission to Inure App Manager from Permissions in order to use this feature.
      */
-    const val DUMP_PERMISSION_NOT_GRANTED = "DUMP permission not granted. Please grant the DUMP permission to Inure App Manager from Permissions in order to use this feature."
+    const val DUMP_PERMISSION_NOT_GRANTED = "DUMP permission not granted. Please grant the DUMP permission to " +
+            "Inure App Manager from Permissions in order to use this feature.\n\n" +
+            "Or use this command in ADB:\n\nadb shell pm grant app.simple.inure android.permission.DUMP"
 }
