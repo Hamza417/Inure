@@ -31,6 +31,7 @@ import app.simple.inure.themes.manager.ThemeManager
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.FileUtils.getMimeType
 import app.simple.inure.util.FileUtils.isSVG
+import app.simple.inure.util.IntentHelper.hasAppPath
 import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.ParcelUtils.parcelable
 import app.simple.inure.util.ProcessUtils
@@ -85,6 +86,11 @@ class ImageActivity : BaseActivity() {
                            paddingRight,
                            paddingBottom)
             }
+        }
+
+        if (intent.hasAppPath(packageName)) {
+            showWarning("ERR: illegal action detected.")
+            return
         }
 
         val uri = if (intent?.action == Intent.ACTION_SEND && intent?.type?.startsWith("image/") == true) {

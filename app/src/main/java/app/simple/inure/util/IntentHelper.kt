@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import app.simple.inure.util.ParcelUtils.parcelable
 
 object IntentHelper {
 
@@ -43,7 +44,7 @@ object IntentHelper {
     fun sendLocalBroadcastIntent(intentAction: String, context: Context, extra: Long) {
         Intent().also { intent ->
             intent.action = intentAction
-            intent.putExtra(INT_EXTRA, extra)
+            intent.putExtra(LONG_EXTRA, extra)
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         }
     }
@@ -62,5 +63,15 @@ object IntentHelper {
         val browserIntent = Intent(Intent.ACTION_VIEW, this)
         browserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(browserIntent, null)
+    }
+
+    fun Intent.hasAppPath(packageName: String): Boolean {
+        val uri = if (action == Intent.ACTION_SEND) {
+            parcelable(Intent.EXTRA_STREAM)
+        } else {
+            data
+        }
+
+        return uri?.path?.contains(packageName) ?: false
     }
 }
