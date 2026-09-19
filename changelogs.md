@@ -1,14 +1,14 @@
-<h4>Bug Fixes</h4>
+<h4>Security Fixes</h4>
 
 <ul>
-    <li>Fixed a crash in <b>Reinstaller</b> happening while reinstalling apps with split apks.</li>
-    <li>Fixed shell view not adjusting to keyboard height and causing layout overlap issues in <b>Terminal</b>.
+    <li>Fixed a vulnerability in the Image Viewer that allowed unauthorized access to app-private
+        files.
     </li>
 </ul>
 
 <h4>Translations</h4>
 
 <ul>
-    <li>Updated <b>Indonesian</b> translations.</li>
-    <li>Updated <b>Italian</b> translations.</li>
+    <li>Updated <b>French</b> translations.</li>
+    <li>Updated <b>Chinese (Traditional)</b> translations.</li>
 </ul>
