@@ -797,4 +797,9 @@
     <string name="granted_by_default">預設授予</string>
     <string name="user_set">使用者設定</string>
     <string name="other_apps">其他應用程式</string>
+    <string name="export_icon">匯出圖示</string>
+    <string name="public_source_dir">公共資源目錄</string>
+    <string name="device_protected_data_dir">設備保護資料目錄</string>
+    <string name="external_data_dir">外部資料目錄</string>
+    <string name="recent_exits">近期退出</string>
 </resources>
