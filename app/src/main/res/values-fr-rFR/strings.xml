@@ -797,4 +797,10 @@
     <string name="foreground">Premier plan</string>
     <string name="granted_by_default">Accordé par défaut</string>
     <string name="user_set">Ensemble utilisateur</string>
+    <string name="other_apps">Autres Applications</string>
+    <string name="export_icon">Exporter l\'icône</string>
+    <string name="public_source_dir">Répertoire source publique</string>
+    <string name="device_protected_data_dir">Répertoire des données protégées par l\'appareil</string>
+    <string name="external_data_dir">Répertoire de données externe</string>
+    <string name="recent_exits">Sorties Récentes</string>
 </resources>
