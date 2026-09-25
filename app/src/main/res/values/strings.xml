@@ -60,7 +60,6 @@
     <string name="install_location">Install Location</string>
     <string name="minimum_sdk">Minimum SDK</string>
     <string name="target_sdk">Target SDK</string>
-    <string name="uid">UID</string>
     <string name="install_date">Install Date</string>
     <string name="update_date">Update Date</string>
     <string name="permissions">Permissions</string>
@@ -177,7 +176,6 @@
     <string name="setup">Setup</string>
     <string name="instant">Instant</string>
     <string name="runtime">Runtime</string>
-    <string name="oem">OEM</string>
     <string name="vendor_privileged">Vendor Privileged</string>
     <string name="text_classifier">Text Classifier</string>
     <string name="wellbeing">Wellbeing</string>
@@ -186,7 +184,6 @@
     <string name="incident_report_approver">Incident Report Approver</string>
     <string name="app_predictor">App Predictor</string>
     <string name="retail_demo">Retail Demo</string>
-    <string name="apex">Apex</string>
     <string name="auto">Auto</string>
     <string name="internal">Internal</string>
     <string name="prefer_external">External Preferred</string>
