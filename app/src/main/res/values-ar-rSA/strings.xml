@@ -61,7 +61,6 @@
     <string name="install_location">موقع التثبيت</string>
     <string name="minimum_sdk">الحد الأدنى للـ SDK</string>
     <string name="target_sdk">الـ SDK المستهدف</string>
-    <string name="uid">المُعرف الفريد</string>
     <string name="install_date">تاريخ التثبيت</string>
     <string name="update_date">تاريخ التحديث</string>
     <string name="permissions">الأذونات</string>
@@ -178,7 +177,6 @@
     <string name="setup">الإعداد</string>
     <string name="instant">فوري</string>
     <string name="runtime">وقت التشغيل</string>
-    <string name="oem">OEM</string>
     <string name="vendor_privileged">صلاحيات المورّد</string>
     <string name="text_classifier">مصنّف النصوص</string>
     <string name="wellbeing">الرفاهية</string>
@@ -187,7 +185,6 @@
     <string name="incident_report_approver">المعتمد لتقارير الحوادث</string>
     <string name="app_predictor">متنبئ التطبيقات</string>
     <string name="retail_demo">الوضع التجريبي</string>
-    <string name="apex">Apex</string>
     <string name="auto">تلقائي</string>
     <string name="internal">داخلي</string>
     <string name="prefer_external">يُفضل الخارجي</string>

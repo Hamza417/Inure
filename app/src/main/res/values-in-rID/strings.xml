@@ -61,7 +61,6 @@
     <string name="install_location">Lokasi Pemasangan</string>
     <string name="minimum_sdk">SDK Minimum</string>
     <string name="target_sdk">SDK Target</string>
-    <string name="uid">UID</string>
     <string name="install_date">Tanggal Pemasangan</string>
     <string name="update_date">Tanggal Pembaruan</string>
     <string name="permissions">Izin Aplikasi</string>
@@ -178,7 +177,6 @@
     <string name="setup">Konfigurasi</string>
     <string name="instant">Instan</string>
     <string name="runtime">Waktu Berjalan</string>
-    <string name="oem">OEM</string>
     <string name="vendor_privileged">Hak Istimewa Vendor</string>
     <string name="text_classifier">Pengklasifikasi Teks</string>
     <string name="wellbeing">Kesejahteraan</string>
@@ -187,7 +185,6 @@
     <string name="incident_report_approver">Penyetuju Laporan Insiden</string>
     <string name="app_predictor">Pemprediksi Aplikasi</string>
     <string name="retail_demo">Demo Ritel</string>
-    <string name="apex">Puncak</string>
     <string name="auto">Otomatis</string>
     <string name="internal">Internal</string>
     <string name="prefer_external">Pilihan Eksternal</string>

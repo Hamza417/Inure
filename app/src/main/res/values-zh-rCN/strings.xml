@@ -63,7 +63,6 @@
     <string name="install_location">安装位置</string>
     <string name="minimum_sdk">最低SDK版本</string>
     <string name="target_sdk">目标SDK版本</string>
-    <string name="uid">UID</string>
     <string name="install_date">安装日期</string>
     <string name="update_date">更新日期</string>
     <string name="permissions">权限</string>
@@ -180,7 +179,6 @@
     <string name="setup">安装</string>
     <string name="instant">即时</string>
     <string name="runtime">运行时</string>
-    <string name="oem">制造商</string>
     <string name="vendor_privileged">Oem特权</string>
     <string name="text_classifier">Text Classifier</string>
     <string name="wellbeing">Wellbeing</string>
@@ -189,7 +187,6 @@
     <string name="incident_report_approver">Incident Report Approver</string>
     <string name="app_predictor">App Predictor</string>
     <string name="retail_demo">Retail Demo</string>
-    <string name="apex">Apex</string>
     <string name="auto">自动</string>
     <string name="internal">内部</string>
     <string name="prefer_external">优先外部</string>

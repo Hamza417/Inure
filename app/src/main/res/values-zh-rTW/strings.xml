@@ -61,7 +61,6 @@
     <string name="install_location">安裝位置</string>
     <string name="minimum_sdk">最低 SDK</string>
     <string name="target_sdk">目標 SDK</string>
-    <string name="uid">UID</string>
     <string name="install_date">安裝日期</string>
     <string name="update_date">更新日期</string>
     <string name="permissions">權限</string>
@@ -178,7 +177,6 @@
     <string name="setup">安裝</string>
     <string name="instant">即時</string>
     <string name="runtime">執行階段</string>
-    <string name="oem">OEM</string>
     <string name="vendor_privileged">廠商特殊權限</string>
     <string name="text_classifier">文字分類器</string>
     <string name="wellbeing">身心健康</string>
@@ -187,7 +185,6 @@
     <string name="incident_report_approver">事件報告核准者</string>
     <string name="app_predictor">應用程式預測工具</string>
     <string name="retail_demo">零售示範</string>
-    <string name="apex">頂點</string>
     <string name="auto">自動</string>
     <string name="internal">內部</string>
     <string name="prefer_external">外部偏好</string>

@@ -61,7 +61,6 @@
     <string name="install_location">Ubicación de la instalación</string>
     <string name="minimum_sdk">SDK Mínimo</string>
     <string name="target_sdk">SDK de destino</string>
-    <string name="uid">UID</string>
     <string name="install_date">Fecha de instalación</string>
     <string name="update_date">Fecha de actualización</string>
     <string name="permissions">Permisos</string>
@@ -178,7 +177,6 @@
     <string name="setup">Configuración</string>
     <string name="instant">Instantáneo</string>
     <string name="runtime">Tiempo de ejecución</string>
-    <string name="oem">OEM</string>
     <string name="vendor_privileged">Privilegiado por el fabricante</string>
     <string name="text_classifier">Clasificador de texto</string>
     <string name="wellbeing">Bienestar</string>
@@ -187,7 +185,6 @@
     <string name="incident_report_approver">Aprobador de informes de incidentes</string>
     <string name="app_predictor">Predictor de apps</string>
     <string name="retail_demo">Modo de demostración</string>
-    <string name="apex">Ápice</string>
     <string name="auto">Automático</string>
     <string name="internal">Interno</string>
     <string name="prefer_external">Externo preferido</string>
