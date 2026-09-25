@@ -90,6 +90,8 @@ object LocaleUtils {
             Locales("日本語 (Japanese)", "ja-JP"),
             // Polish
             Locales("Polski (Polish)", "pl-PL"),
+            // Persian
+            Locales("فارسی (Persian)", "fa-IR"),
     )
 
     fun getAppLocale(): Locale {
