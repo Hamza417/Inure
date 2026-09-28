@@ -61,10 +61,11 @@ class AdapterTags(private val tags: ArrayList<String>, private val showNewTag: B
                 holder.tag.setChipColor(AppearancePreferences.getAccentColor(), true)
             } else {
                 if (AccessibilityPreferences.isColorfulIcons()) {
-                    try {
-                        holder.tag.setChipColor(Colors.getColors()[position], true)
-                    } catch (_: IndexOutOfBoundsException) {
-                        holder.tag.setChipColor(Colors.getColors()[position - Colors.getColors().size], true)
+                    val colors = Colors.getColors()
+
+                    if (colors.isNotEmpty()) {
+                        val safeIndex = position % colors.size
+                        holder.tag.setChipColor(colors[safeIndex], true)
                     }
                 } else {
                     holder.tag.setDefaultChipColor()
