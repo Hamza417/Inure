@@ -1,14 +1,11 @@
-<h4>Security Fixes</h4>
+<h4>Bug Fixes</h4>
 
 <ul>
-    <li>Fixed a vulnerability in the Image Viewer that allowed unauthorized access to app-private
-        files.
-    </li>
+    <li>Fixed a crash while adding tags to apps.</li>
 </ul>
 
 <h4>Translations</h4>
 
 <ul>
-    <li>Updated <b>French</b> translations.</li>
-    <li>Updated <b>Chinese (Traditional)</b> translations.</li>
+    <li>Added complete <b>Persian</b> translations.</li>
 </ul>
