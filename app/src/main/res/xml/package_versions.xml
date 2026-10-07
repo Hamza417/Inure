@@ -177,6 +177,7 @@
     <string name="de.ktran.anno1404warenrechner" translatable="false">MIT</string>
     <string name="anonvpn.anon_next.android" translatable="false">BSD-3-Clause</string>
     <string name="org.anonomi.android" translatable="false">GPL-3.0-or-later</string>
+    <string name="org.anonomi.postbox" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.dx.anonymousmessenger" translatable="false">GPL-3.0-or-later</string>
     <string name="com.maltaisn.notes.sync" translatable="false">Apache-2.0</string>
     <string name="im.narayana.another" translatable="false">GPL-3.0-only</string>
@@ -198,6 +199,7 @@
     <string name="axp.tool.apkextractor" translatable="false">MIT</string>
     <string name="com.noxplay.noxplayer" translatable="false">AGPL-3.0-only</string>
     <string name="com.jvillalba.apod.md" translatable="false">MIT</string>
+    <string name="io.github.buerlino.apodroid" translatable="false">GPL-3.0-only</string>
     <string name="org.nuclearfog.apollo" translatable="false">GPL-3.0-or-later</string>
     <string name="neth.iecal.curbox" translatable="false">GPL-3.0-or-later</string>
     <string name="de.grobox.appbundlereporter" translatable="false">GPL-3.0-or-later</string>
@@ -705,6 +707,7 @@
     <string name="tribixbite.cleverkeys" translatable="false">GPL-3.0-only</string>
     <string name="com.clicc" translatable="false">MIT</string>
     <string name="co.prestosole.clima" translatable="false">MPL-2.0</string>
+    <string name="de.clio.audiobook" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.deweyreed.clipboardcleaner" translatable="false">MIT</string>
     <string name="me.lucky.clipeus" translatable="false">GPL-3.0-only</string>
     <string name="com.github.lamarios.clipious" translatable="false">AGPL-3.0-or-later</string>
@@ -724,6 +727,7 @@
     <string name="com.peaceray.codeword" translatable="false">GPL-3.0-only</string>
     <string name="co.ec.cnsyn.codecatcher" translatable="false">GPL-3.0-or-later</string>
     <string name="com.github.muellerma.coffee" translatable="false">Apache-2.0</string>
+    <string name="io.github.adrian2414745.coffeelog" translatable="false">GPL-3.0-only</string>
     <string name="com.omelan.cofi" translatable="false">GPL-3.0-only</string>
     <string name="com.spencerpages" translatable="false">GPL-3.0-only</string>
     <string name="com.cointrend" translatable="false">GPL-3.0-or-later</string>
@@ -761,6 +765,7 @@
     <string name="org.connectbot" translatable="false">Apache-2.0</string>
     <string name="com.mendhak.conscryptprovider" translatable="false">MIT</string>
     <string name="space.karrarnazim.ConsoleFlow" translatable="false">GPL-3.0-only</string>
+    <string name="com.jjrapps.constanza" translatable="false">MIT</string>
     <string name="net.stargw.contacts" translatable="false">Apache-2.0</string>
     <string name="net.stargw.contactsimport" translatable="false">Apache-2.0</string>
     <string name="app.xcy7e.contextium" translatable="false">GPL-3.0-or-later</string>
@@ -824,6 +829,7 @@
     <string name="com.nyx.custom_uploader" translatable="false">MIT</string>
     <string name="dev.msbs.cyclauncher" translatable="false">GPL-3.0-only</string>
     <string name="net.cyclestreets" translatable="false">GPL-3.0-only</string>
+    <string name="com.beemasfincon.cyclicalarms" translatable="false">Apache-2.0</string>
     <string name="net.quietflare.cycluna" translatable="false">MIT</string>
     <string name="io.gitlab.jrock902.cypherleaf" translatable="false">MIT</string>
     <string name="cz.vitSkalicky.klavesnice" translatable="false">Apache-2.0</string>
@@ -890,6 +896,7 @@
     <string name="com.vladrip.drgassistant" translatable="false">Apache-2.0</string>
     <string name="com.example.deeplviewer" translatable="false">MIT</string>
     <string name="com.yogeshpaliyal.deepr" translatable="false">MIT</string>
+    <string name="de.binauralbeats.app.foss" translatable="false">GPL-3.0-only</string>
     <string name="com.defang.launcher" translatable="false">GPL-3.0-only</string>
     <string name="ie.defo.ech_apps" translatable="false">GPL-3.0-or-later</string>
     <string name="ch.gassenarbeit.bern.your.rights" translatable="false">AGPL-3.0-only</string>
@@ -908,6 +915,7 @@
     <string name="com.machiav3lli.derdiedas" translatable="false">MIT</string>
     <string name="org.asnelt.derandom" translatable="false">Apache-2.0</string>
     <string name="org.tfv.deskflow" translatable="false">MIT</string>
+    <string name="com.ekinao.desktopmascot" translatable="false">MIT</string>
     <string name="com.miloshpetrov.sol2.android" translatable="false">Apache-2.0</string>
     <string name="com.leastauthority.destiny" translatable="false">MIT</string>
     <string name="de.determapp.android" translatable="false">GPL-3.0-only</string>
@@ -965,6 +973,7 @@
     <string name="net.backslasher.dndtoggle" translatable="false">GPL-3.0-only</string>
     <string name="amirz.dngprocessor" translatable="false">LGPL-3.0-only</string>
     <string name="com.gianlu.dnshero" translatable="false">GPL-3.0-only</string>
+    <string name="com.netshield.dns.psbdx" translatable="false">GPL-3.0-or-later</string>
     <string name="com.ericlowry.dnstoggle" translatable="false">MIT</string>
     <string name="dev.clombardo.dnsnet" translatable="false">GPL-3.0-or-later</string>
     <string name="at.co.schwaerzler.maximilian.doit" translatable="false">Apache-2.0</string>
@@ -1132,6 +1141,7 @@
     <string name="com.damiengo.websiterss" translatable="false">GPL-3.0-or-later</string>
     <string name="com.app.equran" translatable="false">MIT</string>
     <string name="is.binary.alcoholnow" translatable="false">MIT</string>
+    <string name="io.github.bananguh.ErmChat" translatable="false">MIT</string>
     <string name="io.github.koukobin.ermis.ermismobile" translatable="false">AGPL-3.0-only</string>
     <string name="godau.fynn.dsbdirect" translatable="false">GPL-3.0-or-later</string>
     <string name="com.k2040.escaagnellis" translatable="false">GPL-3.0-only</string>
@@ -1262,6 +1272,7 @@
     <string name="com.unicornsonlsd.finamp" translatable="false">MPL-2.0</string>
     <string name="org.secuso.privacyfriendlyfinancemanager" translatable="false">GPL-3.0-or-later</string>
     <string name="com.maksimowiczm.findmyip" translatable="false">GPL-3.0-or-later</string>
+    <string name="com.sidhant.findwords" translatable="false">GPL-3.0-only</string>
     <string name="com.internalpositioning.find3.find3app" translatable="false">MIT</string>
     <string name="ru.seva.finder" translatable="false">GPL-3.0-only</string>
     <string name="com.vayunmathur.findfamily" translatable="false">GPL-3.0-only</string>
@@ -1290,6 +1301,7 @@
     <string name="de.tadris.flang" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.dimension.flare" translatable="false">GPL-3.0-only</string>
     <string name="org.flare.app" translatable="false">GPL-3.0-or-later</string>
+    <string name="club.hiraeth.flareenough" translatable="false">GPL-3.0-or-later</string>
     <string name="fr.jnda.android.flashalert" translatable="false">GPL-3.0-only</string>
     <string name="m.co.rh.id.a_flash_deck" translatable="false">GPL-3.0-only</string>
     <string name="com.flashbyte" translatable="false">MIT</string>
@@ -1447,6 +1459,7 @@
     <string name="net.multun.gamecounter.fdroid" translatable="false">GPL-3.0-only</string>
     <string name="io.gitlab.selosh.gametrader" translatable="false">GPL-3.0-only</string>
     <string name="de.duenndns.gmdice" translatable="false">GPL-2.0-only</string>
+    <string name="net.retiolus.ganxet" translatable="false">GPL-3.0-or-later</string>
     <string name="com.fr.laboussole.track" translatable="false">AGPL-3.0-only</string>
     <string name="com.fearmikey.garage" translatable="false">MIT</string>
     <string name="by.yauhenl.gardine" translatable="false">GPL-3.0-only</string>
@@ -1952,6 +1965,7 @@
     <string name="com.rtneg.kyuubimask" translatable="false">Apache-2.0</string>
     <string name="ee.ioc.phon.android.speak" translatable="false">Apache-2.0</string>
     <string name="com.l5rcm.companion" translatable="false">GPL-3.0-only</string>
+    <string name="life.furrer.l9" translatable="false">GPL-3.0-or-later</string>
     <string name="com.languageapp.laetle" translatable="false">GPL-3.0-or-later</string>
     <string name="com.angryburg.uapp" translatable="false">GPL-3.0-only</string>
     <string name="com.bytesforge.linkasanote" translatable="false">GPL-3.0-or-later</string>
@@ -2113,6 +2127,7 @@
     <string name="com.patch4code.logline" translatable="false">GPL-3.0-only</string>
     <string name="com.logseq.app" translatable="false">AGPL-3.0-only</string>
     <string name="de.lolo.lolotrans" translatable="false">Apache-2.0</string>
+    <string name="com.harristownapps.lomocamera" translatable="false">GPL-3.0-only</string>
     <string name="io.github.lufte.lona" translatable="false">GPL-3.0-or-later</string>
     <string name="com.rtbishop.look4sat" translatable="false">GPL-3.0-or-later</string>
     <string name="org.isoron.uhabits" translatable="false">GPL-3.0-only</string>
@@ -2376,6 +2391,7 @@
     <string name="be.bhasher.mobileinpact" translatable="false">MIT</string>
     <string name="app.fedilab.mobilizon" translatable="false">GPL-3.0-only</string>
     <string name="barilyuk.mobilosignal" translatable="false">GPL-3.0-only</string>
+    <string name="su.mya.mocklock" translatable="false">GPL-3.0-only</string>
     <string name="io.github.jcastell7.modernt9" translatable="false">GPL-3.0-or-later</string>
     <string name="me.mudkip.moememos" translatable="false">GPL-3.0-only</string>
     <string name="io.github.jrichter24.moldqueen" translatable="false">MIT</string>
@@ -2875,6 +2891,7 @@
     <string name="s1m.hwfido2provider" translatable="false">Apache-2.0</string>
     <string name="com.rabbitcompany.passky" translatable="false">GPL-3.0-only</string>
     <string name="es.wolfi.app.passman" translatable="false">GPL-3.0-only</string>
+    <string name="com.passpony.android" translatable="false">Apache-2.0</string>
     <string name="com.jksalcedo.passvault" translatable="false">MIT</string>
     <string name="com.jefftharris.passwdsafe" translatable="false">Artistic-2.0</string>
     <string name="com.vecturagames.android.app.passwordgenerator" translatable="false">Apache-2.0</string>
@@ -3015,6 +3032,7 @@
     <string name="xyz.iridiumion.plucklockex" translatable="false">MIT</string>
     <string name="at.or.at.plugoffairplane" translatable="false">GPL-3.0-or-later</string>
     <string name="app.plugbrain.android" translatable="false">GPL-3.0-only</string>
+    <string name="io.github.jherforth.plungetracker" translatable="false">MIT</string>
     <string name="com.dijia1124.plusplusbattery" translatable="false">MIT</string>
     <string name="com.game.plutonic" translatable="false">GPL-3.0-only</string>
     <string name="com.soumikshah.investmenttracker" translatable="false">Apache-2.0</string>
@@ -3145,6 +3163,7 @@
     <string name="org.tessoft.qonvert" translatable="false">GPL-3.0-only</string>
     <string name="cc.chenhe.qqnotifyevo" translatable="false">AGPL-3.0-only</string>
     <string name="com.example.barcodescanner" translatable="false">Unlicense</string>
+    <string name="app.cbdm.qrcodedisplayer" translatable="false">MIT</string>
     <string name="com.secuso.privacyFriendlyCodeScanner" translatable="false">GPL-3.0-only</string>
     <string name="com.sweak.qralarm" translatable="false">GPL-3.0-only</string>
     <string name="com.github.andremiras.qrscan" translatable="false">MIT</string>
@@ -3386,6 +3405,7 @@
     <string name="com.elishaazaria.sayboard" translatable="false">GPL-3.0-only</string>
     <string name="com.dmi3dmi3.saywhen" translatable="false">GPL-3.0-only</string>
     <string name="com.scalepractice" translatable="false">GPL-3.0-only</string>
+    <string name="de.pritcloud.scalelauncher" translatable="false">GPL-3.0-only</string>
     <string name="io.github.chrisimx.scanbridge" translatable="false">GPL-3.0-or-later</string>
     <string name="de.westnordost.streetcomplete.expert" translatable="false">GPL-3.0-only</string>
     <string name="com.divinelink.scenepeek" translatable="false">GPL-3.0-only</string>
@@ -3494,6 +3514,7 @@
     <string name="com.ammar.sharing" translatable="false">AGPL-3.0-only</string>
     <string name="com.shatteredpixel.shatteredpixeldungeon" translatable="false">GPL-3.0-only</string>
     <string name="com.mendhak.sheepyhorn" translatable="false">MIT</string>
+    <string name="dev.tn3w.shelf" translatable="false">MIT</string>
     <string name="dev.halim.shelfdroid" translatable="false">AGPL-3.0-or-later</string>
     <string name="com.android.shellms" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.lordofpolls.shellwave" translatable="false">GPL-3.0-only</string>
@@ -3988,7 +4009,6 @@
     <string name="com.tkton.wallet" translatable="false">GPL-3.0-only</string>
     <string name="com.thomaskuenneth.tkweek" translatable="false">MIT</string>
     <string name="wtf.technodisaster.tldr" translatable="false">MIT</string>
-    <string name="org.maoist2009.tlsfragment" translatable="false">GPL-3.0-only</string>
     <string name="com.tinnamchoi.tmtlauncher" translatable="false">GPL-3.0-or-later</string>
     <string name="com.starapps.tools.tnefextractor" translatable="false">GPL-3.0-or-later</string>
     <string name="com.xmission.trevin.android.todo" translatable="false">GPL-3.0-only</string>
@@ -4262,6 +4282,7 @@
     <string name="com.nicolasbrailo.vlcfreemote" translatable="false">GPL-3.0-or-later</string>
     <string name="io.github.pedrolcl.vmpk" translatable="false">GPL-3.0-or-later</string>
     <string name="vocabletrainer.heinecke.aron.vocabletrainer" translatable="false">Apache-2.0</string>
+    <string name="com.vocahq.vocaphone" translatable="false">AGPL-3.0-only</string>
     <string name="de.ph1b.audiobook" translatable="false">GPL-3.0-or-later</string>
     <string name="groomiac.voicemailplayer" translatable="false">GPL-3.0-only</string>
     <string name="io.github.acidefluorhydrique.voicememos" translatable="false">MIT</string>
@@ -4305,6 +4326,7 @@
     <string name="com.ammar.wallflow.plus" translatable="false">GPL-3.0-or-later</string>
     <string name="com.github.cvzi.wallpaperexport" translatable="false">GPL-3.0-or-later</string>
     <string name="com.nononsenseapps.wanidoku" translatable="false">GPL-3.0-only</string>
+    <string name="dev.shrekbytes.waqfah.fdroid" translatable="false">AGPL-3.0-only</string>
     <string name="com.slanttech.warecache" translatable="false">GPL-3.0-only</string>
     <string name="org.sirekanyan.warmongr" translatable="false">MIT</string>
     <string name="com.antonok.warpclock" translatable="false">GPL-3.0-only</string>
@@ -4397,6 +4419,7 @@
     <string name="app.wispar.wispar" translatable="false">GPL-3.0-or-later</string>
     <string name="de.wivewa.android" translatable="false">GPL-3.0-only</string>
     <string name="com.wasimaster.wmkeyboard" translatable="false">MIT</string>
+    <string name="com.sasas991.wolpanel" translatable="false">GPL-3.0-or-later</string>
     <string name="dev.encgallery" translatable="false">GPL-3.0-only</string>
     <string name="com.atelieryl.wonderdroid" translatable="false">GPL-2.0-only</string>
     <string name="com.saverio.wordoftheday_en" translatable="false">GPL-3.0-only</string>
@@ -4515,6 +4538,7 @@
     <string name="lab.rreedd.oyatsu" translatable="false">GPL-3.0-or-later</string>
     <string name="kzs.th000.tsdm_client" translatable="false">MIT</string>
     <string name="com.zfdang.touchhelper" translatable="false">Apache-2.0</string>
+    <string name="com.shiyu.sime" translatable="false">Apache-2.0</string>
     <string name="com.gonnaggstudio.oh_tai_gi" translatable="false">GPL-3.0-only</string>
     <string name="dev.wceng.sufei" translatable="false">MIT</string>
     <string name="net.toload.main.hd" translatable="false">GPL-3.0-only</string>
@@ -4608,7 +4632,6 @@
     <string name="com.nevidimka655.astracrypt" translatable="false">GPL-3.0-only</string>
     <string name="com.antoniegil.astronia" translatable="false">GPL-3.0-or-later</string>
     <string name="io.atticusc.atmosweather" translatable="false">GPL-3.0-only</string>
-    <string name="com.jlindemann.science" translatable="false">GPL-3.0-only</string>
     <string name="vadimerenkov.aucards" translatable="false">GPL-3.0-only</string>
     <string name="io.alcatraz.audiohq" translatable="false">MIT</string>
     <string name="br.com.wasystems.audiooutputswitcher" translatable="false">MIT</string>
@@ -5048,6 +5071,7 @@
     <string name="com.iyps" translatable="false">GPL-3.0-only</string>
     <string name="in.sunilpaulmathew.izzyondroid" translatable="false">GPL-3.0-or-later</string>
     <string name="com.jabstone.jabtalk.basic" translatable="false">GPL-2.0-only</string>
+    <string name="com.audiosoftware.jaliscope" translatable="false">GPL-3.0-only</string>
     <string name="com.KaraWilson.JellyBook" translatable="false">MIT</string>
     <string name="org.jellyfin.mobile" translatable="false">GPL-2.0-or-later</string>
     <string name="com.jerboa" translatable="false">AGPL-3.0-only</string>
