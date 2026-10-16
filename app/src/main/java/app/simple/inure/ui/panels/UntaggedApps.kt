@@ -22,9 +22,9 @@ class UntaggedApps : ScopedFragment() {
     private lateinit var untaggedAppsViewModel: UntaggedAppsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_tags, container, false)
+        val view = inflater.inflate(R.layout.fragment_untagged, container, false)
 
-        recyclerView = view.findViewById(R.id.tags_recycler_view)
+        recyclerView = view.findViewById(R.id.recycler_view)
 
         // Hide the bottom menu since we don't need it here
         view.findViewById<View>(R.id.bottom_menu).visibility = View.GONE

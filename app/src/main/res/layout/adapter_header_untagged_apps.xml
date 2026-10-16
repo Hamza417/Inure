@@ -23,7 +23,7 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/untagged_apps"
             android:transitionName="@string/untagged_apps"
-            app:srcCompat="@drawable/ic_tags"
+            app:srcCompat="@drawable/ic_untagged"
             app:tintType="accent" />
 
         <app.simple.inure.decorations.typeface.TypeFaceTextView
