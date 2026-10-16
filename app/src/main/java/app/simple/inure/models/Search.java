@@ -1,6 +1,7 @@
 package app.simple.inure.models;
 
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -35,7 +36,12 @@ public class Search implements Parcelable {
     }
     
     protected Search(Parcel in) {
-        packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageInfo = in.readParcelable(PackageInfo.class.getClassLoader(), PackageInfo.class);
+        } else {
+            //noinspection deprecation
+            packageInfo = in.readParcelable(PackageInfo.class.getClassLoader());
+        }
         permissions = in.readInt();
         activities = in.readInt();
         services = in.readInt();
@@ -62,7 +68,7 @@ public class Search implements Parcelable {
         return 0;
     }
     
-    public static final Creator <Search> CREATOR = new Creator <Search>() {
+    public static final Creator <Search> CREATOR = new Creator <>() {
         @Override
         public Search createFromParcel(Parcel in) {
             return new Search(in);
