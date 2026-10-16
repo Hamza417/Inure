@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package app.simple.inure.apk.utils
 
 import android.app.Activity
@@ -12,11 +14,11 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
 import android.content.pm.PackageStats
-import android.net.Uri
 import android.os.Build
 import android.os.RemoteException
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.WorkerThread
+import androidx.core.net.toUri
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils.UNINSTALL_REQUEST_CODE
 import app.simple.inure.models.PackageSizes
@@ -76,12 +78,12 @@ object PackageUtils {
     fun getApplicationName(context: Context, applicationInfo: ApplicationInfo): String? {
         return try {
             context.packageManager.getApplicationLabel(applicationInfo).toString()
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             try {
                 context.packageManager.getPackageArchiveInfo(applicationInfo.sourceDir)?.let {
                     context.packageManager.getApplicationLabel(it.safeApplicationInfo).toString()
                 }
-            } catch (e: NameNotFoundException) {
+            } catch (_: NameNotFoundException) {
                 context.getString(R.string.unknown)
             }
         }
@@ -90,7 +92,7 @@ object PackageUtils {
     fun String.isPackageDisabled(context: Context): Boolean {
         return try {
             context.packageManager.getApplicationInfo(this)?.enabled == false
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             false
         }
     }
@@ -111,13 +113,12 @@ object PackageUtils {
                 try {
                     @Suppress("DEPRECATION")
                     getPackageInfo(packageName, flags.toInt())
-                } catch (e: RuntimeException) {
+                } catch (_: RuntimeException) {
                     @Suppress("DEPRECATION")
                     getPackageInfo(packageName, PackageManager.GET_META_DATA)
                 }
             }
-        } catch (e: NameNotFoundException) {
-            e.printStackTrace()
+        } catch (_: NameNotFoundException) {
         }
 
         return null
@@ -212,20 +213,20 @@ object PackageUtils {
     fun getApplicationVersion(context: Context, packageInfo: PackageInfo): String {
         return try {
             context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionName!!
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             try {
                 context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionName!!
-            } catch (e: NameNotFoundException) {
+            } catch (_: NameNotFoundException) {
                 context.getString(R.string.unknown)
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 context.getString(R.string.unknown)
             }
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             try {
                 context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionName!!
-            } catch (e: NameNotFoundException) {
+            } catch (_: NameNotFoundException) {
                 context.getString(R.string.unknown)
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 context.getString(R.string.unknown)
             }
         }
@@ -238,38 +239,42 @@ object PackageUtils {
      *        information
      * @return app's version code as [String]
      */
+    @Suppress("DEPRECATION")
     fun getApplicationVersionCode(context: Context, packageInfo: PackageInfo): String {
         return try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                context.packageManager.getPackageInfo(packageInfo.packageName)!!.longVersionCode.toString()
+                context.packageManager.getPackageInfo(
+                        packageInfo.packageName)!!.longVersionCode.toString()
             } else {
-                @Suppress("deprecation")
-                context.packageManager.getPackageInfo(packageInfo.packageName)!!.versionCode.toString()
+                context.packageManager.getPackageInfo(
+                        packageInfo.packageName)!!.versionCode.toString()
             }
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(
+                            packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
                 } else {
-                    @Suppress("deprecation")
-                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(
+                            packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
                 }
-            } catch (e: NameNotFoundException) {
+            } catch (_: NameNotFoundException) {
                 context.getString(R.string.unknown)
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 context.getString(R.string.unknown)
             }
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(
+                            packageInfo.safeApplicationInfo.sourceDir)!!.longVersionCode.toString()
                 } else {
-                    @Suppress("deprecation")
-                    context.packageManager.getPackageArchiveInfo(packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
+                    context.packageManager.getPackageArchiveInfo(
+                            packageInfo.safeApplicationInfo.sourceDir)!!.versionCode.toString()
                 }
-            } catch (e: NameNotFoundException) {
+            } catch (_: NameNotFoundException) {
                 context.getString(R.string.unknown)
-            } catch (e: NullPointerException) {
+            } catch (_: NullPointerException) {
                 context.getString(R.string.unknown)
             }
         }
@@ -361,9 +366,9 @@ object PackageUtils {
     fun PackageInfo.getApplicationInstallTime(context: Context, pattern: String): String {
         return try {
             DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName)!!.firstInstallTime, pattern)
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             context.getString(R.string.unknown)
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             context.getString(R.string.unknown)
         }
     }
@@ -376,10 +381,11 @@ object PackageUtils {
      */
     fun PackageInfo.getApplicationLastUpdateTime(context: Context, pattern: String): String {
         return try {
-            DateUtils.formatDate(context.packageManager.getPackageInfo(this.packageName)!!.lastUpdateTime, pattern)
-        } catch (e: NameNotFoundException) {
+            DateUtils.formatDate(context.packageManager
+                                     .getPackageInfo(this.packageName)!!.lastUpdateTime, pattern)
+        } catch (_: NameNotFoundException) {
             context.getString(R.string.unknown)
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             context.getString(R.string.unknown)
         }
     }
@@ -458,20 +464,20 @@ object PackageUtils {
      *
      * @param appUninstallObserver reference of the current [ActivityResultLauncher]
      */
-    @Suppress("deprecation")
+    @Suppress("DEPRECATION")
     fun PackageInfo.uninstallThisPackage(appUninstallObserver: ActivityResultLauncher<Intent>) {
         val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
-        intent.data = Uri.parse("package:${this.packageName}")
+        intent.data = "package:${this.packageName}".toUri()
         appUninstallObserver.launch(intent)
     }
 
     private fun PackageManager.isPackageEnabled(packageName: String): Boolean {
         return try {
             getPackageInfo(packageName)!!.safeApplicationInfo.enabled
-        } catch (e: NameNotFoundException) {
+        } catch (_: NameNotFoundException) {
             false
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             false
         }
     }
@@ -484,6 +490,7 @@ object PackageUtils {
      * Fetches the directory size of this installed application
      * @return [Long] and should be formatted manually
      */
+    @Suppress("DEPRECATION")
     @WorkerThread
     fun PackageInfo.getPackageSize(context: Context): PackageSizes {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -491,22 +498,24 @@ object PackageUtils {
 
             val storageStatsManager = context.getSystemService(Context.STORAGE_STATS_SERVICE) as StorageStatsManager
             return try {
-                val storageStats = storageStatsManager.queryStatsForUid(this.safeApplicationInfo.storageUuid, this.safeApplicationInfo.uid)
+                val storageStats = storageStatsManager.queryStatsForUid(
+                        this.safeApplicationInfo.storageUuid, this.safeApplicationInfo.uid)
                 val cacheSize = storageStats.cacheBytes
                 val dataSize = storageStats.dataBytes
                 val apkSize = storageStats.appBytes
+
                 PackageSizes(dataSize = dataSize,
                              cacheSize = cacheSize,
                              codeSize = apkSize)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 PackageSizes() // Empty data with 0 as values
             }
         } else {
             var packageSizes = PackageSizes()
             val packageManager: PackageManager = context.packageManager
-            val getPackageSizeInfo: Method = packageManager.javaClass.getMethod("getPackageSizeInfo", String::class.java, IPackageStatsObserver::class.java)
+            val getPackageSizeInfo: Method = packageManager.javaClass
+                .getMethod("getPackageSizeInfo", String::class.java, IPackageStatsObserver::class.java)
 
-            @Suppress("deprecation")
             getPackageSizeInfo.invoke(packageManager, this.packageName, object : IPackageStatsObserver.Stub() {
                 @Throws(RemoteException::class)
                 override fun onGetStatsCompleted(packageStats: PackageStats, succeeded: Boolean) {
@@ -556,11 +565,7 @@ object PackageUtils {
     }
 
     fun PackageManager.isAppHidden(packageName: String): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            getApplicationInfo(packageName)?.flags!! and PRIVATE_FLAG_HIDDEN != 0
-        } else {
-            false
-        }
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && getApplicationInfo(packageName)?.flags!! and PRIVATE_FLAG_HIDDEN != 0
     }
 
     fun getIntentFilter(s: String): Intent {
