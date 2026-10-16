@@ -29,7 +29,7 @@ class UntaggedViewModel(application: Application) : PackageUtilsViewModel(applic
         loadUntaggedApps()
     }
 
-    private fun loadUntaggedApps() {
+    fun loadUntaggedApps() {
         viewModelScope.launch(Dispatchers.IO) {
             val allApps = getInstalledApps()
             val database = TagsDatabase.getInstance(applicationContext())

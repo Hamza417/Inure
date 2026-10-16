@@ -10,6 +10,7 @@ import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import app.simple.inure.R
 import app.simple.inure.adapters.tags.AdapterUntaggedApps
+import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
@@ -25,9 +26,6 @@ class Untagged : ScopedFragment() {
         val view = inflater.inflate(R.layout.fragment_untagged, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_view)
-
-        // Hide the bottom menu since we don't need it here
-        view.findViewById<View>(R.id.bottom_menu).visibility = View.GONE
 
         untaggedViewModel = ViewModelProvider(requireActivity())[UntaggedViewModel::class.java]
 
@@ -58,6 +56,22 @@ class Untagged : ScopedFragment() {
                         .show(childFragmentManager, AppMenu.TAG)
                 }
             })
+
+            bottomRightCornerMenu?.initBottomMenuWithRecyclerView(
+                    BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
+                when (id) {
+                    R.drawable.ic_search -> {
+                        openFragmentSlide(Search.newInstance(true), Search.TAG)
+                    }
+                    R.drawable.ic_refresh -> {
+                        showLoader(true)
+                        untaggedViewModel.loadUntaggedApps()
+                    }
+                    R.drawable.ic_settings -> {
+                        openFragmentSlide(Preferences.newInstance(), Preferences.TAG)
+                    }
+                }
+            }
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
