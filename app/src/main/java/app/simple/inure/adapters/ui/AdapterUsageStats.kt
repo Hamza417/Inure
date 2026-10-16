@@ -1,5 +1,6 @@
 package app.simple.inure.adapters.ui
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,8 +53,8 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
         }
     }
 
-    override fun onBindViewHolder(holder: VerticalListViewHolder, position_: Int) {
-        val position = position_ - 1
+    override fun onBindViewHolder(holder: VerticalListViewHolder, binderPosition: Int) {
+        val position = binderPosition - 1
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageInfo?.packageName
@@ -75,42 +76,9 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
 
             holder.name.setAppVisualStates(apps[position].packageInfo!!)
 
-            with(apps[position].totalTimeUsed) {
-                holder.time.apply {
-                    this.text = buildString {
-                        append(
-                                when {
-                                    TimeUnit.MILLISECONDS.toSeconds(this@with) < 60 -> {
-                                        this@apply.context.getString(R.string.used_for_seconds,
-                                                                     TimeUnit.MILLISECONDS.toSeconds(this@with).toString())
-                                    }
-                                    TimeUnit.MILLISECONDS.toMinutes(this@with) < 60 -> {
-                                        this@apply.context.getString(R.string.used_for_short,
-                                                                     TimeUnit.MILLISECONDS.toMinutes(this@with).toString())
-                                    }
-                                    TimeUnit.MILLISECONDS.toHours(this@with) < 24 -> {
-                                        this@apply.context.getString(R.string.used_for_long,
-                                                                     TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                                     (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                                    }
-                                    else -> {
-                                        if (isLimitedToHours) {
-                                            this@apply.context.getString(R.string.used_for_long,
-                                                                         TimeUnit.MILLISECONDS.toHours(this@with).toString(),
-                                                                         (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                                        } else {
-                                            this@apply.context.getString(R.string.used_for_days,
-                                                                         TimeUnit.MILLISECONDS.toDays(this@with).toString(),
-                                                                         (TimeUnit.MILLISECONDS.toHours(this@with) % 24).toString(),
-                                                                         (TimeUnit.MILLISECONDS.toMinutes(this@with) % 60).toString())
-                                        }
-                                    }
-                                })
-
-                        append(" | ")
-                        append(apps[position].appSize.toSize())
-                    }
-                }
+            holder.time.text = buildString {
+                append(apps[position].totalTimeUsed.formatTimeUsed(holder.itemView.context, isLimitedToHours))
+                appendFlag(apps[position].appSize.toSize())
             }
 
             holder.container.setOnClickListener {
@@ -224,6 +192,20 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
 
     fun enableLoader() {
         isLoader = true
+    }
+
+    private fun Long.formatTimeUsed(context: Context, isLimitedToHours: Boolean): String {
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(this)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(this)
+        val hours = TimeUnit.MILLISECONDS.toHours(this)
+        val days = TimeUnit.MILLISECONDS.toDays(this)
+
+        return when {
+            seconds < 60 -> context.getString(R.string.used_for_seconds, seconds.toString())
+            minutes < 60 -> context.getString(R.string.used_for_short, minutes.toString())
+            hours < 24 || isLimitedToHours -> context.getString(R.string.used_for_long, hours.toString(), (minutes % 60).toString())
+            else -> context.getString(R.string.used_for_days, days.toString(), (hours % 24).toString(), (minutes % 60).toString())
+        }
     }
 
     inner class Holder(itemView: View) : VerticalListViewHolder(itemView) {
