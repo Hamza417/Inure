@@ -20,6 +20,10 @@ class UntaggedAppsViewModel(application: Application) : PackageUtilsViewModel(ap
         return untaggedApps
     }
 
+    fun shouldShowLoader(): Boolean {
+        return untaggedApps.value.isNullOrEmpty()
+    }
+
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {
         super.onAppsLoaded(apps)
         loadUntaggedApps()

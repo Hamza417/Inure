@@ -36,31 +36,28 @@ class UntaggedApps : ScopedFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
 
-        if (untaggedAppsViewModel.getUntaggedApps().value != null) {
-            postponeEnterTransition()
-        } else {
-            startPostponedEnterTransition()
+        if (untaggedAppsViewModel.shouldShowLoader()) {
             showLoader(manualOverride = true)
         }
 
         untaggedAppsViewModel.getUntaggedApps().observe(viewLifecycleOwner) {
             hideLoader()
 
-            with(AdapterUntaggedApps(it)) {
-                recyclerView.adapter = this
-                setOnAdapterCallbacks(object : AdapterCallbacks {
+            val adapterUntaggedApps = AdapterUntaggedApps(it)
+            recyclerView.adapter = adapterUntaggedApps
 
-                    override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
-                        openAppInfo(packageInfo, icon)
-                    }
+            adapterUntaggedApps.setOnAdapterCallbacks(object : AdapterCallbacks {
+                override fun onAppClicked(packageInfo: PackageInfo, icon: ImageView) {
+                    openAppInfo(packageInfo, icon)
+                }
 
-                    override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
-                        AppMenu.newInstance(packageInfo)
-                            .show(childFragmentManager, AppMenu.TAG)
-                    }
-                })
-            }
+                override fun onAppLongPressed(packageInfo: PackageInfo, icon: ImageView) {
+                    AppMenu.newInstance(packageInfo)
+                        .show(childFragmentManager, AppMenu.TAG)
+                }
+            })
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
