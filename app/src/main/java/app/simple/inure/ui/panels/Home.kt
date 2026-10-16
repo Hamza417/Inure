@@ -127,6 +127,10 @@ class Home : ScopedFragment() {
                             openFragmentArc(Tags.newInstance(), icon, Tags.TAG)
                         }
 
+                        R.string.untagged -> {
+                            openFragmentArc(Untagged.newInstance(), icon, Untagged.TAG)
+                        }
+
                         R.string.music -> {
                             openFragmentArc(Music.newInstance(), icon, Music.TAG)
                         }
