@@ -269,6 +269,7 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
             list.add(Pair(R.drawable.ic_tags, R.string.tags))
+            list.add(Pair(R.drawable.ic_tags, R.string.untagged_apps))
 
             if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
@@ -359,10 +360,6 @@ class HomeViewModel(application: Application) :
 
             customizableMenuItems.postValue(list)
         }
-    }
-
-    override fun onAppUninstalled(packageName: String?) {
-        super.onAppUninstalled(packageName)
     }
 
     override fun onAppsLoaded(apps: ArrayList<PackageInfo>) {

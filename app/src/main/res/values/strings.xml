@@ -669,6 +669,7 @@
     <string name="backup_and_restore_desc">Backup and Restore app\'s data.</string>
     <string name="import_">Import</string>
     <string name="tags">Tags</string>
+    <string name="untagged_apps">Untagged Apps</string>
     <string name="add_tag">Add a New Tag</string>
     <string name="tinted_shadows">Tinted Shadow</string>
     <string name="extracting">Extracting</string>
