@@ -259,9 +259,13 @@ class HomeViewModel(application: Application) :
                 list.add(Pair(R.drawable.ic_stats, R.string.usage_statistics))
             }
 
-            list.add(Pair(0, 0)) // Divider
-
             list.add(Pair(R.drawable.ic_layers, R.string.batch))
+
+            if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
+                list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
+            }
+
+            list.add(Pair(0, 0)) // Divider
 
             if (HomePreferences.isPanelVisible(HomePreferences.IS_ANALYTICS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_analytics, R.string.analytics))
@@ -269,10 +273,9 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
             list.add(Pair(R.drawable.ic_tags, R.string.tags))
-            list.add(Pair(R.drawable.ic_untagged, R.string.untagged))
 
-            if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
-                list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
+            if (HomePreferences.isUntaggedPanelVisible()) {
+                list.add(Pair(R.drawable.ic_untagged, R.string.untagged))
             }
 
             list.add(Pair(0, 0)) // Divider
@@ -353,6 +356,7 @@ class HomeViewModel(application: Application) :
             list.add(VisibilityCustomizationModel(R.string.disabled, R.drawable.ic_disable, HomePreferences.IS_DISABLED_VISIBLE))
             list.add(VisibilityCustomizationModel(R.string.crash_report, R.drawable.ic_stacktrace, HomePreferences.IS_STACKTRACES_VISIBLE))
             list.add(VisibilityCustomizationModel(R.string.terminal_commands, R.drawable.ic_push_pin, HomePreferences.IS_SAVED_COMMANDS_VISIBLE))
+            list.add(VisibilityCustomizationModel(R.string.untagged, R.drawable.ic_untagged, HomePreferences.IS_UNTAGGED_APPS_VISIBLE))
             list.add(VisibilityCustomizationModel(R.string.battery_optimization, R.drawable.ic_settings_power, HomePreferences.IS_BATTERY_OPTIMIZATION_VISIBLE))
             list.add(VisibilityCustomizationModel(R.string.boot_manager, R.drawable.ic_power_off, HomePreferences.IS_BOOT_MANAGER_VISIBLE))
             list.add(VisibilityCustomizationModel(R.string.APKs, R.drawable.ic_adb, HomePreferences.IS_APKS_VISIBLE))
@@ -394,6 +398,7 @@ class HomeViewModel(application: Application) :
             HomePreferences.IS_UNINSTALLED_VISIBLE,
             HomePreferences.IS_DISABLED_VISIBLE,
             HomePreferences.IS_STACKTRACES_VISIBLE,
+            HomePreferences.IS_UNTAGGED_APPS_VISIBLE,
             HomePreferences.IS_SAVED_COMMANDS_VISIBLE,
             HomePreferences.IS_BATTERY_OPTIMIZATION_VISIBLE,
             HomePreferences.IS_BOOT_MANAGER_VISIBLE,

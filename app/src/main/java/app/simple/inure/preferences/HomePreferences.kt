@@ -1,5 +1,6 @@
 package app.simple.inure.preferences
 
+import androidx.core.content.edit
 import app.simple.inure.popups.home.PopupMenuLayout
 import app.simple.inure.preferences.SharedPreferences.getSharedPreferences
 
@@ -19,11 +20,12 @@ object HomePreferences {
     const val IS_SAVED_COMMANDS_VISIBLE = "is_saved_commands_visible"
     const val IS_APKS_VISIBLE = "is_apks_visible"
     const val IS_PREFERENCES_VISIBLE = "is_preferences_visible"
+    const val IS_UNTAGGED_APPS_VISIBLE = "is_untagged_apps_visible"
 
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setMenuLayout(layout: Int) {
-        getSharedPreferences().edit().putInt(HOME_MENU_LAYOUT, layout).apply()
+        getSharedPreferences().edit { putInt(HOME_MENU_LAYOUT, layout) }
     }
 
     fun getMenuLayout(): Int {
@@ -33,10 +35,14 @@ object HomePreferences {
     // ---------------------------------------------------------------------------------------------------------- //
 
     fun setPanelVisibility(panel: String, isVisible: Boolean) {
-        getSharedPreferences().edit().putBoolean(panel, isVisible).apply()
+        getSharedPreferences().edit { putBoolean(panel, isVisible) }
     }
 
     fun isPanelVisible(panel: String): Boolean {
         return getSharedPreferences().getBoolean(panel, true)
+    }
+
+    fun isUntaggedPanelVisible(): Boolean {
+        return getSharedPreferences().getBoolean(IS_UNTAGGED_APPS_VISIBLE, false)
     }
 }
