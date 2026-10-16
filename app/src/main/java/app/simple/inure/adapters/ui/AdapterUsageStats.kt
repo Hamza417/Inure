@@ -19,9 +19,12 @@ import app.simple.inure.interfaces.adapters.AdapterCallbacks
 import app.simple.inure.models.PackageStats
 import app.simple.inure.preferences.StatisticsPreferences
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
+import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileSizeHelper.toSize
+import app.simple.inure.util.LocaleUtils
 import app.simple.inure.util.RecyclerViewUtils
 import app.simple.inure.util.SortUsageStats
+import app.simple.inure.util.StatusBarHeight
 import app.simple.inure.util.StringUtils.appendFlag
 import app.simple.inure.util.ViewUtils.visible
 import com.bumptech.glide.Glide
@@ -40,8 +43,13 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalListViewHolder {
         return when (viewType) {
             RecyclerViewUtils.TYPE_HEADER -> {
-                Header(LayoutInflater.from(parent.context)
-                           .inflate(R.layout.adapter_header_usage_stats, parent, false))
+                if (LocaleUtils.isAppRussianLocale() && StatusBarHeight.isLandscape(parent.context).invert()) {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_usage_stats_ru, parent, false))
+                } else {
+                    Header(LayoutInflater.from(parent.context)
+                               .inflate(R.layout.adapter_header_usage_stats, parent, false))
+                }
             }
             RecyclerViewUtils.TYPE_ITEM -> {
                 Holder(LayoutInflater.from(parent.context)
@@ -58,12 +66,8 @@ class AdapterUsageStats(private val apps: ArrayList<PackageStats>) : RecyclerVie
 
         if (holder is Holder) {
             holder.icon.transitionName = apps[position].packageInfo?.packageName
-            holder.icon.loadAppIcon(
-                    packageName = apps[position].packageInfo!!.packageName,
-                    enabled = apps[position].packageInfo!!.safeApplicationInfo.enabled)
-
+            holder.icon.loadAppIcon(apps[position].packageInfo!!.packageName, apps[position].packageInfo!!.safeApplicationInfo.enabled)
             holder.name.text = apps[position].packageInfo!!.safeApplicationInfo.name
-
             holder.mobileData.text = buildString {
                 appendFlag(apps[position].mobileData?.tx?.toSize())
                 appendFlag(apps[position].mobileData?.rx?.toSize())
