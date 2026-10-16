@@ -14,12 +14,12 @@ import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppMenu
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
-import app.simple.inure.viewmodels.panels.UntaggedAppsViewModel
+import app.simple.inure.viewmodels.panels.UntaggedViewModel
 
-class UntaggedApps : ScopedFragment() {
+class Untagged : ScopedFragment() {
 
     private lateinit var recyclerView: CustomVerticalRecyclerView
-    private lateinit var untaggedAppsViewModel: UntaggedAppsViewModel
+    private lateinit var untaggedViewModel: UntaggedViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_untagged, container, false)
@@ -29,7 +29,7 @@ class UntaggedApps : ScopedFragment() {
         // Hide the bottom menu since we don't need it here
         view.findViewById<View>(R.id.bottom_menu).visibility = View.GONE
 
-        untaggedAppsViewModel = ViewModelProvider(requireActivity())[UntaggedAppsViewModel::class.java]
+        untaggedViewModel = ViewModelProvider(requireActivity())[UntaggedViewModel::class.java]
 
         return view
     }
@@ -38,11 +38,11 @@ class UntaggedApps : ScopedFragment() {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
 
-        if (untaggedAppsViewModel.shouldShowLoader()) {
+        if (untaggedViewModel.shouldShowLoader()) {
             showLoader(manualOverride = true)
         }
 
-        untaggedAppsViewModel.getUntaggedApps().observe(viewLifecycleOwner) {
+        untaggedViewModel.getUntaggedApps().observe(viewLifecycleOwner) {
             hideLoader()
 
             val adapterUntaggedApps = AdapterUntaggedApps(it)
@@ -66,13 +66,13 @@ class UntaggedApps : ScopedFragment() {
     }
 
     companion object {
-        fun newInstance(): UntaggedApps {
+        fun newInstance(): Untagged {
             val args = Bundle()
-            val fragment = UntaggedApps()
+            val fragment = Untagged()
             fragment.arguments = args
             return fragment
         }
 
-        const val TAG = "untagged_apps"
+        const val TAG = "untagged"
     }
 }

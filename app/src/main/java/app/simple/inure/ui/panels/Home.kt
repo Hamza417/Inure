@@ -127,8 +127,8 @@ class Home : ScopedFragment() {
                             openFragmentArc(Tags.newInstance(), icon, Tags.TAG)
                         }
 
-                        R.string.untagged_apps -> {
-                            openFragmentArc(UntaggedApps.newInstance(), icon, UntaggedApps.TAG)
+                        R.string.untagged -> {
+                            openFragmentArc(Untagged.newInstance(), icon, Untagged.TAG)
                         }
 
                         R.string.music -> {

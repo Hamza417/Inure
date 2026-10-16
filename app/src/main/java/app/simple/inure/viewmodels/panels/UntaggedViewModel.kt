@@ -10,7 +10,7 @@ import app.simple.inure.extensions.viewmodels.PackageUtilsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class UntaggedAppsViewModel(application: Application) : PackageUtilsViewModel(application) {
+class UntaggedViewModel(application: Application) : PackageUtilsViewModel(application) {
 
     private val untaggedApps: MutableLiveData<ArrayList<PackageInfo>> by lazy {
         MutableLiveData<ArrayList<PackageInfo>>()

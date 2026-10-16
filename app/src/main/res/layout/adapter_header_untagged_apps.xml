@@ -21,8 +21,8 @@
             android:layout_width="@dimen/adapter_header_icon_size"
             android:layout_height="@dimen/adapter_header_icon_size"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/untagged_apps"
-            android:transitionName="@string/untagged_apps"
+            android:contentDescription="@string/untagged"
+            android:transitionName="@string/untagged"
             app:srcCompat="@drawable/ic_untagged"
             app:tintType="accent" />
 
@@ -36,7 +36,7 @@
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="@string/untagged_apps"
+            android:text="@string/untagged"
             android:textSize="@dimen/header_font_size"
             app:appFontStyle="light"
             app:textColorStyle="heading" />

@@ -269,7 +269,7 @@ class HomeViewModel(application: Application) :
 
             list.add(Pair(R.drawable.ic_notes, R.string.notes))
             list.add(Pair(R.drawable.ic_tags, R.string.tags))
-            list.add(Pair(R.drawable.ic_untagged, R.string.untagged_apps))
+            list.add(Pair(R.drawable.ic_untagged, R.string.untagged))
 
             if (HomePreferences.isPanelVisible(HomePreferences.IS_SAVED_COMMANDS_VISIBLE)) {
                 list.add(Pair(R.drawable.ic_push_pin, R.string.terminal_commands))
