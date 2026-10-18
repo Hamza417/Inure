@@ -69,7 +69,6 @@ class ShizukuServiceHelper private constructor() {
                     onServiceConnectedListeners.remove(it)
                 }
 
-                throwable.printStackTrace()
                 throw throwable
             }
         } else {

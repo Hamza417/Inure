@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import rikka.shizuku.Shizuku
+import kotlin.time.Duration.Companion.milliseconds
 
 abstract class RootShizukuViewModel(application: Application) : PackageUtilsViewModel(application) {
 
@@ -61,7 +62,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                     //                        return@launch
                     //                    }
 
-                    withTimeout(10000) {
+                    withTimeout(10000.milliseconds) {
                         Shell.enableVerboseLogging = BuildConfig.DEBUG
 
                         kotlin.runCatching {
@@ -112,7 +113,7 @@ abstract class RootShizukuViewModel(application: Application) : PackageUtilsView
                 shizukuServiceHelper!!.bindUserService {
                     onShizukuCreated(shizukuServiceHelper!!)
                 }
-            } catch (e: SecurityException) {
+            } catch (_: SecurityException) {
                 onShizukuDenied()
             }
         } else {

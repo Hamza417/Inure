@@ -135,9 +135,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                     getPackageInfo(packageName, PackageUtils.flags.toInt())
                 }
                 return true
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
                 return false
-            } catch (e: DeadObjectException) {
+            } catch (_: DeadObjectException) {
                 Log.e("PackageUtilsViewModel", "isPackageInstalled: DeadObjectException")
             }
         }
@@ -146,9 +146,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     protected fun PackageManager.isPackageEnabled(packageName: String): Boolean {
         return try {
             getPackageInfo(packageName)!!.safeApplicationInfo.enabled
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             false
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             false
         }
     }
@@ -176,7 +176,7 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
                 try {
                     @Suppress("DEPRECATION")
                     getPackageInfo(packageName, PackageUtils.flags.toInt())
-                } catch (e: RuntimeException) {
+                } catch (_: RuntimeException) {
                     @Suppress("DEPRECATION")
                     getPackageInfo(packageName, PackageManager.GET_META_DATA)
                 }
@@ -215,9 +215,9 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
         while (true) {
             try {
                 return context.packageManager.getApplicationLabel(applicationInfo).toString()
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
                 return context.getString(R.string.unknown)
-            } catch (e: DeadObjectException) {
+            } catch (_: DeadObjectException) {
                 Log.e("PackageUtilsViewModel", "getApplicationName: DeadObjectException")
             }
         }
