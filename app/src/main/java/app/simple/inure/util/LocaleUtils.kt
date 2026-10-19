@@ -35,11 +35,7 @@ object LocaleUtils {
         val script = locale.script.uppercase(Locale.ROOT)
         val country = locale.country.uppercase(Locale.ROOT)
 
-        if (locale.language != "zh") {
-            return false
-        }
-
-        return when {
+        return locale.language == "zh" && when {
             script == "HANT" -> true
             script == "HANS" -> false
             else -> country == "TW" || country == "HK" || country == "MO"
@@ -92,6 +88,8 @@ object LocaleUtils {
             Locales("Polski (Polish)", "pl-PL"),
             // Persian
             Locales("فارسی (Persian)", "fa-IR"),
+            // South Korean
+            Locales("한국어 (Korean)", "ko-KR"),
     )
 
     fun getAppLocale(): Locale {
