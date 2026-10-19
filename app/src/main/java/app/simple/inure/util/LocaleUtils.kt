@@ -11,7 +11,7 @@ object LocaleUtils {
     private var appLocale = Locale.getDefault()
 
     /**
-     * Code for russian locale
+     * Code for Russian locale
      *
      * https://community.appinventor.mit.edu/t/android-localization-code-the-complete-list/7055
      */
@@ -21,7 +21,7 @@ object LocaleUtils {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Resources.getSystem().configuration.locales[0]
         } else {
-            @Suppress("deprecation")
+            @Suppress("DEPRECATION")
             Resources.getSystem().configuration.locale
         }
     }
@@ -35,9 +35,9 @@ object LocaleUtils {
         val script = locale.script.uppercase(Locale.ROOT)
         val country = locale.country.uppercase(Locale.ROOT)
 
-        return locale.language == "zh" && when {
-            script == "HANT" -> true
-            script == "HANS" -> false
+        return locale.language == "zh" && when (script) {
+            "HANT" -> true
+            "HANS" -> false
             else -> country == "TW" || country == "HK" || country == "MO"
         }
     }
@@ -52,7 +52,7 @@ object LocaleUtils {
      * https://www.oracle.com/java/technologies/javase/jdk8-jre8-suported-locales.html
      */
     val localeList = arrayListOf(
-            // Auto detect language (default)
+            // Auto-detect language (default)
             Locales("autoSystemLanguageString" /* Placeholder */, "default"),
             // English (United States)
             Locales("English (US)", "en-US"),
