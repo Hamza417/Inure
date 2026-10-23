@@ -1,5 +1,6 @@
 package app.simple.inure.ui.panels
 
+import android.content.SharedPreferences
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +14,10 @@ import app.simple.inure.adapters.tags.AdapterUntaggedApps
 import app.simple.inure.constants.BottomMenuConstants
 import app.simple.inure.decorations.overscroll.CustomVerticalRecyclerView
 import app.simple.inure.dialogs.app.AppMenu
+import app.simple.inure.dialogs.apps.UntaggedSort.Companion.showUntaggedSortDialog
 import app.simple.inure.extensions.fragments.ScopedFragment
 import app.simple.inure.interfaces.adapters.AdapterCallbacks
+import app.simple.inure.preferences.UntaggedPreferences
 import app.simple.inure.viewmodels.panels.UntaggedViewModel
 
 class Untagged : ScopedFragment() {
@@ -58,8 +61,11 @@ class Untagged : ScopedFragment() {
             })
 
             bottomRightCornerMenu?.initBottomMenuWithRecyclerView(
-                    BottomMenuConstants.getGenericBottomMenuItems(), recyclerView) { id, _ ->
+                    BottomMenuConstants.getAllAppsBottomMenuItems(), recyclerView) { id, _ ->
                 when (id) {
+                    R.drawable.ic_filter -> {
+                        childFragmentManager.showUntaggedSortDialog()
+                    }
                     R.drawable.ic_search -> {
                         openFragmentSlide(Search.newInstance(true), Search.TAG)
                     }
@@ -75,6 +81,16 @@ class Untagged : ScopedFragment() {
 
             (view.parent as? ViewGroup)?.doOnPreDraw {
                 startPostponedEnterTransition()
+            }
+        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            UntaggedPreferences.SORT_STYLE,
+            UntaggedPreferences.IS_SORTING_REVERSED,
+            UntaggedPreferences.APPS_TYPE -> {
+                untaggedViewModel.loadUntaggedApps()
             }
         }
     }
