@@ -1,15 +1,13 @@
 <h4>User Interface</h4>
 
 <ul>
-    <li>Added new <b>Untagged</b> panel to consolidate the list of all untagged applications.
-        <br>
-        <small>It is by default off, can be turned on from the <b>Home Visibility
-                                                                  Customizations</b>.</small>
+    <li>Added <b>Filters</b> in <b>Untagged</b> panel to sort and filter list appropriately as
+        required.
     </li>
 </ul>
 
 <h4>Translations</h4>
 
 <ul>
-    <li>Added complete <b>Korean</b> translations.</li>
+    <li>Updated all missing translations for all supported languages/locales.</li>
 </ul>
