@@ -799,4 +799,5 @@
     <string name="device_protected_data_dir">Direktori Data yang Dilindungi Perangkat</string>
     <string name="external_data_dir">Direktori Data Eksternal</string>
     <string name="recent_exits">Aksi Keluar (Exit) Terbaru</string>
+    <string name="untagged">Tidak ditandai</string>
 </resources>

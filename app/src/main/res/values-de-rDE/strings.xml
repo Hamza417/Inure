@@ -799,4 +799,13 @@ Ein gerootetes Gerät wird benötigt.</string>
     <string name="foreground">Vordergrund</string>
     <string name="granted_by_default">Standardmäßig gewährt</string>
     <string name="user_set">Benutzersatz</string>
+    <string name="installing">Installieren...</string>
+    <string name="batch_install">Stapelinstallation</string>
+    <string name="untagged">Ohne Tag</string>
+    <string name="other_apps">Andere Apps</string>
+    <string name="export_icon">Symbol exportieren</string>
+    <string name="public_source_dir">Öffentliches Quellverzeichnis</string>
+    <string name="device_protected_data_dir">Gerätegeschütztes Datenverzeichnis</string>
+    <string name="external_data_dir">Externes Datenverzeichnis</string>
+    <string name="recent_exits">Kürzliche Beendigungen</string>
 </resources>

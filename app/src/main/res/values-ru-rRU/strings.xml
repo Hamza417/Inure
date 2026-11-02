@@ -797,4 +797,13 @@
     <string name="foreground">Передний план</string>
     <string name="granted_by_default">Предоставлено по умолчанию</string>
     <string name="user_set">Пользовательский набор</string>
+    <string name="installing">Установка</string>
+    <string name="batch_install">Пакетная установка</string>
+    <string name="untagged">Без тега</string>
+    <string name="other_apps">Другие приложения</string>
+    <string name="export_icon">Экспортировать значок</string>
+    <string name="public_source_dir">Общедоступный исходный каталог</string>
+    <string name="device_protected_data_dir">Каталог данных, защищенный устройством</string>
+    <string name="external_data_dir">Внешний каталог данных</string>
+    <string name="recent_exits">Недавние выходы</string>
 </resources>

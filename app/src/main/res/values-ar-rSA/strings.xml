@@ -799,4 +799,5 @@
     <string name="device_protected_data_dir">دليل البيانات المحمي بواسطة الجهاز</string>
     <string name="external_data_dir">دليل البيانات الخارجي</string>
     <string name="recent_exits">عمليات الخروج الأخيرة</string>
+    <string name="untagged">غير موسوم</string>
 </resources>

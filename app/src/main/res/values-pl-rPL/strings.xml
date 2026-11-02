@@ -794,4 +794,13 @@
     <string name="foreground">Pierwszy plan</string>
     <string name="granted_by_default">Przyznane domyślnie</string>
     <string name="user_set">Zestaw użytkownika</string>
+    <string name="installing">Instalowanie</string>
+    <string name="batch_install">Instalacja wsadowa</string>
+    <string name="untagged">Bez tagu</string>
+    <string name="other_apps">Inne aplikacje</string>
+    <string name="export_icon">Eksportuj ikonę</string>
+    <string name="public_source_dir">Publiczny katalog źródłowy</string>
+    <string name="device_protected_data_dir">Katalog danych chronionych przez urządzenie</string>
+    <string name="external_data_dir">Zewnętrzny katalog danych</string>
+    <string name="recent_exits">Ostatnie wyjścia</string>
 </resources>

@@ -794,4 +794,13 @@
     <string name="foreground">Ön plan</string>
     <string name="granted_by_default">Varsayılan Olarak Verildi</string>
     <string name="user_set">Kullanıcı Seti</string>
+    <string name="installing">Yükleniyor</string>
+    <string name="batch_install">Toplu Yükleme</string>
+    <string name="untagged">Etiketsiz</string>
+    <string name="other_apps">Diğer Uygulamalar</string>
+    <string name="export_icon">Simgesi Dışa Aktar</string>
+    <string name="public_source_dir">Genel Kaynak Dizini</string>
+    <string name="device_protected_data_dir">Cihaz Korumalı Veri Dizini</string>
+    <string name="external_data_dir">Harici Veri Dizini</string>
+    <string name="recent_exits">Son Çıkışlar</string>
 </resources>

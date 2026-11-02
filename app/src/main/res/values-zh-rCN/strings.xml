@@ -801,4 +801,5 @@
     <string name="device_protected_data_dir">设备受保护数据目录</string>
     <string name="external_data_dir">外部数据目录</string>
     <string name="recent_exits">最近退出记录</string>
+    <string name="untagged">未标记</string>
 </resources>

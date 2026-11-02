@@ -794,4 +794,13 @@
     <string name="foreground">フォアグラウンド</string>
     <string name="granted_by_default">デフォルトで付与</string>
     <string name="user_set">ユーザーセット</string>
+    <string name="installing">インストール中</string>
+    <string name="batch_install">一括インストール</string>
+    <string name="untagged">タグなし</string>
+    <string name="other_apps">他のアプリ</string>
+    <string name="export_icon">アイコンをエクスポート</string>
+    <string name="public_source_dir">公開ソースディレクトリ</string>
+    <string name="device_protected_data_dir">デバイス保護データディレクトリ</string>
+    <string name="external_data_dir">外部データディレクトリ</string>
+    <string name="recent_exits">最近の終了</string>
 </resources>

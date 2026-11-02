@@ -794,4 +794,13 @@
     <string name="foreground">अग्रभूमि</string>
     <string name="granted_by_default">डिफ़ॉल्ट रूप से स्वीकृत</string>
     <string name="user_set">उपयोगकर्ता सेट</string>
+    <string name="installing">इंस्टॉल हो रहा है</string>
+    <string name="batch_install">बैच इंस्टॉल</string>
+    <string name="untagged">बिना टैग किया हुआ</string>
+    <string name="other_apps">अन्य ऐप्स</string>
+    <string name="export_icon">आइकन निर्यात करें</string>
+    <string name="public_source_dir">सार्वजनिक स्रोत निर्देशिका</string>
+    <string name="device_protected_data_dir">डिवाइस-संरक्षित डेटा निर्देशिका</string>
+    <string name="external_data_dir">बाहरी डेटा निर्देशिका</string>
+    <string name="recent_exits">हाल की निकासियां</string>
 </resources>

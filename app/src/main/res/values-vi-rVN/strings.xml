@@ -798,4 +798,9 @@
     <string name="user_set">Bộ người dùng</string>
     <string name="other_apps">Các ứng dụng khác</string>
     <string name="export_icon">Xuất biểu tượng</string>
+    <string name="untagged">Không gắn thẻ</string>
+    <string name="public_source_dir">Thư mục Nguồn Công khai</string>
+    <string name="device_protected_data_dir">Thư mục Dữ liệu được Thiết bị Bảo vệ</string>
+    <string name="external_data_dir">Thư mục Dữ liệu Bên ngoài</string>
+    <string name="recent_exits">Lối thoát Gần đây</string>
 </resources>

@@ -799,4 +799,5 @@
     <string name="device_protected_data_dir">設備保護資料目錄</string>
     <string name="external_data_dir">外部資料目錄</string>
     <string name="recent_exits">近期退出</string>
+    <string name="untagged">未標記</string>
 </resources>

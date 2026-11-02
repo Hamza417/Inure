@@ -799,4 +799,5 @@
     <string name="device_protected_data_dir">پوشه داده‌های محافظت شده دستگاه</string>
     <string name="external_data_dir">پوشه داده‌های خارجی</string>
     <string name="recent_exits">خروج‌های اخیر</string>
+    <string name="untagged">بدون برچسب</string>
 </resources>
