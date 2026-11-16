@@ -9,7 +9,7 @@ These features are available to all users without any extra requirements.
 
 - Ability to view all the apps both system and user.
 - View usage stats of apps up to a year and detailed usage stats for up to two weeks.
-- Built-in Terminal emulator wih complete customization.
+- Built-in Terminal emulator with complete customization.
 - Analytics graph or all apps.
 - Create and manage notes for your apps with a powerful notes editor built-in.
 - Assign tags to your apps and organize them in a group.
@@ -69,8 +69,8 @@ Features supported by built-in app installer
 - Bypass the low target sdk restrictions for both Android 14 and Android 15.
   - When you see an error like this in the app `INSTALL_FAILED_DEPRECATED_SDK_VERSION: App package must target at least SDK version 24, but found 7`
 - All split apk format support.
-- Get all information in the Installer at one place, including what has changed in the new apk, trackers and many othe info.
-- Signature check before installation to see if signature matches with the exisitng one.
+- Get all information in the Installer at one place, including what has changed in the new apk, trackers and many other info.
+- Signature check before installation to see if signature matches with the existing one.
 - Block trackers from Installer page
 - Separate framework for Root, Shizuku and Session based installer.
 
