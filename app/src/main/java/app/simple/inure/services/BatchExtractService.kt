@@ -252,10 +252,12 @@ class BatchExtractService : Service() {
     }
 
     private fun extractApk(packageInfo: PackageInfo) {
+        val sourceDir = packageInfo.safeApplicationInfo.sourceDir ?: return
+
         notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.safeApplicationInfo.name}_${packageInfo.versionName}.apk")
 
         if (File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo)).exists().invert()) {
-            val source = File(packageInfo.safeApplicationInfo.sourceDir)
+            val source = File(sourceDir)
             val dest = File(PackageData.getPackageDir(applicationContext), BatchUtils.getApkPathAndFileName(packageInfo))
 
             inputStream = FileInputStream(source)
@@ -270,12 +272,14 @@ class BatchExtractService : Service() {
                 notificationManager?.notify(notificationId, notificationBuilder.build())
             }
 
-            progress += File(packageInfo.safeApplicationInfo.sourceDir).length()
+            progress += File(sourceDir).length()
             sendProgressBroadcast(progress)
         }
     }
 
     private fun extractBundle(packageInfo: PackageInfo) {
+        val sourceDir = packageInfo.safeApplicationInfo.sourceDir ?: return
+
         notificationBuilder.setContentText("(${position.plus(1)}/${apps.size}) ${packageInfo.safeApplicationInfo.name}_${packageInfo.versionName}.apks")
         if (ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
@@ -314,7 +318,7 @@ class BatchExtractService : Service() {
             }
         } else {
             progress += (packageInfo.safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0) +
-                    packageInfo.safeApplicationInfo.sourceDir.getDirectoryLength()
+                    sourceDir.getDirectoryLength()
             sendProgressBroadcast(progress)
         }
     }
@@ -322,7 +326,9 @@ class BatchExtractService : Service() {
     private fun createSplitApkFiles(packageInfo: PackageInfo): ArrayList<File> {
         val list = arrayListOf<File>()
 
-        list.add(File(packageInfo.safeApplicationInfo.sourceDir))
+        packageInfo.safeApplicationInfo.sourceDir?.let {
+            list.add(File(it))
+        }
 
         for (i in packageInfo.safeApplicationInfo.splitSourceDirs?.indices!!) {
             list.add(File(packageInfo.safeApplicationInfo.splitSourceDirs!![i]))
@@ -350,7 +356,11 @@ class BatchExtractService : Service() {
 
     private fun measureTotalSize() {
         for (app in apps) {
-            maxSize += File(app.packageInfo.safeApplicationInfo.sourceDir).length()
+            val sourceDir = app.packageInfo.safeApplicationInfo.sourceDir
+
+            if (sourceDir != null) {
+                maxSize += File(sourceDir).length()
+            }
 
             if (app.packageInfo.safeApplicationInfo.splitSourceDirs.isNotNull()) {
                 maxSize += app.packageInfo.safeApplicationInfo.splitSourceDirs?.getDirectorySize() ?: 0L

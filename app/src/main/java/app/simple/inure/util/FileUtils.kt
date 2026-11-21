@@ -123,8 +123,9 @@ object FileUtils {
     }
 
     fun String?.toFileOrNull(): File? {
+        if (this == null) return null
         return try {
-            File(this!!)
+            File(this)
         } catch (ex: Exception) {
             ex.printStackTrace()
             null

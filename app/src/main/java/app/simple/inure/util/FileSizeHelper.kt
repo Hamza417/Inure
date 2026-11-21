@@ -16,8 +16,8 @@ object FileSizeHelper {
 
     fun String?.toSize(): String {
         return try {
-            File(this!!).length().toSize()
-        } catch (e: NullPointerException) {
+            if (this == null) 0L.toSize() else File(this).length().toSize()
+        } catch (e: Exception) {
             0L.toSize()
         }
     }
@@ -28,8 +28,8 @@ object FileSizeHelper {
 
     fun String?.toLength(): Long {
         return try {
-            File(this!!).length()
-        } catch (e: NullPointerException) {
+            if (this == null) 0L else File(this).length()
+        } catch (e: Exception) {
             0L
         }
     }

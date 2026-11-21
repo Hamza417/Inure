@@ -88,7 +88,7 @@ object APKParser {
     @kotlin.jvm.Throws(IOException::class, NullPointerException::class)
     fun PackageInfo.getNativeLibraries(context: Context): String {
         val files = mutableListOf<String>()
-        files.add(safeApplicationInfo.sourceDir)
+        safeApplicationInfo.sourceDir?.let { files.add(it) }
 
         safeApplicationInfo.splitSourceDirs?.let {
             files.addAll(it)
@@ -128,7 +128,7 @@ object APKParser {
 
     fun PackageInfo.getArchitecture(context: Context): String {
         val files = mutableListOf<String>()
-        files.add(safeApplicationInfo.sourceDir)
+        safeApplicationInfo.sourceDir?.let { files.add(it) }
 
         safeApplicationInfo.splitSourceDirs?.let {
             files.addAll(it)
@@ -193,7 +193,8 @@ object APKParser {
      */
     fun ApplicationInfo.getApkMeta(): ApkMeta {
         kotlin.runCatching {
-            ApkFile(this.sourceDir).use {
+            val src = this.sourceDir ?: throw ApkParserException("Source dir is null")
+            ApkFile(src).use {
                 return it.apkMeta
             }
         }.getOrElse {

@@ -18,7 +18,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.lingala.zip4j.ZipFile
 import net.lingala.zip4j.progress.ProgressMonitor
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
 class ExtractViewModel(application: Application, val packageInfo: PackageInfo, val paths: Set<String>) : WrappedViewModel(application) {
 
@@ -103,11 +108,13 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
 
     @Throws(IOException::class)
     private fun extractApk() {
-        if (packageInfo.safeApplicationInfo.sourceDir.toFile().exists()) {
+        val sourceDir = packageInfo.safeApplicationInfo.sourceDir
+
+        if (sourceDir != null && sourceDir.toFile().exists()) {
             if (File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)).exists()) {
                 file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
             } else {
-                val source = File(packageInfo.safeApplicationInfo.sourceDir)
+                val source = File(sourceDir)
                 val dest = File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo))
                 val length = source.length()
 
@@ -122,7 +129,7 @@ class ExtractViewModel(application: Application, val packageInfo: PackageInfo, v
                 file.postValue(File(PackageData.getPackageDir(applicationContext()), getApkPathAndFileName(packageInfo)))
             }
         } else {
-            warning.postValue(packageInfo.safeApplicationInfo.sourceDir + " : " + "not found")
+            warning.postValue("$sourceDir : not found")
         }
     }
 

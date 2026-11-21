@@ -98,6 +98,7 @@ import app.simple.inure.ui.viewers.XMLWebView
 import app.simple.inure.util.AdapterUtils.setAppVisualStates
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
+import app.simple.inure.util.FileUtils.toFileOrNull
 import app.simple.inure.util.InfoStripUtils.getAppInfo
 import app.simple.inure.util.MarketUtils
 import app.simple.inure.util.PermissionUtils.checkDumpPermission
@@ -465,13 +466,15 @@ class AppInfo : ScopedFragment() {
                         }
 
                         R.string.install -> {
-                            val uri = FileProvider.getUriForFile(
-                                    /* context = */ requireActivity().applicationContext,
-                                    /* authority = */ "${requireContext().packageName}.provider",
-                                    /* file = */ packageInfo.safeApplicationInfo.sourceDir.toFile())
+                            packageInfo.safeApplicationInfo.sourceDir?.let { srcDir ->
+                                val uri = FileProvider.getUriForFile(
+                                        /* context = */ requireActivity().applicationContext,
+                                        /* authority = */ "${requireContext().packageName}.provider",
+                                        /* file = */ srcDir.toFile())
 
-                            openFragmentArc(Installer.newInstance(
-                                    uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, Installer.TAG)
+                                openFragmentArc(Installer.newInstance(
+                                        uri, this@AppInfo.icon.transitionName), this@AppInfo.icon, Installer.TAG)
+                            }
                         }
 
                         R.string.send -> {
@@ -703,11 +706,13 @@ class AppInfo : ScopedFragment() {
         try {
             icon.loadAppIcon(packageInfo.packageName,
                              packageInfo.safeApplicationInfo.enabled,
-                             packageInfo.safeApplicationInfo.sourceDir.toFile())
-        } catch (_: NullPointerException) {
+                             packageInfo.safeApplicationInfo.sourceDir.toFileOrNull())
+        } catch (_: Exception) {
             try {
-                icon.loadAPKIcon(packageInfo.safeApplicationInfo.sourceDir)
-            } catch (_: NullPointerException) {
+                packageInfo.safeApplicationInfo.sourceDir?.let {
+                    icon.loadAPKIcon(it)
+                } ?: icon.setImageResource(R.drawable.ic_app_icon)
+            } catch (_: Exception) {
                 icon.setImageResource(R.drawable.ic_app_icon)
             }
         }

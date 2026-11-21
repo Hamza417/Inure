@@ -12,7 +12,7 @@ import app.simple.inure.models.UnpackModel
 import app.simple.inure.util.FileSizeHelper.toSize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Enumeration
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
@@ -32,7 +32,9 @@ class UnpackViewModel(application: Application, val packageInfo: PackageInfo) : 
 
     private fun loadFiles() {
         viewModelScope.launch(Dispatchers.IO) {
-            zipFile = ZipFile(packageInfo.safeApplicationInfo.sourceDir)
+            val sourceDir = packageInfo.safeApplicationInfo.sourceDir ?: return@launch
+
+            zipFile = ZipFile(sourceDir)
             val entries: Enumeration<out ZipEntry?> = zipFile?.entries()!!
             val list = arrayListOf<UnpackModel>()
 

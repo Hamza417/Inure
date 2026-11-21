@@ -42,7 +42,9 @@ class ClassSourceViewModel(application: Application, val className: String, val 
         var uriStream: InputStream? = null
 
         try {
-            uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(packageInfo.safeApplicationInfo.publicSourceDir)))
+            val srcDir = packageInfo.safeApplicationInfo.publicSourceDir ?: throw NullPointerException("publicSourceDir is null")
+
+            uriStream = UriUtils.getStreamFromUri(context, Uri.fromFile(File(srcDir)))
 
             val bytes = IOUtils.toByteArray(uriStream)
             val loader: DexClassLoader = DexLoaderBuilder.fromBytes(context, bytes)

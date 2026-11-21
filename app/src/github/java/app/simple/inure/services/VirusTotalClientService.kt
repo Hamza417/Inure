@@ -139,7 +139,9 @@ class VirusTotalClientService : Service() {
             }
 
             try {
-                VirusTotalClient.getInstance().onlyScanFile(packageInfo.safeApplicationInfo.sourceDir).collect { response ->
+                val sourceDir = packageInfo.safeApplicationInfo.sourceDir ?: throw NullPointerException("sourceDir is null")
+
+                VirusTotalClient.getInstance().onlyScanFile(sourceDir).collect { response ->
                     when (response) {
                         is VirusTotalResult.Error -> {
                             _failedFlow.emit(response)
@@ -213,7 +215,9 @@ class VirusTotalClientService : Service() {
             }
 
             try {
-                VirusTotalClient.getInstance().scanFile(packageInfo.safeApplicationInfo.sourceDir).collect { response ->
+                val sourceDir = packageInfo.safeApplicationInfo.sourceDir ?: throw NullPointerException("sourceDir is null")
+
+                VirusTotalClient.getInstance().scanFile(sourceDir).collect { response ->
                     when (response) {
                         is VirusTotalResult.Error -> {
                             _failedFlow.emit(response)

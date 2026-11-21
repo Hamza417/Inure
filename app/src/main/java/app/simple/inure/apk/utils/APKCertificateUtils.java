@@ -39,7 +39,7 @@ public class APKCertificateUtils {
     }
     
     public APKCertificateUtils(PackageInfo packageInfo, Context context) {
-        this.apkFile = new File(packageInfo.applicationInfo.sourceDir);
+        this.apkFile = packageInfo.applicationInfo.sourceDir != null ? new File(packageInfo.applicationInfo.sourceDir) : null;
         this.packageName = packageInfo.packageName;
         this.context = context;
     }
