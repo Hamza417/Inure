@@ -219,7 +219,9 @@ public class Term extends BaseActivity implements UpdateCallback,
             viewFlipper.setOnViewFlipperFlippedListener((childView, index) -> {
                 if (adapterWindows != null && !termSessions.isEmpty()) {
                     currentWindow.setText(adapterWindows.getSessionTitle(index, getBaseContext()));
-                    termService.setWindowId(index);
+                    if (termService != null) {
+                        termService.setWindowId(index);
+                    }
                 }
             });
             
@@ -486,7 +488,9 @@ public class Term extends BaseActivity implements UpdateCallback,
                             
                             viewFlipper.setDisplayedChild(position);
                             currentWindow.setText(adapterWindows.getSessionTitle(position, getBaseContext()));
-                            termService.setWindowId(position);
+                            if (termService != null) {
+                                termService.setWindowId(position);
+                            }
                         }
                         
                         if (NullSafety.INSTANCE.isNotNull(popupTerminalWindows)) {
@@ -675,7 +679,9 @@ public class Term extends BaseActivity implements UpdateCallback,
         super.onStop();
         
         onResumeSelectWindow = viewFlipper.getDisplayedChild();
-        termService.setWindowId(onResumeSelectWindow);
+        if (termService != null) {
+            termService.setWindowId(onResumeSelectWindow);
+        }
         wilLResume = true;
         
         viewFlipper.onPause();
