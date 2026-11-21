@@ -60,7 +60,6 @@
         android:protectionLevel="dangerous" />
 
     <application
-        android:name=".InureApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="false"
@@ -783,6 +782,10 @@
             android:enabled="true"
             android:exported="false" />
 
+        <service
+            android:name=".services.DataLoaderService"
+            android:enabled="true"
+            android:exported="false" />
 
         <service
             android:name=".services.BatchExtractService"
