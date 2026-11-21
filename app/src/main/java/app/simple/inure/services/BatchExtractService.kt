@@ -455,7 +455,9 @@ class BatchExtractService : Service() {
             return
         }
 
-        notificationManager?.notify(notificationId, notification)
+        if (this::notification.isInitialized) {
+            notificationManager?.notify(notificationId, notification)
+        }
     }
 
     fun interruptCopying() {
