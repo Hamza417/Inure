@@ -79,42 +79,48 @@ abstract class ShizukuStateFragment : ScopedFragment() {
     }
 
     private fun isShizukuPermissionGranted(): Boolean {
-        return if (Shizuku.isPreV11() || Shizuku.getVersion() < 11) {
+        return try {
+            !(Shizuku.isPreV11() || Shizuku.getVersion() < 11)
+                    && Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+        } catch (_: Exception) {
             false
-        } else {
-            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun checkPermission(): Boolean {
-        if (Shizuku.isPreV11()) {
-            // Pre-v11 is unsupported
-            shizukuPermissionState.text = "Pre-v11 is unsupported"
-            return false
-        }
+        return try {
+            if (Shizuku.isPreV11()) {
+                // Pre-v11 is unsupported
+                shizukuPermissionState.text = "Pre-v11 is unsupported"
+                return false
+            }
 
-        return when {
-            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED -> {
-                // Granted
-                shizukuSwitchView.check(true)
-                Log.d(ConfigurationScreen.TAG, "checkPermission: granted")
-                true
+            when {
+                Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED -> {
+                    // Granted
+                    shizukuSwitchView.check(true)
+                    Log.d(ConfigurationScreen.TAG, "checkPermission: granted")
+                    true
+                }
+                Shizuku.shouldShowRequestPermissionRationale() -> {
+                    // Users choose "Deny and don't ask again"
+                    shizukuSwitchView.uncheck(false)
+                    shizukuSwitchView.gone()
+                    Log.d(ConfigurationScreen.TAG, "checkPermission: shouldShowRequestPermissionRationale")
+                    shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
+                    false
+                }
+                else -> {
+                    // Request the permission
+                    Shizuku.requestPermission(requestCode)
+                    Log.d("ConfigurationScreen", "checkPermission: requestPermission")
+                    false
+                }
             }
-            Shizuku.shouldShowRequestPermissionRationale() -> {
-                // Users choose "Deny and don't ask again"
-                shizukuSwitchView.uncheck(false)
-                shizukuSwitchView.gone()
-                Log.d(ConfigurationScreen.TAG, "checkPermission: shouldShowRequestPermissionRationale")
-                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
-                false
-            }
-            else -> {
-                // Request the permission
-                Shizuku.requestPermission(requestCode)
-                Log.d("ConfigurationScreen", "checkPermission: requestPermission")
-                false
-            }
+        } catch (e: Exception) {
+            Log.e(ConfigurationScreen.TAG, "checkPermission: ", e)
+            false
         }
     }
 
@@ -143,11 +149,9 @@ abstract class ShizukuStateFragment : ScopedFragment() {
                         appendFlag("Pre-v11 is unsupported")
                     }
                 }
-            } catch (e: IllegalStateException) {
+            } catch (e: Exception) {
                 // Since the fragment is destroyed, the view is not available
-                // So, we catch the exception and ignore it
-                Log.e(ConfigurationScreen.TAG, "setShizukuPermissionState: $e")
-            } catch (e: UninitializedPropertyAccessException) {
+                // Or binder haven't been received
                 Log.e(ConfigurationScreen.TAG, "setShizukuPermissionState: $e")
             }
         }
@@ -163,9 +167,13 @@ abstract class ShizukuStateFragment : ScopedFragment() {
             shizukuSwitchView.check(true)
         } else {
             shizukuSwitchView.uncheck(true)
-            if (Shizuku.shouldShowRequestPermissionRationale()) {
-                shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
-                shizukuSwitchView.gone(animate = false)
+            try {
+                if (Shizuku.shouldShowRequestPermissionRationale()) {
+                    shizukuPermissionState.text = Warnings.SHIZUKU_PERMISSION_DENIED
+                    shizukuSwitchView.gone(animate = false)
+                }
+            } catch (e: Exception) {
+                Log.e(ConfigurationScreen.TAG, "onRequestPermissionsResult: $e")
             }
         }
     }
