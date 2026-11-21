@@ -129,8 +129,8 @@
     <string name="refresh">Refresh</string>
     <string name="exported">Exported</string>
     <string name="not_exported">Not Exported</string>
-    <string name="n_enabled">%d Enabled</string>
-    <string name="n_disabled">%d Disabled</string>
+    <string name="n_enabled">%1$d Enabled</string>
+    <string name="n_disabled">%1$d Disabled</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="enable">Enable</string>
