@@ -68,6 +68,7 @@ import app.simple.inure.util.NullSafety.isNotNull
 import app.simple.inure.util.PermissionUtils.checkStoragePermission
 import app.simple.inure.viewmodels.panels.BatchViewModel
 import app.simple.inure.viewmodels.panels.TagsViewModel
+import java.util.LinkedList
 
 class Batch : ScopedFragment() {
 
@@ -82,6 +83,8 @@ class Batch : ScopedFragment() {
     private lateinit var batchViewModel: BatchViewModel
     private lateinit var tagsViewModel: TagsViewModel
 
+    private val uninstallQueue = LinkedList<BatchPackageInfo>()
+
     private var appUninstallObserver = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         when (result.resultCode) {
             Activity.RESULT_OK -> {
@@ -93,6 +96,19 @@ class Batch : ScopedFragment() {
             else -> {
                 Log.d("Batch", "Uninstall failed")
             }
+        }
+
+        processNextUninstall()
+    }
+
+    private fun processNextUninstall() {
+        if (uninstallQueue.isNotEmpty()) {
+            val batchApp = uninstallQueue.removeFirst()
+            @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+            intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+            intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, batchApp.packageInfo.packageName)
+            intent.data = "package:${batchApp.packageInfo.packageName}".toUri()
+            appUninstallObserver.launch(intent)
         }
     }
 
@@ -237,13 +253,9 @@ class Batch : ScopedFragment() {
                                                 BatchUninstaller.newInstance(adapterBatch!!.getCurrentAppsList())
                                                     .show(childFragmentManager, BatchUninstaller.TAG)
                                             } else {
-                                                for (app in adapterBatch?.getCurrentAppsList()!!) {
-                                                    @Suppress("DEPRECATION") val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-                                                    intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
-                                                    intent.putExtra(IntentConstants.EXTRA_PACKAGE_NAME, app.packageInfo.packageName)
-                                                    intent.data = "package:${app.packageInfo.packageName}".toUri()
-                                                    appUninstallObserver.launch(intent)
-                                                }
+                                                uninstallQueue.clear()
+                                                uninstallQueue.addAll(adapterBatch!!.getCurrentAppsList())
+                                                processNextUninstall()
                                             }
                                         }
                                     })
