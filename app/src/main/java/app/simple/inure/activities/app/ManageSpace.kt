@@ -1,7 +1,6 @@
 package app.simple.inure.activities.app
 
 import android.app.ActivityManager
-import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
@@ -10,7 +9,6 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import app.simple.inure.R
 import app.simple.inure.decorations.ripple.DynamicRippleTextView
 import app.simple.inure.decorations.typeface.TypeFaceTextView
@@ -22,7 +20,7 @@ import app.simple.inure.preferences.AppearancePreferences
 import app.simple.inure.preferences.TrialPreferences
 import app.simple.inure.processors.BackupDataProcessor.exportAppData
 import app.simple.inure.processors.BackupDataProcessor.importAppData
-import app.simple.inure.services.DataLoaderService
+import app.simple.inure.services.DataLoaderRepository
 import app.simple.inure.themes.manager.ThemeUtils
 import app.simple.inure.util.ConditionUtils.invert
 import app.simple.inure.util.FileUtils.toFile
@@ -101,15 +99,8 @@ class ManageSpace : BaseActivity() {
                     withContext(Dispatchers.Main) {
                         appDataLoader.gone(animate = true)
 
-                        LocalBroadcastManager.getInstance(applicationContext)
-                            .sendBroadcast(Intent().apply {
-                                action = DataLoaderService.REFRESH
-                            })
-
-                        LocalBroadcastManager.getInstance(applicationContext)
-                            .sendBroadcast(Intent().apply {
-                                action = DataLoaderService.RELOAD_QUICK_APPS
-                            })
+                        DataLoaderRepository.refresh()
+                        DataLoaderRepository.triggerReloadQuickApps()
 
                         if (errors.isNotEmpty()) {
                             showWarning(errors.joinToString("\n"), goBack = false)

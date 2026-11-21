@@ -1,113 +1,52 @@
 package app.simple.inure.extensions.viewmodels
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.ServiceConnection
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.DeadObjectException
-import android.os.IBinder
 import android.util.Log
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.lifecycle.viewModelScope
 import app.simple.inure.R
 import app.simple.inure.apk.utils.PackageUtils
 import app.simple.inure.apk.utils.PackageUtils.safeApplicationInfo
-import app.simple.inure.services.DataLoaderService
+import app.simple.inure.services.DataLoaderRepository
 import app.simple.inure.util.ArrayUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class PackageUtilsViewModel(application: Application) : WrappedViewModel(application) {
 
     private var apps: ArrayList<PackageInfo> = arrayListOf()
     private var uninstalledApps: ArrayList<PackageInfo> = arrayListOf()
 
-    private var serviceConnection: ServiceConnection? = null
-
-    @SuppressLint("StaticFieldLeak") // This is an application context
-    private var dataLoaderService: DataLoaderService? = null
-    private var broadcastReceiver: BroadcastReceiver? = null
-    private var intentFilter: IntentFilter = IntentFilter()
-
     init {
-        intentFilter.addAction(DataLoaderService.APPS_LOADED)
-        intentFilter.addAction(DataLoaderService.UNINSTALLED_APPS_LOADED)
-        intentFilter.addAction(DataLoaderService.INSTALLED_APPS_LOADED)
-        intentFilter.addAction(DataLoaderService.RELOAD_APPS)
-
-        serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                dataLoaderService = (service as DataLoaderService.LoaderBinder).getService()
-                val loader = dataLoaderService ?: return
-
-                if (loader.hasDataLoaded()) {
-                    apps = loader.getInstalledApps()
-                    uninstalledApps = loader.getUninstalledApps()
-
+        viewModelScope.launch(Dispatchers.Main) {
+            DataLoaderRepository.apps.collect { appsList ->
+                if (appsList.isNotEmpty()) {
+                    apps = appsList.clone() as ArrayList<PackageInfo>
                     onAppsLoaded(apps)
+                }
+            }
+        }
+        viewModelScope.launch(Dispatchers.Main) {
+            DataLoaderRepository.uninstalledApps.collect { uninstalledList ->
+                if (uninstalledList.isNotEmpty()) {
+                    uninstalledApps = uninstalledList.clone() as ArrayList<PackageInfo>
                     onUninstalledAppsLoaded(uninstalledApps)
-                } else {
-                    loader.startLoading()
-                }
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-                dataLoaderService = null
-            }
-        }
-
-        @Suppress("UNCHECKED_CAST")
-        broadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val loader = dataLoaderService
-                if (loader == null) {
-                    Log.w("PackageUtilsViewModel", "DataLoaderService is null; ignoring broadcast ${intent?.action}")
-                    return
-                }
-
-                when (intent?.action) {
-                    DataLoaderService.APPS_LOADED -> {
-                        apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
-                        uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
-
-                        onAppsLoaded(apps)
-                        onUninstalledAppsLoaded(uninstalledApps)
-                    }
-
-                    DataLoaderService.UNINSTALLED_APPS_LOADED -> {
-                        uninstalledApps = loader.getUninstalledApps().clone() as ArrayList<PackageInfo>
-                        onUninstalledAppsLoaded(uninstalledApps)
-                    }
-
-                    DataLoaderService.INSTALLED_APPS_LOADED -> {
-                        apps = loader.getInstalledApps().clone() as ArrayList<PackageInfo>
-                        onAppsLoaded(apps)
-                    }
-
-                    DataLoaderService.RELOAD_APPS -> {
-                        Log.d("DataLoaderService", "Reloading apps")
-                        loader.refresh()
-                    }
                 }
             }
         }
-
-        LocalBroadcastManager.getInstance(applicationContext()).registerReceiver(broadcastReceiver!!, intentFilter)
-        applicationContext().bindService(
-                Intent(applicationContext(), DataLoaderService::class.java), serviceConnection!!, Context.BIND_AUTO_CREATE)
     }
 
     fun getInstalledApps(): ArrayList<PackageInfo> {
-        return dataLoaderService?.getInstalledApps() ?: arrayListOf()
+        return DataLoaderRepository.apps.value
     }
 
     fun getUninstalledApps(): ArrayList<PackageInfo> {
-        return dataLoaderService?.getUninstalledApps() ?: arrayListOf()
+        return DataLoaderRepository.uninstalledApps.value
     }
 
     fun getCompleteApps(): List<PackageInfo> {
@@ -115,15 +54,15 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
     }
 
     fun refreshPackageData() {
-        dataLoaderService?.refresh()
+        DataLoaderRepository.refresh()
     }
 
     fun refreshUninstalledPackageData() {
-        dataLoaderService?.refreshUninstalled()
+        DataLoaderRepository.refreshUninstalled()
     }
 
     fun refreshInstalledPackageData() {
-        dataLoaderService?.refreshInstalled()
+        DataLoaderRepository.refreshInstalled()
     }
 
     protected fun PackageManager.isPackageInstalled(packageName: String): Boolean {
@@ -241,26 +180,5 @@ abstract class PackageUtilsViewModel(application: Application) : WrappedViewMode
 
     override fun onCleared() {
         super.onCleared()
-        try {
-            serviceConnection?.let {
-                applicationContext().unbindService(it)
-            }
-        } catch (e: java.lang.IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        }
-
-        try {
-            broadcastReceiver?.let {
-                LocalBroadcastManager.getInstance(applicationContext()).unregisterReceiver(it)
-            }
-        } catch (e: java.lang.IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        }
     }
 }
