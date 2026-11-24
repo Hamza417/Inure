@@ -10,4 +10,5 @@
     <string name="izzyondroid" translatable="false">IzzyOnDroid</string>
     <string name="github_link" translatable="false"><![CDATA[https://github.com/sponsors/Hamza417/sponsorships?sponsor=Hamza417&tier_id=262253]]></string>
     <string name="kofi_link" translatable="false">https://ko-fi.com/s/c1f0cb960f</string>
+    <string name="shared_prefs">Shared Preferences</string>
 </resources>
