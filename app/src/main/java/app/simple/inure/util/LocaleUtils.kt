@@ -90,6 +90,8 @@ object LocaleUtils {
             Locales("فارسی (Persian)", "fa-IR"),
             // South Korean
             Locales("한국어 (Korean)", "ko-KR"),
+            // Ukrainian
+            Locales("Українська (Ukrainian)", "uk-UA")
     )
 
     fun getAppLocale(): Locale {
