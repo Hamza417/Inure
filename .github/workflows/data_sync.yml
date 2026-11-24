@@ -3,8 +3,8 @@ name: Data Sync
 on:
     workflow_dispatch:
     schedule:
-        # Every 3 days at midnight UTC
-        -   cron: "0 0 */3 * *"
+        # Every week on Sunday at midnight UTC
+        -   cron: "0 0 * * 0"
 
 permissions:
     contents: write
