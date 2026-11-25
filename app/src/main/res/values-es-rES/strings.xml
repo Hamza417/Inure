@@ -130,8 +130,8 @@
     <string name="refresh">Actualizar</string>
     <string name="exported">Exportado</string>
     <string name="not_exported">No exportado</string>
-    <string name="n_enabled">%d Activado</string>
-    <string name="n_disabled">%d Desactivado</string>
+    <string name="n_enabled">%1$d Activados</string>
+    <string name="n_disabled">%1$d Desactivados</string>
     <string name="enabled">Activado</string>
     <string name="disabled">Desactivado</string>
     <string name="enable">Activar</string>
@@ -534,7 +534,6 @@
     <string name="mobile_data">Datos móviles</string>
     <string name="times">%1$d veces</string>
     <string name="usage_data_does_not_exist_for_this_app">Los datos de uso no existen para esta app.</string>
-    <string name="shared_prefs">Preferencias guardadas</string>
     <string name="crash_report">Informe de error</string>
     <string name="count_done">%1$d hecho</string>
     <string name="count_failed">%1$d fallaron</string>
